@@ -1,0 +1,3 @@
+[submodule "LectioJS"]
+	path = LectioJS
+	url = https://github.com/Asguho/LectioJS.git
