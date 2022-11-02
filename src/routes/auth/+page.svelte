@@ -1,6 +1,3 @@
-<script>
-</script>
-
 <h1>Log ind med din Lectio-konto</h1>
 <form action="">
     <label for="username">Brugernavn</label>
