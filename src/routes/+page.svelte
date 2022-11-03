@@ -5,5 +5,5 @@
 <p>But you can still try it out by logging in with your Lectio account.</p>
 <hr />
 <form action="auth">
-    <button type="submit">Login</button>
+    <button type="submit" class="btn btn-primary">Login</button>
 </form>
