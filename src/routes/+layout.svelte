@@ -29,6 +29,7 @@
                 <li><a href="fravær">Fravær</a></li>
                 <li><a href="dokumenter">Dokumenter</a></li>
                 <li><a href="beskeder">Beskeder</a></li>
+                <li><a href="indstillinger">Indstillinger</a></li>
             </ul>
         </div>
         <a class="btn btn-ghost normal-case text-2xl" href="/">Better Lectio</a>
@@ -41,6 +42,7 @@
             <li><a href="fravær">Fravær</a></li>
             <li><a href="dokumenter">Dokumenter</a></li>
             <li><a href="beskeder">Beskeder</a></li>
+            <li><a href="indstillinger">Indstillinger</a></li>
         </ul>
     </div>
 </div>
