@@ -5,6 +5,21 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return """
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Loading...</title>
+        <meta http-equiv="refresh" content="0; url=https://github.com/jona799t/BetterLectio-Flask-Backend">
+        <script>window.location.href = "https://github.com/jona799t/BetterLectio-Flask-Backend"</script>
+      </head>
+      <body>
+        <p>Not redirected? Go to <a href="https://github.com/jona799t/BetterLectio-Flask-Backend">github.com/jona799t/BetterLectio-Flask-Backend</a></p>
+      </body>
+    </html>
+    """
 @app.route('/auth')
 def auth():
     brugernavn = request.args.get('brugernavn')

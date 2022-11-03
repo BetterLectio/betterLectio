@@ -2,6 +2,10 @@
 Backend til BetterLectio
 
 ## Endpoints
+### Readme
+Endpoint: ``/``  
+Returnere: ``Åbner denne Github med denne dokumentation``
+
 ### Auth
 Endpoint: ``/auth``  
 Returnere: ``Base64 string som kan bruges til verifikation``
