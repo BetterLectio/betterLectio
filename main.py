@@ -1,5 +1,6 @@
 import lectio
 import json
+import base64
 
 from flask import Flask, jsonify, request
 
@@ -13,7 +14,7 @@ def auth():
 
     lectioClient = lectio.sdk(brugernavn=brugernavn, adgangskode=adgangskode, skoleId=skoleId)
 
-    return json.dumps(lectioClient.session.cookies.get_dict())
+    return base64.b64encode(json.dumps(lectioClient.session.cookies.get_dict()).encode())
 
 
 @app.route('/skema')
