@@ -1,7 +1,6 @@
 import lectio
 import requests
 import json
-import base64
 
 from flask import Flask, jsonify, request
 
