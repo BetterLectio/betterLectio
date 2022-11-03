@@ -13,10 +13,10 @@ Parameter:
  - ``adgangkode``
  - ``skole_id``
 
-Eksempel: ``https://jona799t.pythonanywhere.com/auth?brugernavn=jona799t&adgangskode=1234&skole_id=1``  
+Eksempel: ``https://better-lectio-flask-backend.vercel.app/auth?brugernavn=jona799t&adgangskode=1234&skole_id=1``  
 Returnere: ``Base64 cookie string som kan bruges til at tilgå de andre endpoints``
 
 ### Skema
 Endpoint: ``/skema``  
-Eksempel: ``https://jona799t.pythonanywhere.com/skema?cookie=ey...``  
+Eksempel: ``https://better-lectio-flask-backend.vercel.app/skema?cookie=ey...``  
 Returnere: Se [python-lectio](https://github.com/jona799t/python-lectio#skema)
