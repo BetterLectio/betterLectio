@@ -2,7 +2,7 @@
     import "../app.css";
 </script>
 
-<div class="navbar bg-base-100">
+<div class="navbar bg-base-100 drop-shadow-xl mb-10">
     <div class="navbar-start">
         <div class="dropdown">
             <button class="btn btn-ghost lg:hidden">
@@ -31,7 +31,7 @@
                 <li><a href="beskeder">Beskeder</a></li>
             </ul>
         </div>
-        <a class="btn btn-ghost normal-case text-xl" href="/">Better Lectio</a>
+        <a class="btn btn-ghost normal-case text-2xl" href="/">Better Lectio</a>
     </div>
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal p-0">
