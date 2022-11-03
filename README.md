@@ -4,18 +4,19 @@ Backend til BetterLectio
 ## Endpoints
 ### Readme
 Endpoint: ``/``  
+Returnere: ``Åbner denne Github med denne dokumentation``
+
+### Auth
+Endpoint: ``/auth``  
 Parameter:
  - ``brugernavn``
  - ``adgangkode``
  - ``skole_id``
 
 Eksempel: ``https://jona799t.pythonanywhere.com/auth?brugernavn=jona799t&adgangskode=1234&skole_id=1``  
-Returnere: ``Åbner denne Github med denne dokumentation``
+Returnere: ``Base64 cookie string som kan bruges til at tilgå de andre endpoints``
 
-### Auth
-Endpoint: ``/auth``  
-Returnere: ``Base64 string som kan bruges til verifikation``
-
-### Auth
+### Skema
 Endpoint: ``/skema``  
+Eksempel: ``https://jona799t.pythonanywhere.com/skema?cookie=ey...``  
 Returnere: Se [python-lectio](https://github.com/jona799t/python-lectio#skema)
