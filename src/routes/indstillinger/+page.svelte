@@ -1,3 +1,6 @@
+<h1 class="text-3xl font-bold">Indstillinger</h1>
+<br />
+
 <div class="flex flex-col">
     <div class="form-control w-52">
         <label class="cursor-pointer label">
