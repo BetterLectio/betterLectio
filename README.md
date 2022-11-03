@@ -4,6 +4,12 @@ Backend til BetterLectio
 ## Endpoints
 ### Readme
 Endpoint: ``/``  
+Parameter:
+ - ``brugernavn``
+ - ``adgangkode``
+ - ``skole_id``
+
+Eksempel: ``https://jona799t.pythonanywhere.com/auth?brugernavn=jona799t&adgangskode=1234&skole_id=1``  
 Returnere: ``Åbner denne Github med denne dokumentation``
 
 ### Auth
