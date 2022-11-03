@@ -13,7 +13,8 @@ Parameter:
  - ``adgangkode``
  - ``skole_id``
 
-Eksempel: ``https://better-lectio-flask-backend.vercel.app/auth?brugernavn=jona799t&adgangskode=1234&skole_id=1``  
+Eksempel:  
+``https://better-lectio-flask-backend.vercel.app/auth?brugernavn=jona799t&adgangskode=1234&skole_id=1``  
 Returnere: ``Base64 cookie string som kan bruges til at tilgå de andre endpoints``
 
 ### Skema
