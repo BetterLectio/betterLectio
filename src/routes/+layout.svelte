@@ -2,69 +2,66 @@
     import "../app.css";
 </script>
 
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">BetterLectio</a>
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
-            <span class="navbar-toggler-icon" />
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a
-                        class="nav-link active"
-                        aria-current="page"
-                        href="/schedule">Schedule</a
-                    >
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/homework">Homework/assignments</a
-                    >
-                </li>
-                <li class="nav-item dropdown">
-                    <a
-                        class="nav-link dropdown-toggle"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        Account
+<div class="navbar bg-base-100">
+    <div class="navbar-start">
+        <div class="dropdown">
+            <ul
+                tabindex="-1"
+                class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            >
+                <li><a href="/">Item 1</a></li>
+                <li tabindex="-1">
+                    <a class="justify-between">
+                        Parent
+                        <svg
+                            class="fill-current"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            ><path
+                                d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"
+                            /></svg
+                        >
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/auth">Login</a></li>
-                        <li>
-                            <a class="dropdown-item" href="/faq">Can't Login?</a
-                            >
-                        </li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li>
-                            <a class="dropdown-item" href="/logout">Logout</a>
-                        </li>
+                    <ul class="p-2">
+                        <li><a>Submenu 1</a></li>
+                        <li><a>Submenu 2</a></li>
                     </ul>
                 </li>
+                <li><a>Item 3</a></li>
             </ul>
-            <form class="d-flex" role="search">
-                <input
-                    class="form-control me-2"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                />
-                <button class="btn btn-outline-success" type="submit"
-                    >Search</button
-                >
-            </form>
         </div>
+        <a class="btn btn-ghost normal-case text-xl">daisyUI</a>
     </div>
-</nav>
+    <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal p-0">
+            <li><a>Item 1</a></li>
+            <li tabindex="-1">
+                <a>
+                    Parent
+                    <svg
+                        class="fill-current"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        ><path
+                            d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
+                        /></svg
+                    >
+                </a>
+                <ul class="p-2">
+                    <li><a>Submenu 1</a></li>
+                    <li><a>Submenu 2</a></li>
+                </ul>
+            </li>
+            <li><a>Item 3</a></li>
+        </ul>
+    </div>
+    <div class="navbar-end">
+        <a class="btn">Get started</a>
+    </div>
+</div>
 
-<div class="container"><slot /></div>
+<slot />
