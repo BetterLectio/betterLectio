@@ -1,2 +1,2 @@
-python-lectio
+python-lectio>=0.0.5
 flask
