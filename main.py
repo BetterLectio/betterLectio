@@ -1,4 +1,5 @@
 import lectio
+import requests
 import json
 import base64
 
@@ -21,7 +22,11 @@ def auth():
 def skema():
     cookie = request.args.get("cookie")
 
-    return jsonify({"error": "not supported yet"})
+    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+    skema = lectioClient.skema()
+
+    return jsonify(skema)
 
 if __name__ == '__main__':
    app.run()
