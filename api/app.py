@@ -32,6 +32,22 @@ def auth():
 
     return base64.b64encode(json.dumps(lectioClient.session.cookies.get_dict()).encode())
 
+@app.route('/check-cookie')
+def checkCookie():
+    cookie = request.args.get("cookie")
+
+    try:
+        lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+        return jsonify({"valid": True})
+    except Exception:
+        return jsonify({"valid": False})
+
+@app.route('/mig')
+def mig():
+    cookie = request.args.get("cookie")
+    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+    return jsonify(lectioClient.fåElev(lectioClient.elevId))
+
 
 @app.route('/skema')
 def skema():

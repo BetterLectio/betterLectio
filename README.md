@@ -21,3 +21,8 @@ Returnere: ``Base64 cookie string som kan bruges til at tilgå de andre endpoint
 Endpoint: ``/skema``  
 Eksempel: ``https://better-lectio-flask-backend.vercel.app/skema?cookie=ey...``  
 Returnere: Se [python-lectio](https://github.com/jona799t/python-lectio#skema)
+
+### Mig
+Endpoint: ``/mig``  
+Eksempel: ``https://better-lectio-flask-backend.vercel.app/mig?cookie=ey...``  
+Returnere: ``json med navn og billede``
