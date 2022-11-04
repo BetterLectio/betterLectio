@@ -1,10 +1,25 @@
 <script>
-    let brugernavn = "";
-    let kodeord = "";
-    let skoler = [];
-    let skoleid = 0;
-    let skole = "";
+    let value = "";
+    let options = { "": "" };
+
+    function updateOptions() {
+        lectioAPI
+            .getInstList()
+            .then((data) => {
+                console.log(data);
+                Object.entries(data).forEach(([key, value]) => {
+                    options[value.id] = value.name;
+                });
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
 </script>
+
+<svelte:head>
+    <script src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
+</svelte:head>
 
 <div>
     <div class="md:grid md:grid-cols-3 md:gap-6">
@@ -67,16 +82,22 @@
                                         >Skole</span
                                     >
                                     <select
+                                        use:updateOptions
                                         type="text"
                                         name="skole"
                                         id="skole"
-                                        class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
-                                        placeholder="Anders Andersen Skole"
-                                        bind:value={skole}
+                                        class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        placeholder="Vælg din skole"
+                                        {value}
                                     >
                                         <option disabled selected>
-                                            e.g. Anders Andersen Skole
+                                            Vælg din skole
                                         </option>
+                                        {#each Object.entries(options) as [key, value] (key)}
+                                            <option value={key}>
+                                                {value}
+                                            </option>
+                                        {/each}
                                     </select>
                                 </div>
                             </div>
