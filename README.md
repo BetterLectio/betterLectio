@@ -13,5 +13,6 @@ Dette project er delt op i 2 dele:
   - api ✅
     - json response ✅
   - Ikke før til login hvis cookie er gemt
+  - Gem skole i permentent cookie
 - css
 - proxy 
