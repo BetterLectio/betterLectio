@@ -34,7 +34,7 @@
         </div>
         <a class="btn btn-ghost normal-case text-2xl" href="/">Better Lectio</a>
     </div>
-    <div class="navbar-center hidden lg:flex">
+    <div class="navbar-end hidden lg:flex">
         <ul class="menu menu-horizontal p-0">
             <li><a href="skema">Skema</a></li>
             <li><a href="opgaver">Opgaver</a></li>
