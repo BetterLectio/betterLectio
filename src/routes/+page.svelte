@@ -1,5 +1,6 @@
-<h1 class="text-3xl font-bold">Welcome to Better Lectio</h1>
-<p>Better Lectio is a web app that makes it easier to use Lectio.</p>
+<h1 class="text-3xl font-bold">Velkommen til Better Lectio</h1>
+<p>Better Lectio er en webapp, der gør det nemmere at bruge Lectio.</p>
+<p>For at bruge Better Lectio skal du logge ind med din Lectio konto.</p>
 <br />
-<p>log ind med din Lectio-konto</p>
 <a href="/auth" class="btn btn-primary">Log ind</a>
+<a href="/help" class="btn">Hvordan virker det?</a>
