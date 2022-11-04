@@ -8,10 +8,10 @@ Dette project er delt op i 2 dele:
   - beta version is available at [betlec.netlify.app](https://betlec.netlify.app/)
 
 
-#TODO
-- login
-  - api
-    - json response
-    - 
+## TODO
+- Login ✅
+  - api ✅
+    - json response ✅
+  - Ikke før til login hvis cookie er gemt
 - css
-- proxy
+- proxy 
