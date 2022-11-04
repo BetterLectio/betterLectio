@@ -1,15 +1,19 @@
 <script>
-    let value = "";
-    let options = { "": "" };
+    let brugernavn = "";
+    let adgangskode = "";
+    let skole_id = "";
 
+    let options = { "": "" };
     function updateOptions() {
         lectioAPI
             .getInstList()
             .then((data) => {
-                console.log(data);
                 Object.entries(data).forEach(([key, value]) => {
-                    options[value.id] = value.name;
+                    if (value.name != 'Vis alle skoler') {
+                        options[key] = value;
+                    }
                 });
+                console.log(options);
             })
             .catch((err) => {
                 console.error(err);
@@ -49,6 +53,7 @@
                                         id="brugernavn"
                                         class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
                                         placeholder="elmu1"
+                                        bind:value={brugernavn}
                                     />
                                 </div>
                                 <label
@@ -62,11 +67,12 @@
                                         >Adgangskode</span
                                     >
                                     <input
-                                        type="text"
+                                        type = "password"
                                         name="adgangskode"
                                         id="adgangskode"
                                         class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
                                         placeholder="ljVsrVpt"
+                                        bind:value={adgangskode}
                                     />
                                 </div>
                                 <label
@@ -86,14 +92,14 @@
                                         id="skole"
                                         class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
                                         placeholder="Vælg din skole"
-                                        {value}
+                                        bind:value={skole_id}
                                     >
                                         <option disabled selected>
                                             Vælg din skole
                                         </option>
                                         {#each Object.entries(options) as [key, value] (key)}
-                                            <option value={key}>
-                                                {value}
+                                            <option value={value.id}>
+                                                {value.name}
                                             </option>
                                         {/each}
                                     </select>
@@ -104,7 +110,11 @@
                             <button
                                 type="submit"
                                 class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                >Log ind</button
+                                on:click={async () => {
+                                    console.log(brugernavn);
+                                    console.log(adgangskode);
+                                    console.log(skole_id);
+                                }}>Log ind</button
                             >
                         </div>
                     </div>
