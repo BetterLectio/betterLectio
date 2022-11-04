@@ -1,3 +1,23 @@
+<svelte:head>
+    <script src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
+</svelte:head>
+
+<script>
+    let value = "";
+    let options = {"": ""};
+    
+    function updateOptions() {
+        lectioAPI.getInstList().then((data) => {
+            console.log(data)
+            Object.entries(data).forEach(([key, value]) => {
+                options[value.id] = value.name
+            });
+        }).catch((err) => {
+            console.error(err);
+        });
+    }
+</script>
+
 <div>
     <div class="md:grid md:grid-cols-3 md:gap-6">
         <div class="mt-5 md:col-span-2 md:mt-0">
@@ -57,15 +77,22 @@
                                         >Skole</span
                                     >
                                     <select
+                                        use:updateOptions
                                         type="text"
                                         name="skole"
                                         id="skole"
                                         class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                        placeholder="Anders Andersen Skole"
+                                        placeholder="Vælg din skole"
+                                        {value}
                                     >
                                         <option disabled selected>
-                                            e.g. Anders Andersen Skole
+                                            Vælg din skole
                                         </option>
+                                        {#each Object.entries(options) as [key, value] (key)}
+                                            <option value={key}>
+                                                {value}
+                                            </option>
+                                        {/each}
                                     </select>
                                 </div>
                             </div>
