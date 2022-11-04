@@ -1,4 +1,7 @@
 <script>
+    import { loop_guard } from "svelte/internal";
+
+
     let brugernavn = "";
     let adgangskode = "";
     let skole_id = "";
@@ -13,7 +16,6 @@
                         options[key] = value;
                     }
                 });
-                console.log(options);
             })
             .catch((err) => {
                 console.error(err);
@@ -107,15 +109,23 @@
                             </div>
                         </div>
                         <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                            <button
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <div
                                 type="submit"
                                 class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                style="user-select: none"
                                 on:click={async () => {
-                                    console.log(brugernavn);
-                                    console.log(adgangskode);
-                                    console.log(skole_id);
-                                }}>Log ind</button
-                            >
+                                    console.log("Logging into lectio")
+
+                                    const response = await fetch(`https://better-lectio-flask-backend.vercel.app/auth?brugernavn=${brugernavn}&adgangskode=${adgangskode}&skole_id=${skole_id}`)
+
+                                    console.log("Log in was successful")
+
+                                    const authentication = await response.text()
+                                    console.log(authentication)
+                                }}>
+                                Log ind
+                            </div>
                         </div>
                     </div>
                 </div>
