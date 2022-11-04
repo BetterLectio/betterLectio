@@ -1,6 +1,5 @@
 <script>
-    import { loop_guard } from "svelte/internal";
-
+    import { loop_guard, query_selector_all } from "svelte/internal";
 
     let brugernavn = "";
     let adgangskode = "";
@@ -12,7 +11,7 @@
             .getInstList()
             .then((data) => {
                 Object.entries(data).forEach(([key, value]) => {
-                    if (value.name != 'Vis alle skoler') {
+                    if (value.name != "Vis alle skoler") {
                         options[key] = value;
                     }
                 });
@@ -27,6 +26,34 @@
     <script src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
 </svelte:head>
 
+<input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
+<div class="modal">
+    <div class="modal-box relative">
+        <label
+            for="my-modal-3"
+            id="CantLogInAlertX"
+            class="btn btn-sm btn-circle absolute right-2 top-2">✕</label
+        >
+        <h3 class="text-lg font-bold">Kunne ikke logge ind</h3>
+        <p class="py-4">
+            Der skete en fejl, er du sikker på at du har indtastet dine oplysninger korrekt?
+        </p>
+    </div>
+</div>
+<input type="checkbox" id="MissingInfoAlert" class="modal-toggle" />
+<div class="modal">
+    <div class="modal-box relative">
+        <label
+            for="my-modal-3"
+            id="MissingInfoAlertX"
+            class="btn btn-sm btn-circle absolute right-2 top-2">✕</label
+        >
+        <h3 class="text-lg font-bold">mangler info</h3>
+        <p class="py-4">
+            Du skal udfylde alle felterne for at logge ind.
+        </p>
+    </div>
+</div>
 <div>
     <div class="md:grid md:grid-cols-3 md:gap-6">
         <div class="mt-5 md:col-span-2 md:mt-0">
@@ -69,7 +96,7 @@
                                         >Adgangskode</span
                                     >
                                     <input
-                                        type = "password"
+                                        type="password"
                                         name="adgangskode"
                                         id="adgangskode"
                                         class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
@@ -115,19 +142,40 @@
                                 class="btn btn-primary AOC"
                                 style="user-select: none"
                                 on:click={async () => {
-                                    if (brugernavn == "" || adgangskode == "" || skole_id == "") {
-                                        alert("Du skal udfylde alle felter");} else {
+                                    if (
+                                        brugernavn == "" ||
+                                        adgangskode == "" ||
+                                        skole_id == ""
+                                    ) {
+                                        document.querySelector("#MissingInfoAlert").checked = true;
+                                        document.querySelector("#MissingInfoAlertX").addEventListener("click", () => {
+                                            document.querySelector("#MissingInfoAlert").checked = false;
+                                        });
+                                    } else {
                                         console.log("Logging into lectio");
-                                        let progress = document.querySelector(".AOC");
+                                        let progress =
+                                            document.querySelector(".AOC");
                                         progress.classList.add("loading");
-                                        const response = await fetch(`https://better-lectio-flask-backend.vercel.app/auth?brugernavn=${brugernavn}&adgangskode=${adgangskode}&skole_id=${skole_id}`)
-
-                                        console.log("Log in was successful")
+                                        const response = await fetch(
+                                            `https://better-lectio-flask-backend.vercel.app/auth?brugernavn=${brugernavn}&adgangskode=${adgangskode}&skole_id=${skole_id}`
+                                        );
+                                        //console.log("Log in was successful")
                                         progress.classList.remove("loading");
-                                        const authentication = await response.text()
-                                        console.log(authentication)
+                                        const authentication =
+                                            await response.text();
+                                        //console.log(authentication)
+                                        if (authentication.includes("500")) {
+                                            document.querySelector("#CantLogInAlert").checked = true;
+                                            document.querySelector("#CantLogInAlertX").addEventListener("click", () => {
+                                                document.querySelector("#CantLogInAlert").checked = false;
+                                            });
+                                        } else {
+                                            localStorage.setItem("authentication",authentication);
+                                            window.location.href = "/home";
+                                        }
                                     }
-                                }}>
+                                }}
+                            >
                                 Log ind
                             </div>
                         </div>
