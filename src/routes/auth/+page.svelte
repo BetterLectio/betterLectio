@@ -1,11 +1,12 @@
 <script>
-    import { loop_guard, query_selector_all } from "svelte/internal";
 
     let brugernavn = "";
     let adgangskode = "";
     let skole_id = "";
 
     let options = { "": "" };
+
+
     function updateOptions() {
         lectioAPI
             .getInstList()
@@ -23,7 +24,7 @@
 </script>
 
 <svelte:head>
-    <script src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
+    <script use:updateOptions src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
 </svelte:head>
 
 <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
@@ -115,7 +116,6 @@
                                         >Skole</span
                                     >
                                     <select
-                                        use:updateOptions
                                         type="text"
                                         name="skole"
                                         id="skole"
@@ -171,7 +171,7 @@
                                             });
                                         } else {
                                             localStorage.setItem("authentication",authentication);
-                                            window.location.href = "/home";
+                                            window.location.href = "/hjem";
                                         }
                                     }
                                 }}

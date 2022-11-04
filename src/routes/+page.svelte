@@ -1,6 +1,10 @@
+
+
 <h1 class="text-3xl font-bold">Velkommen til Better Lectio</h1>
 <p>Better Lectio er en webapp, der gør det nemmere at bruge Lectio.</p>
 <p>For at bruge Better Lectio skal du logge ind med din Lectio konto.</p>
 <br />
-<a href="/auth" class="btn btn-primary">Log ind</a>
+
+<!-- Den skal have external da den ellers ikke loader siden fuldkommen-->
+<a rel="external" href="/auth" class="btn btn-primary">Log ind</a>
 <a href="/help" class="btn">Hvordan virker det?</a>
