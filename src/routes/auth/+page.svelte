@@ -35,7 +35,7 @@
                     <div class="space-y-6 bg-white px-4 py-5 sm:p-6">
                         <div class="grid grid-cols-3 gap-6">
                             <div class="col-span-3 sm:col-span-2">
-                                <p class="text-gray-700 text-xl">
+                                <p class="text-gray-700 text-xl font-bold">
                                     Log ind med din Lectio konto
                                 </p>
                                 <br />
@@ -54,7 +54,7 @@
                                         name="brugernavn"
                                         id="brugernavn"
                                         class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
-                                        placeholder="elmu1"
+                                        placeholder="abcd1"
                                         bind:value={brugernavn}
                                     />
                                 </div>
@@ -73,7 +73,7 @@
                                         name="adgangskode"
                                         id="adgangskode"
                                         class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
-                                        placeholder="ljVsrVpt"
+                                        placeholder="abcdefgh"
                                         bind:value={adgangskode}
                                     />
                                 </div>
@@ -112,17 +112,21 @@
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
                             <div
                                 type="submit"
-                                class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                class="btn btn-primary AOC"
                                 style="user-select: none"
                                 on:click={async () => {
-                                    console.log("Logging into lectio")
+                                    if (brugernavn == "" || adgangskode == "" || skole_id == "") {
+                                        alert("Du skal udfylde alle felter");} else {
+                                        console.log("Logging into lectio");
+                                        let progress = document.querySelector(".AOC");
+                                        progress.classList.add("loading");
+                                        const response = await fetch(`https://better-lectio-flask-backend.vercel.app/auth?brugernavn=${brugernavn}&adgangskode=${adgangskode}&skole_id=${skole_id}`)
 
-                                    const response = await fetch(`https://better-lectio-flask-backend.vercel.app/auth?brugernavn=${brugernavn}&adgangskode=${adgangskode}&skole_id=${skole_id}`)
-
-                                    console.log("Log in was successful")
-
-                                    const authentication = await response.text()
-                                    console.log(authentication)
+                                        console.log("Log in was successful")
+                                        progress.classList.remove("loading");
+                                        const authentication = await response.text()
+                                        console.log(authentication)
+                                    }
                                 }}>
                                 Log ind
                             </div>
