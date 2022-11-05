@@ -46,8 +46,10 @@
 </script>
 
 <body use:checkIfAuthed>
-    {#if brugeren != ''}
-        <h1 class="text-3xl font-bold">{chosenGreeting} {brugeren.navn}</h1>
-        <br />
-    {/if}
+    <title>
+       {#if brugeren != ''}
+           <h1 class="text-3xl font-bold">{chosenGreeting} {brugeren.navn}</h1>
+      {/if}
+    <br />
+    </title>
 </body>

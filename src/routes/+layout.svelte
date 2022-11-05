@@ -5,7 +5,7 @@
 <div class="navbar bg-base-100 drop-shadow-xl mb-10">
     <div class="navbar-start">
         <div class="dropdown">
-            <button class="btn btn-ghost lg:hidden">
+            <button class="btn btn-ghost lg:hidden" aria-label="navbar button">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5"
