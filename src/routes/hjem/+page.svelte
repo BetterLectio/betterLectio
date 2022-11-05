@@ -1,4 +1,29 @@
 <script>
+    let alldayGreetings = ["Velkommen tilbage", "Hejsa", "Velkommen", "Hej"];
+    let morningGreetings = ["God morgen", "Go' morgen", "Godmorgen"];
+    let afternoonGreetings = ["God eftermiddag"];
+    let eveningGreetings = ["God aften", "Tak for i dag", "Godnat"];
+    let chosenGreeting = "";
+
+    // Get the current time
+    let currentTime = new Date().getHours();
+    if (Math.random() > 0.5) {
+        if (currentTime >= 5 && currentTime < 12) {
+        chosenGreeting = morningGreetings[Math.floor(Math.random() * morningGreetings.length)];
+        }
+        else if (currentTime >= 12 && currentTime < 17) {
+            chosenGreeting = afternoonGreetings[Math.floor(Math.random() * afternoonGreetings.length)];
+        }
+        else {
+            chosenGreeting = eveningGreetings[Math.floor(Math.random() * eveningGreetings.length)];
+        }
+    } else {
+        chosenGreeting = alldayGreetings[Math.floor(Math.random() * alldayGreetings.length)];
+    }
+
+    
+
+
     let brugeren = '';
 
     let checked = false;
@@ -22,8 +47,7 @@
 
 <body use:checkIfAuthed>
     {#if brugeren != ''}
-        <div>
-            <p>Velkommen tilbage {brugeren.navn}</p>
-        </div>
+        <h1 class="text-3xl font-bold">{chosenGreeting} {brugeren.navn}</h1>
+        <br />
     {/if}
 </body>
