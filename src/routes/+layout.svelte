@@ -23,26 +23,26 @@
             <ul
                 class="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
-                <li><a href="skema">Skema</a></li>
-                <li><a href="opgaver">Opgaver</a></li>
-                <li><a href="lektier">Lektier</a></li>
-                <li><a href="fravær">Fravær</a></li>
-                <li><a href="dokumenter">Dokumenter</a></li>
-                <li><a href="beskeder">Beskeder</a></li>
-                <li><a href="indstillinger">Indstillinger</a></li>
+                <li><a rel="external" href="skema">Skema</a></li>
+                <li><a rel="external" href="opgaver">Opgaver</a></li>
+                <li><a rel="external" href="lektier">Lektier</a></li>
+                <li><a rel="external" href="fravær">Fravær</a></li>
+                <li><a rel="external" href="dokumenter">Dokumenter</a></li>
+                <li><a rel="external" href="beskeder">Beskeder</a></li>
+                <li><a rel="external" href="indstillinger">Indstillinger</a></li>
             </ul>
         </div>
         <a class="btn btn-ghost normal-case text-2xl" href="/">Better Lectio</a>
     </div>
     <div class="navbar-end hidden lg:flex" style="width: 75%;">
         <ul class="menu menu-horizontal p-0">
-            <li><a href="skema">Skema</a></li>
-            <li><a href="opgaver">Opgaver</a></li>
-            <li><a href="lektier">Lektier</a></li>
-            <li><a href="fravær">Fravær</a></li>
-            <li><a href="dokumenter">Dokumenter</a></li>
-            <li><a href="beskeder">Beskeder</a></li>
-            <li><a href="indstillinger">Indstillinger</a></li>
+            <li><a rel="external" href="skema">Skema</a></li>
+            <li><a rel="external" href="opgaver">Opgaver</a></li>
+            <li><a rel="external" href="lektier">Lektier</a></li>
+            <li><a rel="external" href="fravær">Fravær</a></li>
+            <li><a rel="external" href="dokumenter">Dokumenter</a></li>
+            <li><a rel="external" href="beskeder">Beskeder</a></li>
+            <li><a rel="external" href="indstillinger">Indstillinger</a></li>
         </ul>
     </div>
 </div>
