@@ -145,6 +145,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <p>Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind accepterer du at din browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server bortset fra Lectio.</p>
                             <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                                 <div

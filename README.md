@@ -10,9 +10,10 @@ Dette project er delt op i 2 dele:
 
 ## TODO
 - Login ✅
+  - cookie disclaimer ✅
   - api ✅
     - json response ✅
-  - Ikke før til login hvis cookie er gemt
+  - Ikke før til login hvis cookie er gemt ✅ (halvt)
   - Gem skole i permentent cookie
 - css
 - proxy 
