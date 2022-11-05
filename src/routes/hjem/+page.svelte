@@ -4,7 +4,8 @@
     let afternoonGreetings = ["God eftermiddag"];
     let eveningGreetings = ["God aften", "Tak for i dag", "Godnat"];
     let chosenGreeting = "";
-
+    let brugeren = '';
+    let checked = false;
     // Get the current time
     let currentTime = new Date().getHours();
     if (Math.random() > 0.5) {
@@ -20,13 +21,6 @@
     } else {
         chosenGreeting = alldayGreetings[Math.floor(Math.random() * alldayGreetings.length)];
     }
-
-    
-
-
-    let brugeren = '';
-
-    let checked = false;
     function checkIfAuthed() {
         if (localStorage.getItem("authentication") == null) {
             console.log("Redirect")
@@ -46,10 +40,8 @@
 </script>
 
 <body use:checkIfAuthed>
-    <title>
-       {#if brugeren != ''}
+    {#if brugeren != ''}
            <h1 class="text-3xl font-bold">{chosenGreeting} {brugeren.navn}</h1>
-      {/if}
+    {/if}
     <br />
-    </title>
 </body>
