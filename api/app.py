@@ -22,7 +22,7 @@ def index():
       </body>
     </html>
     """
-@app.route('/auth')
+@app.route('/auth') # TODO: Lav en parameter som hedder forbliv logget ind
 def auth():
     brugernavn = request.args.get('brugernavn')
     adgangskode = request.args.get('adgangskode')
