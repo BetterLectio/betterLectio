@@ -32,6 +32,7 @@
 		"@tailwindcss/forms": "^0.5.3",
 		"bootstrap": "^5.2.2",
 		"daisyui": "^2.38.0",
+		"jquery": "^3.6.1",
 		"svelte-fullcalendar": "^2.0.0-beta.0"
 	}
 }

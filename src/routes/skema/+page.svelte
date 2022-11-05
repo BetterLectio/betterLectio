@@ -1,7 +1,23 @@
-<script>
+<script> 
+    /*
+    TODO:
+        - Vælg skema ud fra næste skole dag
+        - Tag weekend med hvis der sker noget der
+        - Få uge nummer og år fra alle muligheder på skema og load skemaet ud fra det
+        - Giv flere informationer på modulerne
+        - Gør modulerne klikbare
+        - Skriv når et modul er annuleret
+        - Hav farver fra lectio med, f.eks. grøn=frivillig
+        - Gør skemaet mobilt venligt ved kun at vise en dag i stedet for en hel uge
+    */
     import FullCalendar from 'svelte-fullcalendar';
     import timeGridPlugin from '@fullcalendar/timegrid';
     import daLocale from '@fullcalendar/core/locales/da';
+
+    import jquery from "jquery"
+
+
+    let calendar;
     
     let options = {
         initialView: 'timeGridWeek',
@@ -15,15 +31,7 @@
 
         slotDuration: "00:30:00",
 
-        dateClick: (event) => alert('date click! ' + event.dateStr),
-        events: [
-            {
-                title: 'Ting sker',
-                defaultAllDay: true,
-                date: "2022-11-02"
-            }
-        ],
-        timeFormat: 'H(:mm)' // uppercase H for 24-hour clock
+        events: []
     };
 
     let skema = '';
@@ -61,13 +69,12 @@
             }
             let slut = modul["tidspunkt"].split(" ")[0] + " " + modul["tidspunkt"].split(" til ")[1]
             slut = {
-                dag: slut.split("/")[0],
-                måned: slut.split("/")[1].split("-")[0],
+                dag: (slut.split("/")[0].length == 1) ? "0" + slut.split("/")[0] : slut.split("/")[0],
+                måned: (slut.split("/")[1].split("-")[0].length == 1) ? "0" + slut.split("/")[1].split("-")[0] : slut.split("/")[1].split("-")[0],
                 år: slut.split("-")[1].split(" ")[0],
 
                 tidspunkt: slut.split(" ")[1]
             }
-            console.log(`${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}:00`, `${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}:00`)
             options["events"].push({ 
                 title: modul["hold"], 
                 start: `${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}:00`,
@@ -76,6 +83,33 @@
         });
 
     }
+
+    async function loadDagsNoter() {
+        let date = ""
+        while (true) {
+            date = await jquery("h2.fc-toolbar-title").text()
+            if (date != "") {
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        const calendarApi = calendar.getAPI();
+        let year = date.split(" ").at(-1)
+        skema["dagsNoter"].forEach(function(dagsNoter){
+            Object.entries(dagsNoter).forEach(([key, value]) => {
+                let day = (key.split("(")[1].split("/")[0].length == 1) ? "0" + key.split("(")[1].split("/")[0] : key.split("(")[1].split("/")[0]
+                let month = (key.split("(")[1].split("/")[1].slice(0, -1).length == 1) ? "0" + key.split("(")[1].split("/")[1].slice(0, -1) : key.split("(")[1].split("/")[1].slice(0, -1)
+                value.forEach(function(dagsNote){
+                    calendarApi.addEvent({
+                        title: dagsNote,
+                        defaultAllDay: true,
+                        date: `${year}-${month}-${day}`
+                    });
+                })
+            });
+        });
+    }
+
     function toggleWeekends() {
         options = {
         ...options,
@@ -88,7 +122,9 @@
 <br />
 <body use:checkIfAuthed>
     {#if skema != ''}
-        <FullCalendar {options} />
+        <span use:loadDagsNoter></span>
+        <FullCalendar bind:this={calendar} {options}/>
+
         <div>
             <p>{JSON.stringify(skema)}</p>
         </div>
