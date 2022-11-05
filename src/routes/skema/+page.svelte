@@ -61,9 +61,9 @@
 
 <h1 class="text-3xl font-bold">Skema</h1>
 <br />
-<FullCalendar {options} />
 <body use:checkIfAuthed>
     {#if skema != ''}
+        <FullCalendar {options} />
         <div>
             <p>{JSON.stringify(skema)}</p>
         </div>
