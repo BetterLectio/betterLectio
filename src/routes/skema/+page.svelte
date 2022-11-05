@@ -49,6 +49,11 @@
             `https://better-lectio-flask-backend.vercel.app/skema?cookie=${localStorage.getItem("authentication")}`
         );
         skema = await response.json()
+        skema["moduler"].forEach(function(modul){
+            let start = modul["tidspunkt"].split(" til ")[0]
+            let slut = modul["tidspunkt"].split(" ")[0] + " " + modul["tidspunkt"].split(" til ")[1]
+            console.log(start, slut)
+        });
 
     }
     function toggleWeekends() {
