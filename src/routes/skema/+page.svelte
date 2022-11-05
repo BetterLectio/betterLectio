@@ -29,12 +29,18 @@
     let skema = '';
 
     let checked = false;
-    function checkIfAuthed() {
+    async function checkIfAuthed() {
         if (localStorage.getItem("authentication") == null) {
             console.log("Redirect")
-            window.location.href = "/";
+            window.location.href = "/auth";
         } else {
-            checked = true;
+            const response = await fetch(
+                `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem("authentication")}`
+            );
+            if (await response.json()["valid"] == false) {
+                console.log("Redirect")
+                window.location.href = "/auth";
+            }
         }
 
         fåSkema()

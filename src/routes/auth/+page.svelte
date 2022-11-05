@@ -22,13 +22,16 @@
             });
     }
 
-    let checked = false;
-    function checkIfAuthed() {
+    async function checkIfAuthed() {
         if (localStorage.getItem("authentication") == null) {
         } else {
-            checked = true;
-            console.log("Redirect")
-            window.location.href = "/hjem";
+            const response = await fetch(
+                `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem("authentication")}`
+            );
+            if (await response.json()["valid"]) {
+                console.log("Redirect")
+                window.location.href = "/hjem";
+            }
         }
     }
 </script>
