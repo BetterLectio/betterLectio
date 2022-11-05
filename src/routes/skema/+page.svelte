@@ -21,12 +21,7 @@
                 title: 'Ting sker',
                 defaultAllDay: true,
                 date: "2022-11-02"
-            },
-            { 
-                title: 'event 1', 
-                start: '2022-11-01T14:30:00',
-                end: '2022-11-01T15:30:00',
-            },
+            }
         ],
         timeFormat: 'H(:mm)' // uppercase H for 24-hour clock
     };
@@ -51,8 +46,27 @@
         skema = await response.json()
         skema["moduler"].forEach(function(modul){
             let start = modul["tidspunkt"].split(" til ")[0]
+            start = {
+                dag: (start.split("/")[0].length == 1) ? "0" + start.split("/")[0] : start.split("/")[0],
+                måned: (start.split("/")[1].split("-")[0].length == 1) ? "0" + start.split("/")[1].split("-")[0] : start.split("/")[1].split("-")[0],
+                år: start.split("-")[1].split(" ")[0],
+
+                tidspunkt: start.split(" ")[1]
+            }
             let slut = modul["tidspunkt"].split(" ")[0] + " " + modul["tidspunkt"].split(" til ")[1]
-            console.log(start, slut)
+            slut = {
+                dag: slut.split("/")[0],
+                måned: slut.split("/")[1].split("-")[0],
+                år: slut.split("-")[1].split(" ")[0],
+
+                tidspunkt: slut.split(" ")[1]
+            }
+            console.log(`${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}:00`, `${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}:00`)
+            options["events"].push({ 
+                title: modul["hold"], 
+                start: `${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}:00`,
+                end: `${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}:00`,
+            });
         });
 
     }
