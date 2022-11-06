@@ -51,11 +51,36 @@
             }
         }
 
-        fåSkema()
+        viewChanged()
     }
-    async function fåSkema() {
+
+
+    Date.prototype.getWeekNumber = function(){
+        var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+        var dayNum = d.getUTCDay() || 7;
+        d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+        var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+        return Math.ceil((((d - yearStart) / 86400000) + 1)/7)
+    };
+
+    let loadedWeeks = []
+    function viewChanged() {
+        let date = calendarApi.getDate()
+        
+        let år = date.getFullYear()
+        let ugeNummer = date.getWeekNumber()
+
+        if (!loadedWeeks.includes(`${ugeNummer}, ${år}`)) {
+            fåSkema(ugeNummer, år)
+
+            loadedWeeks.push(`${ugeNummer}, ${år}`)
+            console.log(loadedWeeks)
+        }
+    }
+
+    async function fåSkema(ugeNummer, år) {
         const response = await fetch(
-            `https://better-lectio-flask-backend.vercel.app/skema?cookie=${localStorage.getItem("authentication")}`
+            `https://better-lectio-flask-backend.vercel.app/skema?uge=${ugeNummer}&år=${år}&cookie=${localStorage.getItem("authentication")}`
         );
         skema = await response.json()
         skema["moduler"].forEach(function(modul){
@@ -107,7 +132,8 @@
         weekends: !options.weekends
         };
     }
-    
+
+
     async function bindCalendar() {
         while (true) {
             if (calendar != undefined) {
@@ -120,6 +146,11 @@
         let today = await new Date().getDay();
         if (today == 6 || today == 0) {
             calendarApi.next()
+        }
+        
+        const fcButtons = await document.getElementsByClassName('fc-button-primary');
+        for (var i = 0; i < fcButtons.length; i++) {
+            await fcButtons[i].addEventListener("click", viewChanged);
         }
     }
     bindCalendar()
