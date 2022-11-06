@@ -120,7 +120,7 @@
                 defaultAllDay: false,
             });
         });
-
+        loadDagsNoter()
     }
 
     async function loadDagsNoter() {
@@ -175,8 +175,6 @@
 <FullCalendar bind:this={calendar} {options}/>
 <body use:checkIfAuthed>
     {#if skema != ''}
-        <span use:loadDagsNoter></span>
-
         <div>
             <p>{JSON.stringify(skema)}</p>
         </div>
