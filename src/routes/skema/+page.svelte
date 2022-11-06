@@ -162,12 +162,13 @@
 
         let width = window.innerWidth;
         if (width < 700) {
+            calendarApi.today();
             calendarApi.changeView("timeGridDay");
-        }
-        
-        let today = await new Date().getDay();
-        if (today == 6 || today == 0) {
-            calendarApi.next()
+        } else {
+            let today = await new Date().getDay();
+            if (today == 6 || today == 0) {
+                calendarApi.next()
+            }
         }
         
         const fcButtons = await document.getElementsByClassName('fc-button-primary');
