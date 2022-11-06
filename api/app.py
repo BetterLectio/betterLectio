@@ -57,10 +57,15 @@ def skema():
     år = request.args.get("år")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+    return jsonify(lectioClient.skema(uge=uge, år=år))
 
-    skema = lectioClient.skema(uge=uge, år=år)
+@app.route('/lektier')
+def lektier():
+    cookie = request.args.get("cookie")
 
-    return jsonify(skema)
+    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+    return jsonify(lectioClient.lektier())
+
 
 if __name__ == '__main__':
    app.run()

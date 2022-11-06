@@ -29,3 +29,8 @@ Returnere: Se [python-lectio](https://github.com/jona799t/python-lectio#skema)
 Endpoint: ``/mig``  
 Eksempel: ``https://better-lectio-flask-backend.vercel.app/mig?cookie=ey...``  
 Returnere: ``json med navn og billede``
+
+### Lektier
+Endpoint: ``/lektier``  
+Eksempel: ``https://better-lectio-flask-backend.vercel.app/mig?cookie=ey...``  
+Returnere: Se [python-lectio](https://github.com/jona799t/python-lectio#lektier)
