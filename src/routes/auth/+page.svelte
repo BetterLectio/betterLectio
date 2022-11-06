@@ -28,7 +28,9 @@
             const response = await fetch(
                 `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem("authentication")}`
             );
-            if (await response.json()["valid"]) {
+            let jsonRes = await response.json();
+            console.log(jsonRes["valid"]);
+            if (jsonRes["valid"] == true) {
                 console.log("Redirect")
                 window.location.href = "/hjem";
             }
