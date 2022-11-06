@@ -19,7 +19,10 @@ Returnere: ``Base64 cookie string som kan bruges til at tilgå de andre endpoint
 
 ### Skema
 Endpoint: ``/skema``  
-Eksempel: ``https://better-lectio-flask-backend.vercel.app/skema?cookie=ey...``  
+Parameter:
+ - ``uge``
+ - ``år``
+Eksempel: ``https://better-lectio-flask-backend.vercel.app/skema?uge=1&år=2023&cookie=ey...``  
 Returnere: Se [python-lectio](https://github.com/jona799t/python-lectio#skema)
 
 ### Mig

@@ -53,9 +53,12 @@ def mig():
 def skema():
     cookie = request.args.get("cookie")
 
+    uge = request.args.get("uge")
+    år = request.args.get("år")
+
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
-    skema = lectioClient.skema()
+    skema = lectioClient.skema(uge=uge, år=år)
 
     return jsonify(skema)
 
