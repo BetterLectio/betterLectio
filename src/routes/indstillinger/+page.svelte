@@ -34,7 +34,7 @@
 <br />
 
 <div class="flex flex-col">
-    <ul use:checkUser class="menu bg-base-100 w-56 p-2 rounded-box drop-shadow-xl">
+    <ul use:checkUser class="menu bg-base-100 w-56 p-2 rounded-box drop-shadow-xl -z-10">
         <li class="menu-title">
             <span>Bruger info</span>
         </li>
