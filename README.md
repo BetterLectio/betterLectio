@@ -22,4 +22,4 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 - gør skema kompatibelt med mobil
 - gør skema kompatibelt med tema (theme)
 - lav tooltips til skemabrikkerne
-- udvid skema til flere uger  
+- udvid skema til flere uger ✅
