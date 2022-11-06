@@ -34,7 +34,7 @@
 <br />
 
 <div class="flex flex-col">
-    <ul use:checkUser class="menu bg-base-100 w-56 p-2 rounded-box drop-shadow-xl">
+    <ul use:checkUser class="menu bg-base-100 w-56 p-2 rounded-box drop-shadow-xl -z-10">
         <li class="menu-title">
             <span>Bruger info</span>
         </li>
@@ -59,7 +59,7 @@
 
     </ul>
     <br>
-    <button class="btn btn-error md:w-fit font-bold md:font-normal"
+    <button class="btn btn-error md:w-fit font-bold md:font-normal -z-10"
     on:click={() => {
         localStorage.removeItem("authentication");
         window.location.href = "/";
