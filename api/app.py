@@ -30,7 +30,7 @@ def auth():
 
     lectioClient = lectio.sdk(brugernavn=brugernavn, adgangskode=adgangskode, skoleId=skoleId)
 
-    return base64.b64encode(json.dumps(lectioClient.session.cookies.get_dict()).encode())
+    return lectioClient.base64Cookie()
 
 @app.route('/check-cookie')
 def checkCookie():
