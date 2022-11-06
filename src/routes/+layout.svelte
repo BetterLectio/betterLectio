@@ -20,6 +20,11 @@
             }
         }
     }
+    function removeLoader() {
+        let loader = document.querySelector(".loader");
+        console.log(loader);
+        loader.style.display = "none";
+    }
 </script>
 
 <div class="navbar bg-base-100 drop-shadow-xl mb-10">
@@ -43,13 +48,13 @@
             <ul
                 class="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
-                <li><a rel="external" href="skema">Skema</a></li>
-                <li><a rel="external" href="opgaver">Opgaver</a></li>
-                <li><a rel="external" href="lektier">Lektier</a></li>
-                <li><a rel="external" href="fravær">Fravær</a></li>
-                <li><a rel="external" href="dokumenter">Dokumenter</a></li>
-                <li><a rel="external" href="beskeder">Beskeder</a></li>
-                <li><a rel="external" href="indstillinger">Indstillinger</a></li>
+                <li><a href="skema">Skema</a></li>
+                <li><a href="opgaver">Opgaver</a></li>
+                <li><a href="lektier">Lektier</a></li>
+                <li><a href="fravær">Fravær</a></li>
+                <li><a href="dokumenter">Dokumenter</a></li>
+                <li><a href="beskeder">Beskeder</a></li>
+                <li><a href="indstillinger">Indstillinger</a></li>
                 <li>
                     <ThemeSelect />
                 </li>
@@ -67,19 +72,22 @@
     </div>
     <div class="navbar-end hidden xl:flex" style="width: 90%;">
         <ul class="menu menu-horizontal p-0">
-            <li><a rel="external" href="skema">Skema</a></li>
-            <li><a rel="external" href="opgaver">Opgaver</a></li>
-            <li><a rel="external" href="lektier">Lektier</a></li>
-            <li><a rel="external" href="fravær">Fravær</a></li>
-            <li><a rel="external" href="dokumenter">Dokumenter</a></li>
-            <li><a rel="external" href="beskeder">Beskeder</a></li>
-            <li><a rel="external" href="indstillinger">Indstillinger</a></li>
+            <li><a href="skema">Skema</a></li>
+            <li><a href="opgaver">Opgaver</a></li>
+            <li><a href="lektier">Lektier</a></li>
+            <li><a href="fravær">Fravær</a></li>
+            <li><a href="dokumenter">Dokumenter</a></li>
+            <li><a href="beskeder">Beskeder</a></li>
+            <li><a href="indstillinger">Indstillinger</a></li>
             <li class="">
                 <ThemeSelect />
             </li>
         </ul>
     </div>
 </div>
+
+<div use:removeLoader class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 loader" id="loader"><button class="btn btn-circle btn-accent loading"></button></div>
+
 
 <div class="container mx-auto">
     <slot />
