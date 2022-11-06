@@ -2,6 +2,8 @@
     import { onMount } from 'svelte'
     import { themeChange } from 'theme-change'
     import '../app.css'
+	import PageTransition from '../components/PageTransition.svelte';
+	export let data;
 
     onMount(() => {
         themeChange(false)
@@ -90,5 +92,7 @@
 
 
 <div class="container mx-auto">
-    <slot />
+    <PageTransition pathname={data.pathname}>
+        <slot />
+    </PageTransition>
 </div>
