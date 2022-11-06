@@ -17,4 +17,9 @@ Dette project er delt op i 2 dele:
   - Gem skole i permentent cookie
 - css
 - proxy 
-- tilføj en log ud knap som sletter alle cookies
+- tilføj en log ud knap som sletter alle cookies ✅
+- tilføj lokale til skema
+- gør skema kompatibelt med mobil
+- gør skema kompatibelt med tema (theme)
+- lav tooltips til skemabrikkerne
+- udvid skema til flere uger  
