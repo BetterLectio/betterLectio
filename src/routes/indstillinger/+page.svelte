@@ -2,7 +2,7 @@
 <br />
 
 <div class="flex flex-col">
-    <button class="btn btn-error"
+    <button class="btn btn-error md:w-fit font-bold md:font-normal"
     on:click={() => {
         localStorage.removeItem("authentication");
         window.location.href = "/";
