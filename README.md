@@ -1,12 +1,12 @@
 # BetterLectio
 
-Dette project er delt op i 2 dele:
+Better Lectio er en forbredelse af [Lectio](https://lectio.dk). Lectio er et dansk webbaseret lektionssystem udviklet af det danske softwarefirma MaCom A/S. [vi](https://github.com/victorDigital/betterLectio/graphs/contributors) har udviklet Better Lectio for at gøre det nemmere at bruge Lectio. Vi har fokuseret på at gøre det nemmere at finde informationer, og at gøre det nemmere at få overblik over sin skolegang. og vi har lavet en række andre forbedringer som f.eks. at lave en hel ny brugerflade, som både er mere brugervenlig og mere moderne.  
+læs hvordan systemet fungerer [HER](https://betlec.netlify.app/help)  
 
-- Del 1 er [LectioJS](https://github.com/Asguho/LectioJS), som er en lectio api, der både skal virke i et browser environment og i et server environment.
-  - Del 1.1 er [LectioPY](https://github.com/jona799t/BetterLectio-Flask-Backend), som er en lectio api, der kun skal virke i et server environment.
-- Del 2 er dette repository, som er en forbedret bruger interface til lectio.
-  - beta version is available at [betlec.netlify.app](https://betlec.netlify.app/)
+Better lectio er et open source projekt, hvilket betyder at alle kan se koden, og alle kan bidrage til projektet. Better lectio er på nuværende tidspunkt under udvikling, hvis du har nogle forslag til forbedringer, eller hvis du har fundet en fejl, så er du meget velkommen til åbne en issue, eller lave en pull request.
 
+Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)  
+<img src="https://contrib.rocks/image?repo=victorDigital/betterLectio" />
 
 ## TODO
 - Login ✅
