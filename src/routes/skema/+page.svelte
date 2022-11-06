@@ -31,6 +31,8 @@
 
         slotDuration: "00:30:00",
 
+        displayEventTime : true,
+
         events: [],
         /*eventClick: function(info) {
             alert('Event: ' + info.event.title);
@@ -112,8 +114,12 @@
 
                 tidspunkt: slut.split(" ")[1]
             }
+            let titel = (modul["navn"] != null) ? modul["navn"] : modul["hold"]
+            try {
+                titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0]
+            } catch (err) {}
             calendarApi.addEvent({ 
-                title: modul["hold"], 
+                title: titel, 
                 url: `/modul?absid=${modul["absid"]}`,
                 start: `${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}:00`,
                 end: `${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}:00`,
