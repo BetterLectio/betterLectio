@@ -1,14 +1,12 @@
 <script> 
     /*
     TODO:
-        - Vælg skema ud fra næste skole dag
         - Tag weekend med hvis der sker noget der
-        - Få uge nummer og år fra alle muligheder på skema og load skemaet ud fra det
-        - Giv flere informationer på modulerne
-        - Gør modulerne klikbare
+        - Lav en popup som kommer når man har musen over skemaet med flere informationer på modulerne
         - Skriv når et modul er annuleret
         - Hav farver fra lectio med, f.eks. grøn=frivillig
         - Gør skemaet mobilt venligt ved kun at vise en dag i stedet for en hel uge
+        - Få skemaet til at blende ind med tailwind css
     */
     import FullCalendar from 'svelte-fullcalendar';
     import timeGridPlugin from '@fullcalendar/timegrid';
