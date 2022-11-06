@@ -18,6 +18,7 @@
 
 
     let calendar;
+    let calendarApi;
     
     let options = {
         initialView: 'timeGridWeek',
@@ -75,7 +76,7 @@
 
                 tidspunkt: slut.split(" ")[1]
             }
-            options["events"].push({ 
+            calendarApi.addEvent({ 
                 title: modul["hold"], 
                 start: `${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}:00`,
                 end: `${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}:00`,
@@ -85,16 +86,7 @@
     }
 
     async function loadDagsNoter() {
-        let date = ""
-        while (true) {
-            date = await jquery("h2.fc-toolbar-title").text()
-            if (date != "") {
-                break;
-            }
-            await new Promise(resolve => setTimeout(resolve, 100));
-        }
-        const calendarApi = calendar.getAPI();
-        let year = date.split(" ").at(-1)
+        let year = calendarApi.getDate().getFullYear()
         skema["dagsNoter"].forEach(function(dagsNoter){
             Object.entries(dagsNoter).forEach(([key, value]) => {
                 let day = (key.split("(")[1].split("/")[0].length == 1) ? "0" + key.split("(")[1].split("/")[0] : key.split("(")[1].split("/")[0]
@@ -116,14 +108,30 @@
         weekends: !options.weekends
         };
     }
+    
+    async function bindCalendar() {
+        while (true) {
+            if (calendar != undefined) {
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        calendarApi = await calendar.getAPI();
+        
+        let today = await new Date().getDay();
+        if (today == 6 || today == 0) {
+            calendarApi.next()
+        }
+    }
+    bindCalendar()
 </script>
 
 <h1 class="text-3xl font-bold">Skema</h1>
 <br />
+<FullCalendar bind:this={calendar} {options}/>
 <body use:checkIfAuthed>
     {#if skema != ''}
         <span use:loadDagsNoter></span>
-        <FullCalendar bind:this={calendar} {options}/>
 
         <div>
             <p>{JSON.stringify(skema)}</p>
