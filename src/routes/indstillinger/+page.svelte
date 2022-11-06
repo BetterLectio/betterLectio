@@ -59,7 +59,7 @@
 
     </ul>
     <br>
-    <button class="btn btn-error md:w-fit font-bold md:font-normal -z-10"
+    <button class="btn btn-error md:w-fit font-bold md:font-normal"
     on:click={() => {
         localStorage.removeItem("authentication");
         window.location.href = "/";
