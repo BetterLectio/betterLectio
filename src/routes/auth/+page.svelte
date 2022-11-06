@@ -1,11 +1,9 @@
 <script>
-
     let brugernavn = "";
     let adgangskode = "";
     let skole_id = "";
 
     let options = { "": "" };
-
 
     function updateOptions() {
         lectioAPI
@@ -26,12 +24,49 @@
         if (localStorage.getItem("authentication") == null) {
         } else {
             const response = await fetch(
-                `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem("authentication")}`
+                `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem(
+                    "authentication"
+                )}`
             );
             let jsonRes = await response.json();
             console.log(jsonRes["valid"]);
             if (jsonRes["valid"] == true) {
-                console.log("Redirect")
+                console.log("Redirect");
+                window.location.href = "/hjem";
+            }
+        }
+    }
+
+    async function login() {
+        if (brugernavn == "" || adgangskode == "" || skole_id == "") {
+            document.querySelector("#MissingInfoAlert").checked = true;
+            document
+                .querySelector("#MissingInfoAlertX")
+                .addEventListener("click", () => {
+                    document.querySelector("#MissingInfoAlert").checked = false;
+                });
+        } else {
+            console.log("Logging into lectio");
+            let progress = document.querySelector(".AOC");
+            progress.classList.add("loading");
+            const response = await fetch(
+                `https://better-lectio-flask-backend.vercel.app/auth?brugernavn=${brugernavn}&adgangskode=${adgangskode}&skole_id=${skole_id}`
+            );
+            //console.log("Log in was successful")
+            progress.classList.remove("loading");
+            const authentication = await response.text();
+            //console.log(authentication)
+            if (authentication.includes("500")) {
+                document.querySelector("#CantLogInAlert").checked = true;
+                document
+                    .querySelector("#CantLogInAlertX")
+                    .addEventListener("click", () => {
+                        document.querySelector(
+                            "#CantLogInAlert"
+                        ).checked = false;
+                    });
+            } else {
+                localStorage.setItem("authentication", authentication);
                 window.location.href = "/hjem";
             }
         }
@@ -39,7 +74,10 @@
 </script>
 
 <svelte:head>
-    <script use:updateOptions src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
+    <script
+        use:updateOptions
+        src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"
+    ></script>
 </svelte:head>
 <body use:checkIfAuthed>
     <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
@@ -52,7 +90,8 @@
             >
             <h3 class="text-lg font-bold">Kunne ikke logge ind</h3>
             <p class="py-4">
-                Der skete en fejl, er du sikker på at du har indtastet dine oplysninger korrekt?
+                Der skete en fejl, er du sikker på at du har indtastet dine
+                oplysninger korrekt?
             </p>
         </div>
     </div>
@@ -65,9 +104,7 @@
                 class="btn btn-sm btn-circle absolute right-2 top-2">✕</label
             >
             <h3 class="text-lg font-bold">mangler info</h3>
-            <p class="py-4">
-                Du skal udfylde alle felterne for at logge ind.
-            </p>
+            <p class="py-4">Du skal udfylde alle felterne for at logge ind.</p>
         </div>
     </div>
     <div>
@@ -150,47 +187,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-gray-700" >Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind accepterer du at din browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server bortset fra Lectio og vores proxy/translation layer.</p>
-                            <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
+                            <p class="text-gray-700">
+                                Denne side bruger cookies til at huske dine
+                                oplysninger til næste gang du logger ind. Når du
+                                logger ind accepterer du at din browser gemmer
+                                dine oplysninger. De gemmes kun på din browser
+                                og bliver ikke sendt til nogen server bortset
+                                fra Lectio og vores proxy/translation layer.
+                            </p>
+                            <div
+                                class="bg-gray-50 px-4 py-3 text-right sm:px-6"
+                            >
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                                 <div
                                     type="submit"
                                     class="btn btn-primary AOC"
                                     style="user-select: none"
-                                    on:click={async () => {
-                                        if (
-                                            brugernavn == "" ||
-                                            adgangskode == "" ||
-                                            skole_id == ""
-                                        ) {
-                                            document.querySelector("#MissingInfoAlert").checked = true;
-                                            document.querySelector("#MissingInfoAlertX").addEventListener("click", () => {
-                                                document.querySelector("#MissingInfoAlert").checked = false;
-                                            });
-                                        } else {
-                                            console.log("Logging into lectio");
-                                            let progress =
-                                                document.querySelector(".AOC");
-                                            progress.classList.add("loading");
-                                            const response = await fetch(
-                                                `https://better-lectio-flask-backend.vercel.app/auth?brugernavn=${brugernavn}&adgangskode=${adgangskode}&skole_id=${skole_id}`
-                                            );
-                                            //console.log("Log in was successful")
-                                            progress.classList.remove("loading");
-                                            const authentication =
-                                                await response.text();
-                                            //console.log(authentication)
-                                            if (authentication.includes("500")) {
-                                                document.querySelector("#CantLogInAlert").checked = true;
-                                                document.querySelector("#CantLogInAlertX").addEventListener("click", () => {
-                                                    document.querySelector("#CantLogInAlert").checked = false;
-                                                });
-                                            } else {
-                                                localStorage.setItem("authentication",authentication);
-                                                window.location.href = "/hjem";
-                                            }
-                                        }
-                                    }}
+                                    on:click={login}
                                 >
                                     Log ind
                                 </div>
