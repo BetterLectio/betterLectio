@@ -31,7 +31,19 @@
 
         slotDuration: "00:30:00",
 
-        events: []
+        events: [],
+        /*eventClick: function(info) {
+            alert('Event: ' + info.event.title);
+        },*/
+        eventMouseEnter: function(info) {
+            console.log("Mus over: " + info.event.title);
+            // Popup af en eller andet form som fortæller mere om modulet
+        },
+        eventMouseLeave: function(info) {
+            console.log("Mus ikke længere over: " + info.event.title);
+            // Fjern pop up 
+            
+        }
     };
 
     let skema = '';
@@ -102,8 +114,10 @@
             }
             calendarApi.addEvent({ 
                 title: modul["hold"], 
+                url: `/modul?absid=${modul["absid"]}`,
                 start: `${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}:00`,
                 end: `${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}:00`,
+                defaultAllDay: false,
             });
         });
 
