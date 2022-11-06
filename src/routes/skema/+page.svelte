@@ -27,6 +27,7 @@
         weekNumberCalculation: "ISO",
         locale: daLocale,
         weekends: false,
+        height: "auto",
         
         slotMinTime: "08:00:00",
         slotMaxTime: "18:00:00",
