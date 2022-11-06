@@ -1,5 +1,18 @@
 <script>
     import "../app.css";
+    let authed = false;
+    async function checkIfAuthed() {
+        if (localStorage.getItem("authentication") == null) {
+        } else {
+            const response = await fetch(
+                `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem("authentication")}`
+            );
+            let jsonRes = await response.json();
+            if (jsonRes["valid"] == true) {
+                authed = true;
+            }
+        }
+    }
 </script>
 
 <div class="navbar bg-base-100 drop-shadow-xl mb-10">
@@ -32,7 +45,15 @@
                 <li><a rel="external" href="indstillinger">Indstillinger</a></li>
             </ul>
         </div>
-        <a class="btn btn-ghost normal-case text-2xl" href="/">Better Lectio</a>
+        <p use:checkIfAuthed class="btn btn-ghost normal-case text-2xl" on:keypress={() => {/*makes error go away*/}}
+            on:click={() => {
+                if (authed == true) {
+                    window.location.href = "/hjem";
+                } else {
+                    window.location.href = "/";
+                }
+            }}
+        >Better Lectio</p>
     </div>
     <div class="navbar-end hidden lg:flex" style="width: 75%;">
         <ul class="menu menu-horizontal p-0">
