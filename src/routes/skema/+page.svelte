@@ -12,13 +12,17 @@
     import timeGridPlugin from '@fullcalendar/timegrid';
     import daLocale from '@fullcalendar/core/locales/da';
 
-
+    let width = window.innerWidth;
+    let view = "timeGridWeek";
+    if (width < 700) {
+        view = "timeGridDay";
+    }
 
     let calendar;
     let calendarApi;
     
     let options = {
-        initialView: 'timeGridWeek',
+        initialView: view,
         plugins: [ timeGridPlugin ],
         weekNumberCalculation: "ISO",
         locale: daLocale,
