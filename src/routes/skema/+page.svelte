@@ -14,7 +14,6 @@
     import timeGridPlugin from '@fullcalendar/timegrid';
     import daLocale from '@fullcalendar/core/locales/da';
 
-    import jquery from "jquery"
 
 
     let calendar;
