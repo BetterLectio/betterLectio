@@ -12,17 +12,11 @@
     import timeGridPlugin from '@fullcalendar/timegrid';
     import daLocale from '@fullcalendar/core/locales/da';
 
-    let width = window.innerWidth;
-    let view = "timeGridWeek";
-    if (width < 700) {
-        view = "timeGridDay";
-    }
-
     let calendar;
     let calendarApi;
     
     let options = {
-        initialView: view,
+        initialView: "timeGridWeek",
         plugins: [ timeGridPlugin ],
         weekNumberCalculation: "ISO",
         locale: daLocale,
@@ -165,6 +159,11 @@
             await new Promise(resolve => setTimeout(resolve, 100));
         }
         calendarApi = await calendar.getAPI();
+
+        let width = window.innerWidth;
+        if (width < 700) {
+            calendarApi.changeView("timeGridDay");
+        }
         
         let today = await new Date().getDay();
         if (today == 6 || today == 0) {
