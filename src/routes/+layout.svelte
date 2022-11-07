@@ -57,10 +57,8 @@
                 <li><a href="dokumenter">Dokumenter</a></li>
                 <li><a href="beskeder">Beskeder</a></li>
                 <li><a href="indstillinger">Indstillinger</a></li>
-                <li>
-                    <ThemeSelect />
-                </li>
             </ul>
+            
         </div>
         <p use:checkIfAuthed class="btn btn-ghost normal-case text-2xl" on:keypress={() => {/*makes error go away*/}}
             on:click={() => {
@@ -72,7 +70,7 @@
             }}
         >Better Lectio</p>
     </div>
-    <div class="navbar-end hidden xl:flex" style="width: 90%;">
+    <div class="navbar-center hidden xl:flex">
         <ul class="menu menu-horizontal p-0">
             <li><a href="skema">Skema</a></li>
             <li><a href="opgaver">Opgaver</a></li>
@@ -81,10 +79,10 @@
             <li><a href="dokumenter">Dokumenter</a></li>
             <li><a href="beskeder">Beskeder</a></li>
             <li><a href="indstillinger">Indstillinger</a></li>
-            <li class="">
-                <ThemeSelect />
-            </li>
         </ul>
+    </div>
+    <div class="navbar-end">
+        <ThemeSelect />
     </div>
 </div>
 
