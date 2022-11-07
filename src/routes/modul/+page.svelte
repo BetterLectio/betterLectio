@@ -13,21 +13,24 @@
     let lektieHtml = "";
     let øvrigeIndholdHtml = "";
     let ready = false;
-    console.log(modul)
+    
     async function getModul() {
         modul = await get(`/modul?absid=${absid}`);
 
         await modul.lektier.split("\n").forEach(element => {
-            lektieHtml +=  "<p>" + sanitizeHtml(md.render(element)) + "<p/>"
+            let translated = sanitizeHtml(md.render(element)).replace("<a", "<a class=\"underline text-blue-600 hover:text-blue-800 visited:text-purple-600\" target=\"_blank\"")
+            lektieHtml +=  "<p>" + translated + "<p/>"
         });
         await modul.øvrigtIndhold.split("\n").forEach(element => {
-            øvrigeIndholdHtml +=  "<p>" + sanitizeHtml(md.render(element)) + "<p/>"
+            let translated = sanitizeHtml(md.render(element)).replace("<a", "<a class=\"underline text-blue-600 hover:text-blue-800 visited:text-purple-600\" target=\"_blank\"")
+            øvrigeIndholdHtml +=  "<p>" + translated + "<p/>"
         });
 
         ready = true;
     }
     getModul ()
 </script>
+
 
 <div>
     {#if ready}
