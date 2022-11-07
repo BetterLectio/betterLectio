@@ -1,4 +1,6 @@
 <script>
+    import { get } from "../../components/http.js"
+
     let alldayGreetings = ["Velkommen tilbage", "Hejsa", "Velkommen", "Hej"];
     let morningGreetings = ["God morgen", "Go' morgen", "Godmorgen"];
     let afternoonGreetings = ["God eftermiddag"];
@@ -21,31 +23,15 @@
     } else {
         chosenGreeting = alldayGreetings[Math.floor(Math.random() * alldayGreetings.length)];
     }
-    async function checkIfAuthed() {
-        if (localStorage.getItem("authentication") == null) {
-            console.log("Redirect")
-            window.location.href = "/auth";
-        } else {
-            const response = await fetch(
-                `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem("authentication")}`
-            );
-            if (await response.json()["valid"] == false) {
-                console.log("Redirect")
-                window.location.href = "/auth";
-            }
-        }
-
-        fåBrugeren()
-    }
     async function fåBrugeren() {
-        const response = await fetch(
-            `https://better-lectio-flask-backend.vercel.app/mig?cookie=${localStorage.getItem("authentication")}`
+        const response = await get(
+            `/mig`
         );
-        brugeren = await response.json()
+        brugeren = await response
     }
 </script>
 
-<body use:checkIfAuthed>
+<body use:fåBrugeren>
     {#if brugeren != ''}
            <h1 class="text-3xl font-bold">{chosenGreeting}, {brugeren.navn}</h1>
     {/if}
