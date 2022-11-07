@@ -37,6 +37,7 @@
         <h1 class="text-3xl font-bold">{(modul.aktivitet.navn != null) ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold}</h1>
         <p><strong>Tidspunkt: </strong>{modul.aktivitet.tidspunkt}</p>
         <p><strong>Lokale: </strong>{modul.aktivitet.lokale}</p>
+        <p><strong>Lærer: </strong>{modul.aktivitet.lærer}</p>
         
         <br/>
 
