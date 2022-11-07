@@ -33,6 +33,8 @@
 		"bootstrap": "^5.2.2",
 		"daisyui": "^2.38.0",
 		"jquery": "^3.6.1",
+		"markdown-it": "^13.0.1",
+		"sanitize-html": "^2.7.3",
 		"svelte-fullcalendar": "^2.0.0-beta.0",
 		"theme-change": "^2.2.0"
 	}

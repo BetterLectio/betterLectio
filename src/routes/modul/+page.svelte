@@ -1,9 +1,56 @@
 <script>
     import { page } from '$app/stores';
+    import { get } from "../../components/http.js"
     
+	import MarkdownIt from 'markdown-it'
+	import sanitizeHtml from 'sanitize-html'
+    
+	const md = new MarkdownIt();
+
     const absid = $page.url.searchParams.get('absid');
+
+    let modul;
+    let lektieHtml = "";
+    let øvrigeIndholdHtml = "";
+    let ready = false;
+    console.log(modul)
+    async function getModul() {
+        modul = await get(`/modul?absid=${absid}`);
+
+        await modul.lektier.split("\n").forEach(element => {
+            lektieHtml +=  "<p>" + sanitizeHtml(md.render(element)) + "<p/>"
+        });
+        await modul.øvrigtIndhold.split("\n").forEach(element => {
+            øvrigeIndholdHtml +=  "<p>" + sanitizeHtml(md.render(element)) + "<p/>"
+        });
+
+        ready = true;
+    }
+    getModul ()
 </script>
 
 <div>
-    <p>Modul id: {absid}</p>
+    {#if ready}
+        <h1 class="text-3xl font-bold">{(modul.aktivitet.navn != null) ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold}</h1>
+        <p><strong>Tidspunkt: </strong>{modul.aktivitet.tidspunkt}</p>
+        <p><strong>Lokale: </strong>{modul.aktivitet.lokale}</p>
+        
+        <br/>
+
+        {#if lektieHtml != "<p><p/>"}
+            <h3 class="text-xl font-bold">Lektier</h3>
+            {@html lektieHtml}
+            <br/>
+        {/if}
+        
+
+        {#if øvrigeIndholdHtml != "<p><p/>"}
+            <h3 class="text-xl font-bold">Øvrigt indhold</h3>
+            {@html øvrigeIndholdHtml}
+        {/if}
+
+        {#if lektieHtml == "<p><p/>" && øvrigeIndholdHtml == "<p><p/>"}
+            <p>Aktiviteten har ikke noget indhold.</p>
+        {/if}
+    {/if}
 </div>
