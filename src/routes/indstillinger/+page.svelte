@@ -67,9 +67,8 @@
                 <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
             </svg>Download</p></li>
 
-    </ul>
-    <br>
-    <button class="btn btn-error md:w-fit font-bold md:font-normal drop-shadow-xl"
+    </ul>   
+    <button class="btn btn-error md:w-fit font-bold md:font-normal drop-shadow-xl my-8"
     on:click={() => {
         localStorage.removeItem("authentication");
         window.location.href = "/";
