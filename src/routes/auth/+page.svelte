@@ -107,7 +107,7 @@
             <p class="py-4">Du skal udfylde alle felterne for at logge ind.</p>
         </div>
     </div>
-    <div>
+    <form autocomplete="on">
         <div class="md:grid md:grid-cols-3 md:gap-6">
             <div class="mt-5 md:col-span-2 md:mt-0">
                 <form action="#" method="POST">
@@ -213,5 +213,5 @@
                 </form>
             </div>
         </div>
-    </div>
+    </form>
 </body>

@@ -47,7 +47,7 @@
 
 <body use:checkIfAuthed>
     {#if brugeren != ''}
-           <h1 class="text-3xl font-bold">{chosenGreeting} {brugeren.navn}</h1>
+           <h1 class="text-3xl font-bold">{chosenGreeting}, {brugeren.navn}</h1>
     {/if}
     <br />
 </body>
