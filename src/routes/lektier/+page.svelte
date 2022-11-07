@@ -27,9 +27,11 @@
 <body use:checkIfAuthed>
     <h1 class="text-3xl font-bold">Lektier</h1>
     <br/>
-    <ul class="menu bg-base-100 w-full p-6 rounded-box drop-shadow-xl md:w-fit">
+    <ul class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl md:w-fit">
         {#each lektier as lektie}
-            <li class="">{lektie.aktivitet.hold, lektie.aktivitet.lokale}</li>
+            <li class="">
+                <a href="https://www.lectio.dk/{lektie.lektier.link}"><p>{lektie.aktivitet.hold, lektie.aktivitet.lokale}</p></a>
+            </li>
         {/each}
     </ul>
 </body>
