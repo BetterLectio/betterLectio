@@ -13,13 +13,14 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
   - cookie disclaimer ✅
   - api ✅
     - json response ✅
-  - Ikke før til login hvis cookie er gemt ✅ (halvt)
+  - Ikke før til login hvis cookie er gemt ✅
   - Gem skole i permentent cookie
 - css
+  - løs z-index problemer
 - proxy 
 - tilføj en log ud knap som sletter alle cookies ✅
-- tilføj lokale til skema
-- gør skema kompatibelt med mobil
+- tilføj lokale til skema ✅
+- gør skema kompatibelt med mobil ✅
 - gør skema kompatibelt med tema (theme)
 - lav tooltips til skemabrikkerne
 - udvid skema til flere uger ✅
