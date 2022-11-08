@@ -83,7 +83,7 @@
                 <tbody>
                     {#each opgaver as opgave}
                         <tr>
-                            <td><a href="/opgave?exerciseid={opgave.exerciseid}">{opgave.opgavetitel}</a></td>
+                            <td><a href="/opgave?exerciseid={opgave.exerciseid}" class="underline text-blue-600 hover:text-blue-800">{opgave.opgavetitel}</a></td>
                             <td>{opgave.hold}</td>
                             <td>{opgave.frist}</td>
                             <td class="text-left flex flex-row whitespace-normal" id={opgave.exerciseid}>
