@@ -14,7 +14,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
   - api ✅
     - json response ✅
   - Ikke før til login hvis cookie er gemt ✅
-  - Gem skole i permentent cookie
+  - Gem skole i permentent cookie ✅
 - css
   - løs z-index problemer
 - proxy 
