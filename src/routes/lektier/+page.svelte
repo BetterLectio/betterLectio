@@ -4,33 +4,17 @@
         - Gør så man kan downloade filer uden at blive redirectet til modul siden
         - Måske gør så man får al teksten og derfor ikke behøver at klikke på lektien
      */
+    import { get } from "../../components/http.js"
 
     let lektier = [];
-    async function checkIfAuthed() {
-    if (localStorage.getItem("authentication") == null) {
-        console.log("Redirect")
-        window.location.href = "/auth";
-    } else {
-        const response = await fetch(
-            `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem("authentication")}`
-        );
-        if (await response.json()["valid"] == false) {
-            console.log("Redirect")
-            window.location.href = "/auth";
-        }
-    }
-
-    await fålektier()
-    }
     async function fålektier() {
-        const response = await fetch(
-            `https://better-lectio-flask-backend.vercel.app/lektier?cookie=${localStorage.getItem("authentication")}`
+        lektier = await get(
+            `/lektier`
         );
-        lektier = await response.json()
         console.log(lektier);
     }
 </script>
-<body use:checkIfAuthed>
+<body use:fålektier>
     <h1 class="text-3xl font-bold">Lektier</h1>
     <h3 class="text-xl">Her kan du se dine lektier for de kommende 14 dage</h3>
     <br/>

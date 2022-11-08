@@ -8,6 +8,8 @@
         - Gør skemaet mobilt venligt ved kun at vise en dag i stedet for en hel uge
         - Få skemaet til at blende ind med tailwind css
     */
+    import { get } from "../../components/http.js"
+
     import FullCalendar from 'svelte-fullcalendar';
     import timeGridPlugin from '@fullcalendar/timegrid';
     import daLocale from '@fullcalendar/core/locales/da';
@@ -47,25 +49,6 @@
 
     let skema = '';
 
-    let checked = false;
-    async function checkIfAuthed() {
-        if (localStorage.getItem("authentication") == null) {
-            console.log("Redirect")
-            window.location.href = "/auth";
-        } else {
-            const response = await fetch(
-                `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem("authentication")}`
-            );
-            if (await response.json()["valid"] == false) {
-                console.log("Redirect")
-                window.location.href = "/auth";
-            }
-        }
-
-        viewChanged()
-    }
-
-
     Date.prototype.getWeekNumber = function(){
         var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
         var dayNum = d.getUTCDay() || 7;
@@ -75,7 +58,13 @@
     };
 
     let loadedWeeks = []
-    function viewChanged() {
+    async function viewChanged() {
+        while (true) {
+            if (calendarApi != undefined) {
+                break
+            }
+            await new Promise(resolve => setTimeout(resolve, 10));
+        }
         let date = calendarApi.getDate()
         
         let år = date.getFullYear()
@@ -90,10 +79,10 @@
     }
 
     async function fåSkema(ugeNummer, år) {
-        const response = await fetch(
-            `https://better-lectio-flask-backend.vercel.app/skema?uge=${ugeNummer}&år=${år}&cookie=${localStorage.getItem("authentication")}`
+        skema = await get(
+            `/skema?uge=${ugeNummer}&år=${år}`
         );
-        skema = await response.json()
+        //skema = await response.json()
         skema["moduler"].forEach(function(modul){
             let start = modul["tidspunkt"].split(" til ")[0]
             start = {
@@ -182,7 +171,7 @@
 <h1 class="text-3xl font-bold">Skema</h1>
 <br />
 <FullCalendar bind:this={calendar} {options}/>
-<body use:checkIfAuthed>
+<body use:viewChanged>
     {#if skema != ''}
         <div>
             <p>{JSON.stringify(skema)}</p>

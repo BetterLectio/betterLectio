@@ -13,13 +13,14 @@
     async function checkIfAuthed() {
         if (localStorage.getItem("authentication") == null) {
         } else {
-            const response = await fetch(
-                `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem("authentication")}`
-            );
-            let jsonRes = await response.json();
-            if (jsonRes["valid"] == true) {
-                authed = true;
-            }
+            // Dette neden under er udkomenteret da man automatisk vil blive bedt om at logge ind på /hjem hvis cookien ikke virker
+            //const response = await fetch(
+            //    `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem("authentication")}`
+            //);
+            //let jsonRes = await response.json();
+            //if (jsonRes["valid"] == true) {
+            authed = true;
+            //}
         }
     }
     function removeLoader() {

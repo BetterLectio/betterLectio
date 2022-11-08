@@ -6,7 +6,7 @@ export async function get(endpoint) {
             break
         } catch (err) {
         }
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 10));
     }
     if (localStorage.getItem("authentication") == null) {
         console.log("Redirect")
