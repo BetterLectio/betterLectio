@@ -43,8 +43,10 @@
 <body use:fåOpgaver>
     <h1 class="text-3xl font-bold">Opgaver</h1>
     <br />
-    <a class={ikkeAfleveredeOpgaverClass} on:click={changeView}>Ikke afleveret opgaver</a>
-    <a class={afleveredeOpgaverClass} on:click={changeView}>Afleverede opgaver</a>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <btn class={ikkeAfleveredeOpgaverClass} on:click={changeView}>Ikke afleveret opgaver</btn>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <btn class={afleveredeOpgaverClass} on:click={changeView}>Afleverede opgaver</btn>
     {#if ready}
         <ul class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl md:w-fit">
             {#each opgaver as opgave}
