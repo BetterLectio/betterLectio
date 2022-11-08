@@ -32,6 +32,7 @@
             <li>
                 <a href="/besked?id={besked.message_id}">
                     <div>
+                        <!-- INDSÆT PROFIL BILLEDE AF DEN SOM SENDTE BESKEDEN -->
                         <p>{JSON.stringify(besked)}</p>
                     </div>
                 </a>
