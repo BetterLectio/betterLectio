@@ -31,20 +31,6 @@
         if (localStorage.getItem("skole_id") != null) {
             skole_id = localStorage.getItem("skole_id");
         }
-        if (localStorage.getItem("authentication") == null) {
-        } else {
-            const response = await fetch(
-                `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem(
-                    "authentication"
-                )}`
-            );
-            let jsonRes = await response.json();
-            console.log(jsonRes["valid"]);
-            if (jsonRes["valid"] == true) {
-                console.log("Redirect");
-                window.location.href = "/hjem";
-            }
-        }
     }
 
     async function login() {
