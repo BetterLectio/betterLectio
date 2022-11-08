@@ -65,6 +65,12 @@ def lektier():
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.lektier())
+@app.route('/opgaver')
+def opgaver():
+    cookie = request.args.get("cookie")
+
+    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+    return jsonify(lectioClient.opgaver(lectioClient.elevId))
 @app.route('/modul')
 def modul():
     cookie = request.args.get("cookie")
