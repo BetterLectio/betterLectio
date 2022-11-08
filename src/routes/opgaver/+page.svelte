@@ -2,33 +2,52 @@
     import { get } from "../../components/http.js"
 
     let opgaver = [];
-    let ikkeAfleveretOpgaver = [];
-    let afleveretOpgaver = [];
-    let selected = 0;
+    let ikkeAfleveredeOpgaver = [];
+    let afleveredeOpgaver = [];
+
+    let afleveredeOpgaverSelected = false;
+
+    let ikkeAfleveredeOpgaverClass = "btn btn-primary";
+    let afleveredeOpgaverClass = "btn";
+
     let ready = false;
     async function fåOpgaver() {
-        opgaver = await get("/opgaver")
-        opgaver.forEach(opgave => {
+        const _opgaver = await get("/opgaver")
+        _opgaver.forEach(opgave => {
             if (opgave.status == "Afleveret") {
-                afleveretOpgaver.push(opgave)
+                afleveredeOpgaver.push(opgave)
             } else {
-                ikkeAfleveretOpgaver.push(opgave)
+                ikkeAfleveredeOpgaver.push(opgave)
             }
             
         });
         
+        opgaver = ikkeAfleveredeOpgaver;
         ready = true;
+    }
+
+    function changeView() {
+        afleveredeOpgaverSelected = !afleveredeOpgaverSelected
+        if (afleveredeOpgaverSelected) {
+            opgaver = afleveredeOpgaver;
+            ikkeAfleveredeOpgaverClass = "btn"
+            afleveredeOpgaverClass = "btn btn-primary"
+        } else {
+            opgaver = ikkeAfleveredeOpgaver;
+            ikkeAfleveredeOpgaverClass = "btn btn-primary"
+            afleveredeOpgaverClass = "btn"
+        }
     }
 </script>
 
 <body use:fåOpgaver>
     <h1 class="text-3xl font-bold">Opgaver</h1>
     <br />
-    <a class="btn btn-primary">Ikke afleveret opgaver</a>
-    <a class="btn">Afleveret opgaver</a>
+    <a class={ikkeAfleveredeOpgaverClass} on:click={changeView}>Ikke afleveret opgaver</a>
+    <a class={afleveredeOpgaverClass} on:click={changeView}>Afleverede opgaver</a>
     {#if ready}
         <ul class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl md:w-fit">
-            {#each ikkeAfleveretOpgaver as opgave}
+            {#each opgaver as opgave}
                 <li class="">
                     <a href="/opgave?exerciseid={opgave.exerciseid}">
                         <div>
