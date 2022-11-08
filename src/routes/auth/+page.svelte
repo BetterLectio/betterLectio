@@ -5,6 +5,12 @@
 
     let options = { "": "" };
 
+    async function setSkole() {
+        await document.window
+        let checkbox = document.getElementById("saveSchoolIdCheck");
+        checkbox.checked == true ? localStorage.setItem("skole_id", skole_id) : localStorage.removeItem("skole_id");
+    }
+
     function updateOptions() {
         lectioAPI
             .getInstList()
@@ -21,6 +27,10 @@
     }
 
     async function checkIfAuthed() {
+        // load the schoolid from localstorage and set it to the select
+        if (localStorage.getItem("skole_id") != null) {
+            skole_id = localStorage.getItem("skole_id");
+        }
         if (localStorage.getItem("authentication") == null) {
         } else {
             const response = await fetch(
@@ -38,6 +48,7 @@
     }
 
     async function login() {
+        setSkole();
         if (brugernavn == "" || adgangskode == "" || skole_id == "") {
             document.querySelector("#MissingInfoAlert").checked = true;
             document
@@ -79,7 +90,7 @@
         src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"
     ></script>
 </svelte:head>
-<body use:checkIfAuthed>
+<body use:checkIfAuthed use:setSkole >
     <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
     <div class="modal">
         <div class="modal-box relative">
@@ -184,6 +195,12 @@
                                                 </option>
                                             {/each}
                                         </select>
+                                    </div>
+                                    <div class="w-32 my-2">
+                                        <label class="label cursor-pointer">
+                                            <span class="block text-sm font-medium text-gray-700">Gem skole</span> 
+                                            <input type="checkbox" checked="checked" id="saveSchoolIdCheck" class="checkbox checkbox-primary" on:click={setSkole()} name="setSkole" />
+                                        </label>
                                     </div>
                                 </div>
                             </div>
