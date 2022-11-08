@@ -26,27 +26,6 @@
             });
     }
 
-    async function checkIfAuthed() {
-        // load the schoolid from localstorage and set it to the select
-        if (localStorage.getItem("skole_id") != null) {
-            skole_id = localStorage.getItem("skole_id");
-        }
-        if (localStorage.getItem("authentication") == null) {
-        } else {
-            const response = await fetch(
-                `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem(
-                    "authentication"
-                )}`
-            );
-            let jsonRes = await response.json();
-            console.log(jsonRes["valid"]);
-            if (jsonRes["valid"] == true) {
-                console.log("Redirect");
-                window.location.href = "/hjem";
-            }
-        }
-    }
-
     async function login() {
         setSkole();
         if (brugernavn == "" || adgangskode == "" || skole_id == "") {
@@ -90,7 +69,7 @@
         src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"
     ></script>
 </svelte:head>
-<body use:checkIfAuthed use:setSkole >
+<body use:setSkole >
     <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
     <div class="modal">
         <div class="modal-box relative">
