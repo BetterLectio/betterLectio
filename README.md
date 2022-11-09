@@ -17,6 +17,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
   - Gem skole i permentent cookie ✅
 - css
   - løs z-index problemer
+  - Daisy UI CSS på skema
 - proxy 
 - tilføj en log ud knap som sletter alle cookies ✅
 - tilføj lokale til skema ✅
