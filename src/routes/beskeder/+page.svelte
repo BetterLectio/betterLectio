@@ -28,7 +28,7 @@
             <btn class="btn">{beskedMulighed.name}</btn>
         {/each}
     </div>
-        <ul class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl md:w-fit">
+        <ul class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl">
             {#each beskeder.beskeder as besked}
             <li>
                 <a class="block" href="/besked?id={besked.message_id}">
