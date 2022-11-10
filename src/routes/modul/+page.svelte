@@ -18,11 +18,11 @@
         modul = await get(`/modul?absid=${absid}`);
 
         await modul.lektier.split("\n").forEach(element => {
-            let translated = sanitizeHtml(md.render(element)).replace("<a", "<a class=\"underline text-blue-600 hover:text-blue-800 visited:text-purple-600\" target=\"_blank\"")
+            let translated = sanitizeHtml(md.render(element)).replace("<a", "<a class=\"btn btn-xs btn-primary\" target=\"_blank\"")
             lektieHtml +=  "<p>" + translated + "<p/>"
         });
         await modul.øvrigtIndhold.split("\n").forEach(element => {
-            let translated = sanitizeHtml(md.render(element)).replace("<a", "<a class=\"underline text-blue-600 hover:text-blue-800 visited:text-purple-600\" target=\"_blank\"")
+            let translated = sanitizeHtml(md.render(element)).replace("<a", "<a class=\"btn btn-xs btn-primary\" target=\"_blank\"")
             øvrigeIndholdHtml +=  "<p>" + translated + "<p/>"
         });
 

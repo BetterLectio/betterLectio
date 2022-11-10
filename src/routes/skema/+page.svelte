@@ -174,7 +174,7 @@
 <body use:viewChanged>
     {#if skema != ''}
         <div>
-            <p>{JSON.stringify(skema)}</p>
+            <p>{"JSON.stringify(skema)"}</p>
         </div>
     {/if}
 </body>

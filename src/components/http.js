@@ -20,10 +20,10 @@ export async function get(endpoint) {
     }
     const response = await fetch(url);
     const textResponse = await response.text();
-    if (await textResponse.includes("500")) {
+    if (response.ok) {
+        return JSON.parse(textResponse.replace("\n", "  "))
+    } else {
         console.log("Failed")
         window.location.href = "/auth";
-    } else {
-        return JSON.parse(textResponse.replace("\n", "  "))
     }
 }

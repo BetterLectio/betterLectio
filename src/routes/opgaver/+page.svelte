@@ -51,19 +51,20 @@
     }
 </script>
 
-<body use:fåOpgaver>
+<div use:fåOpgaver>
     <h1 class="text-3xl font-bold my-4">Opgaver</h1>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <btn class={ikkeAfleveredeOpgaverClass} on:click={changeView}>Ikke afleveret opgaver</btn>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <btn class={afleveredeOpgaverClass} on:click={changeView}>Afleverede opgaver</btn>
     {#if ready}
-        <ul class="menu bg-base-100 w-full p-2 my-4 rounded-box drop-shadow-xl md:w-fit lg:hidden">
+        <ul class="menu bg-base-100 w-full p-2 my-4 rounded-box drop-shadow-xl md:w-full lg:hidden">
             {#each opgaver as opgave}
-                <li class="">
-                    <a href="/opgave?exerciseid={opgave.exerciseid}">
+                <li class="block">
+                    <a class="block" href="/opgave?exerciseid={opgave.exerciseid}">
                         <div>
-                            <p><span class="font-bold">{opgave.opgavetitel} · {opgave.hold}</span> ({opgave.frist})</p>
+                            <p class="btn btn-xs w-full">{opgave.opgavetitel} · {opgave.hold}</p>
+                            <p>({opgave.frist})</p>
                             <p>{cutOpgaveNote(opgave, 100)}</p>
                         </div>
                     </a>
@@ -80,15 +81,15 @@
                         <th>Opgavenote</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="w-full">
                     {#each opgaver as opgave}
-                        <tr>
-                            <td><a href="/opgave?exerciseid={opgave.exerciseid}" class="underline text-blue-600 hover:text-blue-800">{opgave.opgavetitel}</a></td>
-                            <td>{opgave.hold}</td>
-                            <td>{opgave.frist}</td>
-                            <td class="text-left flex flex-row whitespace-normal" id={opgave.exerciseid}>
-                                    <div class="hidden sm:hidden md:hidden lg:flex xl:hidden whitespace-normal">{cutOpgaveNote(opgave, 30)}</div>
-                                    <div class="hidden sm:hidden md:hidden lg:hidden xl:flex whitespace-normal">{cutOpgaveNote(opgave, 100)}</div>
+                        <tr class="">
+                            <td><a href="/opgave?exerciseid={opgave.exerciseid}" class="btn btn-primary btn-xs w-full">{opgave.opgavetitel}</a></td>
+                            <td class="">{opgave.hold}</td>
+                            <td class=""><p class="btn btn-xs">{opgave.frist}</p></td>
+                            <td class="text-left whitespace-normal" id={opgave.exerciseid}>
+                                    <div class="hidden sm:hidden md:hidden lg:block xl:hidden whitespace-normal">{cutOpgaveNote(opgave, 30)}</div>
+                                    <div class="hidden sm:hidden md:hidden lg:hidden xl:block whitespace-normal">{cutOpgaveNote(opgave, 50)}</div>
                             </td>
                         </tr>
                     {/each}
@@ -97,4 +98,4 @@
         </div>
         
     {/if}
-</body>
+</div>
