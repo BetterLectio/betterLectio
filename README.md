@@ -1,3 +1,7 @@
+![Netlify](https://img.shields.io/netlify/9ab10ec0-d33b-4844-b065-44bcbb488554?label=Better%20Lectio&style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues-raw/victorDigital/betterLectio?style=flat-square)
+
+
 # BetterLectio
 
 Better Lectio er en forbredelse af [Lectio](https://lectio.dk). Lectio er et dansk webbaseret lektionssystem udviklet af det danske softwarefirma MaCom A/S. [vi](https://github.com/victorDigital/betterLectio/graphs/contributors) har udviklet Better Lectio for at gøre det nemmere at bruge Lectio. Vi har fokuseret på at gøre det nemmere at finde informationer, og at gøre det nemmere at få overblik over sin skolegang. og vi har lavet en række andre forbedringer som f.eks. at lave en hel ny brugerflade, som både er mere brugervenlig og mere moderne.  
