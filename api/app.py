@@ -95,7 +95,7 @@ def elever():
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.elever(forbogstav=forbogstav))
 
-@app.route('/lærere')
+@app.route('/laerere')
 def lærere():
     cookie = request.args.get("cookie")
 
