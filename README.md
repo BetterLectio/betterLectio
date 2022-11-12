@@ -28,7 +28,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 3. værktøjs side (nyttige værktøjer til brugeren)
    - IDÉ - hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
-   - IDÉ - opgave formatter (akses side projekt) (API? måske client side)
+   - IDÉ - opgave formatter (Askes side projekt) (API? måske client side)
    - IDÉ - hvor mange dage til næste prøve (API)
    - IDÉ - hvornår har jeg fri (client side med callback til server)
    - IDÉ - hvor mange moduler kan jeg i teorien pjekke før jeg får x% fravær (client side med callback til server) (brug data fra fravær side)
