@@ -99,10 +99,15 @@ def informationer():
 @app.route('/bruger')
 def bruger():
     cookie = request.args.get("cookie")
-    id = request.args.get("id")
+    ids = json.loads(request.args.get("ids"))
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-    return jsonify(lectioClient.fåBruger(id))
+    response = []
+
+    for id in ids:
+        response.append(lectioClient.fåBruger(id))
+
+    return jsonify(response)
 
 @app.route('/profil_billed')
 def profilBilled():
@@ -112,7 +117,7 @@ def profilBilled():
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
-    url = f"https://www.lectio.dk/lectio/{lectioClient.skoleId}/GetImage.aspx?pictureid={pictureId}&fullsize=1"
+    url = f"https://www.lectio.dk/lectio/{lectioClient.skoleId}/GetImage.aspx?pictureid={pictureId}"
     if fullsize != None:
         url += f"&fullsize={fullsize}"
 
