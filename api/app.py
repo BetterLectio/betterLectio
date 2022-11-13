@@ -96,7 +96,7 @@ def informationer():
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.informationer())
 
-@app.route('/fåProfilBilled')
+@app.route('/profil_billed')
 def fåProfilBilled():
     cookie = request.args.get("cookie")
     id = re.split("(\d+)", request.args.get("id"))[1]
