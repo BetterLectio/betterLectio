@@ -105,12 +105,21 @@
             try {
                 titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0]
             } catch (err) {}
+            let color = "";
+            if(modul["status"] == "aflyst") {
+                color = "red";
+            } else if(modul["status"] == "ændret") {
+                color = "yellow"
+            } else {
+                color = "blue"
+            }
             calendarApi.addEvent({ 
                 title: titel, 
                 url: `/modul?absid=${modul["absid"]}`,
                 start: `${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}:00`,
                 end: `${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}:00`,
                 defaultAllDay: false,
+                classNames: [color]
             });
         });
         loadDagsNoter()
@@ -126,7 +135,8 @@
                     calendarApi.addEvent({
                         title: dagsNote,
                         defaultAllDay: true,
-                        date: `${year}-${month}-${day}`
+                        date: `${year}-${month}-${day}`,
+                        classNames: ["blue"]
                     });
                 })
             });
@@ -172,7 +182,19 @@
         const events1 = document.getElementsByClassName("fc-v-event");
         const events2 = document.getElementsByClassName("fc-h-event"); 
         const events = [...events1, ...events2];
-        for (var i = 0; i < events.length; i++) {events[i].className = "btn btn-primary btn-xs h-full w-full overflow-hidden";}
+        for (var i = 0; i < events.length; i++) {
+            let colorClass = "";
+            if (events[i].classList.contains("blue")) {
+                colorClass = "btn btn-info btn-xs h-full w-full overflow-hidden";
+            } else if (events[i].classList.contains("red")) {
+                colorClass = "btn btn-error btn-xs h-full w-full overflow-hidden";
+            } else{
+                colorClass = "btn btn-warning btn-xs h-full w-full overflow-hidden";
+            } 
+            events[i].className = colorClass;
+        }
+        
+        
         const buttons = document.getElementsByClassName("fc-button");
         for (var i = 0; i <= buttons.length; i++) {buttons[i].className = "btn btn-primary btn-sm mr-4";} 
         document.getElementsByClassName("fc-button-primary")[0].className = "btn btn-primary btn-sm"; // to fix the "prev" button
