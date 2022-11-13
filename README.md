@@ -43,7 +43,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
    - Cache billeder (Client side)
    - Modtagere (API + Client side)
    - Klik på beskeder og fremvis dem (UI + API)
-   - IDÉ - :emojis:
+   - IDÉ - :emojis: (UI)
 
 6. features
    - IDÉ - mulighed for at gemme skemaet local storage (med tids stempel) (client side)
