@@ -13,19 +13,41 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 <img src="https://contrib.rocks/image?repo=victorDigital/betterLectio" />
 
 ## TODO
-- Login ✅
-  - cookie disclaimer ✅
-  - api ✅
-    - json response ✅
-  - Ikke før til login hvis cookie er gemt ✅
-  - Gem skole i permentent cookie ✅
-- css
-  - løs z-index problemer
-  - Daisy UI CSS på skema
-- proxy 
-- tilføj en log ud knap som sletter alle cookies ✅
-- tilføj lokale til skema ✅
-- gør skema kompatibelt med mobil ✅
-- gør skema kompatibelt med tema (theme)
-- lav tooltips til skemabrikkerne
-- udvid skema til flere uger ✅
+1. opgave side
+   - udvid API til at kunne hente specifikke opgaver og (API)
+   - hvis det er en opgave med en fil, så skal der være en download knap (API) (UI)
+   - hvis det er en gruppeopgave, så skal der være en liste over alle gruppemedlemmer og man skal kunne vælge personer fra listen (API) (UI)
+   - der kan være en måde at uploade filer på (UI) (API)
+   - der skal være en måde at skrive beskeder på (UI) (API)
+   - den skal se folt ud ved hjælp af Daisy UI (UI)
+
+2. skema side
+   - lav skemaet kompatibelt med daisy UI (UI)
+   - mulighed for at cache skemaet (API)
+   - kunne se andre elevers skema (API) (UI)
+
+3. værktøjs side (nyttige værktøjer til brugeren)
+   - IDÉ - hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
+   - IDÉ - opgave formatter (Askes side projekt) (API? måske client side)
+   - IDÉ - hvor mange dage til næste prøve (API)
+   - IDÉ - hvornår har jeg fri (client side med callback til server)
+   - IDÉ - hvor mange moduler kan jeg i teorien pjekke før jeg får x% fravær (client side med callback til server) (brug data fra fravær side)
+
+4. fravær side
+   - lav fravær side backend (API)
+   - lav fravær side frontend (UI)
+   - Måske lav en graf over fravær evt. snup den fra lectio? (UI) (API)
+
+5. features
+   - IDÉ - mulighed for at gemme skemaet local storage (med tids stempel) (client side)
+   - terms of service (har lavet en seperat branch) (UI)
+   - lectio billder? (UI) (API)
+
+6. bugs
+   - løs z-index problemer (UI)
+   - Daisy UI CSS på skema
+
+7. dokumentation
+   - lav en dokumentation (UI)
+   - lav en help side (UI)
+   - lav en about side (UI)
