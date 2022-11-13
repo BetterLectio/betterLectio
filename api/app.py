@@ -96,21 +96,18 @@ def informationer():
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.informationer())
 
-#@app.route('/fåProfilBilled')
-#def fåProfilBilled():
-#    cookie = request.args.get("cookie")
-#    id = re.split("(\d+)", request.args.get("id"))[1]
-#    fullsize = request.args.get("fullsize")
-#
-#    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-#    url = f"https://www.lectio.dk/lectio/{lectioClient.skoleId}/GetImage.aspx?pictureid={id}&fullsize=1"
-#    if fullsize != None:
-#        url += f"&fullsize={fullsize}"
-#
-#    return lectioClient.fåFil(url)
-#    return Response(lectioClient.fåFil(url), mimetype="image/gif")
+@app.route('/fåProfilBilled')
+def fåProfilBilled():
+    cookie = request.args.get("cookie")
+    id = re.split("(\d+)", request.args.get("id"))[1]
+    fullsize = request.args.get("fullsize")
+
+    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+    url = f"https://www.lectio.dk/lectio/{lectioClient.skoleId}/GetImage.aspx?pictureid={id}&fullsize=1"
+    if fullsize != None:
+        url += f"&fullsize={fullsize}"
+
+    return Response(lectioClient.fåFil(url), mimetype="image/gif")
 
 if __name__ == '__main__':
    app.run()
-
-S54823354876
