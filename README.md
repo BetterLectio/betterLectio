@@ -32,22 +32,29 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
    - IDÉ - hvor mange dage til næste prøve (API)
    - IDÉ - hvornår har jeg fri (client side med callback til server) ✅
    - IDÉ - hvor mange moduler kan jeg i teorien pjekke før jeg får x% fravær (client side med callback til server) (brug data fra fravær side)
+   - IDÉ - Skole community side hvor man kan ved hjælp af Discord OAuth2 lave private Discord servere hvor man kan vælge hvilke klasser/grupper/klubber der kan være med eller hele skolen om hele skolen kan være med (Discord OAuth2, database)
 
 4. fravær side
    - lav fravær side backend (API)
    - lav fravær side frontend (UI)
    - Måske lav en graf over fravær evt. snup den fra lectio? (UI) (API)
 
-5. features
+5. beskeder side
+   - Cache billeder (Client side)
+   - Modtagere (API + Client side)
+   - Klik på beskeder og fremvis dem (UI + API)
+   - IDÉ - :emojis:
+
+6. features
    - IDÉ - mulighed for at gemme skemaet local storage (med tids stempel) (client side)
    - terms of service (har lavet en seperat branch) (UI)
    - lectio billder? (UI) (API)
 
-6. bugs
+7. bugs
    - løs z-index problemer (UI)
    - Daisy UI CSS på skema ✅
 
-7. dokumentation
+8. dokumentation
    - lav en dokumentation (UI)
    - lav en help side (UI)
    - lav en about side (UI)
