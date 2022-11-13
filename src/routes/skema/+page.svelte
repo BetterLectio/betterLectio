@@ -76,6 +76,7 @@
             loadedWeeks.push(`${ugeNummer}, ${år}`)
             console.log(loadedWeeks)
         }
+        styleCalendar();
     }
 
     async function fåSkema(ugeNummer, år) {
@@ -166,6 +167,23 @@
         }
     }
     bindCalendar()
+
+    const styleCalendar = () => {
+        const events1 = document.getElementsByClassName("fc-v-event");
+        const events2 = document.getElementsByClassName("fc-h-event"); 
+        const events = [...events1, ...events2];
+        for (var i = 0; i < events.length; i++) {events[i].className = "btn btn-primary btn-xs h-full w-full overflow-hidden";}
+        const buttons = document.getElementsByClassName("fc-button");
+        for (var i = 0; i <= buttons.length; i++) {buttons[i].className = "btn btn-primary btn-sm mr-4";} 
+        document.getElementsByClassName("fc-button-primary")[0].className = "btn btn-primary btn-sm"; // to fix the "prev" button
+        const buttonGroup = document.getElementsByClassName("fc-button-group");
+        for (var i = 0; i <= buttonGroup.length; i++) {buttonGroup[i].className = "btn-group";}
+        const table = document.getElementsByClassName("fc-scrollgrid-sync-table");
+        for (var i = 0; i <= table.length; i++) {table[i].className = "table table-bordered table-striped";}
+        document.getElementsByClassName("fc-toolbar-title")[0].className = "text-xl p-4 font-bold";
+        document.getElementsByClassName("fc-theme-standard")[0].className= "fc fc-media-screen border border-base-content rounded-2xl border border-2 overfolw-hidden";
+        document.getElementsByClassName("fc-scrollgrid-section-sticky")[0].className = "bg-base-100";
+    }
 </script>
 
 <h1 class="text-3xl font-bold">Skema</h1>
@@ -174,7 +192,7 @@
 <body use:viewChanged>
     {#if skema != ''}
         <div>
-            <p>{"JSON.stringify(skema)"}</p>
+            <p use:styleCalendar >{" "}</p>
         </div>
     {/if}
 </body>

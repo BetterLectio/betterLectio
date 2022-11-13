@@ -2,7 +2,7 @@
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--secondary) var(--primary);
+  scrollbar-color: var(--s) var(--p);
 }
 
 /* Chrome, Edge, and Safari */
@@ -11,15 +11,22 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: var(--primary);
+  background: var(--p);
   border-radius: 5px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: var(--secondary);
+  background-color: var(--s);
   border-radius: 14px;
-  border: 3px solid var(--primary);
+  border: 3px solid var(--p);
 }
+
+.fc-timegrid-axis-cushion {
+  max-width: 100px;
+  flex-shrink: 1;
+  white-space: normal;
+}
+
 
 @tailwind components;
 @tailwind utilities;
