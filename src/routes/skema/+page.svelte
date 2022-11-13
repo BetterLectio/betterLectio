@@ -142,6 +142,8 @@
                 })
             });
         });
+
+        styleCalendar()
     }
 
     function toggleWeekends() {
