@@ -96,22 +96,27 @@ def informationer():
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.informationer())
 
-@app.route('/profil_billed')
-def fåProfilBilled():
+@app.route('/bruger')
+def bruger():
     cookie = request.args.get("cookie")
     id = request.args.get("id")
+
+    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+    return jsonify(lectioClient.fåBruger(id))
+
+@app.route('/profil_billed')
+def profilBilled():
+    cookie = request.args.get("cookie")
+    pictureId = request.args.get("pictureid")
     fullsize = request.args.get("fullsize")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
-    if (pictureId := lectioClient.fåBruger(id)['pictureid']) != None:
-        url = f"https://www.lectio.dk/lectio/{lectioClient.skoleId}/GetImage.aspx?pictureid={pictureId}&fullsize=1"
-        if fullsize != None:
-            url += f"&fullsize={fullsize}"
+    url = f"https://www.lectio.dk/lectio/{lectioClient.skoleId}/GetImage.aspx?pictureid={pictureId}&fullsize=1"
+    if fullsize != None:
+        url += f"&fullsize={fullsize}"
 
-        return Response(lectioClient.fåFil(url), mimetype="image/gif")
-    else:
-        return Response(lectioClient.session.get("https://www.lectio.dk/lectio/img/defaultfoto_small.jpg").content, mimetype="image/gif")
+    return Response(lectioClient.fåFil(url), mimetype="image/gif")
 
 if __name__ == '__main__':
    app.run()
