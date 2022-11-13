@@ -87,20 +87,12 @@ def beskeder():
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.beskeder(id=id))
 
-@app.route('/elever')
-def elever():
-    cookie = request.args.get("cookie")
-    forbogstav = request.args.get("forbogstav")
-
-    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-    return jsonify(lectioClient.elever(forbogstav=forbogstav))
-
-@app.route('/laerere')
-def lærere():
+@app.route('/informationer')
+def informationer():
     cookie = request.args.get("cookie")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-    return jsonify(lectioClient.lærere())
+    return jsonify(lectioClient.informationer())
 
 if __name__ == '__main__':
    app.run()
