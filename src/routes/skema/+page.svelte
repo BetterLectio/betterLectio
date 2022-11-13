@@ -30,7 +30,8 @@
 
         slotDuration: "00:30:00",
 
-        displayEventTime : true,
+        displayEventTime: true,
+        nowIndicator: true,
 
         events: [],
         /*eventClick: function(info) {
@@ -178,7 +179,9 @@
     }
     bindCalendar()
 
-    const styleCalendar = () => {
+    const styleCalendar = async () => {
+        await new Promise(resolve => setTimeout(resolve, 10));
+
         const events1 = document.getElementsByClassName("fc-v-event");
         const events2 = document.getElementsByClassName("fc-h-event"); 
         const events = [...events1, ...events2];
