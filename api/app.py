@@ -3,6 +3,8 @@ import json
 import base64
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from flask import Response
+import re
 
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})
@@ -94,6 +96,20 @@ def informationer():
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.informationer())
 
+@app.route('/fåProfilBilled')
+def fåProfilBilled():
+    cookie = request.args.get("cookie")
+    id = re.split("(\d+)", request.args.get("id"))[1]
+    fullsize = request.args.get("fullsize")
+
+    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+    url = f"https://www.lectio.dk/lectio/{lectioClient.skoleId}/GetImage.aspx?pictureid={id}&fullsize=1"
+    if fullsize != None:
+        url += f"&fullsize={fullsize}"
+
+    return Response(lectioClient.fåFil(url), mimetype="image/gif")
+
 if __name__ == '__main__':
    app.run()
 
+S54823354876
