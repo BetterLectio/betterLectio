@@ -70,7 +70,7 @@ def opgaver():
     cookie = request.args.get("cookie")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-    return jsonify(lectioClient.opgaver(lectioClient.elevId))
+    return jsonify(lectioClient.opgaver())
 @app.route('/modul')
 def modul():
     cookie = request.args.get("cookie")
