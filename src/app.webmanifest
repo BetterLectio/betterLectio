@@ -1,0 +1,17 @@
+{
+  "short_name": "Better Lectio",
+  "name": "Better Lectio",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/hjem",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "description": "Better Lectio is a web app that makes it easier to use Lectio.",
+  "orientation": "portrait"
+}
