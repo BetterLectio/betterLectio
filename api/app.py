@@ -107,6 +107,7 @@ def fåProfilBilled():
     if fullsize != None:
         url += f"&fullsize={fullsize}"
 
+    return lectioClient.fåFil(url)
     return Response(lectioClient.fåFil(url), mimetype="image/gif")
 
 if __name__ == '__main__':
