@@ -22,7 +22,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
    - den skal se folt ud ved hjælp af Daisy UI (UI)
 
 2. skema side
-   - lav skemaet kompatibelt med daisy UI (UI)
+   - lav skemaet kompatibelt med daisy UI (UI) ✅
    - mulighed for at cache skemaet (API)
    - kunne se andre elevers skema (API) (UI)
 
@@ -30,7 +30,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
    - IDÉ - hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
    - IDÉ - opgave formatter (Askes side projekt) (API? måske client side)
    - IDÉ - hvor mange dage til næste prøve (API)
-   - IDÉ - hvornår har jeg fri (client side med callback til server)
+   - IDÉ - hvornår har jeg fri (client side med callback til server) ✅
    - IDÉ - hvor mange moduler kan jeg i teorien pjekke før jeg får x% fravær (client side med callback til server) (brug data fra fravær side)
 
 4. fravær side
@@ -45,7 +45,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 6. bugs
    - løs z-index problemer (UI)
-   - Daisy UI CSS på skema
+   - Daisy UI CSS på skema ✅
 
 7. dokumentation
    - lav en dokumentation (UI)
