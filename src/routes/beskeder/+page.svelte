@@ -35,6 +35,16 @@
             lærereOgElever[navn] = value
         }
     }
+
+    async function loadImage(endpoint) {
+        const image = await fetch("https://better-lectio-flask-backend.vercel.app"+endpoint, {
+            headers: {
+                "lectio-cookie": localStorage.getItem("authentication")
+            }
+        })
+        console.log(image.blob())
+        return image.blob()
+    }
 </script>
 
 <body use:fåBeskeder>
@@ -69,7 +79,7 @@
                     <div class="flex justify-between">
                         <div class="flex items-center">
                             <!-- svelte-ignore a11y-missing-attribute -->
-                            <img src="https://better-lectio-flask-backend.vercel.app/profil_billed?id={lærereOgElever[besked.førsteBesked]}&cookie={localStorage.getItem("authentication")}" class="object-cover w-14 h-14 rounded-full" on:error={function(error){
+                            <img src="https://better-lectio-flask-backend.vercel.app/profil_billed?id={lærereOgElever[besked.førsteBesked]}" class="object-cover w-14 h-14 rounded-full" on:error={function(error){
                                 error.target.outerHTML = `
                                 <div class="inline-flex overflow-hidden relative justify-center items-center w-14 h-14 bg-gray-100 rounded-full dark:bg-gray-600">
                                     <span class="font-medium text-gray-600 dark:text-gray-300">${besked.førsteBesked[0]}</span>
