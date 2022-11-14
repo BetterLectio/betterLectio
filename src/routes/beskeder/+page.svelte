@@ -1,5 +1,4 @@
 <script>
-    import { element } from "svelte/internal";
     /**
      TODO:
         - Gør så man kan downloade filer uden at blive redirectet til modul siden
