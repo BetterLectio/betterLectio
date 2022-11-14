@@ -38,18 +38,63 @@
     <h1 class="text-3xl font-bold mb-4">Beskeder</h1>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     {#if ready}
-    <div class="btn-group overflow-x-scroll w-full mb-4">
+    <div class="btn-group w-full mb-4 z-20">
         {#each beskeder.besked_muligheder as beskedMulighed}
             <!-- Få mapper til at åbne når man klikker på dem-->
-            {#if beskedMulighed.selected}
-
-                <btn class="btn btn-active">{beskedMulighed.name}</btn>
+            {#if beskedMulighed.content.length == 0}
+                {#if beskedMulighed.selected}
+                    <btn class="btn btn-active">{beskedMulighed.name}</btn>
+                {:else}
+                    <btn class="btn">{beskedMulighed.name}</btn>
+                {/if}
             {:else}
-                <btn class="btn">{beskedMulighed.name}</btn>
+                {#if beskedMulighed.selected}
+                <div class="dropdown">
+                    <btn tabindex="0" class="btn btn-active">
+                        {beskedMulighed.name}
+                        <svg
+                            width="12px"
+                            height="12px"
+                            class="ml-1 hidden h-3 w-3 fill-current opacity-60 sm:inline-block"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 2048 2048"
+                            ><path
+                                d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"
+                            />
+                        </svg>
+                    </btn>
+                    <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                        {#each beskedMulighed.content as content}
+                            <li><a>{content.name}</a></li>
+                        {/each}
+                    </ul>
+                </div>
+                {:else}
+                    <btn class="btn dropdown dropdown-bottom dropdown-end flex items-center justify-center">
+                        <p tabindex="0">
+                            {beskedMulighed.name}
+                            <svg
+                                width="12px"
+                                height="12px"
+                                class="ml-1 hidden h-3 w-3 fill-current opacity-60 sm:inline-block"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 2048 2048"
+                                ><path
+                                    d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"
+                                />
+                            </svg>
+                        </p>
+                        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                            {#each beskedMulighed.content as content}
+                                <li><a>{content.name}</a></li>
+                            {/each}
+                        </ul>
+                    </btn>
+                {/if}
             {/if}
         {/each}
     </div>
-        <ul class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl">
+        <ul class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl z-10">
             {#each beskeder.beskeder as besked}
             <li>
                 <a class="block" href="/besked?id={besked.message_id}">
