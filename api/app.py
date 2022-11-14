@@ -4,10 +4,15 @@ import base64
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask import Response
+import logging
 import re
 
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})
+
+app.logger.disabled = True
+log = logging.getLogger('werkzeug')
+log.disabled = True
 
 @app.route("/")
 def index():
