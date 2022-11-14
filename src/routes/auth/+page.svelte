@@ -46,9 +46,13 @@
             console.log("Logging into lectio");
             let progress = document.querySelector(".AOC");
             progress.classList.add("loading");
-            const response = await fetch(
-                `https://better-lectio-flask-backend.vercel.app/auth?brugernavn=${brugernavn}&adgangskode=${adgangskode}&skole_id=${skole_id}`
-            );
+            const response = await fetch(`https://better-lectio-flask-backend.vercel.app/auth`, {
+                headers: {
+                    "brugernavn": brugernavn,
+                    "adgangskode": adgangskode,
+                    "skole_id": skole_id
+                }
+            });
             //console.log("Log in was successful")
             progress.classList.remove("loading");
             const authentication = await response.text();
