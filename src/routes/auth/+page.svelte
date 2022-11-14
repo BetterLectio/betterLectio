@@ -197,6 +197,8 @@
                                 dine oplysninger. De gemmes kun på din browser
                                 og bliver ikke sendt til nogen server bortset
                                 fra Lectio og vores proxy/translation layer.
+                                <br/><br/>
+                                Når du logger ind accepterer du automatisk vores <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="https://betlec.netlify.app/tos">TOS</a>
                             </p>
                             <div
                                 class="bg-gray-50 px-4 py-3 text-right sm:px-6"

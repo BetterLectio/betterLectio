@@ -28,7 +28,7 @@
     det en mulighed at din browser kan i nogle tilfælde opbevare en Base64
     formidlet/encoded/indkodet version af dit brugernavn og skoleid m.m. (Tag et kig på vores kode for mere information) for at gøre det nemmere
     for dig at logge ind. vi har ikke adgang til denne information og kan ikke
-    se den på vores servere. Vi kan dog ikke garentere at vores hosting providers ikke logger dataen.
+    se den på vores servere. Vi kan dog ikke garentere at vores hosting providerere ikke logger dataen.
 </p>
 
 <h2 class="text-2xl font-bold">5. Kontakt</h2>
@@ -36,6 +36,7 @@
 <p class="my-4">
     Hvis du har spørgsmål til vores servicevilkår eller privatlivspolitik, så er
     du velkommen til at kontakte os på github: <a
+        class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
         href="https://github.com/victorDigital/betterLectio/issues/new/choose"
         >her</a
     >
