@@ -41,7 +41,7 @@ def auth():
 
 @app.route('/check-cookie')
 def checkCookie():
-    cookie = request.headers.get("cookie")
+    cookie = request.headers.get("lectio-cookie")
 
     try:
         lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -51,14 +51,14 @@ def checkCookie():
 
 @app.route('/mig')
 def mig():
-    cookie = request.headers.get("cookie")
+    cookie = request.headers.get("lectio-cookie")
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.fåElev(lectioClient.elevId))
 
 
 @app.route('/skema')
 def skema():
-    cookie = request.headers.get("cookie")
+    cookie = request.headers.get("lectio-cookie")
 
     uge = request.args.get("uge")
     år = request.args.get("år")
@@ -68,19 +68,19 @@ def skema():
 
 @app.route('/lektier')
 def lektier():
-    cookie = request.headers.get("cookie")
+    cookie = request.headers.get("lectio-cookie")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.lektier())
 @app.route('/opgaver')
 def opgaver():
-    cookie = request.headers.get("cookie")
+    cookie = request.headers.get("lectio-cookie")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.opgaver())
 @app.route('/modul')
 def modul():
-    cookie = request.headers.get("cookie")
+    cookie = request.headers.get("lectio-cookie")
     absid = request.args.get("absid")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -88,7 +88,7 @@ def modul():
 
 @app.route('/beskeder')
 def beskeder():
-    cookie = request.headers.get("cookie")
+    cookie = request.headers.get("lectio-cookie")
     id = request.args.get("id")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -96,7 +96,7 @@ def beskeder():
 
 @app.route('/informationer')
 def informationer():
-    cookie = request.headers.get("cookie")
+    cookie = request.headers.get("lectio-cookie")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.informationer())
@@ -104,7 +104,7 @@ def informationer():
 
 @app.route('/profil_billed')
 def profilBilled():
-    cookie = request.headers.get("cookie")
+    cookie = request.headers.get("lectio-cookie")
     id = request.args.get("id")
     fullsize = request.args.get("fullsize")
 
