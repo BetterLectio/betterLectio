@@ -12,13 +12,9 @@ export async function get(endpoint) {
         console.log("Redirect")
         window.location.href = "/auth";
     }
-    let url;
-    if (endpoint.includes("=")){
-        url = `https://better-lectio-flask-backend.vercel.app${endpoint}&cookie=${localStorage.getItem("authentication")}`;
-    } else {
-        url = `https://better-lectio-flask-backend.vercel.app${endpoint}?cookie=${localStorage.getItem("authentication")}`;
-    }
-    const response = await fetch(url);
+    const response = await fetch(`https://better-lectio-flask-backend.vercel.app${endpoint}`, {headers: {
+        'lectio-cookie': localStorage.getItem("authentication"),
+      }});
     const textResponse = await response.text();
     if (response.ok) {
         return JSON.parse(textResponse.replace("\n", "  "))
