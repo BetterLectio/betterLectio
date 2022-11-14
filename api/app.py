@@ -31,9 +31,9 @@ def index():
     """
 @app.route('/auth') # TODO: Lav en parameter som hedder forbliv logget ind
 def auth():
-    brugernavn = request.args.get('brugernavn')
-    adgangskode = request.args.get('adgangskode')
-    skoleId = request.args.get('skole_id')
+    brugernavn = request.headers.get('brugernavn')
+    adgangskode = request.headers.get('adgangskode')
+    skoleId = request.headers.get('skole_id')
 
     lectioClient = lectio.sdk(brugernavn=brugernavn, adgangskode=adgangskode, skoleId=skoleId)
 
@@ -41,7 +41,7 @@ def auth():
 
 @app.route('/check-cookie')
 def checkCookie():
-    cookie = request.args.get("cookie")
+    cookie = request.headers.get("cookie")
 
     try:
         lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -51,52 +51,52 @@ def checkCookie():
 
 @app.route('/mig')
 def mig():
-    cookie = request.args.get("cookie")
+    cookie = request.headers.get("cookie")
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.fåElev(lectioClient.elevId))
 
 
 @app.route('/skema')
 def skema():
-    cookie = request.args.get("cookie")
+    cookie = request.headers.get("cookie")
 
-    uge = request.args.get("uge")
-    år = request.args.get("år")
+    uge = request.headers.get("uge")
+    år = request.headers.get("år")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.skema(uge=uge, år=år))
 
 @app.route('/lektier')
 def lektier():
-    cookie = request.args.get("cookie")
+    cookie = request.headers.get("cookie")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.lektier())
 @app.route('/opgaver')
 def opgaver():
-    cookie = request.args.get("cookie")
+    cookie = request.headers.get("cookie")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.opgaver())
 @app.route('/modul')
 def modul():
-    cookie = request.args.get("cookie")
-    absid = request.args.get("absid")
+    cookie = request.headers.get("cookie")
+    absid = request.headers.get("absid")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.modul(absid=absid))
 
 @app.route('/beskeder')
 def beskeder():
-    cookie = request.args.get("cookie")
-    id = request.args.get("id")
+    cookie = request.headers.get("cookie")
+    id = request.headers.get("id")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.beskeder(id=id))
 
 @app.route('/informationer')
 def informationer():
-    cookie = request.args.get("cookie")
+    cookie = request.headers.get("cookie")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.informationer())
@@ -104,9 +104,9 @@ def informationer():
 
 @app.route('/profil_billed')
 def profilBilled():
-    cookie = request.args.get("cookie")
-    id = request.args.get("id")
-    fullsize = request.args.get("fullsize")
+    cookie = request.headers.get("cookie")
+    id = request.headers.get("id")
+    fullsize = request.headers.get("fullsize")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
