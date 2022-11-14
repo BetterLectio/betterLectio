@@ -60,8 +60,8 @@ def mig():
 def skema():
     cookie = request.headers.get("cookie")
 
-    uge = request.headers.get("uge")
-    år = request.headers.get("år")
+    uge = request.args.get("uge")
+    år = request.args.get("år")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.skema(uge=uge, år=år))
@@ -81,7 +81,7 @@ def opgaver():
 @app.route('/modul')
 def modul():
     cookie = request.headers.get("cookie")
-    absid = request.headers.get("absid")
+    absid = request.args.get("absid")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.modul(absid=absid))
@@ -89,7 +89,7 @@ def modul():
 @app.route('/beskeder')
 def beskeder():
     cookie = request.headers.get("cookie")
-    id = request.headers.get("id")
+    id = request.args.get("id")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.beskeder(id=id))
@@ -105,8 +105,8 @@ def informationer():
 @app.route('/profil_billed')
 def profilBilled():
     cookie = request.headers.get("cookie")
-    id = request.headers.get("id")
-    fullsize = request.headers.get("fullsize")
+    id = request.args.get("id")
+    fullsize = request.args.get("fullsize")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
