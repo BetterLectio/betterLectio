@@ -26,9 +26,9 @@
 <p class="my-4">
     Vi gemmer ikke noget som helst om dig hos os, det er ikke nødvendigt. dog er
     det en mulighed at din browser kan i nogle tilfælde opbevare en Base64
-    kryteret version af dit brugernavn og skoleid m.m. for at gøre det nemmere
+    formidlet/encoded/indkodet version af dit brugernavn og skoleid m.m. (Tag et kig på vores kode for mere information) for at gøre det nemmere
     for dig at logge ind. vi har ikke adgang til denne information og kan ikke
-    se den på vores servere.
+    se den på vores servere. Vi kan dog ikke garentere at vores hosting providers ikke logger dataen.
 </p>
 
 <h2 class="text-2xl font-bold">5. Kontakt</h2>
