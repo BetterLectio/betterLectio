@@ -15,6 +15,7 @@
         beskeder = await get(
             `/beskeder`
         );
+        console.log(beskeder)
         beskeder.beskeder.forEach(besked => {
             console.log(besked.førsteBesked)
         });
@@ -39,10 +40,14 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     {#if ready}
     <div class="btn-group overflow-x-scroll w-full mb-4">
-        <btn class="btn btn-active">Place holder for aktiv</btn>
-        {#each beskeder.beskedMuligheder as beskedMulighed}
+        {#each beskeder.besked_muligheder as beskedMulighed}
             <!-- Få mapper til at åbne når man klikker på dem-->
-            <btn class="btn">{beskedMulighed.name}</btn>
+            {#if beskedMulighed.selected}
+
+                <btn class="btn btn-active">{beskedMulighed.name}</btn>
+            {:else}
+                <btn class="btn">{beskedMulighed.name}</btn>
+            {/if}
         {/each}
     </div>
         <ul class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl">
@@ -59,7 +64,7 @@
                                 </div>`}}/>
                             <div class="ml-5">
                                 <p part="emne" class="text-lg font-bold">{besked.emne}</p>
-                                <p part="afsender">{besked.førsteBesked} · {besked.ændret} · {lærereOgElever[besked.førsteBesked]}</p>
+                                <p part="afsender">{besked.førsteBesked} · {besked.ændret}</p>
                             </div>
                         </div>
                         <div class="right-1 flex items-center">
