@@ -211,10 +211,11 @@
                 for (var j = 0 ; j < normalModuleColors.length; j++) {
                     if (events[i].classList.contains(j)) {
                         let color = normalModuleColors[j];
-                        colorClass += ` ${color}200 hover:text-white`;
+                        //colorClass = `${color}200 hover:text-white btn text-black btn-xs h-full w-full overflow-hidden`;
                         break;
                     }
                 }
+                colorClass = "btn btn-primary btn-xs h-full w-full overflow-hidden";
                 // TODO make this work
             } else if (events[i].classList.contains("red")) {
                 colorClass = "btn btn-error btn-xs h-full w-full overflow-hidden";
@@ -223,6 +224,7 @@
             } else{
                 colorClass = "btn btn-xs h-full w-full overflow-hidden btn-secondary";
             } 
+            console.log(colorClass)
             events[i].className = colorClass;
         }
         
