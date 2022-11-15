@@ -48,24 +48,11 @@
       seconds: second,
     };
   }
-  onMount(() => {
-    async function updateClock() {
-      const t = await getRemainingTime();
-      console.log("🚀 ~ file: +page.svelte ~ line 59 ~ updateClock ~ t", t);
-      const th = t[0];
-      const tm = t[1];
-      const ts = t[2];
-      //if (ts > 0 && tm > 0 && th > 0) {
-      document.getElementById("counterElementh").style.setProperty("--value", th);
-      document.getElementById("counterElementm").style.setProperty("--value", tm);
-      document.getElementById("counterElements").style.setProperty("--value", ts);
-      //} else {
-      //document.getElementById("counterElementh").style.setProperty("--value", 0);
-      //document.getElementById("counterElementm").style.setProperty("--value", 0);
-      //document.getElementById("counterElements").style.setProperty("--value", 0);
-      //}
-    }
-    setInterval(updateClock, 1000);
+  onMount(async () => {
+    const t = await getRemainingTime();
+    document.getElementById("counterElementh").style.setProperty("--value", t[0]);
+    document.getElementById("counterElementm").style.setProperty("--value", t[1]);
+    document.getElementById("counterElements").style.setProperty("--value", t[2]);
   });
 </script>
 
