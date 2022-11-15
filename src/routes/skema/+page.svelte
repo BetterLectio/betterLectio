@@ -3,16 +3,25 @@
     TODO:
         - Tag weekend med hvis der sker noget der
         - Lav en popup som kommer når man har musen over skemaet med flere informationer på modulerne
-        - Skriv når et modul er annuleret
+        - Skriv når et modul er annuleret ✅
         - Hav farver fra lectio med, f.eks. grøn=frivillig
-        - Gør skemaet mobilt venligt ved kun at vise en dag i stedet for en hel uge
-        - Få skemaet til at blende ind med tailwind css
+        - Gør skemaet mobilt venligt ved kun at vise en dag i stedet for en hel uge ✅
+        - Få skemaet til at blende ind med tailwind css ✅
     */
     import { get } from "../../components/http.js"
 
     import FullCalendar from 'svelte-fullcalendar';
     import timeGridPlugin from '@fullcalendar/timegrid';
     import daLocale from '@fullcalendar/core/locales/da';
+
+    let normalModuleColors = [
+        "bg-teal",
+        "bg-cyan",
+        "bg-sky",
+        "bg-blue",
+        "bg-indigo",
+        "bg-violet",
+    ]
 
     let calendar;
     let calendarApi;
@@ -37,16 +46,16 @@
         /*eventClick: function(info) {
             alert('Event: ' + info.event.title);
         },*/
-        eventMouseEnter: function(info) {
-            console.log("Mus over: " + info.event.title);
-            // Popup af en eller andet form som fortæller mere om modulet
-        },
-        eventMouseLeave: function(info) {
-            console.log("Mus ikke længere over: " + info.event.title);
-            // Fjern pop up 
-            
-        }
-    };
+        //eventMouseEnter: function(info) {
+        //    console.log("Mus over: " + info.event.title);
+        //    // Popup af en eller andet form som fortæller mere om modulet
+        //},
+        //eventMouseLeave: function(info) {
+        //    console.log("Mus ikke længere over: " + info.event.title);
+        //    // Fjern pop up 
+        //    
+        //}
+    };  // ikke nødvendigt lige pt.
 
     let skema = '';
 
@@ -75,7 +84,6 @@
             fåSkema(ugeNummer, år)
 
             loadedWeeks.push(`${ugeNummer}, ${år}`)
-            console.log(loadedWeeks)
         }
         styleCalendar();
     }
@@ -84,6 +92,9 @@
         skema = await get(
             `/skema?uge=${ugeNummer}&år=${år}`
         );
+
+        let farve = 0;
+        let preModulTeam = ""
         //skema = await response.json()
         skema["moduler"].forEach(function(modul){
             let start = modul["tidspunkt"].split(" til ")[0]
@@ -112,7 +123,14 @@
             } else if(modul["status"] == "ændret") {
                 color = "yellow"
             } else {
-                color = "blue"
+                color = "normal"
+                if(preModulTeam == modul["hold"]) {
+                    color += ` ${farve % normalModuleColors.length}`
+                } else {
+                    farve++
+                    color += ` ${farve % normalModuleColors.length}`
+                }
+                preModulTeam = modul["hold"]
             }
             calendarApi.addEvent({ 
                 title: titel, 
@@ -137,7 +155,7 @@
                         title: dagsNote,
                         defaultAllDay: true,
                         date: `${year}-${month}-${day}`,
-                        classNames: ["blue"]
+                        classNames: ["allday"]
                     });
                 })
             });
@@ -188,13 +206,22 @@
         const events2 = document.getElementsByClassName("fc-h-event"); 
         const events = [...events1, ...events2];
         for (var i = 0; i < events.length; i++) {
-            let colorClass = "";
-            if (events[i].classList.contains("blue")) {
-                colorClass = "btn btn-info btn-xs h-full w-full overflow-hidden";
+            let colorClass = "btn text-black btn-xs h-full w-full overflow-hidden";
+            if (events[i].classList.contains("normal")) {
+                for (var j = 0 ; j < normalModuleColors.length; j++) {
+                    if (events[i].classList.contains(j)) {
+                        let color = normalModuleColors[j];
+                        colorClass += ` ${color}-200 hover:text-white`;
+                        break;
+                    }
+                }
+                // TODO make this work
             } else if (events[i].classList.contains("red")) {
                 colorClass = "btn btn-error btn-xs h-full w-full overflow-hidden";
+            } else if (events[i].classList.contains("allday")) {
+                colorClass = "btn btn-primary btn-xs h-full w-full overflow-hidden";
             } else{
-                colorClass = "btn btn-warning btn-xs h-full w-full overflow-hidden";
+                colorClass = "btn btn-xs h-full w-full overflow-hidden btn-secondary";
             } 
             events[i].className = colorClass;
         }
