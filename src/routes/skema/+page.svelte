@@ -15,12 +15,12 @@
     import daLocale from '@fullcalendar/core/locales/da';
 
     let normalModuleColors = [
-        "bg-teal",
-        "bg-cyan",
-        "bg-sky",
-        "bg-blue",
-        "bg-indigo",
-        "bg-violet",
+        "bg-teal-",
+        "bg-cyan-",
+        "bg-sky-",
+        "bg-blue-",
+        "bg-indigo-",
+        "bg-violet-",
     ]
 
     let calendar;
@@ -211,7 +211,7 @@
                 for (var j = 0 ; j < normalModuleColors.length; j++) {
                     if (events[i].classList.contains(j)) {
                         let color = normalModuleColors[j];
-                        colorClass += ` ${color}-200 hover:text-white`;
+                        colorClass += ` ${color}200 hover:text-white`;
                         break;
                     }
                 }
