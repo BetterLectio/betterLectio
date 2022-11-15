@@ -111,7 +111,7 @@ def profilBilled():
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
     if (pictureId := lectioClient.fåBruger(id)['pictureid']) != None:
-        url = f"https://www.lectio.dk/lectio/{lectioClient.skoleId}/GetImage.aspx?pictureid={pictureId}&fullsize=1"
+        url = f"https://www.lectio.dk/lectio/{lectioClient.skoleId}/GetImage.aspx?pictureid={pictureId}"
         if fullsize != None:
             url += f"&fullsize={fullsize}"
 
