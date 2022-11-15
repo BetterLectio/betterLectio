@@ -36,14 +36,39 @@
         }
     }
 
-    async function loadImage(endpoint) {
-        const image = await fetch("https://better-lectio-flask-backend.vercel.app"+endpoint, {
-            headers: {
-                "lectio-cookie": localStorage.getItem("authentication")
+    let alreadyLoaded = []
+    let loadedIndex = {}
+    function loadImage(element) {
+        if (!alreadyLoaded.includes(element.id)) {
+            alreadyLoaded.push(element.id)
+            console.log(element.id)
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob'; //so you can access the response like a normal URL
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                    let src = URL.createObjectURL(xhr.response)
+                    element.outerHTML = `<img id="${element.id}" src="${src}" class="object-cover w-14 h-14 rounded-full"/>`
+                    loadedIndex[element.id] = src
+                }
+            };
+            xhr.open('GET', `https://better-lectio-flask-backend.vercel.app/profil_billed?id=${element.id}&fullsize=1`, true);
+            xhr.setRequestHeader('lectio-cookie', localStorage.getItem("authentication"));
+            xhr.send();
+        } else {
+            useLoadedImage(element)
+        }
+    }
+    async function useLoadedImage(element) {
+        while (true) {
+            if (loadImage[element.id] == undefined) {
+                console.log("undefined", typeof loadedIndex[element.id])
+            } else {
+                console.log("UNDEUNDEUND")
+                element.outerHTML = `<img id="${element.id}" src="${loadImage[element.id]}" class="object-cover w-14 h-14 rounded-full"/>`
+                break
             }
-        })
-        console.log(image.blob())
-        return image.blob()
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
     }
 </script>
 
@@ -79,11 +104,9 @@
                     <div class="flex justify-between">
                         <div class="flex items-center">
                             <!-- svelte-ignore a11y-missing-attribute -->
-                            <img src="https://better-lectio-flask-backend.vercel.app/profil_billed?id={lærereOgElever[besked.førsteBesked]}" class="object-cover w-14 h-14 rounded-full" on:error={function(error){
-                                error.target.outerHTML = `
-                                <div class="inline-flex overflow-hidden relative justify-center items-center w-14 h-14 bg-gray-100 rounded-full dark:bg-gray-600">
-                                    <span class="font-medium text-gray-600 dark:text-gray-300">${besked.førsteBesked[0]}</span>
-                                </div>`}}/>
+                            <div id={lærereOgElever[besked.førsteBesked]} class="inline-flex overflow-hidden relative justify-center items-center w-14 h-14 bg-gray-100 rounded-full dark:bg-gray-600" use:loadImage>
+                                <span class="font-medium text-gray-600 dark:text-gray-300">{besked.førsteBesked[0]}</span>
+                            </div>
                             <div class="ml-5">
                                 <p part="emne" class="text-lg font-bold">{besked.emne}</p>
                                 <p part="afsender">{besked.førsteBesked} · {besked.ændret}</p>
