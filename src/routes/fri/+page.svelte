@@ -20,6 +20,13 @@
     let secondsLeft = coundDownToDate.seconds - currentSecond;
     let minutesLeft = coundDownToDate.minutes - currentMinute;
     let hoursLeft = coundDownToDate.hours - currentHour;
+    if (minutesLeft < 0) {
+      minutesLeft = 60 + minutesLeft;
+      hoursLeft = hoursLeft - 1;
+    }
+    if (hoursLeft < 0 || minutesLeft < 0 || secondsLeft < 0) {
+        return [0, 0, 0];
+    }
     return [hoursLeft, minutesLeft, secondsLeft];
   }
   async function getLastLessonOfDay() {
@@ -53,6 +60,7 @@
     document.getElementById("counterElementh").style.setProperty("--value", t[0]);
     document.getElementById("counterElementm").style.setProperty("--value", t[1]);
     document.getElementById("counterElements").style.setProperty("--value", t[2]);
+    console.log(t);
   }, 1000);
 </script>
 
