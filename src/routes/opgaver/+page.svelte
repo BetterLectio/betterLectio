@@ -63,7 +63,12 @@
                 <li class="block">
                     <a class="block" href="/opgave?exerciseid={opgave.exerciseid}">
                         <div>
-                            <p class="btn btn-xs w-full">{opgave.opgavetitel} · {opgave.hold}</p>
+                            {#if afleveredeOpgaverSelected == true}
+                            <p class="btn btn-success btn-xs w-full">{opgave.opgavetitel} · {opgave.hold}</p>
+                            {/if}
+                            {#if afleveredeOpgaverSelected == false}
+                            <p class="btn btn-warning btn-xs w-full">{opgave.opgavetitel} · {opgave.hold}</p> 
+                            {/if}
                             <p>({opgave.frist})</p>
                             <p>{cutOpgaveNote(opgave, 100)}</p>
                         </div>
@@ -84,7 +89,12 @@
                 <tbody class="w-full">
                     {#each opgaver as opgave}
                         <tr class="">
-                            <td><a href="/opgave?exerciseid={opgave.exerciseid}" class="btn btn-primary btn-xs w-full">{opgave.opgavetitel}</a></td>
+                            {#if afleveredeOpgaverSelected == true}    
+                            <td><a href="/opgave?exerciseid={opgave.exerciseid}" class="btn btn-success btn-xs w-full">{opgave.opgavetitel}</a></td>
+                            {/if}
+                            {#if afleveredeOpgaverSelected == false}
+                            <td><a href="/opgave?exerciseid={opgave.exerciseid}" class="btn btn-warning btn-xs w-full">{opgave.opgavetitel}</a></td>
+                            {/if}
                             <td class="">{opgave.hold}</td>
                             <td class=""><p class="btn btn-xs">{opgave.frist}</p></td>
                             <td class="text-left whitespace-normal" id={opgave.exerciseid}>
