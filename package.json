@@ -1,12 +1,11 @@
 {
-	"name": "my-app",
-	"version": "0.0.1",
+	"name": "Better Lectio",
+	"version": "0.1.0",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"test": "echo \"looks good\" && exit 0",
 		"lint": "eslint ."
 	},
 	"devDependencies": {
