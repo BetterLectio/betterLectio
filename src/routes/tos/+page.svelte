@@ -63,7 +63,7 @@ class="collapse collapse-plus border border-base-300 bg-base-300 rounded-box my-
     class="collapse collapse-plus border border-base-300 bg-base-300 rounded-box my-5"
 >
     <div class="collapse-title text-xl font-medium">
-        <h2 class="text-2xl font-bold">5. Kontakt</h2>
+        <h2 class="text-2xl font-bold">4. Kontakt</h2>
     </div>
     <div class="collapse-content">
         <p class="my-4">
