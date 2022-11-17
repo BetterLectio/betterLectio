@@ -15,8 +15,7 @@
 
 <body use:fålektier>
   <h1 class="text-3xl font-bold">Lektier</h1>
-  <h3 class="text-xl">Her kan du se dine lektier for de kommende 14 dage</h3>
-  <br />
+  <h3 class="text-xl mb-4">Her kan du se dine lektier for de kommende 14 dage</h3>
   <ul class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl md:w-fit">
     {#each lektier as lektie}
       <li class="">

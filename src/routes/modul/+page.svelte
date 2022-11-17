@@ -44,14 +44,11 @@
     </h1>
     <p><strong>Tidspunkt: </strong>{modul.aktivitet.tidspunkt}</p>
     <p><strong>Lokale: </strong>{modul.aktivitet.lokale}</p>
-    <p><strong>Lærer: </strong>{modul.aktivitet.lærer}</p>
-
-    <br />
+    <p class="mb-4"><strong>Lærer: </strong>{modul.aktivitet.lærer}</p>
 
     {#if lektieHtml != "<p><p/>"}
-      <h3 class="text-xl font-bold">Lektier</h3>
+      <h3 class="text-xl font-bold mb-4">Lektier</h3>
       {@html lektieHtml}
-      <br />
     {/if}
 
     {#if øvrigeIndholdHtml != "<p><p/>"}

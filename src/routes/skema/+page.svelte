@@ -250,8 +250,7 @@
   };
 </script>
 
-<h1 class="text-3xl font-bold">Skema</h1>
-<br />
+<h1 class="text-3xl font-bold mb-4">Skema</h1>
 <FullCalendar bind:this={calendar} {options} />
 <body use:viewChanged>
   {#if skema != ""}

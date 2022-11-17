@@ -1,4 +1,4 @@
-<h1 class="text-3xl font-bold">Servicevilkår & Privatlivspolitik</h1>
+<h1 class="text-3xl font-bold mb-4">Servicevilkår & Privatlivspolitik</h1>
 
 <div tabindex="0" class="collapse collapse-plus border border-base-300 bg-base-300 rounded-box my-5">
   <div class="collapse-title text-xl font-medium">

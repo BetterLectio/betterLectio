@@ -35,8 +35,7 @@
 
 <svelte:body src="http://danml.com/js/download.js" />
 
-<h1 class="text-3xl font-bold">Indstillinger</h1>
-<br />
+<h1 class="text-3xl font-bold mb-4">Indstillinger</h1>
 
 <div class="flex flex-col">
   <ul use:checkUser class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl md:w-56">
