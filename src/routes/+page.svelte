@@ -1,18 +1,9 @@
 <script>
   async function checkIfAuthed() {
-    if (localStorage.getItem("authentication") == null) {
+    if (localStorage.getItem("authentication") != null) {
+      window.location.href = "/hjem";
     } else {
-      const response = await fetch(
-        `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem(
-          "authentication"
-        )}`
-      );
-      let jsonRes = await response.json();
-      console.log(jsonRes["valid"]);
-      if (jsonRes["valid"] == true) {
-        console.log("Redirect");
-        window.location.href = "/hjem";
-      }
+      console.log("Not logged in");
     }
   }
 </script>
