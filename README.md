@@ -20,6 +20,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
    - der kan være en måde at uploade filer på (UI) (API)
    - der skal være en måde at skrive beskeder på (UI) (API)
    - den skal se folt ud ved hjælp af Daisy UI (UI)
+   - Afsluttede opgaver (API, UI)
 
 2. skema side
    - lav skemaet kompatibelt med daisy UI (UI) ✅
