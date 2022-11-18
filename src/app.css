@@ -6,5 +6,6 @@
   white-space: normal;
 }
 
+
 @tailwind components;
 @tailwind utilities;
