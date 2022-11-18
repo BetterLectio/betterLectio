@@ -29,7 +29,6 @@
 
 <body use:fåBrugeren>
   {#if brugeren != ""}
-    <h1 class="text-3xl font-bold">{chosenGreeting}, {brugeren.navn}</h1>
+    <h1 class="text-3xl font-bold mb-4">{chosenGreeting}, {brugeren.navn}</h1>
   {/if}
-  <br />
 </body>

@@ -1,5 +1,4 @@
-<h1 class="text-3xl font-bold">Hjælp</h1>
-<br />
+<h1 class="text-3xl font-bold mb-4">Hjælp</h1>
 <h2 class="text-2xl">Hvad er Better Lectio?</h2>
 <p>
   Better Lectio er en webapp, der gør det nemmere at bruge Lectio. Better Lectio tager kontakt til lectio

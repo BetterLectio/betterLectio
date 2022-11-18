@@ -95,7 +95,7 @@
           >
 						<div class="dropdown dropdown-hover">
 							<label tabindex="0" class="">{beskedMulighed.name}</label>
-							<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 overflow-hidden text-base-content text-left z-50 relative">
+							<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit overflow-hidden text-base-content text-left z-50 relative">
 								{#each beskedMulighed.content as content}
 									<li>
 										<btn on:click={() => fåBeskeder(content.id)}>{content.name}</btn>
