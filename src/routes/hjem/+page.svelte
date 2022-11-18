@@ -1,6 +1,6 @@
 <script>
   import { get } from "../../components/http.js";
-  import { mig } from "../../components/store.js";
+  //import { mig } from "../../components/store.js";
 
   let alldayGreetings = ["Velkommen tilbage", "Hejsa", "Velkommen", "Hej"];
   let morningGreetings = ["God morgen", "Go' morgen", "Godmorgen"];
