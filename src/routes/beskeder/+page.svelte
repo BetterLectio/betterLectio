@@ -93,25 +93,16 @@
               : 'btn'} dropdown dropdown-bottom dropdown-end flex items-center justify-center"
             on:click={() => fåBeskeder(beskedMulighed.id)}
           >
-            <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-            <p tabindex="0">
-              {beskedMulighed.name}<svg
-                width="12px"
-                height="12px"
-                class="ml-1 hidden h-3 w-3 fill-current opacity-60 sm:inline-block"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 2048 2048"
-                ><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z" /></svg
-              >
-            </p>
-            <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-            <ul tabindex="0" class="dropdown-content  menu p-2 shadow bg-base-100 rounded-box w-52">
-              {#each beskedMulighed.content as content}
-                <li>
-                  <btn on:click={() => fåBeskeder(content.id)}>{content.name}</btn>
-                </li>
-              {/each}
-            </ul>
+						<div class="dropdown dropdown-hover">
+							<label tabindex="0" class="">{beskedMulighed.name}</label>
+							<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 overflow-hidden text-base-content text-left z-50 relative">
+								{#each beskedMulighed.content as content}
+									<li>
+										<btn on:click={() => fåBeskeder(content.id)}>{content.name}</btn>
+									</li>
+								{/each}
+							</ul>
+						</div>
           </btn>
         {/if}
       {/each}
