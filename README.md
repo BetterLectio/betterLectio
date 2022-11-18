@@ -1,4 +1,4 @@
-![Netlify](https://img.shields.io/netlify/9ab10ec0-d33b-4844-b065-44bcbb488554?label=Better%20Lectio&style=flat-square)
+![Netlify](https://img.shields.io/netlify/12e95056-413a-458c-9f0a-e753f4a4f83e?label=Better%20Lectio&style=flat-square)
 ![GitHub issues](https://img.shields.io/github/issues-raw/victorDigital/betterLectio?style=flat-square)
 
 
