@@ -123,7 +123,7 @@ def profilBilled():
 @app.route("/opgave")
 def opgave():
     cookie = request.headers.get("lectio-cookie")
-    exerciseid = request.get("exerciseid")
+    exerciseid = request.args.get("exerciseid")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
