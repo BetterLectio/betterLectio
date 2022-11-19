@@ -120,6 +120,14 @@ def profilBilled():
         return Response(status=400)
         #return Response(lectioClient.session.get("https://www.lectio.dk/lectio/img/defaultfoto_small.jpg").content, mimetype="image/gif")
 
+@app.route("/opgave")
+def opgave():
+    cookie = request.headers.get("lectio-cookie")
+    exerciseid = request.get("exerciseid")
+
+    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+    return lectioClient.opgave(exerciseid=exerciseid)
 
 if __name__ == '__main__':
     app.run()
