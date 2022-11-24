@@ -1,13 +1,12 @@
 <script>
   import { get } from "../../components/http.js";
-  //import { mig } from "../../components/store.js";
+  import { mig } from "../../components/store.js";
 
   let alldayGreetings = ["Velkommen tilbage", "Hejsa", "Velkommen", "Hej"];
   let morningGreetings = ["God morgen", "Go' morgen", "Godmorgen"];
   let afternoonGreetings = ["God eftermiddag"];
   let eveningGreetings = ["God aften", "Tak for i dag", "Godnat"];
   let chosenGreeting = "";
-  let brugeren = "";
   // Get the current time
   let currentTime = new Date().getHours();
   if (Math.random() > 0.5) {
@@ -21,14 +20,10 @@
   } else {
     chosenGreeting = alldayGreetings[Math.floor(Math.random() * alldayGreetings.length)];
   }
-  async function fåBrugeren() {
-    const response = await get(`/mig`);
-    brugeren = await response;
-  }
 </script>
 
-<body use:fåBrugeren>
-  {#if brugeren != ""}
-    <h1 class="text-3xl font-bold mb-4">{chosenGreeting}, {brugeren.navn}</h1>
+<body>
+  {#if $mig}
+    <h1 class="text-3xl font-bold mb-4">{chosenGreeting}, {$mig.navn}</h1>
   {/if}
 </body>
