@@ -16,12 +16,21 @@
   async function fåOpgaver() {
     const _opgaver = await get("/opgaver");
     _opgaver.forEach((opgave) => {
+      console.log(opgave);
       if (opgave.status == "Afleveret") {
+        opgave.class = 'btn btn-success';
         afleveredeOpgaver.push(opgave);
       } else {
+        if(opgave.status == "Venter"){
+          opgave.class = 'btn btn-warning';
+        }else{
+          opgave.class = 'btn btn-error';
+        }        
         ikkeAfleveredeOpgaver.push(opgave);
       }
     });
+    //sort so newest is on top
+    afleveredeOpgaver.reverse();
 
     opgaver = ikkeAfleveredeOpgaver;
     ready = true;
@@ -62,12 +71,7 @@
         <li class="block">
           <a class="block" href="/opgave?exerciseid={opgave.exerciseid}">
             <div>
-              {#if afleveredeOpgaverSelected == true}
-                <p class="btn btn-success btn-xs w-full">{opgave.opgavetitel} · {opgave.hold}</p>
-              {/if}
-              {#if afleveredeOpgaverSelected == false}
-                <p class="btn btn-warning btn-xs w-full">{opgave.opgavetitel} · {opgave.hold}</p>
-              {/if}
+                <p class="{opgave.class} btn-xs w-full">{opgave.opgavetitel} · {opgave.hold}</p>
               <p>({opgave.frist})</p>
               <p>{cutOpgaveNote(opgave, 100)}</p>
             </div>
@@ -88,20 +92,9 @@
         <tbody class="w-full">
           {#each opgaver as opgave}
             <tr class="">
-              {#if afleveredeOpgaverSelected == true}
-                <td
-                  ><a href="/opgave?exerciseid={opgave.exerciseid}" class="btn btn-success btn-xs w-full"
-                    >{opgave.opgavetitel}</a
-                  ></td
-                >
-              {/if}
-              {#if afleveredeOpgaverSelected == false}
-                <td
-                  ><a href="/opgave?exerciseid={opgave.exerciseid}" class="btn btn-warning btn-xs w-full"
-                    >{opgave.opgavetitel}</a
-                  ></td
-                >
-              {/if}
+                <td>
+                  <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full"
+                    >{opgave.opgavetitel}</a></td>
               <td class="">{opgave.hold}</td>
               <td class=""><p class="btn btn-xs">{opgave.frist}</p></td>
               <td class="text-left whitespace-normal" id={opgave.exerciseid}>
