@@ -1,6 +1,6 @@
-<h1 class="text-3xl font-bold mb-4">Servicevilkår & Privatlivspolitik</h1>
+<h1 class="mb-4 text-3xl font-bold">Servicevilkår & Privatlivspolitik</h1>
 
-<div tabindex="0" class="collapse collapse-plus border border-base-300 bg-base-300 rounded-box my-5">
+<div tabindex="0" class="collapse-plus rounded-box collapse my-5 border border-base-300 bg-base-300">
   <div class="collapse-title text-xl font-medium">
     <h2 class="text-2xl font-bold">1. Indledning</h2>
   </div>
@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div tabindex="0" class="collapse collapse-plus border border-base-300 bg-base-300 rounded-box my-5">
+<div tabindex="0" class="collapse-plus rounded-box collapse my-5 border border-base-300 bg-base-300">
   <div class="collapse-title text-xl font-medium">
     <h2 class="text-2xl font-bold">2. Servicevilkår</h2>
   </div>
@@ -28,7 +28,7 @@
   </div>
 </div>
 
-<div tabindex="0" class="collapse collapse-plus border border-base-300 bg-base-300 rounded-box my-5">
+<div tabindex="0" class="collapse-plus rounded-box collapse my-5 border border-base-300 bg-base-300">
   <div class="collapse-title text-xl font-medium">
     <h2 class="text-2xl font-bold">3. Privatlivspolitik</h2>
   </div>
@@ -43,7 +43,7 @@
   </div>
 </div>
 
-<div tabindex="0" class="collapse collapse-plus border border-base-300 bg-base-300 rounded-box my-5">
+<div tabindex="0" class="collapse-plus rounded-box collapse my-5 border border-base-300 bg-base-300">
   <div class="collapse-title text-xl font-medium">
     <h2 class="text-2xl font-bold">4. Kontakt</h2>
   </div>

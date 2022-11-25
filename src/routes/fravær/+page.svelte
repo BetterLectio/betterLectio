@@ -1,1 +1,1 @@
-<h1 class="text-3xl font-bold mb-4">Fravær</h1>
+<h1 class="mb-4 text-3xl font-bold">Fravær</h1>

@@ -10,9 +10,9 @@
 </script>
 
 <div
-  class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 loader flex-col flex items-center"
+  class="loader absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center"
 >
-  <span class="text-3xl my-4">404</span>
-  <span class="text-2xl font-bold my-4">{fejlBeskrivelse}</span>
-  <a href="/" class="btn btn-accent my-4">Tilbage</a>
+  <span class="my-4 text-3xl">404</span>
+  <span class="my-4 text-2xl font-bold">{fejlBeskrivelse}</span>
+  <a href="/" class="btn-accent btn my-4">Tilbage</a>
 </div>

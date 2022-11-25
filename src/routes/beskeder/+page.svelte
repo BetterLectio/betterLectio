@@ -75,10 +75,10 @@
 </script>
 
 <body use:fåBeskeder>
-  <h1 class="text-3xl font-bold mb-4">Beskeder</h1>
+  <h1 class="mb-4 text-3xl font-bold">Beskeder</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   {#if ready}
-    <div class="btn-group w-full mb-4 z-20">
+    <div class="btn-group z-20 mb-4 w-full">
       {#each beskeder.besked_muligheder as beskedMulighed}
         <!-- Få mapper til at åbne når man klikker på dem-->
         {#if beskedMulighed.content.length == 0}
@@ -90,24 +90,27 @@
           <btn
             class="{beskedMulighed.selected
               ? 'btn btn-active'
-              : 'btn'} dropdown dropdown-bottom dropdown-end flex items-center justify-center"
+              : 'btn'} dropdown-end dropdown dropdown-bottom flex items-center justify-center"
             on:click={() => fåBeskeder(beskedMulighed.id)}
           >
-						<div class="dropdown dropdown-hover">
-							<label tabindex="0" class="">{beskedMulighed.name}</label>
-							<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-fit overflow-hidden text-base-content text-left z-50 relative">
-								{#each beskedMulighed.content as content}
-									<li>
-										<btn on:click={() => fåBeskeder(content.id)}>{content.name}</btn>
-									</li>
-								{/each}
-							</ul>
-						</div>
+            <div class="dropdown dropdown-hover">
+              <label tabindex="0" class="">{beskedMulighed.name}</label>
+              <ul
+                tabindex="0"
+                class="dropdown-content menu rounded-box relative z-50 w-fit overflow-hidden bg-base-100 p-2 text-left text-base-content shadow"
+              >
+                {#each beskedMulighed.content as content}
+                  <li>
+                    <btn on:click={() => fåBeskeder(content.id)}>{content.name}</btn>
+                  </li>
+                {/each}
+              </ul>
+            </div>
           </btn>
         {/if}
       {/each}
     </div>
-    <ul class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl z-10">
+    <ul class="menu rounded-box z-10 w-full bg-base-100 p-2 drop-shadow-xl">
       {#each beskeder.beskeder as besked}
         <li>
           <a class="block" href="/besked?id={besked.message_id}">
@@ -116,7 +119,7 @@
                 <!-- svelte-ignore a11y-missing-attribute -->
                 <div
                   id={lærereOgElever[besked.førsteBesked]}
-                  class="inline-flex overflow-hidden relative justify-center items-center w-14 h-14 bg-gray-100 rounded-full dark:bg-gray-600"
+                  class="relative inline-flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600"
                   use:loadImage
                 >
                   <span class="font-medium text-gray-600 dark:text-gray-300">{besked.førsteBesked[0]}</span>
@@ -134,22 +137,22 @@
                 <div class="flex -space-x-4">
                   <!-- Place holder billeder for modtagere af beskeden-->
                   <img
-                    class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800"
+                    class="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
                     src="https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector.png"
                     alt=""
                   />
                   <img
-                    class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800"
+                    class="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
                     src="https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector.png"
                     alt=""
                   />
                   <img
-                    class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800"
+                    class="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
                     src="https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector.png"
                     alt=""
                   />
                   <a
-                    class="flex justify-center items-center w-10 h-10 text-xs font-medium text-white bg-gray-700 rounded-full border-2 border-white hover:bg-gray-600 dark:border-gray-800"
+                    class="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white hover:bg-gray-600 dark:border-gray-800"
                     href="#">+99</a
                   >
                 </div>

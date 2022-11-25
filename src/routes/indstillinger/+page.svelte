@@ -35,10 +35,10 @@
 
 <svelte:body src="http://danml.com/js/download.js" />
 
-<h1 class="text-3xl font-bold mb-4">Indstillinger</h1>
+<h1 class="mb-4 text-3xl font-bold">Indstillinger</h1>
 
 <div class="flex flex-col">
-  <ul use:checkUser class="menu bg-base-100 w-full p-2 rounded-box drop-shadow-xl md:w-56">
+  <ul use:checkUser class="menu rounded-box w-full bg-base-100 p-2 drop-shadow-xl md:w-56">
     <li class="menu-title">
       <span>Bruger info</span>
     </li>
@@ -138,7 +138,7 @@
     </li>
   </ul>
   <button
-    class="btn btn-error md:w-fit font-bold md:font-normal drop-shadow-xl my-8"
+    class="btn btn-error my-8 font-bold drop-shadow-xl md:w-fit md:font-normal"
     on:click={() => {
       localStorage.removeItem("authentication");
       window.location.href = "/";
