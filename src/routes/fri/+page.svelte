@@ -25,11 +25,10 @@
       hoursLeft = hoursLeft - 1;
     }
     if (hoursLeft < 0 || minutesLeft < 0 || secondsLeft < 0) {
-        const counterel = document.getElementById("counter")
-        counterel.parentNode.removeChild(counterel)
-        const friel = document.getElementById("fri")
-        friel.classList.remove("hidden")
-        
+      const counterel = document.getElementById("counter");
+      counterel.parentNode.removeChild(counterel);
+      const friel = document.getElementById("fri");
+      friel.classList.remove("hidden");
     }
     return [hoursLeft, minutesLeft, secondsLeft];
   }
@@ -68,8 +67,8 @@
   }, 1000);
 </script>
 
-<div class="grid place-items-center h-screen">
-  <div class="grid grid-flow-col gap-5 text-center auto-cols-max" id="counter">
+<div class="grid h-screen place-items-center">
+  <div class="grid auto-cols-max grid-flow-col gap-5 text-center" id="counter">
     <div class="flex flex-col">
       <span class="countdown font-mono text-6xl md:text-9xl">
         <span id="counterElementh" />
@@ -89,7 +88,5 @@
       Sekunder
     </div>
   </div>
-  <p class="font-mono font-bold hidden text-6xl lg:text-9xl" id="fri">
-    Du har fri!
-  </p>
+  <p class="hidden font-mono text-6xl font-bold lg:text-9xl" id="fri">Du har fri!</p>
 </div>

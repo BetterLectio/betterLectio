@@ -40,10 +40,10 @@
 </script>
 
 <div class="hidden md:block">
-  <h1 class="text-3xl font-bold mb-4">{opgaveTitel}</h1>
+  <h1 class="mb-4 text-3xl font-bold">{opgaveTitel}</h1>
   <p class="mb-4">{opgaveNote}</p>
-  <h1 class="text-2xl font-bold mb-2">Oplysninger</h1>
-  <table class="table w-full shadow-xl rounded-xl mb-4">
+  <h1 class="mb-2 text-2xl font-bold">Oplysninger</h1>
+  <table class="mb-4 table w-full rounded-xl shadow-xl">
     <thead>
       <tr>
         <th>Afleveringsfrist</th>
@@ -62,11 +62,12 @@
     </tbody>
   </table>
 
-  <h1 class="text-2xl font-bold mb-2">Afleveres af</h1>
-  <table class="table w-full shadow-xl rounded-xl mb-4">
+  <h1 class="mb-2 text-2xl font-bold">Afleveres af</h1>
+  <table class="mb-4 table w-full rounded-xl shadow-xl">
     <thead>
       <tr>
-        <th></th> <!-- Billede TODO-->
+        <th />
+        <!-- Billede TODO-->
         <th>Elev</th>
         <th>Afventer</th>
         <th>Status</th>
@@ -75,7 +76,8 @@
     </thead>
     <tbody>
       <tr>
-        <td><img src="https://i.stack.imgur.com/34AD2.jpg" alt="profile pic" class="h-10 "></td> <!-- Billede TODO -->
+        <td><img src="https://i.stack.imgur.com/34AD2.jpg" alt="profile pic" class="h-10 " /></td>
+        <!-- Billede TODO -->
         <td>{elev}</td>
         <td>{afventer}</td>
         <td>{status}</td>
@@ -83,8 +85,8 @@
       </tr>
     </tbody>
   </table>
-  <h1 class="text-2xl font-bold mb-2">Feedback</h1>
-  <table class="table w-full shadow-xl rounded-xl mb-4">
+  <h1 class="mb-2 text-2xl font-bold">Feedback</h1>
+  <table class="mb-4 table w-full rounded-xl shadow-xl">
     <thead>
       <tr>
         <th>Karakter</th>
@@ -102,48 +104,81 @@
   </table>
 </div>
 <div class="block md:hidden">
-  <h1 class="text-3xl font-bold mb-4">{opgaveTitel}</h1>
+  <h1 class="mb-4 text-3xl font-bold">{opgaveTitel}</h1>
   <p class="mb-4">{opgaveNote}</p>
-  <h1 class="text-xl font-bold mb-2">Oplysninger</h1>
-  <ul class="menu bg-base-100 w-full p-2 rounded-box flex">
+  <h1 class="mb-2 text-xl font-bold">Oplysninger</h1>
+  <ul class="menu rounded-box flex w-full bg-base-100 p-2">
     <li>
-      <span class="w-full"><p>Afleveringsfrist:</p>{afleveringsfrist}</span>
+      <span class="w-full"
+        ><p>Afleveringsfrist:</p>
+        {afleveringsfrist}</span
+      >
     </li>
     <li>
-      <span class="w-full"><p>Elevtid:</p>{elevtid}</span>
+      <span class="w-full"
+        ><p>Elevtid:</p>
+        {elevtid}</span
+      >
     </li>
     <li>
-      <span class="w-full"><p>Hold:</p>{hold}</span>
+      <span class="w-full"
+        ><p>Hold:</p>
+        {hold}</span
+      >
     </li>
     <li>
-      <span class="w-full"><p>Karakterskala:</p>{karakterskala}</span>
-    </li>
-  </ul>
-  <h1 class="text-xl font-bold mb-2">Afleveres af</h1>
-  <ul class="menu bg-base-100 w-full p-2 rounded-box flex">
-    <li>
-      <span class="w-full"><p>Elev:</p>{elev}</span>
-    </li>
-    <li>
-      <span class="w-full"><p>Afventer:</p>{afventer}</span>
-    </li>
-    <li>
-      <span class="w-full"><p>Status:</p>{status}</span>
-    </li>
-    <li>
-      <span class="w-full"><p>Afsluttet:</p>{afsluttet}</span>
+      <span class="w-full"
+        ><p>Karakterskala:</p>
+        {karakterskala}</span
+      >
     </li>
   </ul>
-  <h1 class="text-xl font-bold mb-2">Feedback</h1>
-  <ul class="menu bg-base-100 w-full p-2 rounded-box flex">
+  <h1 class="mb-2 text-xl font-bold">Afleveres af</h1>
+  <ul class="menu rounded-box flex w-full bg-base-100 p-2">
     <li>
-      <span class="w-full"><p>Karakter:</p>{karakter}</span>
+      <span class="w-full"
+        ><p>Elev:</p>
+        {elev}</span
+      >
     </li>
     <li>
-      <span class="w-full"><p>Karakternote:</p>{karakternote}</span>
+      <span class="w-full"
+        ><p>Afventer:</p>
+        {afventer}</span
+      >
     </li>
     <li>
-      <span class="w-full"><p>Elevnote:</p>{elevnote}</span>
+      <span class="w-full"
+        ><p>Status:</p>
+        {status}</span
+      >
+    </li>
+    <li>
+      <span class="w-full"
+        ><p>Afsluttet:</p>
+        {afsluttet}</span
+      >
+    </li>
+  </ul>
+  <h1 class="mb-2 text-xl font-bold">Feedback</h1>
+  <ul class="menu rounded-box flex w-full bg-base-100 p-2">
+    <li>
+      <span class="w-full"
+        ><p>Karakter:</p>
+        {karakter}</span
+      >
+    </li>
+    <li>
+      <span class="w-full"
+        ><p>Karakternote:</p>
+        {karakternote}</span
+      >
+    </li>
+    <li>
+      <span class="w-full"
+        ><p>Elevnote:</p>
+        {elevnote}</span
+      >
     </li>
   </ul>
 </div>
