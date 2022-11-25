@@ -30,7 +30,7 @@
 
   async function checkIfAuthed() {
     // load the schoolid from localstorage and set it to the select
-    if (localStorage.getItem("skole_id") != null) {
+    if (localStorage.getItem("skole_id")) {
       skole_id = localStorage.getItem("skole_id");
     }
   }
@@ -71,8 +71,9 @@
 </script>
 
 <svelte:head>
-  <script use:updateOptions src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
+  <script on:load={updateOptions} src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
 </svelte:head>
+
 <body use:checkIfAuthed use:setSkole>
   <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
   <div class="modal">
