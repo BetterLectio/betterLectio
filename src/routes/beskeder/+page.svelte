@@ -15,7 +15,6 @@
     } else {
       beskeder = await get(`/beskeder`);
     }
-    console.log(beskeder);
     await fåLærereElever();
     ready = true;
   }
@@ -37,7 +36,6 @@
   function loadImage(element) {
     if (!alreadyLoaded.includes(element.id)) {
       alreadyLoaded.push(element.id);
-      console.log(element.id);
       var xhr = new XMLHttpRequest();
       xhr.responseType = "blob"; //so you can access the response like a normal URL
       xhr.onreadystatechange = function () {
@@ -61,9 +59,7 @@
   async function useLoadedImage(element) {
     while (true) {
       if (loadImage[element.id] == undefined) {
-        console.log("undefined", typeof loadedIndex[element.id]);
       } else {
-        console.log("UNDEUNDEUND");
         element.outerHTML = `<img id="${element.id}" src="${
           loadImage[element.id]
         }" class="object-cover w-14 h-14 rounded-full"/>`;

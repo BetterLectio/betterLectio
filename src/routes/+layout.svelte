@@ -25,7 +25,6 @@
   }
   function removeLoader() {
     let loader = document.querySelector(".loader");
-    console.log(loader);
     loader.style.display = "none";
   }
 </script>

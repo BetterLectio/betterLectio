@@ -9,7 +9,6 @@
   let lektier = [];
   async function fålektier() {
     lektier = await get(`/lektier`);
-    console.log(lektier);
   }
 </script>
 

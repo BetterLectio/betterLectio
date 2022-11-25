@@ -10,7 +10,6 @@ export async function get(endpoint) {
   }
   // If the user is not authenticated, redirect to the auth page
   if (localStorage.getItem("authentication") == null) {
-    console.log("Redirect");
     window.location.href = "/auth";
   }
   // Fetch the data from the API
@@ -24,7 +23,6 @@ export async function get(endpoint) {
   if (response.ok) {
     return JSON.parse(textResponse.replace("\n", "  "));
   } else {
-    console.log("Failed");
     window.location.href = "/auth";
   }
 }
