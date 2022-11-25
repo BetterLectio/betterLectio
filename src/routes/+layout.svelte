@@ -30,7 +30,7 @@
   }
 </script>
 
-<div class="navbar bg-base-100 drop-shadow-xl mb-10">
+<div class="relative navbar bg-base-100 drop-shadow-xl mb-10 z-50">
   <div class="navbar-start">
     <div class="dropdown">
       <button class="btn btn-ghost xl:hidden" aria-label="navbar button">
