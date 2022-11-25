@@ -16,7 +16,6 @@
   async function fåOpgaver() {
     const _opgaver = await get("/opgaver");
     _opgaver.forEach((opgave) => {
-      console.log(opgave);
       if (opgave.status == "Afleveret") {
         opgave.class = "btn btn-success";
         afleveredeOpgaver.push(opgave);

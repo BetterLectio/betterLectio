@@ -63,7 +63,6 @@
     document.getElementById("counterElementh").style.setProperty("--value", t[0]);
     document.getElementById("counterElementm").style.setProperty("--value", t[1]);
     document.getElementById("counterElements").style.setProperty("--value", t[2]);
-    console.log(t);
   }, 1000);
 </script>
 

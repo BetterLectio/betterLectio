@@ -19,7 +19,6 @@
   let elevnote = "";
   let opgave = get("/opgave?exerciseid=" + exerciseid).then((data) => {
     opgave = data;
-    console.log(opgave);
     let opgaveOplysninger = opgave["oplysninger"];
     opgaveTitel = opgaveOplysninger["opgavetitel:"];
     opgaveNote = opgaveOplysninger["opgavenote:"];
