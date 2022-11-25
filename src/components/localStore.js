@@ -1,5 +1,4 @@
 import { writable } from "svelte/store";
-import { browser } from "$app/environment";
 
 export const localStore = (key, initial) => {
   // receives the key of the local storage and an initial value
@@ -13,6 +12,7 @@ export const localStore = (key, initial) => {
   }
 
   const saved = toObj(localStorage.getItem(key)); // convert to object
+
   const { subscribe, set, update } = writable(saved); // create the underlying writable store
   return {
     subscribe,

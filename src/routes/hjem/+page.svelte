@@ -1,6 +1,5 @@
 <script>
-  import { get } from "../../components/http.js";
-  import { mig } from "../../components/store.js";
+  import { brugeren } from "../../components/store.js";
 
   let alldayGreetings = ["Velkommen tilbage", "Hejsa", "Velkommen", "Hej"];
   let morningGreetings = ["God morgen", "Go' morgen", "Godmorgen"];
@@ -23,7 +22,7 @@
 </script>
 
 <body>
-  {#if $mig}
-    <h1 class="text-3xl font-bold mb-4">{chosenGreeting}, {$mig.navn}</h1>
+  {#if $brugeren}
+    <h1 class="mb-4 text-3xl font-bold">{chosenGreeting}, {$brugeren.navn}</h1>
   {/if}
 </body>
