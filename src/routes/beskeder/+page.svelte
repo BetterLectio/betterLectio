@@ -5,16 +5,17 @@
         - Måske gør så man får al teksten og derfor ikke behøver at klikke på lektien
      */
   import { get } from "../../components/http.js";
+  import { beskeder } from "../../components/store.js";
 
-  let beskeder = [];
   let profilePicturePaths = {};
   let ready = false;
-  async function fåBeskeder(id = null) {
-    if (typeof id == "string") {
-      beskeder = await get(`/beskeder?id=${id}`);
-    } else {
-      beskeder = await get(`/beskeder`);
-    }
+
+  get("/beskeder").then((data) => {
+    $beskeder = data;
+  });
+
+  async function fåBeskeder(id) {
+    beskeder = await get(`/beskeder?id=${id}`);
     await fåLærereElever();
     ready = true;
   }
@@ -36,6 +37,7 @@
   function loadImage(element) {
     if (!alreadyLoaded.includes(element.id)) {
       alreadyLoaded.push(element.id);
+      console.log(element.id);
       var xhr = new XMLHttpRequest();
       xhr.responseType = "blob"; //so you can access the response like a normal URL
       xhr.onreadystatechange = function () {
@@ -59,7 +61,9 @@
   async function useLoadedImage(element) {
     while (true) {
       if (loadImage[element.id] == undefined) {
+        console.log("undefined", typeof loadedIndex[element.id]);
       } else {
+        console.log("UNDEUNDEUND");
         element.outerHTML = `<img id="${element.id}" src="${
           loadImage[element.id]
         }" class="object-cover w-14 h-14 rounded-full"/>`;
@@ -70,12 +74,12 @@
   }
 </script>
 
-<body use:fåBeskeder>
+<body>
   <h1 class="mb-4 text-3xl font-bold">Beskeder</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   {#if ready}
     <div class="btn-group z-20 mb-4 w-full">
-      {#each beskeder.besked_muligheder as beskedMulighed}
+      {#each $beskeder.besked_muligheder as beskedMulighed}
         <!-- Få mapper til at åbne når man klikker på dem-->
         {#if beskedMulighed.content.length == 0}
           <btn
@@ -106,7 +110,7 @@
       {/each}
     </div>
     <ul class="menu rounded-box z-10 w-full bg-base-100 p-2 drop-shadow-xl">
-      {#each beskeder.beskeder as besked}
+      {#each $beskeder.beskeder as besked}
         <li>
           <a class="block" href="/besked?id={besked.message_id}">
             <div class="flex justify-between">
