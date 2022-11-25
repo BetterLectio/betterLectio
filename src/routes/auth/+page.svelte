@@ -30,7 +30,7 @@
 
   async function checkIfAuthed() {
     // load the schoolid from localstorage and set it to the select
-    if (localStorage.getItem("skole_id") != null) {
+    if (localStorage.getItem("skole_id")) {
       skole_id = localStorage.getItem("skole_id");
     }
   }
@@ -71,13 +71,14 @@
 </script>
 
 <svelte:head>
-  <script use:updateOptions src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
+  <script on:load={updateOptions} src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
 </svelte:head>
+
 <body use:checkIfAuthed use:setSkole>
   <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
-      <label for="my-modal-3" id="CantLogInAlertX" class="btn btn-sm btn-circle absolute right-2 top-2"
+      <label for="my-modal-3" id="CantLogInAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
         >✕</label
       >
       <h3 class="text-lg font-bold">Kunne ikke logge ind</h3>
@@ -87,7 +88,7 @@
   <input type="checkbox" id="MissingInfoAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
-      <label for="my-modal-3" id="MissingInfoAlertX" class="btn btn-sm btn-circle absolute right-2 top-2"
+      <label for="my-modal-3" id="MissingInfoAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
         >✕</label
       >
       <h3 class="text-lg font-bold">mangler info</h3>
@@ -102,19 +103,19 @@
             <div class="space-y-6 bg-white px-4 py-5 sm:p-6">
               <div class="grid grid-cols-3 gap-6">
                 <div class="col-span-3 sm:col-span-2">
-                  <p class="text-gray-700 text-xl font-bold">Log ind med din Lectio konto</p>
+                  <p class="text-xl font-bold text-gray-700">Log ind med din Lectio konto</p>
                   <br />
                   <label for="brugernavn" class="block text-sm font-medium text-gray-700">Brugernavn</label>
                   <div class="mt-1 flex rounded-md shadow-sm">
                     <span
-                      class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500 w-28"
+                      class="inline-flex w-28 items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500"
                       >Brugernavn</span
                     >
                     <input
                       type="text"
                       name="brugernavn"
                       id="brugernavn"
-                      class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+                      class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       placeholder="abcd1"
                       bind:value={brugernavn}
                     />
@@ -122,14 +123,14 @@
                   <label for="adgangskode" class="block text-sm font-medium text-gray-700">Adgangskode</label>
                   <div class="mt-1 flex rounded-md shadow-sm">
                     <span
-                      class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500 w-28"
+                      class="inline-flex w-28 items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500"
                       >Adgangskode</span
                     >
                     <input
                       type="password"
                       name="adgangskode"
                       id="adgangskode"
-                      class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+                      class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       placeholder="abcdefgh"
                       bind:value={adgangskode}
                     />
@@ -137,14 +138,14 @@
                   <label for="skole" class="block text-sm font-medium text-gray-700">Vælg skole</label>
                   <div class="mt-1 flex rounded-md shadow-sm">
                     <span
-                      class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500 w-28"
+                      class="inline-flex w-28 items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500"
                       >Skole</span
                     >
                     <select
                       type="text"
                       name="skole"
                       id="skole"
-                      class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+                      class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       placeholder="Vælg din skole"
                       bind:value={skole_id}
                     >
@@ -156,14 +157,14 @@
                       {/each}
                     </select>
                   </div>
-                  <div class="w-32 my-2">
+                  <div class="my-2 w-32">
                     <label class="label cursor-pointer">
                       <span class="block text-sm font-medium text-gray-700">Gem skole</span>
                       <input
                         type="checkbox"
                         checked="checked"
                         id="saveSchoolIdCheck"
-                        class="checkbox checkbox-primary"
+                        class="checkbox-primary checkbox"
                         on:click={setSkole()}
                         name="setSkole"
                       />
@@ -178,13 +179,13 @@
                 <br /><br />
                 Når du logger ind accepterer du automatisk vores
                 <a
-                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  class="font-medium text-blue-600 hover:underline dark:text-blue-500"
                   href="https://betlec.netlify.app/tos">TOS</a
                 >
               </p>
               <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <div type="submit" class="btn btn-primary AOC" style="user-select: none" on:click={login}>
+                <div type="submit" class="AOC btn-primary btn" style="user-select: none" on:click={login}>
                   Log ind
                 </div>
               </div>
