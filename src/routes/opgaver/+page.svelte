@@ -1,20 +1,27 @@
 <script>
-  //import table from "markdown-it/lib/rules_block/table.js";
-  //import table from "markdown-it/lib/rules_block/table.js";
   import { get } from "../../components/http.js";
-
-  let opgaver = [];
-  let ikkeAfleveredeOpgaver = [];
-  let afleveredeOpgaver = [];
+  import { opgaver } from "../../components/store.js";
 
   let afleveredeOpgaverSelected = false;
+  let _opgaver = [];
 
   let ikkeAfleveredeOpgaverClass = "btn btn-primary";
   let afleveredeOpgaverClass = "btn";
 
-  let ready = false;
-  async function fåOpgaver() {
-    const _opgaver = await get("/opgaver");
+  get("/opgaver").then((data) => {
+    console.log("data:", data);
+    $opgaver = data;
+  });
+
+  $: if ($opgaver) {
+    _opgaver = sortOpgaver($opgaver);
+    console.log("_opgaver:", _opgaver);
+  }
+
+  function sortOpgaver(_opgaver) {
+    let ikkeAfleveredeOpgaver = [];
+    let afleveredeOpgaver = [];
+
     _opgaver.forEach((opgave) => {
       if (opgave.status == "Afleveret") {
         opgave.class = "btn btn-success";
@@ -27,25 +34,17 @@
         }
         ikkeAfleveredeOpgaver.push(opgave);
       }
+      afleveredeOpgaver.reverse();
     });
-    //sort so newest is on top
-    afleveredeOpgaver.reverse();
-
-    opgaver = ikkeAfleveredeOpgaver;
-    ready = true;
+    if (afleveredeOpgaverSelected) {
+      return afleveredeOpgaver;
+    } else {
+      return ikkeAfleveredeOpgaver;
+    }
   }
 
   function changeView() {
     afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
-    if (afleveredeOpgaverSelected) {
-      opgaver = afleveredeOpgaver;
-      ikkeAfleveredeOpgaverClass = "btn";
-      afleveredeOpgaverClass = "btn btn-primary";
-    } else {
-      opgaver = ikkeAfleveredeOpgaver;
-      ikkeAfleveredeOpgaverClass = "btn btn-primary";
-      afleveredeOpgaverClass = "btn";
-    }
   }
 
   // cut the opgave.opgavenote to 1 line
@@ -58,15 +57,15 @@
   }
 </script>
 
-<div use:fåOpgaver>
+<div>
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <btn class={ikkeAfleveredeOpgaverClass} on:click={changeView}>Ikke afleveret opgaver</btn>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <btn class={afleveredeOpgaverClass} on:click={changeView}>Afleverede opgaver</btn>
-  {#if ready}
+  {#if _opgaver}
     <ul class="menu rounded-box my-4 w-full bg-base-100 p-2 drop-shadow-xl md:w-full lg:hidden">
-      {#each opgaver as opgave}
+      {#each _opgaver as opgave}
         <li class="block">
           <a class="block" href="/opgave?exerciseid={opgave.exerciseid}">
             <div>
@@ -89,7 +88,7 @@
           </tr>
         </thead>
         <tbody class="w-full">
-          {#each opgaver as opgave}
+          {#each _opgaver as opgave}
             <tr class="">
               <td>
                 <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full"
@@ -97,7 +96,7 @@
                 ></td
               >
               <td class="">{opgave.hold}</td>
-              <td class=""><p class="btn btn-xs">{opgave.frist}</p></td>
+              <td class=""><p class="btn-xs btn">{opgave.frist}</p></td>
               <td class="whitespace-normal text-left" id={opgave.exerciseid}>
                 <div class="hidden whitespace-normal sm:hidden md:hidden lg:block xl:hidden">
                   {cutOpgaveNote(opgave, 30)}
