@@ -137,7 +137,7 @@
   <h1 class="text-xl font-bold mb-2">Feedback</h1>
   <ul class="menu bg-base-100 w-full p-2 rounded-box flex">
     <li>
-      <span class="w-full"><p>Karakter::</p>{karakter}</span>
+      <span class="w-full"><p>Karakter:</p>{karakter}</span>
     </li>
     <li>
       <span class="w-full"><p>Karakternote:</p>{karakternote}</span>
