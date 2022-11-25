@@ -83,20 +83,19 @@
         <!-- Få mapper til at åbne når man klikker på dem-->
         {#if beskedMulighed.content.length == 0}
           <btn
-            class={beskedMulighed.selected ? "btn btn-active" : "btn"}
+            class={beskedMulighed.selected ? "btn-active btn" : "btn"}
             on:click={() => fåBeskeder(beskedMulighed.id)}>{beskedMulighed.name}</btn
           >
         {:else}
           <btn
             class="{beskedMulighed.selected
-              ? 'btn btn-active'
-              : 'btn'} dropdown-end dropdown dropdown-bottom flex items-center justify-center"
+              ? 'btn-active btn'
+              : 'btn'} dropdown-bottom dropdown-end dropdown flex items-center justify-center"
             on:click={() => fåBeskeder(beskedMulighed.id)}
           >
-            <div class="dropdown dropdown-hover">
-              <label tabindex="0" class="">{beskedMulighed.name}</label>
+            <div class="dropdown-hover dropdown">
+              <label>{beskedMulighed.name}</label>
               <ul
-                tabindex="0"
                 class="dropdown-content menu rounded-box relative z-50 w-fit overflow-hidden bg-base-100 p-2 text-left text-base-content shadow"
               >
                 {#each beskedMulighed.content as content}
