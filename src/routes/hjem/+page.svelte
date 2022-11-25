@@ -1,5 +1,6 @@
 <script>
   import { brugeren } from "../../components/store.js";
+  import { get } from "../../components/http.js";
 
   let alldayGreetings = ["Velkommen tilbage", "Hejsa", "Velkommen", "Hej"];
   let morningGreetings = ["God morgen", "Go' morgen", "Godmorgen"];
@@ -19,6 +20,9 @@
   } else {
     chosenGreeting = alldayGreetings[Math.floor(Math.random() * alldayGreetings.length)];
   }
+  get("/mig").then((data) => {
+    $brugeren = data;
+  });
 </script>
 
 <body>
