@@ -2,6 +2,8 @@
   async function checkIfAuthed() {
     if (localStorage.getItem("authentication") != null) {
       window.location.href = "/hjem";
+    } else {
+      console.log("Not logged in");
     }
   }
 </script>

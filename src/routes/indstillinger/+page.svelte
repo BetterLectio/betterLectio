@@ -6,6 +6,7 @@
 
   async function checkUser() {
     if (localStorage.getItem("authentication") == null) {
+      console.log("Redirect");
       window.location.href = "/auth";
     } else {
       let decodedCookie = atob(localStorage.getItem("authentication"));

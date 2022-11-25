@@ -43,6 +43,7 @@
         document.querySelector("#MissingInfoAlert").checked = false;
       });
     } else {
+      console.log("Logging into lectio");
       let progress = document.querySelector(".AOC");
       progress.classList.add("loading");
       const response = await fetch(`https://better-lectio-flask-backend.vercel.app/auth`, {
@@ -52,8 +53,10 @@
           skole_id: skole_id,
         },
       });
+      //console.log("Log in was successful")
       progress.classList.remove("loading");
       const authentication = await response.text();
+      //console.log(authentication)
       if (authentication.includes("500")) {
         document.querySelector("#CantLogInAlert").checked = true;
         document.querySelector("#CantLogInAlertX").addEventListener("click", () => {

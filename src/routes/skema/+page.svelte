@@ -226,6 +226,7 @@
       } else {
         colorClass = "btn btn-xs h-full w-full overflow-hidden btn-secondary";
       }
+      console.log(colorClass);
       events[i].className = colorClass;
     }
 
