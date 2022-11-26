@@ -136,23 +136,25 @@
       </tr>
     </tbody>
   </table>
-  <h1 class="mb-2 text-2xl font-bold">Feedback</h1>
-  <table class="mb-4 table w-full rounded-xl shadow-xl">
-    <thead>
-      <tr>
-        <th>Karakter</th>
-        <th>Karakternote</th>
-        <th>Elevnote</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{karakter}</td>
-        <td>{karakternote}</td>
-        <td>{elevnote}</td>
-      </tr>
-    </tbody>
-  </table>
+  {#if karakter != "" || karakternote != "" || elevnote != ""}
+    <h1 class="mb-2 text-2xl font-bold">Feedback</h1>
+    <table class="mb-4 table w-full rounded-xl shadow-xl">
+      <thead>
+        <tr>
+          <th>Karakter</th>
+          <th>Karakternote</th>
+          <th>Elevnote</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{karakter}</td>
+          <td>{karakternote}</td>
+          <td>{elevnote}</td>
+        </tr>
+      </tbody>
+    </table>
+  {/if}
   {#if opgaveIndlæg.length != 0}
     <h1 class="mb-2 text-2xl font-bold">Opgave Indlæg</h1>
     <table class="mb-4 table w-full rounded-xl shadow-xl">
