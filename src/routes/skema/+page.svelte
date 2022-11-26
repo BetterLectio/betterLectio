@@ -14,8 +14,6 @@
   import timeGridPlugin from "@fullcalendar/timegrid";
   import daLocale from "@fullcalendar/core/locales/da";
 
-  let normalModuleColors = ["bg-teal-", "bg-cyan-", "bg-sky-", "bg-blue-", "bg-indigo-", "bg-violet-"];
-
   let calendar;
   let calendarApi;
 
@@ -84,8 +82,6 @@
   async function fåSkema(ugeNummer, år) {
     skema = await get(`/skema?uge=${ugeNummer}&år=${år}`);
 
-    let farve = 0;
-    let preModulTeam = "";
     //skema = await response.json()
     skema["moduler"].forEach(function (modul) {
       let start = modul["tidspunkt"].split(" til ")[0];
@@ -121,13 +117,6 @@
         color = "yellow";
       } else {
         color = "normal";
-        if (preModulTeam == modul["hold"]) {
-          color += ` ${farve % normalModuleColors.length}`;
-        } else {
-          farve++;
-          color += ` ${farve % normalModuleColors.length}`;
-        }
-        preModulTeam = modul["hold"];
       }
       calendarApi.addEvent({
         title: titel,
@@ -203,22 +192,13 @@
 
   const styleCalendar = async () => {
     await new Promise((resolve) => setTimeout(resolve, 10));
-
     const events1 = document.getElementsByClassName("fc-v-event");
     const events2 = document.getElementsByClassName("fc-h-event");
     const events = [...events1, ...events2];
     for (var i = 0; i < events.length; i++) {
       let colorClass = "btn text-black btn-xs h-full w-full overflow-hidden";
       if (events[i].classList.contains("normal")) {
-        for (var j = 0; j < normalModuleColors.length; j++) {
-          if (events[i].classList.contains(j)) {
-            let color = normalModuleColors[j];
-            //colorClass = `${color}200 hover:text-white btn text-black btn-xs h-full w-full overflow-hidden`;
-            break;
-          }
-        }
         colorClass = "btn btn-primary btn-xs h-full w-full overflow-hidden";
-        // TODO make this work
       } else if (events[i].classList.contains("red")) {
         colorClass = "btn btn-error btn-xs h-full w-full overflow-hidden";
       } else if (events[i].classList.contains("allday")) {
@@ -229,7 +209,6 @@
       console.log(colorClass);
       events[i].className = colorClass;
     }
-
     const buttons = document.getElementsByClassName("fc-button");
     for (var i = 0; i <= buttons.length; i++) {
       buttons[i].className = "btn btn-primary btn-sm mr-4";
