@@ -20,7 +20,6 @@
     let afleveredeOpgaver = [];
 
     __opgaver.forEach((opgave) => {
-      console.log(opgave);
       if (opgave.status == "Afleveret") {
         opgave.class = "btn btn-success";
         afleveredeOpgaver.push(opgave);

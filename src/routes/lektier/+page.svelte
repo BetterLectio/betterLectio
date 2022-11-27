@@ -10,7 +10,6 @@
   get("/lektier").then((data) => {
     $lektier = data;
   });
-  console.log($lektier);
 </script>
 
 <body>
