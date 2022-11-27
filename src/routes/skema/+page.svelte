@@ -1,7 +1,18 @@
+<!--
+  TODO: 
+  load more data on week change
+  add a loading indicator
+  add color to the events
+
+-->
+
+
+
 <script>
   import { get } from "../../components/http.js";
   import Calendar from "@event-calendar/core";
   import TimeGrid from "@event-calendar/time-grid";
+  let ec; // to store the calendar instance and access it's methods
   let plugins = [TimeGrid];
 
   let customTheme = {
@@ -22,7 +33,7 @@
     days: "ec-days",
     draggable: "ec-draggable",
     dragging: "ec-dragging",
-    event: "ec-event",
+    event: "btn btn-primary btn-xs absolute",
     eventBody: "ec-event-body",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
@@ -69,13 +80,14 @@
     hiddenDays: [0, 6],
     slotMinTime: "06:00:00",
     slotMaxTime: "18:00:00",
-
-    events: [
-
-    ],
+    events: [],
+    eventDidMount: (event) => {
+      // called when an event is mounted to the DOM 
+      // this makes the event clickable
+      event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
+    },
   };
-
-  let skema = [];
+  let skema;
 
   function getWeekNumber() {
     var d = new Date(Date.now());
@@ -87,7 +99,6 @@
   }
 
   async function fåSkema(ugeNummer, år) {
-    let modulObjArr = [];
     skema = await get(`/skema?uge=${ugeNummer}&år=${år}`);
     for (let i = 0; i < skema["moduler"].length; i++) {
       let modul = skema["moduler"][i];
@@ -117,12 +128,12 @@
       let titel = "";
       if (modul["navn"] != undefined) {
         titel = modul["navn"] != null ? modul["navn"] : modul["hold"];
-        if(modul["lokale"]) {
+        if (modul["lokale"]) {
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       } else {
         titel = modul["hold"];
-        if(modul["lokale"]) {
+        if (modul["lokale"]) {
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       }
@@ -131,17 +142,15 @@
         title: titel,
         start: new Date(`${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}`),
         end: new Date(`${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}`),
-        id: modul["absid"]
-
-      }
-      modulObjArr.push(modulCalenderObj)
+        id: modul["absid"],
+      };
+      ec.addEvent(modulCalenderObj);
+      console.log("added");
     }
-    console.log(modulObjArr);
-    return modulObjArr
   }
 
   //async function loadDagsNoter() {
-  //  let year = calendarApi.getDate().getFullYear();
+  //  let year = new Date(Date.now()).getFullYear();
   //  skema["dagsNoter"].forEach(function (dagsNoter) {
   //    Object.entries(dagsNoter).forEach(([key, value]) => {
   //      let day =
@@ -153,11 +162,10 @@
   //          ? "0" + key.split("(")[1].split("/")[1].slice(0, -1)
   //          : key.split("(")[1].split("/")[1].slice(0, -1);
   //      value.forEach(function (dagsNote) {
-  //        calendarApi.addEvent({
+  //        ec.addEvent({
   //          title: dagsNote,
-  //          defaultAllDay: true,
+  //          allDay: true,
   //          date: `${year}-${month}-${day}`,
-  //          classNames: ["allday"],
   //        });
   //      });
   //    });
@@ -167,9 +175,8 @@
   async function loadSkema() {
     let ugeNummer = getWeekNumber();
     let år = new Date(Date.now()).getFullYear();
-    let modulObjArr = await fåSkema(ugeNummer, år);
-    options.events = modulObjArr;
-    console.log(options.events);
+    await fåSkema(ugeNummer, år);
+    ec.refetchEvents();
   }
   loadSkema();
 </script>
@@ -182,5 +189,5 @@
 <h1 class="mb-4 text-3xl font-bold">Skema</h1>
 
 <div>
-  <Calendar {plugins} {options} />
+  <Calendar bind:this={ec} {plugins} {options} />
 </div>
