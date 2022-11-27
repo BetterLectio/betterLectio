@@ -78,7 +78,6 @@
 
       loadedWeeks.push(`${ugeNummer}, ${år}`);
     }
-    styleCalendar();
   }
 
   async function fåSkema(ugeNummer, år) {
@@ -163,8 +162,6 @@
         });
       });
     });
-
-    styleCalendar();
   }
 
   function toggleWeekends() {
@@ -200,54 +197,6 @@
     }
   }
   bindCalendar();
-
-  const styleCalendar = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 10));
-
-    const events1 = document.getElementsByClassName("fc-v-event");
-    const events2 = document.getElementsByClassName("fc-h-event");
-    const events = [...events1, ...events2];
-    for (var i = 0; i < events.length; i++) {
-      let colorClass = "btn text-black btn-xs h-full w-full overflow-hidden";
-      if (events[i].classList.contains("normal")) {
-        for (var j = 0; j < normalModuleColors.length; j++) {
-          if (events[i].classList.contains(j)) {
-            let color = normalModuleColors[j];
-            //colorClass = `${color}200 hover:text-white btn text-black btn-xs h-full w-full overflow-hidden`;
-            break;
-          }
-        }
-        colorClass = "btn btn-primary btn-xs h-full w-full overflow-hidden";
-        // TODO make this work
-      } else if (events[i].classList.contains("red")) {
-        colorClass = "btn btn-error btn-xs h-full w-full overflow-hidden";
-      } else if (events[i].classList.contains("allday")) {
-        colorClass = "btn btn-primary btn-xs h-full w-full overflow-hidden";
-      } else {
-        colorClass = "btn btn-xs h-full w-full overflow-hidden btn-secondary";
-      }
-      console.log(colorClass);
-      events[i].className = colorClass;
-    }
-
-    const buttons = document.getElementsByClassName("fc-button");
-    for (var i = 0; i <= buttons.length; i++) {
-      buttons[i].className = "btn btn-primary btn-sm mr-4";
-    }
-    document.getElementsByClassName("fc-button-primary")[0].className = "btn btn-primary btn-sm"; // to fix the "prev" button
-    const buttonGroup = document.getElementsByClassName("fc-button-group");
-    for (var i = 0; i <= buttonGroup.length; i++) {
-      buttonGroup[i].className = "btn-group";
-    }
-    const table = document.getElementsByClassName("fc-scrollgrid-sync-table");
-    for (var i = 0; i <= table.length; i++) {
-      table[i].className = "table table-bordered table-striped";
-    }
-    document.getElementsByClassName("fc-toolbar-title")[0].className = "text-xl p-4 font-bold";
-    document.getElementsByClassName("fc-theme-standard")[0].className =
-      "fc fc-media-screen border border-base-content rounded-2xl border border-2 overfolw-hidden";
-    document.getElementsByClassName("fc-scrollgrid-section-sticky")[0].className = "bg-base-100";
-  };
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Skema</h1>
@@ -255,7 +204,38 @@
 <body use:viewChanged>
   {#if skema != ""}
     <div>
-      <p use:styleCalendar>{" "}</p>
+      <p>{" "}</p>
     </div>
   {/if}
 </body>
+
+<style>
+  .fc-button {
+    @apply btn btn-primary btn-sm mr-4;
+  }
+  .fc-button-primary {
+    @apply btn btn-primary btn-sm;
+  }
+  .fc-button-group {
+    @apply btn-group;
+  }
+  .fc-scrollgrid-sync-table {
+    @apply table ;
+  }
+  .fc-toolbar-title {
+    @apply text-xl p-4 font-bold;
+  }
+  .fc-theme-standard {
+    @apply border-base-content rounded-2xl border-2;
+    white-space: hidden;
+  }
+  .fc-scrollgrid-section-sticky {
+    @apply bg-base-100;
+  }
+  .fc-v-event {
+    @apply btn btn-primary btn-xs h-full w-full overflow-hidden;
+  }
+  .fc-h-event {
+    @apply btn btn-primary btn-xs h-full w-full overflow-hidden;
+  }
+</style>
