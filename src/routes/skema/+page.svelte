@@ -5,9 +5,6 @@
   add color to the events
 
 -->
-
-
-
 <script>
   import { get } from "../../components/http.js";
   import Calendar from "@event-calendar/core";
@@ -82,7 +79,7 @@
     slotMaxTime: "18:00:00",
     events: [],
     eventDidMount: (event) => {
-      // called when an event is mounted to the DOM 
+      // called when an event is mounted to the DOM
       // this makes the event clickable
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
     },
