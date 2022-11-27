@@ -23,7 +23,9 @@
   let karakternote = "";
   let elevnote = "";
   let opgaveIndlæg = [];
+  let elevId = "";
   let opgave = get("/opgave?exerciseid=" + exerciseid).then((data) => {
+    console.log("data:", data);
     opgave = data;
     console.log(opgave);
     let opgaveOplysninger = opgave["oplysninger"];
@@ -43,13 +45,13 @@
     karakternote = afleveresAf["karakternote"];
     elevnote = afleveresAf["elevnote"];
     opgaveIndlæg = opgave["opgave_indlæg"];
+    elevId = elev.bruger_id.slice(1);
   });
-
 
   let alreadyLoaded = [];
   let loadedIndex = {};
   function loadImage(element) {
-    console.log(element)
+    console.log(element);
     if (!alreadyLoaded.includes(element.id)) {
       alreadyLoaded.push(element.id);
       console.log(element.id);
@@ -127,7 +129,7 @@
     <tbody>
       <tr>
         {#if typeof elev["bruger_id"] == "string"}
-          <td><div id={elev["bruger_id"]} use:loadImage></div></td>
+          <td><div id={elev["bruger_id"]} use:loadImage /></td>
         {/if}
         <td>{elev["navn"]}</td>
         <td>{afventer}</td>
@@ -155,8 +157,8 @@
       </tbody>
     </table>
   {/if}
+  <h1 class="mb-2 text-2xl font-bold">Opgave Indlæg</h1>
   {#if opgaveIndlæg.length != 0}
-    <h1 class="mb-2 text-2xl font-bold">Opgave Indlæg</h1>
     <table class="mb-4 table w-full rounded-xl shadow-xl">
       <thead>
         <tr>
@@ -171,20 +173,27 @@
       <tbody>
         {#each opgaveIndlæg as indlæg}
           <tr>
-            <td><div id={indlæg["bruger"]["bruger_id"]} use:loadImage></div></td>
+            <td><div id={indlæg["bruger"]["bruger_id"]} use:loadImage /></td>
             <!-- <td><img src="https://i.stack.imgur.com/34AD2.jpg" alt="profile pic" class="h-10 " /></td> -->
             <!-- Billede TODO -->
             <td>{indlæg["bruger"]["navn"]}</td>
             <td>{indlæg["indlæg"]}</td>
-            <td>{@html sanitizeHtml(md.render(indlæg["dokument"])).replace(
-              "<a",
-              '<a class="btn btn-xs btn-primary" target="_blank"'
-            )}</td>
+            <td
+              >{@html sanitizeHtml(md.render(indlæg["dokument"])).replace(
+                "<a",
+                '<a class="btn btn-xs btn-primary" target="_blank"'
+              )}</td
+            >
             <td>{indlæg["tidspunkt"]}</td>
           </tr>
         {/each}
       </tbody>
     </table>
+  {:else}
+    <a
+      href="https://www.lectio.dk/lectio/681/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
+      class="btn-primary btn">Aflever Her!</a
+    >
   {/if}
 </div>
 <div class="block md:hidden">
