@@ -14,7 +14,7 @@
 
   let customTheme = {
     active: "ec-active",
-    allDay: "ec-all-day",
+    allDay: "ec-all-day relative",
     bgEvent: "ec-bg-event",
     bgEvents: "ec-bg-events",
     body: "ec-body",
@@ -30,7 +30,7 @@
     days: "ec-days",
     draggable: "ec-draggable",
     dragging: "ec-dragging",
-    event: "btn btn-primary btn-xs absolute",
+    event: "btn btn-primary btn-xs absolute overflow-hidden",
     eventBody: "ec-event-body",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
@@ -134,7 +134,6 @@
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       }
-      console.log(start, slut);
       let modulCalenderObj = {
         title: titel,
         start: new Date(`${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}`),
@@ -142,37 +141,40 @@
         id: modul["absid"],
       };
       ec.addEvent(modulCalenderObj);
-      console.log("added");
     }
   }
 
-  //async function loadDagsNoter() {
-  //  let year = new Date(Date.now()).getFullYear();
-  //  skema["dagsNoter"].forEach(function (dagsNoter) {
-  //    Object.entries(dagsNoter).forEach(([key, value]) => {
-  //      let day =
-  //        key.split("(")[1].split("/")[0].length == 1
-  //          ? "0" + key.split("(")[1].split("/")[0]
-  //          : key.split("(")[1].split("/")[0];
-  //      let month =
-  //        key.split("(")[1].split("/")[1].slice(0, -1).length == 1
-  //          ? "0" + key.split("(")[1].split("/")[1].slice(0, -1)
-  //          : key.split("(")[1].split("/")[1].slice(0, -1);
-  //      value.forEach(function (dagsNote) {
-  //        ec.addEvent({
-  //          title: dagsNote,
-  //          allDay: true,
-  //          date: `${year}-${month}-${day}`,
-  //        });
-  //      });
-  //    });
-  //  });
-  //}
+  async function loadDagsNoter() {
+    let year = new Date(Date.now()).getFullYear();
+    skema["dagsNoter"].forEach(function (dagsNoter) {
+      Object.entries(dagsNoter).forEach(([key, value]) => {
+        let day =
+          key.split("(")[1].split("/")[0].length == 1
+            ? "0" + key.split("(")[1].split("/")[0]
+            : key.split("(")[1].split("/")[0];
+        let month =
+          key.split("(")[1].split("/")[1].slice(0, -1).length == 1
+            ? "0" + key.split("(")[1].split("/")[1].slice(0, -1)
+            : key.split("(")[1].split("/")[1].slice(0, -1);
+        value.forEach(function (dagsNote) {
+          console.log(parseInt(year), parseInt(month), parseInt(day));
+          let note = {
+            title: dagsNote,
+            allDay: true,
+            start: new Date(`${year}-${month}-${day}T00:00:00`),
+          };
+          ec.addEvent(note);
+          console.log("?");
+        });
+      });
+    });
+  }
 
   async function loadSkema() {
     let ugeNummer = getWeekNumber();
     let år = new Date(Date.now()).getFullYear();
     await fåSkema(ugeNummer, år);
+    await loadDagsNoter();
     ec.refetchEvents();
   }
   loadSkema();
