@@ -1,6 +1,7 @@
-<script>
-  import { dokumenter } from "../../components/store";
+<script>  
   import { get } from "../../components/http";
+  const beskedId = (new URLSearchParams(window.location.search)).get('id');
+
   const CokieInfo = async () => {
     if (!localStorage.getItem("authentication")) {
       console.log("Redirect");
@@ -15,28 +16,30 @@
       }
     }
   };
+  
   let cookie;
   CokieInfo().then((data) => {
     cookie = data;
   });
-  get("/dokumenter").then((data) => {
-    $dokumenter = (data);
+
+  let besked;
+  get("/besked?id="+beskedId).then((data) => {
+    besked = (data);
   });
 
 </script>
 
-<h1 class="mb-4 text-3xl font-bold">Dokumenter - Work in progress</h1>
-{#if $dokumenter}
-  <p>{JSON.stringify($dokumenter)}</p>
+<h1 class="mb-4 text-3xl font-bold">Besked - Work in progress</h1>
+{#if besked}
+  <p>{JSON.stringify(besked)}</p>
 {/if}
 
 {#if cookie}
-  <a href="https://www.lectio.dk/lectio/681/DokumentOversigt.aspx?elevid={cookie.userid}" class="btn btn-primary">Åben i lectio</a>
+  <a href="https://www.lectio.dk/lectio/681/beskeder2.aspx?type=showthread&elevid={cookie.userid}&id={beskedId}" class="btn btn-primary">Åben i lectio</a>
 {:else}
   <p class="mb-4">loading...</p>
 {/if}
 
   
-
 
 
