@@ -1,6 +1,6 @@
-<script>  
+<script>
   import { get } from "../../components/http";
-  const beskedId = (new URLSearchParams(window.location.search)).get('id');
+  const beskedId = new URLSearchParams(window.location.search).get("id");
 
   const CokieInfo = async () => {
     if (!localStorage.getItem("authentication")) {
@@ -12,21 +12,20 @@
       return {
         user: cookie["LastLoginUserName"],
         school: cookie["LastLoginExamno"],
-        userid: cookie["LastLoginElevId"]
-      }
+        userid: cookie["LastLoginElevId"],
+      };
     }
   };
-  
+
   let cookie;
   CokieInfo().then((data) => {
     cookie = data;
   });
 
   let besked;
-  get("/besked?id="+beskedId).then((data) => {
-    besked = (data);
+  get("/besked?id=" + beskedId).then((data) => {
+    besked = data;
   });
-
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Besked - Work in progress</h1>
@@ -35,11 +34,10 @@
 {/if}
 
 {#if cookie}
-  <a href="https://www.lectio.dk/lectio/681/beskeder2.aspx?type=showthread&elevid={cookie.userid}&id={beskedId}" class="btn btn-primary">Åben i lectio</a>
+  <a
+    href="https://www.lectio.dk/lectio/681/beskeder2.aspx?type=showthread&elevid={cookie.userid}&id={beskedId}"
+    class="btn-primary btn">Åben i lectio</a
+  >
 {:else}
   <p class="mb-4">loading...</p>
 {/if}
-
-  
-
-

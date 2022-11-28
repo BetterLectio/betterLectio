@@ -160,7 +160,7 @@
   {:else}
     <a
       href="https://www.lectio.dk/lectio/681/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
-      class="btn-primary btn">Aflever Her!</a
+      class="btn btn-primary">Aflever Her!</a
     >
   {/if}
 </div>

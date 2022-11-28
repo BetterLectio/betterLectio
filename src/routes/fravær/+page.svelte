@@ -11,8 +11,8 @@
       return {
         user: cookie["LastLoginUserName"],
         school: cookie["LastLoginExamno"],
-        userid: cookie["LastLoginElevId"]
-      }
+        userid: cookie["LastLoginElevId"],
+      };
     }
   };
   let cookie;
@@ -20,9 +20,8 @@
     cookie = data;
   });
   get("/fravaer").then((data) => {
-    $fravaer = (data);
+    $fravaer = data;
   });
-
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Fravær - Work in progress</h1>
@@ -31,11 +30,10 @@
 {/if}
 
 {#if cookie}
-  <a href="https://www.lectio.dk/lectio/681/subnav/fravaerelev.aspx?elevid={cookie.userid}" class="btn btn-primary">Åben i lectio</a>
+  <a
+    href="https://www.lectio.dk/lectio/681/subnav/fravaerelev.aspx?elevid={cookie.userid}"
+    class="btn btn-primary">Åben i lectio</a
+  >
 {:else}
   <p class="mb-4">loading...</p>
 {/if}
-
-  
-
-

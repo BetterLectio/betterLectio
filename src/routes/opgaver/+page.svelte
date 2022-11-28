@@ -58,11 +58,11 @@
 <div>
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn class={afleveredeOpgaverSelected ? " btn" : "btn-primary btn"} on:click={changeView}
+  <btn class={afleveredeOpgaverSelected ? " btn" : "btn btn-primary"} on:click={changeView}
     >Ikke afleveret opgaver</btn
   >
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn class={afleveredeOpgaverSelected ? " btn-primary btn" : " btn"} on:click={changeView}
+  <btn class={afleveredeOpgaverSelected ? " btn btn-primary" : " btn"} on:click={changeView}
     >Afleverede opgaver</btn
   >
   {#if _opgaver}
@@ -98,7 +98,7 @@
                 ></td
               >
               <td class="">{opgave.hold}</td>
-              <td class=""><p class="btn-xs btn">{opgave.frist}</p></td>
+              <td class=""><p class="btn btn-xs">{opgave.frist}</p></td>
               <td class="whitespace-normal text-left" id={opgave.exerciseid}>
                 <div class="hidden whitespace-normal sm:hidden md:hidden lg:block xl:hidden">
                   {cutOpgaveNote(opgave, 30)}
