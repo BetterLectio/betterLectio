@@ -129,5 +129,13 @@ def opgave():
 
     return lectioClient.opgave(exerciseid=exerciseid)
 
+@app.route("/fravaer")
+def fravaer():
+    cookie = request.headers.get("lectio-cookie")
+
+    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+    return lectioClient.fravær()
+
 if __name__ == '__main__':
     app.run()
