@@ -13,6 +13,8 @@
   let ec; // to store the calendar instance and access it's methods
   let plugins = [TimeGrid];
 
+  $: console.log("events", ec);
+
   let customTheme = {
     active: "ec-active",
     allDay: "ec-all-day relative",
@@ -88,19 +90,19 @@
   let skema;
 
   // make a function that runs every time the screen is resized
-  let resize = () => {
+
+  window.addEventListener("resize", () => {
     if (ec) {
       // if the screen is less than 768px wide
       if (window.innerWidth < 768) {
         // set the calendar view to dayGrid
-        ec.setOption('view', 'timeGridDay');
+        ec.setOption("view", "timeGridDay");
       } else {
         // otherwise set the view to weekGrid
-        ec.setOption('view', 'timeGridWeek');
+        ec.setOption("view", "timeGridWeek");
       }
     }
-  };
-  window.addEventListener("resize", resize);
+  });
 
   function getWeekNumber() {
     var d = new Date(Date.now());
@@ -193,7 +195,11 @@
     await loadDagsNoter();
     ec.refetchEvents();
   }
-  loadSkema();
+  function onload() {
+    loadSkema();
+    document.getElementsByClassName("ec-prev").addEventListener("click", () => {});
+    document.getElementsByClassName("ec-next").addEventListener("click", () => {});
+  }
 </script>
 
 <svelte:head>
@@ -204,5 +210,5 @@
 <h1 class="mb-4 text-3xl font-bold">Skema</h1>
 
 <div>
-  <Calendar bind:this={ec} {plugins} {options} />
+  <Calendar on:load={onload} bind:this={ec} {plugins} {options} />
 </div>
