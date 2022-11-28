@@ -6,6 +6,7 @@
 
 -->
 <script>
+  import { onMount } from "svelte";
   import { get } from "../../components/http.js";
   import Calendar from "@event-calendar/core";
   import TimeGrid from "@event-calendar/time-grid";
@@ -85,6 +86,21 @@
     },
   };
   let skema;
+
+  // make a function that runs every time the screen is resized
+  let resize = () => {
+    if (ec) {
+      // if the screen is less than 768px wide
+      if (window.innerWidth < 768) {
+        // set the calendar view to dayGrid
+        ec.setOption('view', 'timeGridDay');
+      } else {
+        // otherwise set the view to weekGrid
+        ec.setOption('view', 'timeGridWeek');
+      }
+    }
+  };
+  window.addEventListener("resize", resize);
 
   function getWeekNumber() {
     var d = new Date(Date.now());
