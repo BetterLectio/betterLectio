@@ -7,7 +7,14 @@
     // Configure properties specific to VS Code.
     "vscode": {
       // Add the IDs of extensions you want installed when the container is created.
-      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode", "rohit-gohri.format-code-action"],
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "rohit-gohri.format-code-action",
+        "svelte.svelte-vscode",
+        "bradlc.vscode-tailwindcss",
+        "github.copilot"
+      ],
       "settings": {
         "editor.formatOnSave": false,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
