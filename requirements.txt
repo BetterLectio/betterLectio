@@ -1,3 +1,3 @@
-python-lectio>=1.4.5
+python-lectio>=1.4.6
 flask
 flask-cors
