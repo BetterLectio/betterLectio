@@ -103,7 +103,7 @@
   }
 </script>
 
-<div class="hidden md:block">
+<div>
   <h1 class="mb-4 text-3xl font-bold">{_oplysninger.opgavetitel}</h1>
   <p class="mb-4">{_oplysninger.opgavenote}</p>
 

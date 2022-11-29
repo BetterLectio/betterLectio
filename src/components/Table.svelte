@@ -23,7 +23,7 @@
   </div>
 
   <div class="block md:hidden">
-    <ul class="menu rounded-box flex w-full bg-base-100 p-2">
+    <ul class="menu rounded-box w-full bg-base-100 p-2 drop-shadow-xl md:w-56">
       {#each Object.entries(items) as [key, value]}
         <li>
           <p><strong>{key}: </strong>{value}</p>
