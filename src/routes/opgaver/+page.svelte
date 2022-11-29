@@ -5,25 +5,21 @@
   let afleveredeOpgaverSelected = false;
   let _opgaver = [];
 
-  let ikkeAfleveredeOpgaverClass = "btn btn-primary";
-  let afleveredeOpgaverClass = "btn";
-
   get("/opgaver").then((data) => {
     console.log("data:", data);
     $opgaver = data;
   });
 
-  $: if ($opgaver) {
+  $: if ($opgaver && (afleveredeOpgaverSelected || !afleveredeOpgaverSelected)) {
     _opgaver = sortOpgaver($opgaver);
     console.log("_opgaver:", _opgaver);
   }
 
-  function sortOpgaver(_opgaver) {
+  function sortOpgaver(__opgaver) {
     let ikkeAfleveredeOpgaver = [];
     let afleveredeOpgaver = [];
 
-    _opgaver.forEach((opgave) => {
-      console.log(opgave);
+    __opgaver.forEach((opgave) => {
       if (opgave.status == "Afleveret") {
         opgave.class = "btn btn-success";
         afleveredeOpgaver.push(opgave);
@@ -46,6 +42,7 @@
 
   function changeView() {
     afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
+    console.log("afleveredeOpgaverSelected: ", afleveredeOpgaverSelected);
   }
 
   // cut the opgave.opgavenote to 1 line
@@ -61,9 +58,13 @@
 <div>
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn class={ikkeAfleveredeOpgaverClass} on:click={changeView}>Ikke afleveret opgaver</btn>
+  <btn class={afleveredeOpgaverSelected ? " btn" : "btn btn-primary"} on:click={changeView}
+    >Ikke afleveret opgaver</btn
+  >
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn class={afleveredeOpgaverClass} on:click={changeView}>Afleverede opgaver</btn>
+  <btn class={afleveredeOpgaverSelected ? " btn btn-primary" : " btn"} on:click={changeView}
+    >Afleverede opgaver</btn
+  >
   {#if _opgaver}
     <ul class="menu rounded-box my-4 w-full bg-base-100 p-2 drop-shadow-xl md:w-full lg:hidden">
       {#each _opgaver as opgave}
@@ -97,7 +98,7 @@
                 ></td
               >
               <td class="">{opgave.hold}</td>
-              <td class=""><p class="btn-xs btn">{opgave.frist}</p></td>
+              <td class=""><p class="btn btn-xs">{opgave.frist}</p></td>
               <td class="whitespace-normal text-left" id={opgave.exerciseid}>
                 <div class="hidden whitespace-normal sm:hidden md:hidden lg:block xl:hidden">
                   {cutOpgaveNote(opgave, 30)}

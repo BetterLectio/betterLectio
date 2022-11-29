@@ -126,6 +126,7 @@
 
   async function fåSkema(ugeNummer, år) {
     skema = await get(`/skema?uge=${ugeNummer}&år=${år}`);
+
     for (let i = 0; i < skema["moduler"].length; i++) {
       let modul = skema["moduler"][i];
       let start = modul["tidspunkt"].split(" til ")[0];
@@ -244,4 +245,3 @@
 <div>
   <Calendar bind:this={ec} {plugins} {options} />
 </div>
-
