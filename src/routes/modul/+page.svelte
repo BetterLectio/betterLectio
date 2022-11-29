@@ -20,7 +20,7 @@
     await modul.lektier.split("\n").forEach((element) => {
       let translated = sanitizeHtml(md.render(element)).replace(
         "<a",
-        '<a class="btn btn-sm btn-primary" target="_blank"'
+        '<a class="btn btn-xs btn-primary" target="_blank"'
       );
       lektieHtml += "<p>" + translated + "<p/>";
     });
