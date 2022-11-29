@@ -35,8 +35,10 @@
   {#if samletFravaer == 0}
       <p>Du har intet fravær</p>
     {:else}
-    <p>{JSON.stringify(samletFravaer)}</p>
+        <p>Du har {samletFravaer}% fravær</p>
   {/if}
+        
+  <p>{JSON.stringify($fravaer)}</p>
 {/if}
 
 {#if cookie}
