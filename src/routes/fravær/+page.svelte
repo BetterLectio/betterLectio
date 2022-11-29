@@ -19,14 +19,24 @@
   CokieInfo().then((data) => {
     cookie = data;
   });
+  let samletFravaer = null;
   get("/fravaer").then((data) => {
     $fravaer = data;
+    $fravaer.generalt.forEach(element=>{
+      if (element.hold == "Samlet") {
+        samletFravaer = parseFloat(element.fravær_procent)
+      }
+    })
   });
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Fravær - Work in progress</h1>
 {#if $fravaer}
-  <p>{JSON.stringify($fravaer)}</p>
+  {#if samletFravaer == 0}
+      <p>Du har intet fravær</p>
+    {:else}
+    <p>{JSON.stringify(samletFravaer)}</p>
+  {/if}
 {/if}
 
 {#if cookie}
