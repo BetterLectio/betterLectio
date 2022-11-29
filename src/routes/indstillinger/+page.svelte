@@ -144,4 +144,9 @@
       window.location.href = "/";
     }}>Log ud</button
   >
+  <div class="btn btn-warning font-bold drop-shadow-xl md:w-fit md:font-normal">
+    <a href="https://github.com/victorDigital/betterLectio/issues/new/choose">
+      Rapporter Fejl
+    </a>
+  </div>
 </div>
