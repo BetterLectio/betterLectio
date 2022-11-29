@@ -1,6 +1,6 @@
 <!--
   TODO: 
-  load more data on week change
+  load more data on week change ✅
   add a loading indicator
   add color to the events
 
@@ -31,7 +31,7 @@
     days: "ec-days",
     draggable: "ec-draggable",
     dragging: "ec-dragging",
-    event: "btn btn-primary btn-xs absolute overflow-hidden",
+    event: "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl",
     eventBody: "ec-event-body",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
@@ -162,11 +162,21 @@
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       }
+      let status = modul["status"]; // can be "normal" "ændret" or "aflyst"
+      let className;
+      if (status == "normal") {
+        className = "hsl(var(--in))";
+      } else if (status == "ændret") {
+        className = "hsl(var(--su))";
+      } else {
+        className = "hsl(var(--er))";
+      }
       let modulCalenderObj = {
         title: titel,
         start: new Date(`${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}`),
         end: new Date(`${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}`),
         id: modul["absid"],
+        backgroundColor: className,
       };
       ec.addEvent(modulCalenderObj);
     }
@@ -234,3 +244,4 @@
 <div>
   <Calendar bind:this={ec} {plugins} {options} />
 </div>
+
