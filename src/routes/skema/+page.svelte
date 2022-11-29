@@ -13,15 +13,13 @@
   let ec; // to store the calendar instance and access it's methods
   let plugins = [TimeGrid];
 
-  $: console.log("events", ec);
-
   let customTheme = {
     active: "ec-active",
     allDay: "ec-all-day relative",
     bgEvent: "ec-bg-event",
     bgEvents: "ec-bg-events",
     body: "ec-body",
-    button: "btn btn-primary btn-sm",
+    button: "btn btn-primary btn-sm ONCHANGE",
     buttonGroup: "btn-group",
     calendar: "ec",
     compact: "ec-compact",
@@ -73,6 +71,10 @@
     withScroll: "ec-with-scroll",
   };
 
+  let globalWeek = 0;
+  let globalYear = 0;
+  let loadedWeeks = [getWeekNumber()];
+
   let options = {
     view: "timeGridWeek",
     nowIndicator: true,
@@ -85,6 +87,15 @@
       // called when an event is mounted to the DOM
       // this makes the event clickable
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
+    },
+    viewDidMount: (view) => {
+      let rawDate = view.currentEnd.toISOString();
+      console.log("viewDidMount", rawDate);
+      let dateObj = new Date(rawDate);
+      globalYear = dateObj.getFullYear();
+      let dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+      globalWeek = Math.floor(dayOfYear / 7);
+      console.log("viewDidMount", globalYear, globalWeek);
     },
   };
   let skema;
@@ -117,7 +128,6 @@
     skema = await get(`/skema?uge=${ugeNummer}&år=${år}`);
     for (let i = 0; i < skema["moduler"].length; i++) {
       let modul = skema["moduler"][i];
-      console.log(modul);
       let start = modul["tidspunkt"].split(" til ")[0];
       start = {
         dag: start.split("/")[0].length == 1 ? "0" + start.split("/")[0] : start.split("/")[0],
@@ -162,43 +172,55 @@
     }
   }
 
-  async function loadDagsNoter() {
-    let year = new Date(Date.now()).getFullYear();
-    skema["dagsNoter"].forEach(function (dagsNoter) {
-      Object.entries(dagsNoter).forEach(([key, value]) => {
-        let day =
-          key.split("(")[1].split("/")[0].length == 1
-            ? "0" + key.split("(")[1].split("/")[0]
-            : key.split("(")[1].split("/")[0];
-        let month =
-          key.split("(")[1].split("/")[1].slice(0, -1).length == 1
-            ? "0" + key.split("(")[1].split("/")[1].slice(0, -1)
-            : key.split("(")[1].split("/")[1].slice(0, -1);
-        value.forEach(function (dagsNote) {
-          console.log(parseInt(year), parseInt(month), parseInt(day));
-          let note = {
-            title: dagsNote,
-            allDay: true,
-            start: new Date(`${year}-${month}-${day}T00:00:00`),
-          };
-          ec.addEvent(note);
-          console.log("?");
-        });
-      });
-    });
-  }
-
-  async function loadSkema() {
-    let ugeNummer = getWeekNumber();
-    let år = new Date(Date.now()).getFullYear();
+  async function loadSkema(ugeNummer, år) {
     await fåSkema(ugeNummer, år);
-    await loadDagsNoter();
     ec.refetchEvents();
   }
+
   function onload() {
-    loadSkema();
-    document.getElementsByClassName("ec-prev").addEventListener("click", () => {});
-    document.getElementsByClassName("ec-next").addEventListener("click", () => {});
+    loadSkema(getWeekNumber(), new Date(Date.now()).getFullYear());
+    let btns = document.getElementsByClassName("ONCHANGE");
+    btns[0].addEventListener("click", () => {
+      changeWeek("reset"); //minus 1 week
+    });
+    btns[1].addEventListener("click", () => {
+      changeWeek("minus"); //plus 1 week
+    });
+    btns[2].addEventListener("click", () => {
+      changeWeek("plus"); //plus 1 week
+    });
+  }
+  onMount(() => {
+    getWeekNumber();
+    console.log(getWeekNumber());
+    onload();
+  });
+
+  function changeWeek(task) {
+    switch (task) {
+      case "reset":
+        globalWeek = getWeekNumber();
+        globalYear = getWeekNumber();
+        break;
+      case "minus":
+        globalWeek--;
+        break;
+      case "plus":
+        globalWeek++;
+        break;
+    }
+    console.log(loadedWeeks);
+    let getWeek = true;
+    for (let i = 0; i < loadedWeeks.length; i++) {
+      if (loadedWeeks[i] == globalWeek) {
+        getWeek = false;
+      }
+    }
+    if (getWeek) {
+      loadSkema(globalWeek, globalYear);
+      loadedWeeks.push(globalWeek);
+      return;
+    }
   }
 </script>
 
@@ -210,5 +232,5 @@
 <h1 class="mb-4 text-3xl font-bold">Skema</h1>
 
 <div>
-  <Calendar on:load={onload} bind:this={ec} {plugins} {options} />
+  <Calendar bind:this={ec} {plugins} {options} />
 </div>
