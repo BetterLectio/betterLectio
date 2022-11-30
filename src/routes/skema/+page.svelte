@@ -1,89 +1,134 @@
+<!--
+  TODO: 
+  load more data on week change ✅
+  add a loading indicator
+  add color to the events
+
+-->
 <script>
-  /*
-    TODO:
-        - Tag weekend med hvis der sker noget der
-        - Lav en popup som kommer når man har musen over skemaet med flere informationer på modulerne
-        - Skriv når et modul er annuleret ✅
-        - Hav farver fra lectio med, f.eks. grøn=frivillig
-        - Gør skemaet mobilt venligt ved kun at vise en dag i stedet for en hel uge ✅
-        - Få skemaet til at blende ind med tailwind css ✅
-    */
+  import { onMount } from "svelte";
   import { get } from "../../components/http.js";
+  import Calendar from "@event-calendar/core";
+  import TimeGrid from "@event-calendar/time-grid";
+  let ec; // to store the calendar instance and access it's methods
+  let plugins = [TimeGrid];
 
-  import FullCalendar from "svelte-fullcalendar";
-  import timeGridPlugin from "@fullcalendar/timegrid";
-  import daLocale from "@fullcalendar/core/locales/da";
-
-  let calendar;
-  let calendarApi;
-
-  let options = {
-    initialView: "timeGridWeek",
-    plugins: [timeGridPlugin],
-    weekNumberCalculation: "ISO",
-    locale: daLocale,
-    weekends: false,
-    height: "auto",
-
-    slotMinTime: "08:00:00",
-    slotMaxTime: "18:00:00",
-
-    slotDuration: "00:30:00",
-
-    displayEventTime: true,
-    nowIndicator: true,
-
-    events: [],
-    /*eventClick: function(info) {
-            alert('Event: ' + info.event.title);
-        },*/
-    //eventMouseEnter: function(info) {
-    //    console.log("Mus over: " + info.event.title);
-    //    // Popup af en eller andet form som fortæller mere om modulet
-    //},
-    //eventMouseLeave: function(info) {
-    //    console.log("Mus ikke længere over: " + info.event.title);
-    //    // Fjern pop up
-    //
-    //}
-  }; // ikke nødvendigt lige pt.
-
-  let skema = "";
-
-  Date.prototype.getWeekNumber = function () {
-    var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
-    var dayNum = d.getUTCDay() || 7;
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-    var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+  let customTheme = {
+    active: "ec-active",
+    allDay: "ec-all-day relative",
+    bgEvent: "ec-bg-event",
+    bgEvents: "ec-bg-events",
+    body: "ec-body",
+    button: "btn btn-primary btn-sm ONCHANGE",
+    buttonGroup: "btn-group",
+    calendar: "ec",
+    compact: "ec-compact",
+    content: "ec-content",
+    day: "ec-day",
+    dayFoot: "ec-day-foot",
+    dayHead: "ec-day-head",
+    daySide: "ec-day-side",
+    days: "ec-days",
+    draggable: "ec-draggable",
+    dragging: "ec-dragging",
+    event: "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl",
+    eventBody: "ec-event-body",
+    eventTag: "ec-event-tag",
+    eventTime: "ec-event-time",
+    eventTitle: "ec-event-title",
+    events: "ec-events",
+    extra: "ec-extra",
+    ghost: "ec-ghost",
+    handle: "ec-handle",
+    header: "ec-header",
+    hiddenScroll: "ec-hidden-scroll",
+    hiddenTimes: "ec-hidden-times",
+    highlight: "ec-highlight",
+    icon: "ec-icon",
+    line: "ec-line",
+    lines: "ec-lines",
+    list: "ec-list",
+    month: "ec-month",
+    noEvents: "ec-no-events",
+    nowIndicator: "ec-now-indicator",
+    otherMonth: "ec-other-month",
+    pointer: "ec-pointer",
+    popup: "ec-popup",
+    preview: "ec-preview",
+    resizer: "ec-resizer",
+    resizingX: "ec-resizing-x",
+    resizingY: "ec-resizing-y",
+    resource: "ec-resource",
+    resourceTitle: "ec-resource-title",
+    sidebar: "ec-sidebar",
+    sidebarTitle: "ec-sidebar-title",
+    time: "ec-time",
+    title: "ec-title",
+    today: "bg-base-300",
+    toolbar: "ec-toolbar",
+    uniform: "ec-uniform",
+    week: "ec-week",
+    withScroll: "ec-with-scroll",
   };
 
-  let loadedWeeks = [];
-  async function viewChanged() {
-    while (true) {
-      if (calendarApi != undefined) {
-        break;
+  let globalWeek = 0;
+  let globalYear = 0;
+  let loadedWeeks = [getWeekNumber()];
+
+  let options = {
+    view: "timeGridWeek",
+    nowIndicator: true,
+    theme: customTheme,
+    hiddenDays: [0, 6],
+    slotMinTime: "06:00:00",
+    slotMaxTime: "18:00:00",
+    events: [],
+    eventDidMount: (event) => {
+      // called when an event is mounted to the DOM
+      // this makes the event clickable
+      event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
+    },
+    viewDidMount: (view) => {
+      let rawDate = view.currentEnd.toISOString();
+      console.log("viewDidMount", rawDate);
+      let dateObj = new Date(rawDate);
+      globalYear = dateObj.getFullYear();
+      let dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+      globalWeek = Math.floor(dayOfYear / 7);
+      console.log("viewDidMount", globalYear, globalWeek);
+    },
+  };
+  let skema;
+
+  // make a function that runs every time the screen is resized
+
+  window.addEventListener("resize", () => {
+    if (ec) {
+      // if the screen is less than 768px wide
+      if (window.innerWidth < 768) {
+        // set the calendar view to dayGrid
+        ec.setOption("view", "timeGridDay");
+      } else {
+        // otherwise set the view to weekGrid
+        ec.setOption("view", "timeGridWeek");
       }
-      await new Promise((resolve) => setTimeout(resolve, 10));
     }
-    let date = calendarApi.getDate();
+  });
 
-    let år = date.getFullYear();
-    let ugeNummer = date.getWeekNumber();
-
-    if (!loadedWeeks.includes(`${ugeNummer}, ${år}`)) {
-      fåSkema(ugeNummer, år);
-
-      loadedWeeks.push(`${ugeNummer}, ${år}`);
-    }
-    styleCalendar();
+  function getWeekNumber() {
+    var d = new Date(Date.now());
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+    var yearStart = new Date(d.getFullYear(), 0, 1);
+    var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+    return weekNo;
   }
 
   async function fåSkema(ugeNummer, år) {
     skema = await get(`/skema?uge=${ugeNummer}&år=${år}`);
 
-    //skema = await response.json()
-    skema["moduler"].forEach(function (modul) {
+    for (let i = 0; i < skema["moduler"].length; i++) {
+      let modul = skema["moduler"][i];
       let start = modul["tidspunkt"].split(" til ")[0];
       start = {
         dag: start.split("/")[0].length == 1 ? "0" + start.split("/")[0] : start.split("/")[0],
@@ -106,135 +151,97 @@
 
         tidspunkt: slut.split(" ")[1],
       };
-      let titel = modul["navn"] != null ? modul["navn"] : modul["hold"];
-      try {
-        titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
-      } catch (err) {}
-      let color = "";
-      if (modul["status"] == "aflyst") {
-        color = "red";
-      } else if (modul["status"] == "ændret") {
-        color = "yellow";
+      let titel = "";
+      if (modul["navn"] != undefined) {
+        titel = modul["navn"] != null ? modul["navn"] : modul["hold"];
+        if (modul["lokale"]) {
+          titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
+        }
       } else {
-        color = "normal";
+        titel = modul["hold"];
+        if (modul["lokale"]) {
+          titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
+        }
       }
-      calendarApi.addEvent({
+      let status = modul["status"]; // can be "normal" "ændret" or "aflyst"
+      let className;
+      if (status == "normal") {
+        className = "hsl(var(--in))";
+      } else if (status == "ændret") {
+        className = "hsl(var(--su))";
+      } else {
+        className = "hsl(var(--er))";
+      }
+      let modulCalenderObj = {
         title: titel,
-        url: `/modul?absid=${modul["absid"]}`,
-        start: `${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}:00`,
-        end: `${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}:00`,
-        defaultAllDay: false,
-        classNames: [color],
-      });
+        start: new Date(`${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}`),
+        end: new Date(`${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}`),
+        id: modul["absid"],
+        backgroundColor: className,
+      };
+      ec.addEvent(modulCalenderObj);
+    }
+  }
+
+  async function loadSkema(ugeNummer, år) {
+    await fåSkema(ugeNummer, år);
+    ec.refetchEvents();
+  }
+
+  function onload() {
+    loadSkema(getWeekNumber(), new Date(Date.now()).getFullYear());
+    let btns = document.getElementsByClassName("ONCHANGE");
+    btns[0].addEventListener("click", () => {
+      changeWeek("reset"); //minus 1 week
     });
-    loadDagsNoter();
-  }
-
-  async function loadDagsNoter() {
-    let year = calendarApi.getDate().getFullYear();
-    skema["dagsNoter"].forEach(function (dagsNoter) {
-      Object.entries(dagsNoter).forEach(([key, value]) => {
-        let day =
-          key.split("(")[1].split("/")[0].length == 1
-            ? "0" + key.split("(")[1].split("/")[0]
-            : key.split("(")[1].split("/")[0];
-        let month =
-          key.split("(")[1].split("/")[1].slice(0, -1).length == 1
-            ? "0" + key.split("(")[1].split("/")[1].slice(0, -1)
-            : key.split("(")[1].split("/")[1].slice(0, -1);
-        value.forEach(function (dagsNote) {
-          calendarApi.addEvent({
-            title: dagsNote,
-            defaultAllDay: true,
-            date: `${year}-${month}-${day}`,
-            classNames: ["allday"],
-          });
-        });
-      });
+    btns[1].addEventListener("click", () => {
+      changeWeek("minus"); //plus 1 week
     });
-
-    styleCalendar();
+    btns[2].addEventListener("click", () => {
+      changeWeek("plus"); //plus 1 week
+    });
   }
+  onMount(() => {
+    getWeekNumber();
+    console.log(getWeekNumber());
+    onload();
+  });
 
-  function toggleWeekends() {
-    options = {
-      ...options,
-      weekends: !options.weekends,
-    };
-  }
-
-  async function bindCalendar() {
-    while (true) {
-      if (calendar != undefined) {
+  function changeWeek(task) {
+    switch (task) {
+      case "reset":
+        globalWeek = getWeekNumber();
+        globalYear = getWeekNumber();
         break;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      case "minus":
+        globalWeek--;
+        break;
+      case "plus":
+        globalWeek++;
+        break;
     }
-    calendarApi = await calendar.getAPI();
-
-    let width = window.innerWidth;
-    if (width < 700) {
-      calendarApi.today();
-      calendarApi.changeView("timeGridDay");
-    } else {
-      let today = await new Date().getDay();
-      if (today == 6 || today == 0) {
-        calendarApi.next();
+    console.log(loadedWeeks);
+    let getWeek = true;
+    for (let i = 0; i < loadedWeeks.length; i++) {
+      if (loadedWeeks[i] == globalWeek) {
+        getWeek = false;
       }
     }
-
-    const fcButtons = await document.getElementsByClassName("fc-button-primary");
-    for (var i = 0; i < fcButtons.length; i++) {
-      await fcButtons[i].addEventListener("click", viewChanged);
+    if (getWeek) {
+      loadSkema(globalWeek, globalYear);
+      loadedWeeks.push(globalWeek);
+      return;
     }
   }
-  bindCalendar();
-
-  const styleCalendar = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 10));
-    const events1 = document.getElementsByClassName("fc-v-event");
-    const events2 = document.getElementsByClassName("fc-h-event");
-    const events = [...events1, ...events2];
-    for (var i = 0; i < events.length; i++) {
-      let colorClass = "btn text-black btn-xs h-full w-full overflow-hidden";
-      if (events[i].classList.contains("normal")) {
-        colorClass = "btn btn-primary btn-xs h-full w-full overflow-hidden";
-      } else if (events[i].classList.contains("red")) {
-        colorClass = "btn btn-error btn-xs h-full w-full overflow-hidden";
-      } else if (events[i].classList.contains("allday")) {
-        colorClass = "btn btn-primary btn-xs h-full w-full overflow-hidden";
-      } else {
-        colorClass = "btn btn-xs h-full w-full overflow-hidden btn-secondary";
-      }
-      console.log(colorClass);
-      events[i].className = colorClass;
-    }
-    const buttons = document.getElementsByClassName("fc-button");
-    for (var i = 0; i <= buttons.length; i++) {
-      buttons[i].className = "btn btn-primary btn-sm mr-4";
-    }
-    document.getElementsByClassName("fc-button-primary")[0].className = "btn btn-primary btn-sm"; // to fix the "prev" button
-    const buttonGroup = document.getElementsByClassName("fc-button-group");
-    for (var i = 0; i <= buttonGroup.length; i++) {
-      buttonGroup[i].className = "btn-group";
-    }
-    const table = document.getElementsByClassName("fc-scrollgrid-sync-table");
-    for (var i = 0; i <= table.length; i++) {
-      table[i].className = "table table-bordered table-striped";
-    }
-    document.getElementsByClassName("fc-toolbar-title")[0].className = "text-xl p-4 font-bold";
-    document.getElementsByClassName("fc-theme-standard")[0].className =
-      "fc fc-media-screen border border-base-content rounded-2xl border border-2 overfolw-hidden";
-    document.getElementsByClassName("fc-scrollgrid-section-sticky")[0].className = "bg-base-100";
-  };
 </script>
 
+<svelte:head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build/event-calendar.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build/event-calendar.min.js"></script>
+</svelte:head>
+
 <h1 class="mb-4 text-3xl font-bold">Skema</h1>
-<FullCalendar bind:this={calendar} {options} />
-<body use:viewChanged>
-  {#if skema != ""}
-    <div>
-      <p use:styleCalendar>{" "}</p>
-    </div>
-  {/if}
-</body>
+
+<div>
+  <Calendar bind:this={ec} {plugins} {options} />
+</div>
