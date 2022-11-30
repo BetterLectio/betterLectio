@@ -28,7 +28,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
    - lav skemaet kompatibelt med daisy UI (UI) ✅
    - mulighed for at cache skemaet (API)
    - kunne se andre elevers skema (API) (UI)
-   - Skema crasher hvis man har eksamen eller privat aftale (API)
+   - Skema crasher hvis man har eksamen eller privat aftale (API) ✅
 
 3. værktøjs side (nyttige værktøjer til brugeren)
 
