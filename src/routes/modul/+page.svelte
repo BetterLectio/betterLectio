@@ -12,6 +12,7 @@
   let modul;
   let lektieHtml = "";
   let øvrigeIndholdHtml = "";
+  let note = "";
   let ready = false;
 
   async function getModul() {
@@ -30,6 +31,13 @@
         '<a class="btn btn-xs btn-primary" target="_blank"'
       );
       øvrigeIndholdHtml += "<p>" + translated + "<p/>";
+    });
+    await modul.note.split("\n").forEach((element) => {
+      let translated = sanitizeHtml(md.render(element)).replace(
+        "<a",
+        '<a class="btn btn-xs btn-primary" target="_blank"'
+      );
+      note += "<p>" + translated + "<p/>";
     });
 
     ready = true;
@@ -54,6 +62,11 @@
     {#if øvrigeIndholdHtml != "<p><p/>"}
       <h3 class="text-xl font-bold">Øvrigt indhold</h3>
       {@html øvrigeIndholdHtml}
+    {/if}
+
+    {#if note != "<p><p/>"}
+      <h3 class="text-xl font-bold">Noter</h3>
+      {@html note}
     {/if}
 
     {#if lektieHtml == "<p><p/>" && øvrigeIndholdHtml == "<p><p/>"}
