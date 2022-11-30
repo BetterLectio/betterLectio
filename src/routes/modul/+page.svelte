@@ -69,7 +69,7 @@
       {@html note}
     {/if}
 
-    {#if lektieHtml == "<p><p/>" && øvrigeIndholdHtml == "<p><p/>"}
+    {#if lektieHtml == "<p><p/>" && øvrigeIndholdHtml == "<p><p/>" && note == "<p><p/>"}
       <p>Aktiviteten har ikke noget indhold.</p>
     {/if}
   {/if}
