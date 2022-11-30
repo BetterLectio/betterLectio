@@ -73,6 +73,7 @@
 
   let globalWeek = 0;
   let globalYear = 0;
+  let globalView = "timeGridWeek";
   let loadedWeeks = [getWeekNumber()];
 
   let options = {
@@ -103,6 +104,10 @@
   // make a function that runs every time the screen is resized
 
   window.addEventListener("resize", () => {
+    changeView();
+  });
+
+  function changeView() {
     if (ec) {
       // if the screen is less than 768px wide
       if (window.innerWidth < 768) {
@@ -113,7 +118,7 @@
         ec.setOption("view", "timeGridWeek");
       }
     }
-  });
+  }
 
   function getWeekNumber() {
     var d = new Date(Date.now());
@@ -202,6 +207,7 @@
     });
   }
   onMount(() => {
+    changeView()
     getWeekNumber();
     console.log(getWeekNumber());
     onload();
