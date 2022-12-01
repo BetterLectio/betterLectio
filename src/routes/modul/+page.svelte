@@ -52,25 +52,25 @@
     </h1>
     <p><strong>Tidspunkt: </strong>{modul.aktivitet.tidspunkt}</p>
     <p><strong>Lokale: </strong>{modul.aktivitet.lokale}</p>
-    <p class="mb-4"><strong>Lærer: </strong>{modul.aktivitet.lærer}</p>
+    <p><strong>Lærer: </strong>{modul.aktivitet.lærer}</p>
 
     {#if lektieHtml != "<p><p/>"}
-      <h3 class="mb-4 text-xl font-bold">Lektier</h3>
+      <h3 class="mt-4 text-xl font-bold">Lektier</h3>
       {@html lektieHtml}
     {/if}
 
     {#if øvrigeIndholdHtml != "<p><p/>"}
-      <h3 class="text-xl font-bold">Øvrigt indhold</h3>
+      <h3 class="mt-4 text-xl font-bold">Øvrigt indhold</h3>
       {@html øvrigeIndholdHtml}
     {/if}
 
     {#if note != "<p><p/>"}
-      <h3 class="text-xl font-bold">Noter</h3>
+      <h3 class="mt-4 text-xl font-bold">Noter</h3>
       {@html note}
     {/if}
 
     {#if lektieHtml == "<p><p/>" && øvrigeIndholdHtml == "<p><p/>" && note == "<p><p/>"}
-      <p>Aktiviteten har ikke noget indhold.</p>
+      <p class="mt-4">Aktiviteten har ikke noget indhold.</p>
     {/if}
   {/if}
 </div>
