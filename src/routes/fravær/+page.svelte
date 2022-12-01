@@ -33,10 +33,12 @@
 <h1 class="mb-4 text-3xl font-bold">Fravær - Work in progress</h1>
 {#if $fravaer}
   {#if samletFravaer == 0}
-    <p>Du har intet fravær</p>
-  {:else}
-    <p>{JSON.stringify(samletFravaer)}%</p>
+      <p>Du har intet fravær</p>
+    {:else}
+        <p>Du har {samletFravaer}% fravær</p>
   {/if}
+        
+  <p>{JSON.stringify($fravaer)}</p>
 {/if}
 
 {#if cookie}
