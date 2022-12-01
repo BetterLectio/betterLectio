@@ -22,11 +22,11 @@
   let samletFravaer = null;
   get("/fravaer").then((data) => {
     $fravaer = data;
-    $fravaer.generalt.forEach(element=>{
+    $fravaer.generalt.forEach((element) => {
       if (element.hold == "Samlet") {
-        samletFravaer = parseFloat(element.fravær_procent)
+        samletFravaer = parseFloat(element.fravær_procent);
       }
-    })
+    });
   });
 </script>
 
@@ -44,7 +44,7 @@
 {#if cookie}
   <a
     href="https://www.lectio.dk/lectio/681/subnav/fravaerelev.aspx?elevid={cookie.userid}"
-    class="btn btn-primary">Åben i lectio</a
+    class="btn-primary btn">Åben i lectio</a
   >
 {:else}
   <p class="mb-4">loading...</p>
