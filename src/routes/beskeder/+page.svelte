@@ -1,34 +1,40 @@
 <script>
+  import { informationer, beskeder } from "../../components/store.js";
   /**
      TODO:
         - Gør så man kan downloade filer uden at blive redirectet til modul siden
         - Måske gør så man får al teksten og derfor ikke behøver at klikke på lektien
      */
   import { get } from "../../components/http.js";
-
-  let beskeder = [];
-  let profilePicturePaths = {};
   let ready = false;
-  async function fåBeskeder(id = null) {
-    if (typeof id == "string") {
-      beskeder = await get(`/beskeder?id=${id}`);
-    } else {
-      beskeder = await get(`/beskeder`);
-    }
-    console.log(beskeder);
-    await fåLærereElever();
-    ready = true;
-  }
+  let currentId = -70;
 
-  let lærereOgElever = {};
-  async function fåLærereElever() {
-    const informationer = await get("/informationer");
-    lærereOgElever = informationer["lærere"];
-    for (const [key, value] of Object.entries(informationer.elever)) {
+  get("/informationer").then((data) => {
+    $informationer = data;
+    let _elever = {};
+    for (const [key, value] of Object.entries($informationer.elever)) {
       let navn = key.split("(")[1].split(" ");
       navn.pop();
       navn = `${key.split("(")[0]}(${navn.join(" ")})`;
-      lærereOgElever[navn] = value;
+      _elever[navn] = value;
+    }
+    $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
+  });
+
+  get("/beskeder").then((data) => {
+    $beskeder[currentId] = data;
+  });
+
+  $: if ($beskeder && $informationer) {
+    ready = true;
+  }
+
+  function changeCategory(id = null) {
+    if (typeof id == "string") {
+      get(`/beskeder?id=${id}`).then((data) => {
+        currentId = id;
+        $beskeder[id] = data;
+      });
     }
   }
 
@@ -37,7 +43,7 @@
   function loadImage(element) {
     if (!alreadyLoaded.includes(element.id)) {
       alreadyLoaded.push(element.id);
-      console.log(element.id);
+      //console.log(element.id);
       var xhr = new XMLHttpRequest();
       xhr.responseType = "blob"; //so you can access the response like a normal URL
       xhr.onreadystatechange = function () {
@@ -61,9 +67,9 @@
   async function useLoadedImage(element) {
     while (true) {
       if (loadImage[element.id] == undefined) {
-        console.log("undefined", typeof loadedIndex[element.id]);
+        //console.log("undefined", typeof loadedIndex[element.id]);
       } else {
-        console.log("UNDEUNDEUND");
+        //console.log("UNDEUNDEUND");
         element.outerHTML = `<img id="${element.id}" src="${
           loadImage[element.id]
         }" class="object-cover w-14 h-14 rounded-full"/>`;
@@ -74,50 +80,28 @@
   }
 </script>
 
-<body use:fåBeskeder>
+<body>
   <h1 class="mb-4 text-3xl font-bold">Beskeder</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   {#if ready}
     <div class="btn-group z-20 mb-4 w-full">
-      {#each beskeder.besked_muligheder as beskedMulighed}
-        <!-- Få mapper til at åbne når man klikker på dem-->
-        {#if beskedMulighed.content.length == 0}
-          <btn
-            class={beskedMulighed.selected ? "btn btn-active" : "btn"}
-            on:click={() => fåBeskeder(beskedMulighed.id)}>{beskedMulighed.name}</btn
-          >
-        {:else}
-          <btn
-            class="{beskedMulighed.selected
-              ? 'btn btn-active'
-              : 'btn'} dropdown-end dropdown dropdown-bottom flex items-center justify-center"
-            on:click={() => fåBeskeder(beskedMulighed.id)}
-          >
-            <div class="dropdown dropdown-hover">
-              <label>{beskedMulighed.name}</label>
-              <ul
-                class="dropdown-content menu rounded-box relative z-50 w-fit overflow-hidden bg-base-100 p-2 text-left text-base-content shadow"
-              >
-                {#each beskedMulighed.content as content}
-                  <li>
-                    <btn on:click={() => fåBeskeder(content.id)}>{content.name}</btn>
-                  </li>
-                {/each}
-              </ul>
-            </div>
-          </btn>
-        {/if}
+      {#each $beskeder[currentId].besked_muligheder as beskedMulighed}
+        <btn
+          class={beskedMulighed.id == currentId ? "btn-primary btn" : "btn"}
+          on:click={() => changeCategory(beskedMulighed.id)}>{beskedMulighed.name}</btn
+        >
       {/each}
     </div>
+
     <ul class="menu rounded-box z-10 w-full bg-base-100 p-2 drop-shadow-xl">
-      {#each beskeder.beskeder as besked}
+      {#each $beskeder[currentId].beskeder as besked}
         <li>
           <a class="block" href="/besked?id={besked.message_id}">
             <div class="flex justify-between">
               <div class="flex items-center">
                 <!-- svelte-ignore a11y-missing-attribute -->
                 <div
-                  id={lærereOgElever[besked.førsteBesked]}
+                  id={$informationer.lærereOgElever[besked.førsteBesked]}
                   class="relative inline-flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600"
                   use:loadImage
                 >
