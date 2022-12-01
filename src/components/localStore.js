@@ -8,15 +8,16 @@ export const localStore = (key) => {
 
   const saved = toObj(localStorage.getItem(key)); // convert to object
 
-  const { subscribe, set, update } = writable(saved || {}); // create the underlying writable store
+  const { subscribe, set, update } = writable(saved || null); // create the underlying writable store
   return {
     subscribe,
     set: (value) => {
+      console.log("set", key, "to", value);
       if (value) {
         localStorage.setItem(key, toString(value)); // save also to local storage as a string
       }
 
-      return set(value);
+      return set(toObj(localStorage.getItem(key)));
     },
     update,
   };
