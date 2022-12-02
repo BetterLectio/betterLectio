@@ -103,8 +103,6 @@
   };
 
   $: if ($skema && $skema[globalYear + "" + globalWeek]) {
-    removeEvents();
-
     addSkemaToCalendar($skema[globalYear + "" + globalWeek]);
   }
 
