@@ -1,0 +1,113 @@
+{
+  "generalt": [
+    { "fravær_procent": "16,67%", "hold": "L 1di bi" },
+    { "fravær_procent": "0,00%", "hold": "L 1di DA" },
+    { "fravær_procent": "0,00%", "hold": "L 1di En" },
+    { "fravær_procent": "0,00%", "hold": "L 1di FUS" },
+    { "fravær_procent": "0,00%", "hold": "L 1di Fy" },
+    { "fravær_procent": "0,00%", "hold": "L 1di Fællesfag" },
+    { "fravær_procent": "0,00%", "hold": "L 1di Ke" },
+    { "fravær_procent": "0,00%", "hold": "L 1di kit" },
+    { "fravær_procent": "0,00%", "hold": "L 1di MA" },
+    { "fravær_procent": "28,57%", "hold": "L 1di sa" },
+    { "fravær_procent": "0,00%", "hold": "L 1di SO" },
+    { "fravær_procent": "0,00%", "hold": "L 1di Ti" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga DA" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga En" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga ff" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga Fy" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga Ke" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga kit" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga Ma" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga nv bi" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga nv Fy" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga nv Ke" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga pu sa" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga pu Ti" },
+    { "fravær_procent": "0,00%", "hold": "L Auriga sa" },
+    { "fravær_procent": "0,00%", "hold": "SR-dag 1 kit/pro" },
+    { "fravær_procent": "0,00%", "hold": "SR-dag 2 mat/pro" },
+    { "fravær_procent": "1,07%", "hold": "Samlet" }
+  ],
+  "grafisk_oversigt": "https://www.lectio.dk/lectio/681/fravaer_billede.aspx?elevid=54442979359&periode=0108202201082023",
+  "moduler": {
+    "manglende_fraværsårsager": [
+      {
+        "aktivitet": {
+          "absid": "56480219379",
+          "hold": "L 1di sa",
+          "lokale": "2.31 (teori) 🟠 34 p",
+          "lærer": "Carsten Schjøtt Philipsen (csp)",
+          "navn": "Liberalisme",
+          "tidspunkt": "16/11-2022 12:10 til 13:10"
+        },
+        "bemærkning": null,
+        "fravær": "100%",
+        "fraværstype": "Fravær",
+        "lærer": "csp",
+        "registreret": "17/11-2022 09:32",
+        "type": "Lektion",
+        "uge": "46"
+      }
+    ],
+    "oversigt": [
+      {
+        "aktivitet": {
+          "absid": "56480288594",
+          "hold": "L 1di bi",
+          "lokale": "1.01 (bio) 🔴",
+          "lærer": "Jan Høst (jhoe)",
+          "navn": "Øvelse med mikroskop",
+          "tidspunkt": "16/11-2022 08:15 til 09:15"
+        },
+        "bemærkning": "",
+        "fravær": "100%",
+        "fraværstype": "Fravær",
+        "lærer": "jhoe",
+        "registreret": "16/11-2022 08:20",
+        "type": "Lektion",
+        "uge": "46",
+        "årsag": "Andet",
+        "årsagsnote": "hjertescanning på Rigshospitalet"
+      },
+      {
+        "aktivitet": {
+          "absid": "56480288513",
+          "hold": "L 1di bi",
+          "lokale": "0.28 (aud. 1) 🟣, 1.01 (bio) 🔴",
+          "lærer": "Jan Høst (jhoe)",
+          "navn": "Morgensamling",
+          "tidspunkt": "16/11-2022 09:20 til 10:20"
+        },
+        "bemærkning": "",
+        "fravær": "100%",
+        "fraværstype": "Fravær",
+        "lærer": "jhoe",
+        "registreret": "16/11-2022 09:43",
+        "type": "Lektion",
+        "uge": "46",
+        "årsag": "Andet",
+        "årsagsnote": "hjertescanning på Rigshospitalet"
+      },
+      {
+        "aktivitet": {
+          "absid": "56480220090",
+          "hold": "L 1di sa",
+          "lokale": "2.31 (teori) 🟠 34 p",
+          "lærer": "Carsten Schjøtt Philipsen (csp)",
+          "navn": "Liberalisme",
+          "tidspunkt": "16/11-2022 10:30 til 11:30"
+        },
+        "bemærkning": "",
+        "fravær": "100%",
+        "fraværstype": "Fravær",
+        "lærer": "csp",
+        "registreret": "16/11-2022 10:37",
+        "type": "Lektion",
+        "uge": "46",
+        "årsag": "Andet",
+        "årsagsnote": "hjertescanning på Rigshospitalet"
+      }
+    ]
+  }
+}

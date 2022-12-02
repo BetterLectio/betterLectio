@@ -64,7 +64,7 @@
         });
       } else {
         localStorage.setItem("authentication", authentication);
-        window.location.href = "/hjem";
+        window.location.href = "/forside";
       }
     }
   }

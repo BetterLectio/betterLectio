@@ -13,7 +13,7 @@
   async function checkIfAuthed() {
     if (localStorage.getItem("authentication") == null) {
     } else {
-      // Dette neden under er udkomenteret da man automatisk vil blive bedt om at logge ind på /hjem hvis cookien ikke virker
+      // Dette neden under er udkomenteret da man automatisk vil blive bedt om at logge ind på /forside hvis cookien ikke virker
       //const response = await fetch(
       //    `https://better-lectio-flask-backend.vercel.app/check-cookie?cookie=${localStorage.getItem("authentication")}`
       //);
@@ -68,7 +68,7 @@
       }}
       on:click={() => {
         if (authed == true) {
-          window.location.href = "/hjem";
+          window.location.href = "/forside";
         } else {
           window.location.href = "/";
         }
@@ -117,7 +117,7 @@
       }}
       on:click={() => {
         if (authed == true) {
-          window.location.href = "/hjem";
+          window.location.href = "/forside";
         } else {
           window.location.href = "/";
         }

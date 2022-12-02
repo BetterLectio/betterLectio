@@ -9,3 +9,4 @@ export const opgaver = localStore("opgaver");
 export const beskeder = localStore("beskeder");
 export const fravaer = localStore("fravaer");
 export const dokumenter = localStore("dokumenter");
+export const informationer = localStore("informationer");
