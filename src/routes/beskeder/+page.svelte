@@ -22,6 +22,9 @@
   });
 
   get("/beskeder").then((data) => {
+    if (!$beskeder) {
+      $beskeder = {};
+    }
     $beskeder[currentId] = data;
   });
 
