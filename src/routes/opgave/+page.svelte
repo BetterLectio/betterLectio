@@ -1,6 +1,7 @@
 <script>
   import { page } from "$app/stores";
   import { get } from "../../components/http.js";
+  import Avatar from "../../components/Avatar.svelte";
   import Table from "../../components/Table.svelte";
 
   import MarkdownIt from "markdown-it";
@@ -18,7 +19,7 @@
 
   let elevId = "";
 
-  let opgave = get("/opgave?exerciseid=" + exerciseid).then((data) => {
+  get("/opgave?exerciseid=" + exerciseid).then((data) => {
     console.log("data:", data);
     const { oplysninger, opgave_indlæg, gruppemedlemmer, afleveres_af } = data;
 
@@ -59,25 +60,6 @@
       harAfleveret: opgave_indlæg.length > 0,
     };
   });
-
-  let alreadyLoaded = [];
-  let loadedIndex = {};
-  async function loadImage(element) {
-    const response = await fetch(`https://better-lectio-flask-backend.vercel.app/profil_billed?id=${element.id}&fullsize=1`, {
-      headers: {
-        "lectio-cookie": localStorage.getItem("authentication"),
-      },
-    })
-    const base64Response = await response.text();
-
-    element.outerHTML = `
-    <div class="avatar"> 
-      <div class="w-10 rounded">
-        <img id="${element.id}" src="data:image/png;base64, ${base64Response}"/>
-      </div>
-    </div>
-    `;
-  }
 </script>
 
 <div>
@@ -119,16 +101,17 @@
       <tbody>
         {#each aflevedeOpgaveItems.indlæg as indlæg}
           <tr>
-            <td><div id={indlæg["bruger"]["bruger_id"]} use:loadImage /></td>
-
+            <td>
+              <Avatar id={indlæg["bruger"]["bruger_id"]} />
+            </td>
             <td>{indlæg["bruger"]["navn"]}</td>
             <td>{indlæg["indlæg"]}</td>
-            <td
-              >{@html sanitizeHtml(md.render(indlæg["dokument"])).replace(
+            <td>
+              {@html sanitizeHtml(md.render(indlæg["dokument"])).replace(
                 "<a",
                 '<a class="btn btn-xs btn-primary" target="_blank"'
-              )}</td
-            >
+              )}
+            </td>
             <td>{indlæg["tidspunkt"]}</td>
           </tr>
         {/each}
@@ -137,7 +120,7 @@
   {:else}
     <a
       href="https://www.lectio.dk/lectio/681/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
-      class="btn btn-primary">Aflever Her!</a
+      class="btn-primary btn">Aflever Her!</a
     >
   {/if}
 </div>

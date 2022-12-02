@@ -1,6 +1,6 @@
 <script>
   import { informationer, beskeder } from "../../components/store.js";
-  import { text } from "svelte/internal";  
+  import Avatar from "../../components/Avatar.svelte";
 
   /**
      TODO:
@@ -42,20 +42,6 @@
       });
     }
   }
-
-  let alreadyLoaded = [];
-
-  async function loadImage(element) {
-    const response = await fetch(`https://better-lectio-flask-backend.vercel.app/profil_billed?id=${element.id}&fullsize=1`, {
-      headers: {
-        "lectio-cookie": localStorage.getItem("authentication"),
-      },
-    })
-    const base64Response = await response.text();
-    if (base64Response.length != 0) {
-      element.outerHTML = `<img id="${element.id}" src="data:image/png;base64, ${base64Response}" class="object-cover w-14 h-14 rounded-full"/>`;
-    }
-  }
 </script>
 
 <body>
@@ -78,13 +64,7 @@
             <div class="flex justify-between">
               <div class="flex items-center">
                 <!-- svelte-ignore a11y-missing-attribute -->
-                <div
-                  id={$informationer.lærereOgElever[besked.førsteBesked]}
-                  class="relative inline-flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600"
-                  use:loadImage
-                >
-                  <span class="font-medium text-gray-600 dark:text-gray-300">{besked.førsteBesked[0]}</span>
-                </div>
+                <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} />
                 <div class="ml-5">
                   <p part="emne" class="text-lg font-bold">
                     {besked.emne}
