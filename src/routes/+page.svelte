@@ -1,23 +1,7 @@
 <script>
-  function tryLoginInWithCookie() {
-    if (localStorage.getItem("authentication")) {
-      fetch(`https://better-lectio-flask-backend.vercel.app/check-cookie`, {
-        headers: {
-          "lectio-cookie": localStorage.getItem("authentication"),
-        },
-      }).then((res) => {
-        res.json().then((data) => {
-          if (data && data.valid) {
-            console.log("Logged in with cookie");
-            window.location.href = "/forside";
-          } else {
-            console.log("Cookie not valid");
-          }
-        });
-      });
-    }
+  if (localStorage.getItem("authentication")) {
+    window.location.href = "/forside";
   }
-  tryLoginInWithCookie();
 </script>
 
 <div>
