@@ -92,6 +92,15 @@ def modul():
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.modul(absid=absid))
 
+@app.route('/besked')
+@cache_for(minutes=5)
+def besked():
+    cookie = request.headers.get("lectio-cookie")
+    id = request.args.get("id")
+
+    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+    return jsonify(lectioClient.besked(message_id=id))
+
 @app.route('/beskeder')
 @cache_for(minutes=5)
 def beskeder():
