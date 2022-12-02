@@ -1,15 +1,11 @@
 <script>
-  async function checkIfAuthed() {
-    if (localStorage.getItem("authentication") != null) {
-      window.location.href = "/forside";
-    } else {
-      console.log("Not logged in");
-    }
+  if (localStorage.getItem("authentication")) {
+    window.location.href = "/forside";
   }
 </script>
 
 <div>
-  <h1 use:checkIfAuthed class="text-3xl font-bold">Velkommen til Better Lectio</h1>
+  <h1 class="text-3xl font-bold">Velkommen til Better Lectio</h1>
   <p>Better Lectio er en webapp, der gør det nemmere at bruge Lectio.</p>
   <p>For at bruge Better Lectio skal du logge ind med din Lectio konto.</p>
   <br />
