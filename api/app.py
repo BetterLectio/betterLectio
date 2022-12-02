@@ -115,7 +115,8 @@ def profilBilled():
         if fullsize != None:
             url += f"&fullsize={fullsize}"
 
-        return Response(lectioClient.fåFil(url), status=200, mimetype="image/gif")
+        return Response(base64.encodebytes(lectioClient.fåFil(url)), status=200)
+        #return Response(lectioClient.fåFil(url), status=200, mimetype="image/gif")
     else:
         return Response(status=400)
         #return Response(lectioClient.session.get("https://www.lectio.dk/lectio/img/defaultfoto_small.jpg").content, mimetype="image/gif")
