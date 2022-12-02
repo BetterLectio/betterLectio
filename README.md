@@ -63,6 +63,8 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
    - løs z-index problemer (UI) ✅
    - Daisy UI CSS på skema ✅
+   - Fjern alt cached når man manuelt logger ud eller man er logget ind med en ny konto (client side)
+   - Når man kigger på en side og man så får login siden skal man når man har logget ind blive redirected til den side man originalt var på (client side)
 
 8. dokumentation
    - lav en dokumentation (UI)
