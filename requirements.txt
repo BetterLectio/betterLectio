@@ -1,3 +1,4 @@
 python-lectio>=1.5.3
 flask
 flask-cors
+Flask-CacheControl

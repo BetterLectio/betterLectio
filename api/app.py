@@ -4,6 +4,7 @@ import base64
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask import Response
+from flask_cachecontrol import cache, cache_for, dont_cache, Always, ResponseIsSuccessfulOrRedirect
 from datetime import datetime, date, timedelta
 from functools import wraps
 import logging
@@ -15,21 +16,6 @@ CORS(app, resources={r"*": {"origins": "*"}})
 app.logger.disabled = True
 log = logging.getLogger('werkzeug')
 log.disabled = True
-
-def docache(minutes=5, content_type='application/json; charset=utf-8'):
-    """ Flask decorator that allow to set Expire and Cache headers. """
-    def fwrap(f):
-        @wraps(f)
-        def wrapped_f(*args, **kwargs):
-            r = f(*args, **kwargs)
-            then = datetime.now() + timedelta(minutes=minutes)
-            rsp = Response(r, content_type=content_type)
-            rsp.headers.add('Expires', then.strftime("%a, %d %b %Y %H:%M:%S GMT"))
-            rsp.headers.add('Cache-Control', 'public,max-age=%d' % int(60 * minutes))
-            return rsp
-        return wrapped_f
-    return fwrap
-
 
 @app.route("/")
 def index():
@@ -67,7 +53,7 @@ def checkCookie():
         return jsonify({"valid": False})
 
 @app.route('/mig')
-@docache(minutes=5, content_type='application/json')
+@cache_for(minutes=5)
 def mig():
     cookie = request.headers.get("lectio-cookie")
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -75,7 +61,6 @@ def mig():
 
 
 @app.route('/skema')
-@docache(minutes=5, content_type='application/json')
 def skema():
     cookie = request.headers.get("lectio-cookie")
 
@@ -86,14 +71,14 @@ def skema():
     return jsonify(lectioClient.skema(uge=uge, år=år))
 
 @app.route('/lektier')
-@docache(minutes=5, content_type='application/json')
+@cache_for(minutes=5)
 def lektier():
     cookie = request.headers.get("lectio-cookie")
 
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.lektier())
 @app.route('/opgaver')
-@docache(minutes=5, content_type='application/json')
+@cache_for(minutes=5)
 def opgaver():
     cookie = request.headers.get("lectio-cookie")
 
@@ -108,7 +93,7 @@ def modul():
     return jsonify(lectioClient.modul(absid=absid))
 
 @app.route('/beskeder')
-@docache(minutes=5, content_type='application/json')
+@cache_for(minutes=5)
 def beskeder():
     cookie = request.headers.get("lectio-cookie")
     id = request.args.get("id")
@@ -117,7 +102,7 @@ def beskeder():
     return jsonify(lectioClient.beskeder(id=id))
 
 @app.route('/informationer') #cache 1 week in browser
-@docache(minutes=10080, content_type='application/json')
+@cache_for(minutes=10080)
 def informationer():
     cookie = request.headers.get("lectio-cookie")
 
@@ -126,7 +111,7 @@ def informationer():
 
 
 @app.route('/profil_billed')
-@docache(minutes=20160, content_type='application/json') #cache 2 weeks in browser
+@cache_for(minutes=20160) #cache 2 weeks in browser
 def profilBilled():
     cookie = request.headers.get("lectio-cookie")
     id = request.args.get("id")
@@ -155,7 +140,7 @@ def opgave():
     return lectioClient.opgave(exerciseid=exerciseid)
 
 @app.route("/fravaer")
-@docache(minutes=5, content_type='application/json')
+@cache_for(minutes=5)
 def fravaer():
     cookie = request.headers.get("lectio-cookie")
 
