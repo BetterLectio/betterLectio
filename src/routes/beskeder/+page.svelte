@@ -1,5 +1,7 @@
 <script>
   import { informationer, beskeder } from "../../components/store.js";
+  import { text } from "svelte/internal";  
+
   /**
      TODO:
         - Gør så man kan downloade filer uden at blive redirectet til modul siden
@@ -42,43 +44,34 @@
   }
 
   let alreadyLoaded = [];
-  let loadedIndex = {};
-  function loadImage(element) {
-    if (!alreadyLoaded.includes(element.id)) {
-      alreadyLoaded.push(element.id);
-      //console.log(element.id);
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = "blob"; //so you can access the response like a normal URL
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-          let src = URL.createObjectURL(xhr.response);
-          element.outerHTML = `<img id="${element.id}" src="${src}" class="object-cover w-14 h-14 rounded-full"/>`;
-          loadedIndex[element.id] = src;
-        }
-      };
-      xhr.open(
-        "GET",
-        `https://better-lectio-flask-backend.vercel.app/profil_billed?id=${element.id}&fullsize=1`,
-        true
-      );
-      xhr.setRequestHeader("lectio-cookie", localStorage.getItem("authentication"));
-      xhr.send();
-    } else {
-      useLoadedImage(element);
-    }
-  }
-  async function useLoadedImage(element) {
-    while (true) {
-      if (loadImage[element.id] == undefined) {
-        //console.log("undefined", typeof loadedIndex[element.id]);
+
+  async function loadImage(element) {
+    if (localStorage.getItem(element.id) !== null && localStorage.getItem(element.id) !== "intet") {
+        element.outerHTML = `<img id="${element.id}" src="data:image/png;base64, ${localStorage.getItem(element.id)}" class="object-cover w-14 h-14 rounded-full"/>`;
+    } else if (!alreadyLoaded.includes(element.id)) {
+      await alreadyLoaded.push(element.id);
+      const response = await fetch(`https://better-lectio-flask-backend.vercel.app/profil_billed?id=${element.id}&fullsize=1`, {
+        headers: {
+          "lectio-cookie": localStorage.getItem("authentication"),
+        },
+      })
+      const base64Response = await response.text();
+      if (base64Response.length != 0){
+        localStorage.setItem(element.id, base64Response);
+        element.outerHTML = `<img id="${element.id}" src="data:image/png;base64, ${base64Response}" class="object-cover w-14 h-14 rounded-full"/>`;
       } else {
-        //console.log("UNDEUNDEUND");
-        element.outerHTML = `<img id="${element.id}" src="${
-          loadImage[element.id]
-        }" class="object-cover w-14 h-14 rounded-full"/>`;
-        break;
+        localStorage.setItem(element.id, "intet");
       }
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    } else {
+      while (true) {
+        if (localStorage.getItem(element.id) == "intet") {
+          return
+        } else if (localStorage.getItem(element.id) !== null) {
+          element.outerHTML = `<img id="${element.id}" src="data:image/png;base64, ${localStorage.getItem(element.id)}" class="object-cover w-14 h-14 rounded-full"/>`;
+          return
+        }
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
     }
   }
 </script>
