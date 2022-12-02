@@ -108,17 +108,6 @@
     addSkemaToCalendar($skema[globalYear + "" + globalWeek]);
   }
 
-  function removeEvents() {
-    // if (eventIdToDelete) {
-    //   eventIdToDelete.forEach((id) => {
-    //     ec.removeEventById(id);
-    //   });
-    //   eventIdToDelete = [];
-    // }
-  }
-
-  // make a function that runs every time the screen is resized
-
   window.addEventListener("resize", () => {
     changeView();
   });
