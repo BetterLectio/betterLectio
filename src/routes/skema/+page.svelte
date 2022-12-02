@@ -102,7 +102,7 @@
     },
   };
 
-  $: if ($skema[globalYear + "" + globalWeek]) {
+  $: if ($skema && $skema[globalYear + "" + globalWeek]) {
     removeEvents();
 
     addSkemaToCalendar($skema[globalYear + "" + globalWeek]);
@@ -221,6 +221,9 @@
   }
 
   function getSkema() {
+    if (!$skema) {
+      $skema = {};
+    }
     get(`/skema?uge=${globalWeek}&år=${globalYear}`).then((data) => {
       $skema[globalYear + "" + globalWeek] = data;
       console.log("skema", globalWeek, globalYear, $skema);
