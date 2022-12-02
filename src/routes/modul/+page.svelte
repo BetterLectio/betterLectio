@@ -17,30 +17,37 @@
 
   async function getModul() {
     modul = await get(`/modul?absid=${absid}`);
-
-    await modul.lektier.split("\n").forEach((element) => {
-      let translated = sanitizeHtml(md.render(element)).replace(
-        "<a",
-        '<a class="btn btn-xs btn-primary" target="_blank"'
-      );
-      lektieHtml += "<p>" + translated + "<p/>";
-    });
-    await modul.øvrigtIndhold.split("\n").forEach((element) => {
-      let translated = sanitizeHtml(md.render(element)).replace(
-        "<a",
-        '<a class="btn btn-xs btn-primary" target="_blank"'
-      );
-      øvrigeIndholdHtml += "<p>" + translated + "<p/>";
-    });
-    await modul.note.split("\n").forEach((element) => {
-      let translated = sanitizeHtml(md.render(element)).replace(
-        "<a",
-        '<a class="btn btn-xs btn-primary" target="_blank"'
-      );
-      note += "<p>" + translated + "<p/>";
-    });
+    console.log("modul", modul);
+    if (modul.lektier) {
+      await modul.lektier.split("\n").forEach((element) => {
+        let translated = sanitizeHtml(md.render(element)).replace(
+          "<a",
+          '<a class="btn btn-xs btn-primary" target="_blank"'
+        );
+        lektieHtml += "<p>" + translated + "<p/>";
+      });
+    }
+    if (modul.øvrigtIndhold) {
+      await modul.øvrigtIndhold.split("\n").forEach((element) => {
+        let translated = sanitizeHtml(md.render(element)).replace(
+          "<a",
+          '<a class="btn btn-xs btn-primary" target="_blank"'
+        );
+        øvrigeIndholdHtml += "<p>" + translated + "<p/>";
+      });
+    }
+    if (modul.note) {
+      await modul.note.split("\n").forEach((element) => {
+        let translated = sanitizeHtml(md.render(element)).replace(
+          "<a",
+          '<a class="btn btn-xs btn-primary" target="_blank"'
+        );
+        note += "<p>" + translated + "<p/>";
+      });
+    }
 
     ready = true;
+    console.log("ready", lektieHtml);
   }
   getModul();
 </script>
@@ -54,25 +61,25 @@
     <p><strong>Lokale: </strong>{modul.aktivitet.lokale}</p>
     <p class="mb-4"><strong>Lærer: </strong>{modul.aktivitet.lærer}</p>
 
-    {#if lektieHtml != "<p><p/>"}
+    {#if lektieHtml}
       <h3 class="text-xl font-bold">Lektier</h3>
       {@html lektieHtml}
       <div class="mb-4" />
     {/if}
 
-    {#if øvrigeIndholdHtml != "<p><p/>"}
+    {#if øvrigeIndholdHtml}
       <h3 class="text-xl font-bold">Øvrigt indhold</h3>
       {@html øvrigeIndholdHtml}
       <div class="mb-4" />
     {/if}
 
-    {#if note != "<p><p/>"}
+    {#if note}
       <h3 class="text-xl font-bold">Noter</h3>
       {@html note}
       <div class="mb-4" />
     {/if}
 
-    {#if lektieHtml == "<p><p/>" && øvrigeIndholdHtml == "<p><p/>"}
+    {#if lektieHtml && øvrigeIndholdHtml && note}
       <p>Aktiviteten har ikke noget indhold.</p>
       <div class="mb-4" />
     {/if}
