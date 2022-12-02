@@ -2,8 +2,27 @@
   let brugernavn = "";
   let adgangskode = "";
   let skole_id = "";
-
   let options = { "": "" };
+
+  function tryLoginInWithCookie() {
+    if (localStorage.getItem("authentication")) {
+      fetch(`https://better-lectio-flask-backend.vercel.app/check-cookie`, {
+        headers: {
+          "lectio-cookie": localStorage.getItem("authentication"),
+        },
+      }).then((res) => {
+        res.json().then((data) => {
+          if (data && data.valid) {
+            console.log("Logged in with cookie");
+            window.location.href = "/forside";
+          } else {
+            console.log("Cookie not valid");
+          }
+        });
+      });
+    }
+  }
+  tryLoginInWithCookie();
 
   async function setSkole() {
     await document.window;
@@ -28,7 +47,7 @@
       });
   }
 
-  async function checkIfAuthed() {
+  async function getCachedSchool() {
     // load the schoolid from localstorage and set it to the select
     if (localStorage.getItem("skole_id")) {
       skole_id = localStorage.getItem("skole_id");
@@ -74,7 +93,7 @@
   <script on:load={updateOptions} src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
 </svelte:head>
 
-<body use:checkIfAuthed use:setSkole>
+<body use:getCachedSchool use:setSkole>
   <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
