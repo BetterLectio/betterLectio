@@ -60,7 +60,7 @@
               <div class="flex items-center">
                 <!-- svelte-ignore a11y-missing-attribute -->
                 {#if $informationer.lærereOgElever[besked.førsteBesked]}
-                  <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} />
+                  <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
                 {/if}
                 <div class="ml-5">
                   <p part="emne" class="text-lg font-bold">
