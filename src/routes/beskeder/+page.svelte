@@ -72,8 +72,9 @@
                 </div>
               </div>
               <div class="right-1 flex items-center">
+                <!-- 
+                Midlertidig fjernelse af modtagere
                 <div class="flex -space-x-4">
-                  <!-- Place holder billeder for modtagere af beskeden-->
                   <img
                     class="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
                     src="https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector.png"
@@ -94,7 +95,7 @@
                     href="#">+99</a
                   >
                 </div>
-              </div>
+              </div> -->
             </div>
           </a>
         </li>
