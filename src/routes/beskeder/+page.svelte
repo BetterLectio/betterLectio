@@ -46,32 +46,14 @@
   let alreadyLoaded = [];
 
   async function loadImage(element) {
-    if (localStorage.getItem(element.id) !== null && localStorage.getItem(element.id) !== "intet") {
-        element.outerHTML = `<img id="${element.id}" src="data:image/png;base64, ${localStorage.getItem(element.id)}" class="object-cover w-14 h-14 rounded-full"/>`;
-    } else if (!alreadyLoaded.includes(element.id)) {
-      await alreadyLoaded.push(element.id);
-      const response = await fetch(`https://better-lectio-flask-backend.vercel.app/profil_billed?id=${element.id}&fullsize=1`, {
-        headers: {
-          "lectio-cookie": localStorage.getItem("authentication"),
-        },
-      })
-      const base64Response = await response.text();
-      if (base64Response.length != 0){
-        localStorage.setItem(element.id, base64Response);
-        element.outerHTML = `<img id="${element.id}" src="data:image/png;base64, ${base64Response}" class="object-cover w-14 h-14 rounded-full"/>`;
-      } else {
-        localStorage.setItem(element.id, "intet");
-      }
-    } else {
-      while (true) {
-        if (localStorage.getItem(element.id) == "intet") {
-          return
-        } else if (localStorage.getItem(element.id) !== null) {
-          element.outerHTML = `<img id="${element.id}" src="data:image/png;base64, ${localStorage.getItem(element.id)}" class="object-cover w-14 h-14 rounded-full"/>`;
-          return
-        }
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      }
+    const response = await fetch(`https://better-lectio-flask-backend.vercel.app/profil_billed?id=${element.id}&fullsize=1`, {
+      headers: {
+        "lectio-cookie": localStorage.getItem("authentication"),
+      },
+    })
+    const base64Response = await response.text();
+    if (base64Response.length != 0) {
+      element.outerHTML = `<img id="${element.id}" src="data:image/png;base64, ${base64Response}" class="object-cover w-14 h-14 rounded-full"/>`;
     }
   }
 </script>

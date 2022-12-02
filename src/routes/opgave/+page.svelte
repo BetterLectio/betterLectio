@@ -62,44 +62,21 @@
 
   let alreadyLoaded = [];
   let loadedIndex = {};
-  function loadImage(element) {
-    console.log(element);
-    if (!alreadyLoaded.includes(element.id)) {
-      alreadyLoaded.push(element.id);
-      console.log(element.id);
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = "blob"; //so you can access the response like a normal URL
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-          let src = URL.createObjectURL(xhr.response);
-          element.outerHTML = `<img id="${element.id}" src="${src}" class="object-cover h-10 w-10"/>`;
-          loadedIndex[element.id] = src;
-        }
-      };
-      xhr.open(
-        "GET",
-        `https://better-lectio-flask-backend.vercel.app/profil_billed?id=${element.id}&fullsize=1`,
-        true
-      );
-      xhr.setRequestHeader("lectio-cookie", localStorage.getItem("authentication"));
-      xhr.send();
-    } else {
-      useLoadedImage(element);
-    }
-  }
-  async function useLoadedImage(element) {
-    while (true) {
-      if (loadImage[element.id] == undefined) {
-        console.log("undefined", typeof loadedIndex[element.id]);
-      } else {
-        console.log("UNDEUNDEUND");
-        element.outerHTML = `<img id="${element.id}" src="${
-          loadImage[element.id]
-        }" class="object-cover h-10 w-10"/>`;
-        break;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
+  async function loadImage(element) {
+    const response = await fetch(`https://better-lectio-flask-backend.vercel.app/profil_billed?id=${element.id}&fullsize=1`, {
+      headers: {
+        "lectio-cookie": localStorage.getItem("authentication"),
+      },
+    })
+    const base64Response = await response.text();
+
+    element.outerHTML = `
+    <div class="avatar"> 
+      <div class="w-10 rounded">
+        <img id="${element.id}" src="data:image/png;base64, ${base64Response}"/>
+      </div>
+    </div>
+    `;
   }
 </script>
 
