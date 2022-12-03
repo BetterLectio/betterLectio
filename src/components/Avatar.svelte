@@ -25,16 +25,19 @@
 </script>
 
 {#if source}
-<div class="avatar">
-  <div class={(squared) ? "w-12 rounded" : "w-12 rounded-full"}>
-    <img id="${id}" src="data:image/png;base64, {source}" alt="" />
+  <div class="avatar">
+    <div class={squared ? "w-12 rounded" : "w-12 rounded-full"}>
+      <img id="${id}" src="data:image/png;base64, {source}" alt="" />
+    </div>
   </div>
-</div>
 {:else}
-<div class="avatar placeholder">
-  <div class="bg-neutral-focus text-neutral-content rounded-full w-12 {(squared) ? "rounded" : "rounded-full"}">
-    <span class="text-xl">{navn[0]}</span>
+  <div class="placeholder avatar">
+    <div
+      class="w-12 rounded-full bg-neutral-focus text-neutral-content {squared ? 'rounded' : 'rounded-full'}"
+    >
+      {#if navn}
+        <span class="text-xl">{navn[0]}</span>
+      {/if}
+    </div>
   </div>
-</div> 
 {/if}
-
