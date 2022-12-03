@@ -1,6 +1,6 @@
 <script defer>
-  import { onMount } from "svelte";
   import { get } from "../../components/http.js";
+
   Date.prototype.getWeekNumber = function () {
     let d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
     let dayNum = d.getUTCDay() || 7;
@@ -9,17 +9,11 @@
     return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
   };
 
-  let LastLessonOfDay = getLastLessonOfDay();
-
   async function getRemainingTime() {
-    let coundDownToDate = await LastLessonOfDay;
-    let currentHour = new Date().getHours();
-    let currentMinute = new Date().getMinutes();
-    let currentSecond = new Date().getSeconds();
-
-    let secondsLeft = coundDownToDate.seconds - currentSecond;
-    let minutesLeft = coundDownToDate.minutes - currentMinute;
-    let hoursLeft = coundDownToDate.hours - currentHour;
+    let lastLesson = await getLastLessonOfDay();
+    let secondsLeft = lastLesson.seconds - new Date().getHours();
+    let minutesLeft = lastLesson.minutes - new Date().getMinutes();
+    let hoursLeft = lastLesson.hours - new Date().getSeconds();
     if (minutesLeft < 0) {
       minutesLeft = 60 + minutesLeft;
       hoursLeft = hoursLeft - 1;
@@ -32,6 +26,7 @@
     }
     return [hoursLeft, minutesLeft, secondsLeft];
   }
+
   async function getLastLessonOfDay() {
     let week = new Date().getWeekNumber();
     let year = new Date().getFullYear();
@@ -41,8 +36,10 @@
     let response = await get(`/skema?uge=${week}&år=${year}`);
     let LastModulOfTheDaytime = "";
     for (let i = 0; i < response.moduler.length; i++) {
-      if (response.moduler[i].tidspunkt.includes(filter)) {
-        LastModulOfTheDaytime = response.moduler[i].tidspunkt;
+      if (response.moduler[i].status != "aflyst") {
+        if (response.moduler[i].tidspunkt.includes(filter)) {
+          LastModulOfTheDaytime = response.moduler[i].tidspunkt;
+        }
       }
     }
     if (LastModulOfTheDaytime == "") {
@@ -58,6 +55,7 @@
       seconds: second,
     };
   }
+
   setInterval(async () => {
     const t = await getRemainingTime();
     document.getElementById("counterElementh").style.setProperty("--value", t[0]);
