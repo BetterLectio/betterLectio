@@ -6,7 +6,6 @@
 
 -->
 <script>
-  import { onMount } from "svelte";
   import { get } from "../../components/http.js";
   import { skema } from "../../components/store.js";
   import Calendar from "@event-calendar/core";
@@ -74,8 +73,6 @@
 
   let globalWeek = 0;
   let globalYear = 0;
-  let globalView = "timeGridWeek";
-  let loadedWeeks = [getWeekNumber()];
   let addedEventsId = [];
 
   let options = {
@@ -88,17 +85,15 @@
     events: [],
     eventDidMount: (event) => {
       addedEventsId.push(event.event.id);
-      // called when an event is mounted to the DOM
-      // this makes the event clickable
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
     },
     viewDidMount: (view) => {
-      let rawDate = view.currentEnd.toISOString();
-      let dateObj = new Date(rawDate);
+      let dateObj = new Date(view.currentEnd.toISOString());
       globalYear = dateObj.getFullYear();
       let dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
       globalWeek = Math.floor(dayOfYear / 7);
       onload();
+      changeView();
     },
   };
 
@@ -218,8 +213,6 @@
   }
 
   function onload() {
-    console.log("onload", globalWeek, globalYear);
-
     let btns = document.getElementsByClassName("ONCHANGE");
     btns[0].addEventListener("click", () => {
       changeWeek("reset"); //minus 1 week
@@ -231,12 +224,6 @@
       changeWeek("plus"); //plus 1 week
     });
   }
-
-  onMount(() => {
-    changeView();
-    getWeekNumber();
-    console.log(getWeekNumber());
-  });
 
   function changeWeek(task) {
     switch (task) {
