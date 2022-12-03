@@ -102,7 +102,7 @@
         {#each aflevedeOpgaveItems.indlæg as indlæg}
           <tr>
             <td>
-              <Avatar id={indlæg["bruger"]["bruger_id"]} />
+              <Avatar id={indlæg["bruger"]["bruger_id"]} navn={indlæg["bruger"]["navn"]} squared/>
             </td>
             <td>{indlæg["bruger"]["navn"]}</td>
             <td>{indlæg["indlæg"]}</td>

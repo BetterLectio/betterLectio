@@ -1,5 +1,8 @@
 <script>
   export let id;
+  export let navn;
+
+  export let squared;
 
   let source;
 
@@ -21,12 +24,17 @@
   });
 </script>
 
+{#if source}
 <div class="avatar">
-  <div class="w-12 rounded-full">
-    {#if source}
-      <img id="${id}" src="data:image/png;base64, {source}" alt="" />
-    {:else}
-      <img id="${id}" src="https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector.png" alt="" />
-    {/if}
+  <div class={(squared) ? "w-12 rounded" : "w-12 rounded-full"}>
+    <img id="${id}" src="data:image/png;base64, {source}" alt="" />
   </div>
 </div>
+{:else}
+<div class="avatar placeholder">
+  <div class="bg-neutral-focus text-neutral-content rounded-full w-12 {(squared) ? "rounded" : "rounded-full"}">
+    <span class="text-xl">{navn[0]}</span>
+  </div>
+</div> 
+{/if}
+
