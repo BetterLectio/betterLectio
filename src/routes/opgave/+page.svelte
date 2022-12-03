@@ -75,18 +75,18 @@
     </div>
   {/if}
 
-  <h1 class="mb-2 text-2xl font-bold">Oplysninger</h1>
+  <h1 class="text-2xl font-bold">Oplysninger</h1>
   <Table items={oplysningsItems} />
 
-  <h1 class="mb-2 text-2xl font-bold">Afleveres af</h1>
+  <h1 class="text-2xl font-bold">Afleveres af</h1>
   <Table items={personAfleveringItems} />
 
   {#if feedbackItems.karakter}
-    <h1 class="mb-2 text-2xl font-bold">Feedback</h1>
+    <h1 class="text-2xl font-bold">Feedback</h1>
     <Table items={feedbackItems} />
   {/if}
 
-  <h1 class="mb-2 text-2xl font-bold">Opgave Indlæg</h1>
+  <h1 class="text-2xl font-bold">Opgave Indlæg</h1>
   {#if aflevedeOpgaveItems.harAfleveret}
     <table class="mb-4 table w-full rounded-xl shadow-xl">
       <thead>
@@ -102,7 +102,7 @@
         {#each aflevedeOpgaveItems.indlæg as indlæg}
           <tr>
             <td>
-              <Avatar id={indlæg["bruger"]["bruger_id"]} navn={indlæg["bruger"]["navn"]} squared/>
+              <Avatar id={indlæg["bruger"]["bruger_id"]} navn={indlæg["bruger"]["navn"]} squared />
             </td>
             <td>{indlæg["bruger"]["navn"]}</td>
             <td>{indlæg["indlæg"]}</td>
