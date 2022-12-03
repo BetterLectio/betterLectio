@@ -82,6 +82,8 @@
           document.querySelector("#CantLogInAlert").checked = false;
         });
       } else {
+        localStorage.clear();
+        setSkole();
         localStorage.setItem("authentication", authentication);
         window.location.href = "/forside";
       }
@@ -93,7 +95,7 @@
   <script on:load={updateOptions} src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
 </svelte:head>
 
-<body use:getCachedSchool use:setSkole>
+<body use:getCachedSchool>
   <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
