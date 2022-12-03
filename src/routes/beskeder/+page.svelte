@@ -42,11 +42,11 @@
 <body>
   <h1 class="mb-4 text-3xl font-bold">Beskeder</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  {#if $beskeder[currentId]}
+  {#if $beskeder && $beskeder[currentId]}
     <div class="btn-group z-20 mb-4 w-full">
       {#each $beskeder[currentId].besked_muligheder as beskedMulighed}
         <btn
-          class={beskedMulighed.id == currentId ? "btn-primary btn" : "btn"}
+          class={beskedMulighed.id == currentId ? "btn btn-primary" : "btn"}
           on:click={() => changeCategory(beskedMulighed.id)}>{beskedMulighed.name}</btn
         >
       {/each}
