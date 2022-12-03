@@ -102,7 +102,7 @@
     },
   };
 
-  $: if ($skema && $skema[globalYear + "" + globalWeek]) {
+  $: if ($skema?.[globalYear + "" + globalWeek]) {
     addSkemaToCalendar($skema[globalYear + "" + globalWeek]);
   }
 

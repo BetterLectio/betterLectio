@@ -12,7 +12,7 @@
         },
       }).then((res) => {
         res.json().then((data) => {
-          if (data && data.valid) {
+          if (data?.valid) {
             console.log("Logged in with cookie");
             window.location.href = "/forside";
           } else {
@@ -99,7 +99,7 @@
   <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
-      <label for="my-modal-3" id="CantLogInAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
+      <label for="my-modal-3" id="CantLogInAlertX" class="btn btn-sm btn-circle absolute right-2 top-2"
         >✕</label
       >
       <h3 class="text-lg font-bold">Kunne ikke logge ind</h3>
@@ -109,7 +109,7 @@
   <input type="checkbox" id="MissingInfoAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
-      <label for="my-modal-3" id="MissingInfoAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
+      <label for="my-modal-3" id="MissingInfoAlertX" class="btn btn-sm btn-circle absolute right-2 top-2"
         >✕</label
       >
       <h3 class="text-lg font-bold">mangler info</h3>
@@ -206,7 +206,7 @@
               </p>
               <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <div type="submit" class="AOC btn-primary btn" style="user-select: none" on:click={login}>
+                <div type="submit" class="AOC btn btn-primary" style="user-select: none" on:click={login}>
                   Log ind
                 </div>
               </div>
