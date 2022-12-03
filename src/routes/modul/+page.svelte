@@ -59,7 +59,9 @@
     </h1>
     <p><strong>Tidspunkt: </strong>{modul.aktivitet.tidspunkt}</p>
     <p><strong>Lokale: </strong>{modul.aktivitet.lokale}</p>
-    <p class="mb-4"><strong>Lærer: </strong>{modul.aktivitet.lærer}</p>
+    <p><strong>Lærer: </strong>{modul.aktivitet.lærer}</p>
+
+
 
     {#if lektieHtml}
       <h3 class="text-xl font-bold">Lektier</h3>
@@ -72,12 +74,13 @@
       {@html øvrigeIndholdHtml}
       <div class="mb-4" />
     {/if}
-
+    
     {#if note}
       <h3 class="text-xl font-bold">Noter</h3>
       {@html note}
       <div class="mb-4" />
     {/if}
+
 
     {#if lektieHtml && øvrigeIndholdHtml && note}
       <p>Aktiviteten har ikke noget indhold.</p>
