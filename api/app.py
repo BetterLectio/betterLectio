@@ -61,6 +61,7 @@ def mig():
 
 
 @app.route('/skema')
+@cache_for(minutes=5)
 def skema():
     cookie = request.headers.get("lectio-cookie")
 
@@ -93,7 +94,6 @@ def modul():
     return jsonify(lectioClient.modul(absid=absid))
 
 @app.route('/besked')
-@cache_for(minutes=5)
 def besked():
     cookie = request.headers.get("lectio-cookie")
     id = request.args.get("id")
@@ -110,8 +110,8 @@ def beskeder():
     lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
     return jsonify(lectioClient.beskeder(id=id))
 
-@app.route('/informationer') #cache 1 week in browser
-@cache_for(minutes=10080)
+@app.route('/informationer') 
+@cache_for(minutes=10080) # 1 week 
 def informationer():
     cookie = request.headers.get("lectio-cookie")
 
@@ -120,7 +120,7 @@ def informationer():
 
 
 @app.route('/profil_billed')
-@cache_for(minutes=20160) #cache 2 weeks in browser
+@cache_for(minutes=20160) # 2 weeks
 def profilBilled():
     cookie = request.headers.get("lectio-cookie")
     id = request.args.get("id")
