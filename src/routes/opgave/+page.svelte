@@ -1,6 +1,7 @@
 <script>
   import { page } from "$app/stores";
   import { get } from "../../components/http.js";
+  import Avatar from "../../components/Avatar.svelte";
   import Table from "../../components/Table.svelte";
 
   import MarkdownIt from "markdown-it";
@@ -18,7 +19,7 @@
 
   let elevId = "";
 
-  let opgave = get("/opgave?exerciseid=" + exerciseid).then((data) => {
+  get("/opgave?exerciseid=" + exerciseid).then((data) => {
     console.log("data:", data);
     const { oplysninger, opgave_indlæg, gruppemedlemmer, afleveres_af } = data;
 
@@ -59,48 +60,6 @@
       harAfleveret: opgave_indlæg.length > 0,
     };
   });
-
-  let alreadyLoaded = [];
-  let loadedIndex = {};
-  function loadImage(element) {
-    console.log(element);
-    if (!alreadyLoaded.includes(element.id)) {
-      alreadyLoaded.push(element.id);
-      console.log(element.id);
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = "blob"; //so you can access the response like a normal URL
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-          let src = URL.createObjectURL(xhr.response);
-          element.outerHTML = `<img id="${element.id}" src="${src}" class="object-cover h-10 w-10"/>`;
-          loadedIndex[element.id] = src;
-        }
-      };
-      xhr.open(
-        "GET",
-        `https://better-lectio-flask-backend.vercel.app/profil_billed?id=${element.id}&fullsize=1`,
-        true
-      );
-      xhr.setRequestHeader("lectio-cookie", localStorage.getItem("authentication"));
-      xhr.send();
-    } else {
-      useLoadedImage(element);
-    }
-  }
-  async function useLoadedImage(element) {
-    while (true) {
-      if (loadImage[element.id] == undefined) {
-        console.log("undefined", typeof loadedIndex[element.id]);
-      } else {
-        console.log("UNDEUNDEUND");
-        element.outerHTML = `<img id="${element.id}" src="${
-          loadImage[element.id]
-        }" class="object-cover h-10 w-10"/>`;
-        break;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
-  }
 </script>
 
 <div>
@@ -142,16 +101,17 @@
       <tbody>
         {#each aflevedeOpgaveItems.indlæg as indlæg}
           <tr>
-            <td><div id={indlæg["bruger"]["bruger_id"]} use:loadImage /></td>
-
+            <td>
+              <Avatar id={indlæg["bruger"]["bruger_id"]} navn={indlæg["bruger"]["navn"]} squared/>
+            </td>
             <td>{indlæg["bruger"]["navn"]}</td>
             <td>{indlæg["indlæg"]}</td>
-            <td
-              >{@html sanitizeHtml(md.render(indlæg["dokument"])).replace(
+            <td>
+              {@html sanitizeHtml(md.render(indlæg["dokument"])).replace(
                 "<a",
                 '<a class="btn btn-xs btn-primary" target="_blank"'
-              )}</td
-            >
+              )}
+            </td>
             <td>{indlæg["tidspunkt"]}</td>
           </tr>
         {/each}
@@ -160,7 +120,7 @@
   {:else}
     <a
       href="https://www.lectio.dk/lectio/681/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
-      class="btn btn-primary">Aflever Her!</a
+      class="btn-primary btn">Aflever Her!</a
     >
   {/if}
 </div>

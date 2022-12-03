@@ -2,8 +2,27 @@
   let brugernavn = "";
   let adgangskode = "";
   let skole_id = "";
-
   let options = { "": "" };
+
+  function tryLoginInWithCookie() {
+    if (localStorage.getItem("authentication")) {
+      fetch(`https://better-lectio-flask-backend.vercel.app/check-cookie`, {
+        headers: {
+          "lectio-cookie": localStorage.getItem("authentication"),
+        },
+      }).then((res) => {
+        res.json().then((data) => {
+          if (data?.valid) {
+            console.log("Logged in with cookie");
+            window.location.href = "/forside";
+          } else {
+            console.log("Cookie not valid");
+          }
+        });
+      });
+    }
+  }
+  tryLoginInWithCookie();
 
   async function setSkole() {
     await document.window;
@@ -28,7 +47,7 @@
       });
   }
 
-  async function checkIfAuthed() {
+  async function getCachedSchool() {
     // load the schoolid from localstorage and set it to the select
     if (localStorage.getItem("skole_id")) {
       skole_id = localStorage.getItem("skole_id");
@@ -63,8 +82,10 @@
           document.querySelector("#CantLogInAlert").checked = false;
         });
       } else {
+        localStorage.clear();
+        setSkole();
         localStorage.setItem("authentication", authentication);
-        window.location.href = "/hjem";
+        window.location.href = "/forside";
       }
     }
   }
@@ -74,11 +95,11 @@
   <script on:load={updateOptions} src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
 </svelte:head>
 
-<body use:checkIfAuthed use:setSkole>
+<body use:getCachedSchool>
   <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
-      <label for="my-modal-3" id="CantLogInAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
+      <label for="my-modal-3" id="CantLogInAlertX" class="btn btn-sm btn-circle absolute right-2 top-2"
         >✕</label
       >
       <h3 class="text-lg font-bold">Kunne ikke logge ind</h3>
@@ -88,7 +109,7 @@
   <input type="checkbox" id="MissingInfoAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
-      <label for="my-modal-3" id="MissingInfoAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
+      <label for="my-modal-3" id="MissingInfoAlertX" class="btn btn-sm btn-circle absolute right-2 top-2"
         >✕</label
       >
       <h3 class="text-lg font-bold">mangler info</h3>
@@ -185,7 +206,7 @@
               </p>
               <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <div type="submit" class="AOC btn-primary btn" style="user-select: none" on:click={login}>
+                <div type="submit" class="AOC btn btn-primary" style="user-select: none" on:click={login}>
                   Log ind
                 </div>
               </div>

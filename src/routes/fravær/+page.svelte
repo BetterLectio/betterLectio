@@ -1,49 +1,46 @@
 <script>
   import { fravaer } from "../../components/store";
   import { get } from "../../components/http";
-  const CokieInfo = async () => {
-    if (!localStorage.getItem("authentication")) {
-      console.log("Redirect");
-      window.location.href = "/auth";
-    } else {
-      let decodedCookie = atob(localStorage.getItem("authentication"));
-      cookie = JSON.parse(decodedCookie);
-      return {
-        user: cookie["LastLoginUserName"],
-        school: cookie["LastLoginExamno"],
-        userid: cookie["LastLoginElevId"],
-      };
-    }
-  };
-  let cookie;
-  CokieInfo().then((data) => {
-    cookie = data;
-  });
+  import Table from "../../components/Table.svelte";
+  import table from "markdown-it/lib/rules_block/table";
   let samletFravaer = null;
   get("/fravaer").then((data) => {
     $fravaer = data;
-    $fravaer.generalt.forEach(element=>{
+    $fravaer.generalt.forEach((element) => {
       if (element.hold == "Samlet") {
-        samletFravaer = parseFloat(element.fravær_procent)
+        samletFravaer = parseFloat(element.fravær_procent);
       }
-    })
+    });
   });
 </script>
 
-<h1 class="mb-4 text-3xl font-bold">Fravær - Work in progress</h1>
+<h1 class="mb-4 text-3xl font-bold">Fravær</h1>
 {#if $fravaer}
   {#if samletFravaer == 0}
-      <p>Du har intet fravær</p>
-    {:else}
-    <p>{JSON.stringify(samletFravaer)}</p>
+    <p class="m-4">Du har intet fravær</p>
+  {:else}
+    <p class="m-4">Du har {samletFravaer}% fravær</p>
   {/if}
-{/if}
 
-{#if cookie}
-  <a
-    href="https://www.lectio.dk/lectio/681/subnav/fravaerelev.aspx?elevid={cookie.userid}"
-    class="btn btn-primary">Åben i lectio</a
-  >
-{:else}
-  <p class="mb-4">loading...</p>
+  <table class="table-zebra table shadow-xl">
+    <thead>
+      <tr>
+        <th>Hold</th>
+        <th>Fravær</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each $fravaer.generalt as fravaer}
+        {#if fravaer.hold != "Samlet" && fravaer.fravær_procent != "0,00%"}
+          <tr>
+            <td>{fravaer.hold}</td>
+            <td>{fravaer.fravær_procent}</td>
+          </tr>
+        {/if}
+      {/each}
+      <tr>
+        <td>Rækker uden fravær er ikke vist</td>
+      </tr>
+    </tbody>
+  </table>
 {/if}

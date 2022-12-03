@@ -8,6 +8,7 @@
 <script>
   import { onMount } from "svelte";
   import { get } from "../../components/http.js";
+  import { skema } from "../../components/store.js";
   import Calendar from "@event-calendar/core";
   import TimeGrid from "@event-calendar/time-grid";
   let ec; // to store the calendar instance and access it's methods
@@ -73,7 +74,9 @@
 
   let globalWeek = 0;
   let globalYear = 0;
+  let globalView = "timeGridWeek";
   let loadedWeeks = [getWeekNumber()];
+  let addedEventsId = [];
 
   let options = {
     view: "timeGridWeek",
@@ -84,25 +87,30 @@
     slotMaxTime: "18:00:00",
     events: [],
     eventDidMount: (event) => {
+      addedEventsId.push(event.event.id);
       // called when an event is mounted to the DOM
       // this makes the event clickable
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
     },
     viewDidMount: (view) => {
       let rawDate = view.currentEnd.toISOString();
-      console.log("viewDidMount", rawDate);
       let dateObj = new Date(rawDate);
       globalYear = dateObj.getFullYear();
       let dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
       globalWeek = Math.floor(dayOfYear / 7);
-      console.log("viewDidMount", globalYear, globalWeek);
+      onload();
     },
   };
-  let skema;
 
-  // make a function that runs every time the screen is resized
+  $: if ($skema?.[globalYear + "" + globalWeek]) {
+    addSkemaToCalendar($skema[globalYear + "" + globalWeek]);
+  }
 
   window.addEventListener("resize", () => {
+    changeView();
+  });
+
+  function changeView() {
     if (ec) {
       // if the screen is less than 768px wide
       if (window.innerWidth < 768) {
@@ -113,7 +121,7 @@
         ec.setOption("view", "timeGridWeek");
       }
     }
-  });
+  }
 
   function getWeekNumber() {
     var d = new Date(Date.now());
@@ -124,9 +132,7 @@
     return weekNo;
   }
 
-  async function fåSkema(ugeNummer, år) {
-    skema = await get(`/skema?uge=${ugeNummer}&år=${år}`);
-
+  async function addSkemaToCalendar(skema) {
     for (let i = 0; i < skema["moduler"].length; i++) {
       let modul = skema["moduler"][i];
       let start = modul["tidspunkt"].split(" til ")[0];
@@ -179,17 +185,41 @@
         id: modul["absid"],
         backgroundColor: className,
       };
-      ec.addEvent(modulCalenderObj);
+      let isAdded = false;
+      for (let i = 0; i < addedEventsId.length; i++) {
+        // check if it has been added before
+        if (addedEventsId[i] === modulCalenderObj.id) {
+          isAdded = true;
+        }
+      }
+      if (isAdded) {
+        ec.updateEvent(modulCalenderObj);
+        console.log("update", modulCalenderObj);
+      } else {
+        ec.addEvent(modulCalenderObj);
+        console.log("addded", modulCalenderObj);
+      }
     }
-  }
-
-  async function loadSkema(ugeNummer, år) {
-    await fåSkema(ugeNummer, år);
     ec.refetchEvents();
   }
 
+  $: if (globalWeek && globalYear) {
+    getSkema();
+  }
+
+  function getSkema() {
+    if (!$skema) {
+      $skema = {};
+    }
+    get(`/skema?uge=${globalWeek}&år=${globalYear}`).then((data) => {
+      $skema[globalYear + "" + globalWeek] = data;
+      console.log("skema", globalWeek, globalYear, $skema);
+    });
+  }
+
   function onload() {
-    loadSkema(getWeekNumber(), new Date(Date.now()).getFullYear());
+    console.log("onload", globalWeek, globalYear);
+
     let btns = document.getElementsByClassName("ONCHANGE");
     btns[0].addEventListener("click", () => {
       changeWeek("reset"); //minus 1 week
@@ -201,17 +231,17 @@
       changeWeek("plus"); //plus 1 week
     });
   }
+
   onMount(() => {
+    changeView();
     getWeekNumber();
     console.log(getWeekNumber());
-    onload();
   });
 
   function changeWeek(task) {
     switch (task) {
       case "reset":
         globalWeek = getWeekNumber();
-        globalYear = getWeekNumber();
         break;
       case "minus":
         globalWeek--;
@@ -219,18 +249,6 @@
       case "plus":
         globalWeek++;
         break;
-    }
-    console.log(loadedWeeks);
-    let getWeek = true;
-    for (let i = 0; i < loadedWeeks.length; i++) {
-      if (loadedWeeks[i] == globalWeek) {
-        getWeek = false;
-      }
-    }
-    if (getWeek) {
-      loadSkema(globalWeek, globalYear);
-      loadedWeeks.push(globalWeek);
-      return;
     }
   }
 </script>
