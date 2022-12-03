@@ -12,12 +12,12 @@
 <h2 class="text-2xl">Links</h2>
 <ul>
   <li>
-    <a href="https://github.com/victorDigital/betterLectio">GitHub</a>
+    <a href="https://github.com/betterlectio/betterLectio">GitHub</a>
   </li>
   <li>
-    <a href="https://github.com/Asguho/LectioJS">LectioJS</a>
+    <a href="https://github.com/betterlectio/LectioJS">LectioJS</a>
   </li>
   <li>
-    <a href="https://github.com/jona799t/BetterLectio-Flask-Backend">Better Lectio Flask Backend</a>
+    <a href="https://github.com/betterlectio/BetterLectio-Flask-Backend">Better Lectio Flask Backend</a>
   </li>
 </ul>
