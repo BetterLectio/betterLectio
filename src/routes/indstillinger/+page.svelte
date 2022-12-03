@@ -71,7 +71,7 @@
       }}>Log ud</button
     >
     <div class="btn-warning btn mt-8 font-bold drop-shadow-xl md:ml-4 md:w-fit md:font-normal">
-      <a href="https://github.com/victorDigital/betterLectio/issues/"> Rapporter Fejl </a>
+      <a href="https://github.com/betterlectio/betterLectio/issues/"> Rapporter Fejl </a>
     </div>
   </div>
 </div>
