@@ -253,7 +253,7 @@
         currentInfo += currentInfoArr[j] + `</p><p>`;
       }
       slotsFiltered[i].innerHTML = `
-      <div tabindex="0" class="collapse">
+      <div tabindex="0" class="collapse collapse-arrow">
         <div class="collapse-title font-medium">
           Se dagsnoter
         </div>
