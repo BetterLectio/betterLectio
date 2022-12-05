@@ -41,7 +41,7 @@
         </svg>{user}
       </p>
     </li>
-    <li class="tooltip" data-tip="Dit skole ID">
+    <li class="tooltip" data-tip="Dit skole-ID">
       <p id="scho">
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -10,7 +10,7 @@
   <li class="flex">
     <a class="flex-row " href="https://www.asguho.dk/mathformatter">
       <p part="afsender" class="btn btn-xs w-fit">NY!</p>
-      <p part="emne" class="text-lg font-bold">Konverter din matematik opgave til valgfrit format</p>
+      <p part="emne" class="text-lg font-bold">Konverter din matematikopgave til et valgfrit format</p>
     </a>
   </li>
 </ul>

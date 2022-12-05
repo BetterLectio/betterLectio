@@ -59,7 +59,7 @@
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <btn class={afleveredeOpgaverSelected ? " btn" : "btn btn-primary"} on:click={changeView}
-    >Ikke afleveret opgaver</btn
+    >Ikke-afleverede opgaver</btn
   >
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <btn class={afleveredeOpgaverSelected ? " btn btn-primary" : " btn"} on:click={changeView}
