@@ -1,6 +1,10 @@
 # BetterLectio-Flask-Backend
 Backend til BetterLectio
 
+## Vigtigt
+Selve serveren køre ikke fra denne repo men fra https://github.com/jona799t/BetterLectio-Flask-Backend  
+Det er fordi at vercel ikke tillader at man benytter sig af en organisation uden at opgradere.
+
 ## Endpoints
 ### Readme
 Endpoint: ``/``  
