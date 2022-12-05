@@ -32,8 +32,16 @@ export async function get(endpoint) {
       })
     ).json();
 
-    if (validationCheck && validationCheck.valid) {
-      console.error(`Error fetching data from https://better-lectio-flask-backend.vercel.app${endpoint}`);
+    if (validationCheck?.valid) {
+      console.error(
+        `Error fetching data from https://better-lectio-flask-backend.vercel.app${endpoint}`,
+        "validationCheck:",
+        validationCheck,
+        "response:",
+        response,
+        "textResponse:",
+        textResponse
+      );
       alert(`Error fetching data from https://better-lectio-flask-backend.vercel.app${endpoint}`);
     } else {
       console.log("Cookie not valid, redirecting to auth page");
