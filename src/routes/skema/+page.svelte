@@ -200,11 +200,11 @@
     getSkema();
   }
 
-  function getSkema() {
+  async function getSkema() {
     if (!$skema) {
       $skema = {};
     }
-    get(`/skema?uge=${globalWeek}&år=${globalYear}`).then((data) => {
+    await get(`/skema?uge=${globalWeek}&år=${globalYear}`).then((data) => {
       $skema[globalYear + "" + globalWeek] = data;
     });
     addButtonsToDagsnoter(globalYear,globalWeek);
