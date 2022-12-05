@@ -39,7 +39,7 @@
         {/if}
       {/each}
       <tr>
-        <td>Rækker uden fravær er ikke vist</td>
+        <td>Fag uden fravær er ikke vist</td>
       </tr>
     </tbody>
   </table>
