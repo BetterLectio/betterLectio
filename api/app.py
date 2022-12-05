@@ -47,7 +47,7 @@ def checkCookie():
     cookie = request.headers.get("lectio-cookie")
 
     try:
-        lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+        lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie).fåBruger()
         return jsonify({"valid": True})
     except Exception:
         return jsonify({"valid": False})
