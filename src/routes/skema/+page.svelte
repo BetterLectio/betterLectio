@@ -189,10 +189,8 @@
       }
       if (isAdded) {
         ec.updateEvent(modulCalenderObj);
-        console.log("update", modulCalenderObj);
       } else {
         ec.addEvent(modulCalenderObj);
-        console.log("addded", modulCalenderObj);
       }
     }
     ec.refetchEvents();
@@ -208,8 +206,8 @@
     }
     get(`/skema?uge=${globalWeek}&år=${globalYear}`).then((data) => {
       $skema[globalYear + "" + globalWeek] = data;
-      console.log("skema", globalWeek, globalYear, $skema);
     });
+    addButtonsToDagsnoter(globalYear,globalWeek);
   }
 
   function onload() {
@@ -224,7 +222,7 @@
       changeWeek("plus"); //plus 1 week
     });
   }
-
+  
   function changeWeek(task) {
     switch (task) {
       case "reset":
@@ -236,6 +234,34 @@
       case "plus":
         globalWeek++;
         break;
+    }
+  }
+
+  function addButtonsToDagsnoter(year, week) {
+    let slots = document.getElementsByClassName("ec-day");
+    let slotsFiltered = [];
+    for (let i = 0; i < slots.length; i++) {
+      i >= 5 && i <= 9 ? slotsFiltered.push(slots[i]) : null;
+    }
+    // add buttons to slots
+    for (let i = 0; i < slotsFiltered.length; i++) {
+      let infoobj = $skema[year + "" + week].dagsNoter[i];
+      const currentDay = Object.keys(infoobj)[0];
+      const currentInfoArr = infoobj[currentDay];
+      let currentInfo = `<p>`
+      for (let j = 0; j < currentInfoArr.length; j++) {
+        currentInfo += currentInfoArr[j] + `</p><p>`;
+      }
+      slotsFiltered[i].innerHTML = `
+      <div tabindex="0" class="collapse">
+        <div class="collapse-title font-medium">
+          Se dagsnoter
+        </div>
+        <div class="collapse-content">
+          ${currentInfo}
+        </div>
+      </div>
+      `;
     }
   }
 </script>

@@ -70,13 +70,11 @@
       {@html lektieHtml}
       <div class="mb-4" />
     {/if}
-
     {#if note}
       <h3 class="text-xl font-bold">Noter</h3>
       {@html note}
       <div class="mb-4" />
     {/if}
-
     {#if øvrigeIndholdHtml}
       <h3 class="text-xl font-bold">Øvrigt indhold</h3>
       {@html øvrigeIndholdHtml}
