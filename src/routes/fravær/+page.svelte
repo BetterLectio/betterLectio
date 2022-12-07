@@ -48,13 +48,13 @@
 </script>
 
 <h1 class="text-3xl font-bold">Fravær</h1>
-{#if $fravaer?.data}
+{#if $fravaer?.data && fravaer != null}
   {#if samletFravaer == 0}
     <p>Du har intet fravær</p>
   {:else}
     <p>Du har {samletFravaer}% fravær</p>
     <p>Hold uden fravær er ikke vist</p>
-    
+
     <div class="mb-4 mt-4">
       <table class="table w-full rounded-xl shadow-xl">
         <thead>
