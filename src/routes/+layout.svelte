@@ -147,7 +147,7 @@
   </div>
   <div class="navbar-end">
     <ThemeSelect />
-    {#if $brugeren}
+    {#if $brugeren && localStorage.getItem("authentication")}
       <div class="dropdown dropdown-end">
         <div tabindex="0" class="flex justify-end btn-ghost btn gap-1 normal-case font-normal">
           <Avatar id={"S" + JSON.parse(atob(localStorage.getItem("authentication"))).LastLoginElevId} navn={$brugeren.navn} size="w-10"></Avatar>
@@ -164,7 +164,7 @@
             viewBox="0 0 2048 2048"><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z" /></svg
           >
         </div>
-        
+
         <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
           <li>
             <a href="/indstillinger">
@@ -184,7 +184,10 @@
             </a>
           </li>
           <li>
-            <a href="#">
+            <a on:click={() => {
+              localStorage.removeItem("authentication");
+              window.location.href = "/";
+            }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-current p-0" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
                 <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
@@ -194,8 +197,6 @@
           </li>
         </ul>
       </div>
-
-
     {/if}
   </div>
 </div>
