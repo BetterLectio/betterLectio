@@ -54,28 +54,28 @@
   {:else}
     <p>Du har {samletFravaer}% fravær</p>
     <p>Hold uden fravær er ikke vist</p>
+    
+    <div class="mb-4 mt-4">
+      <table class="table w-full rounded-xl shadow-xl">
+        <thead>
+          <tr>
+            <th on:click={sort("hold")}>Hold {sortArrow("hold", $fravaer.sort)}</th>
+            <th on:click={sort("procent")}>Fravær {sortArrow("procent", $fravaer.sort)}</th>
+            <th on:click={sort("moduler")}>Moduler {sortArrow("moduler", $fravaer.sort)}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each $fravaer.data.generalt as fravaer}
+            {#if fravaer.hold != "Samlet" && fravaer.fravær_procent != "0,00%"}
+              <tr>
+                <td>{fravaer.hold}</td>
+                <td>{fravaer.fravær_procent}</td>
+                <td>{fravaer.fravær_moduler}</td>
+              </tr>
+            {/if}
+          {/each}
+        </tbody>
+      </table>
+    </div>
   {/if}
-
-  <div class="mb-4 mt-4">
-    <table class="table w-full rounded-xl shadow-xl">
-      <thead>
-        <tr>
-          <th on:click={sort("hold")}>Hold {sortArrow("hold", $fravaer.sort)}</th>
-          <th on:click={sort("procent")}>Fravær {sortArrow("procent", $fravaer.sort)}</th>
-          <th on:click={sort("moduler")}>Moduler {sortArrow("moduler", $fravaer.sort)}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each $fravaer.data.generalt as fravaer}
-          {#if fravaer.hold != "Samlet" && fravaer.fravær_procent != "0,00%"}
-            <tr>
-              <td>{fravaer.hold}</td>
-              <td>{fravaer.fravær_procent}</td>
-              <td>{fravaer.fravær_moduler}</td>
-            </tr>
-          {/if}
-        {/each}
-      </tbody>
-    </table>
-  </div>
 {/if}
