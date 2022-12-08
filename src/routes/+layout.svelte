@@ -3,6 +3,8 @@
   import { themeChange } from "theme-change";
   import "../app.css";
   import PageTransition from "../components/PageTransition.svelte";
+  import { brugeren } from "../components/store.js";
+  import Avatar from "../components/Avatar.svelte";
   export let data;
 
   onMount(() => {
@@ -147,6 +149,57 @@
   </div>
   <div class="navbar-end">
     <ThemeSelect />
+    {#if $brugeren && localStorage.getItem("authentication")}
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" class="flex justify-end btn-ghost btn gap-1 normal-case font-normal">
+          <Avatar id={"S" + JSON.parse(atob(localStorage.getItem("authentication"))).LastLoginElevId} navn={$brugeren.navn} size="w-10"></Avatar>
+          <div class="ml-4 hidden lg:block">
+            <h1 class="text-lg font-bold flex justify-start">{$brugeren.navn.split(", ")[0]}</h1>
+            <p class="flex justify-start">{$brugeren.navn.split(", ")[1]}</p> 
+          </div>
+
+          <svg
+            width="12px"
+            height="12px"
+            class="ml-1 hidden h-3 w-3 fill-current opacity-60 sm:inline-block"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 2048 2048"><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z" /></svg
+          >
+        </div>
+
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+          <li>
+            <a href="/indstillinger">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-current p-0" viewBox="0 0 16 16">
+                <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+              </svg>
+              Indstillinger
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-current p-0" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+              </svg>
+              Reload data
+            </a>
+          </li>
+          <li>
+            <a on:click={() => {
+              localStorage.removeItem("authentication");
+              window.location.href = "/";
+            }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-current p-0" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+              </svg>
+              Log ud
+            </a>
+          </li>
+        </ul>
+      </div>
+    {/if}
   </div>
 </div>
 
