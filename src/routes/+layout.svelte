@@ -43,17 +43,18 @@
         <label for="logud-modal"  class="btn">Forbliv logget ind</label>
       </div> 
       <div class="ml-2 modal-action">
-        <a on:click={() => {
-          const skoleId = localStorage.getItem("skole_id")
-          const theme = localStorage.getItem("theme")
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <btn on:click={() => {
+          const skoleId = localStorage.getItem("skole_id");
+          const theme = localStorage.getItem("theme");
           
           localStorage.clear();
 
-          localStorage.setItem("skole_id", skoleId)
-          localStorage.setItem("theme", theme)
+          localStorage.setItem("skole_id", skoleId);
+          localStorage.setItem("theme", theme);
 
           window.location.href = "/";
-        }} class="btn btn-error">Log mig ud!</a>
+        }} class="btn btn-error">Log mig ud!</btn>
       </div> 
     </span>
   </label>
