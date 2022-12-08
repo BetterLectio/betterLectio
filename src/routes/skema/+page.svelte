@@ -75,8 +75,6 @@
   let globalYear = 0;
   let addedEventsId = [];
 
-  let color = "";
-
   let options = {
     view: "timeGridWeek",
     nowIndicator: true,
@@ -334,7 +332,7 @@
     });
   };
 
-  function colorModul (modul) {
+  function colorModul(modul) {
     let modulType = modul["status"];
     switch (modulType) {
       case "aflyst":
@@ -343,7 +341,7 @@
         return "btn btn-success mb-4 block h-fit p-2 normal-case";
       case "normal":
         return "btn btn-info mb-4 block h-fit p-2 normal-case";
-    } 
+    }
   }
 </script>
 
