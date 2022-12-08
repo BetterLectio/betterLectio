@@ -37,7 +37,7 @@
 <label for="logud-modal" class="modal cursor-pointer">
   <label class="modal-box relative" for="">
     <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
-    <p class="py-4">Når du logger bliver alt dataen bortset fra din skole hvis du har det slået til på siden slettet fra din enhed. Siden vil derfor blive nødt til at loade det hele igen når du logger ind.</p>
+    <p class="py-4">{"Når du logger bliver alt dataen bortset dit tema og din skole (hvis du har det slået til). Siden vil derfor blive nødt til at loade det hele igen når du logger ind."}</p>
     <span class="flex">
       <div class="modal-action">
         <label for="logud-modal"  class="btn">Forbliv logget ind</label>
@@ -45,8 +45,13 @@
       <div class="ml-2 modal-action">
         <a on:click={() => {
           const skoleId = localStorage.getItem("skole_id")
+          const theme = localStorage.getItem("theme")
+          
           localStorage.clear();
+
           localStorage.setItem("skole_id", skoleId)
+          localStorage.setItem("theme", theme)
+
           window.location.href = "/";
         }} class="btn btn-error">Log mig ud!</a>
       </div> 
