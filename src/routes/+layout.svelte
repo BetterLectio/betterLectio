@@ -188,7 +188,7 @@
         </div>
 
         <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box">
-          <div class="ml-4 mr-4 hidden 2xl:block">
+          <div class="mt-2 mb-2 ml-4 mr-4 ">
             <h1 class="text-lg font-bold flex justify-start whitespace-nowrap">{$brugeren.navn.split(", ")[0]}</h1>
             <p class="flex justify-start">{$brugeren.navn.split(", ")[1]}</p> 
           </div>
