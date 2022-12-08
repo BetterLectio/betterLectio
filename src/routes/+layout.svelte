@@ -32,6 +32,28 @@
   }
 </script>
 
+<!--Log ud pop up-->
+<input type="checkbox" id="logud-modal" class="modal-toggle" />
+<label for="logud-modal" class="modal cursor-pointer">
+  <label class="modal-box relative" for="">
+    <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
+    <p class="py-4">Når du logger bliver alt dataen bortset fra din skole hvis du har det slået til på siden slettet fra din enhed. Siden vil derfor blive nødt til at loade det hele igen når du logger ind.</p>
+    <span class="flex">
+      <div class="modal-action">
+        <label for="logud-modal"  class="btn">Forbliv logget ind</label>
+      </div> 
+      <div class="ml-2 modal-action">
+        <a on:click={() => {
+          const skoleId = localStorage.getItem("skole_id")
+          localStorage.clear();
+          localStorage.setItem("skole_id", skoleId)
+          window.location.href = "/";
+        }} class="btn btn-error">Log mig ud!</a>
+      </div> 
+    </span>
+  </label>
+</label>
+
 <div class="navbar relative z-50 mb-10 bg-base-100 drop-shadow-xl">
   <div class="navbar-start">
     <div class="dropdown">
@@ -150,14 +172,9 @@
   <div class="navbar-end">
     <ThemeSelect />
     {#if $brugeren && localStorage.getItem("authentication")}
-      <div class="dropdown dropdown-end">
+      <div class="dropdown dropdown-bottom dropdown-end">
         <div tabindex="0" class="flex justify-end btn-ghost btn gap-1 normal-case font-normal">
           <Avatar id={"S" + JSON.parse(atob(localStorage.getItem("authentication"))).LastLoginElevId} navn={$brugeren.navn} size="w-10"></Avatar>
-          <div class="ml-4 hidden lg:block">
-            <h1 class="text-lg font-bold flex justify-start">{$brugeren.navn.split(", ")[0]}</h1>
-            <p class="flex justify-start">{$brugeren.navn.split(", ")[1]}</p> 
-          </div>
-
           <svg
             width="12px"
             height="12px"
@@ -167,7 +184,11 @@
           >
         </div>
 
-        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box">
+          <div class="ml-4 mr-4 hidden 2xl:block">
+            <h1 class="text-lg font-bold flex justify-start whitespace-nowrap">{$brugeren.navn.split(", ")[0]}</h1>
+            <p class="flex justify-start">{$brugeren.navn.split(", ")[1]}</p> 
+          </div>
           <li>
             <a href="/indstillinger">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-current p-0" viewBox="0 0 16 16">
@@ -186,16 +207,13 @@
             </a>
           </li>
           <li>
-            <a on:click={() => {
-              localStorage.removeItem("authentication");
-              window.location.href = "/";
-            }}>
+            <label for="logud-modal">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-current p-0" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
-                <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-              </svg>
-              Log ud
-            </a>
+              <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+              <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+            </svg>
+            Log ud
+          </label>
           </li>
         </ul>
       </div>
