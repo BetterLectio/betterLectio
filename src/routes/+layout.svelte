@@ -3,8 +3,6 @@
   import { themeChange } from "theme-change";
   import "../app.css";
   import PageTransition from "../components/PageTransition.svelte";
-  import { brugeren } from "../components/store.js";
-  import Avatar from "../components/Avatar.svelte";
   export let data;
 
   onMount(() => {
