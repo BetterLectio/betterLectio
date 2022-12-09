@@ -1,5 +1,5 @@
-![Netlify](https://img.shields.io/netlify/12e95056-413a-458c-9f0a-e753f4a4f83e?label=Better%20Lectio&style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues-raw/victorDigital/betterLectio?style=flat-square)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fe2851de-234e-4d0b-864e-25827514c5a5/deploy-status)](https://app.netlify.com/sites/betlec/deploys)
+![GitHub issues](https://img.shields.io/github/issues-raw/victorDigital/betterLectio)
 
 # BetterLectio
 
@@ -10,6 +10,10 @@ Better lectio er et open source projekt, hvilket betyder at alle kan se koden, o
 
 Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)  
 <img src="https://contrib.rocks/image?repo=victorDigital/betterLectio" />
+
+### siden er tilgængelig på [betterlectio.dk](https://betterlectio.dk)
+
+### vores dev side er tilgængelig på [dev--betlec.netlify.app](https://dev--betlec.netlify.app/)
 
 ## TODO
 

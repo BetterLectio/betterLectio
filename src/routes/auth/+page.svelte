@@ -82,7 +82,9 @@
           document.querySelector("#CantLogInAlert").checked = false;
         });
       } else {
+        const theme = localStorage.getItem("theme");
         localStorage.clear();
+        localStorage.setItem("theme", theme);
         setSkole();
         localStorage.setItem("authentication", authentication);
         window.location.href = "/forside";
