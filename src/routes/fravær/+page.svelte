@@ -4,6 +4,25 @@
   import { Chart, registerables } from "chart.js";
   import moment from "moment";
 
+  moment.defineLocale("en-dk", {
+    parentLocale: "en",
+    months: [
+      "Januar",
+      "Februar",
+      "Marts",
+      "April",
+      "Maj",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "December",
+    ],
+  });
+  moment.locale("en-dk");
+
   // https://github.com/chartjs/Chart.js/blob/master/src/plugins/plugin.colors.ts#L13
   const BACKGROUND_COLORS = [
     "rgb(54, 162, 235)", // blue
@@ -14,7 +33,8 @@
     "rgb(153, 102, 255)", // purple
     "rgb(201, 203, 207)", // grey
   ];
-  const timeRegex = /((?:[1-9]|[12][0-9]|3[01])\/(?:0[1-9]|1[012])-(?:19|20)\d\d) ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9])) til ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9]))/m;
+  const timeRegex =
+    /((?:[1-9]|[12][0-9]|3[01])\/(?:[1-9]|1[012])-(?:19|20)\d\d) ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9])) til ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9]))/m;
 
   Chart.register(...registerables);
   let modulerChartElement;
@@ -71,38 +91,29 @@
     });
 
     const concFravær = [...$fravaer.data.moduler.manglende_fraværsårsager, ...$fravaer.data.moduler.oversigt];
-    let monthToFravær = {};
+    let monthToFravær = Object.assign({}, ...moment.months().map((monthName) => ({[monthName]: 0})));
+
     for (let index = 0; index < concFravær.length; index++) {
       const modul = concFravær[index].aktivitet;
       const tidspunkt = modul.tidspunkt.match(timeRegex);
-      console.log(tidspunkt);
-      try {
-        const date = moment(`${tidspunkt[1]} ${tidspunkt[2]}`, 'DD/MM-YYYY HH:mm'); 
-      } catch (error) {
-        console.log(error);
-        console.log(modul.tidspunkt);
-      }
+      const date = moment(`${tidspunkt[1]} ${tidspunkt[2]}`, "DD/MM-YYYY HH:mm");
+      monthToFravær[date.format("MMMM")] = monthToFravær[date.format("MMMM")] + 1;
     }
 
     new Chart(yearChartElement, {
       type: "line",
       data: {
-        labels: ["August", "September", "Oktober", "November", "December"],
+        labels: [...moment.months().slice(7), ...moment.months().slice(0, 7)], // start ved august, for der starter skoleåret
         datasets: [
           {
             label: "Registreret fravær",
-            data: [1, 4, 2, 4, 0],
+            data: [...Object.values(monthToFravær).slice(7), ...Object.values(monthToFravær).slice(0, 7)], // start ved august, for der starter skoleåret
             fill: "origin",
           },
         ],
       },
       options: {
         elements: {
-          // point: {
-          // 	radius: 0,
-          // 	hitRadius: 5,
-          //   hoverRadius: 5
-          // },
           line: {
             tension: 0.4,
           },
