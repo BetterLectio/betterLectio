@@ -60,6 +60,26 @@
       harAfleveret: opgave_indlæg.length > 0,
     };
   });
+
+  const CokieInfo = async () => {
+    if (!localStorage.getItem("authentication")) {
+      console.log("Redirect");
+      window.location.href = "/auth";
+    } else {
+      let decodedCookie = atob(localStorage.getItem("authentication"));
+      cookie = JSON.parse(decodedCookie);
+      return {
+        user: cookie["LastLoginUserName"],
+        school: cookie["LastLoginExamno"],
+        userid: cookie["LastLoginElevId"],
+      };
+    }
+  };
+
+  let cookie;
+  CokieInfo().then((data) => {
+    cookie = data;
+  });
 </script>
 
 <div>
@@ -120,7 +140,7 @@
       </table>
     {:else}
       <a
-        href="https://www.lectio.dk/lectio/681/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
+        href="https://www.lectio.dk/lectio/{cookie.school}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
         class="btn-primary btn">Aflever Her!</a
       >
     {/if}

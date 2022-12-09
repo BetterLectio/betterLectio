@@ -1,6 +1,21 @@
 <script>
   import { fravaer } from "../../components/store";
   import { get } from "../../components/http";
+  import { Chart, registerables } from "chart.js";
+
+  // https://github.com/chartjs/Chart.js/blob/master/src/plugins/plugin.colors.ts#L13
+  const BACKGROUND_COLORS = [
+    "rgb(54, 162, 235)", // blue
+    "rgb(255, 99, 132)", // red
+    "rgb(255, 159, 64)", // orange
+    "rgb(255, 205, 86)", // yellow
+    "rgb(75, 192, 192)", // green
+    "rgb(153, 102, 255)", // purple
+    "rgb(201, 203, 207)", // grey
+  ];
+
+  Chart.register(...registerables);
+  let modulerChartElement;
 
   let samletFravaer = null;
   get("/fravaer").then((data) => {
@@ -10,6 +25,46 @@
       if (element.hold == "Samlet") {
         samletFravaer = parseFloat(element.fravær_procent);
       }
+    });
+    new Chart(modulerChartElement, {
+      type: "bar",
+      data: {
+        labels: $fravaer.data.generalt
+          .filter((element) => element.hold != "Samlet" && element.fravær_procent != "0,00%")
+          .map((element) => element.hold),
+        datasets: [
+          {
+            label: "Fraværende moduler",
+            data: $fravaer.data.generalt
+              .filter((element) => element.hold != "Samlet" && element.fravær_procent != "0,00%")
+              .map((element) => /([0-9]+)\//g.exec(element.fravær_moduler)[1]),
+            backgroundColor: $fravaer.data.generalt.map(
+              (element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]
+            ),
+          },
+        ],
+      },
+      options: {
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Fag",
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Antal fraværende moduler",
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
     });
   });
 
@@ -26,7 +81,11 @@
     let sortFunc = (a, b) => {
       switch (column) {
         case "procent":
-          return parseProcent(a.fravær_procent) < parseProcent(b.fravær_procent) ? -1 * sortModifier : parseProcent(a.fravær_procent) > parseProcent(b.fravær_procent) ? 1 * sortModifier : 0;
+          return parseProcent(a.fravær_procent) < parseProcent(b.fravær_procent)
+            ? -1 * sortModifier
+            : parseProcent(a.fravær_procent) > parseProcent(b.fravær_procent)
+            ? 1 * sortModifier
+            : 0;
         case "moduler":
           const aValue = /([0-9]+)\//g.exec(a.fravær_moduler)[1];
           const bValue = /([0-9]+)\//g.exec(b.fravær_moduler)[1];
@@ -76,6 +135,11 @@
           {/each}
         </tbody>
       </table>
+    </div>
+    <div class="relative mt-12 h-40v">
+      <h1 class="text-2xl font-bold">Grafisk oversigt</h1>
+      <p class="mb-2">Antal fraværende moduler</p>
+      <canvas bind:this={modulerChartElement} />
     </div>
   {/if}
 {/if}
