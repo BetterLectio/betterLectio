@@ -11,6 +11,10 @@ Better lectio er et open source projekt, hvilket betyder at alle kan se koden, o
 Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)  
 <img src="https://contrib.rocks/image?repo=victorDigital/betterLectio" />
 
+### siden er tilgængelig på [betterlectio.dk](https://betterlectio.dk)
+
+### vores dev side er tilgængelig på [dev.betterlectio.dk](https://dev.betterlectio.dk)
+
 ## TODO
 
 1. opgave side
