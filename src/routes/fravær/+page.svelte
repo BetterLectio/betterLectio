@@ -2,6 +2,7 @@
   import { fravaer } from "../../components/store";
   import { get } from "../../components/http";
   import { Chart, registerables } from "chart.js";
+  import moment from "moment";
 
   // https://github.com/chartjs/Chart.js/blob/master/src/plugins/plugin.colors.ts#L13
   const BACKGROUND_COLORS = [
@@ -13,9 +14,11 @@
     "rgb(153, 102, 255)", // purple
     "rgb(201, 203, 207)", // grey
   ];
+  const timeRegex = /((?:[1-9]|[12][0-9]|3[01])\/(?:0[1-9]|1[012])-(?:19|20)\d\d) ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9])) til ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9]))/m;
 
   Chart.register(...registerables);
   let modulerChartElement;
+  let yearChartElement;
 
   let samletFravaer = null;
   get("/fravaer").then((data) => {
@@ -56,6 +59,65 @@
             title: {
               display: true,
               text: "Antal fraværende moduler",
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+    });
+
+    const concFravær = [...$fravaer.data.moduler.manglende_fraværsårsager, ...$fravaer.data.moduler.oversigt];
+    let monthToFravær = {};
+    for (let index = 0; index < concFravær.length; index++) {
+      const modul = concFravær[index].aktivitet;
+      const tidspunkt = modul.tidspunkt.match(timeRegex);
+      console.log(tidspunkt);
+      try {
+        const date = moment(`${tidspunkt[1]} ${tidspunkt[2]}`, 'DD/MM-YYYY HH:mm'); 
+      } catch (error) {
+        console.log(error);
+        console.log(modul.tidspunkt);
+      }
+    }
+
+    new Chart(yearChartElement, {
+      type: "line",
+      data: {
+        labels: ["August", "September", "Oktober", "November", "December"],
+        datasets: [
+          {
+            label: "Registreret fravær",
+            data: [1, 4, 2, 4, 0],
+            fill: "origin",
+          },
+        ],
+      },
+      options: {
+        elements: {
+          // point: {
+          // 	radius: 0,
+          // 	hitRadius: 5,
+          //   hoverRadius: 5
+          // },
+          line: {
+            tension: 0.4,
+          },
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Måned",
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Registreret fravær",
             },
           },
         },
@@ -137,9 +199,17 @@
       </tbody>
     </table>
   </div>
-  <div class="relative mt-12 h-40v">
+  <div class="mt-12">
     <h1 class="text-2xl font-bold">Grafisk oversigt</h1>
     <p class="mb-2">Antal fraværende moduler</p>
-    <canvas bind:this={modulerChartElement} />
+    <div>
+      <div class="h-50v">
+        <canvas bind:this={modulerChartElement} />
+      </div>
+      <div class="mb-9" />
+      <div class="h-50v">
+        <canvas bind:this={yearChartElement} />
+      </div>
+    </div>
   </div>
 {/if}

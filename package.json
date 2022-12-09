@@ -37,6 +37,7 @@
 		"bootstrap": "^5.2.2",
 		"daisyui": "^2.38.0",
 		"markdown-it": "^13.0.1",
+		"moment": "^2.29.4",
 		"sanitize-html": "^2.7.3",
 		"theme-change": "^2.2.0"
 	}
