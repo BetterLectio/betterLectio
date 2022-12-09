@@ -35,7 +35,7 @@
 
 {#if cookie}
   <a
-    href="https://www.lectio.dk/lectio/681/beskeder2.aspx?type=showthread&elevid={cookie.userid}&id={beskedId}"
+    href="https://www.lectio.dk/lectio/{cookie.school}/beskeder2.aspx?type=showthread&elevid={cookie.userid}&id={beskedId}"
     class="btn-primary btn">Åben i lectio</a
   >
 {:else}
