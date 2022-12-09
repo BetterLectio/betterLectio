@@ -91,6 +91,7 @@
         <li><a href="dokumenter">Dokumenter</a></li>
         <li><a href="beskeder">Beskeder</a></li>
         <li><a href="værktøjer">Værktøjer</a></li>
+        <li><a href="indstillinger">Indstillinger</a></li>
       </ul>
     </div>
 
@@ -139,6 +140,7 @@
       <li><a href="dokumenter">Dokumenter</a></li>
       <li><a href="beskeder">Beskeder</a></li>
       <li><a href="værktøjer">Værktøjer</a></li>
+      <li><a href="indstillinger">Indstillinger</a></li>
     </ul>
   </div>
   <div class="navbar-center flex sm:hidden">
