@@ -86,6 +86,8 @@
     eventDidMount: (event) => {
       addedEventsId.push(event.event.id);
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
+      getAgenda();
+      getAgenda();
     },
     viewDidMount: (view) => {
       let dateObj = new Date(view.currentEnd.toISOString());
@@ -93,6 +95,8 @@
       let dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
       globalWeek = Math.floor(dayOfYear / 7);
       onload();
+      getAgenda();
+      getAgenda();
     },
   };
 
@@ -359,7 +363,7 @@
 <div class="block h-20 w-full md:hidden">
   <div class="mb-3 flex justify-around rounded-xl bg-base-300 py-4">
     <div class="align btn-group flex justify-center">
-      <button class="btn-primary btn-sm btn" on:click={prevDay}>
+      <button class="btn btn-primary btn-sm" on:click={prevDay}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -373,8 +377,8 @@
           />
         </svg>
       </button>
-      <button class="btn-primary btn-sm btn" on:click={resetDay}> i dag </button>
-      <button class="btn-primary btn-sm btn" on:click={nextDay}>
+      <button class="btn btn-primary btn-sm" on:click={resetDay}> i dag </button>
+      <button class="btn btn-primary btn-sm" on:click={nextDay}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
