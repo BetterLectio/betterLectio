@@ -13,7 +13,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 ### siden er tilgængelig på [betterlectio.dk](https://betterlectio.dk)
 
-### vores dev side er tilgængelig på [dev.betterlectio.dk](https://dev.betterlectio.dk)
+### vores dev side er tilgængelig på [dev--betlec.netlify.app](https://dev--betlec.netlify.app/)
 
 ## TODO
 
