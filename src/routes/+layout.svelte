@@ -39,7 +39,8 @@
   <label class="modal-box relative" for="">
     <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
     <p class="py-4">
-      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.
+      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn
+      og kodeord.
     </p>
     <span class="flex">
       <div class="modal-action">
@@ -66,7 +67,7 @@
   </label>
 </label>
 
-<div class="navbar relative z-50 mb-10 bg-base-100 drop-shadow-xl">
+<div class="navbar relative z-50 mb-10 bg-base-200">
   <div class="navbar-start">
     <div class="dropdown">
       <button class="btn-ghost btn xl:hidden" aria-label="navbar button">
@@ -85,14 +86,20 @@
         >
       </button>
       <ul class="dropdown-content menu rounded-box mt-3 w-52 bg-base-100 p-2 shadow">
-        <li><a href="skema">Skema</a></li>
-        <li><a href="opgaver">Opgaver</a></li>
-        <li><a href="lektier">Lektier</a></li>
-        <li><a href="fravær">Fravær</a></li>
-        <li><a href="dokumenter">Dokumenter</a></li>
-        <li><a href="beskeder">Beskeder</a></li>
-        <li><a href="værktøjer">Værktøjer</a></li>
-        <li><a href="indstillinger">Indstillinger</a></li>
+        {#if $brugeren && localStorage.getItem("authentication")}
+          <li><a href="skema">Skema</a></li>
+          <li><a href="opgaver">Opgaver</a></li>
+          <li><a href="lektier">Lektier</a></li>
+          <li><a href="fravær">Fravær</a></li>
+          <li><a href="dokumenter">Dokumenter</a></li>
+          <li><a href="beskeder">Beskeder</a></li>
+          <li><a href="værktøjer">Værktøjer</a></li>
+          <li><a href="indstillinger">Indstillinger</a></li>
+        {:else}
+          <li><a href="/">Forside</a></li>
+          <li><a href="help">Hjælp</a></li>
+          <li><a href="tos">Servicevilkår & Privatlivspolitik</a></li>
+        {/if}
       </ul>
     </div>
 
@@ -135,18 +142,18 @@
   <div class="navbar-center hidden xl:flex">
     <ul class="menu menu-horizontal p-0">
       {#if $brugeren && localStorage.getItem("authentication")}
-      <li><a href="skema">Skema</a></li>
-      <li><a href="opgaver">Opgaver</a></li>
-      <li><a href="lektier">Lektier</a></li>
-      <li><a href="fravær">Fravær</a></li>
-      <li><a href="dokumenter">Dokumenter</a></li>
-      <li><a href="beskeder">Beskeder</a></li>
-      <li><a href="værktøjer">Værktøjer</a></li>
-      <li><a href="indstillinger">Indstillinger</a></li>
+        <li><a href="skema">Skema</a></li>
+        <li><a href="opgaver">Opgaver</a></li>
+        <li><a href="lektier">Lektier</a></li>
+        <li><a href="fravær">Fravær</a></li>
+        <li><a href="dokumenter">Dokumenter</a></li>
+        <li><a href="beskeder">Beskeder</a></li>
+        <li><a href="værktøjer">Værktøjer</a></li>
+        <li><a href="indstillinger">Indstillinger</a></li>
       {:else}
-      <li><a href="/">Forside</a></li>
-      <li><a href="help">Hjælp</a></li>
-      <li><a href="tos">Servicevilkår & Privatlivspolitik</a></li>
+        <li><a href="/">Forside</a></li>
+        <li><a href="help">Hjælp</a></li>
+        <li><a href="tos">Servicevilkår & Privatlivspolitik</a></li>
       {/if}
     </ul>
   </div>
