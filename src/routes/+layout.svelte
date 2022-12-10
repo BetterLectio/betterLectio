@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
   import { themeChange } from "theme-change";
   import "../app.css";
   import PageTransition from "../components/PageTransition.svelte";
@@ -56,7 +57,7 @@
             localStorage.setItem("skole_id", skoleId);
             localStorage.setItem("theme", theme);
 
-            window.location.href = "/";
+            goto("/");
           }}
           class="btn-error btn">Log mig ud!</btn
         >
@@ -103,9 +104,9 @@
       }}
       on:click={() => {
         if (authed == true) {
-          window.location.href = "/forside";
+          goto("/forside");
         } else {
-          window.location.href = "/";
+          goto("/");
         }
       }}
     >
@@ -133,6 +134,7 @@
   </div>
   <div class="navbar-center hidden xl:flex">
     <ul class="menu menu-horizontal p-0">
+      {#if $brugeren && localStorage.getItem("authentication")}
       <li><a href="skema">Skema</a></li>
       <li><a href="opgaver">Opgaver</a></li>
       <li><a href="lektier">Lektier</a></li>
@@ -141,6 +143,11 @@
       <li><a href="beskeder">Beskeder</a></li>
       <li><a href="værktøjer">Værktøjer</a></li>
       <li><a href="indstillinger">Indstillinger</a></li>
+      {:else}
+      <li><a href="/">Forside</a></li>
+      <li><a href="help">Hjælp</a></li>
+      <li><a href="tos">Servicevilkår & Privatlivspolitik</a></li>
+      {/if}
     </ul>
   </div>
   <div class="navbar-center flex sm:hidden">
@@ -152,9 +159,9 @@
       }}
       on:click={() => {
         if (authed == true) {
-          window.location.href = "/forside";
+          goto("/forside");
         } else {
-          window.location.href = "/";
+          goto("/login");
         }
       }}
     >
