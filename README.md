@@ -63,6 +63,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
    - IDÉ - mulighed for at gemme skemaet local storage (med tids stempel) (client side)✅
    - terms of service (har lavet en seperat branch) (UI) ✅
    - lectio billder? (UI) (API) ✅
+   - Tilføj alerts fra daisy ui i alert.js (UI) 1/7
 
 7. bugs
 

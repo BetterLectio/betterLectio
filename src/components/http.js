@@ -1,3 +1,4 @@
+import { goto } from "$app/navigation";
 export async function get(endpoint) {
   // Wait until the user is authenticated
   while (true) {
@@ -44,8 +45,8 @@ export async function get(endpoint) {
       );
       alert(`Error fetching data from https://better-lectio-flask-backend.vercel.app${endpoint}`);
     } else {
-      console.log("Cookie not valid, redirecting to auth page");
-      window.location.href = "/auth";
+      console.log("Cookie not valid, redirecting to auth page.", "validationCheck:", validationCheck);
+      goto("/auth");
     }
   }
 }

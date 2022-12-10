@@ -11,9 +11,9 @@
 
   async function getRemainingTime() {
     let lastLesson = await getLastLessonOfDay();
-    let secondsLeft = lastLesson.seconds - new Date().getHours();
+    let secondsLeft = lastLesson.seconds - new Date().getSeconds();
     let minutesLeft = lastLesson.minutes - new Date().getMinutes();
-    let hoursLeft = lastLesson.hours - new Date().getSeconds();
+    let hoursLeft = lastLesson.hours - new Date().getHours();
     if (minutesLeft < 0) {
       minutesLeft = 60 + minutesLeft;
       hoursLeft = hoursLeft - 1;

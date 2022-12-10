@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
   import { themeChange } from "theme-change";
   import "../app.css";
   import PageTransition from "../components/PageTransition.svelte";
@@ -38,7 +39,8 @@
   <label class="modal-box relative" for="">
     <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
     <p class="py-4">
-      {"Når du logger bliver alt dataen bortset dit tema og din skole (hvis du har det slået til). Siden vil derfor blive nødt til at loade det hele igen når du logger ind."}
+      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn
+      og kodeord.
     </p>
     <span class="flex">
       <div class="modal-action">
@@ -65,7 +67,7 @@
   </label>
 </label>
 
-<div class="navbar relative z-50 mb-10 bg-base-100 drop-shadow-xl">
+<div class="navbar relative z-50 mb-10 bg-base-200">
   <div class="navbar-start">
     <div class="dropdown">
       <button class="btn-ghost btn xl:hidden" aria-label="navbar button">
@@ -84,13 +86,20 @@
         >
       </button>
       <ul class="dropdown-content menu rounded-box mt-3 w-52 bg-base-100 p-2 shadow">
-        <li><a href="skema">Skema</a></li>
-        <li><a href="opgaver">Opgaver</a></li>
-        <li><a href="lektier">Lektier</a></li>
-        <li><a href="fravær">Fravær</a></li>
-        <li><a href="dokumenter">Dokumenter</a></li>
-        <li><a href="beskeder">Beskeder</a></li>
-        <li><a href="værktøjer">Værktøjer</a></li>
+        {#if $brugeren && localStorage.getItem("authentication")}
+          <li><a href="skema">Skema</a></li>
+          <li><a href="opgaver">Opgaver</a></li>
+          <li><a href="lektier">Lektier</a></li>
+          <li><a href="fravær">Fravær</a></li>
+          <li><a href="dokumenter">Dokumenter</a></li>
+          <li><a href="beskeder">Beskeder</a></li>
+          <li><a href="værktøjer">Værktøjer</a></li>
+          <li><a href="indstillinger">Indstillinger</a></li>
+        {:else}
+          <li><a href="/">Forside</a></li>
+          <li><a href="help">Hjælp</a></li>
+          <li><a href="tos">Servicevilkår & Privatlivspolitik</a></li>
+        {/if}
       </ul>
     </div>
 
@@ -102,9 +111,9 @@
       }}
       on:click={() => {
         if (authed == true) {
-          window.location.href = "/forside";
+          goto("/forside");
         } else {
-          window.location.href = "/";
+          goto("/");
         }
       }}
     >
@@ -132,13 +141,20 @@
   </div>
   <div class="navbar-center hidden xl:flex">
     <ul class="menu menu-horizontal p-0">
-      <li><a href="skema">Skema</a></li>
-      <li><a href="opgaver">Opgaver</a></li>
-      <li><a href="lektier">Lektier</a></li>
-      <li><a href="fravær">Fravær</a></li>
-      <li><a href="dokumenter">Dokumenter</a></li>
-      <li><a href="beskeder">Beskeder</a></li>
-      <li><a href="værktøjer">Værktøjer</a></li>
+      {#if $brugeren && localStorage.getItem("authentication")}
+        <li><a href="skema">Skema</a></li>
+        <li><a href="opgaver">Opgaver</a></li>
+        <li><a href="lektier">Lektier</a></li>
+        <li><a href="fravær">Fravær</a></li>
+        <li><a href="dokumenter">Dokumenter</a></li>
+        <li><a href="beskeder">Beskeder</a></li>
+        <li><a href="værktøjer">Værktøjer</a></li>
+        <li><a href="indstillinger">Indstillinger</a></li>
+      {:else}
+        <li><a href="/">Forside</a></li>
+        <li><a href="help">Hjælp</a></li>
+        <li><a href="tos">Servicevilkår & Privatlivspolitik</a></li>
+      {/if}
     </ul>
   </div>
   <div class="navbar-center flex sm:hidden">
@@ -150,9 +166,9 @@
       }}
       on:click={() => {
         if (authed == true) {
-          window.location.href = "/forside";
+          goto("/forside");
         } else {
-          window.location.href = "/";
+          goto("/login");
         }
       }}
     >
@@ -280,4 +296,14 @@
   <PageTransition pathname={data.pathname}>
     <slot />
   </PageTransition>
+</div>
+
+
+<!-- Her vil notificationer/alerts blive tilføjet-->
+<div class="fixed bottom-10 right-10 left-10">
+  <div class="flex items-center justify-center">
+    <div id="alerts">
+      
+    </div>
+  </div>
 </div>

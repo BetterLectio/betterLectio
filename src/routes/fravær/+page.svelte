@@ -180,7 +180,7 @@
 </script>
 
 <h1 class="text-3xl font-bold">Fravær</h1>
-{#if $fravaer?.data}
+{#if $fravaer?.data && fravaer != null}
   {#if samletFravaer == 0}
     <p>Du har intet fravær</p>
   {:else}
