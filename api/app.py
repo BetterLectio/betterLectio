@@ -13,10 +13,10 @@ import re
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})
 
-app.logger.disabled = True
-log = logging.getLogger('werkzeug')
-log.disabled = True
-
+#app.logger.disabled = True
+#log = logging.getLogger('werkzeug')
+#log.disabled = True
+#
 @app.route("/")
 def index():
     return """
@@ -47,11 +47,12 @@ def checkCookie():
     cookie = request.headers.get("lectio-cookie")
 
     try:
-        lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie).fåBruger()
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+        lectioClient.fåElev(lectioClient.elevId)
         return jsonify({"valid": True})
     except Exception:
         return jsonify({"valid": False})
-
+#
 @app.route('/mig')
 @cache_for(minutes=5)
 def mig():
