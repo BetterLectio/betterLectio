@@ -13,9 +13,9 @@ import re
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})
 
-#app.logger.disabled = True
-#log = logging.getLogger('werkzeug')
-#log.disabled = True
+app.logger.disabled = True
+log = logging.getLogger('werkzeug')
+log.disabled = True
 
 @app.route("/")
 def index():
