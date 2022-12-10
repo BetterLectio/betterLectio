@@ -1,10 +1,14 @@
 <script>
+  import BrugerDropdown from "./BrugerPopup.svelte";
+
   export let id;
   export let navn;
 
   export let size = "w-12";
 
   export let squared;
+
+  export let clickable = true;
 
   let source;
 
@@ -26,22 +30,38 @@
   });
 </script>
 
-{#if source}
-    <div class="avatar">
+
+{#if clickable}
+<div class="dropdown dropdown-right">
+  {#if source}
+    <button class="avatar">
       <div class={squared ? `${size} rounded` : `${size} rounded-full`}>
         <img id="${id}" src="data:image/png;base64, {source}" alt="" />
       </div>
-    </div>
-{:else if navn}
-  <div class="avatar placeholder">
-    <div class="bg-neutral-focus text-neutral-content rounded-full {size} {(squared) ? "rounded" : "rounded-full"}">
-      <span class="text-xl">{navn[0]}</span>
-    </div>
+    </button>
+  {:else}
+    <button class="avatar placeholder">
+      <div class="bg-neutral-focus text-neutral-content rounded-full {size} {(squared) ? "rounded" : "rounded-full"}">
+        <span class="text-xl">{(navn) ? navn[0] : "?"}</span>
+      </div>
+    </button>
+  {/if}
+  <div tabindex="0" class="dropdown-content p-2 shadow bg-base-100 rounded-box">
+    <BrugerDropdown navn={navn} id={id}/>
   </div>
+</div>
 {:else}
-  <div class="avatar placeholder">
-    <div class="bg-neutral-focus text-neutral-content rounded-full {size} {(squared) ? "rounded" : "rounded-full"}">
-      <span class="text-xl">?</span>
+  {#if source}
+      <div class="avatar">
+        <div class={squared ? `${size} rounded` : `${size} rounded-full`}>
+          <img id="${id}" src="data:image/png;base64, {source}" alt="" />
+        </div>
+      </div>
+  {:else}
+    <div class="avatar placeholder">
+      <div class="bg-neutral-focus text-neutral-content rounded-full {size} {(squared) ? "rounded" : "rounded-full"}">
+        <span class="text-xl">{(navn) ? navn[0] : "?"}</span>
+      </div>
     </div>
-  </div>
+  {/if}
 {/if}

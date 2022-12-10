@@ -1,5 +1,6 @@
 <script>
   import Avatar from "../../components/Avatar.svelte";
+  import Brugernavn from "../../components/Brugernavn.svelte";
   import { get } from "../../components/http";
 
   import MarkdownIt from "markdown-it";
@@ -43,7 +44,7 @@
       <div class="flex items-center">
         <Avatar id={_besked.bruger.id} navn={_besked.bruger.navn} size="w-14"></Avatar>
         <div class="ml-4">
-          <h1 class="text-xl font-bold">{_besked.bruger.navn}</h1>
+          <Brugernavn className="text-xl font-bold" navn={_besked.bruger.navn} id={_besked.bruger.id}/>
           <p>{_besked.dato}</p> 
         </div>
       </div>
