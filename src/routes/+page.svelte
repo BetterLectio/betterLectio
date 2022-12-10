@@ -1,6 +1,8 @@
 <script>
+  import { goto } from "$app/navigation";
+
   if (localStorage.getItem("authentication")) {
-    window.location.href = "/forside";
+    goto("/forside");
   }
 </script>
 
@@ -10,7 +12,7 @@
   <p>For at bruge Better Lectio skal du logge ind med din Lectio konto.</p>
   <br />
 
-  <a rel="external" href="/auth" class="btn-primary btn">Log ind</a>
+  <a href="/auth" class="btn-primary btn">Log ind</a>
   <a href="/help" class="btn">Hvordan virker det?</a>
 </div>
 
