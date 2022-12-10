@@ -39,7 +39,7 @@
   <label class="modal-box relative" for="">
     <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
     <p class="py-4">
-      {"Når du logger bliver alt dataen bortset dit tema og din skole (hvis du har det slået til). Siden vil derfor blive nødt til at loade det hele igen når du logger ind."}
+      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.
     </p>
     <span class="flex">
       <div class="modal-action">
@@ -57,7 +57,7 @@
             localStorage.setItem("skole_id", skoleId);
             localStorage.setItem("theme", theme);
 
-            goto("/");
+            window.location.href = "/";
           }}
           class="btn-error btn">Log mig ud!</btn
         >
