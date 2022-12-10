@@ -297,3 +297,13 @@
     <slot />
   </PageTransition>
 </div>
+
+
+<!-- Her vil notificationer/alerts blive tilføjet-->
+<div class="fixed bottom-10 right-10 left-10">
+  <div class="flex items-center justify-center">
+    <div id="alerts">
+      
+    </div>
+  </div>
+</div>
