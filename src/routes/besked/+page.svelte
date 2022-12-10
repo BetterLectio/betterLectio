@@ -42,7 +42,7 @@
   {#each besked as _besked}
     <div class="mt-4" style="padding-left: {_besked.padding_left}em;">
       <div class="flex items-center">
-        <Avatar id={_besked.bruger.id} navn={_besked.bruger.navn} size="w-14"></Avatar>
+        <Avatar id={_besked.bruger.id} navn={_besked.bruger.navn} size="w-14" clickable></Avatar>
         <div class="ml-4">
           <Brugernavn className="text-xl font-bold" navn={_besked.bruger.navn} id={_besked.bruger.id}/>
           <p>{_besked.dato}</p> 
