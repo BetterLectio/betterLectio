@@ -59,9 +59,17 @@
 
 <div>
   {#if modul}
-    <h1 class="text-3xl font-bold">
-      {modul.aktivitet.navn ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold}
-    </h1>
+    <span class="flex justify-between">
+      <h1 class="text-3xl font-bold">
+        {modul.aktivitet.navn ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold}
+      </h1>
+      <a
+        class="btn"
+        href={`https://www.lectio.dk/lectio/681/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
+      >
+        Åben Elevfeedback
+      </a>
+    </span>
 
     <Table {items} />
 
