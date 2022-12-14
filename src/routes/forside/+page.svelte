@@ -2,6 +2,10 @@
   import { brugeren } from "../../components/store.js";
   import { get } from "../../components/http.js";
 
+  get("/mig").then((data) => {
+    $brugeren = data;
+  });
+
   function getGreeting() {
     let alldayGreetings = ["Velkommen tilbage", "Hejsa", "Velkommen", "Hej"];
     let morningGreetings = ["God morgen", "Go' morgen", "Godmorgen"];
@@ -24,13 +28,37 @@
     return chosenGreeting;
   }
 
-  get("/mig").then((data) => {
-    $brugeren = data;
-  });
+
 </script>
 
 <body>
+  <!-- greeting -->
   {#if $brugeren}
     <h1 class="mb-4 text-3xl font-bold">{getGreeting()}, {$brugeren.navn}</h1>
   {/if}
+
+  <!-- main content -->
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div class="bg-base-300 rounded-lg shadow-lg p-4 md:col-span-2">
+      <h2 class="text-2xl font-bold">Aktuelt</h2>
+      <p>Kommer snart</p>
+    </div>
+    <div class="bg-base-300 rounded-lg shadow-lg p-4">
+      <h2 class="text-2xl font-bold">Skema for idag</h2>
+      <p>Kommer snart</p>
+    </div>
+    <div class="bg-base-300 rounded-lg shadow-lg p-4">
+      <h2 class="text-2xl font-bold">beskeder</h2>
+      <p>Kommer snart</p>
+    </div>
+    <div class="bg-base-300 rounded-lg shadow-lg p-4">
+      <h2 class="text-2xl font-bold">lektier</h2>
+      <p>Kommer snart</p>
+    </div>
+    <div class="bg-base-300 rounded-lg shadow-lg p-4">
+      <h2 class="text-2xl font-bold">Nyheder</h2>
+      <p>Kommer snart</p>
+    </div>
+
+  </div>
 </body>
