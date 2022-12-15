@@ -59,7 +59,7 @@
 
 <div>
   {#if modul}
-    <span class="flex justify-between">
+    <span class="m-2 flex justify-between">
       <h1 class="text-3xl font-bold">
         {modul.aktivitet.navn ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold}
       </h1>
