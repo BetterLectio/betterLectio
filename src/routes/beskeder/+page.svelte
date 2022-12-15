@@ -58,7 +58,7 @@
 </script>
 
 <body>
-  <span class="m-2 flex justify-between">
+  <span class="my-2 flex justify-between">
     <h1 class="text-3xl font-bold">beskeder</h1>
     {#if cookie?.userid}
       <a
