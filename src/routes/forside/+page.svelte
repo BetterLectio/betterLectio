@@ -60,7 +60,7 @@
       <h2 class="text-2xl font-bold">lektier</h2>
       <p>Kommer snart</p>
     </div>
-    <div class="rounded-lg bg-base-300 p-4 pb-0 shadow-lg h-64 overflow-y-hidden  hover:overflow-y-scroll">
+    <div class="rounded-lg bg-base-300 p-4 pb-0 shadow-lg h-64 overflow-y-scroll">
       <h2 class="text-2xl font-bold mb-4">Nyheder</h2>
       {#if news}
         {#each news as newsItem}
