@@ -165,7 +165,6 @@
         <li><a href="dokumenter">Dokumenter</a></li>
         <li><a href="beskeder">Beskeder</a></li>
         <li><a href="værktøjer">Værktøjer</a></li>
-        <li><a href="indstillinger">Indstillinger</a></li>
       {:else}
         <li><a href="/">Forside</a></li>
         <li><a href="help">Hjælp</a></li>
