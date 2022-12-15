@@ -65,7 +65,7 @@
       </h1>
       <a
         class="btn"
-        href={`https://www.lectio.dk/lectio/681/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
+        href={`https://www.lectio.dk/lectio/${cookie.school}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
       >
         Åben Elevfeedback
       </a>
