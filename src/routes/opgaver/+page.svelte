@@ -2,7 +2,6 @@
   import { get } from "../../components/http.js";
   import { opgaver } from "../../components/store.js";
 
-  let afleveredeOpgaverSelected = false;
   let _opgaver = [];
 
   get("/opgaver").then((data) => {
@@ -10,7 +9,7 @@
     $opgaver = data;
   });
 
-  $: if ($opgaver && (afleveredeOpgaverSelected || !afleveredeOpgaverSelected)) {
+  $: if ($opgaver && (selected == "ikkeAfleveredeOpgaver" || selected == "afleveredeOpgaver" || selected == "afsluttedeOpgaver")) {
     _opgaver = sortOpgaver($opgaver);
     console.log("_opgaver:", _opgaver);
   }
@@ -47,10 +46,6 @@
   }
 
   let selected = "ikkeAfleveredeOpgaver"
-  function changeView() {
-    afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
-    console.log("afleveredeOpgaverSelected: ", afleveredeOpgaverSelected);
-  }
 
   // cut the opgave.opgavenote to 1 line
   function cutOpgaveNote(opgave, length) {
@@ -67,17 +62,14 @@
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <btn class={selected == "ikkeAfleveredeOpgaver" ? " btn btn-primary" : "btn"} on:click={() => {
     selected = "ikkeAfleveredeOpgaver";
-    afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
   }}>Ikke-afleverede opgaver</btn>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <btn class={selected == "afleveredeOpgaver" ? " btn btn-primary" : "btn"} on:click={() => {
     selected = "afleveredeOpgaver";
-    afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
   }}>Afleverede opgaver</btn>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <btn class={selected == "afsluttedeOpgaver" ? " btn btn-primary" : "btn"} on:click={() => {
     selected = "afsluttedeOpgaver";
-    afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
   }}>Afsluttet opgaver</btn>
 
   {#if _opgaver}
