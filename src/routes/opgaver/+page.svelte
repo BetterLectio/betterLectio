@@ -76,7 +76,7 @@
   }}>Afleverede opgaver</btn>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <btn class={selected == "afsluttedeOpgaver" ? " btn btn-primary" : "btn"} on:click={() => {
-    selected = "afsluttedeOpgaver"
+    selected = "afsluttedeOpgaver";
     afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
   }}>Afsluttet opgaver</btn>
 
