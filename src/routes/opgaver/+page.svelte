@@ -18,11 +18,15 @@
   function sortOpgaver(__opgaver) {
     let ikkeAfleveredeOpgaver = [];
     let afleveredeOpgaver = [];
+    let afsluttedeOpgaver = [];
 
     __opgaver.forEach((opgave) => {
       if (opgave.status == "Afleveret") {
         opgave.class = "btn btn-success";
         afleveredeOpgaver.push(opgave);
+      } else if (opgave.status == "Afsluttet") {
+          opgave.class = "btn";
+          afsluttedeOpgaver.push(opgave);
       } else {
         if (opgave.status == "Venter") {
           opgave.class = "btn btn-warning";
@@ -33,13 +37,16 @@
       }
       afleveredeOpgaver.reverse();
     });
-    if (afleveredeOpgaverSelected) {
+    if (selected == "ikkeAfleveredeOpgaver") {
+      return ikkeAfleveredeOpgaver;
+    } else if (selected == "afleveredeOpgaver") {
       return afleveredeOpgaver;
     } else {
-      return ikkeAfleveredeOpgaver;
+      return afsluttedeOpgaver;
     }
   }
 
+  let selected = "ikkeAfleveredeOpgaver"
   function changeView() {
     afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
     console.log("afleveredeOpgaverSelected: ", afleveredeOpgaverSelected);
@@ -58,13 +65,21 @@
 <div>
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn class={afleveredeOpgaverSelected ? " btn" : "btn btn-primary"} on:click={changeView}
-    >Ikke-afleverede opgaver</btn
-  >
+  <btn class={selected == "ikkeAfleveredeOpgaver" ? " btn btn-primary" : "btn"} on:click={() => {
+    selected = "ikkeAfleveredeOpgaver";
+    afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
+  }}>Ikke-afleverede opgaver</btn>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn class={afleveredeOpgaverSelected ? " btn btn-primary" : " btn"} on:click={changeView}
-    >Afleverede opgaver</btn
-  >
+  <btn class={selected == "afleveredeOpgaver" ? " btn btn-primary" : "btn"} on:click={() => {
+    selected = "afleveredeOpgaver";
+    afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
+  }}>Afleverede opgaver</btn>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <btn class={selected == "afsluttedeOpgaver" ? " btn btn-primary" : "btn"} on:click={() => {
+    selected = "afsluttedeOpgaver"
+    afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
+  }}>Afsluttet opgaver</btn>
+
   {#if _opgaver}
     <ul class="menu rounded-box my-4 w-full bg-base-100 p-2 drop-shadow-xl md:w-full lg:hidden">
       {#each _opgaver as opgave}
