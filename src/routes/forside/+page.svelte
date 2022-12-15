@@ -1,5 +1,5 @@
 <script>
-  import { brugeren } from "../../components/store.js";
+  import { brugeren, nyheder } from "../../components/store.js";
   import { get } from "../../components/http.js";
 
   get("/mig").then((data) => {
@@ -28,11 +28,10 @@
     return chosenGreeting;
   }
 
-  let news;
   fetch("https://raw.githubusercontent.com/BetterLectio/news/main/news.json").then((response) => {
     return response.json();
   }).then((data) => {
-    news = data["news"];
+    $nyheder = data["news"];
   });
 </script>
 
@@ -62,8 +61,8 @@
     </div>
     <div class="rounded-lg bg-base-300 p-4 pb-0 shadow-lg h-64 overflow-y-scroll">
       <h2 class="text-2xl font-bold mb-4">Nyheder</h2>
-      {#if news}
-        {#each news as newsItem}
+      {#if $nyheder}
+        {#each $nyheder as newsItem}
           <div class="mb-4 bg-neutral rounded-lg p-4">
             <h3 class="text-xl font-bold text-neutral-content">{newsItem.title}</h3>
             <p class="text-sm text-neutral-content">{newsItem.date}</p>
