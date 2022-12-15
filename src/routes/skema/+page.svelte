@@ -347,6 +347,25 @@
         return "btn btn-info mb-4 block h-fit p-2 normal-case";
     }
   }
+
+  const CokieInfo = async () => {
+    if (!localStorage.getItem("authentication")) {
+      console.log("Redirect");
+      window.location.href = "/auth";
+    } else {
+      let decodedCookie = atob(localStorage.getItem("authentication"));
+      cookie = JSON.parse(decodedCookie);
+      return {
+        user: cookie["LastLoginUserName"],
+        school: cookie["LastLoginExamno"],
+        userid: cookie["LastLoginElevId"],
+      };
+    }
+  };
+  let cookie;
+  CokieInfo().then((data) => {
+    cookie = data;
+  });
 </script>
 
 <svelte:head>
@@ -354,7 +373,18 @@
   <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build/event-calendar.min.js"></script>
 </svelte:head>
 
-<h1 class="mb-4 hidden text-3xl font-bold md:block">Skema</h1>
+<span class="my-2  hidden justify-between md:flex">
+  <h1 class="mb-4  text-3xl font-bold ">Skema</h1>
+
+  {#if cookie?.userid}
+    <a
+      class="btn"
+      href={`https://www.lectio.dk/lectio/${cookie.school}/studieplan.aspx?elevid=${cookie.userid}`}
+    >
+      Se studieplan
+    </a>
+  {/if}
+</span>
 
 <div class="hidden md:block">
   <Calendar bind:this={ec} {plugins} {options} />
