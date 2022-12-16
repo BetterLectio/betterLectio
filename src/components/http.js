@@ -1,10 +1,14 @@
 import { goto } from "$app/navigation";
 
-async function sha256(str) {
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(str));
-  return Array.prototype.map.call(new Uint8Array(buf), (x) => ("00" + x.toString(16)).slice(-2)).join("");
-}
-const customUUID = sha256(JSON.parse(atob(localStorage.getItem("authentication"))).LastLoginUserName);
+// async function sha256(str) {
+//   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(str));
+//   return Array.prototype.map.call(new Uint8Array(buf), (x) => ("00" + x.toString(16)).slice(-2)).join("");
+// }
+
+// const customUUID = sha256(
+//   JSON.parse(Buffer.from(localStorage.getItem("authentication"), "base64").toString("ascii"))
+//     .LastLoginUserName
+// );
 
 export async function get(endpoint) {
   // Wait until the user is authenticated
