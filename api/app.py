@@ -189,6 +189,19 @@ def fravaer():
         return lectioClient.fravær()
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
+@app.route("/dokumenter")
+@cache_for(minutes=5)
+def fravaer():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+        folderid = request.args.get("id")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+        lectioClient.dokumenter(folderid=folderid)
+
+        return lectioClient.dokumenter()
+    except Exception as e:
+        return jsonify({"backend_error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run()
