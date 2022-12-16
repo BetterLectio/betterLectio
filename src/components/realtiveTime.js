@@ -24,3 +24,25 @@ function formatDate(date) {
   //     output = `${Math.floor(difference / 31449600)} years ago`;
   //   }
 }
+
+//To convert a date in the format "DD/MM-YYYY HH:MM" to a JavaScript Date object, you can use the following code:
+function convertDate(dateString) {
+  // Split the date string into its components
+  var dateComponents = dateString.split(" ");
+  var datePart = dateComponents[0];
+  var timePart = dateComponents[1];
+
+  // Split the date part into its components
+  datePart = datePart.split("/");
+  var day = parseInt(datePart[0]);
+  var month = parseInt(datePart[1]);
+  var year = parseInt(datePart[2]);
+
+  // Split the time part into its components
+  timePart = timePart.split(":");
+  var hour = parseInt(timePart[0]);
+  var minute = parseInt(timePart[1]);
+
+  // Create a new JavaScript Date object and return it
+  return new Date(year, month - 1, day, hour, minute);
+}
