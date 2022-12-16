@@ -1,9 +1,13 @@
 <script>
-  import { brugeren, nyheder, lektier } from "../../components/store.js";
+  import { brugeren, nyheder, lektier, beskeder } from "../../components/store.js";
   import { get } from "../../components/http.js";
 
   get("/mig").then((data) => {
     $brugeren = data;
+  });
+
+  get("/beskeder").then((data) => {
+    $beskeder = data;
   });
 
   get("/lektier").then((data) => {
@@ -57,10 +61,20 @@
       <h2 class="text-2xl font-bold">Skema for idag</h2>
       <p>Kommer snart</p>
     </div>
-    <div class="rounded-lg bg-base-300 p-4 shadow-lg">
-      <h2 class="text-2xl font-bold">beskeder</h2>
-      <p>Kommer snart</p>
+    {#if $beskeder}
+    <div class="rounded-lg bg-base-300 p-4 pb-0 shadow-lg h-96 overflow-y-scroll">
+      <h2 class="text-2xl font-bold mb-4">beskeder</h2>
+      {#each $beskeder["beskeder"] as besked}
+        <a href="/besked?id={besked["message_id"]}">
+          <div class="mb-4 rounded-lg bg-neutral p-4">
+            <p class="text-xl font-bold text-neutral-content">{besked["emne"]}</p>
+            <p class="text-sm text-neutral-content">{besked["førsteBesked"]}</p>
+            <p class="text-xs text-neutral-content">{besked["ændret"]}</p>
+          </div>
+        </a>
+      {/each}
     </div>
+    {/if}
     {#if $lektier}
       <div class="rounded-lg bg-base-300 p-4 shadow-lg pb-0">
         <h2 class="text-2xl font-bold mb-4">lektier</h2>
