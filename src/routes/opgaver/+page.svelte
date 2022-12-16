@@ -9,7 +9,12 @@
     $opgaver = data;
   });
 
-  $: if ($opgaver && (selected == "ikkeAfleveredeOpgaver" || selected == "afleveredeOpgaver" || selected == "afsluttedeOpgaver")) {
+  $: if (
+    $opgaver &&
+    (selected == "ikkeAfleveredeOpgaver" ||
+      selected == "afleveredeOpgaver" ||
+      selected == "afsluttedeOpgaver")
+  ) {
     _opgaver = sortOpgaver($opgaver);
     console.log("_opgaver:", _opgaver);
   }
@@ -24,8 +29,8 @@
         opgave.class = "btn btn-success";
         afleveredeOpgaver.push(opgave);
       } else if (opgave.status == "Afsluttet") {
-          opgave.class = "btn";
-          afsluttedeOpgaver.push(opgave);
+        opgave.class = "btn";
+        afsluttedeOpgaver.push(opgave);
       } else {
         if (opgave.status == "Venter") {
           opgave.class = "btn btn-warning";
@@ -45,7 +50,7 @@
     }
   }
 
-  let selected = "ikkeAfleveredeOpgaver"
+  let selected = "ikkeAfleveredeOpgaver";
 
   // cut the opgave.opgavenote to 1 line
   function cutOpgaveNote(opgave, length) {
@@ -60,20 +65,29 @@
 <div>
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn class={selected == "ikkeAfleveredeOpgaver" ? " btn btn-primary" : "btn"} on:click={() => {
-    selected = "ikkeAfleveredeOpgaver";
-  }}>Ikke-afleverede opgaver</btn>
+  <btn
+    class={selected == "ikkeAfleveredeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
+    on:click={() => {
+      selected = "ikkeAfleveredeOpgaver";
+    }}>Ikke-afleverede opgaver</btn
+  >
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn class={selected == "afleveredeOpgaver" ? " btn btn-primary" : "btn"} on:click={() => {
-    selected = "afleveredeOpgaver";
-  }}>Afleverede opgaver</btn>
+  <btn
+    class={selected == "afleveredeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
+    on:click={() => {
+      selected = "afleveredeOpgaver";
+    }}>Afleverede opgaver</btn
+  >
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn class={selected == "afsluttedeOpgaver" ? " btn btn-primary" : "btn"} on:click={() => {
-    selected = "afsluttedeOpgaver";
-  }}>Afsluttet opgaver</btn>
+  <btn
+    class={selected == "afsluttedeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
+    on:click={() => {
+      selected = "afsluttedeOpgaver";
+    }}>Afsluttet opgaver</btn
+  >
 
   {#if _opgaver}
-    <ul class="menu rounded-box my-4 w-full bg-base-100 p-2 drop-shadow-xl md:w-full lg:hidden">
+    <ul class="menu rounded-box my-2 w-full bg-base-100 p-2 drop-shadow-xl md:w-full lg:hidden">
       {#each _opgaver as opgave}
         <li class="block">
           <a class="block" href="/opgave?exerciseid={opgave.exerciseid}">
@@ -105,7 +119,7 @@
                 ></td
               >
               <td class="">{opgave.hold}</td>
-              <td class=""><p class="btn btn-xs">{opgave.frist}</p></td>
+              <td class=""><p class="btn-xs btn">{opgave.frist}</p></td>
               <td class="whitespace-normal text-left" id={opgave.exerciseid}>
                 <div class="hidden whitespace-normal sm:hidden md:hidden lg:block xl:hidden">
                   {cutOpgaveNote(opgave, 30)}
