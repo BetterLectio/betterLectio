@@ -272,13 +272,14 @@
               Reload data
             </a>
           </li>
+          <div class="flex-grow border-t mt-1 mb-1 border-gray-600" />
           <li>
             <label for="logud-modal">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
-                class="mx-0 fill-current p-0"
+                class="mx-0 fill-red-400 p-0"
                 viewBox="0 0 16 16"
               >
                 <path
