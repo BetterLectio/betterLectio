@@ -191,7 +191,7 @@ def fravaer():
         return jsonify({"backend_error": str(e)}), 500
 @app.route("/dokumenter")
 @cache_for(minutes=5)
-def fravaer():
+def dokumenter():
     try:
         cookie = request.headers.get("lectio-cookie")
         folderid = request.args.get("id")
