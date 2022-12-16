@@ -1,10 +1,22 @@
 <script>
-  import { brugeren } from "../../components/store.js";
+  import { brugeren, nyheder, lektier } from "../../components/store.js";
   import { get } from "../../components/http.js";
 
   get("/mig").then((data) => {
     $brugeren = data;
   });
+
+  get("/lektier").then((data) => {
+    $lektier = data;
+  });
+
+  fetch("https://raw.githubusercontent.com/BetterLectio/news/main/news.json")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      $nyheder = data["news"];
+    });
 
   function getGreeting() {
     let alldayGreetings = ["Velkommen tilbage", "Hejsa", "Velkommen", "Hej"];
@@ -27,8 +39,6 @@
     }
     return chosenGreeting;
   }
-
-
 </script>
 
 <body>
@@ -38,27 +48,49 @@
   {/if}
 
   <!-- main content -->
-  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-    <div class="bg-base-300 rounded-lg shadow-lg p-4 md:col-span-2">
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+    <div class="rounded-lg bg-base-300 p-4 shadow-lg md:col-span-2">
       <h2 class="text-2xl font-bold">Aktuelt</h2>
       <p>Kommer snart</p>
     </div>
-    <div class="bg-base-300 rounded-lg shadow-lg p-4">
+    <div class="rounded-lg bg-base-300 p-4 shadow-lg">
       <h2 class="text-2xl font-bold">Skema for idag</h2>
       <p>Kommer snart</p>
     </div>
-    <div class="bg-base-300 rounded-lg shadow-lg p-4">
+    <div class="rounded-lg bg-base-300 p-4 shadow-lg">
       <h2 class="text-2xl font-bold">beskeder</h2>
       <p>Kommer snart</p>
     </div>
-    <div class="bg-base-300 rounded-lg shadow-lg p-4">
-      <h2 class="text-2xl font-bold">lektier</h2>
-      <p>Kommer snart</p>
-    </div>
-    <div class="bg-base-300 rounded-lg shadow-lg p-4">
-      <h2 class="text-2xl font-bold">Nyheder</h2>
-      <p>Kommer snart</p>
-    </div>
-
+    {#if $lektier}
+      <div class="rounded-lg bg-base-300 p-4 shadow-lg pb-0">
+        <h2 class="text-2xl font-bold mb-4">lektier</h2>
+        {#each $lektier as lektie}
+          <a href="/modul?absid={lektie.aktivitet.absid}">
+            <div class="mb-4 rounded-lg bg-neutral p-4">
+              <p class="text-xl font-bold text-neutral-content">
+                <span class="font-bold"
+                  >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet
+                    .hold}</span
+                >
+                ({lektie.aktivitet.tidspunkt})
+              </p>
+              <p class="text-neutral-content">{lektie.lektier.beskrivelse}</p>
+            </div>
+          </a>
+        {/each}
+      </div>
+    {/if}
+    {#if $nyheder}
+      <div class="h-64 overflow-y-scroll rounded-lg bg-base-300 p-4 pb-0 shadow-lg">
+        <h2 class="mb-4 text-2xl font-bold">Nyheder</h2>
+        {#each $nyheder as newsItem}
+          <div class="mb-4 rounded-lg bg-neutral p-4">
+            <h3 class="text-xl font-bold text-neutral-content">{newsItem.title}</h3>
+            <p class="text-sm text-neutral-content">{newsItem.date}</p>
+            <p class="text-neutral-content">{newsItem.body}</p>
+          </div>
+        {/each}
+      </div>
+    {/if}
   </div>
 </body>
