@@ -41,9 +41,16 @@
 
   let backFolder = null
   function clickHandler(element) {
-    get("/dokumenter?folderid=" + element.srcElement.parentNode.id).then((data) => {
-      $dokumenter = data;
-    });
+    const id = element.srcElement.parentNode.id
+    if (element.srcElement.parentNode.type == "folder") {
+      get("/dokumenter?folderid=" + id).then((data) => {
+        $dokumenter = data;
+      });
+    } else if (id.includes("/res/")) {
+      window.open(`https://www.lectio.dk/lectio/${cookie.school}/lc/${id}`)
+    } else {
+      window.open(`https://www.lectio.dk/lectio/${cookie.school}/dokumenthent.aspx?documentid=${id}`)
+    }
   }
 </script>
 
@@ -62,7 +69,7 @@
       </thead>
       <tbody>
         {#each $dokumenter["indhold"] as dokument}
-          <tr class="cursor-pointer" on:click={clickHandler} id={dokument["id"]}>
+          <tr class="cursor-pointer" on:click={clickHandler} id={dokument["id"]} type={dokument["type"]}>
             <td>
               {#if dokument["type"] == "folder"}
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-yellow-300 p-0" viewBox="0 0 16 16">
