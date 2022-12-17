@@ -96,12 +96,3 @@
     </table>
   </div>
 {/if}
-
-{#if cookie}
-  <a
-    href="https://www.lectio.dk/lectio/{cookie.school}/DokumentOversigt.aspx?elevid={cookie.userid}"
-    class="btn-primary btn">Åben i lectio</a
-  >
-{:else}
-  <p class="mb-4">loading...</p>
-{/if}
