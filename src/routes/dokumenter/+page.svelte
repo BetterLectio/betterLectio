@@ -39,7 +39,6 @@
     $dokumenter = data;
   });
 
-  let backFolder = null
   function clickHandler(element) {
     const id = element.srcElement.parentNode.id
     console.log(element.srcElement.parentNode.className)
