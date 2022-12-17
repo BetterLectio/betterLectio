@@ -201,6 +201,17 @@ def dokumenter():
         return lectioClient.dokumenter(folderid=folderid)
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
+@app.route("/forside")
+@cache_for(minutes=5)
+def forside():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+        return lectioClient.forside()
+    except Exception as e:
+        return jsonify({"backend_error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run()
