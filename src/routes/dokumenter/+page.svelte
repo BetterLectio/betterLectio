@@ -42,7 +42,8 @@
   let backFolder = null
   function clickHandler(element) {
     const id = element.srcElement.parentNode.id
-    if (element.srcElement.parentNode.type == "folder") {
+    console.log(element.srcElement.parentNode.className)
+    if (element.srcElement.parentNode.className.includes("folder")) {
       get("/dokumenter?folderid=" + id).then((data) => {
         $dokumenter = data;
       });
@@ -69,7 +70,7 @@
       </thead>
       <tbody>
         {#each $dokumenter["indhold"] as dokument}
-          <tr class="cursor-pointer" on:click={clickHandler} id={dokument["id"]} type={dokument["type"]}>
+          <tr class="cursor-pointer {dokument["type"]}" on:click={clickHandler} id={dokument["id"]}>
             <td>
               {#if dokument["type"] == "folder"}
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-yellow-300 p-0" viewBox="0 0 16 16">
