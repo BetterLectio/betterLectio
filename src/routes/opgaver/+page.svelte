@@ -65,26 +65,28 @@
 <div>
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn
-    class={selected == "ikkeAfleveredeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
-    on:click={() => {
-      selected = "ikkeAfleveredeOpgaver";
-    }}>Ikke-afleverede opgaver</btn
-  >
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn
-    class={selected == "afleveredeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
-    on:click={() => {
-      selected = "afleveredeOpgaver";
-    }}>Afleverede opgaver</btn
-  >
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn
-    class={selected == "afsluttedeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
-    on:click={() => {
-      selected = "afsluttedeOpgaver";
-    }}>Afsluttet opgaver</btn
-  >
+  <div class="btn-group">
+    <btn
+      class={selected == "ikkeAfleveredeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
+      on:click={() => {
+        selected = "ikkeAfleveredeOpgaver";
+      }}>Ikke-afleverede opgaver</btn
+    >
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <btn
+      class={selected == "afleveredeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
+      on:click={() => {
+        selected = "afleveredeOpgaver";
+      }}>Afleverede opgaver</btn
+    >
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <btn
+      class={selected == "afsluttedeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
+      on:click={() => {
+        selected = "afsluttedeOpgaver";
+      }}>Afsluttet opgaver</btn
+    >
+  </div>
 
   {#if _opgaver}
     <ul class="menu rounded-box my-2 w-full bg-base-100 p-2 drop-shadow-xl md:w-full lg:hidden">
