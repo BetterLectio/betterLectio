@@ -58,12 +58,12 @@
       <p>Kommer snart</p>
     </div>
     <div class="rounded-lg bg-base-300 p-4 shadow-lg">
-      <h2 class="text-2xl font-bold">Skema for idag</h2>
+      <h2 class="text-2xl font-bold">Skema for i dag</h2>
       <p>Kommer snart</p>
     </div>
     {#if $beskeder}
     <div class="rounded-lg bg-base-300 p-4 pb-0 shadow-lg h-96 overflow-y-scroll">
-      <h2 class="text-2xl font-bold mb-4">beskeder</h2>
+      <h2 class="text-2xl font-bold mb-4">Beskeder</h2>
       {#each $beskeder["beskeder"] as besked}
         <a href="/besked?id={besked["message_id"]}">
           <div class="mb-4 rounded-lg bg-neutral p-4">
@@ -77,7 +77,7 @@
     {/if}
     {#if $lektier}
       <div class="rounded-lg bg-base-300 p-4 shadow-lg pb-0">
-        <h2 class="text-2xl font-bold mb-4">lektier</h2>
+        <h2 class="text-2xl font-bold mb-4">Lektier</h2>
         {#each $lektier as lektie}
           <a href="/modul?absid={lektie.aktivitet.absid}">
             <div class="mb-4 rounded-lg bg-neutral p-4">
