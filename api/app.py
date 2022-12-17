@@ -194,7 +194,7 @@ def fravaer():
 def dokumenter():
     try:
         cookie = request.headers.get("lectio-cookie")
-        folderid = request.args.get("id")
+        folderid = request.args.get("folderid")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
