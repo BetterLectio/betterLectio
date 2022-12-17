@@ -197,9 +197,8 @@ def dokumenter():
         folderid = request.args.get("id")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-        lectioClient.dokumenter(folderid=folderid)
 
-        return lectioClient.dokumenter()
+        return lectioClient.dokumenter(folderid=folderid)
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
