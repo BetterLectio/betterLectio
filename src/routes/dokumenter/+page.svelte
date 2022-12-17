@@ -1,5 +1,5 @@
 <script>
-  import { fly } from 'svelte/transition';
+  import { fly, slide } from 'svelte/transition';
 
   import { informationer, dokumenter } from "../../components/store";
   import { get } from "../../components/http";
@@ -85,6 +85,10 @@
   }
 </script>
 
+<svelte:head>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/file-icon-vectors@1.0.0/dist/file-icon-square-o.min.css" />
+</svelte:head>
+
 <h1 class="mb-4 text-3xl font-bold">Dokumenter</h1>
 
 <div class="breadcrumbs text-sm">
@@ -124,17 +128,7 @@
                   />
                 </svg>
               {:else if dokument["type"] == "dokument"}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  class="mx-0 fill-current p-0"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"
-                  />
-                </svg>
+                <span class="fiv-sqo fiv-icon-blank fiv-icon-{dokument["navn"].split(".").slice(-1)}"></span> <!-- fiv-icon-blank er fallback hvis filtypen ikke har et icon-->
               {/if}
             </td>
             <td>{dokument["navn"]}</td>
