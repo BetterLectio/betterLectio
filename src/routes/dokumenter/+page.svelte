@@ -1,5 +1,5 @@
 <script>
-  import { fly, slide } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
 
   import { informationer, dokumenter } from "../../components/store";
   import { get } from "../../components/http";
