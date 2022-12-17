@@ -44,9 +44,15 @@
     const id = element.srcElement.parentNode.id
     console.log(element.srcElement.parentNode.className)
     if (element.srcElement.parentNode.className.indexOf("folder") > -1) { // same as .includes("folder") but works in all browsers
-      get("/dokumenter?folderid=" + id).then((data) => {
-        $dokumenter = data;
-      });
+      if (id == "..") {
+        get("/dokumenter").then((data) => {
+          $dokumenter = data;
+        });
+      } else {
+        get("/dokumenter?folderid=" + id).then((data) => {
+          $dokumenter = data;
+        });
+      }
     } else if (id.includes("/res/")) {
       window.open(`https://www.lectio.dk/lectio/${cookie.school}/lc/${id}`)
     } else {
