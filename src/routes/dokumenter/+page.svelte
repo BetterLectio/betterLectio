@@ -60,7 +60,7 @@
   }
 </script>
 
-<h1 class="mb-4 text-3xl font-bold">Dokumenter - Work in progress</h1>
+<h1 class="mb-4 text-3xl font-bold">Dokumenter</h1>
 {#if $dokumenter}
   <div class="overflow-x-auto">
     <table class="table w-full table-zebra mb-4">
