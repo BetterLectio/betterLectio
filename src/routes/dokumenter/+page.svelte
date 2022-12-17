@@ -1,5 +1,5 @@
 <script>
-  import Brugernavn from "../../components/Brugernavn.svelte";
+  import { fly } from 'svelte/transition';
 
   import { informationer, dokumenter } from "../../components/store";
   import { get } from "../../components/http";
@@ -89,8 +89,8 @@
 
 <div class="breadcrumbs text-sm">
   <ul>
-    {#each computedBreadcrumbs as crumb}
-      <li id={crumb.id}>{crumb.navn}</li>
+    {#each computedBreadcrumbs as crumb (crumb.id)}
+      <li id={crumb.id} in:fly="{{ x: -30, duration: 200}}" out:fly="{{ x: 30, duration: 200}}">{crumb.navn}</li>
     {/each}
   </ul>
 </div>
