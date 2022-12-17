@@ -43,7 +43,7 @@
   function clickHandler(element) {
     const id = element.srcElement.parentNode.id
     console.log(element.srcElement.parentNode.className)
-    if (element.srcElement.parentNode.className.includes("folder")) {
+    if (element.srcElement.parentNode.className.indexOf("folder") > -1) { // same as .includes("folder") but works in all browsers
       get("/dokumenter?folderid=" + id).then((data) => {
         $dokumenter = data;
       });
@@ -58,7 +58,7 @@
 <h1 class="mb-4 text-3xl font-bold">Dokumenter - Work in progress</h1>
 {#if $dokumenter}
   <div class="overflow-x-auto">
-    <table class="table w-full">
+    <table class="table w-full table-zebra mb-4">
       <!-- head -->
       <thead>
         <tr>
