@@ -1,6 +1,8 @@
 <script defer>
   import { get } from "../../components/http.js";
 
+  let counterIsVisible = true;
+
   Date.prototype.getWeekNumber = function () {
     let d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
     let dayNum = d.getUTCDay() || 7;
@@ -23,6 +25,13 @@
       counterel.parentNode.removeChild(counterel);
       const friel = document.getElementById("fri");
       friel.classList.remove("hidden");
+      counterIsVisible = false;
+    } else if (lastLesson == "no lessons today") {
+      const counterel = document.getElementById("counter");
+      counterel.parentNode.removeChild(counterel);
+      const ingentimerel = document.getElementById("ingentimer");
+      ingentimerel.classList.remove("hidden");
+      counterIsVisible = false;
     }
     return [hoursLeft, minutesLeft, secondsLeft];
   }
@@ -57,11 +66,13 @@
   }
 
   setInterval(async () => {
-    const t = await getRemainingTime();
-    document.getElementById("counterElementh").style.setProperty("--value", t[0]);
-    document.getElementById("counterElementm").style.setProperty("--value", t[1]);
-    document.getElementById("counterElements").style.setProperty("--value", t[2]);
-    console.log(t);
+    if (counterIsVisible) {
+      const t = await getRemainingTime();
+      document.getElementById("counterElementh").style.setProperty("--value", t[0]);
+      document.getElementById("counterElementm").style.setProperty("--value", t[1]);
+      document.getElementById("counterElements").style.setProperty("--value", t[2]);
+      console.log(t);
+    }
   }, 1000);
 </script>
 
@@ -87,4 +98,5 @@
     </div>
   </div>
   <p class="hidden font-mono text-6xl font-bold lg:text-9xl" id="fri">Du har fri!</p>
+  <p class="hidden font-mono text-2xl font-bold lg:text-4xl" id="ingentimer">Du har ingen timer idag!</p>
 </div>
