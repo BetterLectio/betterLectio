@@ -63,8 +63,19 @@
       window.open(`https://www.lectio.dk/lectio/${cookie.school}/dokumenthent.aspx?documentid=${id}`);
     }
 
-    if (element.srcElement.parentNode.children[1].innerText != "..") {
-      console.log(id)
+    if (element.srcElement.parentNode.className.indexOf("breadcrumb") > -1) {
+      breadcrumbs = [];
+      let done = false;
+      computedBreadcrumbs.forEach((item, index) => {
+        if (!done) {
+          breadcrumbs.push(item);
+          if (item.id == element.srcElement.parentNode.id) {
+            done = true;
+          }
+        }
+      })
+      console.log(breadcrumbs)
+    } else if (element.srcElement.parentNode.children[1].innerText != "..") {
       lastClickedFolder = {
         id: id,
         navn: element.srcElement.parentNode.children[1].innerText,
@@ -94,7 +105,9 @@
 <div class="breadcrumbs text-sm">
   <ul>
     {#each computedBreadcrumbs as crumb (crumb.id)}
-      <li id={crumb.id} in:fly="{{ x: -30, duration: 200}}" out:fly="{{ x: 30, duration: 200}}">{crumb.navn}</li>
+      <li class="folder breadcrumb" id={crumb.id} in:fly="{{ x: -30, duration: 200}}" out:fly="{{ x: 30, duration: 200}}">
+        <button on:click={clickHandler}>{crumb.navn}</button>
+      </li>
     {/each}
   </ul>
 </div>
