@@ -1,9 +1,13 @@
 <script>
   import Brugernavn from "../../components/Brugernavn.svelte";
-  
+
   import { informationer, dokumenter } from "../../components/store";
   import { get } from "../../components/http";
-  import { stringify } from "postcss";
+
+  let lastClickedFolder = null;
+  $: breadcrumbs = [{ id: "..", navn: "/" }];
+  $: computedBreadcrumbs = breadcrumbs;
+
   const CokieInfo = async () => {
     if (!localStorage.getItem("authentication")) {
       console.log("Redirect");
@@ -40,9 +44,10 @@
   });
 
   function clickHandler(element) {
-    const id = element.srcElement.parentNode.id
-    console.log(element.srcElement.parentNode.className)
-    if (element.srcElement.parentNode.className.indexOf("folder") > -1) { // same as .includes("folder") but works in all browsers
+    const id = element.srcElement.parentNode.id;
+    console.log(element.srcElement.parentNode.className);
+    if (element.srcElement.parentNode.className.indexOf("folder") > -1) {
+      // same as .includes("folder") but works in all browsers
       if (id == "..") {
         get("/dokumenter").then((data) => {
           $dokumenter = data;
@@ -53,21 +58,50 @@
         });
       }
     } else if (id.includes("/res/")) {
-      window.open(`https://www.lectio.dk/lectio/${cookie.school}/lc/${id}`)
+      window.open(`https://www.lectio.dk/lectio/${cookie.school}/lc/${id}`);
     } else {
-      window.open(`https://www.lectio.dk/lectio/${cookie.school}/dokumenthent.aspx?documentid=${id}`)
+      window.open(`https://www.lectio.dk/lectio/${cookie.school}/dokumenthent.aspx?documentid=${id}`);
     }
+
+    if (element.srcElement.parentNode.children[1].innerText != "..") {
+      console.log(id)
+      lastClickedFolder = {
+        id: id,
+        navn: element.srcElement.parentNode.children[1].innerText,
+      };
+      // before pushing the last clicked folder, check if it's already in the breadcrumbs
+      if (breadcrumbs[breadcrumbs.length - 1].id != lastClickedFolder.id) {
+        // before pushing the last clicked folder, check if it has the class "folder" (if it doesn't, it's a file and shouldn't be added to the breadcrumbs)
+        if (element.srcElement.parentNode.className.indexOf("folder") > -1) {
+          breadcrumbs.push(lastClickedFolder);
+        }
+      }
+    } else {
+      breadcrumbs.pop();
+    }
+    console.log(breadcrumbs);
+    // update the breadcrumbs in the html
+    computedBreadcrumbs = breadcrumbs;
   }
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Dokumenter</h1>
+
+<div class="breadcrumbs text-sm">
+  <ul>
+    {#each computedBreadcrumbs as crumb}
+      <li id={crumb.id}>{crumb.navn}</li>
+    {/each}
+  </ul>
+</div>
+
 {#if $dokumenter}
   <div class="overflow-x-auto">
-    <table class="table w-full table-zebra mb-4">
+    <table class="table-zebra mb-4 table w-full">
       <!-- head -->
       <thead>
         <tr>
-          <th></th>
+          <th />
           <th>Navn</th>
           <th>Dato</th>
           <th>Ændret af</th>
@@ -75,21 +109,38 @@
       </thead>
       <tbody>
         {#each $dokumenter["indhold"] as dokument}
-          <tr class="cursor-pointer hover {dokument["type"]}" on:click={clickHandler} id={dokument["id"]}>
+          <tr class="hover cursor-pointer {dokument['type']}" on:click={clickHandler} id={dokument["id"]}>
             <td>
               {#if dokument["type"] == "folder"}
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-yellow-300 p-0" viewBox="0 0 16 16">
-                  <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  class="mx-0 fill-yellow-300 p-0"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"
+                  />
                 </svg>
-                {:else if dokument["type"] == "dokument"}
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-current p-0" viewBox="0 0 16 16">
-                  <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+              {:else if dokument["type"] == "dokument"}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  class="mx-0 fill-current p-0"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"
+                  />
                 </svg>
               {/if}
             </td>
             <td>{dokument["navn"]}</td>
-            <td>{(dokument["type"] == "dokument") ? dokument["dato"] : ""}</td>
-            <td>{(dokument["type"] == "dokument") ? dokument["ændret_af"] : ""}</td> <!--<Brugernavn navn={dokument.ændret_af} id={$informationer.lærereOgElever[dokument.ændret_af]}/>-->
+            <td>{dokument["type"] == "dokument" ? dokument["dato"] : ""}</td>
+            <td>{dokument["type"] == "dokument" ? dokument["ændret_af"] : ""}</td>
+            <!--<Brugernavn navn={dokument.ændret_af} id={$informationer.lærereOgElever[dokument.ændret_af]}/>-->
           </tr>
         {/each}
       </tbody>
