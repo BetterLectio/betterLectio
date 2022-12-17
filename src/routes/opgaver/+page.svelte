@@ -65,26 +65,26 @@
 <div>
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="btn-group">
-    <btn
-      class={selected == "ikkeAfleveredeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
+  <div class="btn-group sm:overflow-x-hidden overflow-x-scroll">
+    <button
+      class={selected == "ikkeAfleveredeOpgaver" ? " btn-active btn-sm btn" : "btn-sm btn"}
       on:click={() => {
         selected = "ikkeAfleveredeOpgaver";
-      }}>Ikke-afleverede opgaver</btn
+      }}>Ikke-afleverede opgaver</button
     >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <btn
-      class={selected == "afleveredeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
+    <button
+      class={selected == "afleveredeOpgaver" ? " btn-active btn-sm btn" : "btn-sm btn"}
       on:click={() => {
         selected = "afleveredeOpgaver";
-      }}>Afleverede opgaver</btn
+      }}>Afleverede opgaver</button
     >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <btn
-      class={selected == "afsluttedeOpgaver" ? " btn-primary btn mb-2" : "btn mb-2"}
+    <button
+      class={selected == "afsluttedeOpgaver" ? " btn-active btn-sm btn" : "btn-sm btn"}
       on:click={() => {
         selected = "afsluttedeOpgaver";
-      }}>Afsluttet opgaver</btn
+      }}>Afsluttet opgaver<button
     >
   </div>
 
