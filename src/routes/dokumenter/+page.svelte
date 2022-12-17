@@ -85,6 +85,10 @@
   }
 </script>
 
+<svelte:head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+</svelte:head>
+
 <h1 class="mb-4 text-3xl font-bold">Dokumenter</h1>
 
 <div class="breadcrumbs text-sm">
@@ -112,29 +116,9 @@
           <tr class="hover cursor-pointer {dokument['type']}" on:click={clickHandler} id={dokument["id"]}>
             <td>
               {#if dokument["type"] == "folder"}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  class="mx-0 fill-yellow-300 p-0"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"
-                  />
-                </svg>
+                <i style="font-size: 1.4rem;" class="bi bi-folder-fill text-yellow-300"></i>
               {:else if dokument["type"] == "dokument"}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  class="mx-0 fill-current p-0"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"
-                  />
-                </svg>
+                <i style="font-size: 1.4rem;" class="bi-file-earmark bi-filetype-{dokument["navn"].split(".").slice(-1)}"></i> <!-- bi-file-earmark er fallback hvis filtypen ikke har et icon-->
               {/if}
             </td>
             <td>{dokument["navn"]}</td>
