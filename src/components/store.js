@@ -11,4 +11,4 @@ export const fravaer = localStore("fravaer");
 export const dokumenter = localStore("dokumenter");
 export const informationer = localStore("informationer");
 export const nyheder = localStore("nyheder");
-export const aktuelt = localStore("aktuelt");
+export const forside = localStore("forside");
