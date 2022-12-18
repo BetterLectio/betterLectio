@@ -4,6 +4,7 @@
 
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
+  import { stringify } from "postcss";
 
   const md = new MarkdownIt();
 
@@ -28,6 +29,18 @@
     gul: "yellow-300",
     grå: "grey-300",
     grøn: "green-400"
+  }
+
+  function colorModul(modul) {
+    let modulType = modul["status"];
+    switch (modulType) {
+      case "aflyst":
+        return "btn btn-error mb-4 block h-fit p-2 normal-case";
+      case "ændret":
+        return "btn btn-success mb-4 block h-fit p-2 normal-case";
+      case "normal":
+        return "btn btn-info mb-4 block h-fit p-2 normal-case";
+    }
   }
 
   fetch("https://raw.githubusercontent.com/BetterLectio/news/main/news.json")
@@ -70,7 +83,7 @@
   <!-- main content -->
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
     <div class="rounded-lg bg-base-300 xl:row-span-4 p-4 shadow-lg md:col-span-2">
-      <h2 class="text-2xl font-bold">Aktuelt</h2>
+      <h2 class="text-2xl font-bold mb-4">Aktuelt</h2>
       <ul class="list-disc ml-4">
         {#each $forside["aktuelt"] as aktuelt}
           {#if aktuelt.punkt_farve == "rød"} <!-- Koden ser sådan ud da colorDict[aktuelt.punkt_farve] ikke render -->
@@ -106,8 +119,38 @@
       </ul>
     </div>
     <div class="rounded-lg bg-base-300 p-4 shadow-lg h-96 overflow-y-scroll">
-      <h2 class="text-2xl font-bold">Skema for i dag</h2>
-      <p>Kommer snart</p>
+      <h2 class="text-2xl font-bold mb-4">Kommende moduler</h2>
+      {#each $forside.skema as modul}
+        <a class={colorModul(modul)} href="/modul/?absid={modul['absid']}">
+          {#if modul["navn"]}
+            {#if modul["andet"]}
+              <div class="tooltip flex justify-center" data-tip="Har indhold">
+                <h1 class="text-xl font-bold">{modul["navn"]} {modul["hold"]}</h1>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-bookmark-fill ml-4 mt-1"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"
+                  />
+                </svg>
+              </div>
+            {:else}
+              <h1 class="text-xl font-bold">{modul["navn"]} {modul["hold"]}</h1>
+            {/if}
+          {:else}
+            <h1 class="text-xl font-bold">{modul["hold"]}</h1>
+          {/if}
+          <h1 class="text-sm font-bold">{modul["tidspunkt"]}</h1>
+          {#if modul["lokale"]}
+            <h1 class="text-sm font-bold">{modul["lokale"]}</h1>
+          {/if}
+        </a>
+      {/each}
     </div>
     {#if $beskeder}
     <div class="rounded-lg xl:col-start-3 bg-base-300 p-4 pb-0 shadow-lg h-96 overflow-y-scroll">
