@@ -93,6 +93,12 @@
       }
     }
   }
+
+  function handleEnterLogin(e) {
+    if (e.key === "Enter") {
+      login();
+    }
+  }
 </script>
 
 <svelte:head>
@@ -116,7 +122,7 @@
       <label for="my-modal-3" id="MissingInfoAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
         >✕</label
       >
-      <h3 class="text-lg font-bold">mangler info</h3>
+      <h3 class="text-lg font-bold">Mangler info</h3>
       <p class="py-4">Du skal udfylde alle felterne for at logge ind.</p>
     </div>
   </div>
@@ -158,6 +164,7 @@
                       class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       placeholder="abcdefgh"
                       bind:value={adgangskode}
+                      on:keypress={handleEnterLogin}
                     />
                   </div>
                   <label for="skole" class="block text-sm font-medium text-gray-700">Vælg skole</label>
