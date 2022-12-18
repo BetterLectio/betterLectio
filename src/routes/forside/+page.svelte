@@ -69,7 +69,7 @@
 
   <!-- main content -->
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-    <div class="rounded-lg bg-base-300 p-4 shadow-lg md:col-span-2">
+    <div class="rounded-lg bg-base-300 xl:row-span-4 p-4 shadow-lg md:col-span-2">
       <h2 class="text-2xl font-bold">Aktuelt</h2>
       <ul class="list-disc ml-4">
         {#each $forside["aktuelt"] as aktuelt}
@@ -105,12 +105,12 @@
         {/each}
       </ul>
     </div>
-    <div class="rounded-lg bg-base-300 p-4 shadow-lg">
+    <div class="rounded-lg bg-base-300 p-4 shadow-lg h-96 overflow-y-scroll">
       <h2 class="text-2xl font-bold">Skema for i dag</h2>
       <p>Kommer snart</p>
     </div>
     {#if $beskeder}
-    <div class="rounded-lg bg-base-300 p-4 pb-0 shadow-lg h-96 overflow-y-scroll">
+    <div class="rounded-lg xl:col-start-3 bg-base-300 p-4 pb-0 shadow-lg h-96 overflow-y-scroll">
       <h2 class="text-2xl font-bold mb-4">Beskeder</h2>
       {#each $beskeder["beskeder"] as besked}
         <a href="/besked?id={besked["message_id"]}">
@@ -124,7 +124,7 @@
     </div>
     {/if}
     {#if $lektier}
-      <div class="rounded-lg bg-base-300 p-4 shadow-lg pb-0">
+      <div class="rounded-lg xl:col-start-3 bg-base-300 p-4 shadow-lg pb-0 h-96 overflow-y-scroll">
         <h2 class="text-2xl font-bold mb-4">Lektier</h2>
         {#each $lektier as lektie}
           <a href="/modul?absid={lektie.aktivitet.absid}">
@@ -143,7 +143,7 @@
       </div>
     {/if}
     {#if $nyheder}
-      <div class="h-64 overflow-y-scroll rounded-lg bg-base-300 p-4 pb-0 shadow-lg">
+      <div class="h-64 overflow-y-scroll xl:col-start-3 rounded-lg bg-base-300 p-4 pb-0 shadow-lg">
         <h2 class="mb-4 text-2xl font-bold">Nyheder</h2>
         {#each $nyheder as newsItem}
           <div class="mb-4 rounded-lg bg-neutral p-4">
