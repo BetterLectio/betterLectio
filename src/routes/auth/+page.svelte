@@ -93,6 +93,12 @@
       }
     }
   }
+
+  function handleEnterLogin(e) {
+    if (e.key === "Enter") {
+      login();
+    }
+  }
 </script>
 
 <svelte:head>
@@ -158,6 +164,7 @@
                       class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       placeholder="abcdefgh"
                       bind:value={adgangskode}
+                      on:keypress={handleEnterLogin}
                     />
                   </div>
                   <label for="skole" class="block text-sm font-medium text-gray-700">Vælg skole</label>
