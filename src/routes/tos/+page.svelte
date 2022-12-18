@@ -64,7 +64,7 @@
 
 <div tabindex="0" class="collapse-plus rounded-box collapse my-5 border border-base-300 bg-base-300">
   <div class="collapse-title text-xl font-medium">
-    <h2 class="text-2xl font-bold">5. Kontakt</h2>
+    <h2 class="text-2xl font-bold">5. Analytics</h2>
   </div>
   <div class="collapse-content">
     <p class="my-4">
