@@ -1,6 +1,7 @@
 <script>
   import { get } from "../../components/http.js";
   import { opgaver } from "../../components/store.js";
+  import { fade } from "svelte/transition";
 
   let _opgaver = [];
 
@@ -65,27 +66,37 @@
 <div>
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="btn-group sm:overflow-x-hidden overflow-x-scroll">
-    <button
-      class={selected == "ikkeAfleveredeOpgaver" ? " btn-active btn-sm btn" : "btn-sm btn"}
-      on:click={() => {
-        selected = "ikkeAfleveredeOpgaver";
-      }}>Ikke-afleverede opgaver</button
-    >
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <button
-      class={selected == "afleveredeOpgaver" ? " btn-active btn-sm btn" : "btn-sm btn"}
-      on:click={() => {
-        selected = "afleveredeOpgaver";
-      }}>Afleverede opgaver</button
-    >
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <button
-      class={selected == "afsluttedeOpgaver" ? " btn-active btn-sm btn" : "btn-sm btn"}
-      on:click={() => {
-        selected = "afsluttedeOpgaver";
-      }}>Afsluttet opgaver<button
-    >
+  <p class="mb-1">Opgave type:</p>
+  <div class="flex flex-col sm:flex-row">
+    <div class="tabs tabs-boxed w-fit">
+      <button
+        class={selected == "ikkeAfleveredeOpgaver"
+          ? "tab tab-active tab-sm sm:tab-md"
+          : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "ikkeAfleveredeOpgaver";
+        }}>Ikke-afleverede</button
+      >
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <button
+        class={selected == "afleveredeOpgaver" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "afleveredeOpgaver";
+        }}>Afleverede</button
+      >
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <button
+        class={selected == "afsluttedeOpgaver" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "afsluttedeOpgaver";
+        }}>Afsluttet</button
+      >
+    </div>
+    <input
+      type="text"
+      placeholder="Søg (virker ikke)"
+      class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
+    />
   </div>
 
   {#if _opgaver}
@@ -113,8 +124,8 @@
           </tr>
         </thead>
         <tbody class="w-full">
-          {#each _opgaver as opgave}
-            <tr class="">
+          {#each _opgaver as opgave (opgave.exerciseid)}
+            <tr class="" in:fade={{ duration: 200 }} out:fade={{ duration: 200 }}>
               <td>
                 <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full"
                   >{opgave.opgavetitel}</a
