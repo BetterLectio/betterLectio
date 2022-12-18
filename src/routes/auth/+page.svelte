@@ -122,7 +122,7 @@
       <label for="my-modal-3" id="MissingInfoAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
         >✕</label
       >
-      <h3 class="text-lg font-bold">mangler info</h3>
+      <h3 class="text-lg font-bold">Mangler info</h3>
       <p class="py-4">Du skal udfylde alle felterne for at logge ind.</p>
     </div>
   </div>
