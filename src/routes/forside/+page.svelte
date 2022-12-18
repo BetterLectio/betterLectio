@@ -1,6 +1,11 @@
 <script>
-  import { brugeren, nyheder, lektier, beskeder } from "../../components/store.js";
+  import { brugeren, nyheder, lektier, beskeder, forside } from "../../components/store.js";
   import { get } from "../../components/http.js";
+
+  import MarkdownIt from "markdown-it";
+  import sanitizeHtml from "sanitize-html";
+
+  const md = new MarkdownIt();
 
   get("/mig").then((data) => {
     $brugeren = data;
@@ -13,6 +18,17 @@
   get("/lektier").then((data) => {
     $lektier = data;
   });
+
+  get("/forside").then((data) => {
+    $forside = data;
+  });
+
+  const colorDict = {
+    rød: "red-400",
+    gul: "yellow-300",
+    grå: "grey-300",
+    grøn: "green-400"
+  }
 
   fetch("https://raw.githubusercontent.com/BetterLectio/news/main/news.json")
     .then((response) => {
@@ -55,7 +71,16 @@
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
     <div class="rounded-lg bg-base-300 p-4 shadow-lg md:col-span-2">
       <h2 class="text-2xl font-bold">Aktuelt</h2>
-      <p>Kommer snart</p>
+      <ul class="list-disc ml-4">
+        {#each $forside["aktuelt"] as aktuelt}
+          <li class="mb-4 marker:text-{colorDict[aktuelt.punkt_farve]}">
+            {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replace(
+              "<a",
+              '<a class="btn btn-xs btn-primary" target="_blank"'
+            )}
+          </li>
+        {/each}
+      </ul>
     </div>
     <div class="rounded-lg bg-base-300 p-4 shadow-lg">
       <h2 class="text-2xl font-bold">Skema for i dag</h2>
