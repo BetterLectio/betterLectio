@@ -45,7 +45,6 @@
 
   function clickHandler(element) {
     const id = element.srcElement.parentNode.id;
-    console.log(element.srcElement.parentNode.className);
     if (element.srcElement.parentNode.className.indexOf("folder") > -1) {
       // same as .includes("folder") but works in all browsers
       if (id == "..") {
@@ -74,7 +73,6 @@
           }
         }
       })
-      console.log(breadcrumbs)
     } else if (element.srcElement.parentNode.children[1].innerText != "..") {
       lastClickedFolder = {
         id: id,
@@ -90,7 +88,6 @@
     } else {
       breadcrumbs.pop();
     }
-    console.log(breadcrumbs);
     // update the breadcrumbs in the html
     computedBreadcrumbs = breadcrumbs;
   }
