@@ -73,12 +73,35 @@
       <h2 class="text-2xl font-bold">Aktuelt</h2>
       <ul class="list-disc ml-4">
         {#each $forside["aktuelt"] as aktuelt}
-          <li class="mb-4 marker:text-{colorDict[aktuelt.punkt_farve]}">
-            {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replace(
-              "<a",
-              '<a class="btn btn-xs btn-primary" target="_blank"'
-            )}
-          </li>
+          {#if aktuelt.punkt_farve == "rød"} <!-- Koden ser sådan ud da colorDict[aktuelt.punkt_farve] ikke render -->
+              <li class="mb-4 marker:text-red-400">
+                {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replace(
+                  "<a",
+                  '<a class="btn btn-xs btn-primary" target="_blank"'
+                )}
+              </li>
+          {:else if aktuelt.punkt_farve == "gul"}
+              <li class="mb-4 marker:text-yellow-300">
+                {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replace(
+                  "<a",
+                  '<a class="btn btn-xs btn-primary" target="_blank"'
+                )}
+              </li>
+          {:else if aktuelt.punkt_farve == "grå"}
+              <li class="mb-4 marker:text-grey-300">
+                {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replace(
+                  "<a",
+                  '<a class="btn btn-xs btn-primary" target="_blank"'
+                )}
+              </li>
+          {:else}
+              <li class="mb-4 marker:text-green-400"> 
+                {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replace(
+                  "<a",
+                  '<a class="btn btn-xs btn-primary" target="_blank"'
+                )}
+              </li>               
+          {/if}
         {/each}
       </ul>
     </div>
