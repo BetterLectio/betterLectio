@@ -40,7 +40,7 @@
       helst, og vi gemmer den ikke (Tag et kig på vores kode for mere information). For at gøre det nemmere
       for dig at logge ind. Vi har ikke adgang til denne information og kan ikke se den på vores servere. Vi
       kan dog ikke garantere, at vores hostingudbydere ikke logger din aktivitet på vores hjemmeside. Din
-      aktivitet på https://betterlectio.dk bliver indsamles af vores analytics værktøj, som er Google
+      aktivitet på https://betterlectio.dk bliver indsamles af vores analytics værktøj, som er Matomo
       Analytics. i vores analytics værktøj kan vi ikke se specifikt indhold fra Lectio, men kun generelle
       statistikker om din aktivitet på betterLectio.
     </p>
@@ -68,9 +68,9 @@
   </div>
   <div class="collapse-content">
     <p class="my-4">
-      Vi bruger analytics på vores hjemmeside for at forstå, hvordan vores brugere interagerer med siden og
-      for at forbedre vores tjenester. Analytics-data indsamles og behandles i overensstemmelse med vores
-      privatlivspolitik.
+      Vi bruger Matomo Analytics på vores hjemmeside for at forstå, hvordan vores brugere interagerer med
+      siden og for at forbedre vores tjenester. Analytics-data indsamles og behandles i overensstemmelse med
+      vores privatlivspolitik.
     </p>
   </div>
 </div>
