@@ -6,7 +6,6 @@
   let _opgaver = [];
 
   get("/opgaver").then((data) => {
-    console.log("data:", data);
     $opgaver = data;
   });
 
@@ -17,7 +16,6 @@
       selected == "afsluttedeOpgaver")
   ) {
     _opgaver = sortOpgaver($opgaver);
-    console.log("_opgaver:", _opgaver);
   }
 
   function sortOpgaver(__opgaver) {
