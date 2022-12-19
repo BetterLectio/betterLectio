@@ -18,8 +18,8 @@
   <ul class="list">
     {#if $lektier}
       {#each $lektier as lektie}
-        <li class="element">
-          <a href="/modul?absid={lektie.aktivitet.absid}">
+      <a href="/modul?absid={lektie.aktivitet.absid}">
+        <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
             <div>
               <p>
                 <span class="font-bold"
@@ -30,8 +30,8 @@
               </p>
               <p>{lektie.lektier.beskrivelse}</p>
             </div>
-          </a>
-        </li>
+          </li>
+        </a>
       {/each}
     {/if}
   </ul>
