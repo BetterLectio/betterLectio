@@ -17,30 +17,32 @@
   ) {
     _opgaver = sortOpgaver($opgaver);
   }
-  
+
   var alleOpgaver = [];
   function sortOpgaver(__opgaver) {
     let ikkeAfleveredeOpgaver = [];
     let afleveredeOpgaver = [];
     let afsluttedeOpgaver = [];
 
-    __opgaver.forEach((opgave) => {
+    //loop trouh __opgaver
+    for (const opgave of __opgaver) {
       if (opgave.status == "Afleveret") {
         opgave.class = "btn btn-success";
         afleveredeOpgaver.push(opgave);
+        continue;
       } else if (opgave.status == "Afsluttet") {
         opgave.class = "btn";
         afsluttedeOpgaver.push(opgave);
+        continue;
+      } else if (opgave.status == "Venter") {
+        opgave.class = "btn btn-warning";
       } else {
-        if (opgave.status == "Venter") {
-          opgave.class = "btn btn-warning";
-        } else {
-          opgave.class = "btn btn-error";
-        }
-        ikkeAfleveredeOpgaver.push(opgave);
+        opgave.class = "btn btn-error";
       }
+      ikkeAfleveredeOpgaver.push(opgave);
       afleveredeOpgaver.reverse();
-    });
+    }
+
     if (selected == "ikkeAfleveredeOpgaver") {
       return ikkeAfleveredeOpgaver;
     } else if (selected == "afleveredeOpgaver") {
@@ -60,17 +62,17 @@
     }
     return opgavenote;
   }
-  
+
   let searchString = "";
   function search() {
     selected = "search";
-    
+
     let searchResults = [];
-    $opgaver.forEach(opgave => {
+    $opgaver.forEach((opgave) => {
       if (opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.push(opgave);
       }
-    })
+    });
     _opgaver = searchResults;
   }
 </script>
