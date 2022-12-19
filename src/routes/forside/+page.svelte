@@ -161,7 +161,7 @@
           </a>
         {/each}
       {:else}
-      <p>Ingen ulæste bekseder</p>
+      <p>Ingen ulæste beskeder</p>
       {/if}
     </div>
     {#if $lektier}
