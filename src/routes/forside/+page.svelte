@@ -77,7 +77,7 @@
   {/if}
 
   <!-- main content -->
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 mb-4">
     {#if $forside}
       <ul class="list p-4 shadow-lg md:col-span-2 xl:row-span-4">
         <h2 class="mb-4 text-2xl font-bold">Aktuelt</h2>
@@ -212,5 +212,4 @@
       </ul>
     {/if}
   </div>
-  <div class="h-96" />
 </body>
