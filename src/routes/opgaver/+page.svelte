@@ -78,8 +78,7 @@
 <div>
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <p class="mb-1">Opgave type:</p>
-  <div class="flex flex-col sm:flex-row">
+  <div class="flex flex-col sm:flex-row ">
     <div class="tabs tabs-boxed w-fit">
       <button
         class={selected == "ikkeAfleveredeOpgaver"
@@ -114,9 +113,9 @@
   </div>
 
   {#if _opgaver}
-    <ul class="menu rounded-box my-2 w-full bg-base-100 p-2 drop-shadow-xl md:w-full lg:hidden">
+    <ul class="list my-4 lg:hidden">
       {#each _opgaver as opgave}
-        <li class="block">
+        <li class="element">
           <a class="block" href="/opgave?exerciseid={opgave.exerciseid}">
             <div>
               <p class="{opgave.class} btn-xs w-full">{opgave.opgavetitel} · {opgave.hold}</p>
