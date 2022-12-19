@@ -81,25 +81,25 @@
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="flex flex-col sm:flex-row ">
-    <div class="tabs tabs-boxed w-fit">
+    <div class="tabs tabs-boxed w-full justify-between sm:w-fit">
       <button
         class={selected == "ikkeAfleveredeOpgaver"
-          ? "tab tab-active tab-sm sm:tab-md"
-          : "tab tab-sm sm:tab-md"}
+          ? "tab- tab tab-active tab-lg sm:tab-md"
+          : "tab tab-lg sm:tab-md"}
         on:click={() => {
           selected = "ikkeAfleveredeOpgaver";
         }}>Ikke-afleverede</button
       >
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <button
-        class={selected == "afleveredeOpgaver" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        class={selected == "afleveredeOpgaver" ? "tab tab-active tab-lg sm:tab-md" : "tab tab-lg sm:tab-md"}
         on:click={() => {
           selected = "afleveredeOpgaver";
         }}>Afleverede</button
       >
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <button
-        class={selected == "afsluttedeOpgaver" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        class={selected == "afsluttedeOpgaver" ? "tab tab-active tab-lg sm:tab-md" : "tab tab-lg sm:tab-md"}
         on:click={() => {
           selected = "afsluttedeOpgaver";
         }}>Afsluttet</button
@@ -108,7 +108,7 @@
     <input
       type="text"
       placeholder="Søg"
-      class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
+      class="input input-lg mt-4 w-full bg-base-200 sm:mt-0 sm:ml-4 sm:h-10 sm:w-fit"
       bind:value={searchString}
       on:input={search}
     />
