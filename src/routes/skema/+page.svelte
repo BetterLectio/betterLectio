@@ -391,7 +391,7 @@
 </div>
 
 <div class="block h-20 w-full md:hidden">
-  <div class="mb-3 flex justify-around rounded-xl bg-base-300 py-4">
+  <div class=" mb-3 flex justify-around rounded-xl bg-base-300 py-4">
     <div class="align btn-group flex justify-center">
       <button class="btn btn-primary btn-sm" on:click={prevDay}>
         <svg
@@ -423,7 +423,7 @@
         </svg>
       </button>
     </div>
-    <h1 class="text-xl font-bold">Agenda for {MapDayNrToName(getCurrentdayLive())}</h1>
+    <h1 class="text-xl font-bold ">{MapDayNrToName(getCurrentdayLive())}</h1>
   </div>
   <div class="flex flex-col rounded-xl bg-base-300 p-4 py-4 pb-0">
     {#each dagensModuler as modul}
