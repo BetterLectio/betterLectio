@@ -15,10 +15,10 @@
 <body>
   <h1 class="text-3xl font-bold">Lektier</h1>
   <h3 class="mb-4 text-xl">Her kan du se dine lektier for de kommende 14 dage</h3>
-  <ul class="menu rounded-box w-full bg-base-100 p-2 drop-shadow-xl">
+  <ul class="list">
     {#if $lektier}
       {#each $lektier as lektie}
-        <li class="">
+        <li class="element">
           <a href="/modul?absid={lektie.aktivitet.absid}">
             <div>
               <p>

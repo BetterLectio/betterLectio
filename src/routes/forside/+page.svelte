@@ -79,45 +79,47 @@
   <!-- main content -->
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
     {#if $forside}
-      <div class="rounded-lg bg-base-300 xl:row-span-4 p-4 shadow-lg md:col-span-2">
+      <ul class="list xl:row-span-4 p-4 shadow-lg md:col-span-2">
         <h2 class="text-2xl font-bold mb-4">Aktuelt</h2>
         <ul class="list-disc ml-4">
           {#each $forside["aktuelt"] as aktuelt}
+          <li class="element">
             {#if aktuelt.punkt_farve == "rød"} <!-- Koden ser sådan ud da colorDict[aktuelt.punkt_farve] ikke render -->
-                <li class="mb-4 marker:text-red-400">
+                <div class="marker:text-red-400">
                   {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
                     "<a",
                     '<a class="btn btn-xs btn-primary" target="_blank"'
                   )}
-                </li>
+                </div>
             {:else if aktuelt.punkt_farve == "gul"}
-                <li class="mb-4 marker:text-yellow-300">
+                <div class=" marker:text-yellow-300">
                   {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
                     "<a",
                     '<a class="btn btn-xs btn-primary" target="_blank"'
                   )}
-                </li>
+                </div>
             {:else if aktuelt.punkt_farve == "grå"}
-                <li class="mb-4 marker:text-grey-300">
+                <div class="marker:text-grey-300">
                   {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
                     "<a",
                     '<a class="btn btn-xs btn-primary" target="_blank"'
                   )}
-                </li>
+                </div>
             {:else}
-                <li class="mb-4 marker:text-green-400"> 
+                <div class="marker:text-green-400"> 
                   {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
                     "<a",
                     '<a class="btn btn-xs btn-primary" target="_blank"'
                   )}
-                </li>               
+                </div>               
             {/if}
+          </li>
           {/each}
         </ul>
-      </div>
+      </ul>
     {/if}
     {#if $forside}
-      <div class="rounded-lg bg-base-300 p-4 shadow-lg h-96 overflow-y-scroll">
+      <ul class="list max-h-96">
         <h2 class="text-2xl font-bold mb-4">Kommende moduler</h2>
         {#each $forside.skema as modul}
           <a class={colorModul(modul)} href="/modul/?absid={modul['absid']}">
@@ -150,18 +152,18 @@
             {/if}
           </a>
         {/each}
-      </div>
+      </ul>
     {/if}
     {#if $forside}
-      <div class="rounded-lg xl:col-start-3 bg-base-300 p-4 pb-0 shadow-lg h-96 overflow-y-scroll">
+      <div class="list max-h-96">
         <h2 class="text-2xl font-bold mb-4">Ulæste beskeder</h2>
         {#if $forside.kommunikation.beskeder.length > 0}
           {#each $forside.kommunikation.beskeder as besked}
             <a href="/besked?id={besked["id"]}">
-              <div class="mb-4 rounded-lg bg-neutral p-4">
-                <p class="text-xl font-bold text-neutral-content">{besked["navn"]}</p>
-                <p class="text-sm text-neutral-content">{besked["afsender"]}</p>
-                <p class="text-xs text-neutral-content">{besked["dato"]}</p>
+              <div class="element">
+                <p class="text-xl font-bold ">{besked["navn"]}</p>
+                <p class="text-sm ">{besked["afsender"]}</p>
+                <p class="text-xs ">{besked["dato"]}</p>
               </div>
             </a>
           {/each}
@@ -171,39 +173,39 @@
       </div>
     {/if}
     {#if $lektier}
-      <div class="rounded-lg xl:col-start-3 bg-base-300 p-4 shadow-lg pb-0 h-96 overflow-y-scroll">
+      <ul class="list max-h-96">
         <h2 class="text-2xl font-bold mb-4">Lektier</h2>
         {#each $lektier as lektie}
           <a href="/modul?absid={lektie.aktivitet.absid}">
-            <div class="mb-4 rounded-lg bg-neutral p-4">
-              <p class="text-xl font-bold text-neutral-content">
+            <li class="element">
+              <p class="text-xl font-bold">
                 <span class="font-bold"
                   >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet
                     .hold}</span
                 >
                 ({lektie.aktivitet.tidspunkt})
               </p>
-              <p class="text-neutral-content">{lektie.lektier.beskrivelse}</p>
-            </div>
+              <p>{lektie.lektier.beskrivelse}</p>
+            </li>
           </a>
         {/each}
-      </div>
+      </ul>
     {/if}
     {#if $nyheder}
-      <div class="h-64 overflow-y-scroll xl:col-start-3 rounded-lg bg-base-300 p-4 pb-0 shadow-lg">
+      <ul class="list max-h-96">
         <h2 class="mb-4 text-2xl font-bold">Nyheder</h2>
         {#each $nyheder as newsItem}
-          <div class="mb-4 rounded-lg bg-neutral p-4">
-            <h3 class="text-xl font-bold text-neutral-content">{newsItem.title}</h3>
-            <p class="text-sm text-neutral-content">{newsItem.date}</p>
-            <p class="text-neutral-content">{newsItem.body}</p>
+          <li class="element">
+            <h3 class="text-xl font-bold ">{newsItem.title}</h3>
+            <p class="text-sm ">{newsItem.date}</p>
+            <p >{newsItem.body}</p>
             <!--if the newsItem has a link then use it-->
             {#if newsItem.link}
               <a href="{newsItem.link}" class="btn btn-sm btn-primary mt-2">{newsItem.linkText}</a>
             {/if}
-          </div>
+          </li>
         {/each}
-      </div>
+      </ul>
     {/if}
   </div>
   <div class="h-96"></div>
