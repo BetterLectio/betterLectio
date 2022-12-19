@@ -97,5 +97,5 @@
     </div>
   </div>
   <p class="hidden font-mono text-6xl font-bold lg:text-9xl" id="fri">Du har fri!</p>
-  <p class="hidden font-mono text-2xl font-bold lg:text-4xl" id="ingentimer">Du har ingen timer idag!</p>
+  <p class="hidden font-mono text-2xl font-bold lg:text-4xl" id="ingentimer">Du har ingen timer i dag!</p>
 </div>

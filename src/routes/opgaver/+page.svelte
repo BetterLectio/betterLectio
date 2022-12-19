@@ -17,7 +17,8 @@
   ) {
     _opgaver = sortOpgaver($opgaver);
   }
-
+  
+  var alleOpgaver = [];
   function sortOpgaver(__opgaver) {
     let ikkeAfleveredeOpgaver = [];
     let afleveredeOpgaver = [];
@@ -59,6 +60,19 @@
     }
     return opgavenote;
   }
+  
+  let searchString = "";
+  function search() {
+    selected = "search";
+    
+    let searchResults = [];
+    $opgaver.forEach(opgave => {
+      if (opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) {
+        searchResults.push(opgave);
+      }
+    })
+    _opgaver = searchResults;
+  }
 </script>
 
 <div>
@@ -92,8 +106,10 @@
     </div>
     <input
       type="text"
-      placeholder="Søg (virker ikke)"
+      placeholder="Søg"
       class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
+      bind:value={searchString}
+      on:input={search}
     />
   </div>
 
