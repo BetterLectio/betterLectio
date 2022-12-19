@@ -1,5 +1,5 @@
 <script>
-  import { brugeren, nyheder, lektier, beskeder, forside } from "../../components/store.js";
+  import { brugeren, nyheder, lektier, forside } from "../../components/store.js";
   import { get } from "../../components/http.js";
 
   import MarkdownIt from "markdown-it";
@@ -10,10 +10,6 @@
 
   get("/mig").then((data) => {
     $brugeren = data;
-  });
-
-  get("/beskeder").then((data) => {
-    $beskeder = data;
   });
 
   get("/lektier").then((data) => {
@@ -152,20 +148,22 @@
         </a>
       {/each}
     </div>
-    {#if $beskeder}
     <div class="rounded-lg xl:col-start-3 bg-base-300 p-4 pb-0 shadow-lg h-96 overflow-y-scroll">
-      <h2 class="text-2xl font-bold mb-4">Beskeder</h2>
-      {#each $beskeder["beskeder"] as besked}
-        <a href="/besked?id={besked["message_id"]}">
-          <div class="mb-4 rounded-lg bg-neutral p-4">
-            <p class="text-xl font-bold text-neutral-content">{besked["emne"]}</p>
-            <p class="text-sm text-neutral-content">{besked["førsteBesked"]}</p>
-            <p class="text-xs text-neutral-content">{besked["ændret"]}</p>
-          </div>
-        </a>
-      {/each}
+      <h2 class="text-2xl font-bold mb-4">Ulæste beskeder</h2>
+      {#if $forside.kommunikation.beskeder.length > 0}
+        {#each $forside.kommunikation.beskeder as besked}
+          <a href="/besked?id={besked["id"]}">
+            <div class="mb-4 rounded-lg bg-neutral p-4">
+              <p class="text-xl font-bold text-neutral-content">{besked["navn"]}</p>
+              <p class="text-sm text-neutral-content">{besked["afsender"]}</p>
+              <p class="text-xs text-neutral-content">{besked["dato"]}</p>
+            </div>
+          </a>
+        {/each}
+      {:else}
+      <p>Ingen ulæste bekseder</p>
+      {/if}
     </div>
-    {/if}
     {#if $lektier}
       <div class="rounded-lg xl:col-start-3 bg-base-300 p-4 shadow-lg pb-0 h-96 overflow-y-scroll">
         <h2 class="text-2xl font-bold mb-4">Lektier</h2>
