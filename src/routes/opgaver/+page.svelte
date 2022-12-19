@@ -54,15 +54,6 @@
 
   let selected = "ikkeAfleveredeOpgaver";
 
-  // cut the opgave.opgavenote to 1 line
-  function cutOpgaveNote(opgave, length) {
-    let opgavenote = opgave.opgavenote;
-    if (opgavenote.length > length) {
-      opgavenote = opgavenote.substring(0, length) + "...";
-    }
-    return opgavenote;
-  }
-
   let searchString = "";
   function search() {
     selected = "search";
@@ -122,7 +113,7 @@
             <div>
               <p class="{opgave.class} btn-xs w-full">{opgave.opgavetitel} · {opgave.hold}</p>
               <p>({opgave.frist})</p>
-              <p>{cutOpgaveNote(opgave, 100)}</p>
+              <p class="line-clamp-1">{opgave.opgavenote}</p>
             </div>
           </a>
         </li>
@@ -148,12 +139,9 @@
               >
               <td class="">{opgave.hold}</td>
               <td class=""><p class="btn-xs btn">{opgave.frist}</p></td>
-              <td class="whitespace-normal text-left" id={opgave.exerciseid}>
-                <div class="hidden whitespace-normal sm:hidden md:hidden lg:block xl:hidden">
-                  {cutOpgaveNote(opgave, 30)}
-                </div>
-                <div class="hidden whitespace-normal sm:hidden md:hidden lg:hidden xl:block">
-                  {cutOpgaveNote(opgave, 50)}
+              <td class="text-left" id={opgave.exerciseid}>
+                <div>
+                  {opgave.opgavenote}
                 </div>
               </td>
             </tr>
