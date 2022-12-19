@@ -24,7 +24,7 @@
   getAllMessages();
   function getAllMessages() {
     $beskeder = {};
-    const ids = [-20, -30, -35];
+    const ids = [-80, -10, -20, -30, -35];
     for (const id of ids) {
       get(`/beskeder?id=${id}`).then((data) => {
         $beskeder[id] = data;
@@ -50,6 +50,20 @@
   CokieInfo().then((data) => {
     cookie = data;
   });
+
+  let selected = "Modtaget";
+  let searchString = "";
+  function search() {
+    selected = "search";
+
+    let searchResults = [];
+    $beskeder.forEach((opgave) => {
+      if (opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) {
+        searchResults.push(opgave);
+      }
+    });
+    _opgaver = searchResults;
+  }
 </script>
 
 <body>
@@ -64,34 +78,59 @@
       </a>
     {/if}
   </span>
-    <ul class="list w-full">
-      {#each Object.keys($beskeder) as currentId}
-        {#each $beskeder[currentId].beskeder as besked}
-          <li class="mb-2">
-            <a class="block" href="/besked?id={besked.message_id}">
-              <div class="flex justify-between">
-                <div class="flex items-center">
-                  {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
-                    <Avatar
-                      id={$informationer.lærereOgElever[besked.førsteBesked]}
-                      navn={besked.førsteBesked}
-                    />
-                  {/if}
-                  <div class="ml-5">
-                    <p part="emne" class="text-lg font-bold">
-                      {besked.emne}
-                    </p>
-                    <p part="afsender">
-                      {besked.førsteBesked} · {besked.ændret}
-                    </p>
-                  </div>
-                </div>
-                <div class="right-1 flex items-center" />
-              </div></a
-            >
-          </li>
-        {/each}
-      {/each}
-    </ul>
 
+  <span class="mb-2 flex flex-col sm:flex-row">
+    <div class="tabs tabs-boxed w-fit">
+      <button
+        class={selected == "Modtaget" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Modtaget";
+        }}>Modtaget</button
+      >
+      <button
+        class={selected == "Sendte" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Sendte";
+        }}>Sendte</button
+      >
+    </div>
+    <input
+      type="text"
+      placeholder="Søg"
+      class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
+      bind:value={searchString}
+      on:input={search}
+    />
+  </span>
+
+  <!-- main content -->
+  <ul class="list w-full">
+    {#each Object.keys($beskeder) as currentId}
+      {#each $beskeder[currentId].beskeder as besked}
+        <li class="mb-2">
+          <a class="block" href="/besked?id={besked.message_id}">
+            <div class="flex justify-between">
+              <div class="flex items-center">
+                {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
+                  <Avatar
+                    id={$informationer.lærereOgElever[besked.førsteBesked]}
+                    navn={besked.førsteBesked}
+                  />
+                {/if}
+                <div class="ml-5">
+                  <p part="emne" class="text-lg font-bold">
+                    {besked.emne}
+                  </p>
+                  <p part="afsender">
+                    {besked.førsteBesked} · {besked.ændret}
+                  </p>
+                </div>
+              </div>
+              <div class="right-1 flex items-center" />
+            </div></a
+          >
+        </li>
+      {/each}
+    {/each}
+  </ul>
 </body>
