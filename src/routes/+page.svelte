@@ -1,8 +1,7 @@
 <script>
-  import { goto } from "$app/navigation";
 
   if (localStorage.getItem("authentication")) {
-    goto("/forside");
+    window.location.href = "/forside";
   }
 </script>
 

@@ -1,5 +1,4 @@
 <script>
-  import { goto } from "$app/navigation";
 
   let brugernavn = "";
   let adgangskode = "";
@@ -16,7 +15,7 @@
         res.json().then((data) => {
           if (data?.valid) {
             console.log("Logged in with cookie");
-            goto("/forside");
+            window.location.href = "/forside";
           } else {
             console.log("Cookie not valid.", "valitation:", data);
           }
@@ -89,7 +88,7 @@
         localStorage.setItem("theme", theme);
         setSkole();
         localStorage.setItem("authentication", authentication);
-        goto("/forside");
+        window.location.href = "/forside";
       }
     }
   }
