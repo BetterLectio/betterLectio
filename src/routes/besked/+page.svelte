@@ -49,8 +49,9 @@
     {/if}
   </span>
   <!-- Måske en linje til at seperere beskeder-->
+  <div class="p-4 rounded-lg bg-base-200">
   {#each besked as _besked}
-    <div class="mt-4" style="padding-left: {_besked.padding_left}em;">
+    <div class="mt-4 p-4 rounded-lg bg-base-300" style="margin-left: {_besked.padding_left/2}em;">
       <div class="flex items-center">
         <Avatar id={_besked.bruger.id} navn={_besked.bruger.navn} size="w-14" clickable />
         <div class="ml-4">
@@ -70,7 +71,7 @@
           )}
         </p>
       </div>
-      <div class="flex-grow border-t border-gray-400" />
     </div>
-  {/each}
+    {/each}
+  </div>
 {/if}
