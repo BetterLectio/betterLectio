@@ -14,6 +14,25 @@
   let note = "";
   let items = {};
 
+  const CokieInfo = async () => {
+    if (!localStorage.getItem("authentication")) {
+      console.log("Redirect");
+      window.location.href = "/auth";
+    } else {
+      let decodedCookie = atob(localStorage.getItem("authentication"));
+      cookie = JSON.parse(decodedCookie);
+      return {
+        user: cookie["LastLoginUserName"],
+        school: cookie["LastLoginExamno"],
+        userid: cookie["LastLoginElevId"],
+      };
+    }
+  };
+  let cookie;
+  CokieInfo().then((data) => {
+    cookie = data;
+  });
+
   async function getModul() {
     modul = await get(`/modul?absid=${absid}`);
     console.log("modul", modul);
@@ -59,9 +78,17 @@
 
 <div>
   {#if modul}
-    <h1 class="text-3xl font-bold">
-      {modul.aktivitet.navn ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold}
-    </h1>
+    <span class="my-2 flex justify-between">
+      <h1 class="text-3xl font-bold">
+        {modul.aktivitet.navn ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold}
+      </h1>
+      <a
+        class="btn"
+        href={`https://www.lectio.dk/lectio/${cookie.school}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
+      >
+        Åben Elevfeedback
+      </a>
+    </span>
 
     <Table {items} />
 

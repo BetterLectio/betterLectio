@@ -1,9 +1,17 @@
 @tailwind base;
 
-.fc-timegrid-axis-cushion {
-  max-width: 100px;
-  flex-shrink: 1;
-  white-space: normal;
+::-webkit-scrollbar {
+  background-color: #ffffff00;
+  border-radius: 10px;
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--bc));
+  border-radius: 10px;
+  width: 10px;
+  height: 10px;
 }
 
 @tailwind components;

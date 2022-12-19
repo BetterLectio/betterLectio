@@ -2,6 +2,26 @@
   import { fravaer } from "../../components/store";
   import { get } from "../../components/http";
   import { Chart, registerables } from "chart.js";
+  import moment from "moment";
+
+  moment.defineLocale("en-dk", {
+    parentLocale: "en",
+    months: [
+      "Januar",
+      "Februar",
+      "Marts",
+      "April",
+      "Maj",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "December",
+    ],
+  });
+  moment.locale("en-dk");
 
   // https://github.com/chartjs/Chart.js/blob/master/src/plugins/plugin.colors.ts#L13
   const BACKGROUND_COLORS = [
@@ -13,9 +33,12 @@
     "rgb(153, 102, 255)", // purple
     "rgb(201, 203, 207)", // grey
   ];
+  const timeRegex =
+    /((?:[1-9]|[12][0-9]|3[01])\/(?:[1-9]|1[012])-(?:19|20)\d\d) ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9])) til ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9]))/m;
 
   Chart.register(...registerables);
   let modulerChartElement;
+  let yearChartElement;
 
   let samletFravaer = null;
   get("/fravaer").then((data) => {
@@ -56,6 +79,56 @@
             title: {
               display: true,
               text: "Antal fraværende moduler",
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+    });
+
+    const concFravær = [...$fravaer.data.moduler.manglende_fraværsårsager, ...$fravaer.data.moduler.oversigt];
+    let monthToFravær = Object.assign({}, ...moment.months().map((monthName) => ({[monthName]: 0})));
+
+    for (let index = 0; index < concFravær.length; index++) {
+      const modul = concFravær[index].aktivitet;
+      const tidspunkt = modul.tidspunkt.match(timeRegex);
+      const date = moment(`${tidspunkt[1]} ${tidspunkt[2]}`, "DD/MM-YYYY HH:mm");
+      monthToFravær[date.format("MMMM")] = monthToFravær[date.format("MMMM")] + 1;
+    }
+
+    new Chart(yearChartElement, {
+      type: "line",
+      data: {
+        labels: [...moment.months().slice(7), ...moment.months().slice(0, 7)], // start ved august, for der starter skoleåret
+        datasets: [
+          {
+            label: "Registreret fravær",
+            data: [...Object.values(monthToFravær).slice(7), ...Object.values(monthToFravær).slice(0, 7)], // start ved august, for der starter skoleåret
+            fill: "origin",
+          },
+        ],
+      },
+      options: {
+        elements: {
+          line: {
+            tension: 0.4,
+          },
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Måned",
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Registreret fravær",
             },
           },
         },
@@ -113,7 +186,6 @@
   {:else}
     <p>Du har {samletFravaer}% fravær</p>
     <p>Hold uden fravær er ikke vist</p>
-
     <div class="mb-4 mt-4">
       <table class="table w-full rounded-xl shadow-xl">
         <thead>
@@ -136,10 +208,18 @@
         </tbody>
       </table>
     </div>
-    <div class="relative mt-12 h-40v">
+    <div class="mt-12">
       <h1 class="text-2xl font-bold">Grafisk oversigt</h1>
       <p class="mb-2">Antal fraværende moduler</p>
-      <canvas bind:this={modulerChartElement} />
+      <div>
+        <div class="h-50v">
+          <canvas bind:this={modulerChartElement} />
+        </div>
+        <div class="mb-9" />
+        <div class="h-50v">
+          <canvas bind:this={yearChartElement} />
+        </div>
+      </div>
     </div>
   {/if}
 {/if}

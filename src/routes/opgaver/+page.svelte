@@ -1,28 +1,36 @@
 <script>
   import { get } from "../../components/http.js";
   import { opgaver } from "../../components/store.js";
+  import { fade } from "svelte/transition";
 
-  let afleveredeOpgaverSelected = false;
   let _opgaver = [];
 
   get("/opgaver").then((data) => {
-    console.log("data:", data);
     $opgaver = data;
   });
 
-  $: if ($opgaver && (afleveredeOpgaverSelected || !afleveredeOpgaverSelected)) {
+  $: if (
+    $opgaver &&
+    (selected == "ikkeAfleveredeOpgaver" ||
+      selected == "afleveredeOpgaver" ||
+      selected == "afsluttedeOpgaver")
+  ) {
     _opgaver = sortOpgaver($opgaver);
-    console.log("_opgaver:", _opgaver);
   }
-
+  
+  var alleOpgaver = [];
   function sortOpgaver(__opgaver) {
     let ikkeAfleveredeOpgaver = [];
     let afleveredeOpgaver = [];
+    let afsluttedeOpgaver = [];
 
     __opgaver.forEach((opgave) => {
       if (opgave.status == "Afleveret") {
         opgave.class = "btn btn-success";
         afleveredeOpgaver.push(opgave);
+      } else if (opgave.status == "Afsluttet") {
+        opgave.class = "btn";
+        afsluttedeOpgaver.push(opgave);
       } else {
         if (opgave.status == "Venter") {
           opgave.class = "btn btn-warning";
@@ -33,17 +41,16 @@
       }
       afleveredeOpgaver.reverse();
     });
-    if (afleveredeOpgaverSelected) {
+    if (selected == "ikkeAfleveredeOpgaver") {
+      return ikkeAfleveredeOpgaver;
+    } else if (selected == "afleveredeOpgaver") {
       return afleveredeOpgaver;
     } else {
-      return ikkeAfleveredeOpgaver;
+      return afsluttedeOpgaver;
     }
   }
 
-  function changeView() {
-    afleveredeOpgaverSelected = !afleveredeOpgaverSelected;
-    console.log("afleveredeOpgaverSelected: ", afleveredeOpgaverSelected);
-  }
+  let selected = "ikkeAfleveredeOpgaver";
 
   // cut the opgave.opgavenote to 1 line
   function cutOpgaveNote(opgave, length) {
@@ -53,20 +60,61 @@
     }
     return opgavenote;
   }
+  
+  let searchString = "";
+  function search() {
+    selected = "search";
+    
+    let searchResults = [];
+    $opgaver.forEach(opgave => {
+      if (opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) {
+        searchResults.push(opgave);
+      }
+    })
+    _opgaver = searchResults;
+  }
 </script>
 
 <div>
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn class={afleveredeOpgaverSelected ? " btn" : "btn btn-primary"} on:click={changeView}
-    >Ikke-afleverede opgaver</btn
-  >
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <btn class={afleveredeOpgaverSelected ? " btn btn-primary" : " btn"} on:click={changeView}
-    >Afleverede opgaver</btn
-  >
+  <p class="mb-1">Opgave type:</p>
+  <div class="flex flex-col sm:flex-row">
+    <div class="tabs tabs-boxed w-fit">
+      <button
+        class={selected == "ikkeAfleveredeOpgaver"
+          ? "tab tab-active tab-sm sm:tab-md"
+          : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "ikkeAfleveredeOpgaver";
+        }}>Ikke-afleverede</button
+      >
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <button
+        class={selected == "afleveredeOpgaver" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "afleveredeOpgaver";
+        }}>Afleverede</button
+      >
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <button
+        class={selected == "afsluttedeOpgaver" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "afsluttedeOpgaver";
+        }}>Afsluttet</button
+      >
+    </div>
+    <input
+      type="text"
+      placeholder="Søg"
+      class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
+      bind:value={searchString}
+      on:input={search}
+    />
+  </div>
+
   {#if _opgaver}
-    <ul class="menu rounded-box my-4 w-full bg-base-100 p-2 drop-shadow-xl md:w-full lg:hidden">
+    <ul class="menu rounded-box my-2 w-full bg-base-100 p-2 drop-shadow-xl md:w-full lg:hidden">
       {#each _opgaver as opgave}
         <li class="block">
           <a class="block" href="/opgave?exerciseid={opgave.exerciseid}">
@@ -90,15 +138,15 @@
           </tr>
         </thead>
         <tbody class="w-full">
-          {#each _opgaver as opgave}
-            <tr class="">
+          {#each _opgaver as opgave (opgave.exerciseid)}
+            <tr class="" in:fade={{ duration: 200 }} out:fade={{ duration: 200 }}>
               <td>
                 <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full"
                   >{opgave.opgavetitel}</a
                 ></td
               >
               <td class="">{opgave.hold}</td>
-              <td class=""><p class="btn btn-xs">{opgave.frist}</p></td>
+              <td class=""><p class="btn-xs btn">{opgave.frist}</p></td>
               <td class="whitespace-normal text-left" id={opgave.exerciseid}>
                 <div class="hidden whitespace-normal sm:hidden md:hidden lg:block xl:hidden">
                   {cutOpgaveNote(opgave, 30)}

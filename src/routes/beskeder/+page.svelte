@@ -37,10 +37,38 @@
       });
     }
   }
+  const CokieInfo = async () => {
+    if (!localStorage.getItem("authentication")) {
+      console.log("Redirect");
+      window.location.href = "/auth";
+    } else {
+      let decodedCookie = atob(localStorage.getItem("authentication"));
+      cookie = JSON.parse(decodedCookie);
+      return {
+        user: cookie["LastLoginUserName"],
+        school: cookie["LastLoginExamno"],
+        userid: cookie["LastLoginElevId"],
+      };
+    }
+  };
+  let cookie;
+  CokieInfo().then((data) => {
+    cookie = data;
+  });
 </script>
 
 <body>
-  <h1 class="mb-4 text-3xl font-bold">Beskeder</h1>
+  <span class="my-2 flex justify-between">
+    <h1 class="text-3xl font-bold">Beskeder</h1>
+    {#if cookie?.userid}
+      <a
+        class="btn"
+        href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
+      >
+        Skriv besked
+      </a>
+    {/if}
+  </span>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   {#if $beskeder?.[currentId]}
     <div class="btn-group z-20 mb-4 w-full">
@@ -61,7 +89,10 @@
                 <!-- svelte-ignore a11y-missing-attribute -->
 
                 {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
-                  <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
+                  <Avatar
+                    id={$informationer.lærereOgElever[besked.førsteBesked]}
+                    navn={besked.førsteBesked}
+                  />
                 {/if}
                 <div class="ml-5">
                   <p part="emne" class="text-lg font-bold">
@@ -97,8 +128,9 @@
                   >
                 </div>
               </div> -->
-            </div>
-          </a>
+              </div>
+            </div></a
+          >
         </li>
       {/each}
     </ul>

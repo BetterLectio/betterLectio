@@ -1,4 +1,5 @@
 <script>
+
   let brugernavn = "";
   let adgangskode = "";
   let skole_id = "";
@@ -16,7 +17,7 @@
             console.log("Logged in with cookie");
             window.location.href = "/forside";
           } else {
-            console.log("Cookie not valid");
+            console.log("Cookie not valid.", "valitation:", data);
           }
         });
       });
@@ -91,6 +92,12 @@
       }
     }
   }
+
+  function handleEnterLogin(e) {
+    if (e.key === "Enter") {
+      login();
+    }
+  }
 </script>
 
 <svelte:head>
@@ -101,7 +108,7 @@
   <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
-      <label for="my-modal-3" id="CantLogInAlertX" class="btn btn-sm btn-circle absolute right-2 top-2"
+      <label for="my-modal-3" id="CantLogInAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
         >✕</label
       >
       <h3 class="text-lg font-bold">Kunne ikke logge ind</h3>
@@ -111,10 +118,10 @@
   <input type="checkbox" id="MissingInfoAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
-      <label for="my-modal-3" id="MissingInfoAlertX" class="btn btn-sm btn-circle absolute right-2 top-2"
+      <label for="my-modal-3" id="MissingInfoAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
         >✕</label
       >
-      <h3 class="text-lg font-bold">mangler info</h3>
+      <h3 class="text-lg font-bold">Mangler info</h3>
       <p class="py-4">Du skal udfylde alle felterne for at logge ind.</p>
     </div>
   </div>
@@ -156,6 +163,7 @@
                       class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       placeholder="abcdefgh"
                       bind:value={adgangskode}
+                      on:keypress={handleEnterLogin}
                     />
                   </div>
                   <label for="skole" class="block text-sm font-medium text-gray-700">Vælg skole</label>
@@ -208,7 +216,7 @@
               </p>
               <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <div type="submit" class="AOC btn btn-primary" style="user-select: none" on:click={login}>
+                <div type="submit" class="AOC btn-primary btn" style="user-select: none" on:click={login}>
                   Log ind
                 </div>
               </div>

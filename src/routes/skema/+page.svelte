@@ -86,6 +86,8 @@
     eventDidMount: (event) => {
       addedEventsId.push(event.event.id);
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
+      getAgenda();
+      getAgenda();
     },
     viewDidMount: (view) => {
       let dateObj = new Date(view.currentEnd.toISOString());
@@ -93,6 +95,8 @@
       let dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
       globalWeek = Math.floor(dayOfYear / 7);
       onload();
+      getAgenda();
+      getAgenda();
     },
   };
 
@@ -343,6 +347,25 @@
         return "btn btn-info mb-4 block h-fit p-2 normal-case";
     }
   }
+
+  const CokieInfo = async () => {
+    if (!localStorage.getItem("authentication")) {
+      console.log("Redirect");
+      window.location.href = "/auth";
+    } else {
+      let decodedCookie = atob(localStorage.getItem("authentication"));
+      cookie = JSON.parse(decodedCookie);
+      return {
+        user: cookie["LastLoginUserName"],
+        school: cookie["LastLoginExamno"],
+        userid: cookie["LastLoginElevId"],
+      };
+    }
+  };
+  let cookie;
+  CokieInfo().then((data) => {
+    cookie = data;
+  });
 </script>
 
 <svelte:head>
@@ -350,7 +373,18 @@
   <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build/event-calendar.min.js"></script>
 </svelte:head>
 
-<h1 class="mb-4 hidden text-3xl font-bold md:block">Skema</h1>
+<span class="my-2  hidden justify-between md:flex">
+  <h1 class="mb-4  text-3xl font-bold ">Skema</h1>
+
+  {#if cookie?.userid}
+    <a
+      class="btn"
+      href={`https://www.lectio.dk/lectio/${cookie.school}/studieplan.aspx?elevid=${cookie.userid}`}
+    >
+      Se studieplan
+    </a>
+  {/if}
+</span>
 
 <div class="hidden md:block">
   <Calendar bind:this={ec} {plugins} {options} />
@@ -359,7 +393,7 @@
 <div class="block h-20 w-full md:hidden">
   <div class="mb-3 flex justify-around rounded-xl bg-base-300 py-4">
     <div class="align btn-group flex justify-center">
-      <button class="btn-primary btn-sm btn" on:click={prevDay}>
+      <button class="btn btn-primary btn-sm" on:click={prevDay}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -373,8 +407,8 @@
           />
         </svg>
       </button>
-      <button class="btn-primary btn-sm btn" on:click={resetDay}> i dag </button>
-      <button class="btn-primary btn-sm btn" on:click={nextDay}>
+      <button class="btn btn-primary btn-sm" on:click={resetDay}> i dag </button>
+      <button class="btn btn-primary btn-sm" on:click={nextDay}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
