@@ -13,12 +13,13 @@
   width: 10px;
   height: 10px;
 }
+
+@tailwind components;
+@tailwind utilities;
+
 .list {
   @apply rounded-lg bg-base-200 p-4 pb-0 shadow-lg overflow-y-scroll;
 }
 .element {
   @apply mb-4 rounded-lg bg-base-300 p-4
 }
-
-@tailwind components;
-@tailwind utilities;
