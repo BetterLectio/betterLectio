@@ -71,10 +71,10 @@
   </span>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   {#if $beskeder?.[currentId]}
-    <div class="btn-group z-20 mb-4 w-full">
+    <div class="tabs tabs-boxed my-2 w-full justify-between">
       {#each $beskeder[currentId].besked_muligheder as beskedMulighed}
         <btn
-          class={beskedMulighed.id == currentId ? "btn btn-primary" : "btn"}
+          class={beskedMulighed.id == currentId ? "tab tab-active" : "tab"}
           on:click={() => changeCategory(beskedMulighed.id)}>{beskedMulighed.name}</btn
         >
       {/each}
