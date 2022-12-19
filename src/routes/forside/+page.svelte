@@ -150,6 +150,10 @@
             <h3 class="text-xl font-bold text-neutral-content">{newsItem.title}</h3>
             <p class="text-sm text-neutral-content">{newsItem.date}</p>
             <p class="text-neutral-content">{newsItem.body}</p>
+            <!--if the newsItem has a link then use it-->
+            {#if newsItem.link}
+              <a href="{newsItem.link}" class="btn btn-sm btn-primary mt-2">{newsItem.linkText}</a>
+            {/if}
           </div>
         {/each}
       </div>
