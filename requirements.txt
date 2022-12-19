@@ -2,3 +2,4 @@ python-lectio>=1.8.1
 flask
 flask-cors
 Flask-CacheControl
+python-dateutil

@@ -7,6 +7,7 @@ from flask import Response
 from flask_cachecontrol import cache, cache_for, dont_cache, Always, ResponseIsSuccessfulOrRedirect
 from datetime import datetime, date, timedelta
 from functools import wraps
+from dateutil.relativedelta import relativedelta, MO, TU, WE, TH, FR, SA, SU
 import logging
 import re
 
@@ -16,6 +17,16 @@ CORS(app, resources={r"*": {"origins": "*"}})
 app.logger.disabled = True
 log = logging.getLogger('werkzeug')
 log.disabled = True
+
+dateDict = {
+    "ma": MO,
+    "ti": TU,
+    "on": WE,
+    "to": TH,
+    "fr": FR,
+    "lø": SA,
+    "sø": SU
+}
 
 @app.route("/")
 def index():
@@ -132,6 +143,38 @@ def beskeder():
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
         return jsonify(lectioClient.beskeder(id=id))
+    except Exception as e:
+        return jsonify({"backend_error": str(e)}), 500
+
+@app.route('/beskeder2')
+@cache_for(minutes=5)
+def beskeder2():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+        beskeder = []
+        for id in [-20, -30, -35, -10]:
+            for besked in lectioClient.beskeder(id=id)["beskeder"]:
+                if besked not in beskeder:
+                    beskeder.append(besked)
+
+        for besked in beskeder:
+            dato = besked["ændret"]
+            if len(besked["ændret"].split(" ")) == 1 and ":" in besked["ændret"]:
+                dato = datetime.now().strftime("%d/%m-%Y")
+            elif len(besked["ændret"].split(" ")) == 2 and "/" in besked["ændret"]:
+                dato = f"{dato.split(' ')[1]}-{datetime.now().year}"
+            elif len(besked["ændret"].split(" ")) == 2 and ":" in besked["ændret"]:
+                today = date.today()
+                dato = (today + relativedelta(weekday=dateDict[dato.split(" ")[0]](-1))).strftime("%d/%m-%Y")
+
+            besked["dato"] = dato
+
+        beskeder.sort(key=lambda x: datetime.strptime(x['dato'], '%d/%m-%Y'), reverse=True)
+
+        return jsonify(beskeder)
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
