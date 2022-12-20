@@ -164,7 +164,7 @@
         {#if $forside.kommunikation.beskeder.length > 0}
           {#each $forside.kommunikation.beskeder as besked}
             <a href="/besked?id={besked['id']}">
-              <div class="element">
+              <div class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
                 <p class="text-xl font-bold ">{besked["navn"]}</p>
                 <p class="text-sm ">{besked["afsender"]}</p>
                 <p class="text-xs ">{besked["dato"]}</p>
@@ -181,7 +181,7 @@
         <h2 class="mb-4 text-2xl font-bold">Lektier</h2>
         {#each $lektier as lektie}
           <a href="/modul?absid={lektie.aktivitet.absid}">
-            <li class="element">
+            <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
               <p class="text-xl font-bold">
                 <span class="font-bold"
                   >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet
