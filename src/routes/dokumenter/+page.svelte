@@ -91,6 +91,7 @@
     // update the breadcrumbs in the html
     computedBreadcrumbs = breadcrumbs;
   }
+
 </script>
 
 <svelte:head>
@@ -117,8 +118,10 @@
         <tr>
           <th />
           <th>Navn</th>
-          <th class="hidden md:visible">Dato</th>
-          <th class="hidden md:visible">Ændret af</th>
+          {#if window.innerWidth > 768}
+            <th>Dato</th>
+            <th>Ændret af</th>
+          {/if}
         </tr>
       </thead>
       <tbody>
@@ -132,8 +135,10 @@
               {/if}
             </td>
             <td>{dokument["navn"]}</td>
-            <td class="hidden md:visible">{dokument["type"] == "dokument" ? dokument["dato"] : ""}</td>
-            <td class="hidden md:visible">{dokument["type"] == "dokument" ? dokument["ændret_af"] : ""}</td>
+            {#if window.innerWidth > 768}
+              <td>{dokument["type"] == "dokument" ? dokument["dato"] : ""}</td>
+              <td>{dokument["type"] == "dokument" ? dokument["ændret_af"] : ""}</td>
+            {/if}
             <!--<Brugernavn navn={dokument.ændret_af} id={$informationer.lærereOgElever[dokument.ændret_af]}/>-->
           </tr>
         {/each}
