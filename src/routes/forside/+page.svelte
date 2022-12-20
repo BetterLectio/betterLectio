@@ -172,7 +172,7 @@
             </a>
           {/each}
         {:else}
-          <p>Ingen ulæste beskeder</p>
+          <p class="mb-4">Ingen ulæste beskeder</p>
         {/if}
       </div>
     {/if}

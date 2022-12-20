@@ -360,7 +360,7 @@
             </a>
           </li>
           <li>
-            <a href="#">
+            <btn on:click={() => {alert("Ikke understøttet endnu")}}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -377,7 +377,7 @@
                 />
               </svg>
               Reload data
-            </a>
+            </btn>
           </li>
           <li>
             <label for="logud-modal" class="border-2 border-error-content bg-error">
