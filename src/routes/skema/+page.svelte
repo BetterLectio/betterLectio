@@ -18,7 +18,7 @@
     allDay: "ec-all-day relative",
     bgEvent: "ec-bg-event",
     bgEvents: "ec-bg-events",
-    body: "ec-body",
+    body: "ec-body border border-base-content rounded-b-2xl",
     button: "btn btn-primary btn-sm ONCHANGE",
     buttonGroup: "btn-group",
     calendar: "ec",
@@ -40,13 +40,13 @@
     extra: "ec-extra",
     ghost: "ec-ghost",
     handle: "ec-handle",
-    header: "ec-header",
+    header: "ec-header rounded-t-2xl",
     hiddenScroll: "ec-hidden-scroll",
     hiddenTimes: "ec-hidden-times",
     highlight: "ec-highlight",
     icon: "ec-icon",
-    line: "ec-line",
-    lines: "ec-lines",
+    line: "",
+    lines: "",
     list: "ec-list",
     month: "ec-month",
     noEvents: "ec-no-events",
@@ -60,8 +60,8 @@
     resizingY: "ec-resizing-y",
     resource: "ec-resource",
     resourceTitle: "ec-resource-title",
-    sidebar: "ec-sidebar",
-    sidebarTitle: "ec-sidebar-title",
+    sidebar: "ec-sidebar mr-4 ml-2",
+    sidebarTitle: "hidden",
     time: "ec-time",
     title: "ec-title",
     today: "bg-base-300",
@@ -80,9 +80,11 @@
     nowIndicator: true,
     theme: customTheme,
     hiddenDays: [0, 6],
-    slotMinTime: "06:00:00",
-    slotMaxTime: "18:00:00",
+    flexibleSlotTimeLimits: true,
+    slotMinTime: "08:00:00",
+    slotMaxTime: "17:00:00",
     events: [],
+    buttonText: {today: 'I dag', dayGridMonth: 'måned', listDay: 'list', listWeek: 'list', listMonth: 'list', listYear: 'list', resourceTimeGridDay: 'dag', resourceTimeGridWeek: 'uge', timeGridDay: 'dag', timeGridWeek: 'uge'},
     eventDidMount: (event) => {
       addedEventsId.push(event.event.id);
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
@@ -192,6 +194,9 @@
     }
     await get(`/skema?uge=${globalWeek}&år=${globalYear}`).then((data) => {
       $skema[globalYear + "" + globalWeek] = data;
+
+      options.slotMinTime = (parseInt(Object.values($skema[globalYear + "" + globalWeek].modulTider)[0].split(" - ")[0].split(":")[0] - 1)).toString()
+      options.slotMaxTime = (parseInt(Object.values($skema[globalYear + "" + globalWeek].modulTider).slice(-1)[0].split(" - ")[1].split(":")[0]) + 1).toString()
     });
     addButtonsToDagsnoter(globalYear, globalWeek);
   }
