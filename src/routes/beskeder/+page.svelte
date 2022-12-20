@@ -21,16 +21,9 @@
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
   });
 
-  getAllMessages();
-  function getAllMessages() {
-    $beskeder = {};
-    const ids = [-80, -10, -20, -30, -35];
-    for (const id of ids) {
-      get(`/beskeder?id=${id}`).then((data) => {
-        $beskeder[id] = data;
-      });
-    }
-  }
+  get(`/beskeder2`).then((data) => {
+    $beskeder = data;
+  });
 
   const CokieInfo = async () => {
     if (!localStorage.getItem("authentication")) {
@@ -105,8 +98,7 @@
 
   <!-- main content -->
   <ul class="list w-full">
-    {#each Object.keys($beskeder) as currentId}
-      {#each $beskeder[currentId].beskeder as besked}
+      {#each $beskeder as besked}
         <li class="mb-2">
           <a class="block" href="/besked?id={besked.message_id}">
             <div class="flex justify-between">
@@ -127,10 +119,9 @@
                 </div>
               </div>
               <div class="right-1 flex items-center" />
-            </div></a
-          >
+            </div>
+          </a>
         </li>
       {/each}
-    {/each}
   </ul>
 </body>
