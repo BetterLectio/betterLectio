@@ -117,8 +117,8 @@
         <tr>
           <th />
           <th>Navn</th>
-          <th>Dato</th>
-          <th>Ændret af</th>
+          <th class="hidden md:visible">Dato</th>
+          <th class="hidden md:visible">Ændret af</th>
         </tr>
       </thead>
       <tbody>
@@ -132,8 +132,8 @@
               {/if}
             </td>
             <td>{dokument["navn"]}</td>
-            <td>{dokument["type"] == "dokument" ? dokument["dato"] : ""}</td>
-            <td>{dokument["type"] == "dokument" ? dokument["ændret_af"] : ""}</td>
+            <td class="hidden md:visible">{dokument["type"] == "dokument" ? dokument["dato"] : ""}</td>
+            <td class="hidden md:visible">{dokument["type"] == "dokument" ? dokument["ændret_af"] : ""}</td>
             <!--<Brugernavn navn={dokument.ændret_af} id={$informationer.lærereOgElever[dokument.ændret_af]}/>-->
           </tr>
         {/each}
