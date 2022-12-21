@@ -88,8 +88,8 @@
       opgaver: [],
       lektier: [], //not working currently
       forside: [], //not working currently
-      skema: [], //not working currently
-      beskeder: [], //not working currently
+      skema: [],
+      beskeder: [],
       fravaer: [], //not working currently
       dokumenter: [], //not working currently
       informationer: [], //not working currently
@@ -151,6 +151,8 @@
         searchResults.beskeder.push(besked);
       }
     });
+
+    // rest goes here :)
     console.log(searchResults);
   }
 </script>
@@ -207,6 +209,8 @@
           <a href="/besked?id={besked.message_id}">{besked.emne}</a>
         </li>
       {/each}
-    {/if} 
+    {/if}
+    
+    <!-- add missing things here-->
   </ul>
 </div>
