@@ -36,6 +36,17 @@
   });
 </script>
 
+<input type="checkbox" id="besvar-modal" class="modal-toggle" />
+<div class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg mb-2">Besvar besked</h3>
+    <textarea class="textarea textarea-bordered resize-none" placeholder="Besked" style="width: 100%; height: 100%;"></textarea>
+    <div class="modal-action">
+      <label for="besvar-modal" class="btn cursor-not-allowed">{"Send (Virker ikke)"}</label>
+    </div>
+  </div>
+</div>
+
 {#if besked}
   <span class="my-2 flex justify-between">
     <h1 class="mb-4 text-3xl font-bold">{besked[0].titel}</h1>
@@ -51,7 +62,8 @@
   <!-- Måske en linje til at seperere beskeder-->
   <div class="p-4 rounded-lg bg-base-200">
   {#each besked as _besked}
-    <div class="mt-4 p-4 rounded-lg bg-base-300" style="margin-left: {_besked.padding_left/2}em;">
+    <div class="relative mt-4 p-4 rounded-lg bg-base-300 break-words" style="margin-left: {_besked.padding_left/2}em;">
+      <label for="besvar-modal" class="absolute bottom-0 right-0 mb-4 mr-4 btn btn-sm">Besvar</label>
       <div class="flex items-center">
         <Avatar id={_besked.bruger.id} navn={_besked.bruger.navn} size="w-14" clickable />
         <div class="ml-4">
