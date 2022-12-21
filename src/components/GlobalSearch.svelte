@@ -1,15 +1,15 @@
 <script>
   import { get } from "../components/http.js";
   import {
-    opgaver, //✅
-    nyheder, //✅
-    lektier, //✅
-    forside, //✅
-    skema, //✅
-    beskeder, //✅
-    fravaer, //✅
-    dokumenter, //✅
-    informationer, //✅
+    opgaver,
+    nyheder,
+    lektier,
+    forside,
+    skema,
+    beskeder,
+    fravaer,
+    dokumenter,
+    informationer,
   } from "../components/store.js";
 
   import { fade } from "svelte/transition";
@@ -74,13 +74,13 @@
   let searchString = "";
   let searchResults = {
     opgaver: [],
-    lektier: [], //not working currently
-    forside: [], //not working currently
-    skema: [], //not working currently
-    beskeder: [], //not working currently
-    fravaer: [], //not working currently
-    dokumenter: [], //not working currently
-    informationer: [], //not working currently
+    lektier: [],
+    forside: [],
+    skema: [],
+    beskeder: [],
+    fravaer: [],
+    dokumenter: [],
+    informationer: [],
   };
 
   function deleteSearchResults() {
