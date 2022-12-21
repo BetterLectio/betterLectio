@@ -188,7 +188,7 @@
       </li>
       {#each searchResults.skema as modul}
         <li class="w-52" transition:fade="{{duration: 200}}">
-          <a href="/skema?modul={modul.absid}">
+          <a href="/modul?absid={modul.absid}">
           {#if modul.navn}
             {modul.navn}
           {:else if modul.hold}
