@@ -160,9 +160,7 @@
       type="text"
       placeholder="Indlæser... ({loadingProgress}/{numOfLoads})"
       id="input"
-      class="input-bordered input-primary input bg-base-300"
-      bind:value={searchString}
-      on:change={search}
+      class="input-bordered input bg-base-300"
     />
     {:else}
     <input
