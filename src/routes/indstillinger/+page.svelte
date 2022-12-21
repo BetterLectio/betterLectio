@@ -1,3 +1,4 @@
 <script>
-  window.location.href = "/indstillinger/konto"
+  import { goto } from "$app/navigation";
+  goto("/indstillinger/konto");
 </script>
