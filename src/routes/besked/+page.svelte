@@ -37,16 +37,28 @@
 </script>
 
 <input type="checkbox" id="besvar-modal" class="modal-toggle" />
-<div class="modal modal-bottom sm:modal-middle">
-  <div class="modal-box">
+<label for="besvar-modal" class="modal modal-bottom sm:modal-middle cursor-pointer">
+  <label class="modal-box relative" for="">
     <h3 class="font-bold text-lg mb-2">Besvar besked</h3>
     <textarea class="textarea textarea-bordered resize-none" placeholder="Besked" style="width: 100%; height: 100%;"></textarea>
     <div class="modal-action">
       <label for="besvar-modal" class="btn cursor-not-allowed">{"Send (Virker ikke)"}</label>
     </div>
-  </div>
-</div>
+  </label>
+</label>
 
+<!--
+<input type="checkbox" id="besvar-modal" class="modal-toggle" />
+<label class="modal modal-bottom sm:modal-middle">
+  <label class="modal-box relative" for="">
+    <h3 class="font-bold text-lg mb-2">Besvar besked</h3>
+    <textarea class="textarea textarea-bordered resize-none" placeholder="Besked" style="width: 100%; height: 100%;"></textarea>
+    <div class="modal-action">
+      <label for="besvar-modal" class="btn cursor-not-allowed">{"Send (Virker ikke)"}</label>
+    </div>
+  </label>
+</label>
+-->
 {#if besked}
   <span class="my-2 flex justify-between">
     <h1 class="mb-4 text-3xl font-bold">{besked[0].titel}</h1>
