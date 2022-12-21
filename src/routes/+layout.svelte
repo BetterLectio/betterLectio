@@ -6,6 +6,7 @@
   import PageTransition from "../components/PageTransition.svelte";
   import { brugeren } from "../components/store.js";
   import Avatar from "../components/Avatar.svelte";
+  import {reloadData} from "../components/http"
   export let data;
 
   onMount(() => {
@@ -238,7 +239,7 @@
                 </a>
               </li>
               <li>
-                <btn on:click={() => {alert("Ikke understøttet endnu")}}>
+                <btn on:click={() => {reloadData()}}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -466,7 +467,7 @@
           </a>
         </li>
         <li>
-          <btn on:click={() => {alert("Ikke understøttet endnu")}}>
+          <btn on:click={() => {reloadData()}}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
