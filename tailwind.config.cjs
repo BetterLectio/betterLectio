@@ -3,6 +3,9 @@ module.exports = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
     extend: {
+      colors: {
+        "blurple": "#5865F2"
+      },
       height: {
         "10v": "10vh",
         "20v": "20vh",
