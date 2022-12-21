@@ -66,11 +66,6 @@
     loadingProgress++;
   });
 
-  $: if (loadingProgress == numOfLoads) {
-    // not working ?????? why!!!!!
-    document.querySelector(".input").placeholder = "Søg";
-  }
-
   let searchString = "";
   let searchResults = {
     opgaver: [],
@@ -160,6 +155,7 @@
 <!-- <GlobalSearch /> -->
 <div class="flex flex-col bg-base-200 w-fit p-2 rounded-lg">
   <div class="flex flex-row">
+    {#if loadingProgress != numOfLoads}
     <input
       type="text"
       placeholder="Indlæser... ({loadingProgress}/{numOfLoads})"
@@ -168,6 +164,16 @@
       bind:value={searchString}
       on:change={search}
     />
+    {:else}
+    <input
+      type="text"
+      placeholder="Søg"
+      id="input"
+      class="input-bordered input-primary input bg-base-300"
+      bind:value={searchString}
+      on:change={search}
+    />
+    {/if}
   </div>
   <!--results-->
   <ul class="menu rounded-box mt-2 w-52 p-1">
