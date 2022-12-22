@@ -85,7 +85,7 @@
 
 {#if besked}
     <h1 class="mb-2 text-3xl font-bold">{besked[0].titel}</h1>
-  <p class="mb-4">Modtagere: {modtagere}</p>
+  <p class="mb-4"><strong>Modtagere:</strong> {modtagere}</p>
   <!-- Måske en linje til at seperere beskeder-->
   <div class="p-4 rounded-lg bg-base-200">
   {#each besked as _besked}
