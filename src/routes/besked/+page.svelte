@@ -31,8 +31,11 @@
   });
 
   let besked;
+  let modtagere;
   get("/besked?id=" + beskedId).then((data) => {
-    besked = data;
+    besked = data.beskeder;
+    modtagere = data.modtagere;
+    console.log(data);
   });
 
   let checked = "";
@@ -81,9 +84,8 @@
 </label>
 
 {#if besked}
-  <span class="my-2 flex justify-between">
-    <h1 class="mb-4 text-3xl font-bold">{besked[0].titel}</h1>
-  </span>
+    <h1 class="mb-2 text-3xl font-bold">{besked[0].titel}</h1>
+  <p class="mb-4">Modtagere: {modtagere}</p>
   <!-- Måske en linje til at seperere beskeder-->
   <div class="p-4 rounded-lg bg-base-200">
   {#each besked as _besked}
