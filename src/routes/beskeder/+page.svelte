@@ -131,7 +131,7 @@
       />
     </span>
     <div class="mb-2 flex right-1 items-center bg-base-200 p-1 rounded-md">
-      <a class="btn btn-sm btn-primary normal-case font-normal">Skriv besked</a>
+      <a class="btn btn-sm bg-base-200 border-base-200 text-gray-500 hover:text-gray-100 btn-primary normal-case font-normal">Skriv besked</a>
     </div>
   </div>
 
