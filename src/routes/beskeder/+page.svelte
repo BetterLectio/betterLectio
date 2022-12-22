@@ -1,7 +1,11 @@
 <script>
-  import { informationer, beskeder } from "../../components/store.js";
+  import { informationer, beskeder, brugeren } from "../../components/store.js";
   import { get } from "../../components/http.js";
   import Avatar from "../../components/Avatar.svelte";
+
+  get("/mig").then((data) => {
+    $brugeren = data;
+  });
 
   /**
      TODO:
@@ -22,12 +26,11 @@
   });
 
   get(`/beskeder2`).then((data) => {
-    $beskeder = data
-      .map((besked) => {
-        besked.datoObject = convertDate(besked.dato);
-        return besked;
-      })
-      .sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
+    $beskeder = data.map((besked) => {
+      besked.datoObject = convertDate(besked.dato);
+      return besked;
+    });
+    //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
   });
 
   function convertDate(dateString) {
@@ -75,18 +78,11 @@
     cookie = data;
   });
 
-  let selected = "Modtaget";
+  let selected = "Alle";
   let searchString = "";
-  function search() {
-    selected = "search";
 
-    let searchResults = [];
-    $beskeder.forEach((opgave) => {
-      if (opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) {
-        searchResults.push(opgave);
-      }
-    });
-    _opgaver = searchResults;
+  function isAuther(messageAuther) {
+    return messageAuther.replace("(", "").replace(")", "") == $brugeren.navn.replace(",", "");
   }
 </script>
 
@@ -106,6 +102,12 @@
   <span class="mb-2 flex flex-col sm:flex-row">
     <div class="tabs tabs-boxed w-fit">
       <button
+        class={selected == "Alle" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Alle";
+        }}>Alle</button
+      >
+      <button
         class={selected == "Modtaget" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
         on:click={() => {
           selected = "Modtaget";
@@ -123,33 +125,39 @@
       placeholder="Søg"
       class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
       bind:value={searchString}
-      on:input={search}
     />
   </span>
 
   <!-- main content -->
   <ul class="list w-full">
     {#each $beskeder as besked}
-      <li class="mb-2">
-        <a class="block" href="/besked?id={besked.message_id}">
-          <div class="flex justify-between">
-            <div class="flex items-center">
-              {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
-                <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
-              {/if}
-              <div class="ml-5">
-                <p part="emne" class="text-lg font-bold">
-                  {besked.emne}
-                </p>
-                <p part="afsender">
-                  {besked.førsteBesked} · {besked.ændret}
-                </p>
+      {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
+        {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
+          <li class="mb-2">
+            <a class="block" href="/besked?id={besked.message_id}">
+              <div class="flex justify-between">
+                <div class="flex items-center">
+                  {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
+                    <Avatar
+                      id={$informationer.lærereOgElever[besked.førsteBesked]}
+                      navn={besked.førsteBesked}
+                    />
+                  {/if}
+                  <div class="ml-5">
+                    <p part="emne" class="text-lg font-bold">
+                      {besked.emne}
+                    </p>
+                    <p part="afsender">
+                      {besked.førsteBesked} · {besked.ændret}
+                    </p>
+                  </div>
+                </div>
+                <div class="right-1 flex items-center" />
               </div>
-            </div>
-            <div class="right-1 flex items-center" />
-          </div>
-        </a>
-      </li>
+            </a>
+          </li>
+        {/if}
+      {/if}
     {/each}
   </ul>
 </body>
