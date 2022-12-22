@@ -272,7 +272,7 @@ def forside():
         return jsonify({"backend_error": str(e)}), 500
 @app.route("/ledige_lokaler")
 @cache_for(minutes=5)
-def forside():
+def ledige_lokaler():
     try:
         cookie = request.headers.get("lectio-cookie")
 
