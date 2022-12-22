@@ -100,43 +100,40 @@
 <body>
   <span class="my-2 flex justify-between">
     <h1 class="text-3xl font-bold">Beskeder</h1>
-    {#if cookie?.userid}
-      <a
-        class="btn"
-        href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
-      >
-        Skriv besked
-      </a>
-    {/if}
   </span>
-  <span class="mb-2 flex flex-col sm:flex-row">
-    <div class="tabs tabs-boxed w-fit">
-      <button
-        class={selected == "Alle" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-        on:click={() => {
-          selected = "Alle";
-        }}>Alle</button
-      >
-      <button
-        class={selected == "Modtaget" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-        on:click={() => {
-          selected = "Modtaget";
-        }}>Modtaget</button
-      >
-      <button
-        class={selected == "Sendte" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-        on:click={() => {
-          selected = "Sendte";
-        }}>Sendte</button
-      >
+  <div class="flex justify-between">
+    <span class="mb-2 flex flex-col sm:flex-row">
+      <div class="tabs tabs-boxed w-fit">
+        <button
+          class={selected == "Alle" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+          on:click={() => {
+            selected = "Alle";
+          }}>Alle</button
+        >
+        <button
+          class={selected == "Modtaget" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+          on:click={() => {
+            selected = "Modtaget";
+          }}>Modtaget</button
+        >
+        <button
+          class={selected == "Sendte" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+          on:click={() => {
+            selected = "Sendte";
+          }}>Sendte</button
+        >
+      </div>
+      <input
+        type="text"
+        placeholder="Søg"
+        class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
+        bind:value={searchString}
+      />
+    </span>
+    <div class="mb-2 flex right-1 items-center bg-base-200 p-1 rounded-md">
+      <a class="btn btn-sm btn-primary normal-case font-normal">Skriv besked</a>
     </div>
-    <input
-      type="text"
-      placeholder="Søg"
-      class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
-      bind:value={searchString}
-    />
-  </span>
+  </div>
 
   <!-- main content -->
   <ul class="list w-full">
