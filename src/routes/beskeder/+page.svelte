@@ -104,10 +104,24 @@
                 </div>
               </div>
               <div class="right-1 flex items-center">
-                <!-- 
-                Midlertidig fjernelse af modtagere
                 <div class="flex -space-x-4">
-                  <img
+                  {#each besked.modtagere.slice(0, 3) as modtager}
+                    {#if $informationer.lærereOgElever[modtager] != null}
+                      <div class="z-0">
+                        <Avatar
+                          id={$informationer.lærereOgElever[modtager]}
+                          navn={modtager}
+                          size="h-10 w-10"
+                        />
+                      </div>
+                    {/if}
+                  {/each}
+                  {#if besked.modtagere.length > 3}
+                    <div class="z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white">
+                      +{besked.modtagere.length - 3}
+                    </div>
+                  {/if}
+                  <!--<img
                     class="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
                     src="https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector.png"
                     alt=""
@@ -125,9 +139,8 @@
                   <a
                     class="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white hover:bg-gray-600 dark:border-gray-800"
                     href="#">+99</a
-                  >
+                  >-->
                 </div>
-              </div> -->
               </div>
             </div></a
           >
