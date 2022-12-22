@@ -128,7 +128,7 @@
               <div class="flex-1">
                 <p class="font-bold line-clamp-1 {(opgave.status == "Venter") ? "mr-16" : ""}">{opgave.opgavetitel}</p>
                 <p>{opgave.hold}</p>
-                <p class="line-clamp-2 {(opgave.status == "Venter") ? "mr-12" : ""}">{opgave.opgavenote}</p>
+                <p class="line-clamp-2 {(opgave.status == "Venter") ? "mr-16" : ""}">{opgave.opgavenote}</p>
               </div>
               
               {#if opgave.status == "Venter"}
