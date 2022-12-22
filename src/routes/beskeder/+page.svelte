@@ -163,24 +163,26 @@
                 </div>
                 <div class="right-1 flex items-center">
                   <div class="flex -space-x-4">
-                    {#if allowed[besked.message_id]}
-                      {#each besked.modtagere.slice(0, 3) as modtager}
-                        {#if $informationer.lærereOgElever[modtager] != null}
-                          <div class="z-0">
-                            <Avatar
-                              id={$informationer.lærereOgElever[modtager]}
-                              navn={modtager}
-                              size="h-10 w-10"
-                            />
+                    {#if window.innerWidth > 640}
+                      {#if allowed[besked.message_id]}
+                        {#each besked.modtagere.slice(0, 3) as modtager}
+                          {#if $informationer.lærereOgElever[modtager] != null}
+                            <div class="z-0">
+                              <Avatar
+                                id={$informationer.lærereOgElever[modtager]}
+                                navn={modtager}
+                                size="h-10 w-10"
+                              />
+                            </div>
+                          {/if}
+                        {/each}
+                        {#if besked.modtagere.length > 3}
+                          <div
+                            class="z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white"
+                          >
+                            +{besked.modtagere.length - 3}
                           </div>
                         {/if}
-                      {/each}
-                      {#if besked.modtagere.length > 3}
-                        <div
-                          class="z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white"
-                        >
-                          +{besked.modtagere.length - 3}
-                        </div>
                       {/if}
                     {/if}
                   </div>
