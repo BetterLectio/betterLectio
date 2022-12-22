@@ -130,9 +130,11 @@
         bind:value={searchString}
       />
     </span>
-    <div class="mb-2 flex right-1 items-center bg-base-200 p-1 rounded-md">
-      <a class="btn btn-sm bg-base-200 border-base-200 text-gray-500 hover:text-gray-100 btn-primary normal-case font-normal">Skriv besked</a>
-    </div>
+    {#if cookie?.userid}
+      <div class="mb-2 flex right-1 items-center bg-base-200 p-1 rounded-md">
+        <a href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`} target="_blank" class="btn btn-sm bg-base-200 border-base-200 text-gray-500 hover:text-gray-100 btn-primary normal-case font-normal">Skriv besked</a>
+      </div>
+    {/if}
   </div>
 
   <!-- main content -->
