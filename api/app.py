@@ -178,6 +178,19 @@ def beskeder2():
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
+@app.route('/besvar_besked', methods=['POST'])
+def result():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+        data = request.get_json(force=True)
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+        lectioClient.besvarBesked(data["message_id"], data["id"], data["titel"], data["content"], 1)
+
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"backend_error": str(e)}), 500
+
 @app.route('/informationer') 
 @cache_for(minutes=10080) # 1 week 
 def informationer():
