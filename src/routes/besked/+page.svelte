@@ -83,14 +83,6 @@
 {#if besked}
   <span class="my-2 flex justify-between">
     <h1 class="mb-4 text-3xl font-bold">{besked[0].titel}</h1>
-    {#if cookie?.userid}
-      <a
-        class="btn"
-        href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=showthread&elevid=${cookie.userid}&id=${beskedId}`}
-      >
-        Besvar besked
-      </a>
-    {/if}
   </span>
   <!-- Måske en linje til at seperere beskeder-->
   <div class="p-4 rounded-lg bg-base-200">
