@@ -27,7 +27,7 @@
     for (const opgave of __opgaver) {
       let _date = opgave.frist.replace("-", "/").split(" ")
       let __date = _date[0].split("/")
-      opgave.date = new Date(`${__date[1]}/${__date[0]}-${__date[2]} ${_date[1]}`);
+      opgave.date = new Date(`${__date[1]}/${__date[0]}/${__date[2]} ${_date[1]}`);
       if (opgave.status == "Afleveret") {
         opgave.class = "btn btn-success";
         afleveredeOpgaver.push(opgave);
@@ -81,22 +81,22 @@
     <div class="tabs tabs-boxed w-full justify-between sm:w-fit">
       <button
         class={selected == "ikkeAfleveredeOpgaver"
-          ? "tab- tab tab-active tab-lg sm:tab-md"
-          : "tab tab-lg sm:tab-md"}
+          ? "tab- tab tab-active tab-sm sm:tab-md"
+          : "tab tab-sm sm:tab-md"}
         on:click={() => {
           selected = "ikkeAfleveredeOpgaver";
         }}>Ikke-afleverede</button
       >
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <button
-        class={selected == "afleveredeOpgaver" ? "tab tab-active tab-lg sm:tab-md" : "tab tab-lg sm:tab-md"}
+        class={selected == "afleveredeOpgaver" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
         on:click={() => {
           selected = "afleveredeOpgaver";
         }}>Afleverede</button
       >
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <button
-        class={selected == "afsluttedeOpgaver" ? "tab tab-active tab-lg sm:tab-md" : "tab tab-lg sm:tab-md"}
+        class={selected == "afsluttedeOpgaver" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
         on:click={() => {
           selected = "afsluttedeOpgaver";
         }}>Afsluttet</button
@@ -127,7 +127,7 @@
               <div class="flex-1">
                 <p class="font-bold line-clamp-1 {(opgave.status == "Venter") ? "mr-16" : ""}">{opgave.opgavetitel}</p>
                 <p>{opgave.hold}</p>
-                <p class="line-clamp-2 {(opgave.status == "Venter") ? "mr-12" : ""}">{opgave.opgavenote}</p>
+                <p class="line-clamp-2 {(opgave.status == "Venter") ? "mr-16" : ""}">{opgave.opgavenote}</p>
               </div>
               
               {#if opgave.status == "Venter"}
