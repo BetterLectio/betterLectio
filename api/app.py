@@ -163,16 +163,18 @@ def beskeder2():
         for besked in beskeder:
             dato = besked["ændret"]
             if len(besked["ændret"].split(" ")) == 1 and ":" in besked["ændret"]:
-                dato = datetime.now().strftime("%d/%m-%Y")
+                dato = datetime.now().strftime("%d/%m-%Y") + " " + dato
             elif len(besked["ændret"].split(" ")) == 2 and "/" in besked["ændret"]:
-                dato = f"{dato.split(' ')[1]}-{datetime.now().year}"
+                dato = f"{dato.split(' ')[1]}-{datetime.now().year}" + " 12:00"
             elif len(besked["ændret"].split(" ")) == 2 and ":" in besked["ændret"]:
                 today = date.today()
-                dato = (today + relativedelta(weekday=dateDict[dato.split(" ")[0]](-1))).strftime("%d/%m-%Y")
+                dato = (today + relativedelta(weekday=dateDict[dato.split(" ")[0]](-1))).strftime("%d/%m-%Y") + " " + besked["ændret"].split(" ")[1]
+            else:
+                dato += " 12:00"
 
             besked["dato"] = dato
 
-        beskeder.sort(key=lambda x: datetime.strptime(x['dato'], '%d/%m-%Y'), reverse=True)
+        beskeder.sort(key=lambda x: datetime.strptime(x['dato'], '%d/%m-%Y %H:%M'), reverse=True)
 
         return jsonify(beskeder)
     except Exception as e:
