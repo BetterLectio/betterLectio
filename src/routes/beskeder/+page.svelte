@@ -1,14 +1,17 @@
 <script>
-  import { informationer, beskeder } from "../../components/store.js";
+  import { informationer, beskeder, brugeren } from "../../components/store.js";
+  import { get } from "../../components/http.js";
   import Avatar from "../../components/Avatar.svelte";
+
+  get("/mig").then((data) => {
+    $brugeren = data;
+  });
 
   /**
      TODO:
         - Gør så man kan downloade filer uden at blive redirectet til modul siden
         - Måske gør så man får al teksten og derfor ikke behøver at klikke på lektien
      */
-  import { get } from "../../components/http.js";
-  let currentId = -70;
 
   get("/informationer").then((data) => {
     $informationer = data;
@@ -22,21 +25,40 @@
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
   });
 
-  get("/beskeder").then((data) => {
-    if (!$beskeder) {
-      $beskeder = {};
-    }
-    $beskeder[currentId] = data;
+  get(`/beskeder2`).then((data) => {
+    $beskeder = data.map((besked) => {
+      besked.datoObject = convertDate(besked.dato);
+      return besked;
+    });
+    //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
   });
 
-  function changeCategory(id = null) {
-    if (typeof id == "string") {
-      get(`/beskeder?id=${id}`).then((data) => {
-        currentId = id;
-        $beskeder[id] = data;
-      });
-    }
+  function convertDate(dateString) {
+    // Split the date string into parts
+    const allparts = dateString.split(" ");
+    const parts = allparts[0].split("-");
+    const year = parseInt(parts[1], 10);
+    const dateparts = parts[0].split("/");
+
+    const timepart = allparts[1].split(":");
+    const hour = parseInt(timepart[0], 10);
+    const minute = parseInt(timepart[1], 10);
+
+    // Extract the day, month, and year from the parts array
+    const day = parseInt(dateparts[0], 10);
+    const month = parseInt(dateparts[1], 10);
+
+    // Create a new Date object
+    const date = new Date();
+
+    // Set the day, month, and year of the Date object
+    date.setFullYear(year, month - 1, day);
+    date.setHours(hour, minute, 0, 0);
+
+    // Return the Date object
+    return date;
   }
+
   const CokieInfo = async () => {
     if (!localStorage.getItem("authentication")) {
       console.log("Redirect");
@@ -55,6 +77,13 @@
   CokieInfo().then((data) => {
     cookie = data;
   });
+
+  let selected = "Alle";
+  let searchString = "";
+
+  function isAuther(messageAuther) {
+    return messageAuther.replace("(", "").replace(")", "") == $brugeren.navn.replace(",", "");
+  }
 </script>
 
 <body>
@@ -69,83 +98,86 @@
       </a>
     {/if}
   </span>
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  {#if $beskeder?.[currentId]}
-    <div class="tabs tabs-boxed my-2 w-full justify-between">
-      {#each $beskeder[currentId].besked_muligheder as beskedMulighed}
-        <btn
-          class={beskedMulighed.id == currentId ? "tab tab-active" : "tab"}
-          on:click={() => changeCategory(beskedMulighed.id)}>{beskedMulighed.name}</btn
-        >
-      {/each}
+  <span class="mb-2 flex flex-col sm:flex-row">
+    <div class="tabs tabs-boxed w-fit">
+      <button
+        class={selected == "Alle" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Alle";
+        }}>Alle</button
+      >
+      <button
+        class={selected == "Modtaget" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Modtaget";
+        }}>Modtaget</button
+      >
+      <button
+        class={selected == "Sendte" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Sendte";
+        }}>Sendte</button
+      >
     </div>
+    <input
+      type="text"
+      placeholder="Søg"
+      class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
+      bind:value={searchString}
+    />
+  </span>
 
-    <ul class="menu rounded-box z-10 w-full bg-base-100 p-2 drop-shadow-xl">
-      {#each $beskeder[currentId].beskeder as besked}
-        <li>
-          <a class="block" href="/besked?id={besked.message_id}">
-            <div class="flex justify-between">
-              <div class="flex items-center">
-                <!-- svelte-ignore a11y-missing-attribute -->
-
-                {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
-                  <Avatar
-                    id={$informationer.lærereOgElever[besked.førsteBesked]}
-                    navn={besked.førsteBesked}
-                  />
-                {/if}
-                <div class="ml-5">
-                  <p part="emne" class="text-lg font-bold">
-                    {besked.emne}
-                  </p>
-                  <p part="afsender">
-                    {besked.førsteBesked} · {besked.ændret}
-                  </p>
+  <!-- main content -->
+  <ul class="list w-full">
+    {#each $beskeder as besked}
+      {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
+        {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
+          <li class="mb-2">
+            <a class="block" href="/besked?id={besked.message_id}">
+              <div class="flex justify-between">
+                <div class="flex items-center">
+                  {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
+                    <Avatar
+                      id={$informationer.lærereOgElever[besked.førsteBesked]}
+                      navn={besked.førsteBesked}
+                    />
+                  {/if}
+                  <div class="ml-5">
+                    <p part="emne" class="text-lg font-bold">
+                      {besked.emne}
+                    </p>
+                    <p part="afsender">
+                      {besked.førsteBesked} · {besked.ændret}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div class="right-1 flex items-center">
-                <div class="flex -space-x-4">
-                  {#each besked.modtagere.slice(0, 3) as modtager}
-                    {#if $informationer.lærereOgElever[modtager] != null}
-                      <div class="z-0">
-                        <Avatar
-                          id={$informationer.lærereOgElever[modtager]}
-                          navn={modtager}
-                          size="h-10 w-10"
-                        />
+                <div class="right-1 flex items-center">
+                  <div class="flex -space-x-4">
+                    {#each besked.modtagere.slice(0, 3) as modtager}
+                      {#if $informationer.lærereOgElever[modtager] != null}
+                        <div class="z-0">
+                          <Avatar
+                            id={$informationer.lærereOgElever[modtager]}
+                            navn={modtager}
+                            size="h-10 w-10"
+                          />
+                        </div>
+                      {/if}
+                    {/each}
+                    {#if besked.modtagere.length > 3}
+                      <div
+                        class="z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white"
+                      >
+                        +{besked.modtagere.length - 3}
                       </div>
                     {/if}
-                  {/each}
-                  {#if besked.modtagere.length > 3}
-                    <div class="z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white">
-                      +{besked.modtagere.length - 3}
-                    </div>
-                  {/if}
-                  <!--<img
-                    class="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
-                    src="https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector.png"
-                    alt=""
-                  />
-                  <img
-                    class="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
-                    src="https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector.png"
-                    alt=""
-                  />
-                  <img
-                    class="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
-                    src="https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector.png"
-                    alt=""
-                  />
-                  <a
-                    class="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white hover:bg-gray-600 dark:border-gray-800"
-                    href="#">+99</a
-                  >-->
+                  </div>
                 </div>
               </div>
-            </div></a
-          >
-        </li>
-      {/each}
-    </ul>
-  {/if}
+            </a>
+          </li>
+        {/if}
+      {/if}
+    {/each}
+  </ul>
 </body>
