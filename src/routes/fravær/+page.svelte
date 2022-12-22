@@ -46,7 +46,7 @@
     sort("procent"); // Altid sorter efter fravær procent først
     $fravaer.data.generalt.forEach((element) => {
       if (element.hold == "Samlet") {
-        samletFravaer = parseFloat(element.fravær_procent);
+        samletFravaer = element.fravær_procent;
       }
     });
     new Chart(modulerChartElement, {
@@ -60,7 +60,7 @@
             label: "Fraværende moduler",
             data: $fravaer.data.generalt
               .filter((element) => element.hold != "Samlet" && element.fravær_procent != "0,00%")
-              .map((element) => /([0-9]+)\//g.exec(element.fravær_moduler)[1]),
+              .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.fravær_moduler)[1].replace(",", ".")),
             backgroundColor: $fravaer.data.generalt.map(
               (element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]
             ),
@@ -68,6 +68,7 @@
         ],
       },
       options: {
+        locale: "da",
         scales: {
           x: {
             title: {
@@ -130,6 +131,9 @@
               display: true,
               text: "Registreret fravær",
             },
+            ticks: {
+              precision: 0,
+            },
           },
         },
         plugins: {
@@ -181,10 +185,10 @@
 
 <h1 class="text-3xl font-bold">Fravær</h1>
 {#if $fravaer?.data && fravaer != null}
-  {#if samletFravaer == 0}
+  {#if samletFravaer == "0,00%"}
     <p>Du har intet fravær</p>
   {:else}
-    <p>Du har {samletFravaer}% fravær</p>
+    <p>Du har {samletFravaer} fravær</p>
     <p>Hold uden fravær er ikke vist</p>
     <div class="mb-4 mt-4">
       <table class="table w-full rounded-xl shadow-xl">
