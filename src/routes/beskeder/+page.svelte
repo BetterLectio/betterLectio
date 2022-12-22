@@ -22,17 +22,24 @@
   });
 
   get(`/beskeder2`).then((data) => {
-    $beskeder = data.map((besked) => {
-      besked.datoObject = convertDate(besked.dato);
-      return besked;
-    });
+    $beskeder = data
+      .map((besked) => {
+        besked.datoObject = convertDate(besked.dato);
+        return besked;
+      })
+      .sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
   });
 
   function convertDate(dateString) {
     // Split the date string into parts
-    const parts = dateString.split("-");
+    const allparts = dateString.split(" ");
+    const parts = allparts[0].split("-");
     const year = parseInt(parts[1], 10);
     const dateparts = parts[0].split("/");
+
+    const timepart = allparts[1].split(":");
+    const hour = parseInt(timepart[0], 10);
+    const minute = parseInt(timepart[1], 10);
 
     // Extract the day, month, and year from the parts array
     const day = parseInt(dateparts[0], 10);
@@ -43,6 +50,7 @@
 
     // Set the day, month, and year of the Date object
     date.setFullYear(year, month - 1, day);
+    date.setHours(hour, minute, 0, 0);
 
     // Return the Date object
     return date;
