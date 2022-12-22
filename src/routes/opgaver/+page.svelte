@@ -18,7 +18,6 @@
     _opgaver = sortOpgaver($opgaver);
   }
 
-  var alleOpgaver = [];
   function sortOpgaver(__opgaver) {
     let ikkeAfleveredeOpgaver = [];
     let afleveredeOpgaver = [];
@@ -26,6 +25,9 @@
 
     //loop trouh __opgaver
     for (const opgave of __opgaver) {
+      let _date = opgave.frist.replace("-", "/").split(" ")
+      let __date = _date[0].split("/")
+      opgave.date = new Date(`${__date[1]}/${__date[0]}-${__date[2]} ${_date[1]}`);
       if (opgave.status == "Afleveret") {
         opgave.class = "btn btn-success";
         afleveredeOpgaver.push(opgave);
@@ -65,6 +67,10 @@
       }
     });
     _opgaver = searchResults;
+  }
+
+  function dageIndtil(date) {
+    return Math.floor((date.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
   }
 </script>
 
@@ -108,12 +114,28 @@
   {#if _opgaver}
     <ul class="list my-4 lg:hidden">
       {#each _opgaver as opgave}
-        <li class="element">
-          <a class="block" href="/opgave?exerciseid={opgave.exerciseid}">
-            <div>
-              <p class="{opgave.class} btn-xs w-full">{opgave.opgavetitel} · {opgave.hold}</p>
-              <p>({opgave.frist})</p>
-              <p class="line-clamp-1">{opgave.opgavenote}</p>
+        <li class="relative flex {opgave.class} justify-start w-full h-full normal-case font-normal text-left mt-2">
+          <a class="mt-2 mb-2" href="/opgave?exerciseid={opgave.exerciseid}">
+            <div class="flex items-center">
+              <div class="flex-none mr-4">
+                <div>
+                  <p><strong>{opgave.frist.split("-")[0]}</strong></p>
+                  <p><strong>{opgave.frist.split(" ")[1]}</strong></p>
+                </div>
+              </div>
+          
+              <div class="flex-1 mr-12">
+                <p class="font-bold">{opgave.opgavetitel}</p>
+                <p>{opgave.hold}</p>
+                <p class="line-clamp-1">{opgave.opgavenote}</p>
+              </div>
+
+              <div class="flex items-center">
+                <div class="absolute right-0 mr-4">
+                  <p><strong>Om</strong></p>
+                  <p><strong>{dageIndtil(opgave.date)} dage</strong></p>
+                </div>
+              </div>
             </div>
           </a>
         </li>
