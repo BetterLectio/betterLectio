@@ -153,36 +153,36 @@
 </script>
 
 <!-- <GlobalSearch /> -->
-<div class="flex flex-col bg-base-200 w-fit p-2 rounded-lg">
-  <div class="flex flex-row">
+<div class="flex flex-col bg-base-200 w-full p-2 rounded-lg">
+  <div class="flex flex-row w-full">
     {#if loadingProgress != numOfLoads}
     <input
       type="text"
       placeholder="Indlæser... {Math.round(loadingProgress/numOfLoads*100)}%"
       id="input"
-      class="input-bordered input bg-base-300"
+      class="input-bordered w-full input bg-base-300"
     />
     {:else}
     <input
       type="text"
       placeholder="Søg"
       id="input"
-      class="input-bordered input-primary input bg-base-300"
+      class="input-bordered input-primary w-full input bg-base-300"
       bind:value={searchString}
       on:change={search}
     />
     {/if}
   </div>
   <!--results-->
-  <ul class="menu rounded-box mt-2 w-52 p-1">
+  <ul class="menu rounded-box mt-2 p-1">
 
 
     {#if searchResults.opgaver.length > 0}
-      <li class="menu-title w-52" transition:fade="{{duration: 200}}">
+      <li class="menu-title" transition:fade="{{duration: 200}}">
         <span>Opgaver</span>
       </li>
       {#each searchResults.opgaver as opgave}
-        <li class="w-52" transition:fade="{{duration: 200}}">
+        <li class="w-full" transition:fade="{{duration: 200}}">
           <a href="/opgave?exerciseid={opgave.exerciseid}">{opgave.opgavetitel}</a>
         </li>
       {/each}
@@ -190,23 +190,23 @@
 
 
     {#if searchResults.forside.length > 0}
-      <li class="menu-title w-52" transition:fade="{{duration: 200}}">
+      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
         <span>Forside</span>
       </li>
       {#each searchResults.forside as forside}
-        <li class="w-52" transition:fade="{{duration: 200}}">
-          <a href="/forside">{forside.text}</a>
+        <li class="w-full" transition:fade="{{duration: 200}}">
+          <a href="/forside" class="w-full overflow-x-scroll">{forside.text}</a>
         </li>
       {/each}
     {/if}
 
 
     {#if searchResults.skema.length > 0}
-      <li class="menu-title w-52" transition:fade="{{duration: 200}}">
+      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
         <span>Skema</span>
       </li>
       {#each searchResults.skema as modul}
-        <li class="w-52" transition:fade="{{duration: 200}}">
+        <li class="w-full" transition:fade="{{duration: 200}}">
           <a href="/modul?absid={modul.absid}">
           {#if modul.navn}
             {modul.navn}
@@ -222,11 +222,11 @@
 
 
     {#if searchResults.beskeder.length > 0}
-      <li class="menu-title w-52" transition:fade="{{duration: 200}}">
+      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
         <span>Beskeder</span>
       </li>
       {#each searchResults.beskeder as besked}
-        <li class="w-52" transition:fade="{{duration: 200}}">
+        <li class="w-full" transition:fade="{{duration: 200}}">
           <a href="/besked?id={besked.message_id}">{besked.emne}</a>
         </li>
       {/each}
