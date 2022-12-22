@@ -61,8 +61,23 @@
     loadingProgress++;
   });
 
+  let elevObjArray = [];
   get("/informationer").then((data) => {
     $informationer = data;
+    let _elever = {};
+    for (const [key, value] of Object.entries($informationer.elever)) {
+      let navn = key.split("(")[1].split(" ");
+      navn.pop();
+      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      _elever[navn] = value;
+    }
+    $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
+    for (const [key, value] of Object.entries($informationer.elever)) {
+      let navn = key.split("(")[1].split(" ");
+      navn.pop();
+      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      elevObjArray.push({ navn: navn, id: value });
+    }
     loadingProgress++;
   });
 
@@ -75,7 +90,7 @@
     beskeder: [],
     fravaer: [],
     dokumenter: [],
-    informationer: [],
+    elever: [],
   };
 
   function deleteSearchResults() {
@@ -87,7 +102,7 @@
       beskeder: [],
       fravaer: [], //not working currently
       dokumenter: [], //not working currently
-      informationer: [], //not working currently
+      elever: [],
     };
   }
 
@@ -147,7 +162,12 @@
       }
     });
 
-    // rest goes here :)
+    elevObjArray.forEach((elev) => {
+      if (elev.navn.toLowerCase().includes(searchString.toLowerCase())) {
+        searchResults.elever.push(elev);
+      }
+    });
+
     console.log(searchResults);
   }
 </script>
@@ -231,7 +251,20 @@
         </li>
       {/each}
     {/if}
+
+    {#if searchResults.elever.length > 0}
+      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
+        <span>Elever</span>
+      </li>
+      {#each searchResults.elever as elev}
+        <li class="w-full" transition:fade="{{duration: 200}}">
+          <p>{elev.navn}</p>
+        </li>
+      {/each}
+    {/if}
     
+
+
     <!-- add missing things here-->
   </ul>
 </div>
