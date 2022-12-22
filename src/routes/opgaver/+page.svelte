@@ -124,18 +124,20 @@
                 </div>
               </div>
           
-              <div class="flex-1 mr-12">
+              <div class="flex-1 {(opgave.status == "Venter") ? "mr-12" : ""}">
                 <p class="font-bold">{opgave.opgavetitel}</p>
                 <p>{opgave.hold}</p>
                 <p class="line-clamp-1">{opgave.opgavenote}</p>
               </div>
-
+              
+              {#if opgave.status == "Venter"}
               <div class="flex items-center">
                 <div class="absolute right-0 mr-4">
                   <p><strong>Om</strong></p>
                   <p><strong>{dageIndtil(opgave.date)} dage</strong></p>
                 </div>
               </div>
+              {/if}
             </div>
           </a>
         </li>
