@@ -1,5 +1,5 @@
 <script>
-  import { brugeren, nyheder, lektier, forside } from "../../components/store.js";
+  import { brugeren, nyheder, lektier, forside, skema } from "../../components/store.js";
   import { get } from "../../components/http.js";
 
   import MarkdownIt from "markdown-it";
@@ -125,37 +125,41 @@
     {#if $forside}
       <ul class="list max-h-96">
         <h2 class="mb-4 text-2xl font-bold">Kommende moduler</h2>
-        {#each $forside.skema as modul}
-          <a class={colorModul(modul)} href="/modul/?absid={modul['absid']}">
-            {#if modul["navn"]}
-              {#if modul["andet"]}
-                <div class="tooltip flex justify-center" data-tip="Har indhold">
+        {#if $forside.skema.length > 0}
+          {#each $forside.skema as modul}
+            <a class={colorModul(modul)} href="/modul/?absid={modul['absid']}">
+              {#if modul["navn"]}
+                {#if modul["andet"]}
+                  <div class="tooltip flex justify-center" data-tip="Har indhold">
+                    <h1 class="text-xl font-bold">{modul["navn"]} {modul["hold"]}</h1>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-bookmark-fill ml-4 mt-1"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"
+                      />
+                    </svg>
+                  </div>
+                {:else}
                   <h1 class="text-xl font-bold">{modul["navn"]} {modul["hold"]}</h1>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-bookmark-fill ml-4 mt-1"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"
-                    />
-                  </svg>
-                </div>
+                {/if}
               {:else}
-                <h1 class="text-xl font-bold">{modul["navn"]} {modul["hold"]}</h1>
+                <h1 class="text-xl font-bold">{modul["hold"]}</h1>
               {/if}
-            {:else}
-              <h1 class="text-xl font-bold">{modul["hold"]}</h1>
-            {/if}
-            <h1 class="text-sm font-bold">{modul["tidspunkt"]}</h1>
-            {#if modul["lokale"]}
-              <h1 class="text-sm font-bold">{modul["lokale"]}</h1>
-            {/if}
-          </a>
-        {/each}
+              <h1 class="text-sm font-bold">{modul["tidspunkt"]}</h1>
+              {#if modul["lokale"]}
+                <h1 class="text-sm font-bold">{modul["lokale"]}</h1>
+              {/if}
+            </a>
+          {/each}
+        {:else}
+          <p class="mb-4">Ingen kommende moduler</p>            
+        {/if}
       </ul>
     {/if}
     {#if $forside}
@@ -179,20 +183,24 @@
     {#if $lektier}
       <ul class="list max-h-96">
         <h2 class="mb-4 text-2xl font-bold">Lektier</h2>
-        {#each $lektier as lektie}
-          <a href="/modul?absid={lektie.aktivitet.absid}">
-            <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
-              <p class="text-xl font-bold">
-                <span class="font-bold"
-                  >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet
-                    .hold}</span
-                >
-                ({lektie.aktivitet.tidspunkt})
-              </p>
-              <p>{lektie.lektier.beskrivelse}</p>
-            </li>
-          </a>
-        {/each}
+        {#if $lektier.length > 0}
+          {#each $lektier as lektie}
+            <a href="/modul?absid={lektie.aktivitet.absid}">
+              <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+                <p class="text-xl font-bold">
+                  <span class="font-bold"
+                    >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet
+                      .hold}</span
+                  >
+                  ({lektie.aktivitet.tidspunkt})
+                </p>
+                <p>{lektie.lektier.beskrivelse}</p>
+              </li>
+            </a>
+          {/each}
+        {:else}
+          <p class="mb-4">Ingen ulæste beskeder</p>
+        {/if}
       </ul>
     {/if}
     {#if $nyheder}
