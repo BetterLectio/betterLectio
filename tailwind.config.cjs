@@ -3,18 +3,21 @@ module.exports = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
     extend: {
+      colors: {
+        "blurple": "#5865F2"
+      },
       height: {
-				"10v": "10vh",
-				"20v": "20vh",
-				"30v": "30vh",
-				"40v": "40vh",
-				"50v": "50vh",
-				"60v": "60vh",
-				"70v": "70vh",
-				"80v": "80vh",
-				"90v": "90vh",
-				"100v": "100vh",
-			},
+        "10v": "10vh",
+        "20v": "20vh",
+        "30v": "30vh",
+        "40v": "40vh",
+        "50v": "50vh",
+        "60v": "60vh",
+        "70v": "70vh",
+        "80v": "80vh",
+        "90v": "90vh",
+        "100v": "100vh",
+      },
     },
     container: {
       padding: {
@@ -27,18 +30,18 @@ module.exports = {
     },
     keyframes: {
       'fade-in-down': {
-          '0%': {
-              opacity: '0',
-              transform: 'translateY(-10px)'
-          },
-          '100%': {
-              opacity: '1',
-              transform: 'translateY(0)'
-          },
+        '0%': {
+          opacity: '0',
+          transform: 'translateY(-10px)'
+        },
+        '100%': {
+          opacity: '1',
+          transform: 'translateY(0)'
+        },
       }
     },
     animation: {
-        'fade-in-down': 'fade-in-down 0.5s ease-out'
+      'fade-in-down': 'fade-in-down 0.5s ease-out'
     }
   },
   daisyui: {

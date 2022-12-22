@@ -98,7 +98,6 @@
       </a>
     {/if}
   </span>
-
   <span class="mb-2 flex flex-col sm:flex-row">
     <div class="tabs tabs-boxed w-fit">
       <button

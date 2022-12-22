@@ -3,6 +3,7 @@
   import Brugernavn from "../../components/Brugernavn.svelte";
   import { get } from "../../components/http";
   import { informationer } from "../../components/store";
+  import InfiniteLoading from "svelte-infinite-loading";
 
   let ready = false;
   let elevObjArray = [];
@@ -20,11 +21,26 @@
       let navn = key.split("(")[1].split(" ");
       navn.pop();
       navn = `${key.split("(")[0]}(${navn.join(" ")})`;
-      elevObjArray.push({ navn: navn, id: value});
+      elevObjArray.push({ navn: navn, id: value });
     }
     console.log(elevObjArray);
     ready = true;
   });
+
+  let page = 1;
+	let list = [];
+
+  function infiniteHandler({ detail: { loaded, complete } }) {
+    let data = elevObjArray.slice((page - 1) * 10, page * 10);
+    console.log(data);
+    if (data.length) {
+      page += 1;
+      list = [...list, ...data];
+      loaded();
+    } else {
+      complete();
+    }
+  }
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Elev liste</h1>
@@ -37,12 +53,13 @@
 </div>
 
 {#if ready}
-  {#each elevObjArray.slice(0, 10) as elev}
+  {#each list as elev}
     <div class="flex items-center">
-      <Avatar id={elev.id} navn={elev.navn} size="w-14" clickable />
-      <div class="ml-4">
+      <div class="ml-4 mb-4">
         <Brugernavn className="text-xl font-bold" navn={elev.navn} id={elev.id} />
       </div>
     </div>
   {/each}
+
+  <InfiniteLoading on:infinite={infiniteHandler} />
 {/if}

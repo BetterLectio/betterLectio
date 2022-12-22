@@ -1,5 +1,5 @@
 <script>
-  import { brugeren, nyheder, lektier, forside } from "../../components/store.js";
+  import { brugeren, nyheder, lektier, forside, skema } from "../../components/store.js";
   import { get } from "../../components/http.js";
 
   import MarkdownIt from "markdown-it";
@@ -77,10 +77,10 @@
   {/if}
 
   <!-- main content -->
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 mb-4">
-    {#if $forside}
-      <ul class="list p-4 shadow-lg md:col-span-2 xl:row-span-4">
-        <h2 class="mb-4 text-2xl font-bold">Aktuelt</h2>
+  <div class="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+    <ul class="list p-4 shadow-lg md:col-span-2 xl:row-span-4">
+      <h2 class="mb-4 text-2xl font-bold">Aktuelt</h2>
+      {#if $forside}
         {#each $forside["aktuelt"] as aktuelt}
           {#if aktuelt.punkt_farve == "rød"}
             <li class="element border-l-4 border-l-red-400">
@@ -120,11 +120,11 @@
             </li>
           {/if}
         {/each}
-      </ul>
-    {/if}
-    {#if $forside}
-      <ul class="list max-h-96">
-        <h2 class="mb-4 text-2xl font-bold">Kommende moduler</h2>
+      {/if}
+    </ul>
+    <ul class="list max-h-96">
+      <h2 class="mb-4 text-2xl font-bold">Kommende moduler</h2>
+      {#if $forside?.skema.length > 0}
         {#each $forside.skema as modul}
           <a class={colorModul(modul)} href="/modul/?absid={modul['absid']}">
             {#if modul["navn"]}
@@ -156,32 +156,32 @@
             {/if}
           </a>
         {/each}
-      </ul>
-    {/if}
-    {#if $forside}
-      <div class="list max-h-96">
-        <h2 class="mb-4 text-2xl font-bold">Ulæste beskeder</h2>
-        {#if $forside.kommunikation.beskeder.length > 0}
-          {#each $forside.kommunikation.beskeder as besked}
-            <a href="/besked?id={besked['id']}">
-              <div class="element">
-                <p class="text-xl font-bold ">{besked["navn"]}</p>
-                <p class="text-sm ">{besked["afsender"]}</p>
-                <p class="text-xs ">{besked["dato"]}</p>
-              </div>
-            </a>
-          {/each}
-        {:else}
-          <p>Ingen ulæste beskeder</p>
-        {/if}
-      </div>
-    {/if}
-    {#if $lektier}
-      <ul class="list max-h-96">
-        <h2 class="mb-4 text-2xl font-bold">Lektier</h2>
+      {:else}
+        <p class="mb-4">Ingen kommende moduler</p>
+      {/if}
+    </ul>
+    <div class="list max-h-96">
+      <h2 class="mb-4 text-2xl font-bold">Ulæste beskeder</h2>
+      {#if $forside?.kommunikation.beskeder.length > 0}
+        {#each $forside.kommunikation.beskeder as besked}
+          <a href="/besked?id={besked['id']}">
+            <div class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+              <p class="text-xl font-bold ">{besked["navn"]}</p>
+              <p class="text-sm ">{besked["afsender"]}</p>
+              <p class="text-xs ">{besked["dato"]}</p>
+            </div>
+          </a>
+        {/each}
+      {:else}
+        <p class="mb-4">Ingen ulæste beskeder</p>
+      {/if}
+    </div>
+    <ul class="list max-h-96">
+      <h2 class="mb-4 text-2xl font-bold">Lektier</h2>
+      {#if $lektier?.length > 0}
         {#each $lektier as lektie}
           <a href="/modul?absid={lektie.aktivitet.absid}">
-            <li class="element">
+            <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
               <p class="text-xl font-bold">
                 <span class="font-bold"
                   >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet
@@ -193,11 +193,13 @@
             </li>
           </a>
         {/each}
-      </ul>
-    {/if}
-    {#if $nyheder}
-      <ul class="list max-h-96">
-        <h2 class="mb-4 text-2xl font-bold">Nyheder</h2>
+      {:else}
+        <p class="mb-4">Ingen ulæste beskeder</p>
+      {/if}
+    </ul>
+    <ul class="list max-h-96">
+      <h2 class="mb-4 text-2xl font-bold">Nyheder</h2>
+      {#if $nyheder}
         {#each $nyheder as newsItem}
           <li class="element">
             <h3 class="text-xl font-bold ">{newsItem.title}</h3>
@@ -209,7 +211,9 @@
             {/if}
           </li>
         {/each}
-      </ul>
-    {/if}
+      {:else}
+        <p class="mb-4">Ingen nyheder</p>
+      {/if}
+    </ul>
   </div>
 </body>

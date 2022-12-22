@@ -10,6 +10,13 @@ import { goto } from "$app/navigation";
 //     .LastLoginUserName
 // );
 
+export function reloadData(reload=true) {
+  localStorage.setItem("nonce", Date.now().toString(36));
+  if (reload) {
+    window.location.reload();
+  }
+}
+
 export async function get(endpoint) {
   // Wait until the user is authenticated
   while (true) {
@@ -26,10 +33,22 @@ export async function get(endpoint) {
     window.location.href = "/auth";
   }
 
+  let nonce = localStorage.getItem("nonce");
+  if (nonce == null) {
+    reloadData(false);
+    nonce = localStorage.getItem("nonce");
+  }
+
   // Fetch the data from the API
-  const response = await fetch(`https://better-lectio-flask-backend.vercel.app${endpoint}`, {
+  let url = `https://api.betterlectio.dk${endpoint}`
+  if (url.indexOf("?") > -1) {
+    url += "&nonce=" + nonce;
+  } else {
+    url += "?nonce=" + nonce;
+  }
+  const response = await fetch(url, {
     headers: {
-      "lectio-cookie": localStorage.getItem("authentication"),
+      "lectio-cookie": localStorage.getItem("authentication")
     },
   });
 
@@ -39,7 +58,7 @@ export async function get(endpoint) {
     return JSON.parse(textResponse.replace("\n", "  "));
   } else {
     const validationCheck = await (
-      await fetch(`https://better-lectio-flask-backend.vercel.app/check-cookie`, {
+      await fetch(`https://api.betterlectio.dk/check-cookie`, {
         headers: {
           "lectio-cookie": localStorage.getItem("authentication"),
         },
@@ -48,7 +67,7 @@ export async function get(endpoint) {
 
     if (validationCheck?.valid) {
       console.error(
-        `Error fetching data from https://better-lectio-flask-backend.vercel.app${endpoint}`,
+        `Error fetching data from https://api.betterlectio.dk${endpoint}`,
         "validationCheck:",
         validationCheck,
         "response:",
@@ -56,7 +75,7 @@ export async function get(endpoint) {
         "textResponse:",
         textResponse
       );
-      alert(`Error fetching data from https://better-lectio-flask-backend.vercel.app${endpoint}`);
+      alert(`Error fetching data from https://api.betterlectio.dk${endpoint}`);
     } else {
       console.log("Cookie not valid, redirecting to auth page.", "validationCheck:", validationCheck);
       goto("/auth");
