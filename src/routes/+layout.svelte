@@ -71,13 +71,15 @@
 </label>
 
 <input type="checkbox" id="søg-popup" class="modal-toggle" />
-<label for="søg-popup" class="modal cursor-pointer">
-  <label class="modal-box relative" for="">
-    <h3 class="text-xl mb-1 font-bold">Søg Lectio</h3>
-    <p class="mb-4">Søg efter opgaver, elever og meget mere i Lectio.</p>
-    <GlobalSearch />
+{#if localStorage.getItem("authentication")}
+  <label for="søg-popup" class="modal cursor-pointer">
+    <label class="modal-box relative" for="">
+      <h3 class="text-xl mb-1 font-bold">Søg Lectio</h3>
+      <p class="mb-4">Søg efter opgaver, elever og meget mere i Lectio.</p>
+      <GlobalSearch />
+    </label>
   </label>
-</label>
+{/if}
 
 <div class="drawer h-screen">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" bind:checked={checked}> 
