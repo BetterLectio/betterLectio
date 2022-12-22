@@ -17,30 +17,34 @@
   ) {
     _opgaver = sortOpgaver($opgaver);
   }
-  
-  var alleOpgaver = [];
+
   function sortOpgaver(__opgaver) {
     let ikkeAfleveredeOpgaver = [];
     let afleveredeOpgaver = [];
     let afsluttedeOpgaver = [];
 
-    __opgaver.forEach((opgave) => {
+    //loop trouh __opgaver
+    for (const opgave of __opgaver) {
+      let _date = opgave.frist.replace("-", "/").split(" ")
+      let __date = _date[0].split("/")
+      opgave.date = new Date(`${__date[1]}/${__date[0]}-${__date[2]} ${_date[1]}`);
       if (opgave.status == "Afleveret") {
         opgave.class = "btn btn-success";
         afleveredeOpgaver.push(opgave);
+        continue;
       } else if (opgave.status == "Afsluttet") {
         opgave.class = "btn";
         afsluttedeOpgaver.push(opgave);
+        continue;
+      } else if (opgave.status == "Venter") {
+        opgave.class = "btn btn-warning";
       } else {
-        if (opgave.status == "Venter") {
-          opgave.class = "btn btn-warning";
-        } else {
-          opgave.class = "btn btn-error";
-        }
-        ikkeAfleveredeOpgaver.push(opgave);
+        opgave.class = "btn btn-error";
       }
+      ikkeAfleveredeOpgaver.push(opgave);
       afleveredeOpgaver.reverse();
-    });
+    }
+
     if (selected == "ikkeAfleveredeOpgaver") {
       return ikkeAfleveredeOpgaver;
     } else if (selected == "afleveredeOpgaver") {
@@ -52,53 +56,47 @@
 
   let selected = "ikkeAfleveredeOpgaver";
 
-  // cut the opgave.opgavenote to 1 line
-  function cutOpgaveNote(opgave, length) {
-    let opgavenote = opgave.opgavenote;
-    if (opgavenote.length > length) {
-      opgavenote = opgavenote.substring(0, length) + "...";
-    }
-    return opgavenote;
-  }
-  
   let searchString = "";
   function search() {
     selected = "search";
-    
+
     let searchResults = [];
-    $opgaver.forEach(opgave => {
+    $opgaver.forEach((opgave) => {
       if (opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.push(opgave);
       }
-    })
+    });
     _opgaver = searchResults;
+  }
+
+  function dageIndtil(date) {
+    return Math.floor((date.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
   }
 </script>
 
 <div>
   <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <p class="mb-1">Opgave type:</p>
-  <div class="flex flex-col sm:flex-row">
-    <div class="tabs tabs-boxed w-fit">
+  <div class="flex flex-col sm:flex-row ">
+    <div class="tabs tabs-boxed w-full justify-between sm:w-fit">
       <button
         class={selected == "ikkeAfleveredeOpgaver"
-          ? "tab tab-active tab-sm sm:tab-md"
-          : "tab tab-sm sm:tab-md"}
+          ? "tab- tab tab-active tab-lg sm:tab-md"
+          : "tab tab-lg sm:tab-md"}
         on:click={() => {
           selected = "ikkeAfleveredeOpgaver";
         }}>Ikke-afleverede</button
       >
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <button
-        class={selected == "afleveredeOpgaver" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        class={selected == "afleveredeOpgaver" ? "tab tab-active tab-lg sm:tab-md" : "tab tab-lg sm:tab-md"}
         on:click={() => {
           selected = "afleveredeOpgaver";
         }}>Afleverede</button
       >
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <button
-        class={selected == "afsluttedeOpgaver" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        class={selected == "afsluttedeOpgaver" ? "tab tab-active tab-lg sm:tab-md" : "tab tab-lg sm:tab-md"}
         on:click={() => {
           selected = "afsluttedeOpgaver";
         }}>Afsluttet</button
@@ -107,21 +105,37 @@
     <input
       type="text"
       placeholder="Søg"
-      class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
+      class="input input-lg mt-4 w-full bg-base-200 sm:mt-0 sm:ml-4 sm:h-10 sm:w-fit"
       bind:value={searchString}
       on:input={search}
     />
   </div>
 
   {#if _opgaver}
-    <ul class="menu rounded-box my-2 w-full bg-base-100 p-2 drop-shadow-xl md:w-full lg:hidden">
+    <ul class="list my-4 lg:hidden">
       {#each _opgaver as opgave}
-        <li class="block">
-          <a class="block" href="/opgave?exerciseid={opgave.exerciseid}">
-            <div>
-              <p class="{opgave.class} btn-xs w-full">{opgave.opgavetitel} · {opgave.hold}</p>
-              <p>({opgave.frist})</p>
-              <p>{cutOpgaveNote(opgave, 100)}</p>
+        <li class="relative flex {opgave.class} justify-start w-full h-full normal-case font-normal text-left mt-2">
+          <a class="mt-2 mb-2" href="/opgave?exerciseid={opgave.exerciseid}">
+            <div class="flex items-center">
+              <div class="flex-none mr-4">
+                <div>
+                  <p><strong>{opgave.frist.split("-")[0]}</strong></p>
+                  <p><strong>{opgave.frist.split(" ")[1]}</strong></p>
+                </div>
+              </div>
+          
+              <div class="flex-1 mr-12">
+                <p class="font-bold">{opgave.opgavetitel}</p>
+                <p>{opgave.hold}</p>
+                <p class="line-clamp-1">{opgave.opgavenote}</p>
+              </div>
+
+              <div class="flex items-center">
+                <div class="absolute right-0 mr-4">
+                  <p><strong>Om</strong></p>
+                  <p><strong>{dageIndtil(opgave.date)} dage</strong></p>
+                </div>
+              </div>
             </div>
           </a>
         </li>
@@ -147,12 +161,9 @@
               >
               <td class="">{opgave.hold}</td>
               <td class=""><p class="btn-xs btn">{opgave.frist}</p></td>
-              <td class="whitespace-normal text-left" id={opgave.exerciseid}>
-                <div class="hidden whitespace-normal sm:hidden md:hidden lg:block xl:hidden">
-                  {cutOpgaveNote(opgave, 30)}
-                </div>
-                <div class="hidden whitespace-normal sm:hidden md:hidden lg:hidden xl:block">
-                  {cutOpgaveNote(opgave, 50)}
+              <td class="text-left" id={opgave.exerciseid}>
+                <div>
+                  {opgave.opgavenote}
                 </div>
               </td>
             </tr>
