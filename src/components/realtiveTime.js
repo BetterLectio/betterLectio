@@ -76,80 +76,80 @@ function formatDate(date) {
 
 ////////////////
 
-function convertDate(dateString) {
-  const regex = /^(sø|ma|ti|on|to|fr|lø)\s(\d{2}:\d{2})$/;
-  const match = regex.exec(dateString);
-  if (match) {
-    const day = match[1];
-    const time = match[2];
-    const [hours, minutes] = time.split(":");
+// function convertDate(dateString) {
+//   const regex = /^(sø|ma|ti|on|to|fr|lø)\s(\d{2}:\d{2})$/;
+//   const match = regex.exec(dateString);
+//   if (match) {
+//     const day = match[1];
+//     const time = match[2];
+//     const [hours, minutes] = time.split(":");
 
-    // Create a new date object with the current year and month
-    // Set the day based on the input string
-    // Set the hours and minutes based on the input string
-    const date = new Date();
-    date.setFullYear(new Date().getFullYear());
-    date.setMonth(new Date().getMonth());
-    date.setDate(getDayFromName(day));
-    date.setHours(parseInt(hours));
-    date.setMinutes(parseInt(minutes));
+//     // Create a new date object with the current year and month
+//     // Set the day based on the input string
+//     // Set the hours and minutes based on the input string
+//     const date = new Date();
+//     date.setFullYear(new Date().getFullYear());
+//     date.setMonth(new Date().getMonth());
+//     date.setDate(getDayFromName(day));
+//     date.setHours(parseInt(hours));
+//     date.setMinutes(parseInt(minutes));
 
-    return date;
-  }
+//     return date;
+//   }
 
-  const regex2 = /^(\d{2})\/(\d{2})-(\d{4})$/;
-  const match2 = regex2.exec(dateString);
-  if (match2) {
-    const day = match2[1];
-    const month = match2[2];
-    const year = match2[3];
+//   const regex2 = /^(\d{2})\/(\d{2})-(\d{4})$/;
+//   const match2 = regex2.exec(dateString);
+//   if (match2) {
+//     const day = match2[1];
+//     const month = match2[2];
+//     const year = match2[3];
 
-    // Create a new date object with the specified year, month, and day
-    // Set the time to midnight
-    const date = new Date();
-    date.setFullYear(parseInt(year));
-    date.setMonth(parseInt(month) - 1);
-    date.setDate(parseInt(day));
-    date.setHours(0);
-    date.setMinutes(0);
+//     // Create a new date object with the specified year, month, and day
+//     // Set the time to midnight
+//     const date = new Date();
+//     date.setFullYear(parseInt(year));
+//     date.setMonth(parseInt(month) - 1);
+//     date.setDate(parseInt(day));
+//     date.setHours(0);
+//     date.setMinutes(0);
 
-    return date;
-  }
+//     return date;
+//   }
 
-  const regex3 = /^(\d{2}:\d{2})$/;
-  const match3 = regex3.exec(dateString);
-  if (match3) {
-    const time = match3[1];
-    const [hours, minutes] = time.split(":");
+//   const regex3 = /^(\d{2}:\d{2})$/;
+//   const match3 = regex3.exec(dateString);
+//   if (match3) {
+//     const time = match3[1];
+//     const [hours, minutes] = time.split(":");
 
-    // Create a new date object with the current year, month, and day
-    // Set the hours and minutes based on the input string
-    const date = new Date();
-    date.setFullYear(new Date().getFullYear());
-    date.setMonth(new Date().getMonth());
-    date.setDate(new Date().getDate());
-    date.setHours(parseInt(hours));
-    date.setMinutes(parseInt(minutes));
+//     // Create a new date object with the current year, month, and day
+//     // Set the hours and minutes based on the input string
+//     const date = new Date();
+//     date.setFullYear(new Date().getFullYear());
+//     date.setMonth(new Date().getMonth());
+//     date.setDate(new Date().getDate());
+//     date.setHours(parseInt(hours));
+//     date.setMinutes(parseInt(minutes));
 
-    return date;
-  }
+//     return date;
+//   }
 
-  throw new Error("Invalid date string");
-}
+//   throw new Error("Invalid date string");
+// }
 
-function getDayFromName(dayName) {
-  const days = ["sø", "ma", "ti", "on", "to", "fr", "lø"];
-  return days.indexOf(dayName) + 1;
-}
+// function getDayFromName(dayName) {
+//   const days = ["sø", "ma", "ti", "on", "to", "fr", "lø"];
+//   return days.indexOf(dayName) + 1;
+// }
 
-const dateString1 = "sø 15:30";
-const date1 = convertDate(dateString1);
-console.log(date1);
+// const dateString1 = "sø 15:30";
+// const date1 = convertDate(dateString1);
+// console.log(date1);
 
-const dateString2 = "22/12-2022";
-const date2 = convertDate(dateString2);
-console.log(date2);
+// const dateString2 = "22/12-2022";
+// const date2 = convertDate(dateString2);
+// console.log(date2);
 
-const dateString3 = "15:30";
-const date3 = convertDate(dateString3);
-console.log(date3);
+// const dateString3 = "15:30";
+// const date3 = convertDate(dateString3);
+// console.log(date3);

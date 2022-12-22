@@ -22,8 +22,31 @@
   });
 
   get(`/beskeder2`).then((data) => {
-    $beskeder = data;
+    $beskeder = data.map((besked) => {
+      besked.datoObject = convertDate(besked.dato);
+      return besked;
+    });
   });
+
+  function convertDate(dateString) {
+    // Split the date string into parts
+    const parts = dateString.split("-");
+    const year = parseInt(parts[1], 10);
+    const dateparts = parts[0].split("/");
+
+    // Extract the day, month, and year from the parts array
+    const day = parseInt(dateparts[0], 10);
+    const month = parseInt(dateparts[1], 10);
+
+    // Create a new Date object
+    const date = new Date();
+
+    // Set the day, month, and year of the Date object
+    date.setFullYear(year, month - 1, day);
+
+    // Return the Date object
+    return date;
+  }
 
   const CokieInfo = async () => {
     if (!localStorage.getItem("authentication")) {
@@ -98,30 +121,27 @@
 
   <!-- main content -->
   <ul class="list w-full">
-      {#each $beskeder as besked}
-        <li class="mb-2">
-          <a class="block" href="/besked?id={besked.message_id}">
-            <div class="flex justify-between">
-              <div class="flex items-center">
-                {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
-                  <Avatar
-                    id={$informationer.lærereOgElever[besked.førsteBesked]}
-                    navn={besked.førsteBesked}
-                  />
-                {/if}
-                <div class="ml-5">
-                  <p part="emne" class="text-lg font-bold">
-                    {besked.emne}
-                  </p>
-                  <p part="afsender">
-                    {besked.førsteBesked} · {besked.ændret}
-                  </p>
-                </div>
+    {#each $beskeder as besked}
+      <li class="mb-2">
+        <a class="block" href="/besked?id={besked.message_id}">
+          <div class="flex justify-between">
+            <div class="flex items-center">
+              {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
+                <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
+              {/if}
+              <div class="ml-5">
+                <p part="emne" class="text-lg font-bold">
+                  {besked.emne}
+                </p>
+                <p part="afsender">
+                  {besked.førsteBesked} · {besked.ændret}
+                </p>
               </div>
-              <div class="right-1 flex items-center" />
             </div>
-          </a>
-        </li>
-      {/each}
+            <div class="right-1 flex items-center" />
+          </div>
+        </a>
+      </li>
+    {/each}
   </ul>
 </body>
