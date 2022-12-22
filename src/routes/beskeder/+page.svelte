@@ -13,6 +13,7 @@
         - Måske gør så man får al teksten og derfor ikke behøver at klikke på lektien
      */
 
+  let allowed = {};
   get("/informationer").then((data) => {
     $informationer = data;
     let _elever = {};
@@ -23,14 +24,23 @@
       _elever[navn] = value;
     }
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
-  });
 
-  get(`/beskeder2`).then((data) => {
-    $beskeder = data.map((besked) => {
-      besked.datoObject = convertDate(besked.dato);
-      return besked;
+    get(`/beskeder2`).then((data) => {
+      $beskeder = data.map((besked) => {
+        besked.datoObject = convertDate(besked.dato);
+        return besked;
+      });
+      //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
+
+      $beskeder.forEach(besked => {
+        allowed[besked.message_id] = true;
+        besked.modtagere.forEach(modtager => {
+          if ($informationer.lærereOgElever[modtager] == undefined) {
+            allowed[besked.message_id] = false;
+          }
+        })
+      });
     });
-    //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
   });
 
   function convertDate(dateString) {
@@ -153,23 +163,25 @@
                 </div>
                 <div class="right-1 flex items-center">
                   <div class="flex -space-x-4">
-                    {#each besked.modtagere.slice(0, 3) as modtager}
-                      {#if $informationer.lærereOgElever[modtager] != null}
-                        <div class="z-0">
-                          <Avatar
-                            id={$informationer.lærereOgElever[modtager]}
-                            navn={modtager}
-                            size="h-10 w-10"
-                          />
+                    {#if allowed[besked.message_id]}
+                      {#each besked.modtagere.slice(0, 3) as modtager}
+                        {#if $informationer.lærereOgElever[modtager] != null}
+                          <div class="z-0">
+                            <Avatar
+                              id={$informationer.lærereOgElever[modtager]}
+                              navn={modtager}
+                              size="h-10 w-10"
+                            />
+                          </div>
+                        {/if}
+                      {/each}
+                      {#if besked.modtagere.length > 3}
+                        <div
+                          class="z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white"
+                        >
+                          +{besked.modtagere.length - 3}
                         </div>
                       {/if}
-                    {/each}
-                    {#if besked.modtagere.length > 3}
-                      <div
-                        class="z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white"
-                      >
-                        +{besked.modtagere.length - 3}
-                      </div>
                     {/if}
                   </div>
                 </div>
