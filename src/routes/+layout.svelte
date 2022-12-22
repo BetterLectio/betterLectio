@@ -82,7 +82,7 @@
 <div class="drawer h-screen">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" bind:checked={checked}> 
   <div class="drawer-content">
-    <div class="navbar relative z-50 mb-10 bg-base-200">
+    <div class="navbar relative z-50 mb-10">
       <div class="navbar-start">
         <p></p>
         <div class="dropdown">
@@ -219,7 +219,7 @@
               >
             </div>
     
-            <ul tabindex="0" class="dropdown-content menu rounded-box bg-base-100 p-2 shadow">
+            <ul tabindex="0" class="dropdown-content menu rounded-box backdrop-blur-sm bg-white/30 p-2 shadow">
               <div class="mt-2 mb-2 ml-4 mr-4 ">
                 <h1 class="flex justify-start whitespace-nowrap text-lg font-bold">
                   {$brugeren.navn.split(", ")[0]}
@@ -312,7 +312,7 @@
   </div> 
   <div class="drawer-side">
     <label for="menu-drawer" class="drawer-overlay"></label>
-    <ul class="menu p-4 w-80 bg-base-100 text-base-content">
+    <ul class="menu p-4 w-80 backdrop-blur-md bg-base-100/80 text-base-content">
       {#if $brugeren && localStorage.getItem("authentication")}
         <span class="md:hidden">
           <Avatar
@@ -504,7 +504,7 @@
         </li>
         <div class="ml-3 mr-3 mt-2 mb-2 h-px bg-gray-700 border-0"/>
         <li>
-          <label for="logud-modal" class="border-2 border-error-content bg-error">
+          <label for="logud-modal" class="bg-error">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
