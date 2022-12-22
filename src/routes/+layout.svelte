@@ -13,6 +13,7 @@
     themeChange(false);
   });
   import ThemeSelect from "../components/theme-select.svelte";
+  import GlobalSearch from "../components/GlobalSearch.svelte";
   let authed = false;
   async function checkIfAuthed() {
     if (localStorage.getItem("authentication") == null) {
@@ -66,6 +67,15 @@
         >
       </div>
     </span>
+  </label>
+</label>
+
+<input type="checkbox" id="søg-popup" class="modal-toggle" />
+<label for="søg-popup" class="modal cursor-pointer">
+  <label class="modal-box relative" for="">
+    <h3 class="text-xl mb-1 font-bold">Søg Lectio</h3>
+    <p class="mb-4">Søg efter opgaver, elever og meget mere i Lectio.</p>
+    <GlobalSearch />
   </label>
 </label>
 
@@ -184,6 +194,12 @@
         </p>
       </div>
       <div class="navbar-end">
+        {#if $brugeren && localStorage.getItem("authentication")}
+          <label for="søg-popup" class="btn-ghost btn gap-1 normal-case">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg><span class="hidden md:inline">Søg</span></label>
+        {/if}
         <ThemeSelect />
         {#if $brugeren && localStorage.getItem("authentication")}
           <div class="dropdown dropdown-bottom dropdown-end hidden md:block">
