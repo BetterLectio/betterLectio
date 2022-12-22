@@ -40,7 +40,7 @@ export async function get(endpoint) {
   }
 
   // Fetch the data from the API
-  let url = `https://better-lectio-flask-backend.vercel.app${endpoint}`
+  let url = `https://api.betterlectio.dk${endpoint}`
   if (url.indexOf("?") > -1) {
     url += "&nonce=" + nonce;
   } else {
@@ -58,7 +58,7 @@ export async function get(endpoint) {
     return JSON.parse(textResponse.replace("\n", "  "));
   } else {
     const validationCheck = await (
-      await fetch(`https://better-lectio-flask-backend.vercel.app/check-cookie`, {
+      await fetch(`https://api.betterlectio.dk/check-cookie`, {
         headers: {
           "lectio-cookie": localStorage.getItem("authentication"),
         },
@@ -67,7 +67,7 @@ export async function get(endpoint) {
 
     if (validationCheck?.valid) {
       console.error(
-        `Error fetching data from https://better-lectio-flask-backend.vercel.app${endpoint}`,
+        `Error fetching data from https://api.betterlectio.dk${endpoint}`,
         "validationCheck:",
         validationCheck,
         "response:",
@@ -75,7 +75,7 @@ export async function get(endpoint) {
         "textResponse:",
         textResponse
       );
-      alert(`Error fetching data from https://better-lectio-flask-backend.vercel.app${endpoint}`);
+      alert(`Error fetching data from https://api.betterlectio.dk${endpoint}`);
     } else {
       console.log("Cookie not valid, redirecting to auth page.", "validationCheck:", validationCheck);
       goto("/auth");
