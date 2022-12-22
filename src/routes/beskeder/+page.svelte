@@ -146,7 +146,7 @@
           <li class="hover:bg-base-100 p-2 rounded-md">
             <a class="block" href="/besked?id={besked.message_id}">
               <div class="flex justify-between">
-                <div class="flex items-center">
+                <div class="flex items-center ml-1">
                   {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
                     <Avatar
                       id={$informationer.lærereOgElever[besked.førsteBesked]}
@@ -163,7 +163,7 @@
                   </div>
                 </div>
                 <div class="right-1 flex items-center">
-                  <div class="flex -space-x-4">
+                  <div class="flex -space-x-4 mr-1">
                     {#if window.innerWidth > 640}
                       {#if allowed[besked.message_id]}
                         {#each besked.modtagere.slice(0, 3) as modtager}
