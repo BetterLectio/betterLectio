@@ -30,6 +30,7 @@
         besked.datoObject = convertDate(besked.dato);
         return besked;
       });
+      $beskeder = [...$beskeder]
       //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
 
       $beskeder.forEach(besked => {
@@ -139,7 +140,7 @@
 
   <!-- main content -->
   <ul class="list w-full">
-    {#each $beskeder as besked}
+    {#each Array.from($beskeder) as besked}
       {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
         {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
           <li class="mb-2">
