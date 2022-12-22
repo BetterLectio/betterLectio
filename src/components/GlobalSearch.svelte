@@ -158,7 +158,7 @@
     {#if loadingProgress != numOfLoads}
     <input
       type="text"
-      placeholder="Indlæser... ({loadingProgress}/{numOfLoads})"
+      placeholder="Indlæser... {Math.round(loadingProgress/numOfLoads*100)}%"
       id="input"
       class="input-bordered input bg-base-300"
     />
