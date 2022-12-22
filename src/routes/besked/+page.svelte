@@ -34,15 +34,48 @@
   get("/besked?id=" + beskedId).then((data) => {
     besked = data;
   });
+
+  let checked = "";
+  let titel = "";
+  let content = "";
+  let id = "";
+  function handleClick(_besked) {
+    titel = (_besked.titel.indexOf("Re:") > -1) ? "Re: " + besked[0].titel : "Re: " + _besked.titel;
+    id = _besked.id;
+    (checked == "checked") ? checked = "": checked = "checked";
+  }
+  async function sendBesked() {
+    const response = await fetch(
+      `https://api.betterlectio.dk/besvar_besked`,
+      {
+        method: "POST", 
+        headers: {
+          "lectio-cookie": localStorage.getItem("authentication"),
+        },
+        body: JSON.stringify({
+          message_id: beskedId,
+          id: id,
+          titel: titel,
+          content: content
+        })
+      }
+    );
+    if (!response.ok) {
+      alert("Afsendelse af besked fejlede");
+    }
+    get("/besked?id=" + beskedId).then((data) => {
+      besked = data;
+    });
+  }
 </script>
 
-<input type="checkbox" id="besvar-modal" class="modal-toggle" />
+<input type="checkbox" id="besvar-modal" class="modal-toggle" bind:checked={checked} />
 <label for="besvar-modal" class="modal modal-bottom sm:modal-middle cursor-pointer">
   <label class="modal-box relative" for="">
-    <h3 class="font-bold text-lg mb-2">Besvar besked</h3>
-    <textarea class="textarea textarea-bordered resize-none" placeholder="Besked" style="width: 100%; height: 100%;"></textarea>
+    <input type="text" placeholder={titel} bind:value={titel} class="input input-ghost font-bold text-lg mb-2" />
+    <textarea class="textarea textarea-bordered resize-none" placeholder="Besked" bind:value={content} style="width: 100%; height: 100%;"></textarea>
     <div class="modal-action">
-      <label for="besvar-modal" class="btn cursor-not-allowed">{"Send (Virker ikke)"}</label>
+      <label for="besvar-modal" on:click={sendBesked} class="btn">Send</label>
     </div>
   </label>
 </label>
@@ -63,7 +96,7 @@
   <div class="p-4 rounded-lg bg-base-200">
   {#each besked as _besked}
     <div class="relative mt-4 p-4 rounded-lg bg-base-300 break-words" style="margin-left: {_besked.padding_left/2}em;">
-      <label for="besvar-modal" class="absolute bottom-0 right-0 mb-4 mr-4 btn btn-sm">Besvar</label>
+      <button class="absolute bottom-0 right-0 mb-4 mr-4 btn btn-sm" on:click={() => handleClick(_besked)}>Besvar</button>
       <div class="flex items-center">
         <Avatar id={_besked.bruger.id} navn={_besked.bruger.navn} size="w-14" clickable />
         <div class="ml-4">
