@@ -82,7 +82,7 @@
     searchResults = {
       opgaver: [],
       lektier: [], //not working currently
-      forside: [], //not working currently
+      forside: [],
       skema: [],
       beskeder: [],
       fravaer: [], //not working currently
@@ -110,12 +110,12 @@
     //  }
     //});
 
-    // forside not important for now
-    //$forside.forEach((forside) => {
-    //  if (forside.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) {
-    //    searchResults.forside.push(forside);
-    //  }
-    //});
+    
+    $forside.aktuelt.forEach((forside) => {
+      if (forside.text.toLowerCase().includes(searchString.toLowerCase())) {
+        searchResults.forside.push(forside);
+      }
+    });
 
     $skema.moduler.forEach((modul) => {
       if (modul.navn) {
@@ -175,6 +175,8 @@
   </div>
   <!--results-->
   <ul class="menu rounded-box mt-2 w-52 p-1">
+
+
     {#if searchResults.opgaver.length > 0}
       <li class="menu-title w-52" transition:fade="{{duration: 200}}">
         <span>Opgaver</span>
@@ -185,7 +187,20 @@
         </li>
       {/each}
     {/if}
-    <!-- add missing things here-->
+
+
+    {#if searchResults.forside.length > 0}
+      <li class="menu-title w-52" transition:fade="{{duration: 200}}">
+        <span>Forside</span>
+      </li>
+      {#each searchResults.forside as forside}
+        <li class="w-52" transition:fade="{{duration: 200}}">
+          <a href="/forside">{forside.text}</a>
+        </li>
+      {/each}
+    {/if}
+
+
     {#if searchResults.skema.length > 0}
       <li class="menu-title w-52" transition:fade="{{duration: 200}}">
         <span>Skema</span>
@@ -204,6 +219,8 @@
         </li>
       {/each}
     {/if}
+
+
     {#if searchResults.beskeder.length > 0}
       <li class="menu-title w-52" transition:fade="{{duration: 200}}">
         <span>Beskeder</span>
