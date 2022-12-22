@@ -143,7 +143,7 @@
     {#each Array.from($beskeder) as besked}
       {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
         {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
-          <li class="mb-2">
+          <li class="hover:bg-base-100 p-2 rounded-md">
             <a class="block" href="/besked?id={besked.message_id}">
               <div class="flex justify-between">
                 <div class="flex items-center">
