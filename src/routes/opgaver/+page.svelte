@@ -124,10 +124,10 @@
                 </div>
               </div>
           
-              <div class="flex-1 {(opgave.status == "Venter") ? "mr-12" : ""}">
+              <div class="flex-1 {(opgave.status == "Venter") ? "mr-16" : ""}">
                 <p class="font-bold">{opgave.opgavetitel}</p>
                 <p>{opgave.hold}</p>
-                <p class="line-clamp-1">{opgave.opgavenote}</p>
+                <p class="line-clamp-1 {(opgave.status == "Venter") ? "mr-12" : ""}">{opgave.opgavenote}</p>
               </div>
               
               {#if opgave.status == "Venter"}
