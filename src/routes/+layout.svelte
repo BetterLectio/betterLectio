@@ -221,7 +221,7 @@
               >
             </div>
     
-            <ul tabindex="0" class="dropdown-content menu rounded-box backdrop-blur-sm bg-white/30 p-2 shadow">
+            <ul tabindex="0" class="dropdown-content menu rounded-box bg-base-100 p-2 shadow">
               <div class="mt-2 mb-2 ml-4 mr-4 ">
                 <h1 class="flex justify-start whitespace-nowrap text-lg font-bold">
                   {$brugeren.navn.split(", ")[0]}
