@@ -46,11 +46,6 @@
     loadingProgress++;
   });
 
-  get("/beskeder").then((data) => {
-    $beskeder = data;
-    loadingProgress++;
-  });
-
   get("/fravaer").then((data) => {
     $fravaer = data;
     loadingProgress++;
@@ -78,6 +73,37 @@
       navn = `${key.split("(")[0]}(${navn.join(" ")})`;
       elevObjArray.push({ navn: navn, id: value });
     }
+    loadingProgress++;
+  });
+
+  get("/informationer").then((data) => {
+    $informationer = data;
+    let _elever = {};
+    for (const [key, value] of Object.entries($informationer.elever)) {
+      let navn = key.split("(")[1].split(" ");
+      navn.pop();
+      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      _elever[navn] = value;
+    }
+    $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
+
+    get(`/beskeder2`).then((data) => {
+      $beskeder = data.map((besked) => {
+        besked.datoObject = convertDate(besked.dato);
+        return besked;
+      });
+      $beskeder = [...$beskeder]
+      //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
+
+      $beskeder.forEach(besked => {
+        allowed[besked.message_id] = true;
+        besked.modtagere.forEach(modtager => {
+          if ($informationer.lærereOgElever[modtager] == undefined) {
+            allowed[besked.message_id] = false;
+          }
+        })
+      });
+    });
     loadingProgress++;
   });
 
