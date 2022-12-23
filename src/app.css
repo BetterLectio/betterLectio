@@ -14,6 +14,14 @@
   height: 10px;
 }
 
+/*on phones: disable the scrollbars*/
+
+@media (max-width: 640px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @tailwind components;
 @tailwind utilities;
 
