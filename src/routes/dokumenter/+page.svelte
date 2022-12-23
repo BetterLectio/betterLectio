@@ -4,28 +4,15 @@
   import { informationer, dokumenter } from "../../components/store";
   import { get } from "../../components/http";
 
+  import { cookieInfo } from "../../components/CookieInfo";
+  let cookie;
+  cookieInfo().then(data => {
+    cookie = data;
+  })
+
   let lastClickedFolder = null;
   $: breadcrumbs = [{ id: "..", navn: "/" }];
   $: computedBreadcrumbs = breadcrumbs;
-
-  const CokieInfo = async () => {
-    if (!localStorage.getItem("authentication")) {
-      console.log("Redirect");
-      window.location.href = "/auth";
-    } else {
-      let decodedCookie = atob(localStorage.getItem("authentication"));
-      cookie = JSON.parse(decodedCookie);
-      return {
-        user: cookie["LastLoginUserName"],
-        school: cookie["LastLoginExamno"],
-        userid: cookie["LastLoginElevId"],
-      };
-    }
-  };
-  let cookie;
-  CokieInfo().then((data) => {
-    cookie = data;
-  });
 
   get("/informationer").then((data) => {
     $informationer = data;

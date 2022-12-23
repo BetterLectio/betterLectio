@@ -12,10 +12,12 @@
     informationer,
   } from "../components/store.js";
 
-  import { fade } from "svelte/transition";
+  import { blur } from "svelte/transition";
 
   const numOfLoads = 9;
   let loadingProgress = 0;
+
+  let animationDelay = 0;
 
   get("/opgaver").then((data) => {
     $opgaver = data;
@@ -43,11 +45,6 @@
 
   get("/skema").then((data) => {
     $skema = data;
-    loadingProgress++;
-  });
-
-  get("/beskeder").then((data) => {
-    $beskeder = data;
     loadingProgress++;
   });
 
@@ -79,7 +76,41 @@
       elevObjArray.push({ navn: navn, id: value });
     }
     loadingProgress++;
+    get(`/beskeder2`).then((data) => {
+      $beskeder = data.map((besked) => {
+        besked.datoObject = convertDate(besked.dato);
+        return besked;
+      });
+      $beskeder = [...$beskeder]
+    });
+    loadingProgress++;
   });
+
+  function convertDate(dateString) {
+    // Split the date string into parts
+    const allparts = dateString.split(" ");
+    const parts = allparts[0].split("-");
+    const year = parseInt(parts[1], 10);
+    const dateparts = parts[0].split("/");
+
+    const timepart = allparts[1].split(":");
+    const hour = parseInt(timepart[0], 10);
+    const minute = parseInt(timepart[1], 10);
+
+    // Extract the day, month, and year from the parts array
+    const day = parseInt(dateparts[0], 10);
+    const month = parseInt(dateparts[1], 10);
+
+    // Create a new Date object
+    const date = new Date();
+
+    // Set the day, month, and year of the Date object
+    date.setFullYear(year, month - 1, day);
+    date.setHours(hour, minute, 0, 0);
+
+    // Return the Date object
+    return date;
+  }
 
   let searchString = "";
   let searchResults = {
@@ -94,6 +125,7 @@
   };
 
   function deleteSearchResults() {
+    animationDelay = 0;
     searchResults = {
       opgaver: [],
       lektier: [], //not working currently
@@ -153,7 +185,7 @@
       }
     });
 
-    $beskeder.beskeder.forEach((besked) => {
+    $beskeder.forEach((besked) => {
       if (besked.emne.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.beskeder.push(besked);
       } 
@@ -198,35 +230,39 @@
 
 
     {#if searchResults.opgaver.length > 0}
-      <li class="menu-title" transition:fade="{{duration: 200}}">
+    <p class="hidden">{animationDelay++}</p>
+      <li class="menu-title" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
         <span>Opgaver</span>
       </li>
-      {#each searchResults.opgaver as opgave}
-        <li class="w-full" transition:fade="{{duration: 200}}">
+      {#each searchResults.opgaver as opgave, i}
+      <p class="hidden">{animationDelay += i}</p>
+        <li class="w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
           <a href="/opgave?exerciseid={opgave.exerciseid}">{opgave.opgavetitel}</a>
         </li>
       {/each}
     {/if}
 
-
     {#if searchResults.forside.length > 0}
-      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
+    <p class="hidden">{animationDelay++}</p>
+      <li class="menu-title w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
         <span>Forside</span>
       </li>
-      {#each searchResults.forside as forside}
-        <li class="w-full" transition:fade="{{duration: 200}}">
+      {#each searchResults.forside as forside, i}
+      <p class="hidden">{animationDelay += i}</p>
+        <li class="w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
           <a href="/forside" class="w-full overflow-x-scroll">{forside.text}</a>
         </li>
       {/each}
     {/if}
 
-
     {#if searchResults.skema.length > 0}
-      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
+    <p class="hidden">{animationDelay++}</p>
+      <li class="menu-title w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
         <span>Skema</span>
       </li>
-      {#each searchResults.skema as modul}
-        <li class="w-full" transition:fade="{{duration: 200}}">
+      {#each searchResults.skema as modul, i}
+      <p class="hidden">{animationDelay += i}</p>
+        <li class="w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
           <a href="/modul?absid={modul.absid}">
           {#if modul.navn}
             {modul.navn}
@@ -240,24 +276,26 @@
       {/each}
     {/if}
 
-
     {#if searchResults.beskeder.length > 0}
-      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
+    <p class="hidden">{animationDelay++}</p>
+      <li class="menu-title w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
         <span>Beskeder</span>
       </li>
-      {#each searchResults.beskeder as besked}
-        <li class="w-full" transition:fade="{{duration: 200}}">
+      {#each searchResults.beskeder as besked, i}
+      <p class="hidden">{animationDelay += i}</p>
+        <li class="w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
           <a href="/besked?id={besked.message_id}">{besked.emne}</a>
         </li>
       {/each}
     {/if}
-
     {#if searchResults.elever.length > 0}
-      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
-        <span>Elever</span>
+    <p class="hidden">{animationDelay++}</p>
+    <li class="menu-title w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
+      <span>Elever</span>
       </li>
-      {#each searchResults.elever as elev}
-        <li class="w-full" transition:fade="{{duration: 200}}">
+      {#each searchResults.elever as elev, i}
+      <p class="hidden">{animationDelay += i}</p>
+        <li class="w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
           <p>{elev.navn}</p>
         </li>
       {/each}

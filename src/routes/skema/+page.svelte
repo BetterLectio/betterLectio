@@ -10,6 +10,12 @@
   import { skema } from "../../components/store.js";
   import Calendar from "@event-calendar/core";
   import TimeGrid from "@event-calendar/time-grid";
+
+  import { cookieInfo } from "../../components/CookieInfo";
+  let cookie;
+  cookieInfo().then(data => {
+    cookie = data;
+  })
   let ec; // to store the calendar instance and access it's methods
   let plugins = [TimeGrid];
 
@@ -352,25 +358,6 @@
         return "btn btn-info mb-4 block h-fit p-2 normal-case";
     }
   }
-
-  const CokieInfo = async () => {
-    if (!localStorage.getItem("authentication")) {
-      console.log("Redirect");
-      window.location.href = "/auth";
-    } else {
-      let decodedCookie = atob(localStorage.getItem("authentication"));
-      cookie = JSON.parse(decodedCookie);
-      return {
-        user: cookie["LastLoginUserName"],
-        school: cookie["LastLoginExamno"],
-        userid: cookie["LastLoginElevId"],
-      };
-    }
-  };
-  let cookie;
-  CokieInfo().then((data) => {
-    cookie = data;
-  });
 </script>
 
 <svelte:head>
@@ -430,6 +417,7 @@
     </div>
     <h1 class="text-xl font-bold ">{MapDayNrToName(getCurrentdayLive())}</h1>
   </div>
+  {#if dagensModuler.length > 0}
   <div class="flex flex-col rounded-xl bg-base-300 p-4 py-4 pb-0">
     {#each dagensModuler as modul}
       <a class={colorModul(modul)} href="/modul/?absid={modul['absid']}">
@@ -463,4 +451,7 @@
       </a>
     {/each}
   </div>
+  {:else}
+  <p class="text-center">{MapDayNrToName(getCurrentdayLive())} har ingen moduler</p>
+  {/if}
 </div>

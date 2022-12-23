@@ -5,6 +5,12 @@
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
 
+  import { cookieInfo } from "../../components/CookieInfo";
+  let cookie;
+  cookieInfo().then(data => {
+    cookie = data;
+  })
+
   const md = new MarkdownIt();
   const absid = $page.url.searchParams.get("absid");
 
@@ -13,25 +19,6 @@
   let øvrigeIndholdHtml = "";
   let note = "";
   let items = {};
-
-  const CokieInfo = async () => {
-    if (!localStorage.getItem("authentication")) {
-      console.log("Redirect");
-      window.location.href = "/auth";
-    } else {
-      let decodedCookie = atob(localStorage.getItem("authentication"));
-      cookie = JSON.parse(decodedCookie);
-      return {
-        user: cookie["LastLoginUserName"],
-        school: cookie["LastLoginExamno"],
-        userid: cookie["LastLoginElevId"],
-      };
-    }
-  };
-  let cookie;
-  CokieInfo().then((data) => {
-    cookie = data;
-  });
 
   async function getModul() {
     modul = await get(`/modul?absid=${absid}`);

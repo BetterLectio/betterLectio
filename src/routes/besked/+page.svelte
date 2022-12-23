@@ -6,29 +6,16 @@
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
 
+  import { cookieInfo } from "../../components/CookieInfo";
+  let cookie;
+  cookieInfo().then(data => {
+    cookie = data;
+  })
+
   const md = new MarkdownIt();
 
   const beskedId = new URLSearchParams(window.location.search).get("id");
 
-  const CokieInfo = async () => {
-    if (!localStorage.getItem("authentication")) {
-      console.log("Redirect");
-      window.location.href = "/auth";
-    } else {
-      let decodedCookie = atob(localStorage.getItem("authentication"));
-      cookie = JSON.parse(decodedCookie);
-      return {
-        user: cookie["LastLoginUserName"],
-        school: cookie["LastLoginExamno"],
-        userid: cookie["LastLoginElevId"],
-      };
-    }
-  };
-
-  let cookie;
-  CokieInfo().then((data) => {
-    cookie = data;
-  });
 
   let besked;
   let modtagere;
