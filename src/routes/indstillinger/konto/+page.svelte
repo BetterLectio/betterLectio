@@ -2,12 +2,16 @@
     import { brugeren } from "../../../components/store.js";
     import { get } from "../../../components/http.js";
     import Avatar from "../../../components/Avatar.svelte";
+    import { cookieInfo } from "../../../components/CookieInfo";
+    let cookie;
+    cookieInfo().then(data => {
+      cookie = data;
+    })
   
     get("/mig").then((data) => {
       $brugeren = data;
     });
     const school = localStorage.getItem("skole_id");
-    const cookie = JSON.parse(atob(localStorage.getItem("authentication")));
   </script>
   
   <svelte:body src="http://danml.com/js/download.js" />
@@ -39,13 +43,15 @@
                 <label class="label">
                   <span class="label-text">Profil billed</span>
                 </label>
-                <div class="hover:cursor-not-allowed hover:opacity-70" on:click={() => alert("Denne handling kræver Better Lectio Pro")}>
-                    <Avatar
-                        id={"S" + cookie.LastLoginElevId}
-                        navn={$brugeren.navn}
-                        size="w-20"
-                    />
-                </div>
+                {#if cookie}
+                  <div class="hover:cursor-not-allowed hover:opacity-70" on:click={() => alert("Denne handling kræver Better Lectio Pro")}>
+                      <Avatar
+                          id={"S" + cookie.userid}
+                          navn={$brugeren.navn}
+                          size="w-20"
+                      />
+                  </div>
+                {/if}
             </div>
         </div>
     </div>
