@@ -54,7 +54,7 @@ export async function get(endpoint) {
 
   const textResponse = await response.text();
   if (JSON.parse(textResponse).backend_error == 'string indices must be integers') {
-    localStorage.localStorage.clear();
+    localStorage.clear();
     window.location.href = "/auth";
   } else if (response.ok) {// If the response is ok, return the data, otherwise redirect to the auth page
     return JSON.parse(textResponse.replace("\n", "  "));
