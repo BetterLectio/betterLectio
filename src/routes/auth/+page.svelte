@@ -7,7 +7,7 @@
 
   function tryLoginInWithCookie() {
     if (localStorage.getItem("authentication")) {
-      fetch(`https://better-lectio-flask-backend.vercel.app/check-cookie`, {
+      fetch(`https://api.betterlectio.dk/check-cookie`, {
         headers: {
           "lectio-cookie": localStorage.getItem("authentication"),
         },

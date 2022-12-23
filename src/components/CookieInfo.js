@@ -1,5 +1,5 @@
 export async function cookieInfo() {
-  if (!localStorage.getItem("authentication")) {
+  if (!localStorage.getItem("authentication") && window.location.href.split("?")[0].split("/").at(-1) != "auth") {
     console.log("Redirect");
     window.location.href = "/auth";
   } else {
