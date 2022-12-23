@@ -7,7 +7,13 @@
   import { brugeren } from "../components/store.js";
   import Avatar from "../components/Avatar.svelte";
   import {reloadData} from "../components/http"
+  import { cookieInfo } from "../components/CookieInfo";
   export let data;
+
+  let cookie;
+  cookieInfo().then(data => {
+    cookie = data;
+  })
 
   onMount(() => {
     themeChange(false);
@@ -203,11 +209,11 @@
           </svg><span class="hidden md:inline">Søg</span></label>
         {/if}
         <ThemeSelect />
-        {#if $brugeren && localStorage.getItem("authentication")}
+        {#if $brugeren && localStorage.getItem("authentication") && cookie}
           <div class="dropdown dropdown-bottom dropdown-end hidden md:block">
             <div tabindex="0" class="btn-ghost btn flex justify-end gap-1 font-normal normal-case">
               <Avatar
-                id={"S" + JSON.parse(atob(localStorage.getItem("authentication"))).LastLoginElevId}
+                id={"S" + cookie.userid}
                 navn={$brugeren.navn}
                 size="w-10"
               />
@@ -315,10 +321,10 @@
   <div class="drawer-side">
     <label for="menu-drawer" class="drawer-overlay"></label>
     <ul class="menu p-4 w-80 backdrop-blur-md bg-base-100/80 text-base-content">
-      {#if $brugeren && localStorage.getItem("authentication")}
+      {#if $brugeren && localStorage.getItem("authentication") && cookie}
         <span class="md:hidden">
           <Avatar
-            id={"S" + JSON.parse(atob(localStorage.getItem("authentication"))).LastLoginElevId}
+            id={"S" + cookie.userid}
             navn={$brugeren.navn}
             size="w-20 ml-4"
           />

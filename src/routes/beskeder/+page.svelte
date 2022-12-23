@@ -3,6 +3,12 @@
   import { get } from "../../components/http.js";
   import Avatar from "../../components/Avatar.svelte";
 
+  import { cookieInfo } from "../../components/CookieInfo";
+  let cookie;
+  cookieInfo().then(data => {
+    cookie = data;
+  })
+
   get("/mig").then((data) => {
     $brugeren = data;
   });
@@ -69,25 +75,6 @@
     // Return the Date object
     return date;
   }
-
-  const CokieInfo = async () => {
-    if (!localStorage.getItem("authentication")) {
-      console.log("Redirect");
-      window.location.href = "/auth";
-    } else {
-      let decodedCookie = atob(localStorage.getItem("authentication"));
-      cookie = JSON.parse(decodedCookie);
-      return {
-        user: cookie["LastLoginUserName"],
-        school: cookie["LastLoginExamno"],
-        userid: cookie["LastLoginElevId"],
-      };
-    }
-  };
-  let cookie;
-  CokieInfo().then((data) => {
-    cookie = data;
-  });
 
   let selected = "Alle";
   let searchString = "";
