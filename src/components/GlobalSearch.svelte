@@ -74,38 +74,41 @@
       elevObjArray.push({ navn: navn, id: value });
     }
     loadingProgress++;
-  });
-
-  get("/informationer").then((data) => {
-    $informationer = data;
-    let _elever = {};
-    for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn = key.split("(")[1].split(" ");
-      navn.pop();
-      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
-      _elever[navn] = value;
-    }
-    $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
-
     get(`/beskeder2`).then((data) => {
       $beskeder = data.map((besked) => {
         besked.datoObject = convertDate(besked.dato);
         return besked;
       });
       $beskeder = [...$beskeder]
-      //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
-
-      $beskeder.forEach(besked => {
-        allowed[besked.message_id] = true;
-        besked.modtagere.forEach(modtager => {
-          if ($informationer.lærereOgElever[modtager] == undefined) {
-            allowed[besked.message_id] = false;
-          }
-        })
-      });
     });
     loadingProgress++;
   });
+
+  function convertDate(dateString) {
+    // Split the date string into parts
+    const allparts = dateString.split(" ");
+    const parts = allparts[0].split("-");
+    const year = parseInt(parts[1], 10);
+    const dateparts = parts[0].split("/");
+
+    const timepart = allparts[1].split(":");
+    const hour = parseInt(timepart[0], 10);
+    const minute = parseInt(timepart[1], 10);
+
+    // Extract the day, month, and year from the parts array
+    const day = parseInt(dateparts[0], 10);
+    const month = parseInt(dateparts[1], 10);
+
+    // Create a new Date object
+    const date = new Date();
+
+    // Set the day, month, and year of the Date object
+    date.setFullYear(year, month - 1, day);
+    date.setHours(hour, minute, 0, 0);
+
+    // Return the Date object
+    return date;
+  }
 
   let searchString = "";
   let searchResults = {
@@ -179,7 +182,7 @@
       }
     });
 
-    $beskeder.beskeder.forEach((besked) => {
+    $beskeder.forEach((besked) => {
       if (besked.emne.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.beskeder.push(besked);
       } 
