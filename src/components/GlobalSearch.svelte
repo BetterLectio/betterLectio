@@ -12,10 +12,12 @@
     informationer,
   } from "../components/store.js";
 
-  import { fade } from "svelte/transition";
+  import { blur } from "svelte/transition";
 
   const numOfLoads = 9;
   let loadingProgress = 0;
+
+  let animationDelay = 0;
 
   get("/opgaver").then((data) => {
     $opgaver = data;
@@ -123,6 +125,7 @@
   };
 
   function deleteSearchResults() {
+    animationDelay = 0;
     searchResults = {
       opgaver: [],
       lektier: [], //not working currently
@@ -227,35 +230,39 @@
 
 
     {#if searchResults.opgaver.length > 0}
-      <li class="menu-title" transition:fade="{{duration: 200}}">
+    <p class="hidden">{animationDelay++}</p>
+      <li class="menu-title" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
         <span>Opgaver</span>
       </li>
-      {#each searchResults.opgaver as opgave}
-        <li class="w-full" transition:fade="{{duration: 200}}">
+      {#each searchResults.opgaver as opgave, i}
+      <p class="hidden">{animationDelay += i}</p>
+        <li class="w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
           <a href="/opgave?exerciseid={opgave.exerciseid}">{opgave.opgavetitel}</a>
         </li>
       {/each}
     {/if}
 
-
     {#if searchResults.forside.length > 0}
-      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
+    <p class="hidden">{animationDelay++}</p>
+      <li class="menu-title w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
         <span>Forside</span>
       </li>
-      {#each searchResults.forside as forside}
-        <li class="w-full" transition:fade="{{duration: 200}}">
+      {#each searchResults.forside as forside, i}
+      <p class="hidden">{animationDelay += i}</p>
+        <li class="w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
           <a href="/forside" class="w-full overflow-x-scroll">{forside.text}</a>
         </li>
       {/each}
     {/if}
 
-
     {#if searchResults.skema.length > 0}
-      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
+    <p class="hidden">{animationDelay++}</p>
+      <li class="menu-title w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
         <span>Skema</span>
       </li>
-      {#each searchResults.skema as modul}
-        <li class="w-full" transition:fade="{{duration: 200}}">
+      {#each searchResults.skema as modul, i}
+      <p class="hidden">{animationDelay += i}</p>
+        <li class="w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
           <a href="/modul?absid={modul.absid}">
           {#if modul.navn}
             {modul.navn}
@@ -269,24 +276,26 @@
       {/each}
     {/if}
 
-
     {#if searchResults.beskeder.length > 0}
-      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
+    <p class="hidden">{animationDelay++}</p>
+      <li class="menu-title w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
         <span>Beskeder</span>
       </li>
-      {#each searchResults.beskeder as besked}
-        <li class="w-full" transition:fade="{{duration: 200}}">
+      {#each searchResults.beskeder as besked, i}
+      <p class="hidden">{animationDelay += i}</p>
+        <li class="w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
           <a href="/besked?id={besked.message_id}">{besked.emne}</a>
         </li>
       {/each}
     {/if}
-
     {#if searchResults.elever.length > 0}
-      <li class="menu-title w-full" transition:fade="{{duration: 200}}">
-        <span>Elever</span>
+    <p class="hidden">{animationDelay++}</p>
+    <li class="menu-title w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
+      <span>Elever</span>
       </li>
-      {#each searchResults.elever as elev}
-        <li class="w-full" transition:fade="{{duration: 200}}">
+      {#each searchResults.elever as elev, i}
+      <p class="hidden">{animationDelay += i}</p>
+        <li class="w-full" in:blur="{{duration: 500, delay: animationDelay*100}}" out:blur>
           <p>{elev.navn}</p>
         </li>
       {/each}
