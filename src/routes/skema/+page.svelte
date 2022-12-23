@@ -430,6 +430,7 @@
     </div>
     <h1 class="text-xl font-bold ">{MapDayNrToName(getCurrentdayLive())}</h1>
   </div>
+  {#if dagensModuler.length > 0}
   <div class="flex flex-col rounded-xl bg-base-300 p-4 py-4 pb-0">
     {#each dagensModuler as modul}
       <a class={colorModul(modul)} href="/modul/?absid={modul['absid']}">
@@ -463,4 +464,7 @@
       </a>
     {/each}
   </div>
+  {:else}
+  <p class="text-center">{MapDayNrToName(getCurrentdayLive())} har ingen moduler</p>
+  {/if}
 </div>
