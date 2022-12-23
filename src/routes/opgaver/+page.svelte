@@ -185,7 +185,7 @@
                 <div class="flex items-center">
                   <div class="absolute right-0 mr-4">
                     <p><strong>Om</strong></p>
-                    <p><strong>{dageIndtil(opgave.date)} dage</strong></p>
+                    <p><strong>{dageIndtil(opgave.date)} {dageIndtil(opgave.date) != 1 ? "dage" : "dag"}</strong></p>
                   </div>
                 </div>
               {/if}
@@ -215,7 +215,7 @@
               <td class="">{opgave.hold}</td>
               <td class="">
                 {#if opgaverIndstillinger.erFristRelativITabel}
-                <p class="btn-xs btn frist">{dageIndtil(opgave.date)} dage</p>
+                <p class="btn-xs btn frist">{dageIndtil(opgave.date)} {dageIndtil(opgave.date) != 1 ? "dage" : "dag"}</p>
                 {:else}
                 <p class="btn-xs btn frist">{opgave.frist}</p>
                 {/if}
