@@ -1,8 +1,8 @@
 <script>
-  import Avatar from "../../components/Avatar.svelte";
-  import Brugernavn from "../../components/Brugernavn.svelte";
-  import { get } from "../../components/http";
-  import { informationer } from "../../components/store";
+  import Avatar from "../../../components/Avatar.svelte";
+  import Brugernavn from "../../../components/Brugernavn.svelte";
+  import { get } from "../../../components/http";
+  import { informationer } from "../../../components/store";
   import InfiniteLoading from "svelte-infinite-loading";
 
   let ready = false;
@@ -28,7 +28,7 @@
   });
 
   let page = 1;
-	let list = [];
+  let list = [];
 
   function infiniteHandler({ detail: { loaded, complete } }) {
     let data = elevObjArray.slice((page - 1) * 10, page * 10);
