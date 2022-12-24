@@ -1,28 +1,30 @@
-function formatDate(date) {
-  const difference = Date.now() - date;
-  const RelativeTimeFormat = new Intl.RelativeTimeFormat(`da`, { style: `narrow` });
-  if (difference < 60) {
+export function formatDate(date) {
+  const difference = ((date.getTime() - Date.now()) / 1000).toFixed(0);
+  console.log(difference);
+  const RelativeTimeFormat = new Intl.RelativeTimeFormat(`da`, { style: `long` });
+  if (Math.abs(difference) < 60) {
     // Less than a minute has passed:
     return RelativeTimeFormat.format(difference, "second");
-  } else if (difference < 3600) {
+  } else if (Math.abs(difference) < 3600) {
     // Less than an hour has passed:
     return RelativeTimeFormat.format(Math.floor(difference / 60), "minute");
-  } else if (difference < 86400) {
+  } else if (Math.abs(difference) < 86400) {
     // Less than a day has passed:
     return RelativeTimeFormat.format(Math.floor(difference / 3600), "hour");
-  } else if (difference < 2620800) {
+  } else if (Math.abs(difference) < 2620800) {
     // Less than a month has passed:
-    return RelativeTimeFormat.format(Math.floor(difference / 86400, "day"));
+    return RelativeTimeFormat.format(Math.floor(difference / 86400), "day");
+  } else if (Math.abs(difference) < 31449600) {
+    // Less than a year has passed:
+    return RelativeTimeFormat.format(Math.floor(difference / 2620800), "month");
   } else {
+    // More than a year has passed:
     return new Intl.DateTimeFormat("da-DK").format(date);
+    return RelativeTimeFormat.format(Math.floor(difference / 31449600), "year");
   }
-  //   else if (difference < 31449600) {
-  //     // Less than a year has passed:
-  //     output = `${Math.floor(difference / 2620800)} months ago`;
-  //   } else {
-  //     // More than a year has passed:
-  //     output = `${Math.floor(difference / 31449600)} years ago`;
-  //   }
+  // else {
+  //   return new Intl.DateTimeFormat("da-DK").format(date);
+  // }
 }
 
 // //To convert a date in the format "DD/MM-YYYY HH:MM" to a JavaScript Date object, you can use the following code:

@@ -1,5 +1,5 @@
 <script defer>
-  import { get } from "../../components/http.js";
+  import { get } from "../../../components/http.js";
 
   let counterIsVisible = true;
 
