@@ -214,23 +214,16 @@
       <!-- <GlobalSearch /> -->
       <div class="flex w-full flex-col rounded-lg bg-base-200 p-2">
         <div class="flex w-full flex-row">
-          {#if loadingProgress != numOfLoads}
-            <input
-              type="text"
-              placeholder="Indlæser... {Math.round((loadingProgress / numOfLoads) * 100)}%"
-              id="input"
-              class="input-bordered input w-full bg-base-300"
-            />
-          {:else}
-            <input
-              type="text"
-              placeholder="Søg"
-              id="input"
-              class="input-bordered input-primary input w-full bg-base-300"
-              bind:value={searchString}
-              on:change={search}
-            />
-          {/if}
+          <input
+            type="text"
+            placeholder={loadingProgress >= numOfLoads
+              ? "Søg"
+              : `Indlæser... ${Math.round((loadingProgress / numOfLoads) * 100)}%`}
+            id="input"
+            class="input-bordered input-primary input w-full bg-base-300"
+            bind:value={searchString}
+            on:change={search}
+          />
         </div>
         <!--results-->
         <ul class="menu rounded-box mt-2 p-1">
