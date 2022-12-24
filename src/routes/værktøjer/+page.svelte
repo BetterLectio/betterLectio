@@ -19,4 +19,10 @@
       <span part="emne" class="text-lg font-bold">Elev liste</span>
     </li>
   </a>
+  <a class="flex-row " href="/værktøjer/ledigelokaler">
+    <li class="element flex border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+      <span part="afsender" class="btn-xs btn mr-4 w-fit">BETA</span>
+      <span part="emne" class="text-lg font-bold">Find ledige lokaler</span>
+    </li>
+  </a>
 </ul>
