@@ -2,6 +2,7 @@
   import { get } from "../../components/http.js";
   import { opgaver } from "../../components/store.js";
   import { fade } from "svelte/transition";
+  import { formatDate } from "../../components/realtiveTime.js";
 
   let _opgaver = [];
 
@@ -29,6 +30,7 @@
       selected == "afsluttedeOpgaver")
   ) {
     _opgaver = sortOpgaver($opgaver);
+    console.log(_opgaver);
   }
 
   $: if (opgaverIndstillinger.visHeleBeskrivelsenITabel) {
@@ -95,10 +97,6 @@
     });
     _opgaver = searchResults;
   }
-
-  function dageIndtil(date) {
-    return Math.floor((date.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
-  }
 </script>
 
 <div>
@@ -136,7 +134,7 @@
       bind:value={searchString}
       on:input={search}
     />
-    <div class="dropdown-end dropdown dropdown-bottom ml-4 hidden lg:inline-flex">
+    <div class="dropdown-end dropdown-bottom dropdown ml-4 hidden lg:inline-flex">
       <label tabindex="0" class="btn-sm btn m-0 h-10"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
@@ -218,9 +216,7 @@
                   <div class="absolute right-0 mr-4">
                     <p><strong>Om</strong></p>
                     <p>
-                      <strong
-                        >{dageIndtil(opgave.date)} {dageIndtil(opgave.date) != 1 ? "dage" : "dag"}</strong
-                      >
+                      <strong>{formatDate(opgave.date)}</strong>
                     </p>
                   </div>
                 </div>
@@ -252,8 +248,7 @@
               <td class="">
                 {#if opgaverIndstillinger.erFristRelativITabel}
                   <p class="frist btn-xs btn">
-                    {dageIndtil(opgave.date)}
-                    {dageIndtil(opgave.date) != 1 ? "dage" : "dag"}
+                    {formatDate(opgave.date)}
                   </p>
                 {:else}
                   <p class="frist btn-xs btn">{opgave.frist}</p>
