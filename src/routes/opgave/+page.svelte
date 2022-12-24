@@ -9,9 +9,9 @@
 
   import { cookieInfo } from "../../components/CookieInfo";
   let cookie;
-  cookieInfo().then(data => {
+  cookieInfo().then((data) => {
     cookie = data;
-  })
+  });
 
   const md = new MarkdownIt();
 
@@ -124,7 +124,7 @@
           {/each}
         </tbody>
       </table>
-    {:else}
+    {:else if cookie?.school}
       <a
         href="https://www.lectio.dk/lectio/{cookie.school}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
         class="btn-primary btn">Aflever Her!</a
