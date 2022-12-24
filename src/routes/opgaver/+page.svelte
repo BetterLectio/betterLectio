@@ -136,8 +136,9 @@
       bind:value={searchString}
       on:input={search}
     />
-    <div class="dropdown-end dropdown dropdown-bottom ml-4 hidden lg:inline-flex">
-      <label tabindex="0" class="btn-sm btn m-0 h-10"
+    <div class="dropdown-bottom dropdown-end dropdown ml-4 hidden lg:inline-flex">
+      <!-- svelte-ignore a11y-label-has-associated-control -->
+      <label class="btn-sm btn m-0 h-10"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -154,7 +155,7 @@
           />
         </svg></label
       >
-      <ul tabindex="0" class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
+      <ul class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow">
         <div class="form-control">
           <label class="label cursor-pointer">
             <span class="label-text">Er frist absolut</span>
