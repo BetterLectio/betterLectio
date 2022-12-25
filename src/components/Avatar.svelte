@@ -22,7 +22,10 @@
     );
     const base64Response = await response.text();
     if (response.ok) {
-      localStorage.setItem("lectio-cookie", await response.headers.get('set-lectio-cookie'));
+      let lectioCookie = await response.headers.get('set-lectio-cookie')
+      if (lectioCookie && lectioCookie != "null") {
+        localStorage.setItem("lectio-cookie", lectioCookie);
+      }
     }
     return base64Response;
   }

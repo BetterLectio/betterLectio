@@ -125,60 +125,62 @@
   </div>
 
   <!-- main content -->
-  <ul class="list w-full">
-    {#each Array.from($beskeder) as besked}
-      {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
-        {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
-          <li class="hover:bg-base-100 p-2 rounded-md">
-            <a class="block" href="/besked?id={besked.message_id}">
-              <div class="flex justify-between">
-                <div class="flex items-center ml-1">
-                  {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
-                    <Avatar
-                      id={$informationer.lærereOgElever[besked.førsteBesked]}
-                      navn={besked.førsteBesked}
-                    />
-                  {/if}
-                  <div class="ml-5">
-                    <p part="emne" class="text-lg font-bold">
-                      {besked.emne}
-                    </p>
-                    <p part="afsender">
-                      {besked.førsteBesked} · {besked.ændret}
-                    </p>
+  {#if $beskeder}
+    <ul class="list w-full">
+      {#each Array.from($beskeder) as besked}
+        {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
+          {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
+            <li class="hover:bg-base-100 p-2 rounded-md">
+              <a class="block" href="/besked?id={besked.message_id}">
+                <div class="flex justify-between">
+                  <div class="flex items-center ml-1">
+                    {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
+                      <Avatar
+                        id={$informationer.lærereOgElever[besked.førsteBesked]}
+                        navn={besked.førsteBesked}
+                      />
+                    {/if}
+                    <div class="ml-5">
+                      <p part="emne" class="text-lg font-bold">
+                        {besked.emne}
+                      </p>
+                      <p part="afsender">
+                        {besked.førsteBesked} · {besked.ændret}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div class="right-1 flex items-center">
-                  <div class="flex -space-x-4 mr-1">
-                    {#if window.innerWidth > 640}
-                      {#if allowed[besked.message_id]}
-                        {#each besked.modtagere.slice(0, 3) as modtager}
-                          {#if $informationer.lærereOgElever[modtager] != null}
-                            <div class="z-0">
-                              <Avatar
-                                id={$informationer.lærereOgElever[modtager]}
-                                navn={modtager}
-                                size="h-10 w-10"
-                              />
+                  <div class="right-1 flex items-center">
+                    <div class="flex -space-x-4 mr-1">
+                      {#if window.innerWidth > 640}
+                        {#if allowed[besked.message_id]}
+                          {#each besked.modtagere.slice(0, 3) as modtager}
+                            {#if $informationer.lærereOgElever[modtager] != null}
+                              <div class="z-0">
+                                <Avatar
+                                  id={$informationer.lærereOgElever[modtager]}
+                                  navn={modtager}
+                                  size="h-10 w-10"
+                                />
+                              </div>
+                            {/if}
+                          {/each}
+                          {#if besked.modtagere.length > 3}
+                            <div
+                              class="z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white"
+                            >
+                              +{besked.modtagere.length - 3}
                             </div>
                           {/if}
-                        {/each}
-                        {#if besked.modtagere.length > 3}
-                          <div
-                            class="z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white"
-                          >
-                            +{besked.modtagere.length - 3}
-                          </div>
                         {/if}
                       {/if}
-                    {/if}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a>
-          </li>
+              </a>
+            </li>
+          {/if}
         {/if}
-      {/if}
-    {/each}
-  </ul>
+      {/each}
+    </ul>
+  {/if}
 </body>
