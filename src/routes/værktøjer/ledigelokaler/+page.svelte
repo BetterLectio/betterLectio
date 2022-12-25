@@ -3,18 +3,38 @@
   import { lokaler } from "../../../components/store.js";
 
   get("/ledige_lokaler").then((data) => {
-    $lokaler = data;
+    let _lokaler = {"ledige": [], "optagede": []};
+    data.forEach(lokale => {
+      if (lokale.status == "ledigt") {
+        _lokaler.ledige.push(lokale);
+      } else if (lokale.status == "optaget") {
+        _lokaler.optagede.push(lokale);
+      }
+    });
+    $lokaler = _lokaler;
   });
 </script>
 
-<ul class="list">
+<ul class="list mb-4">
   <h1 class="pb-2 text-2xl font-bold">Ledige lokaler</h1>
-  {#each $lokaler as lokale}
-    {#if lokale.status == "ledigt"}
-      <li class="element flex justify-between">
-        <p class="text-lg font-bold">{lokale.lokale}</p>
-        <p class="text-sm">{lokale.status}</p>
-      </li>
-    {/if}
+  {#each $lokaler.ledige as lokale}
+    <li class="flex md:justify-between btn btn-success mb-2">
+      <p class="text-lg font-bold">{lokale.lokale}</p>
+    </li>
   {/each}
+  {#if $lokaler.ledige.length == 0}
+    <p class="mb-2">Der er ingen optagede lokaler!</p>
+  {/if}
+</ul>
+
+<ul class="list mb-4">
+  <h1 class="pb-2 text-2xl font-bold">Optagede lokaler</h1>
+  {#each $lokaler.optagede as lokale}
+    <li class="flex justify-between btn btn-error mb-2">
+      <p class="text-lg font-bold">{lokale.lokale}</p>
+    </li>
+  {/each}
+  {#if $lokaler.optagede.length == 0}
+    <p class="mb-2">Der er ingen optagede lokaler!</p>
+  {/if}
 </ul>
