@@ -53,6 +53,7 @@ def auth():
         lectioClient = lectio.sdk(brugernavn=brugernavn, adgangskode=adgangskode, skoleId=skoleId)
         resp = make_response(jsonify({"success": True}))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"success": False, "backend_error": str(e)}), 500
@@ -67,6 +68,7 @@ def checkCookie():
 
         resp = make_response(jsonify({"valid": True}))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception:
         return jsonify({"valid": False}), 500, cookie
@@ -80,6 +82,7 @@ def mig():
 
         resp = make_response(jsonify(lectioClient.fåElev(lectioClient.elevId)))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -98,6 +101,7 @@ def skema():
 
         resp = make_response(jsonify(lectioClient.skema(uge=uge, år=år)))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -112,6 +116,7 @@ def lektier():
 
         resp = make_response(jsonify(lectioClient.lektier()))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -125,6 +130,7 @@ def opgaver():
 
         resp = make_response(jsonify(lectioClient.opgaver()))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -138,6 +144,7 @@ def modul():
 
         resp = make_response(jsonify(lectioClient.modul(absid=absid)))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -152,6 +159,7 @@ def besked():
 
         resp = make_response(jsonify(lectioClient.besked(message_id=id)))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -166,6 +174,7 @@ def beskeder():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
         resp = make_response(jsonify(lectioClient.beskeder(id=id)))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -202,6 +211,7 @@ def beskeder2():
 
         resp = make_response(jsonify(beskeder))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -217,6 +227,7 @@ def result():
 
         resp = make_response(jsonify({"success": True}))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -231,6 +242,7 @@ def informationer():
 
         resp = make_response(jsonify(lectioClient.informationer()))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -251,6 +263,7 @@ def profilBilled():
 
         resp = make_response(base64.encodebytes(lectioClient.fåFil(url)))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     else:
         return Response(status=400)
@@ -265,6 +278,7 @@ def opgave():
 
         resp = make_response(jsonify(lectioClient.opgave(exerciseid=exerciseid)))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -279,6 +293,7 @@ def fravaer():
 
         resp = make_response(jsonify(lectioClient.fravær()))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -293,6 +308,7 @@ def dokumenter():
 
         resp = make_response(jsonify(lectioClient.dokumenter(folderid=folderid)))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -306,6 +322,7 @@ def forside():
 
         resp = make_response(jsonify(lectioClient.forside()))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -319,6 +336,7 @@ def ledige_lokaler():
 
         resp = make_response(jsonify(lectioClient.ledigeLokaler()))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
