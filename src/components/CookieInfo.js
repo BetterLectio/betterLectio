@@ -1,9 +1,9 @@
 export async function cookieInfo() {
-  if (!localStorage.getItem("authentication") && window.location.href.split("?")[0].split("/").at(-1) != "auth") {
+  if (!localStorage.getItem("lectio-cookie") && window.location.href.split("?")[0].split("/").at(-1) != "auth") {
     console.log("Redirect");
     window.location.href = "/auth";
   } else {
-    let decodedCookie = atob(localStorage.getItem("authentication"));
+    let decodedCookie = atob(localStorage.getItem("lectio-cookie"));
     let cookie = JSON.parse(decodedCookie);
     let userDict = {
       user: '',

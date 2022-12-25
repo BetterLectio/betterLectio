@@ -40,7 +40,7 @@
       {
         method: "POST", 
         headers: {
-          "lectio-cookie": localStorage.getItem("authentication"),
+          "lectio-cookie": localStorage.getItem("lectio-cookie"),
         },
         body: JSON.stringify({
           message_id: beskedId,

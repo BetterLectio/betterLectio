@@ -6,10 +6,10 @@
   let options = { "": "" };
 
   function tryLoginInWithCookie() {
-    if (localStorage.getItem("authentication")) {
+    if (localStorage.getItem("lectio-cookie") || localStorage.getItem("lectio-cookie") != "null") {
       fetch(`https://api.betterlectio.dk/check-cookie`, {
         headers: {
-          "lectio-cookie": localStorage.getItem("authentication"),
+          "lectio-cookie": localStorage.getItem("lectio-cookie"),
         },
       }).then((res) => {
         res.json().then((data) => {
@@ -66,7 +66,7 @@
       console.log("Logging into lectio");
       let progress = document.querySelector(".AOC");
       progress.classList.add("loading");
-      const response = await fetch(`https://better-lectio-flask-backend.vercel.app/auth`, {
+      const response = await fetch(`https://api.betterlectio.dk/auth`, {
         headers: {
           brugernavn: brugernavn,
           adgangskode: adgangskode,
@@ -87,7 +87,7 @@
         localStorage.clear();
         localStorage.setItem("theme", theme);
         setSkole();
-        localStorage.setItem("authentication", authentication);
+        localStorage.setItem("lectio-cookie", await response.headers.get('set-lectio-cookie'));
         window.location.href = "/forside";
       }
     }
@@ -211,7 +211,7 @@
                 Når du logger ind accepterer du automatisk vores
                 <a
                   class="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                  href="https://betlec.netlify.app/tos">TOS</a
+                  href="/tos">TOS</a
                 >
               </p>
               <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
