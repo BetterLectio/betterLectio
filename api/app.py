@@ -60,7 +60,7 @@ def auth():
 
 @app.route('/check-cookie')
 def checkCookie():
-    cookie = request.cookies.get("lectio-cookie")
+    cookie = request.headers.get("lectio-cookie")
 
     try:
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -77,7 +77,7 @@ def checkCookie():
 @cache_for(minutes=5)
 def mig():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.fåElev(lectioClient.elevId)))
@@ -92,7 +92,7 @@ def mig():
 @cache_for(minutes=5)
 def skema():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
 
         uge = request.args.get("uge")
         år = request.args.get("år")
@@ -110,7 +110,7 @@ def skema():
 @cache_for(minutes=5)
 def lektier():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
@@ -124,7 +124,7 @@ def lektier():
 @cache_for(minutes=5)
 def opgaver():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
@@ -137,7 +137,7 @@ def opgaver():
 @app.route('/modul')
 def modul():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
         absid = request.args.get("absid")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -152,7 +152,7 @@ def modul():
 @app.route('/besked')
 def besked():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
         id = request.args.get("id")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -168,7 +168,7 @@ def besked():
 @cache_for(minutes=5)
 def beskeder():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
         id = request.args.get("id")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -183,7 +183,7 @@ def beskeder():
 @cache_for(minutes=5)
 def beskeder2():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
@@ -219,7 +219,7 @@ def beskeder2():
 @app.route('/besvar_besked', methods=['POST'])
 def result():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
         data = request.get_json(force=True)
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -236,7 +236,7 @@ def result():
 @cache_for(minutes=10080) # 1 week 
 def informationer():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
@@ -250,7 +250,7 @@ def informationer():
 @app.route('/profil_billed')
 @cache_for(minutes=20160) # 2 weeks
 def profilBilled():
-    cookie = request.cookies.get("lectio-cookie")
+    cookie = request.headers.get("lectio-cookie")
     id = request.args.get("id")
     fullsize = request.args.get("fullsize")
 
@@ -271,7 +271,7 @@ def profilBilled():
 @app.route("/opgave")
 def opgave():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
         exerciseid = request.args.get("exerciseid")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -287,7 +287,7 @@ def opgave():
 @cache_for(minutes=5)
 def fravaer():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
@@ -301,7 +301,7 @@ def fravaer():
 @cache_for(minutes=5)
 def dokumenter():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
         folderid = request.args.get("folderid")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
@@ -316,7 +316,7 @@ def dokumenter():
 @cache_for(minutes=5)
 def forside():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
@@ -330,7 +330,7 @@ def forside():
 @cache_for(minutes=5)
 def ledige_lokaler():
     try:
-        cookie = request.cookies.get("lectio-cookie")
+        cookie = request.headers.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
