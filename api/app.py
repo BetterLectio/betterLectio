@@ -52,7 +52,7 @@ def auth():
 
         lectioClient = lectio.sdk(brugernavn=brugernavn, adgangskode=adgangskode, skoleId=skoleId)
         resp = make_response(jsonify({"success": True}))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"success": False, "backend_error": str(e)}), 500
@@ -66,7 +66,7 @@ def checkCookie():
         lectioClient.fåElev(lectioClient.elevId)
 
         resp = make_response(jsonify({"valid": True}))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception:
         return jsonify({"valid": False}), 500, cookie
@@ -79,7 +79,7 @@ def mig():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.fåElev(lectioClient.elevId)))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -97,7 +97,7 @@ def skema():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.skema(uge=uge, år=år)))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -111,7 +111,7 @@ def lektier():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.lektier()))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -124,7 +124,7 @@ def opgaver():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.opgaver()))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -137,7 +137,7 @@ def modul():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.modul(absid=absid)))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -151,7 +151,7 @@ def besked():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.besked(message_id=id)))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -165,7 +165,7 @@ def beskeder():
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
         resp = make_response(jsonify(lectioClient.beskeder(id=id)))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -201,7 +201,7 @@ def beskeder2():
         beskeder.sort(key=lambda x: datetime.strptime(x['dato'], '%d/%m-%Y %H:%M'), reverse=True)
 
         resp = make_response(jsonify(beskeder))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -216,7 +216,7 @@ def result():
         lectioClient.besvarBesked(data["message_id"], data["id"], data["titel"], data["content"], 1)
 
         resp = make_response(jsonify({"success": True}))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -230,7 +230,7 @@ def informationer():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.informationer()))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -250,7 +250,7 @@ def profilBilled():
             url += f"&fullsize={fullsize}"
 
         resp = make_response(base64.encodebytes(lectioClient.fåFil(url)))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     else:
         return Response(status=400)
@@ -264,7 +264,7 @@ def opgave():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.opgave(exerciseid=exerciseid)))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -278,7 +278,7 @@ def fravaer():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.fravær()))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -292,7 +292,7 @@ def dokumenter():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.dokumenter(folderid=folderid)))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -305,7 +305,7 @@ def forside():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.forside()))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
@@ -318,7 +318,7 @@ def ledige_lokaler():
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
         resp = make_response(jsonify(lectioClient.ledigeLokaler()))
-        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie(), domain='.betterlectio.dk')
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
