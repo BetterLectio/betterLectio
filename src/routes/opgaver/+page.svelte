@@ -214,7 +214,6 @@
               {#if opgave.status == "Venter"}
                 <div class="flex items-center">
                   <div class="absolute right-0 mr-4">
-                    <p><strong>Om</strong></p>
                     <p>
                       <strong>{formatDate(opgave.date)}</strong>
                     </p>
