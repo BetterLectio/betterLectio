@@ -109,7 +109,7 @@
       <button
         class="btn-error btn mt-8 font-bold drop-shadow-xl md:w-fit md:font-normal"
         on:click={() => {
-          localStorage.removeItem("authentication");
+          localStorage.removeItem("lectio-cookie");
           window.location.href = "/";
         }}>Log ud</button
       >

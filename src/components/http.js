@@ -54,7 +54,10 @@ export async function get(endpoint) {
 
   const textResponse = await response.text();
   if (response.ok) {// If the response is ok, return the data, otherwise redirect to the auth page
-    localStorage.setItem("lectio-cookie", await response.headers.get('set-lectio-cookie'));
+    let lectioCookie = await response.headers.get('set-lectio-cookie')
+    if (lectioCookie && lectioCookie != "null") {
+      localStorage.setItem("lectio-cookie", lectioCookie);
+    }
     return JSON.parse(textResponse.replace("\n", "  "));
   } else {
     const validationCheck = await (
@@ -66,7 +69,10 @@ export async function get(endpoint) {
     ).json();
 
     if (validationCheck?.valid) {
-      localStorage.setItem("lectio-cookie", await response.headers.get('set-lectio-cookie'));
+      let lectioCookie = await response.headers.get('set-lectio-cookie')
+      if (lectioCookie && lectioCookie != "null") {
+        localStorage.setItem("lectio-cookie", lectioCookie);
+      }
       console.error(
         `Error fetching data from https://api.betterlectio.dk${endpoint}`,
         "validationCheck:",
