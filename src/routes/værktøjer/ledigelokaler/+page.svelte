@@ -15,26 +15,28 @@
   });
 </script>
 
-<ul class="list mb-4">
-  <h1 class="pb-2 text-2xl font-bold">Ledige lokaler</h1>
-  {#each $lokaler.ledige as lokale}
-    <li class="flex md:justify-between btn btn-success mb-2">
-      <p class="text-lg font-bold">{lokale.lokale}</p>
-    </li>
-  {/each}
-  {#if $lokaler.ledige.length == 0}
-    <p class="mb-2">Der er ingen optagede lokaler!</p>
-  {/if}
-</ul>
+{#if $lokaler}
+  <ul class="list mb-4">
+    <h1 class="pb-2 text-2xl font-bold">Ledige lokaler</h1>
+    {#each $lokaler.ledige as lokale}
+      <li class="flex md:justify-between btn btn-success mb-2">
+        <p class="text-lg font-bold">{lokale.lokale}</p>
+      </li>
+    {/each}
+    {#if $lokaler.ledige.length == 0}
+      <p class="mb-2">Der er ingen optagede lokaler!</p>
+    {/if}
+  </ul>
 
-<ul class="list mb-4">
-  <h1 class="pb-2 text-2xl font-bold">Optagede lokaler</h1>
-  {#each $lokaler.optagede as lokale}
-    <li class="flex justify-between btn btn-error mb-2">
-      <p class="text-lg font-bold">{lokale.lokale}</p>
-    </li>
-  {/each}
-  {#if $lokaler.optagede.length == 0}
-    <p class="mb-2">Der er ingen optagede lokaler!</p>
-  {/if}
-</ul>
+  <ul class="list mb-4">
+    <h1 class="pb-2 text-2xl font-bold">Optagede lokaler</h1>
+    {#each $lokaler.optagede as lokale}
+      <li class="flex justify-between btn btn-error mb-2">
+        <p class="text-lg font-bold">{lokale.lokale}</p>
+      </li>
+    {/each}
+    {#if $lokaler.optagede.length == 0}
+      <p class="mb-2">Der er ingen optagede lokaler!</p>
+    {/if}
+  </ul>
+{/if}
