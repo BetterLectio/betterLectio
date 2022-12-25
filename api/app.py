@@ -1,7 +1,7 @@
 import lectio
 import json
 import base64
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from flask import Response
 from flask_cachecontrol import cache, cache_for, dont_cache, Always, ResponseIsSuccessfulOrRedirect
@@ -14,9 +14,9 @@ import re
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})
 
-#app.logger.disabled = True
-#log = logging.getLogger('werkzeug')
-#log.disabled = True
+app.logger.disabled = True
+log = logging.getLogger('werkzeug')
+log.disabled = True
 
 dateDict = {
     "ma": MO,
@@ -51,18 +51,23 @@ def auth():
         skoleId = request.headers.get('skole_id')
 
         lectioClient = lectio.sdk(brugernavn=brugernavn, adgangskode=adgangskode, skoleId=skoleId)
-        return lectioClient.base64Cookie()
+        resp = make_response(jsonify({"success": True}))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+        return jsonify({"success": False, "backend_error": str(e)}), 500
 
 @app.route('/check-cookie')
 def checkCookie():
-    cookie = request.headers.get("lectio-cookie")
+    cookie = request.cookies.get("lectio-cookie")
 
     try:
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
         lectioClient.fåElev(lectioClient.elevId)
-        return jsonify({"valid": True}), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+
+        resp = make_response(jsonify({"valid": True}))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception:
         return jsonify({"valid": False}), 500, cookie
 #
@@ -70,9 +75,12 @@ def checkCookie():
 @cache_for(minutes=5)
 def mig():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-        return jsonify(lectioClient.fåElev(lectioClient.elevId)), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+
+        resp = make_response(jsonify(lectioClient.fåElev(lectioClient.elevId)))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
@@ -81,13 +89,16 @@ def mig():
 @cache_for(minutes=5)
 def skema():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
 
         uge = request.args.get("uge")
         år = request.args.get("år")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-        return jsonify(lectioClient.skema(uge=uge, år=år)), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+
+        resp = make_response(jsonify(lectioClient.skema(uge=uge, år=år)))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
@@ -95,41 +106,53 @@ def skema():
 @cache_for(minutes=5)
 def lektier():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-        return jsonify(lectioClient.lektier()), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+
+        resp = make_response(jsonify(lectioClient.lektier()))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 @app.route('/opgaver')
 @cache_for(minutes=5)
 def opgaver():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-        return jsonify(lectioClient.opgaver()), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+
+        resp = make_response(jsonify(lectioClient.opgaver()))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 @app.route('/modul')
 def modul():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
         absid = request.args.get("absid")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-        return jsonify(lectioClient.modul(absid=absid)), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+
+        resp = make_response(jsonify(lectioClient.modul(absid=absid)))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
 @app.route('/besked')
 def besked():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
         id = request.args.get("id")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-        return jsonify(lectioClient.besked(message_id=id)), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+
+        resp = make_response(jsonify(lectioClient.besked(message_id=id)))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
@@ -137,11 +160,13 @@ def besked():
 @cache_for(minutes=5)
 def beskeder():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
         id = request.args.get("id")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-        return jsonify(lectioClient.beskeder(id=id)), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+        resp = make_response(jsonify(lectioClient.beskeder(id=id)))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
@@ -149,7 +174,7 @@ def beskeder():
 @cache_for(minutes=5)
 def beskeder2():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
@@ -175,20 +200,24 @@ def beskeder2():
 
         beskeder.sort(key=lambda x: datetime.strptime(x['dato'], '%d/%m-%Y %H:%M'), reverse=True)
 
-        return jsonify(beskeder), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+        resp = make_response(jsonify(beskeder))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
 @app.route('/besvar_besked', methods=['POST'])
 def result():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
         data = request.get_json(force=True)
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
         lectioClient.besvarBesked(data["message_id"], data["id"], data["titel"], data["content"], 1)
 
-        return jsonify({"success": True}), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+        resp = make_response(jsonify({"success": True}))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
@@ -196,17 +225,20 @@ def result():
 @cache_for(minutes=10080) # 1 week 
 def informationer():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-        return jsonify(lectioClient.informationer()), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+
+        resp = make_response(jsonify(lectioClient.informationer()))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
 @app.route('/profil_billed')
 @cache_for(minutes=20160) # 2 weeks
 def profilBilled():
-    cookie = request.headers.get("lectio-cookie")
+    cookie = request.cookies.get("lectio-cookie")
     id = request.args.get("id")
     fullsize = request.args.get("fullsize")
 
@@ -217,21 +249,23 @@ def profilBilled():
         if fullsize != None:
             url += f"&fullsize={fullsize}"
 
-        return Response(base64.encodebytes(lectioClient.fåFil(url)), status=200)
-        #return Response(lectioClient.fåFil(url), status=200, mimetype="image/gif")
+        resp = make_response(base64.encodebytes(lectioClient.fåFil(url)))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     else:
         return Response(status=400)
-        #return Response(lectioClient.session.get("https://www.lectio.dk/lectio/img/defaultfoto_small.jpg").content, mimetype="image/gif")
 
 @app.route("/opgave")
 def opgave():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
         exerciseid = request.args.get("exerciseid")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
-        return jsonify(lectioClient.opgave(exerciseid=exerciseid)), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+        resp = make_response(jsonify(lectioClient.opgave(exerciseid=exerciseid)))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
@@ -239,45 +273,53 @@ def opgave():
 @cache_for(minutes=5)
 def fravaer():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
-        return jsonify(lectioClient.fravær()), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+        resp = make_response(jsonify(lectioClient.fravær()))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 @app.route("/dokumenter")
 @cache_for(minutes=5)
 def dokumenter():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
         folderid = request.args.get("folderid")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
-        return jsonify(lectioClient.dokumenter(folderid=folderid)), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+        resp = make_response(jsonify(lectioClient.dokumenter(folderid=folderid)))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 @app.route("/forside")
 @cache_for(minutes=5)
 def forside():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
-        return jsonify(lectioClient.forside()), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+        resp = make_response(jsonify(lectioClient.forside()))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 @app.route("/ledige_lokaler")
 @cache_for(minutes=5)
 def ledige_lokaler():
     try:
-        cookie = request.headers.get("lectio-cookie")
+        cookie = request.cookies.get("lectio-cookie")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
-        return jsonify(lectioClient.ledigeLokaler()), 200, {"lectio-cookie": lectioClient.base64Cookie()}
+        resp = make_response(jsonify(lectioClient.ledigeLokaler()))
+        resp.set_cookie("lectio-cookie", lectioClient.base64Cookie())
+        return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
