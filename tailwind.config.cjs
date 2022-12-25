@@ -18,6 +18,9 @@ module.exports = {
         "90v": "90vh",
         "100v": "100vh",
       },
+      scale: {
+        "99": "0.99"
+      }
     },
     container: {
       padding: {
