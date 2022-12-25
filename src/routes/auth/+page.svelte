@@ -66,7 +66,7 @@
       console.log("Logging into lectio");
       let progress = document.querySelector(".AOC");
       progress.classList.add("loading");
-      const response = await fetch(`https://better-lectio-flask-backend.vercel.app/auth`, {
+      const response = await fetch(`https://api.betterlectio.dk/auth`, {
         headers: {
           brugernavn: brugernavn,
           adgangskode: adgangskode,
@@ -211,7 +211,7 @@
                 Når du logger ind accepterer du automatisk vores
                 <a
                   class="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                  href="https://betlec.netlify.app/tos">TOS</a
+                  href="/tos">TOS</a
                 >
               </p>
               <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
