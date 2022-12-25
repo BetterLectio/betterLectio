@@ -205,7 +205,7 @@
 </script>
 
 <input type="checkbox" id="søg-popup" class="modal-toggle" on:click={() => loadData()} />
-{#if localStorage.getItem("authentication")}
+{#if localStorage.getItem("lectio-cookie")}
   <label for="søg-popup" class="modal cursor-pointer">
     <label class="modal-box relative" for="">
       <h3 class="mb-1 text-xl font-bold">Søg Lectio</h3>

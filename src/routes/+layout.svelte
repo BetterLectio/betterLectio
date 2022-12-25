@@ -22,7 +22,7 @@
   import GlobalSearch from "../components/GlobalSearch.svelte";
   let authed = false;
   async function checkIfAuthed() {
-    if (localStorage.getItem("authentication") == null) {
+    if (localStorage.getItem("lectio-cookie") == null) {
     } else {
       // Dette neden under er udkomenteret da man automatisk vil blive bedt om at logge ind på /forside hvis cookien ikke virker
       //const response = await fetch(
@@ -139,7 +139,7 @@
       </div>
       <div class="navbar-center hidden xl:flex">
         <ul class="menu menu-horizontal p-0">
-          {#if $brugeren && localStorage.getItem("authentication")}
+          {#if $brugeren && localStorage.getItem("lectio-cookie")}
             <li><a href="/skema">Skema</a></li>
             <li><a href="/opgaver">Opgaver</a></li>
             <li><a href="/lektier">Lektier</a></li>
@@ -192,7 +192,7 @@
         </p>
       </div>
       <div class="navbar-end">
-        {#if $brugeren && localStorage.getItem("authentication")}
+        {#if $brugeren && localStorage.getItem("lectio-cookie")}
           <label for="søg-popup" class="btn-ghost btn gap-1 normal-case">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -209,7 +209,7 @@
           >
         {/if}
         <ThemeSelect />
-        {#if $brugeren && localStorage.getItem("authentication") && cookie}
+        {#if $brugeren && localStorage.getItem("lectio-cookie") && cookie}
           <div class="dropdown-bottom dropdown-end dropdown hidden md:block">
             <div tabindex="0" class="btn-ghost btn flex justify-end gap-1 font-normal normal-case">
               <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-10" />
@@ -330,7 +330,7 @@
   <div class="drawer-side">
     <label for="menu-drawer" class="drawer-overlay" />
     <ul class="menu w-80 bg-base-100/80 p-4 text-base-content backdrop-blur-md">
-      {#if $brugeren && localStorage.getItem("authentication") && cookie}
+      {#if $brugeren && localStorage.getItem("lectio-cookie") && cookie}
         <span class="md:hidden">
           <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-20 ml-4" />
           <div class="mt-2 mb-2 ml-4 mr-4 ">

@@ -6,10 +6,10 @@
   let options = { "": "" };
 
   function tryLoginInWithCookie() {
-    if (localStorage.getItem("authentication")) {
+    if (localStorage.getItem("lectio-cookie") || localStorage.getItem("lectio-cookie") != "null") {
       fetch(`https://api.betterlectio.dk/check-cookie`, {
         headers: {
-          "lectio-cookie": localStorage.getItem("authentication"),
+          "lectio-cookie": localStorage.getItem("lectio-cookie"),
         },
       }).then((res) => {
         res.json().then((data) => {
@@ -87,7 +87,7 @@
         localStorage.clear();
         localStorage.setItem("theme", theme);
         setSkole();
-        localStorage.setItem("authentication", authentication);
+        localStorage.setItem("lectio-cookie", await response.headers.get('set-lectio-cookie'));
         window.location.href = "/forside";
       }
     }

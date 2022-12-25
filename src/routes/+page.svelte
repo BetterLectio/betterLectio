@@ -1,6 +1,6 @@
 <script>
 
-  if (localStorage.getItem("authentication")) {
+  if (localStorage.getItem("lectio-cookie")) {
     window.location.href = "/forside";
   }
 </script>

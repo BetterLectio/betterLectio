@@ -21,14 +21,14 @@ export async function get(endpoint) {
   // Wait until the user is authenticated
   while (true) {
     try {
-      await localStorage.getItem("authentication");
+      await localStorage.getItem("lectio-cookie");
       await window.location.href;
       break;
     } catch (err) {}
     await new Promise((resolve) => setTimeout(resolve, 10));
   }
   // If the user is not authenticated, redirect to the auth page
-  if (!localStorage.getItem("authentication")) {
+  if (!localStorage.getItem("lectio-cookie") || localStorage.getItem("lectio-cookie") == "null") {
     console.log("No cookie, redirecting to auth page");
     window.location.href = "/auth";
   }
@@ -48,7 +48,7 @@ export async function get(endpoint) {
   }
   const response = await fetch(url, {
     headers: {
-      "lectio-cookie": localStorage.getItem("authentication")
+      "lectio-cookie": localStorage.getItem("lectio-cookie")
     },
   });
 
@@ -57,17 +57,19 @@ export async function get(endpoint) {
     localStorage.clear();
     window.location.href = "/auth";
   } else if (response.ok) {// If the response is ok, return the data, otherwise redirect to the auth page
+    localStorage.setItem("lectio-cookie", await response.headers.get('set-lectio-cookie'));
     return JSON.parse(textResponse.replace("\n", "  "));
   } else {
     const validationCheck = await (
       await fetch(`https://api.betterlectio.dk/check-cookie`, {
         headers: {
-          "lectio-cookie": localStorage.getItem("authentication"),
+          "lectio-cookie": localStorage.getItem("lectio-cookie"),
         },
       })
     ).json();
 
     if (validationCheck?.valid) {
+      localStorage.setItem("lectio-cookie", await response.headers.get('set-lectio-cookie'));
       console.error(
         `Error fetching data from https://api.betterlectio.dk${endpoint}`,
         "validationCheck:",

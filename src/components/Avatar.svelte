@@ -16,11 +16,14 @@
       `https://api.betterlectio.dk/profil_billed?id=${id}&fullsize=1`,
       {
         headers: {
-          "lectio-cookie": localStorage.getItem("authentication"),
+          "lectio-cookie": localStorage.getItem("lectio-cookie"),
         },
       }
     );
     const base64Response = await response.text();
+    if (response.ok) {
+      localStorage.setItem("lectio-cookie", await response.headers.get('set-lectio-cookie'));
+    }
     return base64Response;
   }
 
