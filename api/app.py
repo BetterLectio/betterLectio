@@ -14,9 +14,9 @@ import re
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})
 
-app.logger.disabled = True
-log = logging.getLogger('werkzeug')
-log.disabled = True
+#app.logger.disabled = True
+#log = logging.getLogger('werkzeug')
+#log.disabled = True
 
 dateDict = {
     "ma": MO,
@@ -71,7 +71,7 @@ def checkCookie():
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception:
-        return jsonify({"valid": False}), 500, cookie
+        return jsonify({"valid": False}), 500
 #
 @app.route('/mig')
 @cache_for(minutes=5)
