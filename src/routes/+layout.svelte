@@ -165,7 +165,7 @@
             if (authed == true) {
               goto("/forside");
             } else {
-              goto("/login");
+              goto("/auth");
             }
           }}
         >
