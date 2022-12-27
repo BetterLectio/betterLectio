@@ -2,9 +2,9 @@
   import { fly } from "svelte/transition";
   import { quintIn, quintInOut, quintOut } from "svelte/easing";
 
-  if (localStorage.getItem("lectio-cookie")) {
-    window.location.href = "/forside";
-  }
+  //if (localStorage.getItem("lectio-cookie")) {
+  //  window.location.href = "/forside";
+  //}
 </script>
 
 <div class="flex flex-row">
