@@ -1,7 +1,7 @@
 {
     "short_name": "Better Lectio",
     "name": "Better Lectio",
-    "start_url": "/",
+    "start_url": "/forside",
     "icons": [
       {
         "src": "favicon.png",
