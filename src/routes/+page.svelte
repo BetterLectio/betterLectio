@@ -62,7 +62,7 @@
             />
           </svg>Hvordan virker det?</a
         >
-        <a href="https://github.com/BetterLectio/betterLectio" class="btn-secondary btn mt-2 md:ml-4 md:mt-0" in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 1300 }}
+        <a href="https://github.com/BetterLectio/betterLectio" target="_blank" class="btn-secondary btn mt-2 md:ml-4 md:mt-0" in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 1300 }}
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
