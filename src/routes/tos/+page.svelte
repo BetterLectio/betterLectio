@@ -38,11 +38,9 @@
       skoleid m.m. i din browser, for at hente informationer fra Lectio, sender vi denne information til vores
       servere, som derefter sender den videre til Lectio. Vi bruger ikke denne information til noget som
       helst, og vi gemmer den ikke (Tag et kig på vores kode for mere information). For at gøre det nemmere
-      for dig at logge ind. Vi har ikke adgang til denne information og kan ikke se den på vores servere. Vi
-      kan dog ikke garantere, at vores hostingudbydere ikke logger din aktivitet på vores hjemmeside. Din
-      aktivitet på https://betterlectio.dk bliver indsamles af vores analytics værktøj, som er Matomo
-      Analytics. i vores analytics værktøj kan vi ikke se specifikt indhold fra Lectio, men kun generelle
-      statistikker om din aktivitet på betterLectio.
+      for dig at logge ind. Vi har ikke adgang til denne information og kan ikke se den på vores servere. 
+      Vi bliver dog nødt til at gemme dit Lectio bruger-id og skole-id samt eventuelle roller, tilsluttede konti og om du har pro. Denne data vil blive gemt i vores database.
+      Bemærk venligst at vi ikke kan garantere, at vores hostingudbydere ikke logger din aktivitet på vores hjemmeside.
     </p>
   </div>
 </div>
@@ -58,19 +56,6 @@
         class="btn-primary btn-xs btn"
         href="https://github.com/betterLectio/betterLectio">her</a
       >
-    </p>
-  </div>
-</div>
-
-<div tabindex="0" class="collapse-plus rounded-box collapse my-5 border border-base-300 bg-base-300">
-  <div class="collapse-title text-xl font-medium">
-    <h2 class="text-2xl font-bold">5. Analytics</h2>
-  </div>
-  <div class="collapse-content">
-    <p class="my-4">
-      Vi bruger Matomo Analytics på vores hjemmeside for at forstå, hvordan vores brugere interagerer med
-      siden og for at forbedre vores tjenester. Analytics-data indsamles og behandles i overensstemmelse med
-      vores privatlivspolitik.
     </p>
   </div>
 </div>
