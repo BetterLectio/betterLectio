@@ -372,6 +372,7 @@
     <a
       class="btn"
       href={`https://www.lectio.dk/lectio/${cookie.school}/studieplan.aspx?elevid=${cookie.userid}`}
+      target="_blank"
     >
       Se studieplan
     </a>

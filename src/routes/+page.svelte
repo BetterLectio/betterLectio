@@ -2,9 +2,9 @@
   import { fly } from "svelte/transition";
   import { quintIn, quintInOut, quintOut } from "svelte/easing";
 
-  if (localStorage.getItem("lectio-cookie")) {
-    window.location.href = "/forside";
-  }
+  //if (localStorage.getItem("lectio-cookie")) {
+  //  window.location.href = "/forside";
+  //}
 </script>
 
 <div class="flex flex-row">
@@ -26,10 +26,7 @@
         Prøv BetterLectio i dag og oplev, hvordan det kan forbedre din Lectio-oplevelse
       </p>
       <div class="mt-4 flex flex-col md:flex-row">
-        <a
-          href="/auth"
-          class="btn-primary btn"
-          in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 700 }}
+        <a href={(localStorage.getItem("lectio-cookie")) ? "/forside" : "/auth"} class="btn-primary btn" in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 700 }}
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -46,7 +43,7 @@
               fill-rule="evenodd"
               d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
             />
-          </svg>Log ind</a
+          </svg>{(localStorage.getItem("lectio-cookie")) ? "Åben app" : "Log ind"}</a
         >
         <a
           href="/help"
@@ -68,10 +65,7 @@
             />
           </svg>Hvordan virker det?</a
         >
-        <a
-          href="https://github.com/BetterLectio/betterLectio"
-          class="btn-secondary btn mt-2 md:ml-4 md:mt-0"
-          in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 1300 }}
+        <a href="https://github.com/BetterLectio/betterLectio" target="_blank" class="btn-secondary btn mt-2 md:ml-4 md:mt-0" in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 1300 }}
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
