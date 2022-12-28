@@ -26,7 +26,10 @@
         Prøv BetterLectio i dag og oplev, hvordan det kan forbedre din Lectio-oplevelse
       </p>
       <div class="mt-4 flex flex-col md:flex-row">
-        <a href="/auth" class="btn-primary btn" in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 700 }}
+        <a
+          href="/auth"
+          class="btn-primary btn"
+          in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 700 }}
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -45,7 +48,10 @@
             />
           </svg>Log ind</a
         >
-        <a href="/help" class="btn-secondary btn mt-2 md:ml-4 md:mt-0" in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 1000 }}
+        <a
+          href="/help"
+          class="btn-secondary btn mt-2 md:ml-4 md:mt-0"
+          in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 1000 }}
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -62,7 +68,10 @@
             />
           </svg>Hvordan virker det?</a
         >
-        <a href="https://github.com/BetterLectio/betterLectio" class="btn-secondary btn mt-2 md:ml-4 md:mt-0" in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 1300 }}
+        <a
+          href="https://github.com/BetterLectio/betterLectio"
+          class="btn-secondary btn mt-2 md:ml-4 md:mt-0"
+          in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 1300 }}
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -102,19 +111,19 @@
 
 <div class="mt-6 rounded-lg bg-base-200 p-4">
   <h1 class="mb-2 text-4xl font-extrabold">Hvad er BetterLectio?</h1>
+  <p class="w-fit h-fit text-error-content font-bold">BetterLectio er på nuværende tidspunkt under udvikling, det betyder at der kan forekomme fejl og mangler.</p>
 
   <p>
     BetterLectio er en forbredelse af Lectio. Lectio er et dansk webbaseret lektionssystem udviklet af det
-    danske softwarefirma MaCom A/S. vi har udviklet BetterLectio for at gøre det nemmere at bruge Lectio. Vi
+    danske softwarefirma MaCom A/S. Vi har udviklet BetterLectio for at gøre det nemmere at bruge Lectio. Vi
     har fokuseret på at gøre det nemmere at finde informationer, og at gøre det nemmere at få overblik over
-    sin skolegang. og vi har lavet en række andre forbedringer som f.eks. at lave en hel ny brugerflade, som
-    både er mere brugervenlig og mere moderne.
+    sin skolegang. Vi har lavet en række andre forbedringer som f.eks. at lave en hel ny brugerflade, som både
+    er mere brugervenlig og mere moderne.
   </p>
 
   <p class="mt-2 font-semibold">
     BetterLectio er et open source projekt, hvilket betyder at alle kan se koden, og alle kan bidrage til
-    projektet. BetterLectio er på nuværende tidspunkt under udvikling, hvis du har nogle forslag til
-    forbedringer, eller hvis du har fundet en fejl, så er du meget velkommen til åbne en issue, eller lave en
-    pull request.
+    projektet. Hvis du har nogle forslag til forbedringer, eller hvis du har fundet en fejl, så er du meget
+    velkommen til åbne en issue, eller lave en pull request.
   </p>
 </div>
