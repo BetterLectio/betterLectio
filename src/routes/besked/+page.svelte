@@ -22,7 +22,6 @@
   get("/besked?id=" + beskedId).then((data) => {
     besked = data.beskeder;
     modtagere = data.modtagere;
-    console.log(data);
   });
 
   let checked = "";
