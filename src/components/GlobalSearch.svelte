@@ -17,6 +17,8 @@
   const numOfLoads = 9;
   let loadingProgress = 0;
 
+  let elevObjArray = [];
+
   let animationDelay = 0;
   function loadData() {
     get("/opgaver").then((data) => {
@@ -58,7 +60,6 @@
       loadingProgress++;
     });
 
-    let elevObjArray = [];
     get("/informationer").then((data) => {
       $informationer = data;
       let _elever = {};
@@ -143,7 +144,6 @@
     if (searchString == "") return;
 
     deleteSearchResults();
-    console.log(searchString);
 
     $opgaver.forEach((opgave) => {
       if (opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) {
@@ -199,8 +199,6 @@
         searchResults.elever.push(elev);
       }
     });
-
-    console.log(searchResults);
   }
 </script>
 
