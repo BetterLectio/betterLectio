@@ -8,14 +8,40 @@
   import Tema from "./routes/Tema.svelte";
   import Tilslut from "./routes/Tilslut.svelte";
 
+  let pageTransitionDirection;
+
   let prevPage = "";
   let page = "konto"
 
   function changePage(newPage) {
     prevPage = page;
     page = newPage;
+    determineDirection();
     document.getElementById(prevPage).classList.remove("tab-active");
     document.getElementById(page).classList.add("tab-active");
+  }
+
+  function getPagePosition(p) { // more like getPageIndex idk
+    switch (p) {
+      case "konto":
+        return 0;
+      case "api":
+        return 1;
+      case "pro":
+        return 2;
+      case "tema":
+        return 3;
+      case "tilslut":
+        return 4;
+    }
+  }
+
+  function determineDirection() {
+    if (getPagePosition(prevPage) < getPagePosition(page)) {
+      pageTransitionDirection = 40;
+    } else {
+      pageTransitionDirection = -40;
+    }
   }
 </script>
 
@@ -29,23 +55,23 @@
 
 <div>
   {#if page === "konto"}
-    <div in:fly={{ y: -40, duration: 300, delay: 300, easing: quintOut}} out:fly={{ y: 40, duration: 300, easing: quintIn }}>
+    <div in:fly={{ x: -pageTransitionDirection, duration: 300, delay: 300, easing: quintOut}} out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}>
       <Konto />
     </div>
   {:else if page === "api"}
-    <div in:fly={{ y: -40, duration: 300, delay: 300, easing: quintOut}} out:fly={{ y: 40, duration: 300, easing: quintIn }}>
+    <div in:fly={{ x: -pageTransitionDirection, duration: 300, delay: 300, easing: quintOut}} out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}>
       <Api />
     </div>
   {:else if page === "pro"}
-    <div in:fly={{ y: -40, duration: 300, delay: 300, easing: quintOut}} out:fly={{ y: 40, duration: 300, easing: quintIn }}>
+    <div in:fly={{ x: -pageTransitionDirection, duration: 300, delay: 300, easing: quintOut}} out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}>
       <Pro />
     </div>
   {:else if page === "tema"}
-    <div in:fly={{ y: -40, duration: 300, delay: 300, easing: quintOut}} out:fly={{ y: 40, duration: 300, easing: quintIn }}>
+    <div in:fly={{ x: -pageTransitionDirection, duration: 300, delay: 300, easing: quintOut}} out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}>
       <Tema />
     </div>
   {:else if page === "tilslut"}
-    <div in:fly={{ y: -40, duration: 300, delay: 300, easing: quintOut}} out:fly={{ y: 40, duration: 300, easing: quintIn }}>
+    <div in:fly={{ x: -pageTransitionDirection, duration: 300, delay: 300, easing: quintOut}} out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}>
       <Tilslut />
     </div>
   {/if}
