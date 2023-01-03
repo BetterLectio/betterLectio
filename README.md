@@ -34,13 +34,13 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
    - IDÉ - Man kan højre klikke på en anden bruger og så kommer der en popup lidt som på Discord hvor der står en status som er om de har fri eller om de har time og hvilken time de har og med en knap til at skrive til dem osv.
 
 4. fravær side
-- få grafen til at loade på første pageload
+   - få grafen til at loade på første pageload
 
 5. beskeder side
    - IDÉ - :emojis: (UI)
 
 6. features
-   - Tilføj alerts fra daisy ui i alert.js (UI) 1/7
+   - Tilføj alerts fra daisy ui i alert.js (UI)
 
 7. bugs
    - Når man kigger på en side og man så får login siden skal man når man har logget ind blive redirected til den side man originalt var på (client side)
