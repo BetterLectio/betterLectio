@@ -152,7 +152,7 @@
     });
 
     $lektier.forEach((lektie) => {
-      if (lektie.aktivitet.navn.toLowerCase().includes(searchString.toLowerCase())) {
+      if (lektie.aktivitet.navn && lektie.aktivitet.navn.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.lektier.push(lektie);
       } else if (lektie.aktivitet.andet.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.lektier.push(lektie);
