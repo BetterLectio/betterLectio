@@ -25,6 +25,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 2. skema side
    - kunne se andre elevers skema (API) (UI)
+   - se skema for lokaler (API) (UI)
 
 3. værktøjs side (nyttige værktøjer til brugeren)
    - IDÉ - hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
