@@ -53,7 +53,8 @@
       alert("Afsendelse af besked fejlede");
     }
     get("/besked?id=" + beskedId).then((data) => {
-      besked = data;
+      besked = data.beskeder;
+      modtagere = data.modtagere;
     });
   }
 </script>
