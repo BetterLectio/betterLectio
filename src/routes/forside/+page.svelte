@@ -12,12 +12,12 @@
     $brugeren = data;
   });
 
-  get("/lektier").then((data) => {
-    $lektier = data;
-  });
-
   get("/forside").then((data) => {
     $forside = data;
+  });
+
+  get("/lektier").then((data) => {
+    $lektier = data;
   });
 
   const colorDict = {
@@ -72,9 +72,13 @@
 
 <body>
   <!-- greeting -->
-  {#if $brugeren}
-    <h1 class="mb-4 text-3xl font-bold">{getGreeting()}, {$brugeren.navn}</h1>
-  {/if}
+
+  <h1 class="mb-4 text-3xl font-bold">
+    {getGreeting()},
+    {#if $brugeren}
+      {$brugeren.navn}
+    {/if}
+  </h1>
 
   <!-- main content -->
   <div class="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -207,7 +211,7 @@
             <p>{newsItem.body}</p>
             <!--if the newsItem has a link then use it-->
             {#if newsItem.link}
-              <a href={newsItem.link} class="btn-primary btn-sm btn mt-2">{newsItem.linkText}</a>
+              <a href={newsItem.link} target="_blank" class="btn-primary btn-sm btn mt-2">{newsItem.linkText}</a>
             {/if}
           </li>
         {/each}

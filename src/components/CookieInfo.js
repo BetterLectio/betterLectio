@@ -1,5 +1,5 @@
 export async function cookieInfo() {
-  if (!localStorage.getItem("lectio-cookie") && window.location.href.split("?")[0].split("/").at(-1) != "auth") {
+  if (!localStorage.getItem("lectio-cookie") && window.location.href.split("?")[0].split("/").at(-1) != "auth" && window.location.href.split("?")[0].split("/").at(-1) != "") {
     console.log("Redirect");
     window.location.href = "/auth";
   } else {

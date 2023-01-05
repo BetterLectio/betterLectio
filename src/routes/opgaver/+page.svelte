@@ -30,17 +30,14 @@
       selected == "afsluttedeOpgaver")
   ) {
     _opgaver = sortOpgaver($opgaver);
-    console.log(_opgaver);
   }
 
   $: if (opgaverIndstillinger.visHeleBeskrivelsenITabel) {
-    console.log(opgaverIndstillinger);
     document.querySelectorAll(".beskrivelse").forEach((beskrivelse) => {
       beskrivelse.classList.add("whitespace-normal");
     });
     localStorage.setItem("opgaver_indstillinger", JSON.stringify(opgaverIndstillinger));
   } else {
-    console.log(opgaverIndstillinger);
     document.querySelectorAll(".beskrivelse").forEach((beskrivelse) => {
       beskrivelse.classList.remove("whitespace-normal");
     });
@@ -213,9 +210,10 @@
 
               {#if opgave.status == "Venter"}
                 <div class="flex items-center">
-                  <div class="absolute right-0 mr-4">
+                  <div class="absolute right-0 mr-4 text-end">
+                    <p><strong>Om</strong></p>
                     <p>
-                      <strong>{formatDate(opgave.date)}</strong>
+                      <strong>{formatDate(opgave.date).replace("om ", "")}</strong>
                     </p>
                   </div>
                 </div>

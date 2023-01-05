@@ -23,7 +23,6 @@
       navn = `${key.split("(")[0]}(${navn.join(" ")})`;
       elevObjArray.push({ navn: navn, id: value });
     }
-    console.log(elevObjArray);
     ready = true;
   });
 
@@ -32,7 +31,6 @@
 
   function infiniteHandler({ detail: { loaded, complete } }) {
     let data = elevObjArray.slice((page - 1) * 10, page * 10);
-    console.log(data);
     if (data.length) {
       page += 1;
       list = [...list, ...data];

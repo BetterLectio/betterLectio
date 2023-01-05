@@ -5,9 +5,9 @@
 
   import { cookieInfo } from "../../components/CookieInfo";
   let cookie;
-  cookieInfo().then(data => {
+  cookieInfo().then((data) => {
     cookie = data;
-  })
+  });
 
   get("/mig").then((data) => {
     $brugeren = data;
@@ -36,16 +36,16 @@
         besked.datoObject = convertDate(besked.dato);
         return besked;
       });
-      $beskeder = [...$beskeder]
+      $beskeder = [...$beskeder];
       //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
 
-      $beskeder.forEach(besked => {
+      $beskeder.forEach((besked) => {
         allowed[besked.message_id] = true;
-        besked.modtagere.forEach(modtager => {
+        besked.modtagere.forEach((modtager) => {
           if ($informationer.lærereOgElever[modtager] == undefined) {
             allowed[besked.message_id] = false;
           }
-        })
+        });
       });
     });
   });
@@ -88,9 +88,9 @@
   <span class="my-2 flex justify-between">
     <h1 class="text-3xl font-bold">Beskeder</h1>
   </span>
-  <div class="flex justify-between">
+  <div class="flex flex-wrap justify-between">
     <span class="mb-2 flex flex-col sm:flex-row">
-      <div class="tabs tabs-boxed w-fit">
+      <div class="tabs tabs-boxed flex w-full justify-between">
         <button
           class={selected == "Alle" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
           on:click={() => {
@@ -118,8 +118,13 @@
       />
     </span>
     {#if cookie?.userid}
-      <div class="mb-2 flex right-1 items-center bg-base-200 p-1 rounded-md">
-        <a href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`} target="_blank" class="btn btn-sm bg-base-200 border-base-200 text-gray-500 hover:text-gray-100 btn-primary normal-case font-normal">Skriv besked</a>
+      <div class="right-1 mb-2 flex items-center rounded-md bg-base-200 p-1">
+        <a
+          href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
+          target="_blank"
+          class="btn-primary btn-sm btn border-base-200 bg-base-200 font-normal normal-case text-gray-500 hover:text-gray-100"
+          >Skriv besked</a
+        >
       </div>
     {/if}
   </div>
@@ -130,10 +135,10 @@
       {#each Array.from($beskeder) as besked}
         {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
           {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
-            <li class="hover:bg-base-100 p-2 rounded-md">
+            <li class="rounded-md p-2 hover:bg-base-100">
               <a class="block" href="/besked?id={besked.message_id}">
                 <div class="flex justify-between">
-                  <div class="flex items-center ml-1">
+                  <div class="ml-1 flex items-center">
                     {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
                       <Avatar
                         id={$informationer.lærereOgElever[besked.førsteBesked]}
@@ -150,7 +155,7 @@
                     </div>
                   </div>
                   <div class="right-1 flex items-center">
-                    <div class="flex -space-x-4 mr-1">
+                    <div class="mr-1 flex -space-x-4">
                       {#if window.innerWidth > 640}
                         {#if allowed[besked.message_id]}
                           {#each besked.modtagere.slice(0, 3) as modtager}

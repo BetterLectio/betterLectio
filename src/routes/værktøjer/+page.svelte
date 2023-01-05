@@ -6,7 +6,7 @@ import { cookieInfo } from "../../components/CookieInfo";
   cookieInfo().then((data) => {
     cookie = data;
     indhold = {
-      Betterlectio: [
+      "Better Lectio": [
         {
           title: "Hvornår har jeg fri?",
           link: "/værktøjer/fri",

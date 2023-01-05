@@ -1,4 +1,5 @@
 <script>
+  import { reloadData } from "../../components/http";
 
   let brugernavn = "";
   let adgangskode = "";
@@ -91,6 +92,7 @@
         if (lectioCookie && lectioCookie != "null") {
           localStorage.setItem("lectio-cookie", lectioCookie);
         }
+        reloadData();
         window.location.href = "/forside";
       }
     }

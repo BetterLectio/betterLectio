@@ -26,7 +26,6 @@
   let elevId = "";
 
   get("/opgave?exerciseid=" + exerciseid).then((data) => {
-    console.log("data:", data);
     const { oplysninger, opgave_indlæg, gruppemedlemmer, afleveres_af } = data;
 
     const { opgavebeskrivelse, opgavenote, opgavetitel, afleveringsfrist, elevtid, hold, karakterskala } =

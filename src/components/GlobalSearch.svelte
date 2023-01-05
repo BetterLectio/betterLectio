@@ -17,6 +17,8 @@
   const numOfLoads = 9;
   let loadingProgress = 0;
 
+  let elevObjArray = [];
+
   let animationDelay = 0;
   function loadData() {
     get("/opgaver").then((data) => {
@@ -58,7 +60,6 @@
       loadingProgress++;
     });
 
-    let elevObjArray = [];
     get("/informationer").then((data) => {
       $informationer = data;
       let _elever = {};
@@ -143,7 +144,6 @@
     if (searchString == "") return;
 
     deleteSearchResults();
-    console.log(searchString);
 
     $opgaver.forEach((opgave) => {
       if (opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) {
@@ -151,12 +151,13 @@
       }
     });
 
-    // Cant test this because of i dont have any lektier :)
-    //$lektier.forEach((lektie) => {
-    //  if (lektie.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) {
-    //    searchResults.lektier.push(lektie);
-    //  }
-    //});
+    $lektier.forEach((lektie) => {
+      if (lektie.aktivitet.navn && lektie.aktivitet.navn.toLowerCase().includes(searchString.toLowerCase())) {
+        searchResults.lektier.push(lektie);
+      } else if (lektie.aktivitet.andet.toLowerCase().includes(searchString.toLowerCase())) {
+        searchResults.lektier.push(lektie);
+      }
+    });
 
     $forside.aktuelt.forEach((forside) => {
       if (forside.text.toLowerCase().includes(searchString.toLowerCase())) {
@@ -199,8 +200,6 @@
         searchResults.elever.push(elev);
       }
     });
-
-    console.log(searchResults);
   }
 </script>
 
@@ -236,6 +235,19 @@
               <p class="hidden">{(animationDelay += i)}</p>
               <li class="w-full" in:blur={{ duration: 500, delay: animationDelay * 100 }} out:blur>
                 <a href="/opgave?exerciseid={opgave.exerciseid}">{opgave.opgavetitel}</a>
+              </li>
+            {/each}
+          {/if}
+
+          {#if searchResults.lektier.length > 0}
+            <p class="hidden">{animationDelay++}</p>
+            <li class="menu-title" in:blur={{ duration: 500, delay: animationDelay * 100 }} out:blur>
+              <span>Lektier</span>
+            </li>
+            {#each searchResults.lektier as lektie, i}
+              <p class="hidden">{(animationDelay += i)}</p>
+              <li class="w-full" in:blur={{ duration: 500, delay: animationDelay * 100 }} out:blur>
+                <a href="/modul?absid={lektie.aktivitet.absid}">{lektie.aktivitet.navn || lektie.aktivitet.hold}</a>
               </li>
             {/each}
           {/if}

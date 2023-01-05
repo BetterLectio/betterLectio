@@ -22,7 +22,6 @@
 
   async function getModul() {
     modul = await get(`/modul?absid=${absid}`);
-    console.log("modul", modul);
 
     items = {
       Tidspunkt: modul?.aktivitet?.tidspunkt,
