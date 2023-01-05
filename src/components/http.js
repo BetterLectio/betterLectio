@@ -82,7 +82,7 @@ export async function get(endpoint) {
         "textResponse:",
         textResponse
       );
-      alert(`Error fetching data from https://api.betterlectio.dk${endpoint}`);
+      addNotification(`Error fetching data from https://api.betterlectio.dk${endpoint}`, "alert-error");
     } else {
       console.log("Cookie not valid, redirecting to auth page.", "validationCheck:", validationCheck);
       goto("/auth");
