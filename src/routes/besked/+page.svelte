@@ -50,7 +50,7 @@
       }
     );
     if (!response.ok) {
-      alert("Afsendelse af besked fejlede");
+      alert("Beskeden kunne ikke sendes, prøv igen senere.");
     }
     get("/besked?id=" + beskedId).then((data) => {
       besked = data.beskeder;
