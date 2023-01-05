@@ -3,6 +3,7 @@
     import { get } from "../../../components/http.js";
     import Avatar from "../../../components/Avatar.svelte";
     import { cookieInfo } from "../../../components/CookieInfo";
+    import { addNotification } from "../../../components/notifyStore.js";
     let cookie;
     cookieInfo().then(data => {
       cookie = data;
@@ -44,7 +45,7 @@
                   <span class="label-text">Profil billed</span>
                 </label>
                 {#if cookie}
-                  <div class="hover:cursor-not-allowed hover:opacity-70" on:click={() => alert("Denne handling kræver Better Lectio Pro")}>
+                  <div class="hover:cursor-not-allowed hover:opacity-70" on:click={() => addNotification("Denne handling kræver Better Lectio Pro", "alert-error")}>
                       <Avatar
                           id={"S" + cookie.userid}
                           navn={$brugeren.navn}

@@ -8,12 +8,17 @@ export function addNotification(message, bgColor) {
   });
 }
 
-// auto remove notifications after 5 seconds
+// auto remove notifications individually after 5 seconds
 notifications.subscribe((n) => {
-  setTimeout(() => {
-    notifications.update((n) => {
-      n.shift();
-      return n;
-    });
-  }, 5000);
+  n.forEach((notification) => {
+    setTimeout(() => {
+      notifications.update((notifications) => {
+        const index = notifications.indexOf(notification);
+        if (index !== -1) {
+          notifications.splice(index, 1);
+        }
+        return notifications;
+      });
+    }, 5000);
+  });
 });
