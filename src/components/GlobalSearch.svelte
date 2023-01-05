@@ -152,7 +152,7 @@
     });
 
     $lektier.forEach((lektie) => {
-      if (lektie.aktivitet.navn.toLowerCase().includes(searchString.toLowerCase())) {
+      if (lektie.aktivitet.navn && lektie.aktivitet.navn.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.lektier.push(lektie);
       } else if (lektie.aktivitet.andet.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.lektier.push(lektie);
@@ -247,7 +247,7 @@
             {#each searchResults.lektier as lektie, i}
               <p class="hidden">{(animationDelay += i)}</p>
               <li class="w-full" in:blur={{ duration: 500, delay: animationDelay * 100 }} out:blur>
-                <a href="/modul?absid={lektie.aktivitet.absid}">{lektie.aktivitet.navn}</a>
+                <a href="/modul?absid={lektie.aktivitet.absid}">{lektie.aktivitet.navn || lektie.aktivitet.hold}</a>
               </li>
             {/each}
           {/if}
