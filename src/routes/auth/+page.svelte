@@ -1,5 +1,6 @@
 <script>
   import { reloadData } from "../../components/http";
+  import { cookieInfo } from "../../components/CookieInfo";
 
   let brugernavn = "";
   let adgangskode = "";
@@ -92,6 +93,9 @@
         if (lectioCookie && lectioCookie != "null") {
           localStorage.setItem("lectio-cookie", lectioCookie);
         }
+        await cookieInfo().then(async (cookie) => {
+          await fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userid}&skole_id=${cookie.school}`);
+        });
         reloadData();
         window.location.href = "/forside";
       }
