@@ -24,9 +24,11 @@
     $informationer = data;
     let _elever = {};
     for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn = key.split("(")[1].split(" ");
+      let navn = key.split("(").at(-1).split(" ");
       navn.pop();
-      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      navn = navn.join(" ");
+      navn = `${key.split(navn)[0].slice(0, -1)}(${navn})`;
+      console.log(navn);
       _elever[navn] = value;
     }
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
