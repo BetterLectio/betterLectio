@@ -82,6 +82,7 @@
   let addedEventsId = [];
 
   let options = {
+    locale: "da",
     view: "timeGridWeek",
     nowIndicator: true,
     theme: customTheme,
@@ -90,6 +91,7 @@
     slotMinTime: "08:00:00",
     slotMaxTime: "17:00:00",
     events: [],
+    dayHeaderFormat: {weekday: 'long', day: 'numeric', month: 'numeric'},
     buttonText: {today: 'I dag', dayGridMonth: 'måned', listDay: 'list', listWeek: 'list', listMonth: 'list', listYear: 'list', resourceTimeGridDay: 'dag', resourceTimeGridWeek: 'uge', timeGridDay: 'dag', timeGridWeek: 'uge'},
     eventDidMount: (event) => {
       addedEventsId.push(event.event.id);
