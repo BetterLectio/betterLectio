@@ -79,7 +79,7 @@
       progress.classList.remove("loading");
       const authentication = await response.text();
       //console.log(authentication)
-      if (authentication.includes("500")) {
+      if (await !response.ok) {
         document.querySelector("#CantLogInAlert").checked = true;
         document.querySelector("#CantLogInAlertX").addEventListener("click", () => {
           document.querySelector("#CantLogInAlert").checked = false;
