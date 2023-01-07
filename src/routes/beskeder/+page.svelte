@@ -2,14 +2,12 @@
   import { informationer, beskeder, brugeren } from "../../components/store.js";
   import { get } from "../../components/http.js";
   import Avatar from "../../components/Avatar.svelte";
-  import InfiniteLoading from "svelte-infinite-loading";
-
   import { cookieInfo } from "../../components/CookieInfo";
+
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
   });
-
   get("/mig").then((data) => {
     $brugeren = data;
   });
@@ -20,8 +18,8 @@
         - Måske gør så man får al teksten og derfor ikke behøver at klikke på lektien
      */
 
-  let ready = false;
   let allowed = {};
+
   get("/informationer").then((data) => {
     $informationer = data;
     let _elever = {};
@@ -30,10 +28,10 @@
       navn.pop();
       navn = navn.join(" ");
       navn = `${key.split(navn)[0].slice(0, -1)}(${navn})`;
+      console.log(navn);
       _elever[navn] = value;
     }
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
-
     get(`/beskeder2`).then((data) => {
       $beskeder = data.map((besked) => {
         besked.datoObject = convertDate(besked.dato);
@@ -41,7 +39,6 @@
       });
       $beskeder = [...$beskeder];
       //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
-
       $beskeder.forEach((besked) => {
         allowed[besked.message_id] = true;
         besked.modtagere.forEach((modtager) => {
@@ -51,7 +48,6 @@
         });
       });
     });
-    ready = true;
   });
 
   function convertDate(dateString) {
@@ -60,102 +56,78 @@
     const parts = allparts[0].split("-");
     const year = parseInt(parts[1], 10);
     const dateparts = parts[0].split("/");
-
     const timepart = allparts[1].split(":");
     const hour = parseInt(timepart[0], 10);
     const minute = parseInt(timepart[1], 10);
-
     // Extract the day, month, and year from the parts array
     const day = parseInt(dateparts[0], 10);
     const month = parseInt(dateparts[1], 10);
-
     // Create a new Date object
     const date = new Date();
-
     // Set the day, month, and year of the Date object
     date.setFullYear(year, month - 1, day);
     date.setHours(hour, minute, 0, 0);
-
     // Return the Date object
     return date;
   }
 
   let selected = "Alle";
   let searchString = "";
-
+  
   function isAuther(messageAuther) {
     return messageAuther.replace("(", "").replace(")", "") == $brugeren.navn.replace(",", "");
   }
-
-  let page = 1;
-  let list = [];
-
-  function infiniteHandler({ detail: { loaded, complete } }) {
-    if (ready == false) return;
-
-    console.log("Loading more items");
-    let nextPage = $beskeder.slice((page - 1) * 30, page * 30);
-    list = [...list, ...nextPage];
-    page++;
-    loaded();
-    if (page - 1 * 30 > $beskeder.length) {
-      complete();
-    }
-  }
 </script>
 
-<span class="my-2 flex justify-between">
-  <h1 class="text-3xl font-bold">Beskeder</h1>
-</span>
-<div class="flex flex-wrap justify-between">
-  <span class="mb-2 flex flex-col sm:flex-row">
-    <div class="tabs tabs-boxed flex w-full justify-between">
-      <button
-        class={selected == "Alle" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-        on:click={() => {
-          selected = "Alle";
-        }}>Alle</button
-      >
-      <button
-        class={selected == "Modtaget" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-        on:click={() => {
-          selected = "Modtaget";
-        }}>Modtaget</button
-      >
-      <button
-        class={selected == "Sendte" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-        on:click={() => {
-          selected = "Sendte";
-        }}>Sendte</button
-      >
-    </div>
-    <input
-      type="text"
-      placeholder="Søg"
-      class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
-      bind:value={searchString}
-      on:input={() => {
-        list = $beskeder
-      }}
-    />
+<body>
+  <span class="my-2 flex justify-between">
+    <h1 class="text-3xl font-bold">Beskeder</h1>
   </span>
-  {#if cookie?.userid}
-    <div class="right-1 mb-2 flex items-center rounded-md bg-base-200 p-1">
-      <a
-        href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
-        target="_blank"
-        class="btn-primary btn-sm btn border-base-200 bg-base-200 font-normal normal-case text-gray-500 hover:text-gray-100"
-        >Skriv besked</a
-      >
-    </div>
-  {/if}
-</div>
+  <div class="flex flex-wrap justify-between">
+    <span class="mb-2 flex flex-col sm:flex-row">
+      <div class="tabs tabs-boxed flex w-full justify-between">
+        <button
+          class={selected == "Alle" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+          on:click={() => {
+            selected = "Alle";
+          }}>Alle</button
+        >
+        <button
+          class={selected == "Modtaget" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+          on:click={() => {
+            selected = "Modtaget";
+          }}>Modtaget</button
+        >
+        <button
+          class={selected == "Sendte" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+          on:click={() => {
+            selected = "Sendte";
+          }}>Sendte</button
+        >
+      </div>
+      <input
+        type="text"
+        placeholder="Søg"
+        class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
+        bind:value={searchString}
+      />
+    </span>
+    {#if cookie?.userid}
+      <div class="right-1 mb-2 flex items-center rounded-md bg-base-200 p-1">
+        <a
+          href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
+          target="_blank"
+          class="btn-primary btn-sm btn border-base-200 bg-base-200 font-normal normal-case text-gray-500 hover:text-gray-100"
+          >Skriv besked</a
+        >
+      </div>
+    {/if}
+  </div>
 
-<!-- main content -->
-{#if ready}
-  {#if list}
+  <!-- main content -->
+  {#if $beskeder}
     <ul class="list w-full">
-      {#each list as besked}
+      {#each Array.from($beskeder) as besked}
         {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
           {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
             <li class="rounded-md p-2 hover:bg-base-100">
@@ -210,9 +182,5 @@
         {/if}
       {/each}
     </ul>
-    <InfiniteLoading on:infinite={infiniteHandler} />
   {/if}
-  {#if list.length == 0}
-    {list = $beskeder.slice(0, 30)}
-  {/if}
-{/if}
+</body>
