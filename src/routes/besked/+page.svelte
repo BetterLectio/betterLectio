@@ -74,6 +74,10 @@
     } else {
       complete();
     }
+    if (besked.length < 10) {
+      list = besked;
+      complete();
+    }
   }
 </script>
 
