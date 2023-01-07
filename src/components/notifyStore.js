@@ -8,6 +8,20 @@ export function addNotification(message, bgColor) {
   });
 }
 
+export function sceduleNotification(message, bgColor, date) {
+  const now = new Date();
+  const timeToNotification = date.getTime() - now.getTime();
+  setTimeout(() => {
+    addNotification(message, bgColor);
+  }, timeToNotification);
+}
+
+export function addNotificationIn(message, bgColor, time) {
+  setTimeout(() => {
+    addNotification(message, bgColor);
+  }, time);
+}
+
 // auto remove notifications individually after 5 seconds
 notifications.subscribe((n) => {
   n.forEach((notification) => {
@@ -22,3 +36,12 @@ notifications.subscribe((n) => {
     }, 5000);
   });
 });
+
+// on the first fime the following code is run, add a notification if its not the first time do nothing
+if (localStorage.getItem("firstTime") === null) {
+  addNotification("Hej og velkommen til BetterLectio, tusind tak fordi du bruger BetterLectio", "alert-success");
+  localStorage.setItem("firstTime", "false");
+} else {
+  console.log("Not first time");
+}
+
