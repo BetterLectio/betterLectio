@@ -76,10 +76,10 @@
         },
       });
       //console.log("Log in was successful")
-      progress.classList.remove("loading");
       const authentication = await response.text();
       //console.log(authentication)
       if (await !response.ok) {
+        progress.classList.remove("loading");
         document.querySelector("#CantLogInAlert").checked = true;
         document.querySelector("#CantLogInAlertX").addEventListener("click", () => {
           document.querySelector("#CantLogInAlert").checked = false;
@@ -98,6 +98,7 @@
         await cookieInfo().then(async (cookie) => {
           await fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userid}&skole_id=${cookie.school}`);
         });
+        progress.classList.remove("loading");
         reloadData();
         window.location.href = "/forside";
       }
