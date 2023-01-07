@@ -18,6 +18,9 @@
 
   onMount(() => {
     themeChange(false);
+    if (window.location.href.indexOf("betlec.netlify.app") > -1 && window.location.href.indexOf("dev--betlec.netlify.app") == -1) {
+      window.location.href = "https://betterlectio.dk"
+    }
   });
   import ThemeSelect from "../components/theme-select.svelte";
   import GlobalSearch from "../components/GlobalSearch.svelte";
