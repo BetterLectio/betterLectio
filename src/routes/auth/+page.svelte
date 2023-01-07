@@ -86,8 +86,10 @@
         });
       } else {
         const theme = localStorage.getItem("theme");
+        const firstTime = localStorage.getItem("firstTime");
         localStorage.clear();
         localStorage.setItem("theme", theme);
+        localStorage.setItem("firstTime", firstTime);
         setSkole();
         let lectioCookie = await response.headers.get('set-lectio-cookie')
         if (lectioCookie && lectioCookie != "null") {
