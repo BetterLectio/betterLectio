@@ -2,6 +2,7 @@
   import { informationer, beskeder, brugeren } from "../../components/store.js";
   import { get } from "../../components/http.js";
   import Avatar from "../../components/Avatar.svelte";
+  import InfiniteLoading from "svelte-infinite-loading";
 
   import { cookieInfo } from "../../components/CookieInfo";
   let cookie;
@@ -28,7 +29,6 @@
       navn.pop();
       navn = navn.join(" ");
       navn = `${key.split(navn)[0].slice(0, -1)}(${navn})`;
-      console.log(navn);
       _elever[navn] = value;
     }
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
@@ -84,6 +84,20 @@
   function isAuther(messageAuther) {
     return messageAuther.replace("(", "").replace(")", "") == $brugeren.navn.replace(",", "");
   }
+
+  let page = 1;
+  let list = [];
+
+  function infiniteHandler({ detail: { loaded, complete } }) {
+    console.log("Loading more items");
+    let nextPage = $beskeder.slice((page - 1) * 10, page * 10);
+    list = [...list, ...nextPage];
+    page++;
+    loaded();
+    if (page - 1 * 10 > $beskeder.length) {
+      complete();
+    }
+  }
 </script>
 
 <body>
@@ -132,9 +146,9 @@
   </div>
 
   <!-- main content -->
-  {#if $beskeder}
+  {#if list}
     <ul class="list w-full">
-      {#each Array.from($beskeder) as besked}
+      {#each list as besked}
         {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
           {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
             <li class="rounded-md p-2 hover:bg-base-100">
@@ -187,7 +201,8 @@
             </li>
           {/if}
         {/if}
-      {/each}
-    </ul>
-  {/if}
-</body>
+        {/each}
+      </ul>
+      {/if}
+    </body>
+    <InfiniteLoading on:infinite={infiniteHandler} />
