@@ -134,6 +134,9 @@
       placeholder="Søg"
       class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
       bind:value={searchString}
+      on:input={() => {
+        list = $beskeder
+      }}
     />
   </span>
   {#if cookie?.userid}
@@ -207,10 +210,9 @@
         {/if}
       {/each}
     </ul>
-  {/if}
-  <InfiniteLoading on:infinite={infiniteHandler} />
-  {#if list.length == 0}
     <InfiniteLoading on:infinite={infiniteHandler} />
+  {/if}
+  {#if list.length == 0}
     {list = $beskeder.slice(0, 30)}
   {/if}
 {/if}
