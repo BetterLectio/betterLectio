@@ -5,6 +5,7 @@
   import { get } from "../../components/http";
 
   import { cookieInfo } from "../../components/CookieInfo";
+  import { onMount } from 'svelte';
   let cookie;
   cookieInfo().then(data => {
     cookie = data;
@@ -26,33 +27,22 @@
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
   });
 
+
+  let loading = true;
+  let loadingStarted = Date.now();
   get("/dokumenter").then((data) => {
     $dokumenter = data;
+    loading = false;
+    loadingStarted = Date.now();
   });
 
-  function clickHandler(element) {
+  async function clickHandler(element) {
     const id = element.srcElement.parentNode.id;
-    if (element.srcElement.parentNode.className.indexOf("folder") > -1) {
-      // same as .includes("folder") but works in all browsers
-      if (id == "..") {
-        get("/dokumenter").then((data) => {
-          $dokumenter = data;
-        });
-      } else {
-        get("/dokumenter?folderid=" + id).then((data) => {
-          $dokumenter = data;
-        });
-      }
-    } else if (id.includes("/res/")) {
-      window.open(`https://www.lectio.dk/lectio/${cookie.school}/lc/${id}`);
-    } else {
-      window.open(`https://www.lectio.dk/lectio/${cookie.school}/dokumenthent.aspx?documentid=${id}`);
-    }
-
-    if (element.srcElement.parentNode.className.indexOf("breadcrumb") > -1) {
+    
+    if (await element.srcElement.parentNode.className.indexOf("breadcrumb") > -1) {
       breadcrumbs = [];
       let done = false;
-      computedBreadcrumbs.forEach((item, index) => {
+      await computedBreadcrumbs.forEach((item, index) => {
         if (!done) {
           breadcrumbs.push(item);
           if (item.id == element.srcElement.parentNode.id) {
@@ -68,16 +58,46 @@
       // before pushing the last clicked folder, check if it's already in the breadcrumbs
       if (breadcrumbs[breadcrumbs.length - 1].id != lastClickedFolder.id) {
         // before pushing the last clicked folder, check if it has the class "folder" (if it doesn't, it's a file and shouldn't be added to the breadcrumbs)
-        if (element.srcElement.parentNode.className.indexOf("folder") > -1) {
-          breadcrumbs.push(lastClickedFolder);
+        if (await element.srcElement.parentNode.className.indexOf("folder") > -1) {
+          await breadcrumbs.push(lastClickedFolder);
         }
       }
     } else {
-      breadcrumbs.pop();
+      await breadcrumbs.pop();
     }
     // update the breadcrumbs in the html
     computedBreadcrumbs = breadcrumbs;
+    if (await element.srcElement.parentNode.className.indexOf("folder") > -1) {
+      // same as .includes("folder") but works in all browsers
+      loading = true;
+      loadingStarted = Date.now();
+      if (id == "..") {
+        await get("/dokumenter").then((data) => {
+          $dokumenter = data;
+        });
+      } else {
+        await get("/dokumenter?folderid=" + id).then((data) => {
+          $dokumenter = data;
+        });
+      }
+      loading = false;
+    } else if (id.includes("/res/")) {
+      await window.open(`https://www.lectio.dk/lectio/${cookie.school}/lc/${id}`);
+    } else {
+      await window.open(`https://www.lectio.dk/lectio/${cookie.school}/dokumenthent.aspx?documentid=${id}`);
+    }
   }
+
+  let now = Date.now()
+  onMount(async () => {
+    const interval = setInterval(() => {
+			now = new Date();
+		}, 100);
+
+		return () => {
+			clearInterval(interval);
+		};
+  })
 
 </script>
 
@@ -112,23 +132,34 @@
         </tr>
       </thead>
       <tbody>
-        {#each $dokumenter["indhold"] as dokument}
-          <tr class="hover cursor-pointer {dokument['type']}" on:click={clickHandler} id={dokument["id"]}>
-            <td>
-              {#if dokument["type"] == "folder"}
-                <i style="font-size: 1.4rem;" class="bi bi-folder-fill text-yellow-300"></i>
-              {:else if dokument["type"] == "dokument"}
-                <i style="font-size: 1.4rem;" class="bi-file-earmark bi-filetype-{dokument["navn"].split(".").slice(-1)}"></i> <!-- bi-file-earmark er fallback hvis filtypen ikke har et icon-->
-              {/if}
-            </td>
-            <td>{dokument["navn"]}</td>
+        {#if loading && now-loadingStarted >= 100}
+          <tr class="animate-pulse">
+            <td><div class="w-6 bg-gray-300 h-6 rounded-md"></div></td>
+            <td><div class="w-36 bg-gray-300 h-6 rounded-md"></div></td>
             {#if window.innerWidth > 768}
-              <td>{dokument["type"] == "dokument" ? dokument["dato"] : ""}</td>
-              <td>{dokument["type"] == "dokument" ? dokument["ændret_af"] : ""}</td>
+              <td><div class="w-36 bg-gray-300 h-6 rounded-md"></div></td>
+              <td><div class="w-36 bg-gray-300 h-6 rounded-md"></div></td>
             {/if}
-            <!--<Brugernavn navn={dokument.ændret_af} id={$informationer.lærereOgElever[dokument.ændret_af]}/>-->
           </tr>
-        {/each}
+        {:else}
+          {#each $dokumenter["indhold"] as dokument}
+            <tr class="hover cursor-pointer {dokument['type']}" on:click={clickHandler} id={dokument["id"]}>
+              <td>
+                {#if dokument["type"] == "folder"}
+                  <i style="font-size: 1.4rem;" class="bi bi-folder-fill text-yellow-300"></i>
+                {:else if dokument["type"] == "dokument"}
+                  <i style="font-size: 1.4rem;" class="bi-file-earmark bi-filetype-{dokument["navn"].split(".").slice(-1)}"></i> <!-- bi-file-earmark er fallback hvis filtypen ikke har et icon-->
+                {/if}
+              </td>
+              <td>{dokument["navn"]}</td>
+              {#if window.innerWidth > 768}
+                <td>{dokument["type"] == "dokument" ? dokument["dato"] : ""}</td>
+                <td>{dokument["type"] == "dokument" ? (dokument["ændret_af"] == "ukendt") ? "" : dokument["ændret_af"] : ""}</td>
+              {/if}
+              <!--<Brugernavn navn={dokument.ændret_af} id={$informationer.lærereOgElever[dokument.ændret_af]}/>-->
+            </tr>
+          {/each}
+        {/if}        
       </tbody>
     </table>
   </div>
