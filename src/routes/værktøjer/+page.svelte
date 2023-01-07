@@ -14,6 +14,12 @@ import { cookieInfo } from "../../components/CookieInfo";
           status: "BETA",
         },
         {
+          title: "Fravær regner",
+          link: "/værktøjer/fravær",
+          description: "Find ud af, hvor mange moduler du kan pjekke",
+          status: "BETA",
+        },
+        {
           title: "Elev liste",
           link: "/værktøjer/elever",
           description: "Viser dig en liste over alle elever",
