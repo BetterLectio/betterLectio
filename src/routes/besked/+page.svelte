@@ -3,7 +3,6 @@
   import Brugernavn from "../../components/Brugernavn.svelte";
   import { get } from "../../components/http";
   import { addNotification } from "../../components/notifyStore.js";
-  import InfiniteLoading from "svelte-infinite-loading";
 
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
@@ -18,14 +17,14 @@
 
   const beskedId = new URLSearchParams(window.location.search).get("id");
 
-
   let besked;
+
   let modtagere;
   get("/besked?id=" + beskedId).then((data) => {
     besked = data.beskeder;
     modtagere = data.modtagere;
   });
-
+  
   let checked = "";
   let titel = "";
   let content = "";
@@ -61,24 +60,6 @@
       modtagere = data.modtagere;
     });
   }
-
-  let page = 1;
-  let list = [];
-
-  function infiniteHandler({ detail: { loaded, complete } }) {
-    let data = besked.slice((page - 1) * 10, page * 10);
-    if (data.length) {
-      page += 1;
-      list = [...list, ...data];
-      loaded();
-    } else {
-      complete();
-    }
-    if (besked.length < 10) {
-      list = besked;
-      complete();
-    }
-  }
 </script>
 
 <input type="checkbox" id="besvar-modal" class="modal-toggle" bind:checked={checked} />
@@ -97,7 +78,7 @@
   <p class="mb-4"><strong>Modtagere:</strong> {modtagere}</p>
   <!-- Måske en linje til at seperere beskeder-->
   <div class="p-4 rounded-lg bg-base-200">
-  {#each list as _besked}
+  {#each besked as _besked}
     <div class="relative mt-4 p-4 rounded-lg bg-base-300 break-words" style="margin-left: {_besked.padding_left/2}em;">
       <button class="absolute bottom-0 right-0 mb-4 mr-4 btn btn-sm" on:click={() => handleClick(_besked)}>Besvar</button>
       <div class="flex items-center">
@@ -122,5 +103,4 @@
     </div>
     {/each}
   </div>
-  <InfiniteLoading on:infinite={infiniteHandler} />
 {/if}

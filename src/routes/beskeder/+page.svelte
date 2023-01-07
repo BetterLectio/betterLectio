@@ -20,6 +20,7 @@
         - Måske gør så man får al teksten og derfor ikke behøver at klikke på lektien
      */
 
+  let ready = false;
   let allowed = {};
   get("/informationer").then((data) => {
     $informationer = data;
@@ -50,6 +51,7 @@
         });
       });
     });
+    ready = true;
   });
 
   function convertDate(dateString) {
@@ -89,63 +91,65 @@
   let list = [];
 
   function infiniteHandler({ detail: { loaded, complete } }) {
+    if (ready == false) return;
+
     console.log("Loading more items");
-    let nextPage = $beskeder.slice((page - 1) * 10, page * 10);
+    let nextPage = $beskeder.slice((page - 1) * 30, page * 30);
     list = [...list, ...nextPage];
     page++;
     loaded();
-    if (page - 1 * 10 > $beskeder.length) {
+    if (page - 1 * 30 > $beskeder.length) {
       complete();
     }
   }
 </script>
 
-<body>
-  <span class="my-2 flex justify-between">
-    <h1 class="text-3xl font-bold">Beskeder</h1>
+<span class="my-2 flex justify-between">
+  <h1 class="text-3xl font-bold">Beskeder</h1>
+</span>
+<div class="flex flex-wrap justify-between">
+  <span class="mb-2 flex flex-col sm:flex-row">
+    <div class="tabs tabs-boxed flex w-full justify-between">
+      <button
+        class={selected == "Alle" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Alle";
+        }}>Alle</button
+      >
+      <button
+        class={selected == "Modtaget" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Modtaget";
+        }}>Modtaget</button
+      >
+      <button
+        class={selected == "Sendte" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Sendte";
+        }}>Sendte</button
+      >
+    </div>
+    <input
+      type="text"
+      placeholder="Søg"
+      class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
+      bind:value={searchString}
+    />
   </span>
-  <div class="flex flex-wrap justify-between">
-    <span class="mb-2 flex flex-col sm:flex-row">
-      <div class="tabs tabs-boxed flex w-full justify-between">
-        <button
-          class={selected == "Alle" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-          on:click={() => {
-            selected = "Alle";
-          }}>Alle</button
-        >
-        <button
-          class={selected == "Modtaget" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-          on:click={() => {
-            selected = "Modtaget";
-          }}>Modtaget</button
-        >
-        <button
-          class={selected == "Sendte" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-          on:click={() => {
-            selected = "Sendte";
-          }}>Sendte</button
-        >
-      </div>
-      <input
-        type="text"
-        placeholder="Søg"
-        class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
-        bind:value={searchString}
-      />
-    </span>
-    {#if cookie?.userid}
-      <div class="right-1 mb-2 flex items-center rounded-md bg-base-200 p-1">
-        <a
-          href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
-          target="_blank"
-          class="btn-primary btn-sm btn border-base-200 bg-base-200 font-normal normal-case text-gray-500 hover:text-gray-100"
-          >Skriv besked</a
-        >
-      </div>
-    {/if}
-  </div>
+  {#if cookie?.userid}
+    <div class="right-1 mb-2 flex items-center rounded-md bg-base-200 p-1">
+      <a
+        href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
+        target="_blank"
+        class="btn-primary btn-sm btn border-base-200 bg-base-200 font-normal normal-case text-gray-500 hover:text-gray-100"
+        >Skriv besked</a
+      >
+    </div>
+  {/if}
+</div>
 
-  <!-- main content -->
+<!-- main content -->
+{#if ready}
   {#if list}
     <ul class="list w-full">
       {#each list as besked}
@@ -201,8 +205,12 @@
             </li>
           {/if}
         {/if}
-        {/each}
-      </ul>
-      {/if}
-    </body>
+      {/each}
+    </ul>
+  {/if}
+  <InfiniteLoading on:infinite={infiniteHandler} />
+  {#if list.length == 0}
     <InfiniteLoading on:infinite={infiniteHandler} />
+    {list = $beskeder.slice(0, 30)}
+  {/if}
+{/if}
