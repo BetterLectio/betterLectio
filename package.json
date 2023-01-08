@@ -10,8 +10,8 @@
 	},
 	"devDependencies": {
 		"@event-calendar/core": "^0.14.0",
-		"@event-calendar/day-grid": "^0.14.0",
-		"@event-calendar/list": "^0.14.0",
+		"@event-calendar/day-grid": "^0.14.3",
+		"@event-calendar/list": "^0.14.3",
 		"@event-calendar/time-grid": "^0.14.0",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/adapter-netlify": "^1.0.0-next.83",
