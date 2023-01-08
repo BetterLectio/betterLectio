@@ -94,7 +94,7 @@
         if (getDesiredView() == "timeGridWeek") {
           weekOffset++;
           load();
-        } 
+        }
       });
       btnPrev.addEventListener("click", () => {
         if (getDesiredView() == "timeGridWeek") {
@@ -106,7 +106,7 @@
         if (getDesiredView() == "timeGridWeek") {
           weekOffset = 0;
           load();
-        } 
+        }
       });
     },
   };
