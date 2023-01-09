@@ -1,5 +1,6 @@
 <script>
   import BrugerDropdown from "./BrugerPopup.svelte";
+  import IntersectionObserver from "svelte-intersection-observer";
 
   export let id;
   export let navn;
@@ -9,17 +10,15 @@
   export let squared;
   export let clickable;
 
+  let element;
   let source;
 
   async function getImageSource() {
-    const response = await fetch(
-      `https://api.betterlectio.dk/profil_billed?id=${id}&fullsize=1`,
-      {
-        headers: {
-          "lectio-cookie": localStorage.getItem("lectio-cookie"),
-        },
-      }
-    );
+    const response = await fetch(`https://api.betterlectio.dk/profil_billed?id=${id}&fullsize=1`, {
+      headers: {
+        "lectio-cookie": localStorage.getItem("lectio-cookie"),
+      },
+    });
     const base64Response = await response.text();
     /*
     Hvorfor er dette udkommenteret? Det er det fordi cachen på billeder vare i rigtig lang tid og derfor bliver lectio-cookie sat til noget gammelt. Indtil vi har fundet en bedre løsning vil det her være udkommenteret
@@ -31,44 +30,53 @@
     }*/
     return base64Response;
   }
-
-  getImageSource().then((data) => {
-    source = data;
-  });
 </script>
 
-
-{#if clickable}
-<div class="dropdown dropdown-right">
-  {#if source}
-    <button class="avatar">
-      <div class={squared ? `${size} rounded` : `${size} rounded-full`}>
-        <img id="${id}" src="data:image/png;base64, {source}" alt="" />
+<IntersectionObserver
+  {element}
+  once={true}
+  on:intersect={(e) => {
+    getImageSource().then((data) => {
+      source = data;
+    });
+  }}
+>
+  <div bind:this={element}>
+    {#if clickable}
+      <div class="dropdown-right dropdown">
+        {#if source}
+          <button class="avatar">
+            <div class={squared ? `${size} rounded` : `${size} rounded-full`}>
+              <img id="${id}" src="data:image/png;base64, {source}" alt="" />
+            </div>
+          </button>
+        {:else}
+          <button class="placeholder avatar">
+            <div
+              class="rounded-full bg-neutral-focus text-neutral-content {size} {squared
+                ? 'rounded'
+                : 'rounded-full'}"
+            >
+              <span class="text-xl">{navn ? navn[0] : "?"}</span>
+            </div>
+          </button>
+        {/if}
+        <div tabindex="0" class="dropdown-content rounded-box bg-base-100 p-2 shadow">
+          <BrugerDropdown {navn} {id} />
+        </div>
       </div>
-    </button>
-  {:else}
-    <button class="avatar placeholder">
-      <div class="bg-neutral-focus text-neutral-content rounded-full {size} {(squared) ? "rounded" : "rounded-full"}">
-        <span class="text-xl">{(navn) ? navn[0] : "?"}</span>
-      </div>
-    </button>
-  {/if}
-  <div tabindex="0" class="dropdown-content p-2 shadow bg-base-100 rounded-box">
-    <BrugerDropdown navn={navn} id={id}/>
-  </div>
-</div>
-{:else}
-  {#if source}
+    {:else if source}
       <div class="avatar">
-        <div class={squared ? `${size} rounded` : `${size} rounded-full`}>
+        <div class="{size} {squared ? `rounded` : `rounded-full`}">
           <img id="${id}" src="data:image/png;base64, {source}" alt="" />
         </div>
       </div>
-  {:else}
-    <div class="avatar placeholder">
-      <div class="bg-neutral-focus text-neutral-content rounded-full {size} {(squared) ? "rounded" : "rounded-full"}">
-        <span class="text-xl">{(navn) ? navn[0] : "?"}</span>
+    {:else}
+      <div class="placeholder avatar">
+        <div class="bg-neutral-focus text-neutral-content {size} {squared ? 'rounded' : 'rounded-full'}">
+          <span class="text-xl">{navn ? navn[0] : "?"}</span>
+        </div>
       </div>
-    </div>
-  {/if}
-{/if}
+    {/if}
+  </div>
+</IntersectionObserver>
