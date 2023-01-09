@@ -166,7 +166,7 @@
                           {/each}
                           {#if besked.modtagere.length > 3}
                             <div
-                              class="z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white"
+                              class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white"
                             >
                               +{besked.modtagere.length - 3}
                             </div>
