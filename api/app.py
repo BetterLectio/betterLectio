@@ -341,5 +341,20 @@ def ledige_lokaler():
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
+@app.route("/karakterer")
+@cache_for(minutes=5)
+def karakterer():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.karakterer()))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception as e:
+        return jsonify({"backend_error": str(e)}), 500
+
 if __name__ == '__main__':
     app.run()
