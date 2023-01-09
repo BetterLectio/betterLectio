@@ -19,7 +19,7 @@
 
 <h1 class="pb-2 text-2xl font-bold">Karakterer</h1>
 {#if $karakterer}
-    <p>Gennemsnit: {$karakterer.gennemsnit}</p>
+    <p>Vægtet gennemsnit: {$karakterer.gennemsnit}</p>
     <div class="overflow-x-auto">
         <table class="table w-full">
           <!-- head -->

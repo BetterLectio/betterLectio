@@ -34,13 +34,6 @@ import { cookieInfo } from "../../components/CookieInfo";
       ],
       "Lectio (Vi arbejder på at flytte disse sider til Better Lectio)": [
         {
-          title: "Karakterer",
-          link: `https://www.lectio.dk/lectio/${cookie.school}/grades/grade_report.aspx?elevid=${cookie.userid}`,
-          new_tab: true,
-          description: "Viser dig dine karakterer",
-          status: "WIP",
-        },
-        {
           title: "Bøger",
           link: `https://www.lectio.dk/lectio/${cookie.school}/BD/UserReservations.aspx?ElevID=${cookie.userid}`,
           new_tab: true,
