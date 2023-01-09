@@ -8,6 +8,7 @@
   import Avatar from "../components/Avatar.svelte";
   import { reloadData } from "../components/http";
   import { cookieInfo } from "../components/CookieInfo";
+  import Notify from "../components/Notify.svelte";
   export let data;
 
   let cookie;
@@ -17,6 +18,9 @@
 
   onMount(() => {
     themeChange(false);
+    if (window.location.href.indexOf("betlec.netlify.app") > -1 && window.location.href.indexOf("dev--betlec.netlify.app") == -1) {
+      window.location.href = "https://betterlectio.dk"
+    }
   });
   import ThemeSelect from "../components/theme-select.svelte";
   import GlobalSearch from "../components/GlobalSearch.svelte";
@@ -42,6 +46,7 @@
 </script>
 
 <!--Log ud pop up-->
+<Notify/>
 <input type="checkbox" id="logud-modal" class="modal-toggle" />
 <label for="logud-modal" class="modal cursor-pointer">
   <label class="modal-box relative" for="">

@@ -1,22 +1,11 @@
-<h1 class=" text-3xl font-bold">Hjælp</h1>
-<h2 class="mt-2 text-2xl font-bold">Hvad er Better Lectio?</h2>
-<p class="mb-2">
-  Better Lectio er en webapp, der gør det nemmere at bruge Lectio. Better Lectio tager kontakt til lectio
-  API'en som er skrevet af os og er tilgængelig for alle.
-</p>
-<h2 class="mt-2 text-2xl font-bold">Hvordan virker det?</h2>
-<p />
-<h2 class="mt-2 text-2xl font-bold">Links</h2>
-<ul class="mb-2">
-  <li>
-    <a class="link" href="https://github.com/betterlectio/betterLectio">GitHub</a>
-  </li>
-  <li>
-    <a class="link" href="https://github.com/betterlectio/LectioJS">LectioJS</a>
-  </li>
-  <li>
-    <a class="link" href="https://github.com/betterlectio/BetterLectio-Flask-Backend"
-      >Better Lectio Flask Backend</a
-    >
-  </li>
-</ul>
+<h1 class=" mb-4 text-3xl font-bold">Hjælp</h1>
+
+<div class="bg-base-200 rounded-lg p-4">
+  <h2 class=" mb-2 text-2xl font-bold">Hvad er BetterLectio?</h2>
+  <p>
+    Better Lectio er en forbedring af Lectio, et dansk lektionssystem. Vi har gjort det nemmere at finde
+    informationer og få overblik over skolegangen. Vi har også lavet en ny, brugervenlig og moderne brugerflade.
+    Better Lectio er open source, så alle kan se koden og bidrage. Projektet er stadig under udvikling, så hvis
+    du har forslag eller finder fejl, er du velkommen til at åbne en issue på GitHub
+  </p>
+</div>

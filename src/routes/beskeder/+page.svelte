@@ -2,13 +2,12 @@
   import { informationer, beskeder, brugeren } from "../../components/store.js";
   import { get } from "../../components/http.js";
   import Avatar from "../../components/Avatar.svelte";
-
   import { cookieInfo } from "../../components/CookieInfo";
+
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
   });
-
   get("/mig").then((data) => {
     $brugeren = data;
   });
@@ -20,17 +19,19 @@
      */
 
   let allowed = {};
+
   get("/informationer").then((data) => {
     $informationer = data;
     let _elever = {};
     for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn = key.split("(")[1].split(" ");
+      let navn = key.split("(").at(-1).split(" ");
       navn.pop();
-      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      navn = navn.join(" ");
+      navn = `${key.split(navn)[0].slice(0, -1)}(${navn})`;
+      console.log(navn);
       _elever[navn] = value;
     }
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
-
     get(`/beskeder2`).then((data) => {
       $beskeder = data.map((besked) => {
         besked.datoObject = convertDate(besked.dato);
@@ -38,7 +39,6 @@
       });
       $beskeder = [...$beskeder];
       //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
-
       $beskeder.forEach((besked) => {
         allowed[besked.message_id] = true;
         besked.modtagere.forEach((modtager) => {
@@ -56,29 +56,24 @@
     const parts = allparts[0].split("-");
     const year = parseInt(parts[1], 10);
     const dateparts = parts[0].split("/");
-
     const timepart = allparts[1].split(":");
     const hour = parseInt(timepart[0], 10);
     const minute = parseInt(timepart[1], 10);
-
     // Extract the day, month, and year from the parts array
     const day = parseInt(dateparts[0], 10);
     const month = parseInt(dateparts[1], 10);
-
     // Create a new Date object
     const date = new Date();
-
     // Set the day, month, and year of the Date object
     date.setFullYear(year, month - 1, day);
     date.setHours(hour, minute, 0, 0);
-
     // Return the Date object
     return date;
   }
 
   let selected = "Alle";
   let searchString = "";
-
+  
   function isAuther(messageAuther) {
     return messageAuther.replace("(", "").replace(")", "") == $brugeren.navn.replace(",", "");
   }
@@ -171,7 +166,7 @@
                           {/each}
                           {#if besked.modtagere.length > 3}
                             <div
-                              class="z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white"
+                              class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white"
                             >
                               +{besked.modtagere.length - 3}
                             </div>

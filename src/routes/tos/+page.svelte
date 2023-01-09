@@ -24,6 +24,8 @@
       informationen på vores hjemmeside er forkert. Vi er ikke ansvarlige for, noget der sker med dig, mens du
       bruger vores tjenester. Vi er ikke ansvarlige for, noget der sker med dig, fordi du bruger/har brugt
       vores tjenester. Vi er ikke ansvarlige for, at du ikke kan benytte alle funktioner på vores hjemmeside.
+      Vi har rettigheden til at kunne ændre vores Servicevilkår & Privatlivspolitik uden varsel. Det er dit ansvar
+      aktivt at holde øje vores Servicevilkår & Privatlivspolitik.
     </p>
   </div>
 </div>

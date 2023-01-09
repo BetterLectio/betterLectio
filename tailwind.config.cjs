@@ -20,6 +20,21 @@ module.exports = {
       },
       scale: {
         "99": "0.99"
+      },
+      keyframes: {
+        'fade-in-down': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(-10px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          },
+        }
+      },
+      animation: {
+        'fade-in-down': 'fade-in-down 0.5s ease-out'
       }
     },
     container: {
@@ -29,23 +44,8 @@ module.exports = {
         lg: "4rem",
         xl: "5rem",
         "2xl": "6rem",
-      },
-    },
-    keyframes: {
-      'fade-in-down': {
-        '0%': {
-          opacity: '0',
-          transform: 'translateY(-10px)'
-        },
-        '100%': {
-          opacity: '1',
-          transform: 'translateY(0)'
-        },
       }
     },
-    animation: {
-      'fade-in-down': 'fade-in-down 0.5s ease-out'
-    }
   },
   daisyui: {
     themes: [

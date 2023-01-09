@@ -1,5 +1,6 @@
 <script>
   import { reloadData } from "../../components/http";
+  import { cookieInfo } from "../../components/CookieInfo";
 
   let brugernavn = "";
   let adgangskode = "";
@@ -75,23 +76,29 @@
         },
       });
       //console.log("Log in was successful")
-      progress.classList.remove("loading");
       const authentication = await response.text();
       //console.log(authentication)
-      if (authentication.includes("500")) {
+      if (await !response.ok) {
+        progress.classList.remove("loading");
         document.querySelector("#CantLogInAlert").checked = true;
         document.querySelector("#CantLogInAlertX").addEventListener("click", () => {
           document.querySelector("#CantLogInAlert").checked = false;
         });
       } else {
         const theme = localStorage.getItem("theme");
+        const firstTime = localStorage.getItem("firstTime");
         localStorage.clear();
         localStorage.setItem("theme", theme);
+        localStorage.setItem("firstTime", firstTime);
         setSkole();
         let lectioCookie = await response.headers.get('set-lectio-cookie')
         if (lectioCookie && lectioCookie != "null") {
           localStorage.setItem("lectio-cookie", lectioCookie);
         }
+        await cookieInfo().then(async (cookie) => {
+          await fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userid}&skole_id=${cookie.school}`);
+        });
+        progress.classList.remove("loading");
         reloadData();
         window.location.href = "/forside";
       }

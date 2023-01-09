@@ -2,6 +2,7 @@
   import Avatar from "../../components/Avatar.svelte";
   import Brugernavn from "../../components/Brugernavn.svelte";
   import { get } from "../../components/http";
+  import { addNotification } from "../../components/notifyStore.js";
 
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
@@ -16,14 +17,14 @@
 
   const beskedId = new URLSearchParams(window.location.search).get("id");
 
-
   let besked;
+
   let modtagere;
   get("/besked?id=" + beskedId).then((data) => {
     besked = data.beskeder;
     modtagere = data.modtagere;
   });
-
+  
   let checked = "";
   let titel = "";
   let content = "";
@@ -50,7 +51,9 @@
       }
     );
     if (!response.ok) {
-      alert("Afsendelse af besked fejlede");
+      addNotification("Beskeden kunne ikke sendes, prøv igen senere.", "alert-error");
+    } else {
+      addNotification("Beskeden blev sendt.", "alert-success");
     }
     get("/besked?id=" + beskedId).then((data) => {
       besked = data.beskeder;
