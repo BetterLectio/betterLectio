@@ -6,8 +6,10 @@
         let karaktererSum = 0;
         let karaktererVægtningSum = 0;
         data.forEach(karakter => {
-            karaktererSum += parseFloat(karakter.karakter) * parseFloat(karakter.vægt.replace(",", "."));
-            karaktererVægtningSum += parseFloat(karakter.vægt.replace(",", "."));
+            if (karakter.medtæller == "Ja") {
+                karaktererSum += parseFloat(karakter.karakter) * parseFloat(karakter.vægt.replace(",", "."));
+                karaktererVægtningSum += parseFloat(karakter.vægt.replace(",", "."));
+            }
         });
         $karakterer = {
             gennemsnit: karaktererSum/karaktererVægtningSum,
