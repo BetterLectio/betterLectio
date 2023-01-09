@@ -18,19 +18,17 @@
         - Måske gør så man får al teksten og derfor ikke behøver at klikke på lektien
      */
 
-  let allowed = {};
-
   get("/informationer").then((data) => {
-    $informationer = data;
+    const _informationer = data;
     let _elever = {};
-    for (const [key, value] of Object.entries($informationer.elever)) {
+    for (const [key, value] of Object.entries(_informationer.elever)) {
       let navn = key.split("(").at(-1).split(" ");
       navn.pop();
       navn = navn.join(" ");
       navn = `${key.split(navn)[0].slice(0, -1)}(${navn})`;
       _elever[navn] = value;
     }
-    $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
+    $informationer.lærereOgElever = { ..._informationer.lærere, ..._elever };
   });
 
   get(`/beskeder2`).then((data) => {
