@@ -3,7 +3,7 @@
   import { notifications } from "./notifyStore.js";
 </script>
 
-<div class="toast toast-bottom toast-start z-10 inline h-fit">
+<div class="toast toast-bottom toast-start z-10 inline h-fit lg:ml-20">
   {#each $notifications as toast}
   <div class="alert h-fit shadow-2xl mb-4 {toast.bgColor}" out:blur>
     <div class="h-fit">
