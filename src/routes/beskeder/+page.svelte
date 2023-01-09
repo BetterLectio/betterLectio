@@ -134,10 +134,7 @@
                 <div class="flex justify-between">
                   <div class="ml-1 flex items-center">
                     {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
-                      <Avatar
-                        id={$informationer.lærereOgElever[besked.førsteBesked]}
-                        navn={besked.førsteBesked}
-                      />
+                      <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
                     {/if}
                     <div class="ml-5">
                       <p part="emne" class="text-lg font-bold">
@@ -154,11 +151,7 @@
                         {#each getValidModtagere(besked.modtagere).slice(0, 3) as modtager}
                           {#if $informationer?.lærereOgElever[modtager]}
                             <div class="z-0">
-                              <Avatar
-                                id={$informationer.lærereOgElever[modtager]}
-                                navn={modtager}
-                                size="h-10 w-10"
-                              />
+                              <Avatar id={$informationer.lærereOgElever[modtager]} navn={modtager} size="h-10 w-10" />
                             </div>
                           {/if}
                         {/each}

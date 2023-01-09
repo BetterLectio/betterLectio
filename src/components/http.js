@@ -10,7 +10,7 @@ import { goto } from "$app/navigation";
 //     .LastLoginUserName
 // );
 
-export function reloadData(reload=true) {
+export function reloadData(reload = true) {
   localStorage.setItem("nonce", Date.now().toString(36));
   if (reload) {
     window.location.reload();
@@ -40,7 +40,7 @@ export async function get(endpoint) {
   }
 
   // Fetch the data from the API
-  let url = `https://api.betterlectio.dk${endpoint}`
+  let url = `https://api.betterlectio.dk${endpoint}`;
   if (url.indexOf("?") > -1) {
     url += "&nonce=" + nonce;
   } else {
@@ -49,15 +49,17 @@ export async function get(endpoint) {
   let start = performance.now();
   const response = await fetch(url, {
     headers: {
-      "lectio-cookie": localStorage.getItem("lectio-cookie")
+      "lectio-cookie": localStorage.getItem("lectio-cookie"),
     },
   });
   let stop = performance.now();
 
   const textResponse = await response.text();
-  if (response.ok) {// If the response is ok, return the data, otherwise redirect to the auth page
-    if (stop-start > 100) { // Dette gøres for at tjekke om responset er cached. Vi skal finde en bedre måde at gøre det på. Et eksempel kunne være https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/transferSize da transferSize er lig med 0 hvis den er cached men det er ikke understøttet på safari
-      let lectioCookie = await response.headers.get('set-lectio-cookie')
+  if (response.ok) {
+    // If the response is ok, return the data, otherwise redirect to the auth page
+    if (stop - start > 100) {
+      // Dette gøres for at tjekke om responset er cached. Vi skal finde en bedre måde at gøre det på. Et eksempel kunne være https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/transferSize da transferSize er lig med 0 hvis den er cached men det er ikke understøttet på safari
+      let lectioCookie = await response.headers.get("set-lectio-cookie");
       if (lectioCookie && lectioCookie != "null") {
         localStorage.setItem("lectio-cookie", lectioCookie);
       }
@@ -73,7 +75,7 @@ export async function get(endpoint) {
     ).json();
 
     if (validationCheck?.valid) {
-      let lectioCookie = await validationCheck.headers.get('set-lectio-cookie')
+      let lectioCookie = await validationCheck.headers.get("set-lectio-cookie");
       if (lectioCookie && lectioCookie != "null") {
         localStorage.setItem("lectio-cookie", lectioCookie);
       }

@@ -28,8 +28,7 @@
   get("/opgave?exerciseid=" + exerciseid).then((data) => {
     const { oplysninger, opgave_indlæg, gruppemedlemmer, afleveres_af } = data;
 
-    const { opgavebeskrivelse, opgavenote, opgavetitel, afleveringsfrist, elevtid, hold, karakterskala } =
-      oplysninger;
+    const { opgavebeskrivelse, opgavenote, opgavetitel, afleveringsfrist, elevtid, hold, karakterskala } = oplysninger;
 
     const { elev, afventer, status_fravær, afsluttet, karakter, karakternote, elevnote } = afleveres_af;
     elevId = elev.bruger_id.slice(1);

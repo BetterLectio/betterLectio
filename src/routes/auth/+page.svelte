@@ -30,9 +30,7 @@
   async function setSkole() {
     await document.window;
     let checkbox = document.getElementById("saveSchoolIdCheck");
-    checkbox.checked == true
-      ? localStorage.setItem("skole_id", skole_id)
-      : localStorage.removeItem("skole_id");
+    checkbox.checked == true ? localStorage.setItem("skole_id", skole_id) : localStorage.removeItem("skole_id");
   }
 
   function updateOptions() {
@@ -91,7 +89,7 @@
         localStorage.setItem("theme", theme);
         localStorage.setItem("firstTime", firstTime);
         setSkole();
-        let lectioCookie = await response.headers.get('set-lectio-cookie')
+        let lectioCookie = await response.headers.get("set-lectio-cookie");
         if (lectioCookie && lectioCookie != "null") {
           localStorage.setItem("lectio-cookie", lectioCookie);
         }
@@ -120,9 +118,7 @@
   <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
-      <label for="my-modal-3" id="CantLogInAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
-        >✕</label
-      >
+      <label for="my-modal-3" id="CantLogInAlertX" class="btn-sm btn-circle btn absolute right-2 top-2">✕</label>
       <h3 class="text-lg font-bold">Kunne ikke logge ind</h3>
       <p class="py-4">Der skete en fejl, er du sikker på at du har indtastet dine oplysninger korrekt?</p>
     </div>
@@ -130,9 +126,7 @@
   <input type="checkbox" id="MissingInfoAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
-      <label for="my-modal-3" id="MissingInfoAlertX" class="btn-sm btn-circle btn absolute right-2 top-2"
-        >✕</label
-      >
+      <label for="my-modal-3" id="MissingInfoAlertX" class="btn-sm btn-circle btn absolute right-2 top-2">✕</label>
       <h3 class="text-lg font-bold">Mangler info</h3>
       <p class="py-4">Du skal udfylde alle felterne for at logge ind.</p>
     </div>
@@ -216,21 +210,16 @@
                 </div>
               </div>
               <p class="text-gray-700">
-                Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du
-                logger ind accepterer du at din browser gemmer dine oplysninger. De gemmes kun på din browser
-                og bliver ikke sendt til nogen server bortset fra Lectio og vores proxy/translation layer.
+                Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind
+                accepterer du at din browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til
+                nogen server bortset fra Lectio og vores proxy/translation layer.
                 <br /><br />
                 Når du logger ind accepterer du automatisk vores
-                <a
-                  class="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                  href="/tos">TOS</a
-                >
+                <a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">TOS</a>
               </p>
               <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <div type="submit" class="AOC btn-primary btn" style="user-select: none" on:click={login}>
-                  Log ind
-                </div>
+                <div type="submit" class="AOC btn-primary btn" style="user-select: none" on:click={login}>Log ind</div>
               </div>
             </div>
           </div>

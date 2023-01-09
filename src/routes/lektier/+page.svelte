@@ -19,13 +19,12 @@
     <ul class="list">
       {#if $lektier}
         {#each $lektier as lektie}
-        <a href="/modul?absid={lektie.aktivitet.absid}">
-          <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+          <a href="/modul?absid={lektie.aktivitet.absid}">
+            <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
               <div>
                 <p>
                   <span class="font-bold"
-                    >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet
-                      .hold}</span
+                    >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet.hold}</span
                   >
                   ({lektie.aktivitet.tidspunkt})
                 </p>
@@ -34,7 +33,7 @@
             </li>
           </a>
         {/each}
-        {/if}
+      {/if}
     </ul>
   {:else}
     <p>Du har ingen kommende lektier de næste 14 dage</p>

@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "blurple": "#5865F2"
+        blurple: "#5865F2",
       },
       height: {
         "10v": "10vh",
@@ -19,23 +19,23 @@ module.exports = {
         "100v": "100vh",
       },
       scale: {
-        "99": "0.99"
+        99: "0.99",
       },
       keyframes: {
-        'fade-in-down': {
-          '0%': {
-            opacity: '0',
-            transform: 'translateY(-10px)'
+        "fade-in-down": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(-10px)",
           },
-          '100%': {
-            opacity: '1',
-            transform: 'translateY(0)'
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
           },
-        }
+        },
       },
       animation: {
-        'fade-in-down': 'fade-in-down 0.5s ease-out'
-      }
+        "fade-in-down": "fade-in-down 0.5s ease-out",
+      },
     },
     container: {
       padding: {
@@ -44,7 +44,7 @@ module.exports = {
         lg: "4rem",
         xl: "5rem",
         "2xl": "6rem",
-      }
+      },
     },
   },
   daisyui: {

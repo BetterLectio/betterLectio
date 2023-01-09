@@ -92,7 +92,7 @@
     });
 
     const concFravær = [...$fravaer.data.moduler.manglende_fraværsårsager, ...$fravaer.data.moduler.oversigt];
-    let monthToFravær = Object.assign({}, ...moment.months().map((monthName) => ({[monthName]: 0})));
+    let monthToFravær = Object.assign({}, ...moment.months().map((monthName) => ({ [monthName]: 0 })));
 
     for (let index = 0; index < concFravær.length; index++) {
       const modul = concFravær[index].aktivitet;

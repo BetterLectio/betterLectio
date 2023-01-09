@@ -45,31 +45,23 @@
 </script>
 
 <div class="tabs tabs-boxed mb-4 w-fit md:hidden">
-  <a id="konto" class="tab {page == 'konto' ? 'tab-active' : ''}" on:click={() => changePage("konto")}
-    >Din konto</a
-  >
+  <a id="konto" class="tab {page == 'konto' ? 'tab-active' : ''}" on:click={() => changePage("konto")}>Din konto</a>
   <a id="api" class="tab {page == 'api' ? 'tab-active' : ''}" on:click={() => changePage("api")}>API</a>
   <a id="pro" class="tab {page == 'pro' ? 'tab-active' : ''}" on:click={() => changePage("pro")}>Pro</a>
   <a id="tema" class="tab {page == 'tema' ? 'tab-active' : ''}" on:click={() => changePage("tema")}>Tema</a>
-  <a id="tilslut" class="tab {page == 'tilslut' ? 'tab-active' : ''}" on:click={() => changePage("tilslut")}
-    >Tilslut</a
-  >
+  <a id="tilslut" class="tab {page == 'tilslut' ? 'tab-active' : ''}" on:click={() => changePage("tilslut")}>Tilslut</a>
 </div>
 
 <div class="flex min-h-screen">
   <ul class="menu rounded-box mr-4 hidden h-fit w-52 bg-base-200 p-2 md:inline">
     <li class="mb-1">
-      <p class="font-bold {page == 'konto' ? 'active' : ''}" on:click={() => changePage("konto")}>
-        Din konto
-      </p>
+      <p class="font-bold {page == 'konto' ? 'active' : ''}" on:click={() => changePage("konto")}>Din konto</p>
     </li>
     <li class="mb-1">
       <p class="font-bold {page == 'api' ? 'active' : ''}" on:click={() => changePage("api")}>API</p>
     </li>
     <li class="mb-1">
-      <p class="font-bold {page == 'pro' ? 'active' : ''}" on:click={() => changePage("pro")}>
-        Better Lectio Pro
-      </p>
+      <p class="font-bold {page == 'pro' ? 'active' : ''}" on:click={() => changePage("pro")}>Better Lectio Pro</p>
     </li>
     <li class="mb-1">
       <p class="font-bold {page == 'tema' ? 'active' : ''}" on:click={() => changePage("tema")}>Tema</p>

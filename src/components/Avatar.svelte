@@ -52,11 +52,7 @@
           </button>
         {:else}
           <button class="placeholder avatar">
-            <div
-              class="rounded-full bg-neutral-focus text-neutral-content {size} {squared
-                ? 'rounded'
-                : 'rounded-full'}"
-            >
+            <div class="rounded-full bg-neutral-focus text-neutral-content {size} {squared ? 'rounded' : 'rounded-full'}">
               <span class="text-xl">{navn ? navn[0] : "?"}</span>
             </div>
           </button>

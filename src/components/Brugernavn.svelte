@@ -7,9 +7,9 @@
   export let className;
 </script>
 
-<div class="dropdown dropdown-right">
+<div class="dropdown-right dropdown">
   <button tabindex="0" class="{className} hover:underline">{navn}</button>
-  <div tabindex="0" class="dropdown-content p-2 shadow bg-base-100 rounded-box">
-    <BrugerDropdown navn={navn} id={id}/>
+  <div tabindex="0" class="dropdown-content rounded-box bg-base-100 p-2 shadow">
+    <BrugerDropdown {navn} {id} />
   </div>
 </div>
