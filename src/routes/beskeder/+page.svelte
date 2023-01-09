@@ -72,7 +72,7 @@
   function getValidModtagere(modtagere) {
     let validModtagere = [];
     for (const modtager of modtagere) {
-      if ($informationer.lærereOgElever[modtager]) {
+      if ($informationer?.lærereOgElever[modtager]) {
         validModtagere.push(modtager);
       }
     }
