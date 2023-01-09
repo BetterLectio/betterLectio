@@ -126,12 +126,14 @@
       {#if personAfleveringItems?.afsluttet == "Nej"}
         <a
           href="https://www.lectio.dk/lectio/{cookie.school}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
+          target="_blank"
           class="btn-primary btn my-2">Aflever igen</a
         >
       {/if}
     {:else if cookie?.school}
       <a
         href="https://www.lectio.dk/lectio/{cookie.school}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
+        target="_blank"
         class="btn-primary btn my-2">Aflever Her!</a
       >
     {/if}
