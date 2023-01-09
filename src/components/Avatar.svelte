@@ -7,8 +7,8 @@
 
   export let size = "w-12";
 
-  export let squared;
-  export let clickable;
+  export let squared = false;
+  export let clickable = false;
 
   let element;
   let source;
