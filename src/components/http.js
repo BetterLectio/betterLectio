@@ -46,17 +46,21 @@ export async function get(endpoint) {
   } else {
     url += "?nonce=" + nonce;
   }
+  let start = performance.now();
   const response = await fetch(url, {
     headers: {
       "lectio-cookie": localStorage.getItem("lectio-cookie")
     },
   });
+  let stop = performance.now();
 
   const textResponse = await response.text();
   if (response.ok) {// If the response is ok, return the data, otherwise redirect to the auth page
-    let lectioCookie = await response.headers.get('set-lectio-cookie')
-    if (lectioCookie && lectioCookie != "null") {
-      localStorage.setItem("lectio-cookie", lectioCookie);
+    if (stop-start > 100) { // Dette gøres for at tjekke om responset er cached. Vi skal finde en bedre måde at gøre det på. Et eksempel kunne være https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/transferSize da transferSize er lig med 0 hvis den er cached men det er ikke understøttet på safari
+      let lectioCookie = await response.headers.get('set-lectio-cookie')
+      if (lectioCookie && lectioCookie != "null") {
+        localStorage.setItem("lectio-cookie", lectioCookie);
+      }
     }
     return JSON.parse(textResponse.replace("\n", "  "));
   } else {
@@ -69,7 +73,7 @@ export async function get(endpoint) {
     ).json();
 
     if (validationCheck?.valid) {
-      let lectioCookie = await response.headers.get('set-lectio-cookie')
+      let lectioCookie = await validationCheck.headers.get('set-lectio-cookie')
       if (lectioCookie && lectioCookie != "null") {
         localStorage.setItem("lectio-cookie", lectioCookie);
       }
