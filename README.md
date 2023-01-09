@@ -19,58 +19,31 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 ## TODO
 
 1. opgave side
-
-   - udvid API til at kunne hente specifikke opgaver og (API) ✅
-   - hvis det er en opgave med en fil, så skal der være en download knap (API) (UI)✅
    - hvis det er en gruppeopgave, så skal der være en liste over alle gruppemedlemmer og man skal kunne vælge personer fra listen (API) (UI)
    - der kan være en måde at uploade filer på (UI) (API)
    - der skal være en måde at skrive beskeder på (UI) (API)
-   - den skal se folt ud ved hjælp af Daisy UI (UI) ✅
-   - Afsluttede opgaver (API, UI)✅
 
 2. skema side
-
-   - lav skemaet kompatibelt med daisy UI (UI) ✅
-   - mulighed for at cache skemaet (API)✅
    - kunne se andre elevers skema (API) (UI)
-   - Skema crasher hvis man har eksamen eller privat aftale (API) ✅
+   - se skema for lokaler (API) (UI)
 
 3. værktøjs side (nyttige værktøjer til brugeren)
-
    - IDÉ - hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
-   - IDÉ - opgave formatter (Askes side projekt) (API? måske client side) ✅
    - IDÉ - hvor mange dage til næste prøve (API)
-   - IDÉ - hvornår har jeg fri (client side med callback til server) ✅
    - IDÉ - hvor mange moduler kan jeg i teorien pjekke før jeg får x% fravær (client side med callback til server) (brug data fra fravær side)
    - IDÉ - Skole community side hvor man kan ved hjælp af Discord OAuth2 lave private Discord servere hvor man kan vælge hvilke klasser/grupper/klubber der kan være med eller hele skolen om hele skolen kan være med (Discord OAuth2, database)
    - IDÉ - Man kan højre klikke på en anden bruger og så kommer der en popup lidt som på Discord hvor der står en status som er om de har fri eller om de har time og hvilken time de har og med en knap til at skrive til dem osv.
-   - IDÉ - Ledige lokaler (API)✅
 
 4. fravær side
-
-   - lav fravær side backend (API)✅
-   - lav fravær side frontend (UI)✅
-   - Måske lav en graf over fravær evt. snup den fra lectio? (UI) (API)✅
+   - få grafen til at loade på første pageload
 
 5. beskeder side
-
-   - Cache billeder (Client side)✅
-   - Modtagere (API + Client side)✅
-   - Klik på beskeder og fremvis dem (UI + API)✅
    - IDÉ - :emojis: (UI)
 
 6. features
-
-   - IDÉ - mulighed for at gemme skemaet local storage (med tids stempel) (client side)✅
-   - terms of service (har lavet en seperat branch) (UI) ✅
-   - lectio billder? (UI) (API) ✅
-   - Tilføj alerts fra daisy ui i alert.js (UI) 1/7
+   - Tilføj alerts fra daisy ui i alert.js (UI)
 
 7. bugs
-
-   - løs z-index problemer (UI) ✅
-   - Daisy UI CSS på skema ✅
-   - Fjern alt cached når man manuelt logger ud eller man er logget ind med en ny konto (client side)✅
    - Når man kigger på en side og man så får login siden skal man når man har logget ind blive redirected til den side man originalt var på (client side)
 
 8. dokumentation
