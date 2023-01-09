@@ -6,7 +6,7 @@
         let karaktererSum = 0;
         let karaktererVægtningSum = 0;
         data.forEach(karakter => {
-            if (karakter.medtæller == "Ja") {
+            if (karakter.medtæller == "Ja" && karakter.karakter != "--") {
                 karaktererSum += parseFloat(karakter.karakter) * parseFloat(karakter.vægt.replace(",", "."));
                 karaktererVægtningSum += parseFloat(karakter.vægt.replace(",", "."));
             }
