@@ -28,26 +28,17 @@
       navn.pop();
       navn = navn.join(" ");
       navn = `${key.split(navn)[0].slice(0, -1)}(${navn})`;
-      console.log(navn);
       _elever[navn] = value;
     }
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
-    get(`/beskeder2`).then((data) => {
-      $beskeder = data.map((besked) => {
-        besked.datoObject = convertDate(besked.dato);
-        return besked;
-      });
-      $beskeder = [...$beskeder];
-      //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
-      $beskeder.forEach((besked) => {
-        allowed[besked.message_id] = true;
-        besked.modtagere.forEach((modtager) => {
-          if ($informationer.lærereOgElever[modtager] == undefined) {
-            allowed[besked.message_id] = false;
-          }
-        });
-      });
+  });
+
+  get(`/beskeder2`).then((data) => {
+    const _beskeder = data.map((besked) => {
+      besked.datoObject = convertDate(besked.dato);
+      return besked;
     });
+    $beskeder = [..._beskeder];
   });
 
   function convertDate(dateString) {
@@ -73,9 +64,19 @@
 
   let selected = "Alle";
   let searchString = "";
-  
+
   function isAuther(messageAuther) {
     return messageAuther.replace("(", "").replace(")", "") == $brugeren.navn.replace(",", "");
+  }
+
+  function getValidModtagere(modtagere) {
+    let validModtagere = [];
+    for (const modtager of modtagere) {
+      if ($informationer.lærereOgElever[modtager]) {
+        validModtagere.push(modtager);
+      }
+    }
+    return validModtagere;
   }
 </script>
 
@@ -152,25 +153,23 @@
                   <div class="right-1 flex items-center">
                     <div class="mr-1 flex -space-x-4">
                       {#if window.innerWidth > 640}
-                        {#if allowed[besked.message_id]}
-                          {#each besked.modtagere.slice(0, 3) as modtager}
-                            {#if $informationer.lærereOgElever[modtager] != null}
-                              <div class="z-0">
-                                <Avatar
-                                  id={$informationer.lærereOgElever[modtager]}
-                                  navn={modtager}
-                                  size="h-10 w-10"
-                                />
-                              </div>
-                            {/if}
-                          {/each}
-                          {#if besked.modtagere.length > 3}
-                            <div
-                              class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white"
-                            >
-                              +{besked.modtagere.length - 3}
+                        {#each getValidModtagere(besked.modtagere).slice(0, 3) as modtager}
+                          {#if $informationer?.lærereOgElever[modtager]}
+                            <div class="z-0">
+                              <Avatar
+                                id={$informationer.lærereOgElever[modtager]}
+                                navn={modtager}
+                                size="h-10 w-10"
+                              />
                             </div>
                           {/if}
+                        {/each}
+                        {#if getValidModtagere(besked.modtagere).length > 3}
+                          <div
+                            class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white"
+                          >
+                            +{besked.modtagere.length - 3}
+                          </div>
                         {/if}
                       {/if}
                     </div>
