@@ -5,18 +5,19 @@
   import { reloadData } from "./http";
   import Themes from "./Themes.svelte";
 
-
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
   });
 </script>
 
-<div class="z-30 flex-col justify-between h-100v w-16 bg-base-300 p-1 hidden fixed lg:inline-flex rounded-xl rounded-l-none">
+<div
+  class="fixed z-30 hidden h-100v w-16 flex-col justify-between rounded-xl rounded-l-none bg-base-300 p-1 lg:inline-flex"
+>
   <div>
     <a
       href="/forside"
-      class="group btn btn-primary mb-1 flex h-14 w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
+      class="group btn-primary btn mb-1 flex h-14 w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
     >
       <svg
         version="1.1"
@@ -43,18 +44,41 @@
         >Forside</span
       >
     </a>
-    <label for="søg-popup" class="group btn mb-1 flex h-14 w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44">
-      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg>
+    <label
+      for="søg-popup"
+      class="group btn mb-1 flex h-14 w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="25"
+        height="25"
+        fill="currentColor"
+        class="bi bi-search"
+        viewBox="0 0 16 16"
+        ><path
+          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+        /></svg
+      >
       <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-20 group-hover:opacity-100"
         >Søg</span
       >
     </label>
-    <div class="my-4"></div>
+    <div class="my-4" />
     <a
       href="/skema"
-      class="group btn btn-sm mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
+      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
     >
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-calendar2-week-fill" viewBox="0 0 16 16"><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zm9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5zM8.5 7a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM3 10.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1z"></path></svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        class="bi bi-calendar2-week-fill"
+        viewBox="0 0 16 16"
+        ><path
+          d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zm9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5zM8.5 7a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM3 10.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1z"
+        /></svg
+      >
 
       <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-20 group-hover:opacity-100"
         >Skema</span
@@ -62,70 +86,153 @@
     </a>
     <a
       href="/opgaver"
-      class="group btn btn-sm mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
+      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
     >
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z"></path><path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z"></path><path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z"></path></svg>
-      
-    <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-20 group-hover:opacity-100"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        class="bi bi-list-task"
+        viewBox="0 0 16 16"
+        ><path
+          fill-rule="evenodd"
+          d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z"
+        /><path
+          d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z"
+        /><path
+          fill-rule="evenodd"
+          d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z"
+        /></svg
+      >
+
+      <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-20 group-hover:opacity-100"
         >Opgaver</span
       >
     </a>
     <a
       href="/lektier"
-      class="group btn btn-sm mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
+      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
     >
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmarks-fill" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4z"></path><path d="M4.268 1A2 2 0 0 1 6 0h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L13 13.768V2a1 1 0 0 0-1-1H4.268z"></path></svg>
-      
-    <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-20 group-hover:opacity-100"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        class="bi bi-bookmarks-fill"
+        viewBox="0 0 16 16"
+        ><path
+          d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4z"
+        /><path
+          d="M4.268 1A2 2 0 0 1 6 0h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L13 13.768V2a1 1 0 0 0-1-1H4.268z"
+        /></svg
+      >
+
+      <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-20 group-hover:opacity-100"
         >Lektier</span
       >
     </a>
     <a
       href="/fravær"
-      class="group btn btn-sm mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
+      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
     >
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16"><path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"></path></svg>      
-    <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-20 group-hover:opacity-100"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        class="bi bi-bar-chart-fill"
+        viewBox="0 0 16 16"
+        ><path
+          d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"
+        /></svg
+      >
+      <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-20 group-hover:opacity-100"
         >Fravær</span
       >
     </a>
     <a
       href="/dokumenter"
-      class="group btn btn-sm mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
+      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
     >
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16"><path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path></svg>      
-    <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-28 group-hover:opacity-100"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        class="bi bi-files"
+        viewBox="0 0 16 16"
+        ><path
+          d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"
+        /></svg
+      >
+      <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-28 group-hover:opacity-100"
         >Dokumenter</span
       >
     </a>
     <a
       href="/beskeder"
-      class="group btn btn-sm mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
+      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
     >
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16"><path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"></path></svg>    <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-20 group-hover:opacity-100"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        class="bi bi-chat-left-text-fill"
+        viewBox="0 0 16 16"
+        ><path
+          d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"
+        /></svg
+      >
+      <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-20 group-hover:opacity-100"
         >Beskeder</span
       >
     </a>
     <a
       href="/karakterer"
-      class="group btn btn-sm mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
+      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
     >
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16"><path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"></path><path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"></path></svg>    <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-28 group-hover:opacity-100"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        class="bi bi-mortarboard-fill"
+        viewBox="0 0 16 16"
+        ><path
+          d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"
+        /><path
+          d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"
+        /></svg
+      >
+      <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-28 group-hover:opacity-100"
         >Karakterer</span
       >
     </a>
     <a
       href="/værktøjer"
-      class="group btn btn-sm mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
+      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-300 hover:w-44"
     >
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16"><path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0Zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708ZM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11Z"></path></svg>
-    <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-28 group-hover:opacity-100"
-    >Værktøjer</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        class="bi bi-tools"
+        viewBox="0 0 16 16"
+        ><path
+          d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0Zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708ZM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11Z"
+        /></svg
+      >
+      <span class=" w-0 opacity-0 transition-all duration-300 group-hover:w-28 group-hover:opacity-100"
+        >Værktøjer</span
+      >
     </a>
   </div>
   <div>
-    <div class="dropdown dropdown-top z-50 w-full mb-1">
-      <button class="btn btn-sm w-full" for="theme-select">
+    <div class="dropdown-top dropdown z-50 mb-1 w-full">
+      <button class="btn-sm btn w-full" for="theme-select">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="25"
@@ -140,31 +247,49 @@
           <path
             d="M16 8c0 3.15-1.866 2.585-3.567 2.07C11.42 9.763 10.465 9.473 10 10c-.603.683-.475 1.819-.351 2.92C9.826 14.495 9.996 16 8 16a8 8 0 1 1 8-8zm-8 7c.611 0 .654-.171.655-.176.078-.146.124-.464.07-1.119-.014-.168-.037-.37-.061-.591-.052-.464-.112-1.005-.118-1.462-.01-.707.083-1.61.704-2.314.369-.417.845-.578 1.272-.618.404-.038.812.026 1.16.104.343.077.702.186 1.025.284l.028.008c.346.105.658.199.953.266.653.148.904.083.991.024C14.717 9.38 15 9.161 15 8a7 7 0 1 0-7 7z"
           />
-      </button>
-      <ul class="dropdown-content menu rounded-box mt-3 flex w-52 bg-base-100 p-2 shadow z-50" id="theme-select"
-       tabindex="10">
+        </svg></button
+      >
+      <ul
+        class="dropdown-content menu rounded-box z-50 mt-3 flex w-52 bg-base-100 p-2 shadow"
+        id="theme-select"
+        tabindex="10"
+      >
         <Themes class="z-50" />
       </ul>
     </div>
     {#if $brugeren && localStorage.getItem("lectio-cookie") && cookie}
-    <a
-      href="/indstillinger"
-      class="group btn h-14 w-full mb-1"
-    >
-    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
-      <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
-    </svg>
-    </a>
-    <div
-      tabindex="0"
-      class="group btn flex h-14 w-full flex-row flex-nowrap justify-between overflow-x-hidden px-3 pl-2 transition-[width] duration-300 hover:w-80  whitespace-nowrap"
-    >
-      <div class="pl-[1.8px] pt-[1.5px]">
-        <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-[2.1rem]" />
+      <a href="/indstillinger" class="group btn mb-1 h-14 w-full">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          fill="currentColor"
+          class="bi bi-gear-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"
+          />
+        </svg>
+      </a>
+      <div
+        tabindex="0"
+        class="group btn flex h-14 w-full flex-row flex-nowrap justify-between overflow-x-hidden whitespace-nowrap px-3 pl-2 transition-[width] duration-300  hover:w-80"
+      >
+        <div class="pl-[1.8px] pt-[1.5px]">
+          <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-[2.1rem]" />
+        </div>
+        <button
+          class="btn-warning btn-sm btn-circle btn w-36 border-none opacity-0 transition-all duration-300 group-hover:opacity-100"
+          on:click={() => {
+            reloadData();
+          }}>Reload Data</button
+        >
+        <label
+          class="btn-error btn-sm btn-circle btn w-24 border-none opacity-0 transition-all duration-300 group-hover:opacity-100"
+          for="logud-modal">Log ud</label
+        >
       </div>
-      <button class="btn btn-warning btn-sm btn-circle w-36 opacity-0 transition-all duration-300 border-none group-hover:opacity-100" on:click={() => {reloadData();}}>Reload Data</button>
-      <label class="btn btn-error btn-sm btn-circle w-24 opacity-0 transition-all duration-300 border-none group-hover:opacity-100" for="logud-modal">Log ud</label>
-  </div>
     {/if}
   </div>
 </div>
