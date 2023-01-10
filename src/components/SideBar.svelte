@@ -157,11 +157,13 @@
     </a>
     <div
       tabindex="0"
-      class="group btn mb-1 flex h-14 w-full flex-row flex-nowrap justify-between overflow-x-hidden p-0 px-2 transition-[width] duration-300 hover:w-80  whitespace-nowrap"
+      class="group btn mb-1 flex h-14 w-full flex-row flex-nowrap justify-between overflow-x-hidden px-3 pl-2 transition-[width] duration-300 hover:w-80  whitespace-nowrap"
     >
-      <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-9" />
-      <button class="btn btn-warning btn-sm btn-circle w-36 opacity-0 transition-all duration-300 group-hover:opacity-100" on:click={() => {reloadData();}}>Reload Data</button>
-      <label class="btn btn-error btn-sm btn-circle w-24 opacity-0 transition-all duration-300 group-hover:opacity-100" for="logud-modal">Log ud</label>
+      <div class="pl-[1.8px] pt-[1.5px]">
+        <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-[2.1rem]" />
+      </div>
+      <button class="btn btn-warning btn-sm btn-circle w-36 opacity-0 transition-all duration-300 border-none group-hover:opacity-100" on:click={() => {reloadData();}}>Reload Data</button>
+      <label class="btn btn-error btn-sm btn-circle w-24 opacity-0 transition-all duration-300 border-none group-hover:opacity-100" for="logud-modal">Log ud</label>
   </div>
     {/if}
   </div>
