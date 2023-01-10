@@ -55,8 +55,7 @@
   <label class="modal-box relative" for="">
     <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
     <p class="py-4">
-      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn
-      og kodeord.
+      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.
     </p>
     <span class="flex">
       <div class="modal-action">
@@ -153,18 +152,8 @@
         <p />
         <div class="dropdown">
           <button on:click={handleClick} class="btn-ghost btn xl:hidden" aria-label="navbar button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              /></svg
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              ><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg
             >
           </button>
         </div>
@@ -261,7 +250,7 @@
         {/if}
         <ThemeSelect />
         {#if $brugeren && localStorage.getItem("lectio-cookie") && cookie}
-          <div class="dropdown-bottom dropdown-end dropdown hidden md:block">
+          <div class="dropdown dropdown-bottom dropdown-end hidden md:block">
             <div tabindex="0" class="btn-ghost btn flex justify-end gap-1 font-normal normal-case">
               <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-10" />
               <svg
@@ -269,8 +258,7 @@
                 height="12px"
                 class="ml-1 hidden h-3 w-3 fill-current opacity-60 sm:inline-block"
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 2048 2048"
-                ><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z" /></svg
+                viewBox="0 0 2048 2048"><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z" /></svg
               >
             </div>
 
@@ -331,10 +319,7 @@
                     class="mx-0 fill-current p-0"
                     viewBox="0 0 16 16"
                   >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
-                    />
+                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
                     <path
                       d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"
                     />
@@ -439,9 +424,7 @@
                 <path
                   d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4z"
                 />
-                <path
-                  d="M4.268 1A2 2 0 0 1 6 0h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L13 13.768V2a1 1 0 0 0-1-1H4.268z"
-                />
+                <path d="M4.268 1A2 2 0 0 1 6 0h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L13 13.768V2a1 1 0 0 0-1-1H4.268z" />
               </svg>Lektier</a
             >
           </li>
@@ -573,13 +556,7 @@
               reloadData();
             }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              class="mx-0 fill-current p-0"
-              viewBox="0 0 16 16"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-current p-0" viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
               <path
                 d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"
@@ -591,16 +568,8 @@
         <div class="ml-3 mr-3 mt-2 mb-2 h-px border-0 bg-gray-700" />
         <li>
           <label for="logud-modal" class="bg-error">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              class="fill-error-content"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="fill-error-content" viewBox="0 0 16 16">
+              <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z" />
               <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
             </svg>
             <p class="text-error-content">Log ud</p>

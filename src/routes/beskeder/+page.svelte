@@ -18,36 +18,25 @@
         - Måske gør så man får al teksten og derfor ikke behøver at klikke på lektien
      */
 
-  let allowed = {};
-
   get("/informationer").then((data) => {
-    $informationer = data;
+    const _informationer = data;
     let _elever = {};
-    for (const [key, value] of Object.entries($informationer.elever)) {
+    for (const [key, value] of Object.entries(_informationer.elever)) {
       let navn = key.split("(").at(-1).split(" ");
       navn.pop();
       navn = navn.join(" ");
       navn = `${key.split(navn)[0].slice(0, -1)}(${navn})`;
-      console.log(navn);
       _elever[navn] = value;
     }
-    $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
-    get(`/beskeder2`).then((data) => {
-      $beskeder = data.map((besked) => {
-        besked.datoObject = convertDate(besked.dato);
-        return besked;
-      });
-      $beskeder = [...$beskeder];
-      //.sort((a, b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date)));
-      $beskeder.forEach((besked) => {
-        allowed[besked.message_id] = true;
-        besked.modtagere.forEach((modtager) => {
-          if ($informationer.lærereOgElever[modtager] == undefined) {
-            allowed[besked.message_id] = false;
-          }
-        });
-      });
+    $informationer.lærereOgElever = { ..._informationer.lærere, ..._elever };
+  });
+
+  get(`/beskeder2`).then((data) => {
+    const _beskeder = data.map((besked) => {
+      besked.datoObject = convertDate(besked.dato);
+      return besked;
     });
+    $beskeder = [..._beskeder];
   });
 
   function convertDate(dateString) {
@@ -73,9 +62,19 @@
 
   let selected = "Alle";
   let searchString = "";
-  
+
   function isAuther(messageAuther) {
     return messageAuther.replace("(", "").replace(")", "") == $brugeren.navn.replace(",", "");
+  }
+
+  function getValidModtagere(modtagere) {
+    let validModtagere = [];
+    for (const modtager of modtagere) {
+      if ($informationer?.lærereOgElever[modtager]) {
+        validModtagere.push(modtager);
+      }
+    }
+    return validModtagere;
   }
 </script>
 
@@ -135,10 +134,7 @@
                 <div class="flex justify-between">
                   <div class="ml-1 flex items-center">
                     {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
-                      <Avatar
-                        id={$informationer.lærereOgElever[besked.førsteBesked]}
-                        navn={besked.førsteBesked}
-                      />
+                      <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
                     {/if}
                     <div class="ml-5">
                       <p part="emne" class="text-lg font-bold">
@@ -152,25 +148,19 @@
                   <div class="right-1 flex items-center">
                     <div class="mr-1 flex -space-x-4">
                       {#if window.innerWidth > 640}
-                        {#if allowed[besked.message_id]}
-                          {#each besked.modtagere.slice(0, 3) as modtager}
-                            {#if $informationer.lærereOgElever[modtager] != null}
-                              <div class="z-0">
-                                <Avatar
-                                  id={$informationer.lærereOgElever[modtager]}
-                                  navn={modtager}
-                                  size="h-10 w-10"
-                                />
-                              </div>
-                            {/if}
-                          {/each}
-                          {#if besked.modtagere.length > 3}
-                            <div
-                              class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white"
-                            >
-                              +{besked.modtagere.length - 3}
+                        {#each getValidModtagere(besked.modtagere).slice(0, 3) as modtager}
+                          {#if $informationer?.lærereOgElever[modtager]}
+                            <div class="z-0">
+                              <Avatar id={$informationer.lærereOgElever[modtager]} navn={modtager} size="h-10 w-10" />
                             </div>
                           {/if}
+                        {/each}
+                        {#if getValidModtagere(besked.modtagere).length > 3}
+                          <div
+                            class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white"
+                          >
+                            +{besked.modtagere.length - 3}
+                          </div>
                         {/if}
                       {/if}
                     </div>
