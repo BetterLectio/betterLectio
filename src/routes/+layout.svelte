@@ -9,6 +9,7 @@
   import { reloadData } from "../components/http";
   import { cookieInfo } from "../components/CookieInfo";
   import Notify from "../components/Notify.svelte";
+  import SideBar from "../components/SideBar.svelte";
   export let data;
 
   let cookie;
@@ -86,8 +87,9 @@
 
 <div class="drawer h-screen">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" bind:checked />
+
   <div class="drawer-content">
-    <div class="navbar relative z-50 mb-10">
+    <div class="navbar relative z-50 mb-10 inline-flex lg:hidden">
       <div class="navbar-start">
         <p />
         <div class="dropdown">
@@ -133,24 +135,6 @@
             />
           </svg><span class="hidden md:block">Better Lectio</span>
         </p>
-      </div>
-      <div class="navbar-center hidden xl:flex">
-        <ul class="menu menu-horizontal p-0">
-          {#if $brugeren && localStorage.getItem("lectio-cookie")}
-            <li><a href="/skema">Skema</a></li>
-            <li><a href="/opgaver">Opgaver</a></li>
-            <li><a href="/lektier">Lektier</a></li>
-            <li><a href="/fravær">Fravær</a></li>
-            <li><a href="/dokumenter">Dokumenter</a></li>
-            <li><a href="/beskeder">Beskeder</a></li>
-            <li><a href="/karakterer">Karakterer</a></li>
-            <li><a href="/værktøjer">Værktøjer</a></li>
-          {:else}
-            <li><a href="/">Forside</a></li>
-            <li><a href="/help">Hjælp</a></li>
-            <li><a href="/tos">Servicevilkår & Privatlivspolitik</a></li>
-          {/if}
-        </ul>
       </div>
       <div class="navbar-center flex sm:hidden">
         <p
@@ -307,17 +291,12 @@
         {/if}
       </div>
     </div>
-
-    <div class="container mx-auto">
-      <PageTransition pathname={data.pathname}>
-        <slot />
-      </PageTransition>
-    </div>
-
-    <!-- Her vil notificationer/alerts blive tilføjet-->
-    <div class="fixed bottom-10 right-10 left-10">
-      <div class="flex items-center justify-center">
-        <div id="alerts" />
+    <div class="flex flex-row">
+      <SideBar />
+      <div class="container mx-auto lg:pt-10">
+        <PageTransition pathname={data.pathname}>
+          <slot />
+        </PageTransition>
       </div>
     </div>
   </div>
@@ -549,3 +528,20 @@
     </ul>
   </div>
 </div>
+
+<!--
+{#if $brugeren && localStorage.getItem("lectio-cookie")}
+  <li><a href="/skema">Skema</a></li>
+  <li><a href="/opgaver">Opgaver</a></li>
+  <li><a href="/lektier">Lektier</a></li>
+  <li><a href="/fravær">Fravær</a></li>
+  <li><a href="/dokumenter">Dokumenter</a></li>
+  <li><a href="/beskeder">Beskeder</a></li>
+  <li><a href="/karakterer">Karakterer</a></li>
+  <li><a href="/værktøjer">Værktøjer</a></li>
+{:else}
+  <li><a href="/">Forside</a></li>
+  <li><a href="/help">Hjælp</a></li>
+  <li><a href="/tos">Servicevilkår & Privatlivspolitik</a></li>
+{/if}
+-->
