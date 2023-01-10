@@ -12,7 +12,7 @@
   });
 </script>
 
-<div class="z-30 flex-col justify-between h-100v w-16 bg-base-300 p-1 hidden fixed lg:inline-flex">
+<div class="z-30 flex-col justify-between h-100v w-16 bg-base-300 p-1 hidden fixed lg:inline-flex rounded-xl rounded-l-none">
   <div>
     <a
       href="/forside"
@@ -157,7 +157,7 @@
     </a>
     <div
       tabindex="0"
-      class="group btn mb-1 flex h-14 w-full flex-row flex-nowrap justify-between overflow-x-hidden px-3 pl-2 transition-[width] duration-300 hover:w-80  whitespace-nowrap"
+      class="group btn flex h-14 w-full flex-row flex-nowrap justify-between overflow-x-hidden px-3 pl-2 transition-[width] duration-300 hover:w-80  whitespace-nowrap"
     >
       <div class="pl-[1.8px] pt-[1.5px]">
         <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-[2.1rem]" />
