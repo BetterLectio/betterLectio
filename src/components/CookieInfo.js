@@ -3,7 +3,7 @@ export async function cookieInfo() {
     console.log("Redirect");
     window.location.href = "/auth";
   } else {
-    let decodedCookie = atob(localStorage.getItem("lectio-cookie"));
+    let decodedCookie = window.atob(localStorage.getItem("lectio-cookie"));
     let cookie = JSON.parse(decodedCookie);
     let userDict = {
       user: '',
