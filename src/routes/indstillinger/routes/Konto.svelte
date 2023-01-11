@@ -22,24 +22,6 @@
 <div>
   <div class="form-control">
     <div class="flex">
-      <div class="mr-4 block">
-        <label class="label">
-          <span class="label-text">Brugernavn</span>
-        </label>
-        <label class="input-group">
-          <span>Brugernavn</span>
-          <input type="text" placeholder="abcd4" class="input-bordered input" />
-        </label>
-
-        <label class="label">
-          <span class="label-text">Adgangskode</span>
-        </label>
-        <label class="input-group">
-          <span>Adgangskode</span>
-          <input type="text" placeholder="*******" class="input-bordered input" />
-        </label>
-      </div>
-
       <div class="block">
         <label class="label">
           <span class="label-text">Profil billed</span>
