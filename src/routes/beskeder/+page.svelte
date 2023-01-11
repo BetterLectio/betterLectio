@@ -19,16 +19,16 @@
      */
 
   get("/informationer").then((data) => {
-    const _informationer = data;
+    $informationer = data;
     let _elever = {};
-    for (const [key, value] of Object.entries(_informationer.elever)) {
+    for (const [key, value] of Object.entries($informationer.elever)) {
       let navn = key.split("(").at(-1).split(" ");
       navn.pop();
       navn = navn.join(" ");
       navn = `${key.split(navn)[0].slice(0, -1)}(${navn})`;
       _elever[navn] = value;
     }
-    $informationer.lærereOgElever = { ..._informationer.lærere, ..._elever };
+    $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
   });
 
   get(`/beskeder2`).then((data) => {
@@ -172,5 +172,22 @@
         {/if}
       {/each}
     </ul>
+  {:else}
+    <div class="m-16 flex h-full items-center justify-center">
+      <div class="flex flex-col items-center">
+        <div class="flex h-20 w-20 items-center justify-center rounded-full bg-base-200">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-10 w-10 text-gray-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+        </div>
+        <span class="text-gray-500">Loading messages... </span>
+      </div>
+    </div>
   {/if}
 </body>
