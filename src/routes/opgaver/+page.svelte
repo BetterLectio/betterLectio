@@ -95,7 +95,7 @@
 </script>
 
 <div>
-  <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
+  <h1 class="mb-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="flex flex-col sm:flex-row ">
     <div class="tabs tabs-boxed w-full justify-between sm:w-fit">
