@@ -1,6 +1,6 @@
 <script>
   import Avatar from "../../../components/Avatar.svelte";
-  import Brugernavn from "../../../components/Brugernavn.svelte";
+  import BrugerPopup from "../../../components/BrugerPopup.svelte";
   import { get } from "../../../components/http";
   import { informationer } from "../../../components/store";
   import InfiniteLoading from "svelte-infinite-loading";
@@ -54,7 +54,9 @@
   {#each list as elev}
     <div class="flex items-center">
       <div class="ml-4 mb-4">
-        <Brugernavn className="text-xl font-bold" navn={elev.navn} id={elev.id} />
+        <BrugerPopup navn={elev.navn} id={elev.id}>
+          <p class="text-xl font-bold">{elev.navn}</p>
+        </BrugerPopup>
       </div>
     </div>
   {/each}
