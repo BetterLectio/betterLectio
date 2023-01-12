@@ -1,5 +1,5 @@
 <script>
-  import BrugerDropdown from "./BrugerPopup.svelte";
+  import BrugerDropdown from "./BrugerPopupWindow.svelte";
   import IntersectionObserver from "svelte-intersection-observer";
 
   export let id;
@@ -19,8 +19,9 @@
         "lectio-cookie": localStorage.getItem("lectio-cookie"),
       },
     });
-    const base64Response = await response.text();
-    /*
+    if (response.ok) {
+      const base64Response = await response.text();
+      /*
     Hvorfor er dette udkommenteret? Det er det fordi cachen på billeder vare i rigtig lang tid og derfor bliver lectio-cookie sat til noget gammelt. Indtil vi har fundet en bedre løsning vil det her være udkommenteret
     if (response.ok) {
       let lectioCookie = await response.headers.get('set-lectio-cookie')
@@ -28,7 +29,10 @@
         localStorage.setItem("lectio-cookie", lectioCookie);
       }
     }*/
-    return base64Response;
+      return base64Response;
+    } else {
+      return null;
+    }
   }
 </script>
 
