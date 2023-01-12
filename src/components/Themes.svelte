@@ -1,5 +1,5 @@
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="light" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="light" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="light"
@@ -22,7 +22,7 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="dark" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="dark" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="dark"
@@ -45,7 +45,7 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="winter" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="winter" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="winter"
@@ -68,7 +68,7 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="lectio" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="lectio" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="lectio"
@@ -91,7 +91,7 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="night" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="night" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="night"
@@ -114,7 +114,7 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="garden" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="garden" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="garden"
@@ -137,7 +137,7 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="dracula" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="dracula" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="dracula"
