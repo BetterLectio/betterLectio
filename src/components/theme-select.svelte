@@ -3,7 +3,7 @@
 </script>
 
 <div class="dropdown dropdown-end">
-  <button class="btn-ghost btn gap-1 normal-case" for="theme-select">
+  <button class="btn-ghost btn gap-1 normal-case" for="theme-select" tabindex="0">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="22"
@@ -27,8 +27,7 @@
       viewBox="0 0 2048 2048"><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z" /></svg
     >
   </button>
-  <ul class="dropdown-content menu rounded-box mt-3 flex w-52 bg-base-100 p-2 shadow z-50" id="theme-select"
-   tabindex="10">
+  <ul class="dropdown-content menu rounded-box mt-3 flex w-52 bg-base-100 p-2 shadow z-50" id="theme-select" tabindex="0">
     <Themes class="z-50" />
   </ul>
 </div>

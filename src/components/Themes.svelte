@@ -1,5 +1,5 @@
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="light" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="light" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="light"
@@ -22,7 +22,7 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="dark" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="dark" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="dark"
@@ -45,7 +45,7 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="winter" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="winter" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="winter"
@@ -68,7 +68,7 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="lectio" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="lectio" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="lectio"
@@ -91,7 +91,7 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="night" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="night" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="night"
@@ -114,30 +114,7 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="pastel" data-act-class="ACTIVECLASS">
-    <div
-      class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
-      data-set-theme="pastel"
-      data-act-class="outline"
-    >
-      <div data-theme="pastel" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
-        <div class="grid grid-cols-5 grid-rows-3">
-          <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
-            <div class="flex-grow text-sm font-bold">Pastel</div>
-            <div class="flex flex-shrink-0 flex-wrap gap-1">
-              <div class="w-2 rounded bg-primary" />
-              <div class="w-2 rounded bg-secondary" />
-              <div class="w-2 rounded bg-accent" />
-              <div class="w-2 rounded bg-neutral" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </button>
-</li>
-<li>
-  <button class="mx-0 my-1 p-0" data-set-theme="garden" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="garden" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="garden"
@@ -160,16 +137,16 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="forest" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="dracula" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
-      data-set-theme="forest"
+      data-set-theme="dracula"
       data-act-class="outline"
     >
-      <div data-theme="forest" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
+      <div data-theme="dracula" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
         <div class="grid grid-cols-5 grid-rows-3">
           <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
-            <div class="flex-grow text-sm font-bold">Skov</div>
+            <div class="flex-grow text-sm font-bold">Slik</div>
             <div class="flex flex-shrink-0 flex-wrap gap-1">
               <div class="w-2 rounded bg-primary" />
               <div class="w-2 rounded bg-secondary" />
@@ -183,16 +160,16 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0" data-set-theme="dracula" data-act-class="ACTIVECLASS">
+  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="coffee" data-act-class="ACTIVECLASS">
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
-      data-set-theme="dracula"
+      data-set-theme="coffee"
       data-act-class="outline"
     >
-      <div data-theme="dracula" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
+      <div data-theme="coffee" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
         <div class="grid grid-cols-5 grid-rows-3">
           <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
-            <div class="flex-grow text-sm font-bold">Slik</div>
+            <div class="flex-grow text-sm font-bold">Kaffe</div>
             <div class="flex flex-shrink-0 flex-wrap gap-1">
               <div class="w-2 rounded bg-primary" />
               <div class="w-2 rounded bg-secondary" />
