@@ -14,6 +14,7 @@
       }
     }}
     tabindex="0"
+    class="hover:underline"
   >
     <slot />
   </button>
