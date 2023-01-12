@@ -1,6 +1,6 @@
 <script>
   import Avatar from "../../components/Avatar.svelte";
-  import Brugernavn from "../../components/Brugernavn.svelte";
+  import BrugerPopup from "../../components/BrugerPopup.svelte";
   import { get } from "../../components/http";
   import { addNotification } from "../../components/notifyStore.js";
 
@@ -83,13 +83,15 @@
     {#each besked as _besked}
       <div class="relative mt-4 break-words rounded-lg bg-base-300 p-4" style="margin-left: {_besked.padding_left / 2}em;">
         <button class="btn-sm btn absolute bottom-0 right-0 mb-4 mr-4" on:click={() => handleClick(_besked)}>Besvar</button>
-        <div class="flex items-center">
-          <Avatar id={_besked.bruger.id} navn={_besked.bruger.navn} size="w-14" clickable />
-          <div class="ml-4">
-            <Brugernavn className="text-xl font-bold" navn={_besked.bruger.navn} id={_besked.bruger.id} />
-            <p>{_besked.dato}</p>
+        <BrugerPopup navn={_besked.bruger.navn} id={_besked.bruger.id}>
+          <div class="flex">
+            <Avatar id={_besked.bruger.id} navn={_besked.bruger.navn} size="w-14" />
+            <div class="ml-4">
+              <p class="text-xl font-bold">{_besked.bruger.navn}</p>
+              <p class="text-left">{_besked.dato}</p>
+            </div>
           </div>
-        </div>
+        </BrugerPopup>
 
         <div class="mt-4 mb-4">
           {#each _besked.vedhæftninger as vedhæftning}
