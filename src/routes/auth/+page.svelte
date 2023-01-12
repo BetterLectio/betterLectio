@@ -147,7 +147,7 @@
                 <div class="col-span-3 sm:col-span-2">
                   <p class="text-xl font-bold text-gray-700">Log ind med din Lectio konto</p>
                   <br />
-                  <label for="brugernavn" class="block text-sm font-medium text-gray-700">Brugernavn</label>
+                  <label for="username" class="block text-sm font-medium text-gray-700">Brugernavn</label>
                   <div class="mt-1 flex rounded-md shadow-sm">
                     <span
                       class="inline-flex w-28 items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500"
@@ -155,8 +155,8 @@
                     >
                     <input
                       type="text"
-                      name="brugernavn"
-                      id="brugernavn"
+                      name="username"
+                      id="username-field"
                       class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       placeholder="abcd1"
                       bind:value={brugernavn}
