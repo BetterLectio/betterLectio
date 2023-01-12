@@ -1,5 +1,5 @@
 <script>
-  import BrugerDropdown from "./BrugerPopupWindow.svelte";
+  import BrugerPopup from "./BrugerPopup.svelte";
   import IntersectionObserver from "svelte-intersection-observer";
 
   export let id;
@@ -47,7 +47,7 @@
 >
   <div bind:this={element}>
     {#if clickable}
-      <div class="dropdown-right dropdown">
+      <BrugerPopup {navn} {id}>
         {#if source}
           <button class="avatar">
             <div class={squared ? `${size} rounded` : `${size} rounded-full`}>
@@ -61,10 +61,7 @@
             </div>
           </button>
         {/if}
-        <div tabindex="0" class="dropdown-content rounded-box bg-base-100 p-2 shadow">
-          <BrugerDropdown {navn} {id} />
-        </div>
-      </div>
+      </BrugerPopup>
     {:else if source}
       <div class="avatar">
         <div class="{size} {squared ? `rounded` : `rounded-full`}">
