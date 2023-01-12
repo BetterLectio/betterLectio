@@ -1,5 +1,4 @@
 <script>
-  import BrugerPopup from "./BrugerPopup.svelte";
   import IntersectionObserver from "svelte-intersection-observer";
 
   export let id;
@@ -8,7 +7,6 @@
   export let size = "w-12";
 
   export let squared = false;
-  export let clickable = false;
 
   let element;
   let source;
@@ -46,34 +44,18 @@
   }}
 >
   <div bind:this={element}>
-    {#if clickable}
-      <BrugerPopup {navn} {id}>
-        {#if source}
-          <button class="avatar">
-            <div class={squared ? `${size} rounded` : `${size} rounded-full`}>
-              <img id="${id}" src="data:image/png;base64, {source}" alt="" />
-            </div>
-          </button>
-        {:else}
-          <button class="placeholder avatar">
-            <div class="rounded-full bg-neutral-focus text-neutral-content {size} {squared ? 'rounded' : 'rounded-full'}">
-              <span class="text-xl">{navn ? navn[0] : "?"}</span>
-            </div>
-          </button>
-        {/if}
-      </BrugerPopup>
-    {:else if source}
-      <div class="avatar">
-        <div class="{size} {squared ? `rounded` : `rounded-full`}">
+    {#if source}
+      <button class="avatar">
+        <div class={squared ? `${size} rounded` : `${size} rounded-full`}>
           <img id="${id}" src="data:image/png;base64, {source}" alt="" />
         </div>
-      </div>
+      </button>
     {:else}
-      <div class="placeholder avatar">
-        <div class="bg-neutral-focus text-neutral-content {size} {squared ? 'rounded' : 'rounded-full'}">
+      <button class="placeholder avatar">
+        <div class="rounded-full bg-neutral-focus text-neutral-content {size} {squared ? 'rounded' : 'rounded-full'}">
           <span class="text-xl">{navn ? navn[0] : "?"}</span>
         </div>
-      </div>
+      </button>
     {/if}
   </div>
 </IntersectionObserver>
