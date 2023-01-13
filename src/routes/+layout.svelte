@@ -77,9 +77,8 @@
 </label>
 <GlobalSearch />
 
-{#if $instillinger.sidebar}
-  <SideBar />
-  <div class="md:hidden w-full">
+{#if window.innerWidth < 768}
+  <div class="w-full">
     <NavBar>
       <div class="md:ml-16 w-full">
         <div class="container mx-auto md:pt-10 w-full">
@@ -90,6 +89,8 @@
       </div>
     </NavBar>
   </div>
+{:else if $instillinger.sidebar}
+  <SideBar />
   <div class="hidden md:inline-flex w-full">
     <div class="md:ml-16 w-full">
       <div class="container mx-auto md:pt-10 w-full">
