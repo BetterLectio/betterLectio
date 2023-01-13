@@ -91,13 +91,11 @@
   </div>
 {:else if $instillinger.sidebar}
   <SideBar />
-  <div class="w-full">
-    <div class="md:ml-16 w-full">
-      <div class="container mx-auto md:pt-10 w-full">
-        <PageTransition pathname={data.pathname}>
-          <slot />
-        </PageTransition>
-      </div>
+  <div class="md:ml-16">
+    <div class="container mx-auto md:pt-10 w-full">
+      <PageTransition pathname={data.pathname}>
+        <slot />
+      </PageTransition>
     </div>
   </div>
 {:else}
