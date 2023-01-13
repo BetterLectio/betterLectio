@@ -28,8 +28,7 @@
   get("/opgave?exerciseid=" + exerciseid).then((data) => {
     const { oplysninger, opgave_indlæg, gruppemedlemmer, afleveres_af } = data;
 
-    const { opgavebeskrivelse, opgavenote, opgavetitel, afleveringsfrist, elevtid, hold, karakterskala } =
-      oplysninger;
+    const { opgavebeskrivelse, opgavenote, opgavetitel, afleveringsfrist, elevtid, hold, karakterskala } = oplysninger;
 
     const { elev, afventer, status_fravær, afsluttet, karakter, karakternote, elevnote } = afleveres_af;
     elevId = elev.bruger_id.slice(1);
@@ -126,12 +125,14 @@
       {#if personAfleveringItems?.afsluttet == "Nej"}
         <a
           href="https://www.lectio.dk/lectio/{cookie.school}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
+          target="_blank"
           class="btn-primary btn my-2">Aflever igen</a
         >
       {/if}
     {:else if cookie?.school}
       <a
         href="https://www.lectio.dk/lectio/{cookie.school}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
+        target="_blank"
         class="btn-primary btn my-2">Aflever Her!</a
       >
     {/if}

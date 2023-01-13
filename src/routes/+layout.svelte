@@ -9,6 +9,7 @@
   import { reloadData } from "../components/http";
   import { cookieInfo } from "../components/CookieInfo";
   import Notify from "../components/Notify.svelte";
+  import SideBar from "../components/SideBar.svelte";
   export let data;
 
   let cookie;
@@ -18,8 +19,11 @@
 
   onMount(() => {
     themeChange(false);
-    if (window.location.href.indexOf("betlec.netlify.app") > -1 && window.location.href.indexOf("dev--betlec.netlify.app") == -1) {
-      window.location.href = "https://betterlectio.dk"
+    if (
+      window.location.href.indexOf("betlec.netlify.app") > -1 &&
+      window.location.href.indexOf("dev--betlec.netlify.app") == -1
+    ) {
+      window.location.href = "https://betterlectio.dk";
     }
   });
   import ThemeSelect from "../components/theme-select.svelte";
@@ -46,14 +50,13 @@
 </script>
 
 <!--Log ud pop up-->
-<Notify/>
+<Notify />
 <input type="checkbox" id="logud-modal" class="modal-toggle" />
 <label for="logud-modal" class="modal cursor-pointer">
   <label class="modal-box relative" for="">
     <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
     <p class="py-4">
-      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn
-      og kodeord.
+      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.
     </p>
     <span class="flex">
       <div class="modal-action">
@@ -84,24 +87,15 @@
 
 <div class="drawer h-screen">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" bind:checked />
+
   <div class="drawer-content">
-    <div class="navbar relative z-50 mb-10">
+    <div class="navbar relative z-50 mb-10 inline-flex lg:hidden">
       <div class="navbar-start">
         <p />
         <div class="dropdown">
           <button on:click={handleClick} class="btn-ghost btn xl:hidden" aria-label="navbar button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              ><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              /></svg
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              ><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg
             >
           </button>
         </div>
@@ -141,23 +135,6 @@
             />
           </svg><span class="hidden md:block">Better Lectio</span>
         </p>
-      </div>
-      <div class="navbar-center hidden xl:flex">
-        <ul class="menu menu-horizontal p-0">
-          {#if $brugeren && localStorage.getItem("lectio-cookie")}
-            <li><a href="/skema">Skema</a></li>
-            <li><a href="/opgaver">Opgaver</a></li>
-            <li><a href="/lektier">Lektier</a></li>
-            <li><a href="/fravær">Fravær</a></li>
-            <li><a href="/dokumenter">Dokumenter</a></li>
-            <li><a href="/beskeder">Beskeder</a></li>
-            <li><a href="/værktøjer">Værktøjer</a></li>
-          {:else}
-            <li><a href="/">Forside</a></li>
-            <li><a href="/help">Hjælp</a></li>
-            <li><a href="/tos">Servicevilkår & Privatlivspolitik</a></li>
-          {/if}
-        </ul>
       </div>
       <div class="navbar-center flex sm:hidden">
         <p
@@ -213,9 +190,9 @@
             </svg><span class="hidden md:inline">Søg</span></label
           >
         {/if}
-        <ThemeSelect />
+        <ThemeSelect/>
         {#if $brugeren && localStorage.getItem("lectio-cookie") && cookie}
-          <div class="dropdown-bottom dropdown-end dropdown hidden md:block">
+          <div class="dropdown dropdown-bottom dropdown-end hidden md:block">
             <div tabindex="0" class="btn-ghost btn flex justify-end gap-1 font-normal normal-case">
               <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-10" />
               <svg
@@ -223,8 +200,7 @@
                 height="12px"
                 class="ml-1 hidden h-3 w-3 fill-current opacity-60 sm:inline-block"
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 2048 2048"
-                ><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z" /></svg
+                viewBox="0 0 2048 2048"><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z" /></svg
               >
             </div>
 
@@ -285,10 +261,7 @@
                     class="mx-0 fill-current p-0"
                     viewBox="0 0 16 16"
                   >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
-                    />
+                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
                     <path
                       d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"
                     />
@@ -318,17 +291,12 @@
         {/if}
       </div>
     </div>
-
-    <div class="container mx-auto">
-      <PageTransition pathname={data.pathname}>
-        <slot />
-      </PageTransition>
-    </div>
-
-    <!-- Her vil notificationer/alerts blive tilføjet-->
-    <div class="fixed bottom-10 right-10 left-10">
-      <div class="flex items-center justify-center">
-        <div id="alerts" />
+    <div class="flex flex-row">
+      <SideBar />
+      <div class="container mx-auto lg:pt-10">
+        <PageTransition pathname={data.pathname}>
+          <slot />
+        </PageTransition>
       </div>
     </div>
   </div>
@@ -400,9 +368,7 @@
                 <path
                   d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4z"
                 />
-                <path
-                  d="M4.268 1A2 2 0 0 1 6 0h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L13 13.768V2a1 1 0 0 0-1-1H4.268z"
-                />
+                <path d="M4.268 1A2 2 0 0 1 6 0h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L13 13.768V2a1 1 0 0 0-1-1H4.268z" />
               </svg>Lektier</a
             >
           </li>
@@ -452,6 +418,25 @@
                   d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"
                 />
               </svg>Beskeder</a
+            >
+          </li>
+          <li on:click={handleClick}>
+            <a href="/karakterer"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-mortarboard-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"
+                />
+                <path
+                  d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"
+                />
+              </svg>Karakterer</a
             >
           </li>
           <li on:click={handleClick}>
@@ -515,13 +500,7 @@
               reloadData();
             }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              class="mx-0 fill-current p-0"
-              viewBox="0 0 16 16"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="mx-0 fill-current p-0" viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
               <path
                 d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"
@@ -533,16 +512,8 @@
         <div class="ml-3 mr-3 mt-2 mb-2 h-px border-0 bg-gray-700" />
         <li>
           <label for="logud-modal" class="bg-error">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              class="fill-error-content"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="fill-error-content" viewBox="0 0 16 16">
+              <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z" />
               <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
             </svg>
             <p class="text-error-content">Log ud</p>
@@ -557,3 +528,20 @@
     </ul>
   </div>
 </div>
+
+<!--
+{#if $brugeren && localStorage.getItem("lectio-cookie")}
+  <li><a href="/skema">Skema</a></li>
+  <li><a href="/opgaver">Opgaver</a></li>
+  <li><a href="/lektier">Lektier</a></li>
+  <li><a href="/fravær">Fravær</a></li>
+  <li><a href="/dokumenter">Dokumenter</a></li>
+  <li><a href="/beskeder">Beskeder</a></li>
+  <li><a href="/karakterer">Karakterer</a></li>
+  <li><a href="/værktøjer">Værktøjer</a></li>
+{:else}
+  <li><a href="/">Forside</a></li>
+  <li><a href="/help">Hjælp</a></li>
+  <li><a href="/tos">Servicevilkår & Privatlivspolitik</a></li>
+{/if}
+-->

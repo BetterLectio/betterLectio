@@ -1,6 +1,6 @@
 <script>
   import { element } from "svelte/internal";
-import { cookieInfo } from "../../components/CookieInfo";
+  import { cookieInfo } from "../../components/CookieInfo";
   let cookie;
   let indhold;
   cookieInfo().then((data) => {
@@ -16,7 +16,7 @@ import { cookieInfo } from "../../components/CookieInfo";
         {
           title: "Fravær regner",
           link: "/værktøjer/fravær",
-          description: "Find ud af, hvor mange moduler du kan pjekke",
+          description: "Find ud af, hvor mange moduler du kan pjække",
           status: "BETA",
         },
         {
@@ -33,13 +33,6 @@ import { cookieInfo } from "../../components/CookieInfo";
         },
       ],
       "Lectio (Vi arbejder på at flytte disse sider til Better Lectio)": [
-        {
-          title: "Karakterer",
-          link: `https://www.lectio.dk/lectio/${cookie.school}/grades/grade_report.aspx?elevid=${cookie.userid}`,
-          new_tab: true,
-          description: "Viser dig dine karakterer",
-          status: "WIP",
-        },
         {
           title: "Bøger",
           link: `https://www.lectio.dk/lectio/${cookie.school}/BD/UserReservations.aspx?ElevID=${cookie.userid}`,
@@ -73,9 +66,9 @@ import { cookieInfo } from "../../components/CookieInfo";
     <ul class="list mb-4">
       <h1 class="mb-4 text-2xl font-bold">{sectionTitel}</h1>
       {#each elements as element}
-        <a class="flex-row " href={element.link} target={(element.new_tab) ? "_blank" : ""}>
+        <a class="flex-row " href={element.link} target={element.new_tab ? "_blank" : ""}>
           <li class="element flex border-l-0 border-primary transition-all duration-100 hover:border-l-4">
-            <span part="afsender" class="btn-xs btn mr-4 w-fit">{element.status}</span>
+            <span part="afsender" class="btn btn-xs mr-4 w-fit">{element.status}</span>
             <span part="emne" class="text-lg font-bold">{element.title}</span>
             <!-- <span part="emne" class="text-sm font-bold">{element.description}</span> -->
           </li>

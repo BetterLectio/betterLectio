@@ -25,9 +25,7 @@
 
   $: if (
     $opgaver &&
-    (selected == "ikkeAfleveredeOpgaver" ||
-      selected == "afleveredeOpgaver" ||
-      selected == "afsluttedeOpgaver")
+    (selected == "ikkeAfleveredeOpgaver" || selected == "afleveredeOpgaver" || selected == "afsluttedeOpgaver")
   ) {
     _opgaver = sortOpgaver($opgaver);
   }
@@ -97,14 +95,12 @@
 </script>
 
 <div>
-  <h1 class="my-4 text-3xl font-bold">Opgaver</h1>
+  <h1 class="mb-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="flex flex-col sm:flex-row ">
     <div class="tabs tabs-boxed w-full justify-between sm:w-fit">
       <button
-        class={selected == "ikkeAfleveredeOpgaver"
-          ? "tab- tab tab-active tab-sm sm:tab-md"
-          : "tab tab-sm sm:tab-md"}
+        class={selected == "ikkeAfleveredeOpgaver" ? "tab- tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
         on:click={() => {
           selected = "ikkeAfleveredeOpgaver";
         }}>Ikke-afleverede</button
@@ -131,7 +127,7 @@
       bind:value={searchString}
       on:input={search}
     />
-    <div class="dropdown-end dropdown-bottom dropdown ml-4 hidden lg:inline-flex">
+    <div class="dropdown dropdown-bottom dropdown-end ml-4 hidden lg:inline-flex">
       <label tabindex="0" class="btn-sm btn m-0 h-10"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
@@ -188,9 +184,7 @@
   {#if _opgaver}
     <ul class="list my-4 lg:hidden">
       {#each _opgaver as opgave}
-        <li
-          class="relative flex {opgave.class} mt-2 h-full w-full justify-start text-left font-normal normal-case"
-        >
+        <li class="relative flex {opgave.class} mt-2 h-full w-full justify-start text-left font-normal normal-case">
           <a class="mt-2 mb-2" href="/opgave?exerciseid={opgave.exerciseid}">
             <div class="flex items-center">
               <div class="mr-4 flex-none">
@@ -237,8 +231,7 @@
           {#each _opgaver as opgave (opgave.exerciseid)}
             <tr class="" in:fade={{ duration: 200 }} out:fade={{ duration: 200 }}>
               <td>
-                <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full"
-                  >{opgave.opgavetitel}</a
+                <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">{opgave.opgavetitel}</a
                 ></td
               >
               <td class="">{opgave.hold}</td>

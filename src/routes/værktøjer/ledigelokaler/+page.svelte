@@ -3,8 +3,8 @@
   import { lokaler } from "../../../components/store.js";
 
   get("/ledige_lokaler").then((data) => {
-    let _lokaler = {"ledige": [], "optagede": []};
-    data.forEach(lokale => {
+    let _lokaler = { ledige: [], optagede: [] };
+    data.forEach((lokale) => {
       if (lokale.status == "ledigt") {
         _lokaler.ledige.push(lokale);
       } else if (lokale.status == "optaget") {
@@ -19,7 +19,7 @@
   <ul class="list mb-4">
     <h1 class="pb-2 text-2xl font-bold">Ledige lokaler</h1>
     {#each $lokaler.ledige as lokale}
-      <li class="flex md:justify-between btn btn-success h-fit scale-99 hover:scale-100 mb-2">
+      <li class="btn btn-success mb-2 flex h-fit scale-99 hover:scale-100 md:justify-between">
         <p class="text-lg font-bold">{lokale.lokale}</p>
       </li>
     {/each}
@@ -31,7 +31,7 @@
   <ul class="list mb-4">
     <h1 class="pb-2 text-2xl font-bold">Optagede lokaler</h1>
     {#each $lokaler.optagede as lokale}
-      <li class="flex justify-between btn btn-error h-fit scale-99 hover:scale-100 mb-2">
+      <li class="btn-error btn mb-2 flex h-fit scale-99 justify-between hover:scale-100">
         <p class="text-lg font-bold">{lokale.lokale}</p>
       </li>
     {/each}

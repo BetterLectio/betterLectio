@@ -13,3 +13,4 @@ export const informationer = localStore("informationer");
 export const nyheder = localStore("nyheder");
 export const forside = localStore("forside");
 export const lokaler = localStore("lokaler");
+export const karakterer = localStore("karakterer");

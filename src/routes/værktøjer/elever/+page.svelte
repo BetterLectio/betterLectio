@@ -1,9 +1,7 @@
 <script>
-  import Avatar from "../../../components/Avatar.svelte";
-  import Brugernavn from "../../../components/Brugernavn.svelte";
+  import BrugerPopup from "../../../components/BrugerPopup.svelte";
   import { get } from "../../../components/http";
   import { informationer } from "../../../components/store";
-  import InfiniteLoading from "svelte-infinite-loading";
 
   let ready = false;
   let elevObjArray = [];
@@ -26,38 +24,45 @@
     ready = true;
   });
 
-  let page = 1;
-  let list = [];
-
-  function infiniteHandler({ detail: { loaded, complete } }) {
-    let data = elevObjArray.slice((page - 1) * 10, page * 10);
-    if (data.length) {
-      page += 1;
-      list = [...list, ...data];
-      loaded();
-    } else {
-      complete();
+  let searchString = "";
+  function search() {
+    let _elever = {};
+    for (const [key, value] of Object.entries($informationer.elever)) {
+      let navn = key.split("(")[1].split(" ");
+      navn.pop();
+      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      _elever[navn] = value;
+    }
+    $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
+    elevObjArray = [];
+    for (const [key, value] of Object.entries($informationer.elever)) {
+      let navn = key.split("(")[1].split(" ");
+      navn.pop();
+      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      if (navn.toLowerCase().includes(searchString.toLowerCase())) {
+        elevObjArray.push({ navn: navn, id: value });
+      }
     }
   }
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Elev liste</h1>
 
-<div class="tabs tabs-boxed w-fit">
-  <a href="#" class="tab">Lærere</a>
-  <a href="#" class="tab tab-active">Elever</a>
-  <a href="#" class="tab">Klasser</a>
-  <a href="#" class="tab">Lokaler</a>
-</div>
-
-{#if ready}
-  {#each list as elev}
-    <div class="flex items-center">
-      <div class="ml-4 mb-4">
-        <Brugernavn className="text-xl font-bold" navn={elev.navn} id={elev.id} />
+<input
+  type="text"
+  placeholder="Søg i elev liste"
+  class="input-bordered input mb-4 w-full md:w-1/4"
+  bind:value={searchString}
+  on:input={search}
+/>
+<div class="w-full p-4 bg-base-200 rounded-lg">
+  {#if ready}
+    {#each elevObjArray as elev}
+      <div class="mb-2 w-full">
+        <BrugerPopup navn={elev.navn} id={elev.id}>
+          <p class="w-full rounded-lg bg-base-300 p-4 text-xl font-bold">{elev.navn}</p>
+        </BrugerPopup>
       </div>
-    </div>
-  {/each}
-
-  <InfiniteLoading on:infinite={infiniteHandler} />
-{/if}
+    {/each}
+  {/if}
+</div>

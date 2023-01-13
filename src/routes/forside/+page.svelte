@@ -188,8 +188,7 @@
             <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
               <p class="text-xl font-bold">
                 <span class="font-bold"
-                  >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet
-                    .hold}</span
+                  >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet.hold}</span
                 >
                 ({lektie.aktivitet.tidspunkt})
               </p>

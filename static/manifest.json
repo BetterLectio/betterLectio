@@ -1,75 +1,75 @@
 {
-    "short_name": "Better Lectio",
-    "name": "Better Lectio",
-    "start_url": "/forside",
-    "icons": [
-      {
-        "src": "favicon.png",
-        "type": "image/png",
-        "sizes": "512x512"
-      }
-    ],
-    "background_color": "#FFFFFF",
-    "display": "standalone",
-    "scope": "/",
-    "theme_color": "#FFFFFF",
-    "shortcuts": [
-      {
-        "name": "Se dit skema",
-        "short_name": "Skema",
-        "description": "Se dit skema",
-        "url": "/skema",
-        "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
-      },
-      {
-        "name": "Se dine opgaver",
-        "short_name": "Opgaver",
-        "description": "Se dine opgaver",
-        "url": "/opgaver",
-        "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
-      },
-      {
-        "name": "Se dine lektier",
-        "short_name": "Lektier",
-        "description": "Se dine lektier",
-        "url": "/lektier",
-        "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
-      },
-      {
-        "name": "Se dit fravær",
-        "short_name": "Fravær",
-        "description": "Se dit fravær",
-        "url": "/fravær",
-        "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
-      },
-      {
-        "name": "Se dokumenter",
-        "short_name": "Dokumenter",
-        "description": "Se dokumenter",
-        "url": "/dokumenter",
-        "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
-      },
-      {
-        "name": "Se dine beskeder",
-        "short_name": "Beskeder",
-        "description": "Se dine beskeder",
-        "url": "/beskeder",
-        "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
-      },
-      {
-        "name": "Se Better Lectio's værktøjer",
-        "short_name": "Værktøjer",
-        "description": "Se Better Lectio's værktøjer",
-        "url": "/værktøjer",
-        "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
-      },
-      {
-        "name": "Se ledige lokaler",
-        "short_name": "Ledige lokaler",
-        "description": "Se ledige lokaler!",
-        "url": "/værktøjer/ledigelokaler",
-        "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
-      }
-    ],
-    "description": "Better Lectio er en forbredelse af Lectio. Lectio er et dansk webbaseret lektionssystem udviklet af det danske softwarefirma MaCom A/S."
+  "short_name": "Better Lectio",
+  "name": "Better Lectio",
+  "start_url": "/forside",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#FFFFFF",
+  "shortcuts": [
+    {
+      "name": "Se dit skema",
+      "short_name": "Skema",
+      "description": "Se dit skema",
+      "url": "/skema",
+      "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Se dine opgaver",
+      "short_name": "Opgaver",
+      "description": "Se dine opgaver",
+      "url": "/opgaver",
+      "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Se dine lektier",
+      "short_name": "Lektier",
+      "description": "Se dine lektier",
+      "url": "/lektier",
+      "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Se dit fravær",
+      "short_name": "Fravær",
+      "description": "Se dit fravær",
+      "url": "/fravær",
+      "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Se dokumenter",
+      "short_name": "Dokumenter",
+      "description": "Se dokumenter",
+      "url": "/dokumenter",
+      "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Se dine beskeder",
+      "short_name": "Beskeder",
+      "description": "Se dine beskeder",
+      "url": "/beskeder",
+      "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Se Better Lectio's værktøjer",
+      "short_name": "Værktøjer",
+      "description": "Se Better Lectio's værktøjer",
+      "url": "/værktøjer",
+      "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Se ledige lokaler",
+      "short_name": "Ledige lokaler",
+      "description": "Se ledige lokaler!",
+      "url": "/værktøjer/ledigelokaler",
+      "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
+    }
+  ],
+  "description": "Better Lectio er en forbredelse af Lectio. Lectio er et dansk webbaseret lektionssystem udviklet af det danske softwarefirma MaCom A/S."
 }

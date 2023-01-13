@@ -41,7 +41,4 @@ notifications.subscribe((n) => {
 if (localStorage.getItem("firstTime") === null) {
   addNotification("Hej og velkommen til BetterLectio, tusind tak fordi du bruger BetterLectio", "alert-success");
   localStorage.setItem("firstTime", "false");
-} else {
-  console.log("Not first time");
 }
-

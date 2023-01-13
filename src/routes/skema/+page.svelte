@@ -13,9 +13,9 @@
 
   import { cookieInfo } from "../../components/CookieInfo";
   let cookie;
-  cookieInfo().then(data => {
+  cookieInfo().then((data) => {
     cookie = data;
-  })
+  });
   let ec; // to store the calendar instance and access it's methods
   let plugins = [TimeGrid];
 
@@ -37,7 +37,8 @@
     days: "ec-days",
     draggable: "ec-draggable",
     dragging: "ec-dragging",
-    event: "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl ml-0.5 hover:scale-110 z-10 hover:z-0",
+    event:
+      "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl ml-0.5 hover:scale-110 z-10 hover:z-0",
     eventBody: "ec-event-body",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
@@ -91,8 +92,19 @@
     slotMinTime: "08:00:00",
     slotMaxTime: "17:00:00",
     events: [],
-    dayHeaderFormat: {weekday: 'long', day: 'numeric', month: 'numeric'},
-    buttonText: {today: 'I dag', dayGridMonth: 'måned', listDay: 'list', listWeek: 'list', listMonth: 'list', listYear: 'list', resourceTimeGridDay: 'dag', resourceTimeGridWeek: 'uge', timeGridDay: 'dag', timeGridWeek: 'uge'},
+    dayHeaderFormat: { weekday: "long", day: "numeric", month: "numeric" },
+    buttonText: {
+      today: "I dag",
+      dayGridMonth: "måned",
+      listDay: "list",
+      listWeek: "list",
+      listMonth: "list",
+      listYear: "list",
+      resourceTimeGridDay: "dag",
+      resourceTimeGridWeek: "uge",
+      timeGridDay: "dag",
+      timeGridWeek: "uge",
+    },
     eventDidMount: (event) => {
       addedEventsId.push(event.event.id);
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
@@ -203,8 +215,19 @@
     await get(`/skema?uge=${globalWeek}&år=${globalYear}`).then((data) => {
       $skema[globalYear + "" + globalWeek] = data;
 
-      options.slotMinTime = (parseInt(Object.values($skema[globalYear + "" + globalWeek].modulTider)[0].split(" - ")[0].split(":")[0] - 1)).toString()
-      options.slotMaxTime = (parseInt(Object.values($skema[globalYear + "" + globalWeek].modulTider).slice(-1)[0].split(" - ")[1].split(":")[0]) + 1).toString()
+      options.slotMinTime = parseInt(
+        Object.values($skema[globalYear + "" + globalWeek].modulTider)[0]
+          .split(" - ")[0]
+          .split(":")[0] - 1
+      ).toString();
+      options.slotMaxTime = (
+        parseInt(
+          Object.values($skema[globalYear + "" + globalWeek].modulTider)
+            .slice(-1)[0]
+            .split(" - ")[1]
+            .split(":")[0]
+        ) + 1
+      ).toString();
     });
     addButtonsToDagsnoter(globalYear, globalWeek);
   }
@@ -388,7 +411,7 @@
 <div class="block h-20 w-full md:hidden">
   <div class=" mb-3 flex justify-around rounded-xl bg-base-300 py-4">
     <div class="align btn-group flex justify-center">
-      <button class="btn btn-primary btn-sm" on:click={prevDay}>
+      <button class="btn-primary btn btn-sm" on:click={prevDay}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -402,8 +425,8 @@
           />
         </svg>
       </button>
-      <button class="btn btn-primary btn-sm" on:click={resetDay}> i dag </button>
-      <button class="btn btn-primary btn-sm" on:click={nextDay}>
+      <button class="btn-primary btn btn-sm" on:click={resetDay}> i dag </button>
+      <button class="btn-primary btn btn-sm" on:click={nextDay}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -421,40 +444,40 @@
     <h1 class="text-xl font-bold ">{MapDayNrToName(getCurrentdayLive())}</h1>
   </div>
   {#if dagensModuler.length > 0}
-  <div class="flex flex-col rounded-xl bg-base-300 p-4 py-4 pb-0">
-    {#each dagensModuler as modul}
-      <a class={colorModul(modul)} href="/modul/?absid={modul['absid']}">
-        {#if modul["navn"]}
-          {#if modul["andet"]}
-            <div class="tooltip flex justify-center" data-tip="Har indhold">
+    <div class="flex flex-col rounded-xl bg-base-300 p-4 py-4 pb-0">
+      {#each dagensModuler as modul}
+        <a class={colorModul(modul)} href="/modul/?absid={modul['absid']}">
+          {#if modul["navn"]}
+            {#if modul["andet"]}
+              <div class="tooltip flex justify-center" data-tip="Har indhold">
+                <h1 class="text-xl font-bold">{modul["navn"]} {modul["hold"]}</h1>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-bookmark-fill ml-4 mt-1"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"
+                  />
+                </svg>
+              </div>
+            {:else}
               <h1 class="text-xl font-bold">{modul["navn"]} {modul["hold"]}</h1>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-bookmark-fill ml-4 mt-1"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"
-                />
-              </svg>
-            </div>
+            {/if}
           {:else}
-            <h1 class="text-xl font-bold">{modul["navn"]} {modul["hold"]}</h1>
+            <h1 class="text-xl font-bold">{modul["hold"]}</h1>
           {/if}
-        {:else}
-          <h1 class="text-xl font-bold">{modul["hold"]}</h1>
-        {/if}
-        <h1 class="text-sm font-bold">{modul["tidspunkt"]}</h1>
-        {#if modul["lokale"]}
-          <h1 class="text-sm font-bold">{modul["lokale"]}</h1>
-        {/if}
-      </a>
-    {/each}
-  </div>
+          <h1 class="text-sm font-bold">{modul["tidspunkt"]}</h1>
+          {#if modul["lokale"]}
+            <h1 class="text-sm font-bold">{modul["lokale"]}</h1>
+          {/if}
+        </a>
+      {/each}
+    </div>
   {:else}
-  <p class="text-center">{MapDayNrToName(getCurrentdayLive())} har ingen moduler</p>
+    <p class="text-center">{MapDayNrToName(getCurrentdayLive())} har ingen moduler</p>
   {/if}
 </div>

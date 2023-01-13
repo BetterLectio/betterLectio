@@ -1,6 +1,6 @@
 // TODO: Tilføj de andre alerts fra https://daisyui.com/components/alert/
 
-export async function normal(besked, seconds=null) {
+export async function normal(besked, seconds = null) {
   let alerts = document.getElementById("alerts");
   let alert = document.createElement("div");
   alert.className = "alert shadow-lg animate-fade-in-down mt-4";
@@ -13,7 +13,7 @@ export async function normal(besked, seconds=null) {
   await alerts.appendChild(alert);
 
   if (seconds != null) {
-    await new Promise(r => setTimeout(r, seconds * 1000));
+    await new Promise((r) => setTimeout(r, seconds * 1000));
     document.getElementById(id).remove();
   }
 }
