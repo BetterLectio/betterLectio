@@ -80,20 +80,31 @@
 {#if $instillinger.sidebar}
   <SideBar />
   <div class="md:hidden">
-    <NavBar />
+    <NavBar>
+      <div class="md:ml-16">
+        <div class="container mx-auto md:pt-10">
+          <PageTransition pathname={data.pathname}>
+            <slot />
+          </PageTransition>
+        </div>
+      </div>
+    </NavBar>
   </div>
-  <div class="md:ml-16">
-    <div class="container mx-auto md:pt-10">
+  <div class="hidden md:inline-flex">
+    <div class="md:ml-16">
+      <div class="container mx-auto md:pt-10">
+        <PageTransition pathname={data.pathname}>
+          <slot />
+        </PageTransition>
+      </div>
+    </div>
+  </div>
+{:else}
+  <NavBar>
+    <div class="container mx-auto">
       <PageTransition pathname={data.pathname}>
         <slot />
       </PageTransition>
     </div>
-  </div>
-{:else}
-  <NavBar />
-  <div class="container mx-auto">
-    <PageTransition pathname={data.pathname}>
-      <slot />
-    </PageTransition>
-  </div>
+  </NavBar>
 {/if}
