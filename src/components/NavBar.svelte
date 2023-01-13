@@ -63,13 +63,14 @@
   <div class="navbar-center hidden xl:flex">
     <ul class="menu menu-horizontal p-0">
       {#if $brugeren && localStorage.getItem("lectio-cookie")}
-        <li><a href="/skema">Skema</a></li>
-        <li><a href="/opgaver">Opgaver</a></li>
-        <li><a href="/lektier">Lektier</a></li>
-        <li><a href="/fravær">Fravær</a></li>
-        <li><a href="/dokumenter">Dokumenter</a></li>
-        <li><a href="/beskeder">Beskeder</a></li>
-        <li><a href="/værktøjer">Værktøjer</a></li>
+        <li><a class="px-2" href="/skema">Skema</a></li>
+        <li><a class="px-2" href="/opgaver">Opgaver</a></li>
+        <li><a class="px-2" href="/lektier">Lektier</a></li>
+        <li><a class="px-2" href="/fravær">Fravær</a></li>
+        <li><a class="px-2" href="/dokumenter">Dokumenter</a></li>
+        <li><a class="px-2" href="/beskeder">Beskeder</a></li>
+        <li><a class="px-2" href="/karakterer">Karakterer</a></li>
+        <li><a class="px-2" href="/værktøjer">Værktøjer</a></li>
       {:else}
         <li><a href="/">Forside</a></li>
         <li><a href="/help">Hjælp</a></li>
