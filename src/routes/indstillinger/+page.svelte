@@ -47,7 +47,7 @@
   }
 </script>
 
-<div class="tabs tabs-boxed mb-4 w-fit md:hidden">
+<div class="tabs tabs-boxed mb-4 w-fit lg:hidden">
   <a id="layout" class="tab {page == 'layout' ? 'tab-active' : ''}" on:click={() => changePage("layout")}>Layout</a>
   <a id="konto" class="tab {page == 'konto' ? 'tab-active' : ''}" on:click={() => changePage("konto")}>Din konto</a>
   <a id="api" class="tab {page == 'api' ? 'tab-active' : ''}" on:click={() => changePage("api")}>API</a>
@@ -57,7 +57,7 @@
 </div>
 
 <div class="flex min-h-screen">
-  <ul class="menu rounded-box mr-4 hidden h-fit w-52 bg-base-200 p-2 md:inline">
+  <ul class="menu rounded-box mr-4 hidden h-fit w-52 bg-base-200 p-2 lg:inline">
     <li class="mb-1">
       <p class="font-bold {page == 'layout' ? 'active' : ''}" on:click={() => changePage("layout")}>Layout</p>
     </li>

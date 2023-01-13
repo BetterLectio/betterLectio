@@ -11,13 +11,14 @@
     cookie = data;
   });
 
-  let checked = "";
+  export let checked = "";
+
   function handleClick() {
     checked == "checked" ? (checked = "") : (checked = "checked");
   }
 </script>
 
-<div class="navbar relative z-50 mb-10 inline-flex lg:hidden">
+<div class="navbar relative z-50 mb-10 inline-flex">
   <div class="navbar-start">
     <p />
     <div class="dropdown">
