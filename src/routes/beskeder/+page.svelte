@@ -186,7 +186,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
           </svg>
         </div>
-        <span class="text-gray-500">Loading messages... </span>
+        <span class="text-gray-500">Indlæser beskeder...</span>
       </div>
     </div>
   {/if}
