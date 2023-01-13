@@ -6,7 +6,7 @@
 
 <div class="p-4 bg-base-200 rounded-lg">
   <div class="form-control">
-    <p>Skift imellem sidebar og topbar layout</p>
+    <p>Skift imellem sidebar og topbar layout på store skærme</p>
     <label class="label cursor-pointer">
       <span class="label-text">Sidebar</span> 
       <input type="checkbox" class="checkbox" bind:checked={$instillinger.sidebar}/>
