@@ -79,10 +79,10 @@
 
 {#if $instillinger.sidebar}
   <SideBar />
-  <div class="md:hidden">
+  <div class="md:hidden w-full">
     <NavBar>
-      <div class="md:ml-16">
-        <div class="container mx-auto md:pt-10">
+      <div class="md:ml-16 w-full">
+        <div class="container mx-auto md:pt-10 w-full">
           <PageTransition pathname={data.pathname}>
             <slot />
           </PageTransition>
@@ -90,9 +90,9 @@
       </div>
     </NavBar>
   </div>
-  <div class="hidden md:inline-flex">
-    <div class="md:ml-16">
-      <div class="container mx-auto md:pt-10">
+  <div class="hidden md:inline-flex w-full">
+    <div class="md:ml-16 w-full">
+      <div class="container mx-auto md:pt-10 w-full">
         <PageTransition pathname={data.pathname}>
           <slot />
         </PageTransition>
