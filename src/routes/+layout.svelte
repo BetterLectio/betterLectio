@@ -91,7 +91,7 @@
   </div>
 {:else if $instillinger.sidebar}
   <SideBar />
-  <div class="hidden md:inline-flex w-full">
+  <div class="w-full">
     <div class="md:ml-16 w-full">
       <div class="container mx-auto md:pt-10 w-full">
         <PageTransition pathname={data.pathname}>
