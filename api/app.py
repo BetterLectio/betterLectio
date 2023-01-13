@@ -93,12 +93,14 @@ def skema():
     try:
         cookie = request.headers.get("lectio-cookie")
 
+        id = request.args.get("id")
+
         uge = request.args.get("uge")
         år = request.args.get("år")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
-        resp = make_response(jsonify(lectioClient.skema(uge=uge, år=år)))
+        resp = make_response(jsonify(lectioClient.skema(uge=uge, år=år, id=id)))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
