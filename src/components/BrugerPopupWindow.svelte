@@ -5,7 +5,7 @@
   export let id;
 </script>
 
-<div class="card glass w-96">
+<div class="card w-96 shadow-2xl">
   <div class="card-body">
     <Avatar {id} {navn} size="w-24" clickable={false} />
     <h2 class="card-title">{navn}</h2>
