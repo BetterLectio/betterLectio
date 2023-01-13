@@ -20,7 +20,17 @@
 
 <h1 class="pb-2 text-2xl font-bold">Karakterer</h1>
 {#if $karakterer}
-  <p>Vægtet gennemsnit: {$karakterer.gennemsnit}</p>
+  <div class="stats mb-4 bg-base-200 shadow">
+    <div class="stat">
+      <div class="stat-title">Vægtet gennemsnit</div>
+      <div class="stat-value">{$karakterer.gennemsnit}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-title">Antal Færdige Eksamener</div>
+      <div class="stat-value">{$karakterer.karakterer.length}</div>
+    </div>
+  </div>
+
   <div class="overflow-x-auto">
     <table class="table w-full">
       <!-- head -->
