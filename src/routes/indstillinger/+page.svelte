@@ -7,11 +7,12 @@
   import Pro from "./routes/Pro.svelte";
   import Tema from "./routes/Tema.svelte";
   import Tilslut from "./routes/Tilslut.svelte";
+  import Layout from "./routes/Layout.svelte";
 
   let pageTransitionDirection;
 
   let prevPage = "";
-  let page = "konto";
+  let page = "layout";
 
   function changePage(newPage) {
     prevPage = page;
@@ -22,16 +23,18 @@
   function getPagePosition(p) {
     // more like getPageIndex idk
     switch (p) {
-      case "konto":
+      case "layout":
         return 0;
-      case "api":
+      case "konto":
         return 1;
-      case "pro":
+      case "api":
         return 2;
-      case "tema":
+      case "pro":
         return 3;
-      case "tilslut":
+      case "tema":
         return 4;
+      case "tilslut":
+        return 5;
     }
   }
 
@@ -45,6 +48,7 @@
 </script>
 
 <div class="tabs tabs-boxed mb-4 w-fit md:hidden">
+  <a id="layout" class="tab {page == 'layout' ? 'tab-active' : ''}" on:click={() => changePage("layout")}>Layout</a>
   <a id="konto" class="tab {page == 'konto' ? 'tab-active' : ''}" on:click={() => changePage("konto")}>Din konto</a>
   <a id="api" class="tab {page == 'api' ? 'tab-active' : ''}" on:click={() => changePage("api")}>API</a>
   <a id="pro" class="tab {page == 'pro' ? 'tab-active' : ''}" on:click={() => changePage("pro")}>Pro</a>
@@ -54,6 +58,9 @@
 
 <div class="flex min-h-screen">
   <ul class="menu rounded-box mr-4 hidden h-fit w-52 bg-base-200 p-2 md:inline">
+    <li class="mb-1">
+      <p class="font-bold {page == 'layout' ? 'active' : ''}" on:click={() => changePage("layout")}>Layout</p>
+    </li>
     <li class="mb-1">
       <p class="font-bold {page == 'konto' ? 'active' : ''}" on:click={() => changePage("konto")}>Din konto</p>
     </li>
@@ -73,7 +80,14 @@
     </li>
   </ul>
   <div>
-    {#if page === "konto"}
+    {#if page === "layout"}
+      <div
+        in:fly={{ x: -pageTransitionDirection, duration: 300, delay: 300, easing: quintOut }}
+        out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}
+      >
+        <Layout />
+      </div>
+    {:else if page === "konto"}
       <div
         in:fly={{ x: -pageTransitionDirection, duration: 300, delay: 300, easing: quintOut }}
         out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}
