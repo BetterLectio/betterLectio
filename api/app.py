@@ -1,15 +1,14 @@
 import lectio
-import json
 import base64
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from flask import Response
 from flask_cachecontrol import cache, cache_for, dont_cache, Always, ResponseIsSuccessfulOrRedirect
 from datetime import datetime, date, timedelta
-from functools import wraps
 from dateutil.relativedelta import relativedelta, MO, TU, WE, TH, FR, SA, SU
 import logging
-import re
+import requests
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})
@@ -355,6 +354,18 @@ def karakterer():
         return resp
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
+
+@app.route("/skoler")
+@cache_for(days=5)
+def skoler():
+    resp = requests.get("https://www.lectio.dk/lectio/login_list.aspx?showall=1")
+
+    skoler = []
+    for skole in BeautifulSoup(resp.text, "html.parser").find_all("div", {"class": "buttonHeader"}):
+        skoler.append({"skole": skole.text, "id": skole.find("a").get("href").split("/")[2]})
+
+    return jsonify(skoler)
+
 
 if __name__ == '__main__':
     app.run()
