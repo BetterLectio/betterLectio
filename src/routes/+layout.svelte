@@ -82,7 +82,7 @@
   <div class="md:hidden">
     <NavBar />
   </div>
-  <div class="ml-16">
+  <div class="md:ml-16">
     <div class="container mx-auto md:pt-10">
       <PageTransition pathname={data.pathname}>
         <slot />
