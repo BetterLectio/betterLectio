@@ -1,11 +1,5 @@
 <script>
   import { instillinger } from "../../../components/store";
-
-  if ($instillinger == null) {
-    $instillinger = {
-      sidebar: true,
-    }
-  }
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Indstillinger - Layout</h1>

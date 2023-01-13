@@ -33,6 +33,12 @@
   function handleClick() {
     checked == "checked" ? (checked = "") : (checked = "checked");
   }
+
+  if ($instillinger == null) {
+    $instillinger = {
+      sidebar: true,
+    }
+  }
 </script>
 
 <!--Log ud pop up-->
