@@ -20,27 +20,52 @@
 
 <h1 class="pb-2 text-2xl font-bold">Karakterer</h1>
 {#if $karakterer}
-  <p>Vægtet gennemsnit: {$karakterer.gennemsnit}</p>
-  <div class="overflow-x-auto">
-    <table class="table w-full">
-      <!-- head -->
-      <thead>
-        <tr>
-          {#each Object.entries($karakterer.karakterer[0]) as [key, value]}
-            <th>{key}</th>
-          {/each}
-        </tr>
-      </thead>
-      <tbody>
-        <!-- row 1 -->
-        {#each $karakterer.karakterer as karakter}
-          <tr>
-            {#each Object.entries(karakter) as [key, value]}
-              <td>{value}</td>
+    {#if window.innerWidth > 768}
+      <p>Vægtet gennemsnit: {$karakterer.gennemsnit}</p>
+      <div class="overflow-x-auto">
+        <table class="table w-full">
+          <thead>
+            <tr>
+              {#each Object.entries($karakterer.karakterer[0]) as [key, value]}
+                <th>{key}</th>
+              {/each}
+            </tr>
+          </thead>
+          <tbody>
+            {#each $karakterer.karakterer as karakter}
+              <tr>
+                {#each Object.entries(karakter) as [key, value]}
+                  <td>{value}</td>
+                {/each}
+              </tr>
             {/each}
-          </tr>
-        {/each}
-      </tbody>
-    </table>
-  </div>
+          </tbody>
+        </table>
+      </div>
+    {:else}
+      <div class="flex items-center justify-center">
+        <div class="radial-progress text-center" style="--value:{($karakterer.gennemsnit+3)/15*100}; --size:12rem; --thickness: 1rem;">
+          <p>Gennemsnit</p>
+          <p class="font-bold text-3xl">{$karakterer.gennemsnit}</p>
+        </div>
+      </div>
+      <div class="mt-4 overflow-x-auto">
+        <table class="table w-full">
+          <thead>
+            <tr>
+              <th>Prøve</th>
+              <th>Karakter</th>
+            </tr>
+          </thead>
+          <tbody>
+              {#each $karakterer.karakterer as karakter}
+              <tr>
+                <td>{karakter.xprs_fag.split("- ").at(-1)}</td>
+                <td>{karakter.karakter}</td>
+              </tr>
+              {/each}
+          </tbody>
+        </table>
+      </div>
+    {/if}
 {/if}
