@@ -2,14 +2,9 @@
   import { instillinger } from "../../../components/store";
 
   if ($instillinger == null) {
-    console.log("Instillinger er null, sætter til default");
     $instillinger = {
       sidebar: true,
     }
-  }
-
-  function toggleSidebar() {
-    $instillinger.sidebar = !$instillinger.sidebar;
   }
 </script>
 
