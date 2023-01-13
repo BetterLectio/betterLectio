@@ -77,19 +77,7 @@
 </label>
 <GlobalSearch />
 
-{#if window.innerWidth < 768}
-  <div class="w-full">
-    <NavBar>
-      <div class="md:ml-16 w-full">
-        <div class="container mx-auto md:pt-10 w-full">
-          <PageTransition pathname={data.pathname}>
-            <slot />
-          </PageTransition>
-        </div>
-      </div>
-    </NavBar>
-  </div>
-{:else if $instillinger.sidebar}
+{#if $instillinger.sidebar && window.innerWidth > 768}
   <SideBar />
   <div class="md:ml-16">
     <div class="container mx-auto md:pt-10 w-full">
