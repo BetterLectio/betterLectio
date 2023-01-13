@@ -1,9 +1,7 @@
 <script>
-  import Avatar from "../../../components/Avatar.svelte";
   import BrugerPopup from "../../../components/BrugerPopup.svelte";
   import { get } from "../../../components/http";
   import { informationer } from "../../../components/store";
-  import InfiniteLoading from "svelte-infinite-loading";
 
   let ready = false;
   let elevObjArray = [];
