@@ -1,4 +1,5 @@
 <script>
+  import { cookieInfo } from "./CookieInfo.js";
   import { get } from "../components/http.js";
   import {
     opgaver,
@@ -45,9 +46,13 @@
       loadingProgress++;
     });
 
-    get("/skema").then((data) => {
-      $skema = data;
-      loadingProgress++;
+    let cookie;
+    cookieInfo().then((data) => {
+      cookie = data;
+      get(`/skema?id=${"S" + cookie.userid}`).then((data) => {
+        $skema = data;
+        loadingProgress++;
+      });
     });
 
     get("/fravaer").then((data) => {
