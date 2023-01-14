@@ -39,6 +39,14 @@
       sidebar: true,
     }
   }
+
+  let windowWidth = window.innerWidth;
+
+  function handleResize() {
+    windowWidth = window.innerWidth;
+  }
+
+  window.addEventListener("resize", handleResize);
 </script>
 
 <!--Log ud pop up-->
@@ -77,7 +85,7 @@
 </label>
 <GlobalSearch />
 
-{#if $instillinger.sidebar && window.innerWidth > 768}
+{#if $instillinger.sidebar && windowWidth > 768}
   <SideBar />
   <div class="md:ml-16">
     <div class="container mx-auto md:pt-10 w-full">
