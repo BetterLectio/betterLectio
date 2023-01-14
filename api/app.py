@@ -357,6 +357,22 @@ def karakterer():
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
+@app.route("/studieretningspræsentation")
+@cache_for(days=1)
+def studieretningspræsentation():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+        id = request.headers.get("id")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.studieretningspræsentation(elevId=id)))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception as e:
+        return jsonify({"backend_error": str(e)}), 500
+
 @app.route("/skoler")
 @cache_for(days=5)
 def skoler():
