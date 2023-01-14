@@ -16,12 +16,14 @@
   function handleClick() {
     checked == "checked" ? (checked = "") : (checked = "checked");
   }
+
+  import { fly } from "svelte/transition";
 </script>
 
 <div class="drawer h-screen">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" bind:checked />
   <div class="drawer-content">
-    <div class="navbar relative z-50 mb-10">
+    <div class="navbar relative z-50 mb-10" transition:fly="{{y: -64, duration: 200 }}">
       <div class="navbar-start">
         <p />
         <div class="dropdown">
