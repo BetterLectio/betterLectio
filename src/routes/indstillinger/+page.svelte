@@ -5,7 +5,6 @@
   import Konto from "./routes/Konto.svelte";
   import Api from "./routes/Api.svelte";
   import Pro from "./routes/Pro.svelte";
-  import Tema from "./routes/Tema.svelte";
   import Tilslut from "./routes/Tilslut.svelte";
   import Layout from "./routes/Layout.svelte";
 
@@ -31,10 +30,8 @@
         return 2;
       case "pro":
         return 3;
-      case "tema":
-        return 4;
       case "tilslut":
-        return 5;
+        return 4;
     }
   }
 
@@ -52,7 +49,6 @@
   <a id="konto" class="tab {page == 'konto' ? 'tab-active' : ''}" on:click={() => changePage("konto")}>Din konto</a>
   <a id="api" class="tab {page == 'api' ? 'tab-active' : ''}" on:click={() => changePage("api")}>API</a>
   <a id="pro" class="tab {page == 'pro' ? 'tab-active' : ''}" on:click={() => changePage("pro")}>Pro</a>
-  <a id="tema" class="tab {page == 'tema' ? 'tab-active' : ''}" on:click={() => changePage("tema")}>Tema</a>
   <a id="tilslut" class="tab {page == 'tilslut' ? 'tab-active' : ''}" on:click={() => changePage("tilslut")}>Tilslut</a>
 </div>
 
@@ -69,9 +65,6 @@
     </li>
     <li class="mb-1">
       <p class="font-bold {page == 'pro' ? 'active' : ''}" on:click={() => changePage("pro")}>Better Lectio Pro</p>
-    </li>
-    <li class="mb-1">
-      <p class="font-bold {page == 'tema' ? 'active' : ''}" on:click={() => changePage("tema")}>Tema</p>
     </li>
     <li class="mb-1">
       <p class="font-bold {page == 'tilslut' ? 'active' : ''}" on:click={() => changePage("tilslut")}>
@@ -107,13 +100,6 @@
         out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}
       >
         <Pro />
-      </div>
-    {:else if page === "tema"}
-      <div
-        in:fly={{ x: -pageTransitionDirection, duration: 300, delay: 300, easing: quintOut }}
-        out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}
-      >
-        <Tema />
       </div>
     {:else if page === "tilslut"}
       <div
