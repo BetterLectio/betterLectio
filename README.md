@@ -10,7 +10,9 @@ læs hvordan systemet fungerer [HER](https://betterlectio.dk/help)
 Better lectio er et open source projekt, hvilket betyder at alle kan se koden, og alle kan bidrage til projektet. Better lectio er på nuværende tidspunkt under udvikling, hvis du har nogle forslag til forbedringer, eller hvis du har fundet en fejl, så er du meget velkommen til åbne en issue, eller lave en pull request.
 
 Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)  
-<img src="https://contrib.rocks/image?repo=victorDigital/betterLectio" />
+<a href="https://github.com/BetterLectio/betterlectio/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=BetterLectio/betterlectio" />
+</a>
 
 ### siden er tilgængelig på [betterlectio.dk](https://betterlectio.dk)
 
