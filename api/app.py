@@ -357,7 +357,7 @@ def karakterer():
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
-@app.route("/studieretningspræsentation")
+@app.route("/studieretningspraesentation")
 @cache_for(days=1)
 def studieretningspræsentation():
     try:
