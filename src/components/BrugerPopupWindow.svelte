@@ -52,7 +52,6 @@
     <div class="card-body">
       <Avatar {id} {navn} size="w-24" clickable={false} />
       <h2 class="card-title">{navn}</h2>
-      <p>Dataen herunder er et eksempel på hvordan brugerdropdown kan se ud. Dataen er altså ikke korekt.</p>
       {#if skema["type"] == "elev"}
         <p><strong>Grupper:</strong>
           {#each skema["grupper"] as gruppe}
