@@ -46,21 +46,21 @@
     sort("procent"); // Altid sorter efter fravær procent først
     $fravaer.data.generalt.forEach((element) => {
       if (element.hold == "Samlet") {
-        samletFravaer = element.fravær_procent;
+        samletFravaer = element.opgjort_fravær_procent;
       }
     });
     new Chart(modulerChartElement, {
       type: "bar",
       data: {
         labels: $fravaer.data.generalt
-          .filter((element) => element.hold != "Samlet" && element.fravær_procent != "0,00%")
+          .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
           .map((element) => element.hold),
         datasets: [
           {
             label: "Fraværende moduler",
             data: $fravaer.data.generalt
-              .filter((element) => element.hold != "Samlet" && element.fravær_procent != "0,00%")
-              .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.fravær_moduler)[1].replace(",", ".")),
+              .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
+              .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.opgjort_fravær_moduler)[1].replace(",", ".")),
             backgroundColor: $fravaer.data.generalt.map(
               (element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]
             ),
@@ -158,14 +158,14 @@
     let sortFunc = (a, b) => {
       switch (column) {
         case "procent":
-          return parseProcent(a.fravær_procent) < parseProcent(b.fravær_procent)
+          return parseProcent(a.opgjort_fravær_procent) < parseProcent(b.opgjort_fravær_procent)
             ? -1 * sortModifier
-            : parseProcent(a.fravær_procent) > parseProcent(b.fravær_procent)
+            : parseProcent(a.opgjort_fravær_procent) > parseProcent(b.opgjort_fravær_procent)
             ? 1 * sortModifier
             : 0;
         case "moduler":
-          const aValue = /([0-9]+)\//g.exec(a.fravær_moduler)[1];
-          const bValue = /([0-9]+)\//g.exec(b.fravær_moduler)[1];
+          const aValue = /([0-9]+)\//g.exec(a.opgjort_fravær_moduler)[1];
+          const bValue = /([0-9]+)\//g.exec(b.opgjort_fravær_moduler)[1];
           return aValue < bValue ? -1 * sortModifier : aValue > bValue ? 1 * sortModifier : 0;
         case "hold":
           return a.hold < b.hold ? -1 * sortModifier : a.hold > b.hold ? 1 * sortModifier : 0;
@@ -201,11 +201,11 @@
         </thead>
         <tbody>
           {#each $fravaer.data.generalt as fravaer}
-            {#if fravaer.hold != "Samlet" && fravaer.fravær_procent != "0,00%"}
+            {#if fravaer.hold != "Samlet" && fravaer.opgjort_fravær_procent != "0,00%"}
               <tr>
                 <td>{fravaer.hold}</td>
-                <td>{fravaer.fravær_procent}</td>
-                <td>{fravaer.fravær_moduler}</td>
+                <td>{fravaer.opgjort_fravær_procent}</td>
+                <td>{fravaer.opgjort_fravær_moduler}</td>
               </tr>
             {/if}
           {/each}
