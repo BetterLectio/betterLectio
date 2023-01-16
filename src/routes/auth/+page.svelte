@@ -33,13 +33,11 @@
     checkbox.checked == true ? localStorage.setItem("skole_id", skole_id) : localStorage.removeItem("skole_id");
   }
 
-  function updateOptions() {
-    fetch("https://api.betterlectio.dk/skoler").then((data) => {
-      data.json().then((data) => {
-        options = data;
-      });
+  fetch("https://api.betterlectio.dk/skoler").then((data) => {
+    data.json().then((data) => {
+      options = data;
     });
-  }
+  });
 
   async function getCachedSchool() {
     // load the schoolid from localstorage and set it to the select
