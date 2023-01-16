@@ -3,6 +3,18 @@
 
   let counterIsVisible = true;
 
+  import { cookieInfo } from "../../../components/CookieInfo";
+
+  let id;
+
+  let cookie;
+  cookieInfo().then((data) => {
+    cookie = data;
+    if (id == null) {
+      id = "S" + cookie.userid;
+    }
+  });
+
   Date.prototype.getWeekNumber = function () {
     let d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
     let dayNum = d.getUTCDay() || 7;
@@ -42,7 +54,7 @@
     let date = new Date().getDate();
     let monthnr = new Date().getMonth() + 1;
     let filter = `${date}/${monthnr}-${year}`;
-    let response = await get(`/skema?uge=${week}&år=${year}`);
+    let response = await get(`/skema?id=${id}&uge=${week}&år=${year}`);
     let LastModulOfTheDaytime = "";
     for (let i = 0; i < response.moduler.length; i++) {
       if (response.moduler[i].status != "aflyst") {
