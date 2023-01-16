@@ -21,7 +21,7 @@
 <h1 class="pb-2 text-2xl font-bold">Karakterer</h1>
 {#if $karakterer}
     {#if window.innerWidth > 768}
-      <p>Vægtet gennemsnit: {$karakterer.gennemsnit}</p>
+      <p>Vægtet gennemsnit: {Math.round($karakterer.gennemsnit * 100) / 100}</p>
       <div class="overflow-x-auto">
         <table class="table w-full">
           <thead>
@@ -46,7 +46,7 @@
       <div class="flex items-center justify-center">
         <div class="radial-progress text-center" style="--value:{($karakterer.gennemsnit+3)/15*100}; --size:12rem; --thickness: 1rem;">
           <p>Gennemsnit</p>
-          <p class="font-bold text-3xl">{$karakterer.gennemsnit}</p>
+          <p class="font-bold text-3xl">{Math.round($karakterer.gennemsnit * 100) / 100}</p>
         </div>
       </div>
       <div class="mt-4 overflow-x-auto">
