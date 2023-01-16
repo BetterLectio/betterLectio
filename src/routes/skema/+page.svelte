@@ -12,9 +12,16 @@
   import TimeGrid from "@event-calendar/time-grid";
 
   import { cookieInfo } from "../../components/CookieInfo";
+
+  let skemaId = new URLSearchParams(window.location.search).get("id");
+
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
+    if (skemaId == null) {
+      skemaId = "S" + cookie.userid;
+      window.history.pushState({}, null, "/skema?id="+skemaId);
+    }
   });
   let ec; // to store the calendar instance and access it's methods
   let plugins = [TimeGrid];
@@ -212,7 +219,7 @@
     if (!$skema) {
       $skema = {};
     }
-    await get(`/skema?uge=${globalWeek}&år=${globalYear}`).then((data) => {
+    await get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then((data) => {
       $skema[globalYear + "" + globalWeek] = data;
 
       options.slotMinTime = parseInt(

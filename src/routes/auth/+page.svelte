@@ -1,5 +1,5 @@
 <script>
-  import { reloadData } from "../../components/http";
+  import { get, reloadData } from "../../components/http";
   import { cookieInfo } from "../../components/CookieInfo";
 
   let brugernavn = "";
@@ -33,20 +33,11 @@
     checkbox.checked == true ? localStorage.setItem("skole_id", skole_id) : localStorage.removeItem("skole_id");
   }
 
-  function updateOptions() {
-    lectioAPI
-      .getInstList()
-      .then((data) => {
-        Object.entries(data).forEach(([key, value]) => {
-          if (value.name != "Vis alle skoler") {
-            options[key] = value;
-          }
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
+  fetch("https://api.betterlectio.dk/skoler").then((data) => {
+    data.json().then((data) => {
+      options = data;
+    });
+  });
 
   async function getCachedSchool() {
     // load the schoolid from localstorage and set it to the select
@@ -109,10 +100,6 @@
     }
   }
 </script>
-
-<svelte:head>
-  <script on:load={updateOptions} src="https://cdn.jsdelivr.net/gh/Asguho/LectioJS/api.js"></script>
-</svelte:head>
 
 <body use:getCachedSchool>
   <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
@@ -189,7 +176,7 @@
                       <option disabled selected> Vælg din skole </option>
                       {#each Object.entries(options) as [key, value] (key)}
                         <option value={value.id}>
-                          {value.name}
+                          {value.skole}
                         </option>
                       {/each}
                     </select>

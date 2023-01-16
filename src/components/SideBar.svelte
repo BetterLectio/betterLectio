@@ -9,10 +9,13 @@
   cookieInfo().then((data) => {
     cookie = data;
   });
+
+  import { fly } from "svelte/transition";
 </script>
 
 <div
-  class="fixed z-30 hidden h-100v w-16 flex-col justify-between rounded-xl rounded-l-none bg-base-300 p-1 lg:inline-flex"
+  class="fixed z-30 hidden h-100v w-16 flex-col justify-between rounded-xl rounded-l-none bg-base-300 p-1 md:flex"
+  transition:fly="{{x: -64, duration: 200 }}"
 >
   <div>
     <a

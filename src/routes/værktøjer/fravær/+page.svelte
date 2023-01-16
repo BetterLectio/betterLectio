@@ -9,7 +9,7 @@
   get("/fravaer").then((data) => {
     data.generalt.forEach((element) => {
       if (element.hold == "Samlet") {
-        const matches = /(\d+\,?\d*|\,\d+)\/(\d+\,?\d*|\,\d+)/g.exec(element.fravær_moduler);
+        const matches = /(\d+\,?\d*|\,\d+)\/(\d+\,?\d*|\,\d+)/g.exec(element.heleåret_fravær_moduler);
         currentClasses = matches[1];
         totalClasses = matches[2];
         currentFravær = ((currentClasses.replace(",", ".") / totalClasses) * 100).toPrecision(3);
