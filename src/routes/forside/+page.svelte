@@ -48,10 +48,10 @@
     });
 
   function getGreeting() {
-    let alldayGreetings = ["Velkommen tilbage", "Hejsa", "Velkommen", "Hej"];
-    let morningGreetings = ["God morgen", "Go' morgen", "Godmorgen"];
+    let alldayGreetings = ["Velkommen tilbage", "Hejsa", "Velkommen"];
+    let morningGreetings = ["Go' morgen", "Godmorgen"];
     let afternoonGreetings = ["God eftermiddag"];
-    let eveningGreetings = ["God aften", "Tak for i dag", "Godnat"];
+    let eveningGreetings = ["Tak for i dag", "Godnat", "sov godt"];
     let chosenGreeting = "";
     // Get the current time
     let currentTime = new Date().getHours();
