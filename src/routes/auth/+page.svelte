@@ -1,5 +1,5 @@
 <script>
-  import { get, reloadData } from "../../components/http";
+  import { reloadData } from "../../components/http";
   import { cookieInfo } from "../../components/CookieInfo";
 
   let brugernavn = "";
