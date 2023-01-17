@@ -41,11 +41,10 @@
     dayFoot: "ec-day-foot",
     dayHead: "ec-day-head",
     daySide: "ec-day-side",
-    days: "ec-days",
+    days: "ec-days capitalize",
     draggable: "ec-draggable",
     dragging: "ec-dragging",
-    event:
-      "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl ml-0.5 hover:scale-110 z-10 hover:z-0",
+    event: "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl ml-0.5 hover:scale-110 z-10 hover:z-0",
     eventBody: "ec-event-body",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
