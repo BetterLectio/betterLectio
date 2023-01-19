@@ -49,11 +49,16 @@
   }
 
   function nameBlacklisted(name) {
+    // TODO: Check notes for "frivillig" string (very rare)
     if (name == null) {
       return false;
     }
     name = name.toLowerCase();
-    if (["café", "cafe", "klub", "club", "frivillig"].some((x) => name.includes(x))) {
+
+    if (["obligatorisk"].some((x) => name.includes(x))) {
+      return false;
+    }
+    if (["café", "cafe", "klub", "club", "fri", "konkurrence", "mesterskab", "workshop"].some((x) => name.includes(x))) {
       return true;
     }
     return false;
