@@ -48,6 +48,17 @@
     return [hoursLeft, minutesLeft, secondsLeft];
   }
 
+  function nameBlacklisted(name) {
+    if (name == null) {
+      return false;
+    }
+    name = name.toLowerCase();
+    if (["café", "cafe", "klub", "club", "frivillig"].some((x) => name.includes(x))) {
+      return true;
+    }
+    return false;
+  }
+
   async function getLastLessonOfDay() {
     let week = new Date().getWeekNumber();
     let year = new Date().getFullYear();
@@ -58,8 +69,10 @@
     let LastModulOfTheDaytime = "";
     for (let i = 0; i < response.moduler.length; i++) {
       if (response.moduler[i].status != "aflyst") {
-        if (response.moduler[i].tidspunkt.includes(filter)) {
-          LastModulOfTheDaytime = response.moduler[i].tidspunkt;
+        if (!nameBlacklisted(response.moduler[i].navn)) {
+          if (response.moduler[i].tidspunkt.includes(filter)) {
+            LastModulOfTheDaytime = response.moduler[i].tidspunkt;
+          }
         }
       }
     }
