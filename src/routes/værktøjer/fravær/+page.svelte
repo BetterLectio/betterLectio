@@ -29,15 +29,15 @@
   <label for="procent-range" class="mb-2 block font-medium">Hvor meget procent fravær vil du ende med?</label>
   <input on:input={updateDesired} id="procent-range" type="range" value="10" class="range range-primary" />
   <p class="mt-2 text-xl lg:text-2xl">Du vil ende med <span class="font-bold">{desiredAmount}%</span> fravær</p>
-  <p class="mt-2 text-xl lg:text-2xl">Så kan du i alt pjekke <span class="font-bold">{possibleAmount.toLocaleString('da')}</span> moduler</p>
+  <p class="mt-2 text-xl lg:text-2xl">Så kan du i alt pjække <span class="font-bold">{possibleAmount.toLocaleString('da')}</span> moduler</p>
   {#if possibleAmount - currentClasses < 0}
     <p class="mt-2 text-xl lg:text-2xl">
-      Du har allerede pjekket <span class="font-bold">{Math.abs(possibleAmount - currentClasses).toLocaleString('da')}</span> moduler
+      Du har allerede pjækket <span class="font-bold">{Math.abs(possibleAmount - currentClasses).toLocaleString('da')}</span> moduler
       for meget
     </p>
   {:else}
     <p class="mt-2 text-xl lg:text-2xl">
-      Du kan pjekke <span class="font-bold">{(possibleAmount - currentClasses).toLocaleString('da')}</span> moduler mere
+      Du kan pjække <span class="font-bold">{(possibleAmount - currentClasses).toLocaleString('da')}</span> moduler mere
     </p>
   {/if}
   <br />
