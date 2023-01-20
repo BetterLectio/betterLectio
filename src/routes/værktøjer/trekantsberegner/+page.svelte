@@ -1,4 +1,4 @@
 <!-- todo -->
 <p> 
-  ikke tilgængelig endnu,
+  ikke tilgængelig endnu.
 </p>
