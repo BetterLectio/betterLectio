@@ -18,7 +18,7 @@
     "@sveltejs/kit": "next",
     "@tailwindcss/line-clamp": "^0.4.2",
     "autoprefixer": "^10.4.13",
-    "chart.js": "^4.0.1",
+    "chart.js": "^4.2.0",
     "eslint": "^8.16.0",
     "eslint-plugin-svelte3": "^4.0.0",
     "postcss": "^8.4.18",
@@ -39,6 +39,7 @@
     "markdown-it": "^13.0.1",
     "moment": "^2.29.4",
     "sanitize-html": "^2.7.3",
+    "svelte-chartjs": "^3.1.2",
     "svelte-infinite-loading": "^1.3.8",
     "svelte-intersection-observer": "^0.10.0",
     "theme-change": "^2.2.0"
