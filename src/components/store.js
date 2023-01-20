@@ -15,3 +15,4 @@ export const forside = localStore("forside");
 export const lokaler = localStore("lokaler");
 export const karakterer = localStore("karakterer");
 export const instillinger = localStore("instillinger");
+export const studieretningspraesentation = localStore("studieretningspraesentation");

@@ -12,9 +12,16 @@
   import TimeGrid from "@event-calendar/time-grid";
 
   import { cookieInfo } from "../../components/CookieInfo";
+
+  let skemaId = new URLSearchParams(window.location.search).get("id");
+
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
+    if (skemaId == null) {
+      skemaId = "S" + cookie.userid;
+      window.history.pushState({}, null, "/skema?id="+skemaId);
+    }
   });
   let ec; // to store the calendar instance and access it's methods
   let plugins = [TimeGrid];
@@ -34,11 +41,10 @@
     dayFoot: "ec-day-foot",
     dayHead: "ec-day-head",
     daySide: "ec-day-side",
-    days: "ec-days",
+    days: "ec-days capitalize",
     draggable: "ec-draggable",
     dragging: "ec-dragging",
-    event:
-      "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl ml-0.5 hover:scale-110 z-10 hover:z-0",
+    event: "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl ml-0.5 hover:scale-110 z-10 hover:z-0",
     eventBody: "ec-event-body",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
@@ -212,7 +218,7 @@
     if (!$skema) {
       $skema = {};
     }
-    await get(`/skema?uge=${globalWeek}&år=${globalYear}`).then((data) => {
+    await get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then((data) => {
       $skema[globalYear + "" + globalWeek] = data;
 
       options.slotMinTime = parseInt(

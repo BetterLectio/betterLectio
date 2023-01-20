@@ -3,16 +3,16 @@
 
   let desiredAmount = 10;
   let totalClasses = 0;
-  let currentClasses = "0";
+  let currentClasses = 0;
   let currentFravær = 0;
   let possibleAmount = 0;
   get("/fravaer").then((data) => {
     data.generalt.forEach((element) => {
       if (element.hold == "Samlet") {
-        const matches = /(\d+\,?\d*|\,\d+)\/(\d+\,?\d*|\,\d+)/g.exec(element.fravær_moduler);
-        currentClasses = matches[1];
-        totalClasses = matches[2];
-        currentFravær = ((currentClasses.replace(",", ".") / totalClasses) * 100).toPrecision(3);
+        const matches = /(\d+\,?\d*|\,\d+)\/(\d+\,?\d*|\,\d+)/g.exec(element.heleåret_fravær_moduler);
+        currentClasses = Number(matches[1].replace(",", "."));
+        totalClasses = Number(matches[2]);
+        currentFravær = ((currentClasses / totalClasses) * 100);
         possibleAmount = Math.floor(totalClasses * (desiredAmount / 100));
       }
     });
@@ -29,20 +29,20 @@
   <label for="procent-range" class="mb-2 block font-medium">Hvor meget procent fravær vil du ende med?</label>
   <input on:input={updateDesired} id="procent-range" type="range" value="10" class="range range-primary" />
   <p class="mt-2 text-xl lg:text-2xl">Du vil ende med <span class="font-bold">{desiredAmount}%</span> fravær</p>
-  <p class="mt-2 text-xl lg:text-2xl">Så kan du i alt pjække <span class="font-bold">{possibleAmount}</span> moduler</p>
-  {#if possibleAmount - currentClasses.replace(",", ".") < 0}
+  <p class="mt-2 text-xl lg:text-2xl">Så kan du i alt pjække <span class="font-bold">{possibleAmount.toLocaleString('da')}</span> moduler</p>
+  {#if possibleAmount - currentClasses < 0}
     <p class="mt-2 text-xl lg:text-2xl">
-      Du har allerede pjækket <span class="font-bold">{Math.abs(possibleAmount - currentClasses.replace(",", "."))}</span> moduler
+      Du har allerede pjækket <span class="font-bold">{Math.abs(possibleAmount - currentClasses).toLocaleString('da')}</span> moduler
       for meget
     </p>
   {:else}
     <p class="mt-2 text-xl lg:text-2xl">
-      Du kan pjække <span class="font-bold">{possibleAmount - currentClasses.replace(",", ".")}</span> moduler mere
+      Du kan pjække <span class="font-bold">{(possibleAmount - currentClasses).toLocaleString('da')}</span> moduler mere
     </p>
   {/if}
   <br />
   <p class="mt-2 text-2xl">Stats</p>
-  <p class="mt-2 text-xl">Antal fraværende moduler: <span class="font-bold">{currentClasses}</span></p>
-  <p class="mt-2 text-xl">Totalt antal moduler: <span class="font-bold">{totalClasses}</span></p>
-  <p class="mt-2 text-xl">Fravær procent: <span class="font-bold">{currentFravær}%</span></p>
+  <p class="mt-2 text-xl">Antal fraværende moduler: <span class="font-bold">{currentClasses.toLocaleString('da')}</span></p>
+  <p class="mt-2 text-xl">Totalt antal moduler: <span class="font-bold">{totalClasses.toLocaleString('da')}</span></p>
+  <p class="mt-2 text-xl">Fravær procent: <span class="font-bold">{currentFravær.toLocaleString("da")}%</span></p>
 </div>
