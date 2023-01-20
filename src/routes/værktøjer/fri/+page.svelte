@@ -2,6 +2,7 @@
   import { get } from "../../../components/http.js";
 
   let counterIsVisible = true;
+  const timeRegex = /((?:[1-9]|[12][0-9]|3[01])\/(?:[1-9]|1[012])-(?:19|20)\d\d) ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9])) til ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9]))/m;
 
   import { cookieInfo } from "../../../components/CookieInfo";
 
@@ -23,8 +24,27 @@
     return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
   };
 
+  let lastLesson = null;
+  async function hasId() {
+    if (id == null) {
+      setTimeout(hasId, 50);
+      return;
+    }
+    lastLesson = await getLastLessonOfDay();
+  }
+  (async () => {
+		await hasId()
+	})();
+
   async function getRemainingTime() {
-    let lastLesson = await getLastLessonOfDay();
+    if (lastLesson == "no lessons today") {
+      const counterel = document.getElementById("counter");
+      counterel.parentNode.removeChild(counterel);
+      const ingentimerel = document.getElementById("ingentimer");
+      ingentimerel.classList.remove("hidden");
+      counterIsVisible = false;
+      return [0, 0, 0];
+    }
     let secondsLeft = lastLesson.seconds - new Date().getSeconds();
     let minutesLeft = lastLesson.minutes - new Date().getMinutes();
     let hoursLeft = lastLesson.hours - new Date().getHours();
@@ -37,12 +57,6 @@
       counterel.parentNode.removeChild(counterel);
       const friel = document.getElementById("fri");
       friel.classList.remove("hidden");
-      counterIsVisible = false;
-    } else if (lastLesson == "no lessons today") {
-      const counterel = document.getElementById("counter");
-      counterel.parentNode.removeChild(counterel);
-      const ingentimerel = document.getElementById("ingentimer");
-      ingentimerel.classList.remove("hidden");
       counterIsVisible = false;
     }
     return [hoursLeft, minutesLeft, secondsLeft];
@@ -84,6 +98,8 @@
     if (LastModulOfTheDaytime == "") {
       return "no lessons today";
     }
+    // let time = timeRegex.exec(LastModulOfTheDaytime);
+    // const end = moment(`${date[1]} ${date[3]}`, 'DD/MM-YYYY HH:mm');
     let time = LastModulOfTheDaytime.split(" ")[3];
     let hour = time.split(":")[0];
     let minute = time.split(":")[1];
@@ -96,7 +112,7 @@
   }
 
   setInterval(async () => {
-    if (counterIsVisible) {
+    if (lastLesson != null && counterIsVisible) {
       const t = await getRemainingTime();
       document.getElementById("counterElementh").style.setProperty("--value", t[0]);
       document.getElementById("counterElementm").style.setProperty("--value", t[1]);
