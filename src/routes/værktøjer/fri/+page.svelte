@@ -1,10 +1,12 @@
 <script defer>
+  import { cookieInfo } from "../../../components/CookieInfo";
   import { get } from "../../../components/http.js";
+  import moment from "moment";
+  import Spinner from "../../../components/Spinner.svelte";
 
   let counterIsVisible = true;
-  const timeRegex = /((?:[1-9]|[12][0-9]|3[01])\/(?:[1-9]|1[012])-(?:19|20)\d\d) ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9])) til ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9]))/m;
-
-  import { cookieInfo } from "../../../components/CookieInfo";
+  const timeRegex =
+    /((?:[1-9]|[12][0-9]|3[01])\/(?:[1-9]|1[012])-(?:19|20)\d\d) ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9])) til ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9]))/m;
 
   let id;
 
@@ -33,8 +35,8 @@
     lastLesson = await getLastLessonOfDay();
   }
   (async () => {
-		await hasId()
-	})();
+    await hasId();
+  })();
 
   async function getRemainingTime() {
     if (lastLesson == "no lessons today") {
@@ -43,21 +45,21 @@
       const ingentimerel = document.getElementById("ingentimer");
       ingentimerel.classList.remove("hidden");
       counterIsVisible = false;
-      return [0, 0, 0];
+      return null;
     }
-    let secondsLeft = lastLesson.seconds - new Date().getSeconds();
-    let minutesLeft = lastLesson.minutes - new Date().getMinutes();
-    let hoursLeft = lastLesson.hours - new Date().getHours();
-    if (minutesLeft < 0) {
-      minutesLeft = 60 + minutesLeft;
-      hoursLeft = hoursLeft - 1;
-    }
-    if (hoursLeft < 0 || minutesLeft < 0 || secondsLeft < 0) {
+
+    const now = moment();
+    const duration = moment.duration(lastLesson.time.diff(now));
+    let secondsLeft = duration.seconds();
+    let minutesLeft = duration.minutes();
+    let hoursLeft = duration.hours();
+    if (now.isAfter(lastLesson.time)) {
       const counterel = document.getElementById("counter");
       counterel.parentNode.removeChild(counterel);
       const friel = document.getElementById("fri");
       friel.classList.remove("hidden");
       counterIsVisible = false;
+      return null;
     }
     return [hoursLeft, minutesLeft, secondsLeft];
   }
@@ -72,7 +74,11 @@
     if (["obligatorisk"].some((x) => name.includes(x))) {
       return false;
     }
-    if (["café", "cafe", "klub", "club", "fri", "konkurrence", "mesterskab", "workshop"].some((x) => name.includes(x))) {
+    if (
+      ["café", "cafe", "klub", "club", "fri", "konkurrence", "mesterskab", "workshop", "kemi ol"].some((x) =>
+        name.includes(x)
+      )
+    ) {
       return true;
     }
     return false;
@@ -98,22 +104,20 @@
     if (LastModulOfTheDaytime == "") {
       return "no lessons today";
     }
-    // let time = timeRegex.exec(LastModulOfTheDaytime);
-    // const end = moment(`${date[1]} ${date[3]}`, 'DD/MM-YYYY HH:mm');
-    let time = LastModulOfTheDaytime.split(" ")[3];
-    let hour = time.split(":")[0];
-    let minute = time.split(":")[1];
-    let second = "60";
+    const time = timeRegex.exec(LastModulOfTheDaytime);
+    const moment_time = moment(`${time[1]} ${time[3]}`, "D/M-YYYY HH:mm");
     return {
-      hours: hour,
-      minutes: minute,
-      seconds: second,
+      time: moment_time,
     };
   }
 
   setInterval(async () => {
     if (lastLesson != null && counterIsVisible) {
       const t = await getRemainingTime();
+      if (t == null) {
+        clearInterval(this);
+        return;
+      }
       document.getElementById("counterElementh").style.setProperty("--value", t[0]);
       document.getElementById("counterElementm").style.setProperty("--value", t[1]);
       document.getElementById("counterElements").style.setProperty("--value", t[2]);
@@ -122,26 +126,30 @@
 </script>
 
 <div class="grid h-screen place-items-center">
-  <div class="grid auto-cols-max grid-flow-col gap-5 text-center" id="counter">
-    <div class="flex flex-col">
-      <span class="countdown font-mono text-6xl md:text-9xl">
-        <span id="counterElementh" />
-      </span>
-      Timer
+  {#if lastLesson}
+    <div class="grid auto-cols-max grid-flow-col gap-5 text-center" id="counter">
+      <div class="flex flex-col">
+        <span class="countdown font-mono text-6xl md:text-9xl">
+          <span id="counterElementh" />
+        </span>
+        Timer
+      </div>
+      <div class="flex flex-col">
+        <span class="countdown font-mono text-6xl md:text-9xl">
+          <span id="counterElementm" />
+        </span>
+        Minutter
+      </div>
+      <div class="flex flex-col">
+        <span class="countdown font-mono text-6xl md:text-9xl">
+          <span id="counterElements" />
+        </span>
+        Sekunder
+      </div>
     </div>
-    <div class="flex flex-col">
-      <span class="countdown font-mono text-6xl md:text-9xl">
-        <span id="counterElementm" />
-      </span>
-      Minutter
-    </div>
-    <div class="flex flex-col">
-      <span class="countdown font-mono text-6xl md:text-9xl">
-        <span id="counterElements" />
-      </span>
-      Sekunder
-    </div>
-  </div>
-  <p class="hidden font-mono text-6xl font-bold lg:text-9xl" id="fri">Du har fri!</p>
-  <p class="hidden font-mono text-2xl font-bold lg:text-4xl" id="ingentimer">Du har ingen timer i dag!</p>
+    <p class="hidden font-mono text-6xl font-bold lg:text-9xl" id="fri">Du har fri!</p>
+    <p class="hidden font-mono text-2xl font-bold lg:text-4xl" id="ingentimer">Du har ingen timer i dag!</p>
+  {:else}
+    <Spinner />
+  {/if}
 </div>
