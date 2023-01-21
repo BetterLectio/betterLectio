@@ -10,11 +10,11 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"electron-dev": "concurrently \"vite dev\" \"electron src/electron.cjs\"",
-		"electron-build-linux": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production vite build\" \"electron-builder -l --config build.config.json\"",
-		"electron-build-windows": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production vite build\" \"electron-builder -w --config build.config.json\"",
-		"electron-build-mac": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production vite build\" \"electron-builder -m --config build.config.json\"",
-		"build-backend": "concurrently --maxProcesses=1 \"del static/backend/*\" \"wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -d static/backend/\" \"wget https://raw.githubusercontent.com/BetterLectio/betterLectio/electron/static/backend/BetterLectio-Flask-Backend/requirements.txt -d static/backend/\" \"pip install -r static/backend/requirements.txt\" \"pip install pyinstaller\" \"pyinstaller --onefile static/backend/app.py --distpath static/backend/ --workpath temp/\" \"del temp app.spec static/backend/requirements.txt\"",
+		"dev-electron": "concurrently \"vite dev\" \"electron src/electron.cjs\"",
+		"build-electron-linux": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production vite build\" \"electron-builder -l --config build.config.json\"",
+		"build-electron-windows": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production vite build\" \"electron-builder -w --config build.config.json\"",
+		"build-electron-mac": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production vite build\" \"electron-builder -m --config build.config.json\"",
+		"build-backend": "concurrently --maxProcesses=1 \"del static/backend/*\" \"wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -d static/backend/backend.py\" \"wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt -d static/backend/\" \"pip install -r static/backend/requirements.txt\" \"pip install pyinstaller\" \"pyinstaller --onefile static/backend/backend.py --distpath static/backend/ --workpath temp/\" \"del temp backend.spec static/backend/requirements.txt\"",
 		"lint": "eslint ."
 	},
 	"browserslist": [

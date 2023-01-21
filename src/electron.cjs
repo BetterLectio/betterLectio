@@ -4,6 +4,11 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const serve = require('electron-serve');
 const path = require('path');
 const open = require('open');
+const { execFile } = require('child_process');
+
+if (process.env.NODE_ENV !== 'development') {
+	global.__static = require('path').join(__dirname, '../static');
+}
 
 try {
 	require('electron-reloader')(module);
@@ -15,6 +20,8 @@ const serveURL = serve({ directory: '.' });
 const port = process.env.PORT || 5173;
 const dev = !app.isPackaged;
 let mainWindow;
+
+const backend = execFile(path.join(__static, (process.platform === "linux") ? "/backend/backend" : (process.platform === "win32") ? "/backend/backend.exe" : "/backend/backend.dmg"));
 
 function createWindow() {
 	let windowState = windowStateManager({
@@ -95,6 +102,8 @@ app.on('activate', () => {
 	}
 });
 app.on('window-all-closed', () => {
+	backend.stdin.pause();
+	backend.kill();
 	if (process.platform !== 'darwin') app.quit();
 });
 
