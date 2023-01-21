@@ -6,8 +6,11 @@ const path = require('path');
 const open = require('open');
 const { execFile } = require('child_process');
 
-if (process.env.NODE_ENV !== 'development') {
-	global.__static = require('path').join(__dirname, '../static');
+if (process.env.NODE_ENV === 'development') {
+	global.__static = path.join(__dirname, '../static');
+} else {
+	global.__static = path.join(__dirname, '..');
+
 }
 
 try {

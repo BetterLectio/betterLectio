@@ -210,7 +210,9 @@
             <p>{newsItem.body}</p>
             <!--if the newsItem has a link then use it-->
             {#if newsItem.link}
-              <a href={newsItem.link} target="_blank" rel="noreferrer" class="btn-primary btn-sm btn mt-2">{newsItem.linkText}</a>
+              <a href={newsItem.link} target="_blank" rel="noreferrer" class="btn-primary btn-sm btn mt-2"
+                >{newsItem.linkText}</a
+              >
             {/if}
           </li>
         {/each}

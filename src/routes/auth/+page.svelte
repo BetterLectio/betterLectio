@@ -1,5 +1,5 @@
 <script>
-  import { reloadData } from "../../components/http";
+  import { reloadData, api } from "../../components/http";
   import { cookieInfo } from "../../components/CookieInfo";
 
   let brugernavn = "";
@@ -9,7 +9,7 @@
 
   function tryLoginInWithCookie() {
     if (localStorage.getItem("lectio-cookie") || localStorage.getItem("lectio-cookie") != "null") {
-      fetch(`https://api.betterlectio.dk/check-cookie`, {
+      fetch(`${api}/check-cookie`, {
         headers: {
           "lectio-cookie": localStorage.getItem("lectio-cookie"),
         },
@@ -33,7 +33,7 @@
     checkbox.checked == true ? localStorage.setItem("skole_id", skole_id) : localStorage.removeItem("skole_id");
   }
 
-  fetch("https://api.betterlectio.dk/skoler").then((data) => {
+  fetch(`${api}/skoler`).then((data) => {
     data.json().then((data) => {
       options = data;
     });
@@ -57,7 +57,7 @@
       console.log("Logging into lectio");
       let progress = document.querySelector(".AOC");
       progress.classList.add("loading");
-      const response = await fetch(`https://api.betterlectio.dk/auth`, {
+      const response = await fetch(`${api}/auth`, {
         headers: {
           brugernavn: brugernavn,
           adgangskode: adgangskode,
