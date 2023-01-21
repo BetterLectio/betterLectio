@@ -138,7 +138,38 @@
           </tbody>
         </table>
         {/if}
+
       </div>
+    </div>
   </div>
-</div>
+  <div class="rounded-lg p-4 bg-base-200 mt-4">
+    <h2 class="text-2xl font-bold mb-2">Overblik</h2>
+    <table class="table table-zebra table-compact w-full">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>hold</th>
+          <th>navn</th>
+          <th>fravær</th>
+          <th>dato</th>
+          <th>årsag</th>
+          <th>årsagsnote</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+        {#each $fravaer?.data?.moduler?.oversigt as modul}
+          <tr>
+            <td>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</td>
+            <td>{modul.aktivitet.navn == null ? "" : modul.aktivitet.navn}</td>
+            <td>{modul.fravær}</td>
+  
+            <td>{modul.aktivitet.tidspunkt}</td>
+            <td>{modul.årsag}</td>
+            <td>{modul.årsagsnote}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>    
+  </div>
 
