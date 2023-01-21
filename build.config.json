@@ -1,0 +1,15 @@
+{
+	"appId": "desktop.betterlectio.dk",
+	"productName": "Better Lectio",
+	"directories": {
+		"output": "dist"
+	},
+	"files": [
+		"src/electron.cjs",
+		"src/preload.cjs",
+		{
+			"from": "build",
+			"to": ""
+		}
+	]
+}
