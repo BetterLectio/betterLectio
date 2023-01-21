@@ -1,0 +1,5 @@
+python-lectio>=1.16.0
+flask
+flask-cors
+Flask-CacheControl
+python-dateutil
