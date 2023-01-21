@@ -1,5 +1,5 @@
 # BetterLectio-Flask-Backend
-Backend til BetterLectio
+Backend til BetterLectio.
 
 ## Vigtigt
 Selve serveren kører ikke fra denne repo men fra https://github.com/jona799t/BetterLectio-Flask-Backend  
