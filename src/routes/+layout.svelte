@@ -37,7 +37,16 @@
   if ($instillinger == null) {
     $instillinger = {
       sidebar: true,
-    }
+      opgaver: {
+        erFristAbsolut: true,
+        visHeleBeskrivelsen: false,
+      },
+    };
+  } else if ($instillinger.opgaver == null) { // dette er for at opdateringer ikke ødelægger instillingerne
+    $instillinger.opgaver = {
+      erFristAbsolut: true,
+      visHeleBeskrivelsen: false,
+    };
   }
 
   let windowWidth = window.innerWidth;
@@ -56,8 +65,7 @@
   <label class="modal-box relative" for="">
     <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
     <p class="py-4">
-      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn
-      og kodeord.
+      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.
     </p>
     <span class="flex">
       <div class="modal-action">
@@ -88,7 +96,7 @@
 {#if $instillinger.sidebar && windowWidth > 768}
   <SideBar />
   <div class="md:ml-16">
-    <div class="container mx-auto md:pt-10 w-full">
+    <div class="container mx-auto w-full md:pt-10">
       <PageTransition pathname={data.pathname}>
         <slot />
       </PageTransition>
