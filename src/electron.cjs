@@ -24,7 +24,7 @@ const port = process.env.PORT || 5173;
 const dev = !app.isPackaged;
 let mainWindow;
 
-const backend = execFile(path.join(__static, (process.platform === "linux") ? "/backend/backend" : (process.platform === "win32") ? "/backend/backend.exe" : "/backend/backend.dmg"));
+const backend = execFile(path.join(__static, (process.platform === "linux") ? "/backend/backend" : (process.platform === "win32") ? "/backend/backend.exe" : "/backend/backend"));
 
 function createWindow() {
 	let windowState = windowStateManager({
