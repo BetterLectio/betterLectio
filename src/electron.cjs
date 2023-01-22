@@ -35,7 +35,7 @@ function createWindow() {
 	const mainWindow = new BrowserWindow({
 		backgroundColor: 'whitesmoke',
 		//titleBarStyle: 'hidden',
-		//autoHideMenuBar: true,
+		autoHideMenuBar: true,
 		trafficLightPosition: {
 			x: 17,
 			y: 32,
@@ -54,6 +54,7 @@ function createWindow() {
 		y: windowState.y,
 		width: windowState.width,
 		height: windowState.height,
+		icon: __static + '/icon.ico',
 	});
 
 	windowState.manage(mainWindow);

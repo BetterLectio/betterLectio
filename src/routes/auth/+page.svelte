@@ -1,4 +1,10 @@
 <script>
+  import { AES } from "crypto-es/lib/aes";
+  import { Utf8 } from "crypto-es/lib/core";
+
+  const key =
+    "Ting som encrypter login data meget simplet så det ikke er vildt nemt at få fat i fra et andet program. BTW du kan kun gemme login hvis du kører appen, det virker altså ikke på hjemmesiden.";
+
   import { reloadData, api } from "../../components/http";
   import { cookieInfo } from "../../components/CookieInfo";
 
@@ -32,6 +38,8 @@
     let checkbox = document.getElementById("saveSchoolIdCheck");
     checkbox.checked == true ? localStorage.setItem("skole_id", skole_id) : localStorage.removeItem("skole_id");
   }
+
+  let saveLogin = true;
 
   fetch(`${api}/skoler`).then((data) => {
     data.json().then((data) => {
@@ -80,6 +88,15 @@
         localStorage.setItem("theme", theme);
         localStorage.setItem("firstTime", firstTime);
         setSkole();
+        if (saveLogin) {
+          localStorage.setItem("brugernavn", AES.encrypt(brugernavn, key));
+          localStorage.setItem("adgangskode", AES.encrypt(adgangskode, key));
+          localStorage.setItem("skole_id", skole_id);
+        } else {
+          localStorage.removeItem("brugernavn");
+          localStorage.removeItem("adgangskode");
+          localStorage.removeItem("skole_id");
+        }
         let lectioCookie = await response.headers.get("set-lectio-cookie");
         if (lectioCookie && lectioCookie != "null") {
           localStorage.setItem("lectio-cookie", lectioCookie);
@@ -98,6 +115,14 @@
     if (e.key === "Enter") {
       login();
     }
+  }
+
+  if (localStorage.getItem("brugernavn") && localStorage.getItem("adgangskode") && localStorage.getItem("skole_id")) {
+    brugernavn = AES.decrypt(localStorage.getItem("brugernavn"), key).toString(Utf8);
+    adgangskode = AES.decrypt(localStorage.getItem("adgangskode"), key).toString(Utf8);
+    skole_id = localStorage.getItem("skole_id");
+
+    login();
   }
 </script>
 
@@ -181,8 +206,23 @@
                       {/each}
                     </select>
                   </div>
-                  <div class="my-2 w-32">
-                    <label class="label cursor-pointer">
+                  <div class="my-2">
+                    {#if window.electron}
+                      <label class="label w-40 cursor-pointer">
+                        <span class="block text-sm font-medium text-gray-700">Forbliv logget ind</span>
+                        <input
+                          type="checkbox"
+                          id="saveLogin"
+                          class="checkbox-primary checkbox"
+                          checked={saveLogin}
+                          on:click={() => {
+                            saveLogin = !saveLogin;
+                          }}
+                          name="setSkole"
+                        />
+                      </label>
+                    {/if}
+                    <label class="label w-28 cursor-pointer">
                       <span class="block text-sm font-medium text-gray-700">Gem skole</span>
                       <input
                         type="checkbox"
