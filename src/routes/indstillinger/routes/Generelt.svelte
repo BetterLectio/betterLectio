@@ -12,40 +12,43 @@
 
 <h1 class="mb-4 text-3xl font-bold">Indstillinger - Generelt</h1>
 
-<div class="p-4 bg-base-200 rounded-lg">
+<div class="rounded-lg bg-base-200 p-4">
   <div class="form-control">
-    <span class="font-bold text-lg mb-2">Layout</span>
+    <span class="mb-2 text-lg font-bold">Layout</span>
     <p>Skift imellem sidebar og topbar layout på store skærme</p>
     <label class="label cursor-pointer">
-      <span class="label-text">Sidebar</span> 
-      {#if windowWidth > 768}
-      <input type="checkbox" class="checkbox " bind:checked={$instillinger.sidebar}/>
-      {:else}
-      <input type="checkbox" class="checkbox " bind:checked={$instillinger.sidebar} disabled/>
-      {/if}
+      <span class="label-text">Sidebar</span>
+      <input
+        type="checkbox"
+        class="checkbox "
+        bind:checked={$instillinger.sidebar}
+        disabled={windowWidth > 768 ? "disabled" : ""}
+      />
     </label>
     <p class="text-error ">{windowWidth < 768 ? "Ikke understøttet på din enhed" : ""}</p>
   </div>
 </div>
 
-<div class="p-4 bg-base-200 rounded-lg mt-4">
+<div class="mt-4 rounded-lg bg-base-200 p-4">
   <div class="form-control">
-    <span class="font-bold text-lg mb-2">Opgaver siden</span>
+    <span class="mb-2 text-lg font-bold">Opgaver siden</span>
     <label class="label cursor-pointer">
-      <span class="label-text">Vis absolut frist</span> 
-      {#if windowWidth > 768}
-      <input type="checkbox" class="checkbox " bind:checked={$instillinger.opgaver.erFristAbsolut}/>
-      {:else}
-      <input type="checkbox" class="checkbox " bind:checked={$instillinger.opgaver.erFristAbsolut} disabled/>
-      {/if}
+      <span class="label-text">Vis absolut frist</span>
+      <input
+        type="checkbox"
+        class="checkbox "
+        bind:checked={$instillinger.opgaver.erFristAbsolut}
+        disabled={windowWidth > 768 ? "disabled" : ""}
+      />
     </label>
     <label class="label cursor-pointer">
-      <span class="label-text">Vis hele opgavenoten</span> 
-      {#if windowWidth > 768}
-      <input type="checkbox" class="checkbox " bind:checked={$instillinger.opgaver.visHeleBeskrivelsen}/>
-      {:else}
-      <input type="checkbox" class="checkbox " bind:checked={$instillinger.opgaver.visHeleBeskrivelsen} disabled/>
-      {/if}
+      <span class="label-text">Vis hele opgavenoten</span>
+      <input
+        type="checkbox"
+        class="checkbox "
+        bind:checked={$instillinger.opgaver.visHeleBeskrivelsen}
+        disabled={windowWidth > 768 ? "disabled" : ""}
+      />
     </label>
   </div>
 </div>
