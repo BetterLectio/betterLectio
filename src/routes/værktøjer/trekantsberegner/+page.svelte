@@ -1,26 +1,39 @@
 <script>
   let isCalculatible = false;
 
-  $: a = document.getElementById("a").value;
-  $: b = document.getElementById("b").value;
-  $: c = document.getElementById("c").value;
-  $: A = document.getElementById("A").value;
-  $: B = document.getElementById("B").value;
-  $: C = document.getElementById("C").value;
+  let a;
+  let b;
+  let c;
+  let A;
+  let B;
+  let C = 90;
 
-  let areAngleValid = true;
-  $: checkAngles = () => {
-    if (A == "" || B == "" || C == "") {
-      areAngleValid = false;
+  function checkAngles() { // this function checks if the angles are valid and returns true or false depending on the result
+    if (A == undefined || B == undefined || C == undefined) {
+      if (A != undefined || B != undefined || C != undefined) {
+        return true;
+      }
+      return false;
     }
 
     if (A + B + C == 180) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  let areAngleValid = true;
+  function checkData() {
+    if (checkAngles()) {
       areAngleValid = true;
     } else {
       areAngleValid = false;
     }
   }
 
+  function calculate() {
+  }
 </script>
 
 <h1 class="mb-3 text-3xl font-bold">Trekantsberegner</h1>
@@ -29,7 +42,7 @@
   <div class="alert alert-error shadow-lg mb-2">
     <div>
       <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-      <span>Ikke not data!</span>
+      <span>Ikke nok data!</span>
     </div>
   </div>
 {/if}
@@ -52,10 +65,10 @@
           type="number"
           placeholder="a"
           id="a"
-          value=""
+          bind:value={a}
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
           on:input={() => {
-            
+            checkData()
           }}
         />
       </label>
@@ -67,8 +80,11 @@
           type="number"
           placeholder="b"
           id="b"
-          value=""
+          bind:value={b}
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
+          on:input={() => {
+            checkData()
+          }}
         />
       </label>
     </div>
@@ -79,8 +95,11 @@
           type="number"
           placeholder="c"
           id="c"
-          value=""
+          bind:value={c}
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
+          on:input={() => {
+            checkData()
+          }}
         />
       </label>
     </div>
@@ -95,8 +114,11 @@
           type="number"
           placeholder="A"
           id="A"
-          value=""
+          bind:value={A}
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
+          on:input={() => {
+            checkData()
+          }}
         />
       </label>
     </div>
@@ -107,8 +129,11 @@
           type="number"
           placeholder="B"
           id="B"
-          value=""
+          bind:value={B}
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
+          on:input={() => {
+            checkData()
+          }}
         />
       </label>
     </div>
@@ -118,10 +143,13 @@
         <input
           type="number"
           placeholder="C"
-          value="90"
+          bind:value={C}
           disabled
           id="C"
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
+          on:input={() => {
+            checkData()
+          }}
         />
       </label>
     </div>
