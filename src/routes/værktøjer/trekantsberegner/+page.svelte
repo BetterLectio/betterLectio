@@ -8,7 +8,8 @@
   let B;
   let C = 90;
 
-  function reset() { // this function resets all the values
+  function reset() {
+    // this function resets all the values
     a = undefined;
     b = undefined;
     c = undefined;
@@ -18,9 +19,25 @@
   }
 
   // if any of the values change, the function checkData() is called
-  $: if (a != undefined || b != undefined || c != undefined || A != undefined || B != undefined || C != undefined || a != null || b != null || c != null || A != null || B != null || C != null) {checkData();}
+  $: if (
+    a != undefined ||
+    b != undefined ||
+    c != undefined ||
+    A != undefined ||
+    B != undefined ||
+    C != undefined ||
+    a != null ||
+    b != null ||
+    c != null ||
+    A != null ||
+    B != null ||
+    C != null
+  ) {
+    checkData();
+  }
 
-  function checkAngles() { // this function checks if the angles are valid and returns true or false depending on the result
+  function checkAngles() {
+    // this function checks if the angles are valid and returns true or false depending on the result
     if (A == undefined || B == undefined || C == undefined || A == null || B == null || C == null) {
       if (A != undefined || B != undefined || C != undefined || A != null || B != null || C != null) {
         return true;
@@ -35,16 +52,32 @@
     }
   }
 
-  function checkIfCorrectAmountOfDataIsFilled() { // this function checks if at least 3 properties are filled out one of which must be a side
+  function checkIfCorrectAmountOfDataIsFilled() {
+    // this function checks if at least 3 properties are filled out one of which must be a side
     let count = 0;
     let sideCount = 0;
-    if (a != undefined || a != null) {count++; sideCount++;}
-    if (b != undefined || b != null) {count++; sideCount++;}
-    if (c != undefined || c != null) {count++; sideCount++;}
-    if (A != undefined || A != null) {count++;}
-    if (B != undefined || B != null) {count++;}
-    if (C != undefined || C != null) {count++;}
-    
+    if (a != undefined || a != null) {
+      count++;
+      sideCount++;
+    }
+    if (b != undefined || b != null) {
+      count++;
+      sideCount++;
+    }
+    if (c != undefined || c != null) {
+      count++;
+      sideCount++;
+    }
+    if (A != undefined || A != null) {
+      count++;
+    }
+    if (B != undefined || B != null) {
+      count++;
+    }
+    if (C != undefined || C != null) {
+      count++;
+    }
+
     if (count >= 3 && sideCount >= 1) {
       return true;
     } else {
@@ -52,10 +85,10 @@
     }
   }
 
-  function checkSides() { // using pythagoras' theorem, this function checks if the sides are valid and returns true or false depending on the result
+  function checkSides() {
+    // using pythagoras' theorem, this function checks if the sides are valid and returns true or false depending on the result
     if (a == undefined || b == undefined || c == undefined || a == null || b == null || c == null) {
       return true;
-
     }
 
     if (Math.pow(a, 2) + Math.pow(b, 2) == Math.pow(c, 2)) {
@@ -63,7 +96,6 @@
     } else {
       return false;
     }
-
   }
 
   let areSidesValid = true;
@@ -92,119 +124,132 @@
     } else {
       isCalculatible = false;
     }
-
   }
 
   function calculate() {
-    if (!isCalculatible) {return;}
+    if (!isCalculatible) {
+      return;
+    }
     let hash = "";
-    if (a == undefined || a == null ? false : true) {hash += "a";}
-    if (b == undefined || b == null ? false : true) {hash += "b";}
-    if (c == undefined || c == null ? false : true) {hash += "c";}
-    if (A == undefined || A == null ? false : true) {hash += "A";}
-    if (B == undefined || B == null ? false : true) {hash += "B";}
-    if (C == undefined || C == null ? false : true) {hash += "C";}
+    if (a == undefined || a == null ? false : true) {
+      hash += "a";
+    }
+    if (b == undefined || b == null ? false : true) {
+      hash += "b";
+    }
+    if (c == undefined || c == null ? false : true) {
+      hash += "c";
+    }
+    if (A == undefined || A == null ? false : true) {
+      hash += "A";
+    }
+    if (B == undefined || B == null ? false : true) {
+      hash += "B";
+    }
+    if (C == undefined || C == null ? false : true) {
+      hash += "C";
+    }
     console.log(hash); // the hash is used to determine which values are determined and which are not and which values are needed to calculate the missing values
 
-    switch(hash){
+    switch (hash) {
       case "aAC":
-        c = a / Math.sin(A * Math.PI / 180);
-        b = a / Math.tan(A * Math.PI / 180);
+        c = a / Math.sin((A * Math.PI) / 180);
+        b = a / Math.tan((A * Math.PI) / 180);
         B = 180 - A - C;
         break;
       case "aBC":
         A = 180 - B - C;
-        c = a / Math.sin(A * Math.PI / 180);
-        b = a / Math.tan(A * Math.PI / 180);
+        c = a / Math.sin((A * Math.PI) / 180);
+        b = a / Math.tan((A * Math.PI) / 180);
         break;
       case "aABC":
-        b = a / Math.sin(A * Math.PI / 180);
-        c = a / Math.tan(A * Math.PI / 180);
+        b = a / Math.sin((A * Math.PI) / 180);
+        c = a / Math.tan((A * Math.PI) / 180);
         break;
       case "bAC":
-        a = b * Math.tan(A * Math.PI / 180);
-        c = b / Math.cos(A * Math.PI / 180);
+        a = b * Math.tan((A * Math.PI) / 180);
+        c = b / Math.cos((A * Math.PI) / 180);
         B = 180 - A - C;
         break;
       case "bBC":
         A = 180 - B - C;
-        a = b * Math.tan(A * Math.PI / 180);
-        c = b / Math.cos(A * Math.PI / 180);
+        a = b * Math.tan((A * Math.PI) / 180);
+        c = b / Math.cos((A * Math.PI) / 180);
         break;
       case "bABC":
-        a = b * Math.tan(A * Math.PI / 180);
-        c = b / Math.cos(A * Math.PI / 180);
+        a = b * Math.tan((A * Math.PI) / 180);
+        c = b / Math.cos((A * Math.PI) / 180);
         break;
       case "cAC":
-        a = c * Math.sin(A * Math.PI / 180);
-        b = c * Math.cos(A * Math.PI / 180);
+        a = c * Math.sin((A * Math.PI) / 180);
+        b = c * Math.cos((A * Math.PI) / 180);
         B = 180 - A - C;
         break;
       case "cBC":
         A = 180 - B - C;
-        a = c * Math.sin(A * Math.PI / 180);
-        b = c * Math.cos(A * Math.PI / 180);
+        a = c * Math.sin((A * Math.PI) / 180);
+        b = c * Math.cos((A * Math.PI) / 180);
         break;
       case "cABC":
-        a = c * Math.sin(A * Math.PI / 180);
-        b = c * Math.cos(A * Math.PI / 180);
+        a = c * Math.sin((A * Math.PI) / 180);
+        b = c * Math.cos((A * Math.PI) / 180);
         break;
       case "abC":
         c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-        A = Math.asin(a / c) * 180 / Math.PI;
-        B = Math.asin(b / c) * 180 / Math.PI;
+        A = (Math.asin(a / c) * 180) / Math.PI;
+        B = (Math.asin(b / c) * 180) / Math.PI;
         break;
       case "acC":
         b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
-        A = Math.asin(a / c) * 180 / Math.PI;
-        B = Math.asin(b / c) * 180 / Math.PI;
+        A = (Math.asin(a / c) * 180) / Math.PI;
+        B = (Math.asin(b / c) * 180) / Math.PI;
         break;
       case "bcC":
         a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
-        A = Math.asin(a / c) * 180 / Math.PI;
-        B = Math.asin(b / c) * 180 / Math.PI;
+        A = (Math.asin(a / c) * 180) / Math.PI;
+        B = (Math.asin(b / c) * 180) / Math.PI;
         break;
       case "abcC":
-        A = Math.asin(a / c) * 180 / Math.PI;
-        B = Math.asin(b / c) * 180 / Math.PI;
+        A = (Math.asin(a / c) * 180) / Math.PI;
+        B = (Math.asin(b / c) * 180) / Math.PI;
         break;
       case "abcAC":
-        B = Math.asin(b / c) * 180 / Math.PI;
+        B = (Math.asin(b / c) * 180) / Math.PI;
         break;
       case "abcBC":
-        A = Math.asin(a / c) * 180 / Math.PI;
+        A = (Math.asin(a / c) * 180) / Math.PI;
         break;
       case "abcABC":
         break;
       case "abAC":
         c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-        B = Math.asin(b / c) * 180 / Math.PI;
+        B = (Math.asin(b / c) * 180) / Math.PI;
         break;
       case "abBC":
         c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-        A = Math.asin(a / c) * 180 / Math.PI;
+        A = (Math.asin(a / c) * 180) / Math.PI;
         break;
       case "abABC":
         c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
         break;
       case "acAC":
         b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
-        B = Math.asin(b / c) * 180 / Math.PI;
+        B = (Math.asin(b / c) * 180) / Math.PI;
         break;
       case "acBC":
         b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
-        A = Math.asin(a / c) * 180 / Math.PI;
+        A = (Math.asin(a / c) * 180) / Math.PI;
         break;
       case "acABC":
         b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
         break;
       case "bcAC":
         a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
-        B = Math.asin(b / c) * 180 / Math.PI;
+        B = (Math.asin(b / c) * 180) / Math.PI;
         break;
       case "bcBC":
         a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
-        A = Math.asin(a / c) * 180 / Math.PI;
+        A = (Math.asin(a / c) * 180) / Math.PI;
         break;
       case "bcABC":
         a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
@@ -216,28 +261,49 @@
 <h1 class="mb-3 text-3xl font-bold">Trekantsberegner</h1>
 
 {#if !isCorrectAmountOfDataIsFilled}
-  <div class="alert alert-error shadow-lg mb-2">
+  <div class="alert alert-error mb-2 shadow-lg">
     <div>
-      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"
+        ><path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+        /></svg
+      >
       <span>Ikke nok data!</span>
     </div>
   </div>
 {/if}
 {#if !areAnglesValid}
-  <div class="alert alert-error shadow-lg mb-2">
+  <div class="alert alert-error mb-2 shadow-lg">
     <div>
-      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"
+        ><path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+        /></svg
+      >
       <span>Alle vinkler angivet, men vinkelsum ikke 180°</span>
     </div>
   </div>
 {/if}
 {#if !areSidesValid}
-<div class="alert alert-error shadow-lg mb-2">
-  <div>
-    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-    <span>Alle sider angivet, med Pythagoras' læresætning er ikke opfyldt (a² + b² = c²)</span>
+  <div class="alert alert-error mb-2 shadow-lg">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"
+        ><path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+        /></svg
+      >
+      <span>Alle sider angivet, med Pythagoras' læresætning er ikke opfyldt (a² + b² = c²)</span>
+    </div>
   </div>
-</div>
 {/if}
 
 <div class="flex w-full flex-row rounded-lg p-4">
@@ -324,8 +390,6 @@
 </div>
 
 <div class="flex flex-row">
-  <button class="btn btn-primary mt-2" on:click={() => calculate()}>Beregn</button>
+  <button class="btn-primary btn mt-2" on:click={() => calculate()}>Beregn</button>
   <button class="btn mt-2 ml-2" on:click={() => reset()}>Reset</button>
-
 </div>
-
