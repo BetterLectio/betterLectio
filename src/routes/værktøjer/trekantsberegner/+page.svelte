@@ -163,8 +163,8 @@
         b = a / Math.tan((A * Math.PI) / 180);
         break;
       case "aABC":
-        b = a / Math.sin((A * Math.PI) / 180);
-        c = a / Math.tan((A * Math.PI) / 180);
+        c = a / Math.sin((A * Math.PI) / 180);
+        b = a / Math.tan((A * Math.PI) / 180);
         break;
       case "bAC":
         a = b * Math.tan((A * Math.PI) / 180);
@@ -241,7 +241,7 @@
         A = (Math.asin(a / c) * 180) / Math.PI;
         break;
       case "acABC":
-        b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
+        b = math.sqrt(math.pow(c, 2) - math.pow(a, 2));
         break;
       case "bcAC":
         a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
@@ -286,22 +286,22 @@
           d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
         /></svg
       >
-      <span>Alle vinkler angivet, men vinkelsum ikke 180°</span>
+      <span>Alle vinkler angivet, men vinkelsummen er ikke 180°</span>
     </div>
   </div>
 {/if}
 {#if !areSidesValid}
-  <div class="alert alert-error mb-2 shadow-lg">
+  <div class="alert alert-warning mb-2 shadow-lg">
     <div>
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"
         ><path
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="2"
-          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
         /></svg
       >
-      <span>Alle sider angivet, med Pythagoras' læresætning er ikke opfyldt (a² + b² = c²)</span>
+      <span>Alle sider angivet, men Pythagoras' læresætning er ikke opfyldt (a² + b² = c²)</span>
     </div>
   </div>
 {/if}
@@ -318,8 +318,11 @@
           id="a"
           bind:value={a}
           class="input-bordered input w-full max-w-xs 
-            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
-            {areSidesValid == false ? 'border-error' : ''}"
+            {(isCorrectAmountOfDataIsFilled == false && a == null) ||
+          (isCorrectAmountOfDataIsFilled == false && a == undefined)
+            ? 'border-error'
+            : ''} 
+            {areSidesValid == false ? 'border-warning' : ''}"
         />
       </label>
     </div>
@@ -332,8 +335,11 @@
           id="b"
           bind:value={b}
           class="input-bordered input w-full max-w-xs 
-            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
-            {areSidesValid == false ? 'border-error' : ''}"
+            {(isCorrectAmountOfDataIsFilled == false && b == null) ||
+          (isCorrectAmountOfDataIsFilled == false && b == undefined)
+            ? 'border-error'
+            : ''} 
+            {areSidesValid == false ? 'border-warning' : ''}"
         />
       </label>
     </div>
@@ -346,8 +352,11 @@
           id="c"
           bind:value={c}
           class="input-bordered input w-full max-w-xs 
-            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
-            {areSidesValid == false ? 'border-error' : ''}"
+            {(isCorrectAmountOfDataIsFilled == false && c == null) ||
+          (isCorrectAmountOfDataIsFilled == false && c == undefined)
+            ? 'border-error'
+            : ''} 
+            {areSidesValid == false ? 'border-warning' : ''}"
         />
       </label>
     </div>
@@ -364,7 +373,10 @@
           id="A"
           bind:value={A}
           class="input-bordered input w-full max-w-xs 
-            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
+            {(isCorrectAmountOfDataIsFilled == false && A == null) ||
+          (isCorrectAmountOfDataIsFilled == false && A == undefined)
+            ? 'border-error'
+            : ''} 
             {areAnglesValid == false ? 'border-error' : ''}"
         />
       </label>
@@ -378,7 +390,10 @@
           id="B"
           bind:value={B}
           class="input-bordered input w-full max-w-xs 
-            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
+            {(isCorrectAmountOfDataIsFilled == false && B == null) ||
+          (isCorrectAmountOfDataIsFilled == false && B == undefined)
+            ? 'border-error'
+            : ''} 
             {areAnglesValid == false ? 'border-error' : ''}"
         />
       </label>
@@ -393,7 +408,10 @@
           disabled
           id="C"
           class="input-bordered input w-full max-w-xs 
-            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
+            {(isCorrectAmountOfDataIsFilled == false && C == null) ||
+          (isCorrectAmountOfDataIsFilled == false && C == undefined)
+            ? 'border-error'
+            : ''} 
             {areAnglesValid == false ? 'border-error' : ''}"
         />
       </label>
