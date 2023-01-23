@@ -258,7 +258,7 @@
   }
 </script>
 
-<h1 class="mb-3 text-3xl font-bold">Trekantsberegner</h1>
+<h1 class="mb-3 text-3xl font-bold">Trekants beregner</h1>
 
 {#if !isCorrectAmountOfDataIsFilled}
   <div class="alert alert-error mb-2 shadow-lg">
