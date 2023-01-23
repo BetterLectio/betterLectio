@@ -317,7 +317,9 @@
           placeholder="a"
           id="a"
           bind:value={a}
-          class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
+          class="input-bordered input w-full max-w-xs 
+            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
+            {areSidesValid == false ? 'border-error' : ''}"
         />
       </label>
     </div>
@@ -329,7 +331,9 @@
           placeholder="b"
           id="b"
           bind:value={b}
-          class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
+          class="input-bordered input w-full max-w-xs 
+            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
+            {areSidesValid == false ? 'border-error' : ''}"
         />
       </label>
     </div>
@@ -341,7 +345,9 @@
           placeholder="c"
           id="c"
           bind:value={c}
-          class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
+          class="input-bordered input w-full max-w-xs 
+            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
+            {areSidesValid == false ? 'border-error' : ''}"
         />
       </label>
     </div>
@@ -357,7 +363,9 @@
           placeholder="A"
           id="A"
           bind:value={A}
-          class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
+          class="input-bordered input w-full max-w-xs 
+            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
+            {areAnglesValid == false ? 'border-error' : ''}"
         />
       </label>
     </div>
@@ -369,7 +377,9 @@
           placeholder="B"
           id="B"
           bind:value={B}
-          class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
+          class="input-bordered input w-full max-w-xs 
+            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
+            {areAnglesValid == false ? 'border-error' : ''}"
         />
       </label>
     </div>
@@ -382,7 +392,9 @@
           bind:value={C}
           disabled
           id="C"
-          class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
+          class="input-bordered input w-full max-w-xs 
+            {isCorrectAmountOfDataIsFilled == false ? 'border-error' : ''} 
+            {areAnglesValid == false ? 'border-error' : ''}"
         />
       </label>
     </div>
