@@ -30,6 +30,24 @@
     } else {
       areAngleValid = false;
     }
+    checkIfCorrectAmountOfDataIsFilled();
+  }
+
+  function checkIfCorrectAmountOfDataIsFilled() { // this function checks if at least 3 properties are filled out one of which must be a side
+    let count = 0;
+    let sideCount = 0;
+    if (a != undefined) {count++; sideCount++;}
+    if (b != undefined) {count++; sideCount++;}
+    if (c != undefined) {count++; sideCount++;}
+    if (A != undefined) {count++;}
+    if (B != undefined) {count++;}
+    if (C != undefined) {count++;}
+
+    if (count >= 3 && sideCount >= 1) {
+      isCalculatible = true;
+    } else {
+      isCalculatible = false;
+    }
   }
 
   function calculate() {
