@@ -421,5 +421,5 @@
 
 <div class="flex flex-row">
   <button class="btn-primary btn mt-2" on:click={() => calculate()}>Beregn</button>
-  <button class="btn mt-2 ml-2" on:click={() => reset()}>Reset</button>
+  <button class="btn mt-2 ml-2" on:click={() => reset()}>Nulstil</button>
 </div>
