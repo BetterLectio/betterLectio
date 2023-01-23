@@ -8,9 +8,21 @@
   let B;
   let C = 90;
 
+  function reset() { // this function resets all the values
+    a = undefined;
+    b = undefined;
+    c = undefined;
+    A = undefined;
+    B = undefined;
+    C = 90;
+  }
+
+  // if any of the values change, the function checkData() is called
+  $: if (a != undefined || b != undefined || c != undefined || A != undefined || B != undefined || C != undefined || a != null || b != null || c != null || A != null || B != null || C != null) {checkData();}
+
   function checkAngles() { // this function checks if the angles are valid and returns true or false depending on the result
-    if (A == undefined || B == undefined || C == undefined) {
-      if (A != undefined || B != undefined || C != undefined) {
+    if (A == undefined || B == undefined || C == undefined || A == null || B == null || C == null) {
+      if (A != undefined || B != undefined || C != undefined || A != null || B != null || C != null) {
         return true;
       }
       return false;
@@ -24,33 +36,160 @@
   }
   
   let areAngleValid = true;
+  let isCorrectAmountOfDataIsFilled = false;
   function checkData() {
     if (checkAngles()) {
       areAngleValid = true;
     } else {
       areAngleValid = false;
     }
-    checkIfCorrectAmountOfDataIsFilled();
+    if (checkIfCorrectAmountOfDataIsFilled()) {
+      isCorrectAmountOfDataIsFilled = true;
+    } else {
+      isCorrectAmountOfDataIsFilled = false;
+    }
+
+    if (areAngleValid && isCorrectAmountOfDataIsFilled) {
+      isCalculatible = true;
+    } else {
+      isCalculatible = false;
+    }
+    console.log(isCalculatible, areAngleValid, isCorrectAmountOfDataIsFilled);
+    console.log(a, b, c, A, B, C);
   }
 
   function checkIfCorrectAmountOfDataIsFilled() { // this function checks if at least 3 properties are filled out one of which must be a side
     let count = 0;
     let sideCount = 0;
-    if (a != undefined) {count++; sideCount++;}
-    if (b != undefined) {count++; sideCount++;}
-    if (c != undefined) {count++; sideCount++;}
-    if (A != undefined) {count++;}
-    if (B != undefined) {count++;}
-    if (C != undefined) {count++;}
+    if (a != undefined || a != null) {count++; sideCount++;}
+    if (b != undefined || b != null) {count++; sideCount++;}
+    if (c != undefined || c != null) {count++; sideCount++;}
+    if (A != undefined || A != null) {count++;}
+    if (B != undefined || B != null) {count++;}
+    if (C != undefined || C != null) {count++;}
 
     if (count >= 3 && sideCount >= 1) {
-      isCalculatible = true;
+      return true;
     } else {
-      isCalculatible = false;
+      return false;
     }
   }
 
   function calculate() {
+    if (!isCalculatible) {return;}
+    let hash = "";
+    if (a == undefined || a == null ? false : true) {hash += "a";}
+    if (b == undefined || b == null ? false : true) {hash += "b";}
+    if (c == undefined || c == null ? false : true) {hash += "c";}
+    if (A == undefined || A == null ? false : true) {hash += "A";}
+    if (B == undefined || B == null ? false : true) {hash += "B";}
+    if (C == undefined || C == null ? false : true) {hash += "C";}
+    console.log(hash); // the hash is used to determine which values are determined and which are not and which values are needed to calculate the missing values
+
+    switch(hash){
+      case "aAC":
+        c = a / Math.sin(A * Math.PI / 180);
+        b = a / Math.tan(A * Math.PI / 180);
+        B = 180 - A - C;
+        break;
+      case "aBC":
+        A = 180 - B - C;
+        c = a / Math.sin(A * Math.PI / 180);
+        b = a / Math.tan(A * Math.PI / 180);
+        break;
+      case "aABC":
+        b = a / Math.sin(A * Math.PI / 180);
+        c = a / Math.tan(A * Math.PI / 180);
+        break;
+      case "bAC":
+        a = b * Math.tan(A * Math.PI / 180);
+        c = b / Math.cos(A * Math.PI / 180);
+        B = 180 - A - C;
+        break;
+      case "bBC":
+        A = 180 - B - C;
+        a = b * Math.tan(A * Math.PI / 180);
+        c = b / Math.cos(A * Math.PI / 180);
+        break;
+      case "bABC":
+        a = b * Math.tan(A * Math.PI / 180);
+        c = b / Math.cos(A * Math.PI / 180);
+        break;
+      case "cAC":
+        a = c * Math.sin(A * Math.PI / 180);
+        b = c * Math.cos(A * Math.PI / 180);
+        B = 180 - A - C;
+        break;
+      case "cBC":
+        A = 180 - B - C;
+        a = c * Math.sin(A * Math.PI / 180);
+        b = c * Math.cos(A * Math.PI / 180);
+        break;
+      case "cABC":
+        a = c * Math.sin(A * Math.PI / 180);
+        b = c * Math.cos(A * Math.PI / 180);
+        break;
+      case "abC":
+        c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+        A = Math.asin(a / c) * 180 / Math.PI;
+        B = Math.asin(b / c) * 180 / Math.PI;
+        break;
+      case "acC":
+        b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
+        A = Math.asin(a / c) * 180 / Math.PI;
+        B = Math.asin(b / c) * 180 / Math.PI;
+        break;
+      case "bcC":
+        a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
+        A = Math.asin(a / c) * 180 / Math.PI;
+        B = Math.asin(b / c) * 180 / Math.PI;
+        break;
+      case "abcC":
+        A = Math.asin(a / c) * 180 / Math.PI;
+        B = Math.asin(b / c) * 180 / Math.PI;
+        break;
+      case "abcAC":
+        B = Math.asin(b / c) * 180 / Math.PI;
+        break;
+      case "abcBC":
+        A = Math.asin(a / c) * 180 / Math.PI;
+        break;
+      case "abcABC":
+        break;
+      case "abAC":
+        c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+        B = Math.asin(b / c) * 180 / Math.PI;
+        break;
+      case "abBC":
+        c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+        A = Math.asin(a / c) * 180 / Math.PI;
+        break;
+      case "abABC":
+        c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+        break;
+      case "acAC":
+        b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
+        B = Math.asin(b / c) * 180 / Math.PI;
+        break;
+      case "acBC":
+        b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
+        A = Math.asin(a / c) * 180 / Math.PI;
+        break;
+      case "acABC":
+        b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
+        break;
+      case "bcAC":
+        a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
+        B = Math.asin(b / c) * 180 / Math.PI;
+        break;
+      case "bcBC":
+        a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
+        A = Math.asin(a / c) * 180 / Math.PI;
+        break;
+      case "bcABC":
+        a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
+        break;
+    }
   }
 </script>
 
@@ -85,9 +224,6 @@
           id="a"
           bind:value={a}
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
-          on:input={() => {
-            checkData()
-          }}
         />
       </label>
     </div>
@@ -100,9 +236,6 @@
           id="b"
           bind:value={b}
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
-          on:input={() => {
-            checkData()
-          }}
         />
       </label>
     </div>
@@ -115,9 +248,6 @@
           id="c"
           bind:value={c}
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
-          on:input={() => {
-            checkData()
-          }}
         />
       </label>
     </div>
@@ -134,9 +264,6 @@
           id="A"
           bind:value={A}
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
-          on:input={() => {
-            checkData()
-          }}
         />
       </label>
     </div>
@@ -149,9 +276,6 @@
           id="B"
           bind:value={B}
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
-          on:input={() => {
-            checkData()
-          }}
         />
       </label>
     </div>
@@ -165,13 +289,15 @@
           disabled
           id="C"
           class="input-bordered input w-full max-w-xs {isCalculatible == false ? 'border-error' : ''}"
-          on:input={() => {
-            checkData()
-          }}
         />
       </label>
     </div>
   </div>
 </div>
 
-<button class="btn btn-primary mt-2" on:click={() => calculate()}>Beregn</button>
+<div class="flex flex-row">
+  <button class="btn btn-primary mt-2" on:click={() => calculate()}>Beregn</button>
+  <button class="btn mt-2 ml-2" on:click={() => reset()}>Reset</button>
+
+</div>
+
