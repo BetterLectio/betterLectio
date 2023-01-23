@@ -34,29 +34,6 @@
       return false;
     }
   }
-  
-  let areAngleValid = true;
-  let isCorrectAmountOfDataIsFilled = false;
-  function checkData() {
-    if (checkAngles()) {
-      areAngleValid = true;
-    } else {
-      areAngleValid = false;
-    }
-    if (checkIfCorrectAmountOfDataIsFilled()) {
-      isCorrectAmountOfDataIsFilled = true;
-    } else {
-      isCorrectAmountOfDataIsFilled = false;
-    }
-
-    if (areAngleValid && isCorrectAmountOfDataIsFilled) {
-      isCalculatible = true;
-    } else {
-      isCalculatible = false;
-    }
-    console.log(isCalculatible, areAngleValid, isCorrectAmountOfDataIsFilled);
-    console.log(a, b, c, A, B, C);
-  }
 
   function checkIfCorrectAmountOfDataIsFilled() { // this function checks if at least 3 properties are filled out one of which must be a side
     let count = 0;
@@ -67,12 +44,55 @@
     if (A != undefined || A != null) {count++;}
     if (B != undefined || B != null) {count++;}
     if (C != undefined || C != null) {count++;}
-
+    
     if (count >= 3 && sideCount >= 1) {
       return true;
     } else {
       return false;
     }
+  }
+
+  function checkSides() { // using pythagoras' theorem, this function checks if the sides are valid and returns true or false depending on the result
+    if (a == undefined || b == undefined || c == undefined || a == null || b == null || c == null) {
+      return true;
+
+    }
+
+    if (Math.pow(a, 2) + Math.pow(b, 2) == Math.pow(c, 2)) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  let areSidesValid = true;
+  let areAnglesValid = true;
+  let isCorrectAmountOfDataIsFilled = false;
+  function checkData() {
+    if (checkAngles()) {
+      areAnglesValid = true;
+    } else {
+      areAnglesValid = false;
+    }
+    if (checkIfCorrectAmountOfDataIsFilled()) {
+      isCorrectAmountOfDataIsFilled = true;
+    } else {
+      isCorrectAmountOfDataIsFilled = false;
+    }
+
+    if (checkSides()) {
+      areSidesValid = true;
+    } else {
+      areSidesValid = false;
+    }
+
+    if (areAnglesValid && isCorrectAmountOfDataIsFilled && areSidesValid) {
+      isCalculatible = true;
+    } else {
+      isCalculatible = false;
+    }
+
   }
 
   function calculate() {
@@ -195,7 +215,7 @@
 
 <h1 class="mb-3 text-3xl font-bold">Trekantsberegner</h1>
 
-{#if !isCalculatible}
+{#if !isCorrectAmountOfDataIsFilled}
   <div class="alert alert-error shadow-lg mb-2">
     <div>
       <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -203,13 +223,21 @@
     </div>
   </div>
 {/if}
-{#if !areAngleValid}
+{#if !areAnglesValid}
   <div class="alert alert-error shadow-lg mb-2">
     <div>
       <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-      <span>Alle vinkler angivet men vinkelsum ikke 180°</span>
+      <span>Alle vinkler angivet, men vinkelsum ikke 180°</span>
     </div>
   </div>
+{/if}
+{#if !areSidesValid}
+<div class="alert alert-error shadow-lg mb-2">
+  <div>
+    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    <span>Alle sider angivet, med Pythagoras' læresætning er ikke opfyldt (a² + b² = c²)</span>
+  </div>
+</div>
 {/if}
 
 <div class="flex w-full flex-row rounded-lg p-4">
