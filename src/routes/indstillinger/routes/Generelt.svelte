@@ -1,6 +1,15 @@
 <script>
   import { instillinger } from "../../../components/store";
 
+  if (!$instillinger)
+    $instillinger = {
+      sidebar: false,
+      opgaver: {
+        visFristAbsolut: false,
+        visHeleBeskrivelsen: false,
+      },
+    };
+
   let windowWidth = window.innerWidth;
 
   function handleResize() {
@@ -22,7 +31,7 @@
         type="checkbox"
         class="checkbox "
         bind:checked={$instillinger.sidebar}
-        disabled={windowWidth > 768 ? "disabled" : ""}
+        disabled={windowWidth > 768 ? "" : "disabled"}
       />
     </label>
     <p class="text-error ">{windowWidth < 768 ? "Ikke understøttet på din enhed" : ""}</p>
@@ -32,22 +41,24 @@
 <div class="mt-4 rounded-lg bg-base-200 p-4">
   <div class="form-control">
     <span class="mb-2 text-lg font-bold">Opgaver siden</span>
+
     <label class="label cursor-pointer">
       <span class="label-text">Vis absolut frist</span>
       <input
         type="checkbox"
         class="checkbox "
-        bind:checked={$instillinger.opgaver.erFristAbsolut}
-        disabled={windowWidth > 768 ? "disabled" : ""}
+        bind:checked={$instillinger.opgaver.visFristAbsolut}
+        disabled={windowWidth > 768 ? "" : "disabled"}
       />
     </label>
+
     <label class="label cursor-pointer">
       <span class="label-text">Vis hele opgavenoten</span>
       <input
         type="checkbox"
         class="checkbox "
         bind:checked={$instillinger.opgaver.visHeleBeskrivelsen}
-        disabled={windowWidth > 768 ? "disabled" : ""}
+        disabled={windowWidth > 768 ? "" : "disabled"}
       />
     </label>
   </div>
