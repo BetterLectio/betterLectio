@@ -37,6 +37,12 @@
           description: "Beregner trekantens egenskaber",
           status: "BETA",
         },
+        {
+          title: "Kantine",
+          link: "/værktøjer/kantine",
+          description: "Se hvad der er i kantinen",
+          status: "BETA",
+        },
       ],
       "Lectio (Vi arbejder på at flytte disse sider til Better Lectio)": [
         {

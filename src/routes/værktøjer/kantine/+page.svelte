@@ -1,5 +1,6 @@
 <script>
     import { addNotification } from "../../../components/notifyStore";
+    import { kantine } from "../../../components/store.js";
 
     let kantiner;
     async function loadKantiner() {
@@ -12,14 +13,22 @@
     }
     loadKantiner()
 
-    let kantine;
     async function loadKantine(kantineDomain) {
         let _kantine = await fetch(`https://api.nemtakeaway.dk/api/v1/companies.php?cmd=get_data&domain=${kantineDomain.target.value}`, {
             headers: {
                 "accept": 'application/json, text/javascript, */*; q=0.01'
             }
         })
-        kantine = await _kantine.json()
+        let __kantine = await _kantine.json()
+        $kantine = __kantine.company[0]
+
+        let _varer = await fetch(`https://api.nemtakeaway.dk/api/v1/products.php?selfservice_token=${kantineDomain.target.value}&cmd=get_categories_list&get_products=true`, {
+            headers: {
+                "accept": 'application/json, text/javascript, */*; q=0.01'
+            }
+        })
+        let varer = await _varer.json()
+        $kantine.varer = varer.categories
     }
 
     addNotification("Denne side virker kun hvis din skole benytter sig af Grab 'N Go.", "alert-warning")
@@ -44,6 +53,20 @@
     </select>
 {/if}
 
-{#if kantine}
-    <p>{JSON.stringify(kantine.company)}</p>
+{#if $kantine}
+    <p>Kantine: {$kantine.name}</p>
+    {#each $kantine.varer as kategori}
+        {#if kategori.products.length != 0}
+            <p class="font-bold text-3xl">{JSON.parse(kategori.name)["da-dk"]}</p>
+            <div class="grid grid-cols-4 gap-4">
+                {#each kategori.products as vare}
+                    <div class="element w-72 h-48">
+                        <p class="font-bold text-xl">{JSON.parse(vare.name)["da-dk"]}</p>
+                        <p>{vare.price} {$kantine.currency_code}</p>
+                        <img class="h-20" src="https://cdn.nemtakeaway.dk/site/upload/{Object.values(vare.api_array.images)[0].src}" alt="Billed af maden"/>
+                    </div>
+                {/each}
+            </div>
+        {/if}
+    {/each}
 {/if}
