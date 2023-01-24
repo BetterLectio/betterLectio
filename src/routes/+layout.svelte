@@ -29,28 +29,7 @@
   });
   import GlobalSearch from "../components/GlobalSearch.svelte";
 
-  let checked = "";
-  function handleClick() {
-    checked == "checked" ? (checked = "") : (checked = "checked");
-  }
-
-  if ($instillinger == null) {
-    $instillinger = {
-      sidebar: true,
-      opgaver: {
-        erFristAbsolut: true,
-        visHeleBeskrivelsen: false,
-      },
-    };
-  } else if ($instillinger.opgaver == null) { // dette er for at opdateringer ikke ødelægger instillingerne
-    $instillinger.opgaver = {
-      erFristAbsolut: true,
-      visHeleBeskrivelsen: false,
-    };
-  }
-
   let windowWidth = window.innerWidth;
-
   function handleResize() {
     windowWidth = window.innerWidth;
   }
@@ -93,7 +72,7 @@
 </label>
 <GlobalSearch />
 
-{#if $instillinger.sidebar && windowWidth > 768}
+{#if $instillinger?.sidebar && windowWidth > 768}
   <SideBar />
   <div class="md:ml-16">
     <div class="container mx-auto w-full md:pt-10">

@@ -160,15 +160,18 @@
               >
               <td class="">{opgave.hold}</td>
               <td class="">
-                {#if !$instillinger.opgaver.erFristAbsolut}
+                {#if $instillinger?.opgaver?.visFristAbsolut}
+                  <p class="frist btn-xs btn">{opgave.frist}</p>
+                {:else}
                   <p class="frist btn-xs btn">
                     {formatDate(opgave.date)}
                   </p>
-                {:else}
-                  <p class="frist btn-xs btn">{opgave.frist}</p>
                 {/if}
               </td>
-              <td class="{$instillinger.opgaver.visHeleBeskrivelsen == true ? "whitespace-pre-wrap" : ""} text-left" id={opgave.exerciseid}>
+              <td
+                class="{$instillinger?.opgaver?.visHeleBeskrivelsen == true ? 'whitespace-pre-wrap' : ''} text-left"
+                id={opgave.exerciseid}
+              >
                 <div>
                   {opgave.opgavenote}
                 </div>
