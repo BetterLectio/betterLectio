@@ -60,7 +60,7 @@
             <p class="font-bold text-3xl">{JSON.parse(kategori.name)["da-dk"]}</p>
             <div class="grid grid-cols-4 gap-4">
                 {#each kategori.products as vare}
-                    <div class="element w-72 h-48" style='background-image: url("https://cdn.nemtakeaway.dk/site/upload/{Object.values(vare.api_array.images)[0].src}"); background-size: cover;'>
+                    <div class="element w-72 h-48 text-black" style='background-image: url("https://cdn.nemtakeaway.dk/site/upload/{Object.values(vare.api_array.images)[0].src}"); background-size: cover;'>
                         <div class="backdrop-blur-sm">
                             <p class="font-bold text-xl">{JSON.parse(vare.name)["da-dk"]}</p>
                             <p>{vare.price} {$kantine.currency_code}</p>
@@ -70,4 +70,7 @@
             </div>
         {/if}
     {/each}
+    {#if $kantine.varer == 0}
+        <p>Kantinen sælger på nuværende tidspunkt ingen varer</p>
+    {/if}
 {/if}
