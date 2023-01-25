@@ -51,12 +51,12 @@
   <div class="card w-96 shadow-2xl">
     <div class="card-body">
       <Avatar {id} {navn} size="w-24" clickable={false} />
-      <h2 class="card-title">{navn}</h2>
+      <h2 class="card-title whitespace-pre-line">{navn}</h2>
       {#if skema["type"] == "elev"}
-        <p>
+        <p class="whitespace-pre-line">
           <strong>Grupper:</strong>
           {#each skema["grupper"] as gruppe}
-            <a href="/skema?id=HE{gruppe['id']}" class="btn-primary btn-xs btn mr-1">{gruppe["navn"]}</a>
+            <a href="/skema?id=HE{gruppe['id']}" class="btn-primary btn-xs btn mr-1 mb-1">{gruppe["navn"]}</a>
           {/each}
         </p>
       {:else if skema["type"] == "lærer"}
@@ -67,7 +67,7 @@
           {/each}
         </p>
       {/if}
-      <p><strong>Aktivitet:</strong> {aktivitet == undefined ? "Fri" : `${aktivitet} i lokale ${aktivitet.lokale}`}</p>
+      <p class="whitespace-pre-line"><strong>Aktivitet: </strong> {aktivitet == undefined ? "Fri" : aktivitet.hold +  " i lokale " + aktivitet.lokale}</p>
       <div class="card-actions mt-4 justify-start">
         <button class="btn-primary btn">Se skema</button>
         <button class="btn-primary btn">Send besked</button>
