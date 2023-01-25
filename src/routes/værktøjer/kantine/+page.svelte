@@ -47,7 +47,7 @@
         type="text"
         name="skole"
         id="skole"
-        class="block w-full flex-1 rounded-none rounded-r-md border-gray-300 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        class="block w-full flex-1 input bg-base-300"
         placeholder="Vælg din skole"
         on:change={loadKantine}
         bind:value={$kantineId}
@@ -70,7 +70,7 @@
                 <div class="collapse-title cursor-pointer" on:click={() => (closed[kategori.name])? closed[kategori.name] = false : closed[kategori.name] = true}>
                     <h2 class="text-2xl font-bold">{JSON.parse(kategori.name)["da-dk"]}</h2>
                 </div>
-                <div class="collapse-content">
+                <div class="collapse-content pb-0.5">
                     <div class="grid grid-cols-1 md:grid-cols-2 md:gap-2 lg:grid-cols-3 lg:gap-3 2xl:grid-cols-4 2xl:gap-4">
                         {#each kategori.products as vare}
                             <div class="element md:w-full lg:w-72 h-48 text-black" style='background-image: url("https://cdn.nemtakeaway.dk/site/upload/{Object.values(vare.api_array.images)[0].src}"); background-size: cover;'>
