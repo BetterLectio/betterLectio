@@ -131,34 +131,36 @@
 </div>
   <div class="w-full bg-base-300 rounded-lg p-4 lg:ml-4 mt-4 lg:mt-0 overflow-y-scroll">
       <h2 class="text-2xl font-bold mb-4">Manglende fraværsårsager</h2>
-      <div class="overflow-x-auto">
-        <table class="table table-zebra w-full">
-          <!-- head -->
-          <thead>
-            <tr>
-              <th>modul</th>
-              <th>dato</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- row 1 -->
-            {#each $fravaer?.data?.moduler?.manglende_fraværsårsager as modul}
+      {#if $fravaer?.data?.moduler?.manglende_fraværsårsager == {}}
+        <div class="overflow-x-auto">
+          <table class="table table-zebra w-full">
+            <!-- head -->
+            <thead>
               <tr>
-                <td>{modul.aktivitet.navn == null ? modul.aktivitet.hold : modul.aktivitet.navn}</td>
-                <td>{modul.aktivitet.tidspunkt}</td>
-                <td> <a href="{"https://www.lectio.dk/lectio/"+cookie.school+"/fravaer_aarsag.aspx?elevid="+ cookie.userid +"&id="+ modul.aktivitet.absid +"&atype=aa"}" class="btn btn-xs">Skriv fraværsårsag</a></td>
+                <th>modul</th>
+                <th>dato</th>
+                <th></th>
               </tr>
-            {/each}
-          </tbody>
-        </table>
-        
-      </div>
+            </thead>
+            <tbody>
+              {#each $fravaer?.data?.moduler?.manglende_fraværsårsager as modul}
+                <tr>
+                  <td>{modul.aktivitet.navn == null ? modul.aktivitet.hold : modul.aktivitet.navn}</td>
+                  <td>{modul.aktivitet.tidspunkt}</td>
+                  <td> <a href="{"https://www.lectio.dk/lectio/"+cookie.school+"/fravaer_aarsag.aspx?elevid="+ cookie.userid +"&id="+ modul.aktivitet.absid +"&atype=aa"}" class="btn btn-xs">Skriv fraværsårsag</a></td>
+                </tr>
+              {/each}
+            </tbody>
+          </table>
+        </div>
+      {:else}
+        <p>Du har ingen manglende fraværsårsager</p>
+      {/if}
     </div>
   </div>
-  <div class="rounded-lg p-4 bg-base-200 mt-4">
+  <div class="rounded-lg mt-4 p-0 lg:p-4 bg-none lg:bg-base-200">
     <h2 class="text-2xl font-bold mb-2">Overblik</h2>
-    <table class="table table-zebra table-compact w-full">
+    <table class="table table-zebra table-compact w-full hidden lg:inline-table">
       <!-- head -->
       <thead>
         <tr>
@@ -171,7 +173,6 @@
         </tr>
       </thead>
       <tbody>
-        <!-- row 1 -->
         {#each $fravaer?.data?.moduler?.oversigt as modul}
           <tr>
             <td>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</td>
@@ -179,12 +180,59 @@
             <td>{modul.fravær}</td>
   
             <td>{modul.aktivitet.tidspunkt}</td>
-            <td>{modul.årsag}</td>
+            <td>
+              {#if modul.årsag == "Sygdom"}
+              <p class="btn btn-xs w-full btn-warning">{modul.årsag}</p>
+              {:else if modul.årsag == "Private forhold"}
+              <p class="btn btn-xs w-full btn-info">{modul.årsag}</p>
+              {:else if modul.årsag == "Skolerelaterede aktiviteter"}
+              <p class="btn btn-xs w-full btn-success">{modul.årsag}</p>
+              {:else if modul.årsag == "Kom for sent"}
+              <p class="btn btn-xs w-full btn-error">{modul.årsag}</p>
+              {:else if modul.årsag == "Andet"}
+              <p class="btn btn-xs w-full">{modul.årsag}</p>
+              {/if}
+            </td>
             <td>{modul.årsagsnote}</td>
           </tr>
         {/each}
       </tbody>
-    </table>    
+    </table>   
+    <div class="list lg:hidden">
+      {#each $fravaer?.data?.moduler?.oversigt as modul}
+      {#if modul.årsag == "Sygdom"}
+        <div class="element border-l-4 border-l-warning">
+          <p class="font-light text-sm">{modul.aktivitet.tidspunkt}</p>
+          <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+          <p>{modul.årsagsnote}</p>
+        </div>
+        {:else if modul.årsag == "Private forhold"}
+        <div class="element border-l-4 border-l-info">
+          <p class="font-light text-sm">{modul.aktivitet.tidspunkt}</p>
+          <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+          <p>{modul.årsagsnote}</p>
+        </div>
+        {:else if modul.årsag == "Skolerelaterede aktiviteter"}
+        <div class="element border-l-4 border-l-success">
+          <p class="font-light text-sm">{modul.aktivitet.tidspunkt}</p>
+          <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+          <p>{modul.årsagsnote}</p>
+        </div>
+        {:else if modul.årsag == "Kom for sent"}
+        <div class="element border-l-4 border-l-error">
+          <p class="font-light text-sm">{modul.aktivitet.tidspunkt}</p>
+          <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+          <p>{modul.årsagsnote}</p>
+        </div>
+        {:else if modul.årsag == "Andet"}
+        <div class="element">
+          <p class="font-light text-sm">{modul.aktivitet.tidspunkt}</p>
+          <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+          <p>{modul.årsagsnote}</p>
+        </div>
+        {/if}
+      {/each}
+    </div> 
   </div>
 {:else}
 <div class="btn loading btn-ghost">Indlæser</div>
