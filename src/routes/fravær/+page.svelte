@@ -38,12 +38,14 @@
     /((?:[1-9]|[12][0-9]|3[01])\/(?:[1-9]|1[012])-(?:19|20)\d\d) ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9])) til ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9]))/m;
   
   let fravaerReady = false;
-  let samletFravaer = 0;
+  let opgjortFravaer = 0;
+  let foråretFravaer = 0;
   get("/fravaer").then((data) => {
     $fravaer = { sort: { col: "procent", ascending: true }, data };
     $fravaer.data.generalt.forEach((element) => {
       if (element.hold == "Samlet") {
-        samletFravaer = element.opgjort_fravær_procent;
+        opgjortFravaer = element.opgjort_fravær_procent;
+        foråretFravaer = element.heleåret_fravær_procent;
       }
     });
     fravaerReady = true;
@@ -75,6 +77,18 @@
 
 <h1 class="mb-4 text-3xl font-bold">Fravær</h1>
 {#if cookieReady && fravaerReady}
+
+<div class="stats mb-4 bg-base-200 shadow">
+  <div class="stat">
+    <div class="stat-title">Opgjort</div>
+    <div class="stat-value">{opgjortFravaer}</div>
+  </div>
+  <div class="stat">
+    <div class="stat-title">For året</div>
+    <div class="stat-value">{foråretFravaer}</div>
+  </div>
+</div>
+
 <div class="flex flex-col lg:flex-row w-full p-4 rounded-lg bg-base-200 ">
   <div class="w-full lg:w-1/2 bg-base-300 rounded-lg p-4">
     <h2 class="text-2xl font-bold">Grafisk oversigt</h2>
