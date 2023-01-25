@@ -1,7 +1,5 @@
 <h1 class="mb-4 text-3xl font-bold">Indstillinger - Pro</h1>
 <p>
-  Hvis du er contributer får du automatisk Better Lectio Pro, alt du skal gøre er at tilslutte din Github <a
-    href="tilslut"
-    class="btn-primary btn-xs btn">her</a
-  >.
+  Her kan du i fremtiden opgradere til Pro. det vil give dig adgang til flere funktioner og værktøjer samt andre fordele. 
+  Der vil altid være en version af BetterLectio som er gratis at bruge.
 </p>
