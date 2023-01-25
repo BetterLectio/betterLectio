@@ -9,6 +9,7 @@ node_modules
 .svelte-kit
 
 dist
+static/backend
 build
 package
 
