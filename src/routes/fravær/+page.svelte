@@ -7,10 +7,10 @@
 
   import { cookieInfo } from "../../components/CookieInfo";
   let cookie;
-  let ready = false;
+  let cookieReady = false;
   cookieInfo().then((data) => {
     cookie = data;
-    ready = true;
+    cookieReady = true;
   });
 
   moment.defineLocale("en-dk", {
@@ -36,7 +36,8 @@
 
   const timeRegex =
     /((?:[1-9]|[12][0-9]|3[01])\/(?:[1-9]|1[012])-(?:19|20)\d\d) ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9])) til ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9]))/m;
-
+  
+  let fravaerReady = false;
   let samletFravaer = 0;
   get("/fravaer").then((data) => {
     $fravaer = { sort: { col: "procent", ascending: true }, data };
@@ -45,6 +46,7 @@
         samletFravaer = element.opgjort_fravær_procent;
       }
     });
+    fravaerReady = true;
   });
 
   let monthToFravær = 0;
@@ -72,6 +74,7 @@
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Fravær</h1>
+{#if cookieReady && fravaerReady}
 <div class="flex flex-col lg:flex-row w-full p-4 rounded-lg bg-base-200 ">
   <div class="w-full lg:w-1/2 bg-base-300 rounded-lg p-4">
     <h2 class="text-2xl font-bold">Grafisk oversigt</h2>
@@ -111,11 +114,10 @@
     />
   {/if}
   
-  </div>
+</div>
   <div class="w-full bg-base-300 rounded-lg p-4 lg:ml-4 mt-4 lg:mt-0 overflow-y-scroll">
       <h2 class="text-2xl font-bold mb-4">Manglende fraværsårsager</h2>
       <div class="overflow-x-auto">
-        {#if ready}
         <table class="table table-zebra w-full">
           <!-- head -->
           <thead>
@@ -136,8 +138,7 @@
             {/each}
           </tbody>
         </table>
-        {/if}
-
+        
       </div>
     </div>
   </div>
@@ -171,4 +172,7 @@
       </tbody>
     </table>    
   </div>
+{:else}
+<div class="btn loading btn-ghost">Indlæser</div>
+{/if}
 
