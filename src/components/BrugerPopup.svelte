@@ -2,15 +2,15 @@
   export let navn;
   export let id;
 
-  let BrugerDropdown;
+  let BrugerPopupWindow;
 </script>
 
 <div class="dropdown">
   <button
     on:click={async () => {
-      if (!BrugerDropdown) {
+      if (!BrugerPopupWindow) {
         console.log("Loading BrugerPopup");
-        BrugerDropdown = (await import("./BrugerPopupWindow.svelte")).default;
+        BrugerPopupWindow = (await import("./BrugerPopupWindow.svelte")).default;
       }
     }}
     tabindex="0"
@@ -21,8 +21,8 @@
 
   <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
   <div tabindex="0" class="dropdown-content rounded-box bg-base-100 p-2 shadow">
-    {#if BrugerDropdown}
-      <svelte:component this={BrugerDropdown} {navn} {id} />
+    {#if BrugerPopupWindow}
+      <svelte:component this={BrugerPopupWindow} {navn} {id} />
     {:else}
       <div class="text-center">Henter brugerdata...</div>
     {/if}

@@ -29,19 +29,7 @@
   });
   import GlobalSearch from "../components/GlobalSearch.svelte";
 
-  let checked = "";
-  function handleClick() {
-    checked == "checked" ? (checked = "") : (checked = "checked");
-  }
-
-  if ($instillinger == null) {
-    $instillinger = {
-      sidebar: true,
-    }
-  }
-
   let windowWidth = window.innerWidth;
-
   function handleResize() {
     windowWidth = window.innerWidth;
   }
@@ -56,8 +44,7 @@
   <label class="modal-box relative" for="">
     <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
     <p class="py-4">
-      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn
-      og kodeord.
+      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.
     </p>
     <span class="flex">
       <div class="modal-action">
@@ -85,10 +72,10 @@
 </label>
 <GlobalSearch />
 
-{#if $instillinger.sidebar && windowWidth > 768}
+{#if $instillinger?.sidebar && windowWidth > 768}
   <SideBar />
   <div class="md:ml-16">
-    <div class="container mx-auto md:pt-10 w-full">
+    <div class="container mx-auto w-full md:pt-10">
       <PageTransition pathname={data.pathname}>
         <slot />
       </PageTransition>
