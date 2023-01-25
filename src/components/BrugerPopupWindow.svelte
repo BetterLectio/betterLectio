@@ -41,12 +41,21 @@
       let now = new Date(Date.now());
 
       if (now >= modul.start && now <= modul.slut) {
-        if(modul.status != "aflyst") {
+        if (modul.status != "aflyst") {
           aktivitet = modul;
         }
       }
     });
   });
+
+  function setActivity(modul) {
+    if (aktivitet == undefined) {
+      return "Fri"
+    } else {
+      if (aktivitet.hold == null) {return "ukendt aktivitet i lokale " + aktivitet.lokale}
+      return aktivitet.hold + " i lokale " + aktivitet.lokale;
+    }
+  }
 </script>
 
 {#if skema}
@@ -69,11 +78,13 @@
           {/each}
         </p>
       {/if}
-      <p class="whitespace-pre-line"><strong>Aktivitet: </strong> {aktivitet == undefined ? "Fri" : aktivitet.hold +  " i lokale " + aktivitet.lokale}</p>
+      <p class="whitespace-pre-line"><strong>Aktivitet: </strong>{setActivity(aktivitet)}</p>
       <div class="card-actions mt-4 justify-start">
         <button class="btn-primary btn">Se skema</button>
         <button class="btn-primary btn">Send besked</button>
       </div>
     </div>
   </div>
+{:else}
+  <div class="btn loading btn-ghost">indlæser</div>
 {/if}
