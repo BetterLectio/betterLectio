@@ -41,7 +41,9 @@
       let now = new Date(Date.now());
 
       if (now >= modul.start && now <= modul.slut) {
-        aktivitet = modul;
+        if(modul.status != "aflyst") {
+          aktivitet = modul;
+        }
       }
     });
   });
