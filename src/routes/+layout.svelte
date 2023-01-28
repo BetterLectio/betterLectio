@@ -22,8 +22,7 @@
     themeChange(false);
     if (
       window.location.href.indexOf("betlec.netlify.app") > -1 &&
-      window.location.href.indexOf("dev--betlec.netlify.app") == -1 &&
-      window.location.href.indexOf("tema-fix--betlec.netlify.app") == -1
+      window.location.href.indexOf("dev--betlec.netlify.app") == -1
     ) {
       window.location.href = "https://betterlectio.dk";
     }
