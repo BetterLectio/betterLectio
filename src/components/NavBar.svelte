@@ -132,7 +132,7 @@
             </svg><span class="hidden md:inline">Søg</span></label
           >
         {/if}
-        <ThemeSelect />
+        <ThemeSelect tabindex="0"/>
         {#if $brugeren && localStorage.getItem("lectio-cookie") && cookie}
           <div class="dropdown-bottom dropdown-end dropdown hidden md:block">
             <div tabindex="0" class="btn-ghost btn flex justify-end gap-1 font-normal normal-case">
