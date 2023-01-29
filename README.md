@@ -11,12 +11,38 @@ Better lectio er et open source projekt, hvilket betyder at alle kan se koden, o
 
 Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)  
 <a href="https://github.com/BetterLectio/betterlectio/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=BetterLectio/betterlectio" />
+<img src="https://contrib.rocks/image?repo=BetterLectio/betterlectio" />
 </a>
 
 ### siden er tilgængelig på [betterlectio.dk](https://betterlectio.dk)
 
 ### vores dev side er tilgængelig på [dev--betlec.netlify.app](https://dev--betlec.netlify.app/)
+
+<br/>
+
+<details>
+
+<summary>Browser support</summary>
+
+| Chrome | Firefox | Safari |    Edge     |    Opera    |
+| :----: | :-----: | :----: | :---------: | :---------: |
+|   ✅   |   ✅    |   ⚠️   | ikke testet | ikke testet |
+
+</details>
+
+<br/>
+
+<details>
+
+<summary>OS support</summary>
+
+| Windows | Mac OS | Linux |
+| :-----: | :----: | :---: |
+|   ✅    |   ✅   |  ✅   |
+
+</details>
+
+<br/>
 
 ## TODO
 
@@ -35,13 +61,13 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
    - IDÉ - hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
    - IDÉ - hvor mange dage til næste prøve (API)
-   - IDÉ - hvor mange moduler kan jeg i teorien pjække før jeg får x% fravær (client side med callback til server) (brug data fra fravær side)
+   - IDÉ - hvor mange moduler kan jeg i teorien pjække før jeg får x% fravær (client side med callback til server) (brug data fra fravær side) ✅
    - IDÉ - Skole community side hvor man kan ved hjælp af Discord OAuth2 lave private Discord servere hvor man kan vælge hvilke klasser/grupper/klubber der kan være med eller hele skolen om hele skolen kan være med (Discord OAuth2, database)
-   - IDÉ - Man kan højre klikke på en anden bruger og så kommer der en popup lidt som på Discord hvor der står en status som er om de har fri eller om de har time og hvilken time de har og med en knap til at skrive til dem osv.
+   - IDÉ - Man kan højre klikke på en anden bruger og så kommer der en popup lidt som på Discord hvor der står en status som er om de har fri eller om de har time og hvilken time de har og med en knap til at skrive til dem osv. ✅
 
 4. fravær side
 
-   - få grafen til at loade på første pageload
+   - få grafen til at loade på første pageload ✅
 
 5. beskeder side
 
