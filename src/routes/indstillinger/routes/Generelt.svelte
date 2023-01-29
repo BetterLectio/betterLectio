@@ -63,3 +63,5 @@
     </label>
   </div>
 </div>
+
+<h2 class="font-mono mt-4 opacity-20 hover:opacity-100 transition-all duration-300" >BetterLectio version: {__APP_VERSION__}</h2>
