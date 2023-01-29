@@ -30,7 +30,8 @@ export async function get(endpoint) {
   // If the user is not authenticated, redirect to the auth page
   if (!localStorage.getItem("lectio-cookie") || localStorage.getItem("lectio-cookie") == "null") {
     console.log("No cookie, redirecting to auth page");
-    window.location.href = "/auth";
+    const transformedLink = window.location.href.split("/")[3].replace("/", "%3").replace("?", "%3F").replace("=", "%3d").replace(`"`, "%22")
+    window.location.href = "/auth?redirect=" + transformedLink;
   }
 
   let nonce = localStorage.getItem("nonce");
@@ -91,7 +92,8 @@ export async function get(endpoint) {
       addNotification(`Error fetching data from https://api.betterlectio.dk${endpoint}`, "alert-error");
     } else {
       console.log("Cookie not valid, redirecting to auth page.", "validationCheck:", validationCheck);
-      goto("/auth");
+      const transformedLink = window.location.href.split("/")[3].replace("/", "%3").replace("?", "%3F").replace("=", "%3d").replace(`"`, "%22")
+      window.location.href = "/auth?redirect=" + transformedLink;
     }
   }
 }
