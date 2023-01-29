@@ -30,6 +30,10 @@
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Fravær Regner</h1>
+
+{#if !$fravaer}
+  <p class="loading btn btn-ghost">Henter data...</p>
+{:else}
 <label for="procent-range" class="mb-2 block font-medium">Hvor meget procent fravær vil du ende med?</label>
 <input on:input={updateDesired} bind:value={desiredAmount} id="procent-range" type="range"  class="range range-primary" />
 
@@ -79,3 +83,4 @@
   {/if}
 </div>
 </div>
+{/if}
