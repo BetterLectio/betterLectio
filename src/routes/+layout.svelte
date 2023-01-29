@@ -11,12 +11,20 @@
   import Notify from "../components/Notify.svelte";
   import SideBar from "../components/SideBar.svelte";
   import NavBar from "../components/NavBar.svelte";
+  import { get } from "../components/http.js";
+
   export let data;
 
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
   });
+
+  if (!window.location.href.includes("auth")) {
+    get("/mig").then((data) => {
+      $brugeren = data;
+    });
+  }
 
   onMount(() => {
     themeChange(false);
