@@ -10,6 +10,8 @@ import { goto } from "$app/navigation";
 //     .LastLoginUserName
 // );
 
+export const api = (window.electron) ? "http://localhost:5000" : "https://api.betterlectio.dk"
+
 export function reloadData(reload = true) {
   localStorage.setItem("nonce", Date.now().toString(36));
   if (reload) {
@@ -40,7 +42,7 @@ export async function get(endpoint) {
   }
 
   // Fetch the data from the API
-  let url = `https://api.betterlectio.dk${endpoint}`;
+  let url = api + endpoint;
   if (url.indexOf("?") > -1) {
     url += "&nonce=" + nonce;
   } else {
@@ -67,7 +69,7 @@ export async function get(endpoint) {
     return JSON.parse(textResponse.replace("\n", "  "));
   } else {
     const validationCheck = await (
-      await fetch(`https://api.betterlectio.dk/check-cookie`, {
+      await fetch(api + `/check-cookie`, {
         headers: {
           "lectio-cookie": localStorage.getItem("lectio-cookie"),
         },
@@ -80,7 +82,7 @@ export async function get(endpoint) {
         localStorage.setItem("lectio-cookie", lectioCookie);
       }
       console.error(
-        `Error fetching data from https://api.betterlectio.dk${endpoint}`,
+        `Error fetching data from ${api}${endpoint}`,
         "validationCheck:",
         validationCheck,
         "response:",
@@ -88,7 +90,7 @@ export async function get(endpoint) {
         "textResponse:",
         textResponse
       );
-      addNotification(`Error fetching data from https://api.betterlectio.dk${endpoint}`, "alert-error");
+      addNotification(`Error fetching data from ${api}${endpoint}`, "alert-error");
     } else {
       console.log("Cookie not valid, redirecting to auth page.", "validationCheck:", validationCheck);
       goto("/auth");

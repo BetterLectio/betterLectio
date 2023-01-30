@@ -1,0 +1,3 @@
+[submodule "BetterLectio-Flask-Backend"]
+	path = BetterLectio-Flask-Backend
+	url = https://github.com/BetterLectio/BetterLectio-Flask-Backend.git
