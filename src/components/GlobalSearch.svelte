@@ -56,7 +56,7 @@
     });
 
     get("/fravaer").then((data) => {
-      $fravaer = data;
+      $fravaer = { sort: { col: "procent", ascending: true }, data };
       loadingProgress++;
     });
 

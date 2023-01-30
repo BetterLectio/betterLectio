@@ -55,14 +55,24 @@
   bind:value={searchString}
   on:input={search}
 />
-<div class="w-full p-4 bg-base-200 rounded-lg">
+<div class="">
+  <table class="table table-zebra table-compact w-full">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th></th>
+        <th>Navn</th>
+      </tr>
+    </thead>
+    <tbody>
   {#if ready}
-    {#each elevObjArray as elev}
-      <div class="mb-2 w-full">
-        <BrugerPopup navn={elev.navn} id={elev.id}>
-          <p class="w-full rounded-lg bg-base-300 p-4 text-xl font-bold">{elev.navn}</p>
-        </BrugerPopup>
-      </div>
+    {#each elevObjArray as elev, i}
+      <tr>
+        <th>{i}</th>
+        <td><BrugerPopup navn={elev.navn} id={elev.id}>{elev.navn}</BrugerPopup></td>
+      </tr>
     {/each}
   {/if}
+</tbody>
+</table>
 </div>
