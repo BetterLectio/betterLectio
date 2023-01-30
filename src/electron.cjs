@@ -1,6 +1,7 @@
 const windowStateManager = require('electron-window-state');
 const contextMenu = require('electron-context-menu');
 const { app, BrowserWindow, ipcMain } = require('electron');
+const nativeImage = require('electron').nativeImage
 const { autoUpdater } = require("electron-updater");
 const serve = require('electron-serve');
 const path = require('path');
@@ -57,7 +58,7 @@ function createWindow() {
 		y: windowState.y,
 		width: windowState.width,
 		height: windowState.height,
-		icon: __static + '/icon.ico',
+		icon: nativeImage.createFromPath(__static + '/icon.png')
 	});
 
 	windowState.manage(mainWindow);
