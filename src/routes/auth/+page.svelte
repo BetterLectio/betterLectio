@@ -88,7 +88,7 @@
         localStorage.setItem("theme", theme);
         localStorage.setItem("firstTime", firstTime);
         setSkole();
-        if (saveLogin) {
+        if (saveLogin && window.electron) {
           localStorage.setItem("brugernavn", AES.encrypt(brugernavn, key));
           localStorage.setItem("adgangskode", AES.encrypt(adgangskode, key));
           localStorage.setItem("skole_id", skole_id);
