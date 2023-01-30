@@ -1,18 +1,37 @@
-import adapter from '@sveltejs/adapter-static';
+// Virker med electron: 
+// Virker med netlify:
+import 'dotenv/config';
+
+import adapterStatic from '@sveltejs/adapter-static';
+import adapterAuto from "@sveltejs/adapter-auto";
 import preprocess from 'svelte-preprocess';
 
-/** @type {import('@sveltejs/kit').Config} */
-const config = {
-	// Consult https://github.com/sveltejs/svelte-preprocess
-	// for more information about preprocessors
-	preprocess: preprocess(),
+let config;
+if (process.env.NODE_ENV === 'production') {
+	/** @type {import('@sveltejs/kit').Config} */
+	config = {
+		// Consult https://github.com/sveltejs/svelte-preprocess
+		// for more information about preprocessors
+		preprocess: preprocess(),
 
-	kit: {
-		adapter: adapter({
-			fallback: 'index.html',
+		kit: {
+			adapter: adapterStatic({
+				fallback: 'index.html',
+			}),
+			prerender: { entries: [] },
+		},
+	};
+} else {
+	/** @type {import('@sveltejs/kit').Config} */
+	config = {
+		kit: {
+		adapter: adapterAuto(),
+		},
+		preprocess: [
+		preprocess({
+			postcss: true,
 		}),
-		prerender: { entries: [] },
-	},
-};
-
+		],
+	};
+}
 export default config;
