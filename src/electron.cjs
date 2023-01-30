@@ -114,11 +114,13 @@ app.on('activate', () => {
 
 	autoUpdater.checkForUpdates();
 });
-app.on('window-all-closed', () => {
+
+process.on('exit', () => {
 	backend.stdin.pause();
 	backend.kill();
-	if (process.platform !== 'darwin') app.quit();
+	app.quit();
 });
+  
 
 ipcMain.on('to-main', (event, count) => {
 	return mainWindow.webContents.send('from-main', `next count is ${count + 1}`);
