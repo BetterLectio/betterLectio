@@ -17,6 +17,11 @@
 		"build-backend": "concurrently --maxProcesses=1 \"del static/backend/*\" \"wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -d static/backend/backend.py\" \"wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt -d static/backend/\" \"pip install -r static/backend/requirements.txt\" \"pip install pyinstaller\" \"pyinstaller --onefile static/backend/backend.py --distpath static/backend/ --workpath temp/\" \"del temp backend.spec static/backend/requirements.txt\"",
 		"lint": "eslint ."
 	},
+	"repository": "https://github.com/BetterLectio/betterLectio",
+	"publish": {
+		"provider": "github",
+		"releaseType": "release"
+	},
 	"browserslist": [
 		"Chrome 89"
 	],

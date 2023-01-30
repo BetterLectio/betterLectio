@@ -1,10 +1,12 @@
 const windowStateManager = require('electron-window-state');
 const contextMenu = require('electron-context-menu');
 const { app, BrowserWindow, ipcMain } = require('electron');
+const { autoUpdater } = require("electron-updater");
 const serve = require('electron-serve');
 const path = require('path');
 const open = require('open');
 const { execFile } = require('child_process');
+const { auto } = require('@popperjs/core');
 
 if (process.env.NODE_ENV === 'development') {
 	global.__static = path.join(__dirname, '../static');
@@ -36,6 +38,7 @@ function createWindow() {
 		backgroundColor: 'whitesmoke',
 		//titleBarStyle: 'hidden',
 		autoHideMenuBar: true,
+		title: "Better Lectio",
 		trafficLightPosition: {
 			x: 17,
 			y: 32,
@@ -99,11 +102,16 @@ function createMainWindow() {
 	else serveURL(mainWindow);
 }
 
+autoUpdater.autoDownload = false;
+autoUpdater.autoInstallOnAppQuit = true;
+
 app.once('ready', createMainWindow);
 app.on('activate', () => {
 	if (!mainWindow) {
 		createMainWindow();
 	}
+
+	autoUpdater.checkForUpdates();
 });
 app.on('window-all-closed', () => {
 	backend.stdin.pause();
