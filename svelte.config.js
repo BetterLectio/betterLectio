@@ -7,7 +7,8 @@ import adapterAuto from "@sveltejs/adapter-auto";
 import preprocess from 'svelte-preprocess';
 
 let config;
-if (process.env.NODE_ENV === 'production') {
+if (process.env.BUILD_TYPE === 'app') {
+	console.log("AOPOOOOOOOOOOPPPPPPPPPPPPPPPPPPPPPPPPPPP");
 	/** @type {import('@sveltejs/kit').Config} */
 	config = {
 		// Consult https://github.com/sveltejs/svelte-preprocess
@@ -28,9 +29,9 @@ if (process.env.NODE_ENV === 'production') {
 		adapter: adapterAuto(),
 		},
 		preprocess: [
-		preprocess({
-			postcss: true,
-		}),
+			preprocess({
+				postcss: true,
+			}),
 		],
 	};
 }

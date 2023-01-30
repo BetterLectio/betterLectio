@@ -11,9 +11,9 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"dev-electron": "concurrently \"vite dev\" \"cross-env NODE_ENV=development electron src/electron.cjs\"",
-		"build-electron-linux": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production vite build\" \"electron-builder -l --config build.config.json\"",
-		"build-electron-windows": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production vite build\" \"electron-builder -w --config build.config.json\"",
-		"build-electron-mac": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production vite build\" \"electron-builder -m --config build.config.json\"",
+		"build-electron-linux": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production BUILD_TYPE=app vite build\" \"electron-builder -l --config build.config.json\"",
+		"build-electron-windows": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production BUILD_TYPE=app vite build\" \"electron-builder -w --config build.config.json\"",
+		"build-electron-mac": "concurrently --maxProcesses=1 \"npm:build-backend\" \"cross-env NODE_ENV=production BUILD_TYPE=app vite build\" \"electron-builder -m --config build.config.json\"",
 		"build-backend": "concurrently --maxProcesses=1 \"del static/backend/*\" \"wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -d static/backend/backend.py\" \"wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt -d static/backend/\" \"pip install -r static/backend/requirements.txt\" \"pip install pyinstaller\" \"pyinstaller --onefile static/backend/backend.py --distpath static/backend/ --workpath temp/\" \"del temp backend.spec static/backend/requirements.txt\"",
 		"lint": "eslint ."
 	},
