@@ -36,9 +36,9 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 <summary>OS support</summary>
 
-| Windows | Mac OS | Linux |
-| :-----: | :----: | :---: |
-|   ✅    |   ✅   |  ✅   |
+| Windows | Mac OS | Linux |       IOS        | Android  |
+| :-----: | :----: | :---: | :--------------: | :------: |
+|   ✅    |   ✅   |  ✅   | ⚠️ få bugs (PWA) | ✅ (PWA) |
 
 </details>
 
