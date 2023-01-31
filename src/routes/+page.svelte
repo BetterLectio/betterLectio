@@ -58,7 +58,7 @@
 		</div>
 	</div>
 
-	<div class="flex flex-row xl:justify-around xl:items-center xl:justify-center xl:h-[calc(100vh-180px)] xl:overflow-auto mb-48">
+	<div class="flex flex-row xl:justify-around xl:items-center xl:justify-center xl:h-[calc(100vh-160px)] xl:overflow-auto">
 		<div>
 			<h1
 				class="text-6xl font-extrabold md:text-8xl lg:text-9xl px-2"
@@ -158,6 +158,11 @@
 			<path
 				d="M333.913,150.261c-12.277,0-22.261,9.99-22.261,22.261s9.984,22.261,22.261,22.261c12.277,0,22.261-9.99,22.261-22.261 S346.19,150.261,333.913,150.261z"
 			/>
+		</svg>
+	</div>
+	<div class="hidden xl:flex justify-center animate-bounce -mt-8 mb-48">
+		<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-mouse" viewBox="0 0 16 16">
+			<path d="M8 3a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 3zm4 8a4 4 0 0 1-8 0V5a4 4 0 1 1 8 0v6zM8 0a5 5 0 0 0-5 5v6a5 5 0 0 0 10 0V5a5 5 0 0 0-5-5z"/>
 		</svg>
 	</div>
 
