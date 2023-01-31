@@ -23,7 +23,7 @@
 <div class="drawer h-screen">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" bind:checked />
   <div class="drawer-content">
-    <div class="navbar relative z-50 mb-10" transition:fly="{{y: -64, duration: 200 }}">
+    <div class="navbar relative z-50 mb-10" transition:fly={{ y: -64, duration: 200 }}>
       <div class="navbar-start">
         <p />
         <div class="dropdown">
@@ -68,18 +68,20 @@
       <div class="navbar-center hidden xl:flex">
         <ul class="menu menu-horizontal p-0">
           {#if $brugeren && localStorage.getItem("lectio-cookie")}
-            <li><a class="text-xs font-bold hover:scale-125" href="/skema">Skema</a></li>
-            <li><a class="text-xs font-bold hover:scale-125" href="/opgaver">Opgaver</a></li>
-            <li><a class="text-xs font-bold hover:scale-125" href="/lektier">Lektier</a></li>
-            <li><a class="text-xs font-bold hover:scale-125" href="/fravær">Fravær</a></li>
-            <li><a class="text-xs font-bold hover:scale-125" href="/dokumenter">Dokumenter</a></li>
-            <li><a class="text-xs font-bold hover:scale-125" href="/beskeder">Beskeder</a></li>
-            <li><a class="text-xs font-bold hover:scale-125" href="/karakterer">Karakterer</a></li>
-            <li><a class="text-xs font-bold hover:scale-125" href="/værktøjer">Værktøjer</a></li>
+            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/skema">Skema</a></li>
+            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/opgaver">Opgaver</a></li>
+            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/lektier">Lektier</a></li>
+            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/fravær">Fravær</a></li>
+            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/dokumenter">Dokumenter</a></li>
+            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/beskeder">Beskeder</a></li>
+            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/karakterer">Karakterer</a></li>
+            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/værktøjer">Værktøjer</a></li>
           {:else}
-            <li><a href="/">Forside</a></li>
-            <li><a href="/help">Hjælp</a></li>
-            <li><a href="/tos">Servicevilkår & Privatlivspolitik</a></li>
+            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/">Forside</a></li>
+            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/help">Hjælp</a></li>
+            <li>
+              <a class="rounded-lg text-xs font-bold hover:scale-125" href="/tos">Servicevilkår & Privatlivspolitik</a>
+            </li>
           {/if}
         </ul>
       </div>
@@ -132,7 +134,7 @@
             </svg><span class="hidden md:inline">Søg</span></label
           >
         {/if}
-        <ThemeSelect tabindex="0"/>
+        <ThemeSelect tabindex="0" />
         {#if $brugeren && localStorage.getItem("lectio-cookie") && cookie}
           <div class="dropdown-bottom dropdown-end dropdown hidden md:block">
             <div tabindex="0" class="btn-ghost btn flex justify-end gap-1 font-normal normal-case">
