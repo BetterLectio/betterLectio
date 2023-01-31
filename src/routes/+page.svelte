@@ -77,7 +77,7 @@
 				Prøv BetterLectio i dag og oplev, hvordan det kan forbedre din Lectio-oplevelse
 			</p>
 			<div class="mt-4 flex flex-col md:flex-row">
-				<a
+				<!--<a
 					href="/download"
 					class="btn-primary btn mb-2 md:mb-0"
 					in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 700 }}
@@ -96,7 +96,7 @@
 							d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"
 						/>
 					</svg>Download (anbefalet)</a
-				>
+				>-->
 				<a
 					href="https://app.betterlectio.dk"
 					class="btn-secondary btn md:ml-4 md:mt-0"
@@ -186,7 +186,7 @@
 		</div>
 	</div>
 	<div class="col-span-2 aspect-w-16 aspect-h-9">
-		<iframe id="player" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/594er80meJk?enablejsapi=1&origin=http://betterlectio.dk" frameborder="0"></iframe>
+		<iframe id="player" type="text/html" width="640" height="390" src="https://www.youtube.com/embed/594er80meJk?enablejsapi=1&origin=https://betterlectio.dk" frameborder="0"></iframe>
 	</div>
 </div>
 
