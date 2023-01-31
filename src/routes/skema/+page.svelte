@@ -100,7 +100,7 @@
 
   let options = {
     locale: "da",
-    view: dertermineView(),
+    view: "timeGridWeek",
     nowIndicator: true,
     theme: customTheme,
     hiddenDays: [0, 6],
@@ -125,6 +125,7 @@
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
     },
     viewDidMount: (view) => {
+      dertermineView();
       let dateObj = new Date(view.currentEnd.toISOString());
       globalYear = dateObj.getFullYear();
       let dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
@@ -147,6 +148,7 @@
   }
 
   async function addSkemaToCalendar(skema) {
+    options.view = dertermineView();
     for (let i = 0; i < skema["moduler"].length; i++) {
       let modul = skema["moduler"][i];
       let start = modul["tidspunkt"].split(" til ")[0];
@@ -395,10 +397,7 @@
   //}
 </script>
 
-<svelte:head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build/event-calendar.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build/event-calendar.min.js"></script>
-</svelte:head>
+<svelte:head />
 
 <span class="my-2 justify-between">
   <h1 class="mb-4  text-3xl font-bold ">Skema</h1>
