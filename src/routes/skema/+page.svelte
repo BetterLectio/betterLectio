@@ -1,17 +1,11 @@
-<!--
-  TODO: 
-  load more data on week change ✅
-  add a loading indicator
-  add color to the events
-
--->
 <script>
   import { get } from "../../components/http.js";
-  import { skema } from "../../components/store.js";
   import Calendar from "@event-calendar/core";
   import TimeGrid from "@event-calendar/time-grid";
 
   import { cookieInfo } from "../../components/CookieInfo";
+
+  let skema = {};
 
   let skemaId = new URLSearchParams(window.location.search).get("id");
 
@@ -20,7 +14,7 @@
     cookie = data;
     if (skemaId == null) {
       skemaId = "S" + cookie.userid;
-      window.history.pushState({}, null, "/skema?id="+skemaId);
+      window.history.pushState({}, null, "/skema?id=" + skemaId);
     }
   });
   let ec; // to store the calendar instance and access it's methods
@@ -44,7 +38,8 @@
     days: "ec-days capitalize",
     draggable: "ec-draggable",
     dragging: "ec-dragging",
-    event: "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl ml-0.5 hover:scale-110 z-10 hover:z-0",
+    event:
+      "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl ml-0.5 hover:scale-110 z-10 hover:z-0",
     eventBody: "ec-event-body",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
@@ -84,6 +79,21 @@
     withScroll: "ec-with-scroll",
   };
 
+  addEventListener("resize", (event) => {});
+
+  onresize = (event) => {
+    // if the window is less than 768px wide, change the view to "listDay"
+    options.view = dertermineView();
+  };
+
+  function dertermineView() {
+    if (window.innerWidth < 768) {
+      return "timeGridDay";
+    } else {
+      return "timeGridWeek";
+    }
+  }
+
   let globalWeek = 0;
   let globalYear = 0;
   let addedEventsId = [];
@@ -112,24 +122,20 @@
       timeGridWeek: "uge",
     },
     eventDidMount: (event) => {
-      addedEventsId.push(event.event.id);
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
-      getAgenda();
-      getAgenda();
     },
     viewDidMount: (view) => {
+      dertermineView();
       let dateObj = new Date(view.currentEnd.toISOString());
       globalYear = dateObj.getFullYear();
       let dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
       globalWeek = Math.floor(dayOfYear / 7);
       onload();
-      getAgenda();
-      getAgenda();
     },
   };
 
-  $: if ($skema?.[globalYear + "" + globalWeek]) {
-    addSkemaToCalendar($skema[globalYear + "" + globalWeek]);
+  $: if (skema?.[globalYear + "" + globalWeek]) {
+    addSkemaToCalendar(skema[globalYear + "" + globalWeek]);
   }
 
   function getWeekNumber() {
@@ -142,6 +148,7 @@
   }
 
   async function addSkemaToCalendar(skema) {
+    options.view = dertermineView();
     for (let i = 0; i < skema["moduler"].length; i++) {
       let modul = skema["moduler"][i];
       let start = modul["tidspunkt"].split(" til ")[0];
@@ -201,13 +208,12 @@
           isAdded = true;
         }
       }
-      if (isAdded) {
-        ec.updateEvent(modulCalenderObj);
-      } else {
+      if (!isAdded) {
+        console.log("new event added");
+        addedEventsId.push(modulCalenderObj.id);
         ec.addEvent(modulCalenderObj);
       }
     }
-    ec.refetchEvents();
   }
 
   $: if (globalWeek && globalYear) {
@@ -215,20 +221,20 @@
   }
 
   async function getSkema() {
-    if (!$skema) {
-      $skema = {};
+    if (!skema) {
+      skema = {};
     }
     await get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then((data) => {
-      $skema[globalYear + "" + globalWeek] = data;
+      skema[globalYear + "" + globalWeek] = data;
 
       options.slotMinTime = parseInt(
-        Object.values($skema[globalYear + "" + globalWeek].modulTider)[0]
+        Object.values(skema[globalYear + "" + globalWeek].modulTider)[0]
           .split(" - ")[0]
           .split(":")[0] - 1
       ).toString();
       options.slotMaxTime = (
         parseInt(
-          Object.values($skema[globalYear + "" + globalWeek].modulTider)
+          Object.values(skema[globalYear + "" + globalWeek].modulTider)
             .slice(-1)[0]
             .split(" - ")[1]
             .split(":")[0]
@@ -273,7 +279,7 @@
     }
     // add buttons to slots
     for (let i = 0; i < slotsFiltered.length; i++) {
-      let infoobj = $skema[year + "" + week].dagsNoter[i];
+      let infoobj = skema[year + "" + week].dagsNoter[i];
       const currentDay = Object.keys(infoobj)[0];
       const currentInfoArr = infoobj[currentDay];
       let currentInfo = `<p>`;
@@ -293,110 +299,107 @@
     }
   }
 
-  let dayOffset = 0;
+  //let dayOffset = 0;
 
-  $: nextDay = () => {
-    dayOffset++;
-    // if going from sunday to monday, change week
-    if (getCurrentday() == 0) {
-      changeWeek("plus");
-    }
-    getAgenda();
-  };
+  //$: nextDay = () => {
+  //  dayOffset++;
+  //  // if going from sunday to monday, change week
+  //  if (getCurrentday() == 0) {
+  //    changeWeek("plus");
+  //  }
+  //  getAgenda();
+  //};
 
-  $: prevDay = () => {
-    dayOffset--;
-    // if going from sunday to monday, change week
-    if (getCurrentday() == 6) {
-      changeWeek("minus");
-    }
-    getAgenda();
-  };
+  //$: prevDay = () => {
+  //  dayOffset--;
+  //  // if going from sunday to monday, change week
+  //  if (getCurrentday() == 6) {
+  //    changeWeek("minus");
+  //  }
+  //  getAgenda();
+  //};
 
-  $: resetDay = () => {
-    dayOffset = 0;
-    // if reseting to current day, change week
-    let date = new Date();
-    if (getCurrentday() != date.getDay()) {
-      changeWeek("reset");
-    }
-    getAgenda();
-  };
+  //$: resetDay = () => {
+  //  dayOffset = 0;
+  //  // if reseting to current day, change week
+  //  let date = new Date();
+  //  if (getCurrentday() != date.getDay()) {
+  //    changeWeek("reset");
+  //  }
+  //  getAgenda();
+  //};
 
-  function getCurrentday() {
-    let date = new Date();
-    let cDay = (date.getDay() + dayOffset - 1) % 7;
-    if (cDay < 0) {
-      cDay = 7 + cDay;
-    }
-    return cDay;
-  }
+  //function getCurrentday() {
+  //  let date = new Date();
+  //  let cDay = (date.getDay() + dayOffset - 1) % 7;
+  //  if (cDay < 0) {
+  //    cDay = 7 + cDay;
+  //  }
+  //  return cDay;
+  //}
 
-  $: getCurrentdayLive = () => {
-    let date = new Date();
-    let cDay = (date.getDay() + dayOffset - 1) % 7;
-    if (cDay < 0) {
-      cDay = 7 + cDay;
-    }
-    return cDay;
-  };
+  //$: getCurrentdayLive = () => {
+  //  let date = new Date();
+  //  let cDay = (date.getDay() + dayOffset - 1) % 7;
+  //  if (cDay < 0) {
+  //    cDay = 7 + cDay;
+  //  }
+  //  return cDay;
+  //};
 
-  $: MapDayNrToName = (dayNr) => {
-    switch (dayNr) {
-      case 0:
-        return "Mandag";
-      case 1:
-        return "Tirsdag";
-      case 2:
-        return "Onsdag";
-      case 3:
-        return "Torsdag";
-      case 4:
-        return "Fredag";
-      case 5:
-        return "Lørdag";
-      case 6:
-        return "Søndag";
-    }
-  };
-  let dagensModuler = [];
+  //$: MapDayNrToName = (dayNr) => {
+  //  switch (dayNr) {
+  //    case 0:
+  //      return "Mandag";
+  //    case 1:
+  //      return "Tirsdag";
+  //    case 2:
+  //      return "Onsdag";
+  //    case 3:
+  //      return "Torsdag";
+  //    case 4:
+  //      return "Fredag";
+  //    case 5:
+  //      return "Lørdag";
+  //    case 6:
+  //      return "Søndag";
+  //  }
+  //};
+  //let dagensModuler = [];
 
-  $: getAgenda = async () => {
-    dagensModuler = [];
-    let currentWeek = $skema[globalYear + "" + globalWeek];
-    let moduler = currentWeek["moduler"];
-    moduler.forEach((modul) => {
-      let modulTidspunkt = modul["tidspunkt"];
-      let modulDato = modulTidspunkt.match(/(\d{1,2}\/\d{1,2}-\d{4})/g)[0];
-      modulDato = modulDato.replace("-", "/");
-      let split = modulDato.split("/");
-      let modulDatoUS = split[1] + "/" + split[0] + "/" + split[2];
-      let modulDatoObj = new Date(modulDatoUS);
-      if (modulDatoObj.getDay() - 1 == getCurrentday()) {
-        dagensModuler.push(modul);
-      }
-    });
-  };
+  //$: getAgenda = async () => {
+  //  dagensModuler = [];
+  //  let currentWeek = skema[globalYear + "" + globalWeek];
+  //  let moduler = currentWeek["moduler"];
+  //  moduler.forEach((modul) => {
+  //    let modulTidspunkt = modul["tidspunkt"];
+  //    let modulDato = modulTidspunkt.match(/(\d{1,2}\/\d{1,2}-\d{4})/g)[0];
+  //    modulDato = modulDato.replace("-", "/");
+  //    let split = modulDato.split("/");
+  //    let modulDatoUS = split[1] + "/" + split[0] + "/" + split[2];
+  //    let modulDatoObj = new Date(modulDatoUS);
+  //    if (modulDatoObj.getDay() - 1 == getCurrentday()) {
+  //      dagensModuler.push(modul);
+  //    }
+  //  });
+  //};
 
-  function colorModul(modul) {
-    let modulType = modul["status"];
-    switch (modulType) {
-      case "aflyst":
-        return "btn btn-error mb-4 block h-fit p-2 normal-case";
-      case "ændret":
-        return "btn btn-success mb-4 block h-fit p-2 normal-case";
-      case "normal":
-        return "btn btn-info mb-4 block h-fit p-2 normal-case";
-    }
-  }
+  //function colorModul(modul) {
+  //  let modulType = modul["status"];
+  //  switch (modulType) {
+  //    case "aflyst":
+  //      return "btn btn-error mb-4 block h-fit p-2 normal-case";
+  //    case "ændret":
+  //      return "btn btn-success mb-4 block h-fit p-2 normal-case";
+  //    case "normal":
+  //      return "btn btn-info mb-4 block h-fit p-2 normal-case";
+  //  }
+  //}
 </script>
 
-<svelte:head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build/event-calendar.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build/event-calendar.min.js"></script>
-</svelte:head>
+<svelte:head />
 
-<span class="my-2  hidden justify-between md:flex">
+<span class="my-2 justify-between">
   <h1 class="mb-4  text-3xl font-bold ">Skema</h1>
 
   {#if cookie?.userid}
@@ -410,14 +413,15 @@
   {/if}
 </span>
 
-<div class="hidden md:block">
+<div>
   <Calendar bind:this={ec} {plugins} {options} />
 </div>
 
+<!--
 <div class="block h-20 w-full md:hidden">
   <div class=" mb-3 flex justify-around rounded-xl bg-base-300 py-4">
     <div class="align btn-group flex justify-center">
-      <button class="btn-primary btn btn-sm" on:click={prevDay}>
+      <button class="btn btn-primary btn-sm" on:click={prevDay}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -431,8 +435,8 @@
           />
         </svg>
       </button>
-      <button class="btn-primary btn btn-sm" on:click={resetDay}> i dag </button>
-      <button class="btn-primary btn btn-sm" on:click={nextDay}>
+      <button class="btn btn-primary btn-sm" on:click={resetDay}> i dag </button>
+      <button class="btn btn-primary btn-sm" on:click={nextDay}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -487,3 +491,4 @@
     <p class="text-center">{MapDayNrToName(getCurrentdayLive())} har ingen moduler</p>
   {/if}
 </div>
+-->

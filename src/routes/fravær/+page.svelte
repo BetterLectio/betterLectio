@@ -36,13 +36,13 @@
 
   const timeRegex =
     /((?:[1-9]|[12][0-9]|3[01])\/(?:[1-9]|1[012])-(?:19|20)\d\d) ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9])) til ((?:[01]?[0-9]|2[0-3]):(?:[0-5][0-9]))/m;
-  
+
   let fravaerReady = false;
   let opgjortFravaer = 0;
   let foråretFravaer = 0;
   get("/fravaer").then((data) => {
-    $fravaer = { sort: { col: "procent", ascending: true }, data };
-    $fravaer.data.generalt.forEach((element) => {
+    $fravaer = { sort: { col: "procent", ascending: true }, ...data };
+    $fravaer.generalt.forEach((element) => {
       if (element.hold == "Samlet") {
         opgjortFravaer = element.opgjort_fravær_procent;
         foråretFravaer = element.heleåret_fravær_procent;
@@ -53,7 +53,7 @@
 
   let monthToFravær = 0;
   $: if ($fravaer) {
-    const concFravær = [...$fravaer.data.moduler.manglende_fraværsårsager, ...$fravaer.data.moduler.oversigt];
+    const concFravær = [...$fravaer.moduler.manglende_fraværsårsager, ...$fravaer.moduler.oversigt];
     let monthToFravær = Object.assign({}, ...moment.months().map((monthName) => ({ [monthName]: 0 })));
 
     for (let index = 0; index < concFravær.length; index++) {
@@ -77,77 +77,86 @@
 
 <h1 class="mb-4 text-3xl font-bold">Fravær</h1>
 {#if cookieReady && fravaerReady}
-
-<div class="stats mb-4 bg-base-200 shadow">
-  <div class="stat">
-    <div class="stat-title">Opgjort</div>
-    <div class="stat-value">{opgjortFravaer}</div>
+  <div class="stats mb-4 bg-base-200 shadow">
+    <div class="stat">
+      <div class="stat-title">Opgjort</div>
+      <div class="stat-value">{opgjortFravaer}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-title">For året</div>
+      <div class="stat-value">{foråretFravaer}</div>
+    </div>
   </div>
-  <div class="stat">
-    <div class="stat-title">For året</div>
-    <div class="stat-value">{foråretFravaer}</div>
-  </div>
-</div>
 
-<div class="flex flex-col lg:flex-row w-full p-4 rounded-lg bg-base-200 ">
-  <div class="w-full lg:w-1/2 bg-base-300 rounded-lg p-4">
-    <h2 class="text-2xl font-bold">Grafisk oversigt</h2>
-    {#if $fravaer?.data?.generalt}
-    <Doughnut
-      data={{
-        labels: $fravaer.data.generalt
-          .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
-          .map((element) => element.hold),
-        datasets: [
-          {
-            label: "Fraværende moduler",
-            data: $fravaer.data.generalt
+  <div class="flex w-full flex-col rounded-lg bg-base-200 p-4 lg:flex-row ">
+    <div class="w-full rounded-lg bg-base-300 p-4 lg:w-1/2">
+      <h2 class="text-2xl font-bold">Grafisk oversigt</h2>
+      {#if $fravaer?.generalt}
+        <Doughnut
+          data={{
+            labels: $fravaer.generalt
               .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
-              .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.opgjort_fravær_moduler)[1].replace(",", ".")),
-            backgroundColor: $fravaer.data.generalt.map(
-              (element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]
-            ),
-          },
-        ],
-      }}
-    />
-  {/if}
-  
-  {#if monthToFravær && moment}
-    <Doughnut
-      data={{
-        labels: [...moment.months().slice(7), ...moment.months().slice(0, 7)], // start ved august, for der starter skoleåret
-        datasets: [
-          {
-            label: "Registreret fravær",
-            data: [...Object.values(monthToFravær).slice(7), ...Object.values(monthToFravær).slice(0, 7)], // start ved august, for der starter skoleåret
-            fill: "origin",
-          },
-        ],
-      }}
-    />
-  {/if}
-  
-</div>
-  <div class="w-full bg-base-300 rounded-lg p-4 lg:ml-4 mt-4 lg:mt-0 overflow-y-scroll">
-      <h2 class="text-2xl font-bold mb-4">Manglende fraværsårsager</h2>
-      {#if $fravaer?.data?.moduler?.manglende_fraværsårsager}
+              .map((element) => element.hold),
+            datasets: [
+              {
+                label: "Fraværende moduler",
+                data: $fravaer.generalt
+                  .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
+                  .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.opgjort_fravær_moduler)[1].replace(",", ".")),
+                backgroundColor: $fravaer.generalt.map(
+                  (element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]
+                ),
+              },
+            ],
+          }}
+        />
+      {/if}
+
+      {#if monthToFravær && moment}
+        <Doughnut
+          data={{
+            labels: [...moment.months().slice(7), ...moment.months().slice(0, 7)], // start ved august, for der starter skoleåret
+            datasets: [
+              {
+                label: "Registreret fravær",
+                data: [...Object.values(monthToFravær).slice(7), ...Object.values(monthToFravær).slice(0, 7)], // start ved august, for der starter skoleåret
+                fill: "origin",
+              },
+            ],
+          }}
+        />
+      {/if}
+    </div>
+    <div class="mt-4 w-full overflow-y-scroll rounded-lg bg-base-300 p-4 lg:ml-4 lg:mt-0">
+      <h2 class="mb-4 text-2xl font-bold">Manglende fraværsårsager</h2>
+      {#if $fravaer?.moduler?.manglende_fraværsårsager.length}
         <div class="overflow-x-auto">
-          <table class="table table-zebra w-full">
+          <table class="table-zebra table w-full">
             <!-- head -->
             <thead>
               <tr>
                 <th>modul</th>
                 <th>dato</th>
-                <th></th>
+                <th />
               </tr>
             </thead>
             <tbody>
-              {#each $fravaer?.data?.moduler?.manglende_fraværsårsager as modul}
+              {#each $fravaer?.moduler?.manglende_fraværsårsager as modul}
                 <tr>
                   <td>{modul.aktivitet.navn == null ? modul.aktivitet.hold : modul.aktivitet.navn}</td>
                   <td>{modul.aktivitet.tidspunkt}</td>
-                  <td> <a href="{"https://www.lectio.dk/lectio/"+cookie.school+"/fravaer_aarsag.aspx?elevid="+ cookie.userid +"&id="+ modul.aktivitet.absid +"&atype=aa"}" class="btn btn-xs">Skriv fraværsårsag</a></td>
+                  <td>
+                    <a
+                      href={"https://www.lectio.dk/lectio/" +
+                        cookie.school +
+                        "/fravaer_aarsag.aspx?elevid=" +
+                        cookie.userid +
+                        "&id=" +
+                        modul.aktivitet.absid +
+                        "&atype=aa"}
+                      class="btn-xs btn">Skriv fraværsårsag</a
+                    ></td
+                  >
                 </tr>
               {/each}
             </tbody>
@@ -158,9 +167,9 @@
       {/if}
     </div>
   </div>
-  <div class="rounded-lg mt-4 p-0 lg:p-4 bg-none lg:bg-base-200">
-    <h2 class="text-2xl font-bold mb-2">Overblik</h2>
-    <table class="table table-zebra table-compact w-full hidden lg:inline-table">
+  <div class="mt-4 rounded-lg bg-none p-0 lg:bg-base-200 lg:p-4">
+    <h2 class="mb-2 text-2xl font-bold">Overblik</h2>
+    <table class="table-zebra table-compact table hidden w-full lg:inline-table">
       <!-- head -->
       <thead>
         <tr>
@@ -173,68 +182,67 @@
         </tr>
       </thead>
       <tbody>
-        {#each $fravaer?.data?.moduler?.oversigt as modul}
+        {#each $fravaer?.moduler?.oversigt as modul}
           <tr>
             <td>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</td>
             <td>{modul.aktivitet.navn == null ? "" : modul.aktivitet.navn}</td>
             <td>{modul.fravær}</td>
-  
+
             <td>{modul.aktivitet.tidspunkt}</td>
             <td>
               {#if modul.årsag == "Sygdom"}
-              <p class="btn btn-xs w-full btn-warning">{modul.årsag}</p>
+                <p class="btn-warning btn-xs btn w-full">{modul.årsag}</p>
               {:else if modul.årsag == "Private forhold"}
-              <p class="btn btn-xs w-full btn-info">{modul.årsag}</p>
+                <p class="btn-info btn-xs btn w-full">{modul.årsag}</p>
               {:else if modul.årsag == "Skolerelaterede aktiviteter"}
-              <p class="btn btn-xs w-full btn-success">{modul.årsag}</p>
+                <p class="btn-success btn-xs btn w-full">{modul.årsag}</p>
               {:else if modul.årsag == "Kom for sent"}
-              <p class="btn btn-xs w-full btn-error">{modul.årsag}</p>
+                <p class="btn-error btn-xs btn w-full">{modul.årsag}</p>
               {:else if modul.årsag == "Andet"}
-              <p class="btn btn-xs w-full">{modul.årsag}</p>
+                <p class="btn-xs btn w-full">{modul.årsag}</p>
               {/if}
             </td>
             <td>{modul.årsagsnote}</td>
           </tr>
         {/each}
       </tbody>
-    </table>   
+    </table>
     <div class="list lg:hidden">
-      {#each $fravaer?.data?.moduler?.oversigt as modul}
-      {#if modul.årsag == "Sygdom"}
-        <div class="element border-l-4 border-l-warning">
-          <p class="font-light text-sm">{modul.aktivitet.tidspunkt}</p>
-          <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
-          <p>{modul.årsagsnote}</p>
-        </div>
+      {#each $fravaer?.moduler?.oversigt as modul}
+        {#if modul.årsag == "Sygdom"}
+          <div class="element border-l-4 border-l-warning">
+            <p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
+            <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+            <p>{modul.årsagsnote}</p>
+          </div>
         {:else if modul.årsag == "Private forhold"}
-        <div class="element border-l-4 border-l-info">
-          <p class="font-light text-sm">{modul.aktivitet.tidspunkt}</p>
-          <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
-          <p>{modul.årsagsnote}</p>
-        </div>
+          <div class="element border-l-4 border-l-info">
+            <p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
+            <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+            <p>{modul.årsagsnote}</p>
+          </div>
         {:else if modul.årsag == "Skolerelaterede aktiviteter"}
-        <div class="element border-l-4 border-l-success">
-          <p class="font-light text-sm">{modul.aktivitet.tidspunkt}</p>
-          <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
-          <p>{modul.årsagsnote}</p>
-        </div>
+          <div class="element border-l-4 border-l-success">
+            <p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
+            <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+            <p>{modul.årsagsnote}</p>
+          </div>
         {:else if modul.årsag == "Kom for sent"}
-        <div class="element border-l-4 border-l-error">
-          <p class="font-light text-sm">{modul.aktivitet.tidspunkt}</p>
-          <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
-          <p>{modul.årsagsnote}</p>
-        </div>
+          <div class="element border-l-4 border-l-error">
+            <p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
+            <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+            <p>{modul.årsagsnote}</p>
+          </div>
         {:else if modul.årsag == "Andet"}
-        <div class="element">
-          <p class="font-light text-sm">{modul.aktivitet.tidspunkt}</p>
-          <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
-          <p>{modul.årsagsnote}</p>
-        </div>
+          <div class="element">
+            <p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
+            <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+            <p>{modul.årsagsnote}</p>
+          </div>
         {/if}
       {/each}
-    </div> 
+    </div>
   </div>
 {:else}
-<div class="btn loading btn-ghost">Indlæser</div>
+  <div class="loading btn-ghost btn">Indlæser</div>
 {/if}
-

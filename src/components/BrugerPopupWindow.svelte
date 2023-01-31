@@ -50,9 +50,11 @@
 
   function setActivity(modul) {
     if (aktivitet == undefined) {
-      return "Fri"
+      return "Fri";
     } else {
-      if (aktivitet.hold == null) {return "ukendt aktivitet i lokale " + aktivitet.lokale}
+      if (aktivitet.hold == null) {
+        return "ukendt aktivitet i lokale " + aktivitet.lokale;
+      }
       return aktivitet.hold + " i lokale " + aktivitet.lokale;
     }
   }
@@ -67,21 +69,23 @@
         <p class="whitespace-pre-line">
           <strong>Grupper:</strong>
           {#each skema["grupper"] as gruppe}
-            <a href="/skema?id=HE{gruppe['id']}" class="btn-primary btn-xs btn mr-1 mb-1">{gruppe["navn"]}</a>
+            <a href="/skema?id=HE{gruppe['id']}" class="btn btn-primary btn-xs mr-1 mb-1">{gruppe["navn"]}</a>
           {/each}
         </p>
       {:else if skema["type"] == "lærer"}
         <p>
           <strong>Hold:</strong>
           {#each Object.entries(skema["hold"]) as hold}
-            <a href="/skema?id=HE{hold[1]}" class="btn-primary btn-xs btn mr-1">{hold[0]}</a>
+            <a href="/skema?id=HE{hold[1]}" class="btn btn-primary btn-xs mr-1">{hold[0]}</a>
           {/each}
         </p>
       {/if}
       <p class="whitespace-pre-line"><strong>Aktivitet: </strong>{setActivity(aktivitet)}</p>
       <div class="card-actions mt-4 justify-start">
-        <button class="btn-primary btn">Se skema</button>
-        <button class="btn-primary btn">Send besked</button>
+        <a href={"/skema?id=" + id} class="btn btn-primary">Se skema</a>
+        <div class="tooltip" data-tip="Kommer snart">
+          <button class="btn btn-disabled">Send besked</button>
+        </div>
       </div>
     </div>
   </div>

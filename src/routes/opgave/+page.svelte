@@ -8,6 +8,7 @@
   import sanitizeHtml from "sanitize-html";
 
   import { cookieInfo } from "../../components/CookieInfo";
+  import { addNotification, addNotificationIn } from "../../components/notifyStore.js";
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
@@ -25,45 +26,51 @@
 
   let elevId = "";
 
-  get("/opgave?exerciseid=" + exerciseid).then((data) => {
-    const { oplysninger, opgave_indlæg, gruppemedlemmer, afleveres_af } = data;
+  get("/opgave?exerciseid=" + exerciseid)
+    .then((data) => {
+      const { oplysninger, opgave_indlæg, gruppemedlemmer, afleveres_af } = data;
 
-    const { opgavebeskrivelse, opgavenote, opgavetitel, afleveringsfrist, elevtid, hold, karakterskala } = oplysninger;
+      const { opgavebeskrivelse, opgavenote, opgavetitel, afleveringsfrist, elevtid, hold, karakterskala } = oplysninger;
 
-    const { elev, afventer, status_fravær, afsluttet, karakter, karakternote, elevnote } = afleveres_af;
-    elevId = elev.bruger_id.slice(1);
+      const { elev, afventer, status_fravær, afsluttet, karakter, karakternote, elevnote } = afleveres_af;
+      elevId = elev.bruger_id.slice(1);
 
-    _oplysninger = {
-      opgavetitel,
-      opgavebeskrivelse,
-      opgavenote,
-    };
+      _oplysninger = {
+        opgavetitel,
+        opgavebeskrivelse,
+        opgavenote,
+      };
 
-    oplysningsItems = {
-      afleveringsfrist,
-      elevtid,
-      hold,
-      karakterskala,
-    };
-    personAfleveringItems = {
-      elev: elev.navn,
-      afventer,
-      status_fravær,
-      afsluttet: afsluttet ? "Ja" : "Nej",
-    };
+      oplysningsItems = {
+        afleveringsfrist,
+        elevtid,
+        hold,
+        karakterskala,
+      };
+      personAfleveringItems = {
+        elev: elev.navn,
+        afventer,
+        status_fravær,
+        afsluttet: afsluttet ? "Ja" : "Nej",
+      };
 
-    feedbackItems = {
-      karakter,
-      karakternote,
-      elevnote,
-    };
+      feedbackItems = {
+        karakter,
+        karakternote,
+        elevnote,
+      };
 
-    aflevedeOpgaveItems = {
-      brugerId: elevId,
-      indlæg: opgave_indlæg,
-      harAfleveret: opgave_indlæg.length > 0,
-    };
-  });
+      aflevedeOpgaveItems = {
+        brugerId: elevId,
+        indlæg: opgave_indlæg,
+        harAfleveret: opgave_indlæg.length > 0,
+      };
+    })
+    .catch(() => {
+      addNotification("noget gik galt, vi beklager, her er noget det måske kan hjælpe", "alert-error");
+      addNotificationIn("se konsol for mere info", "alert-error", 6000);
+      _oplysninger = 0; // to hide ui
+    });
 </script>
 
 <div>
