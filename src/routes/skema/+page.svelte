@@ -1,17 +1,11 @@
-<!--
-  TODO: 
-  load more data on week change ✅
-  add a loading indicator
-  add color to the events
-
--->
 <script>
   import { get } from "../../components/http.js";
-  import { skema } from "../../components/store.js";
   import Calendar from "@event-calendar/core";
   import TimeGrid from "@event-calendar/time-grid";
 
   import { cookieInfo } from "../../components/CookieInfo";
+
+  let skema = {};
 
   let skemaId = new URLSearchParams(window.location.search).get("id");
 
@@ -20,7 +14,7 @@
     cookie = data;
     if (skemaId == null) {
       skemaId = "S" + cookie.userid;
-      window.history.pushState({}, null, "/skema?id="+skemaId);
+      window.history.pushState({}, null, "/skema?id=" + skemaId);
     }
   });
   let ec; // to store the calendar instance and access it's methods
@@ -44,7 +38,8 @@
     days: "ec-days capitalize",
     draggable: "ec-draggable",
     dragging: "ec-dragging",
-    event: "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl ml-0.5 hover:scale-110 z-10 hover:z-0",
+    event:
+      "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl ml-0.5 hover:scale-110 z-10 hover:z-0",
     eventBody: "ec-event-body",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
@@ -128,8 +123,8 @@
     },
   };
 
-  $: if ($skema?.[globalYear + "" + globalWeek]) {
-    addSkemaToCalendar($skema[globalYear + "" + globalWeek]);
+  $: if (skema?.[globalYear + "" + globalWeek]) {
+    addSkemaToCalendar(skema[globalYear + "" + globalWeek]);
   }
 
   function getWeekNumber() {
@@ -215,20 +210,20 @@
   }
 
   async function getSkema() {
-    if (!$skema) {
-      $skema = {};
+    if (!skema) {
+      skema = {};
     }
     await get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then((data) => {
-      $skema[globalYear + "" + globalWeek] = data;
+      skema[globalYear + "" + globalWeek] = data;
 
       options.slotMinTime = parseInt(
-        Object.values($skema[globalYear + "" + globalWeek].modulTider)[0]
+        Object.values(skema[globalYear + "" + globalWeek].modulTider)[0]
           .split(" - ")[0]
           .split(":")[0] - 1
       ).toString();
       options.slotMaxTime = (
         parseInt(
-          Object.values($skema[globalYear + "" + globalWeek].modulTider)
+          Object.values(skema[globalYear + "" + globalWeek].modulTider)
             .slice(-1)[0]
             .split(" - ")[1]
             .split(":")[0]
@@ -273,7 +268,7 @@
     }
     // add buttons to slots
     for (let i = 0; i < slotsFiltered.length; i++) {
-      let infoobj = $skema[year + "" + week].dagsNoter[i];
+      let infoobj = skema[year + "" + week].dagsNoter[i];
       const currentDay = Object.keys(infoobj)[0];
       const currentInfoArr = infoobj[currentDay];
       let currentInfo = `<p>`;
@@ -363,7 +358,7 @@
 
   $: getAgenda = async () => {
     dagensModuler = [];
-    let currentWeek = $skema[globalYear + "" + globalWeek];
+    let currentWeek = skema[globalYear + "" + globalWeek];
     let moduler = currentWeek["moduler"];
     moduler.forEach((modul) => {
       let modulTidspunkt = modul["tidspunkt"];
@@ -417,7 +412,7 @@
 <div class="block h-20 w-full md:hidden">
   <div class=" mb-3 flex justify-around rounded-xl bg-base-300 py-4">
     <div class="align btn-group flex justify-center">
-      <button class="btn-primary btn btn-sm" on:click={prevDay}>
+      <button class="btn btn-primary btn-sm" on:click={prevDay}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -431,8 +426,8 @@
           />
         </svg>
       </button>
-      <button class="btn-primary btn btn-sm" on:click={resetDay}> i dag </button>
-      <button class="btn-primary btn btn-sm" on:click={nextDay}>
+      <button class="btn btn-primary btn-sm" on:click={resetDay}> i dag </button>
+      <button class="btn btn-primary btn-sm" on:click={nextDay}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
