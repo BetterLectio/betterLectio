@@ -234,7 +234,7 @@
     </a>
   </div>
   <div>
-    <div class="dropdown-top dropdown z-50 mb-1 w-full">
+    <div class="dropdown-top dropdown z-50 mb-1 w-full" tabindex="0">
       <button class="btn-sm btn w-full" for="theme-select" tabindex="0">
         <svg
           xmlns="http://www.w3.org/2000/svg"

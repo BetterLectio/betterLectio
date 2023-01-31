@@ -146,6 +146,7 @@
         <thead>
           <tr>
             <th>Opgavetitel</th>
+            <th>Timer</th>
             <th>Hold</th>
             <th>Frist</th>
             <th>Opgavenote</th>
@@ -158,6 +159,7 @@
                 <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">{opgave.opgavetitel}</a
                 ></td
               >
+              <td class="bg-">{opgave["elev-tid"]}</td>
               <td class="">{opgave.hold}</td>
               <td class="">
                 {#if $instillinger?.opgaver?.visFristAbsolut}

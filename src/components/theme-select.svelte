@@ -2,7 +2,7 @@
   import Themes from "./Themes.svelte";
 </script>
 
-<div class="dropdown dropdown-end">
+<div class="dropdown dropdown-end" tabindex="0">
   <button class="btn-ghost btn gap-1 normal-case" for="theme-select" tabindex="0">
     <svg
       xmlns="http://www.w3.org/2000/svg"

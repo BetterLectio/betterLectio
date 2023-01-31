@@ -82,7 +82,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 7. bugs
 
-   - Når man kigger på en side og man så får login siden skal man når man har logget ind blive redirected til den side man originalt var på (client side)
+   - Når man kigger på en side og man så får login siden skal man når man har logget ind blive redirected til den side man originalt var på (client side) ✅
 
 8. dokumentation
    - lav en dokumentation (UI)

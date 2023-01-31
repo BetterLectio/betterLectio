@@ -5,7 +5,8 @@ export async function cookieInfo() {
     window.location.href.split("?")[0].split("/").at(-1) != ""
   ) {
     console.log("Redirect");
-    window.location.href = "/auth";
+    const transformedLink = window.location.href.split("/")[3].replace("/", "%3").replace("?", "%3F").replace("=", "%3d").replace(`"`, "%22")
+    window.location.href = "/auth?redirect=" + transformedLink;
   } else {
     let decodedCookie = window.atob(localStorage.getItem("lectio-cookie"));
     let cookie = JSON.parse(decodedCookie);

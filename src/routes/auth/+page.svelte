@@ -7,11 +7,15 @@
 
   import { reloadData, api } from "../../components/http";
   import { cookieInfo } from "../../components/CookieInfo";
+  import { goto } from "$app/navigation";
 
   let brugernavn = "";
   let adgangskode = "";
   let skole_id = "";
   let options = { "": "" };
+
+
+  let redirectTo = new URLSearchParams(window.location.search).get("redirect");
 
   function tryLoginInWithCookie() {
     if (localStorage.getItem("lectio-cookie") || localStorage.getItem("lectio-cookie") != "null") {
@@ -82,11 +86,6 @@
           document.querySelector("#CantLogInAlert").checked = false;
         });
       } else {
-        const theme = localStorage.getItem("theme");
-        const firstTime = localStorage.getItem("firstTime");
-        localStorage.clear();
-        localStorage.setItem("theme", theme);
-        localStorage.setItem("firstTime", firstTime);
         setSkole();
         if (saveLogin && window.electron) {
           localStorage.setItem("brugernavn", AES.encrypt(brugernavn, key));
@@ -106,7 +105,12 @@
         });
         progress.classList.remove("loading");
         reloadData();
-        window.location.href = "/forside";
+        if(redirectTo) {
+          const originalLink = redirectTo.replace("%3", "/").replace("%3F", "?").replace("%3d", "=").replace("%22", `"`)
+          window.location.href = originalLink;
+        } else {
+          window.location.href = "/forside";
+        }
       }
     }
   }
