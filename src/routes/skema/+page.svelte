@@ -79,13 +79,28 @@
     withScroll: "ec-with-scroll",
   };
 
+  addEventListener("resize", (event) => {});
+
+  onresize = (event) => {
+    // if the window is less than 768px wide, change the view to "listDay"
+    options.view = dertermineView();
+  };
+
+  function dertermineView() {
+    if (window.innerWidth < 768) {
+      return "timeGridDay";
+    } else {
+      return "timeGridWeek";
+    }
+  }
+
   let globalWeek = 0;
   let globalYear = 0;
   let addedEventsId = [];
 
   let options = {
     locale: "da",
-    view: "timeGridWeek",
+    view: dertermineView(),
     nowIndicator: true,
     theme: customTheme,
     hiddenDays: [0, 6],
@@ -107,10 +122,7 @@
       timeGridWeek: "uge",
     },
     eventDidMount: (event) => {
-      addedEventsId.push(event.event.id);
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
-      getAgenda();
-      getAgenda();
     },
     viewDidMount: (view) => {
       let dateObj = new Date(view.currentEnd.toISOString());
@@ -118,8 +130,6 @@
       let dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
       globalWeek = Math.floor(dayOfYear / 7);
       onload();
-      getAgenda();
-      getAgenda();
     },
   };
 
@@ -196,13 +206,12 @@
           isAdded = true;
         }
       }
-      if (isAdded) {
-        ec.updateEvent(modulCalenderObj);
-      } else {
+      if (!isAdded) {
+        console.log("new event added");
+        addedEventsId.push(modulCalenderObj.id);
         ec.addEvent(modulCalenderObj);
       }
     }
-    ec.refetchEvents();
   }
 
   $: if (globalWeek && globalYear) {
@@ -288,102 +297,102 @@
     }
   }
 
-  let dayOffset = 0;
+  //let dayOffset = 0;
 
-  $: nextDay = () => {
-    dayOffset++;
-    // if going from sunday to monday, change week
-    if (getCurrentday() == 0) {
-      changeWeek("plus");
-    }
-    getAgenda();
-  };
+  //$: nextDay = () => {
+  //  dayOffset++;
+  //  // if going from sunday to monday, change week
+  //  if (getCurrentday() == 0) {
+  //    changeWeek("plus");
+  //  }
+  //  getAgenda();
+  //};
 
-  $: prevDay = () => {
-    dayOffset--;
-    // if going from sunday to monday, change week
-    if (getCurrentday() == 6) {
-      changeWeek("minus");
-    }
-    getAgenda();
-  };
+  //$: prevDay = () => {
+  //  dayOffset--;
+  //  // if going from sunday to monday, change week
+  //  if (getCurrentday() == 6) {
+  //    changeWeek("minus");
+  //  }
+  //  getAgenda();
+  //};
 
-  $: resetDay = () => {
-    dayOffset = 0;
-    // if reseting to current day, change week
-    let date = new Date();
-    if (getCurrentday() != date.getDay()) {
-      changeWeek("reset");
-    }
-    getAgenda();
-  };
+  //$: resetDay = () => {
+  //  dayOffset = 0;
+  //  // if reseting to current day, change week
+  //  let date = new Date();
+  //  if (getCurrentday() != date.getDay()) {
+  //    changeWeek("reset");
+  //  }
+  //  getAgenda();
+  //};
 
-  function getCurrentday() {
-    let date = new Date();
-    let cDay = (date.getDay() + dayOffset - 1) % 7;
-    if (cDay < 0) {
-      cDay = 7 + cDay;
-    }
-    return cDay;
-  }
+  //function getCurrentday() {
+  //  let date = new Date();
+  //  let cDay = (date.getDay() + dayOffset - 1) % 7;
+  //  if (cDay < 0) {
+  //    cDay = 7 + cDay;
+  //  }
+  //  return cDay;
+  //}
 
-  $: getCurrentdayLive = () => {
-    let date = new Date();
-    let cDay = (date.getDay() + dayOffset - 1) % 7;
-    if (cDay < 0) {
-      cDay = 7 + cDay;
-    }
-    return cDay;
-  };
+  //$: getCurrentdayLive = () => {
+  //  let date = new Date();
+  //  let cDay = (date.getDay() + dayOffset - 1) % 7;
+  //  if (cDay < 0) {
+  //    cDay = 7 + cDay;
+  //  }
+  //  return cDay;
+  //};
 
-  $: MapDayNrToName = (dayNr) => {
-    switch (dayNr) {
-      case 0:
-        return "Mandag";
-      case 1:
-        return "Tirsdag";
-      case 2:
-        return "Onsdag";
-      case 3:
-        return "Torsdag";
-      case 4:
-        return "Fredag";
-      case 5:
-        return "Lørdag";
-      case 6:
-        return "Søndag";
-    }
-  };
-  let dagensModuler = [];
+  //$: MapDayNrToName = (dayNr) => {
+  //  switch (dayNr) {
+  //    case 0:
+  //      return "Mandag";
+  //    case 1:
+  //      return "Tirsdag";
+  //    case 2:
+  //      return "Onsdag";
+  //    case 3:
+  //      return "Torsdag";
+  //    case 4:
+  //      return "Fredag";
+  //    case 5:
+  //      return "Lørdag";
+  //    case 6:
+  //      return "Søndag";
+  //  }
+  //};
+  //let dagensModuler = [];
 
-  $: getAgenda = async () => {
-    dagensModuler = [];
-    let currentWeek = skema[globalYear + "" + globalWeek];
-    let moduler = currentWeek["moduler"];
-    moduler.forEach((modul) => {
-      let modulTidspunkt = modul["tidspunkt"];
-      let modulDato = modulTidspunkt.match(/(\d{1,2}\/\d{1,2}-\d{4})/g)[0];
-      modulDato = modulDato.replace("-", "/");
-      let split = modulDato.split("/");
-      let modulDatoUS = split[1] + "/" + split[0] + "/" + split[2];
-      let modulDatoObj = new Date(modulDatoUS);
-      if (modulDatoObj.getDay() - 1 == getCurrentday()) {
-        dagensModuler.push(modul);
-      }
-    });
-  };
+  //$: getAgenda = async () => {
+  //  dagensModuler = [];
+  //  let currentWeek = skema[globalYear + "" + globalWeek];
+  //  let moduler = currentWeek["moduler"];
+  //  moduler.forEach((modul) => {
+  //    let modulTidspunkt = modul["tidspunkt"];
+  //    let modulDato = modulTidspunkt.match(/(\d{1,2}\/\d{1,2}-\d{4})/g)[0];
+  //    modulDato = modulDato.replace("-", "/");
+  //    let split = modulDato.split("/");
+  //    let modulDatoUS = split[1] + "/" + split[0] + "/" + split[2];
+  //    let modulDatoObj = new Date(modulDatoUS);
+  //    if (modulDatoObj.getDay() - 1 == getCurrentday()) {
+  //      dagensModuler.push(modul);
+  //    }
+  //  });
+  //};
 
-  function colorModul(modul) {
-    let modulType = modul["status"];
-    switch (modulType) {
-      case "aflyst":
-        return "btn btn-error mb-4 block h-fit p-2 normal-case";
-      case "ændret":
-        return "btn btn-success mb-4 block h-fit p-2 normal-case";
-      case "normal":
-        return "btn btn-info mb-4 block h-fit p-2 normal-case";
-    }
-  }
+  //function colorModul(modul) {
+  //  let modulType = modul["status"];
+  //  switch (modulType) {
+  //    case "aflyst":
+  //      return "btn btn-error mb-4 block h-fit p-2 normal-case";
+  //    case "ændret":
+  //      return "btn btn-success mb-4 block h-fit p-2 normal-case";
+  //    case "normal":
+  //      return "btn btn-info mb-4 block h-fit p-2 normal-case";
+  //  }
+  //}
 </script>
 
 <svelte:head>
@@ -391,7 +400,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build/event-calendar.min.js"></script>
 </svelte:head>
 
-<span class="my-2  hidden justify-between md:flex">
+<span class="my-2 justify-between">
   <h1 class="mb-4  text-3xl font-bold ">Skema</h1>
 
   {#if cookie?.userid}
@@ -405,10 +414,11 @@
   {/if}
 </span>
 
-<div class="hidden md:block">
+<div>
   <Calendar bind:this={ec} {plugins} {options} />
 </div>
 
+<!--
 <div class="block h-20 w-full md:hidden">
   <div class=" mb-3 flex justify-around rounded-xl bg-base-300 py-4">
     <div class="align btn-group flex justify-center">
@@ -482,3 +492,4 @@
     <p class="text-center">{MapDayNrToName(getCurrentdayLive())} har ingen moduler</p>
   {/if}
 </div>
+-->
