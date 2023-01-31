@@ -131,7 +131,7 @@
 </div>
   <div class="w-full bg-base-300 rounded-lg p-4 lg:ml-4 mt-4 lg:mt-0 overflow-y-scroll">
       <h2 class="text-2xl font-bold mb-4">Manglende fraværsårsager</h2>
-      {#if $fravaer?.data?.moduler?.manglende_fraværsårsager}
+      {#if $fravaer?.data?.moduler?.manglende_fraværsårsager.length}
         <div class="overflow-x-auto">
           <table class="table table-zebra w-full">
             <!-- head -->
