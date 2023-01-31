@@ -1,4 +1,4 @@
-import { sveltekit } from "@sveltejs/kit/vite";
+import { sveltekit } from '@sveltejs/kit/vite';
 
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';

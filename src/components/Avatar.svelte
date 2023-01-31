@@ -1,4 +1,6 @@
 <script>
+  import { api } from "./http.js";
+
   import IntersectionObserver from "svelte-intersection-observer";
 
   export let id;
@@ -12,7 +14,7 @@
   let source;
 
   async function getImageSource() {
-    const response = await fetch(`https://api.betterlectio.dk/profil_billed?id=${id}&fullsize=1`, {
+    const response = await fetch(`${api}/profil_billed?id=${id}&fullsize=1`, {
       headers: {
         "lectio-cookie": localStorage.getItem("lectio-cookie"),
       },

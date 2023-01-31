@@ -1,7 +1,7 @@
 <script>
   import Avatar from "../../components/Avatar.svelte";
   import BrugerPopup from "../../components/BrugerPopup.svelte";
-  import { get } from "../../components/http";
+  import { get, api } from "../../components/http";
   import { addNotification } from "../../components/notifyStore.js";
 
   import MarkdownIt from "markdown-it";
@@ -35,7 +35,7 @@
     checked == "checked" ? (checked = "") : (checked = "checked");
   }
   async function sendBesked() {
-    const response = await fetch(`https://api.betterlectio.dk/besvar_besked`, {
+    const response = await fetch(`${api}/besvar_besked`, {
       method: "POST",
       headers: {
         "lectio-cookie": localStorage.getItem("lectio-cookie"),

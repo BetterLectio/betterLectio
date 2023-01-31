@@ -1,0 +1,24 @@
+{
+	"appId": "desktop.betterlectio.dk",
+	"productName": "Better Lectio",
+	"directories": {
+		"output": "dist"
+	},
+	"linux": {
+		"target": "appImage"
+	},
+	"win": {
+		"target": "nsis"
+	},
+	"mac": {
+		"target": "dmg"
+	},
+	"files": [
+		"src/electron.cjs",
+		"src/preload.cjs",
+		{
+			"from": "build",
+			"to": ""
+		}
+	]
+}
