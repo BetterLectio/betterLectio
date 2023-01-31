@@ -7,6 +7,9 @@
   $instillinger.opgaver.visFristAbsolut ||= false;
   $instillinger.opgaver.visHeleBeskrivelsen ||= false;
 
+  $instillinger.skema ||= {};
+  $instillinger.skema.classesWithDiffrentColors ||= false;
+
   let windowWidth = window.innerWidth;
 
   function handleResize() {
@@ -41,22 +44,23 @@
 
     <label class="label cursor-pointer">
       <span class="label-text">Vis absolut frist</span>
-      <input
-        type="checkbox"
-        class="checkbox "
-        bind:checked={$instillinger.opgaver.visFristAbsolut}
-        disabled={windowWidth > 768 ? "" : "disabled"}
-      />
+      <input type="checkbox" class="checkbox " bind:checked={$instillinger.opgaver.visFristAbsolut} />
     </label>
 
     <label class="label cursor-pointer">
       <span class="label-text">Vis hele opgavenoten</span>
-      <input
-        type="checkbox"
-        class="checkbox "
-        bind:checked={$instillinger.opgaver.visHeleBeskrivelsen}
-        disabled={windowWidth > 768 ? "" : "disabled"}
-      />
+      <input type="checkbox" class="checkbox " bind:checked={$instillinger.opgaver.visHeleBeskrivelsen} />
+    </label>
+  </div>
+</div>
+
+<div class="mt-4 rounded-lg bg-base-200 p-4">
+  <div class="form-control">
+    <span class="mb-2 text-lg font-bold">Skema siden</span>
+
+    <label class="label cursor-pointer">
+      <span class="label-text">Få forskellige farver på dine moduler</span>
+      <input type="checkbox" class="checkbox " bind:checked={$instillinger.skema.classesWithDiffrentColors} />
     </label>
   </div>
 </div>
