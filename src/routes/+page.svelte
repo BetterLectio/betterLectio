@@ -161,7 +161,7 @@
 	</svg>
 </div>
 
-<div id="om" class="grid grid-flow-row-dense grid-cols-3 gap-8 mb-40">
+<div id="om" class="grid grid-flow-row-dense grid-cols-1 mb:grid-cols-2 lg:grid-cols-3 gap-8 mb-40">
 	<div class="col-span-1">
 		<div class="mt-6 rounded-lg bg-base-200 p-4">
 			<h1 class="mb-2 text-4xl font-extrabold">Hvad er BetterLectio?</h1>
@@ -185,7 +185,7 @@
 			</p>
 		</div>
 	</div>
-	<div class="col-span-2 aspect-w-16 aspect-h-9">
+	<div class="col-span-1 lg:col-span-2 aspect-w-16 aspect-h-9">
 		<iframe id="player" type="text/html" width="640" height="390" src="https://www.youtube.com/embed/594er80meJk?enablejsapi=1&origin=https://betterlectio.dk" frameborder="0"></iframe>
 	</div>
 </div>
