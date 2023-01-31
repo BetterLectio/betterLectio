@@ -195,12 +195,14 @@
       } else {
         className = "hsl(var(--er))";
       }
+      const backgroundColor = $indstillinger?.classesWithDiffrentColors === true ? className : stringToHex(modul["hold"]);
+
       let modulCalenderObj = {
         title: titel,
         start: new Date(`${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}`),
         end: new Date(`${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}`),
         id: modul["absid"],
-        backgroundColor: $indstillinger?.classesWithDiffrentColors ? className : stringToHex(modul["hold"]),
+        backgroundColor: className,
       };
       let isAdded = false;
       for (let i = 0; i < addedEventsId.length; i++) {
