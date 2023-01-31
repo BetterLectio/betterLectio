@@ -100,7 +100,7 @@
           <h2 class="text-2xl font-bold">{JSON.parse(kategori.name)["da-dk"]}</h2>
         </div>
         <div class="collapse-content pb-0.5">
-          <div class="grid grid-cols-1 md:grid-cols-2 md:gap-2 lg:grid-cols-3 lg:gap-3 2xl:grid-cols-4 2xl:gap-4">
+          <div class="grid grid-cols-1 pt-2 md:grid-cols-2 md:gap-2 lg:grid-cols-3 lg:gap-3 2xl:grid-cols-4 2xl:gap-4">
             {#each kategori.products as vare}
               <!-- prettier-ignore -->
               <div class="element md:w-full lg:w-72 h-48 text-black" style='background-image: url("https://cdn.nemtakeaway.dk/site/upload/{Object.values(vare.api_array.images)[0].src}"); background-size: cover;'>
