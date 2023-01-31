@@ -1,14 +1,14 @@
 <script>
-  import { instillinger } from "../../../components/store";
+  import { indstillinger } from "../../../components/store";
 
-  $instillinger ||= {};
-  $instillinger.sidebar ||= false;
-  $instillinger.opgaver ||= {};
-  $instillinger.opgaver.visFristAbsolut ||= false;
-  $instillinger.opgaver.visHeleBeskrivelsen ||= false;
+  $indstillinger ||= {};
+  $indstillinger.sidebar ||= false;
+  $indstillinger.opgaver ||= {};
+  $indstillinger.opgaver.visFristAbsolut ||= false;
+  $indstillinger.opgaver.visHeleBeskrivelsen ||= false;
 
-  $instillinger.skema ||= {};
-  $instillinger.skema.classesWithDiffrentColors ||= false;
+  $indstillinger.skema ||= {};
+  $indstillinger.skema.classesWithDiffrentColors ||= false;
 
   let windowWidth = window.innerWidth;
 
@@ -30,7 +30,7 @@
       <input
         type="checkbox"
         class="checkbox "
-        bind:checked={$instillinger.sidebar}
+        bind:checked={$indstillinger.sidebar}
         disabled={windowWidth > 768 ? "" : "disabled"}
       />
     </label>
@@ -44,23 +44,23 @@
 
     <label class="label cursor-pointer">
       <span class="label-text">Vis absolut frist</span>
-      <input type="checkbox" class="checkbox " bind:checked={$instillinger.opgaver.visFristAbsolut} />
+      <input type="checkbox" class="checkbox " bind:checked={$indstillinger.opgaver.visFristAbsolut} />
     </label>
 
     <label class="label cursor-pointer">
       <span class="label-text">Vis hele opgavenoten</span>
-      <input type="checkbox" class="checkbox " bind:checked={$instillinger.opgaver.visHeleBeskrivelsen} />
+      <input type="checkbox" class="checkbox " bind:checked={$indstillinger.opgaver.visHeleBeskrivelsen} />
     </label>
   </div>
 </div>
 
-<div class="mt-4 rounded-lg bg-base-200 p-4">
+<div class="roundeindstillinger-200 mt-4 p-4">
   <div class="form-control">
     <span class="mb-2 text-lg font-bold">Skema siden</span>
 
     <label class="label cursor-pointer">
       <span class="label-text">Få forskellige farver på dine moduler</span>
-      <input type="checkbox" class="checkbox " bind:checked={$instillinger.skema.classesWithDiffrentColors} />
+      <input type="checkbox" class="checkbox " bind:checked={$indstillinger.skema.classesWithDiffrentColors} />
     </label>
   </div>
 </div>

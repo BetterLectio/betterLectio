@@ -3,7 +3,7 @@
   import { opgaver } from "../../components/store.js";
   import { fade } from "svelte/transition";
   import { formatDate } from "../../components/realtiveTime.js";
-  import { instillinger } from "../../components/store.js";
+  import { indstillinger } from "../../components/store.js";
 
   let _opgaver = [];
 
@@ -162,7 +162,7 @@
               <td class="bg-">{opgave["elev-tid"]}</td>
               <td class="">{opgave.hold}</td>
               <td class="">
-                {#if $instillinger?.opgaver?.visFristAbsolut}
+                {#if $indstillinger?.opgaver?.visFristAbsolut}
                   <p class="frist btn-xs btn">{opgave.frist}</p>
                 {:else}
                   <p class="frist btn-xs btn">
@@ -171,7 +171,7 @@
                 {/if}
               </td>
               <td
-                class="{$instillinger?.opgaver?.visHeleBeskrivelsen == true ? 'whitespace-pre-wrap' : ''} text-left"
+                class="{$indstillinger?.opgaver?.visHeleBeskrivelsen == true ? 'whitespace-pre-wrap' : ''} text-left"
                 id={opgave.exerciseid}
               >
                 <div>

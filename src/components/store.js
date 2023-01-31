@@ -14,5 +14,5 @@ export const nyheder = localStore("nyheder");
 export const forside = localStore("forside");
 export const lokaler = localStore("lokaler");
 export const karakterer = localStore("karakterer");
-export const instillinger = localStore("instillinger");
+export const indstillinger = localStore("indstillinger");
 export const studieretningspraesentation = localStore("studieretningspraesentation");

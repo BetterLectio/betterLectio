@@ -1,8 +1,8 @@
 <script>
   import { addNotification } from "../../../components/notifyStore";
-  import { instillinger } from "../../../components/store.js";
-  $instillinger ||= {};
-  $instillinger.kantineId ||= null;
+  import { indstillinger } from "../../../components/store.js";
+  $indstillinger ||= {};
+  $indstillinger.kantineId ||= null;
 
   let kantiner;
   async function loadKantiner() {
@@ -15,7 +15,7 @@
   }
   loadKantiner();
 
-  let kantine = loadKantine($instillinger.kantineId);
+  let kantine = loadKantine($indstillinger.kantineId);
   async function loadKantine(kantineDomain) {
     if (kantineDomain?.target) {
       kantineDomain = kantineDomain.target.value;
@@ -55,7 +55,7 @@
     class="input block w-full flex-1 bg-base-300"
     placeholder="Vælg din skole"
     on:change={loadKantine}
-    bind:value={$instillinger.kantineId}
+    bind:value={$indstillinger.kantineId}
   >
     <option disabled selected value={undefined}>Vælg din kantine</option>
     {#each kantiner.companies as kantine}
@@ -64,7 +64,7 @@
       </option>
     {/each}
   </select>
-  {#if !$instillinger.kantineId}
+  {#if !$indstillinger.kantineId}
     <div class="mt-20 flex justify-center">
       <h1 class="text-3xl">Vælg en skole</h1>
       <svg
