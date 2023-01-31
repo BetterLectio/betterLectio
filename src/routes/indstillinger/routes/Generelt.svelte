@@ -1,14 +1,11 @@
 <script>
   import { instillinger } from "../../../components/store";
 
-  if (!$instillinger)
-    $instillinger = {
-      sidebar: false,
-      opgaver: {
-        visFristAbsolut: false,
-        visHeleBeskrivelsen: false,
-      },
-    };
+  $instillinger ||= {};
+  $instillinger.sidebar ||= false;
+  $instillinger.opgaver ||= {};
+  $instillinger.opgaver.visFristAbsolut ||= false;
+  $instillinger.opgaver.visHeleBeskrivelsen ||= false;
 
   let windowWidth = window.innerWidth;
 
@@ -64,4 +61,6 @@
   </div>
 </div>
 
-<h2 class="font-mono mt-4 opacity-20 hover:opacity-100 transition-all duration-300" >BetterLectio version: {__APP_VERSION__}</h2>
+<h2 class="mt-4 font-mono opacity-20 transition-all duration-300 hover:opacity-100">
+  BetterLectio version: {__APP_VERSION__}
+</h2>
