@@ -35,24 +35,12 @@ jobs:
         with:
           path: /static/backend
       
-      - name: Fetching app.py
-        uses: wei/wget@v1
-        with:
-          args: -O backend.py -P ${GITHUB_WORKSPACE}/static/backend/ https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py
-
-      - name: Fetching requirements.txt
-        uses: wei/wget@v1
-        with:
-          args: -O requirements.txt -P ${GITHUB_WORKSPACE}/static/backend/ https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt
-
-      - name: Test
+      - name: Fetch Backend
         run: |
-          cd ${GITHUB_WORKSPACE}
-          ls
-          cd ./static
-          ls
-          cd ./backend
-          ls
+          mkdir ${GITHUB_WORKSPACE}/static/backend
+          cd ${GITHUB_WORKSPACE}/static/backend
+          wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -O backend.py
+          wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt
 
       - name: Building backend
         run: |
