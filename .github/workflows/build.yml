@@ -73,15 +73,21 @@ jobs:
         
       - if: matrix.os == 'macos-latest'
         name: Building electron
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-mac
         
       - if: matrix.os == 'ubuntu-latest'
         name: Building electron
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-linux
         
       - if: matrix.os == 'windows-latest'
         name: Building electron
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-windows
