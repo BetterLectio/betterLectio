@@ -35,10 +35,13 @@ jobs:
         with:
           path: /static/backend
       
-      - name: Fetching backend from https://github.com/BetterLectio/BetterLectio-Flask-Backend
+      - name: Fetching app.py from https://github.com/BetterLectio/BetterLectio-Flask-Backend
         uses: wei/wget@v1
         with:
           args: -O backend.py -P ./static/backend/ https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py
+          
+      - name: Fetching requirements.txt from https://github.com/BetterLectio/BetterLectio-Flask-Backend
+        uses: wei/wget@v1
         with:
           args: -O requirements.txt -P ./static/backend/ https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt
 
