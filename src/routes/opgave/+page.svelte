@@ -81,7 +81,9 @@
     {#if _oplysninger.opgavebeskrivelse}
       <div class="mb-4">
         <h1 class="font-bold">Opgave beskrivelse:</h1>
-        {sanitizeHtml(md.render(_besked.besked)).replaceAll("<p>", "").replaceAll("</p>", "")}
+        {@html sanitizeHtml(md.render(_oplysninger.opgavebeskrivelse))
+          .replace(/<a/g, '<a class="btn btn-xs btn-primary" target="_blank"')
+          .replace("</a>", "</a><br>")}
       </div>
     {/if}
 
@@ -117,7 +119,10 @@
               <td>{indlæg["bruger"]["navn"]}</td>
               <td>{indlæg["indlæg"]}</td>
               <td>
-                {sanitizeHtml(md.render(_besked.besked)).replaceAll("<p>", "").replaceAll("</p>", "")}
+                {@html sanitizeHtml(md.render(indlæg["dokument"])).replace(
+                  "<a",
+                  '<a class="btn btn-xs btn-primary" target="_blank"'
+                )}
               </td>
               <td>{indlæg["tidspunkt"]}</td>
             </tr>
