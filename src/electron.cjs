@@ -8,6 +8,7 @@ const path = require('path');
 const open = require('open');
 const { execFile } = require('child_process');
 const { auto } = require('@popperjs/core');
+const { updateLocale } = require('moment');
 
 if (process.env.NODE_ENV === 'development') {
 	global.__static = path.join(__dirname, '../static');
@@ -106,6 +107,7 @@ function createMainWindow() {
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
 
+
 app.once('ready', createMainWindow);
 app.on('activate', () => {
 	if (!mainWindow) {
@@ -115,10 +117,22 @@ app.on('activate', () => {
 	autoUpdater.checkForUpdates();
 });
 
+let updateAvailable = false;
+autoUpdater.on("update-available", (info) => {
+	console.log("Update available");
+	autoUpdater.downloadUpdate();
+	updateAvailable = true;
+})
+
 process.on('exit', () => {
 	backend.stdin.pause();
 	backend.kill();
-	app.quit();
+	if (updateAvailable) {
+		console.log("Installing update");
+		autoUpdater.quitAndInstall();//app.quit();
+	} else {
+		app.quit();
+	}
 });
   
 
