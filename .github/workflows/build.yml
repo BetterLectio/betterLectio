@@ -37,12 +37,11 @@ jobs:
       
       - name: Building backend
         run: |
-          wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -d static/backend/backend.py
-          wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt -d static/backend/
-          pip install -r static/backend/requirements.txt
+          wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -d ${GITHUB_WORKSPACE}/static/backend/backend.py
+          wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt -d ${GITHUB_WORKSPACE}/static/backend/
+          pip install -r ${GITHUB_WORKSPACE}/static/backend/requirements.txt
           pip install pyinstaller
-          pyinstaller --onefile static/backend/backend.py --distpath static/backend/ --workpath temp/
-          del temp backend.spec static/backend/requirements.txt
+          pyinstaller --onefile ${GITHUB_WORKSPACE}/static/backend/backend.py --distpath ${GITHUB_WORKSPACE}/static/backend/ --workpath ${GITHUB_WORKSPACE}/temp/
       
       - name: Removing temp folder
         uses: JesseTG/rm@v1.0.3
