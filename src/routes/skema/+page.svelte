@@ -195,7 +195,7 @@
       } else {
         className = "hsl(var(--er))";
       }
-      const backgroundColor = $indstillinger?.classesWithDiffrentColors === true ? className : stringToHex(modul["hold"]);
+      //const backgroundColor = $indstillinger?.classesWithDiffrentColors === true ? className : stringToHex(modul["hold"]);
 
       let modulCalenderObj = {
         title: titel,
@@ -274,20 +274,20 @@
         break;
     }
   }
-  function stringToHex(string) {
-    var hash = 0;
-    if (string.length === 0) return hash;
-    for (var i = 0; i < string.length; i++) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-      hash = hash & hash;
-    }
-    var color = "#";
-    for (var i = 0; i < 3; i++) {
-      var value = (hash >> (i * 8)) & 255;
-      color += ("00" + value.toString(16)).substr(-2);
-    }
-    return color;
-  }
+  //function stringToHex(string) {
+  //  var hash = 0;
+  //  if (string.length === 0) return hash;
+  //  for (var i = 0; i < string.length; i++) {
+  //    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  //    hash = hash & hash;
+  //  }
+  //  var color = "#";
+  //  for (var i = 0; i < 3; i++) {
+  //    var value = (hash >> (i * 8)) & 255;
+  //    color += ("00" + value.toString(16)).substr(-2);
+  //  }
+  //  return color;
+  //}
 
   function addButtonsToDagsnoter(year, week) {
     let slots = document.getElementsByClassName("ec-day");
