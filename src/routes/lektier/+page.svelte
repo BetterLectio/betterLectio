@@ -32,12 +32,16 @@
             <a href="/modul?absid={lektie.aktivitet.absid}">
               <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
                 <div>
-                  <p>
-                    <span class="font-bold"
-                      >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet.hold}</span
-                    >
-                    ({lektie.aktivitet.tidspunkt})
-                  </p>
+                  <div class="flex w-full flex-row justify-between">
+                    <p>
+                      <span class="font-bold"
+                        >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet.hold}</span
+                      >
+                    </p>
+                    <p class="font-light opacity-50">
+                      {lektie.aktivitet.tidspunkt.split(" ")[1] + " - " + lektie.aktivitet.tidspunkt.split(" ")[3]}
+                    </p>
+                  </div>
                   <p>{lektie.lektier.beskrivelse}</p>
                 </div>
               </li>
