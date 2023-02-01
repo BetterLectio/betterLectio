@@ -63,13 +63,16 @@ jobs:
         with:
           path: /static/backend/requirements.txt
       
-      - name: Building desktop app
+      - name: Building site
         env:
           NODE_ENV: production
           BUILD_TYPE: app
         run: |
           cd ${GITHUB_WORKSPACE}/
           yarn build
+        
+      - name: Building electron
+        run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
             electron-builder -l --config build.config.json
           elif [ "$RUNNER_OS" == "Windows" ]; then
