@@ -89,37 +89,25 @@
           {#if aktuelt.punkt_farve == "rød"}
             <li class="element border-l-4 border-l-red-400">
               <div class="">
-                {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
-                  "<a",
-                  '<a class="btn btn-xs btn-primary" target="_blank"'
-                )}
+                {sanitizeHtml(md.render(_besked.besked)).replaceAll("<p>", "").replaceAll("</p>", "")}
               </div>
             </li>
           {:else if aktuelt.punkt_farve == "gul"}
             <li class="element border-l-4 border-l-yellow-300">
               <div class="">
-                {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
-                  "<a",
-                  '<a class="btn btn-xs btn-primary" target="_blank"'
-                )}
+                {sanitizeHtml(md.render(_besked.besked)).replaceAll("<p>", "").replaceAll("</p>", "")}
               </div>
             </li>
           {:else if aktuelt.punkt_farve == "grå"}
             <li class="element">
               <div class="">
-                {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
-                  "<a",
-                  '<a class="btn btn-xs btn-primary" target="_blank"'
-                )}
+                {sanitizeHtml(md.render(_besked.besked)).replaceAll("<p>", "").replaceAll("</p>", "")}
               </div>
             </li>
           {:else}
             <li class="element border-l-4 border-l-green-400">
               <div class="">
-                {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
-                  "<a",
-                  '<a class="btn btn-xs btn-primary" target="_blank"'
-                )}
+                {sanitizeHtml(md.render(_besked.besked)).replaceAll("<p>", "").replaceAll("</p>", "")}
               </div>
             </li>
           {/if}
