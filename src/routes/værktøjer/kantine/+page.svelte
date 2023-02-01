@@ -1,8 +1,8 @@
 <script>
   import { addNotification } from "../../../components/notifyStore";
-  import { instillinger } from "../../../components/store.js";
-  $instillinger ||= {};
-  $instillinger.kantineId ||= null;
+  import { indstillinger } from "../../../components/store.js";
+  $indstillinger ||= {};
+  $indstillinger.kantineId ||= null;
 
   let kantiner;
   async function loadKantiner() {
@@ -15,7 +15,7 @@
   }
   loadKantiner();
 
-  let kantine = loadKantine($instillinger.kantineId);
+  let kantine = loadKantine($indstillinger.kantineId);
   async function loadKantine(kantineDomain) {
     if (kantineDomain?.target) {
       kantineDomain = kantineDomain.target.value;
@@ -55,7 +55,7 @@
     class="input block w-full flex-1 bg-base-300"
     placeholder="Vælg din skole"
     on:change={loadKantine}
-    bind:value={$instillinger.kantineId}
+    bind:value={$indstillinger.kantineId}
   >
     <option disabled selected value={undefined}>Vælg din kantine</option>
     {#each kantiner.companies as kantine}
@@ -64,7 +64,7 @@
       </option>
     {/each}
   </select>
-  {#if !$instillinger.kantineId}
+  {#if !$indstillinger.kantineId}
     <div class="mt-20 flex justify-center">
       <h1 class="text-3xl">Vælg en skole</h1>
       <svg
@@ -100,7 +100,7 @@
           <h2 class="text-2xl font-bold">{JSON.parse(kategori.name)["da-dk"]}</h2>
         </div>
         <div class="collapse-content pb-0.5">
-          <div class="grid grid-cols-1 md:grid-cols-2 md:gap-2 lg:grid-cols-3 lg:gap-3 2xl:grid-cols-4 2xl:gap-4">
+          <div class="grid grid-cols-1 pt-2 md:grid-cols-2 md:gap-2 lg:grid-cols-3 lg:gap-3 2xl:grid-cols-4 2xl:gap-4">
             {#each kategori.products as vare}
               <!-- prettier-ignore -->
               <div class="element md:w-full lg:w-72 h-48 text-black" style='background-image: url("https://cdn.nemtakeaway.dk/site/upload/{Object.values(vare.api_array.images)[0].src}"); background-size: cover;'>

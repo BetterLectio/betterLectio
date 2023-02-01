@@ -2,6 +2,7 @@
   import { get } from "../../components/http.js";
   import Calendar from "@event-calendar/core";
   import TimeGrid from "@event-calendar/time-grid";
+  import { indstillinger } from "../../components/store.js";
 
   import { cookieInfo } from "../../components/CookieInfo";
 
@@ -194,6 +195,8 @@
       } else {
         className = "hsl(var(--er))";
       }
+      const backgroundColor = $indstillinger?.classesWithDiffrentColors === true ? className : stringToHex(modul["hold"]);
+
       let modulCalenderObj = {
         title: titel,
         start: new Date(`${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}`),
@@ -225,6 +228,7 @@
       skema = {};
     }
     await get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then((data) => {
+      console.log(data);
       skema[globalYear + "" + globalWeek] = data;
 
       options.slotMinTime = parseInt(
@@ -269,6 +273,20 @@
         globalWeek++;
         break;
     }
+  }
+  function stringToHex(string) {
+    var hash = 0;
+    if (string.length === 0) return hash;
+    for (var i = 0; i < string.length; i++) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+      hash = hash & hash;
+    }
+    var color = "#";
+    for (var i = 0; i < 3; i++) {
+      var value = (hash >> (i * 8)) & 255;
+      color += ("00" + value.toString(16)).substr(-2);
+    }
+    return color;
   }
 
   function addButtonsToDagsnoter(year, week) {

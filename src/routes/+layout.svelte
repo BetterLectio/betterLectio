@@ -4,7 +4,7 @@
   import { themeChange } from "theme-change";
   import "../app.css";
   import PageTransition from "../components/PageTransition.svelte";
-  import { brugeren, instillinger } from "../components/store.js";
+  import { brugeren, indstillinger } from "../components/store.js";
   import Avatar from "../components/Avatar.svelte";
   import { reloadData } from "../components/http";
   import { cookieInfo } from "../components/CookieInfo";
@@ -80,7 +80,7 @@
 </label>
 <GlobalSearch />
 
-{#if $instillinger?.sidebar && windowWidth > 768}
+{#if $indstillinger?.sidebar && windowWidth > 768}
   <SideBar />
   <div class="md:ml-16">
     <div class="container mx-auto w-full md:pt-10">

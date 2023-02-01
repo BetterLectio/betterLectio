@@ -1,14 +1,14 @@
 <script>
-  import { instillinger } from "../../../components/store";
+  import { indstillinger } from "../../../components/store";
 
-  if (!$instillinger)
-    $instillinger = {
-      sidebar: false,
-      opgaver: {
-        visFristAbsolut: false,
-        visHeleBeskrivelsen: false,
-      },
-    };
+  $indstillinger ||= {};
+  $indstillinger.sidebar ||= false;
+  $indstillinger.opgaver ||= {};
+  $indstillinger.opgaver.visFristAbsolut ||= false;
+  $indstillinger.opgaver.visHeleBeskrivelsen ||= false;
+
+  $indstillinger.skema ||= {};
+  $indstillinger.skema.classesWithDiffrentColors ||= false;
 
   let windowWidth = window.innerWidth;
 
@@ -30,7 +30,7 @@
       <input
         type="checkbox"
         class="checkbox "
-        bind:checked={$instillinger.sidebar}
+        bind:checked={$indstillinger.sidebar}
         disabled={windowWidth > 768 ? "" : "disabled"}
       />
     </label>
@@ -44,24 +44,27 @@
 
     <label class="label cursor-pointer">
       <span class="label-text">Vis absolut frist</span>
-      <input
-        type="checkbox"
-        class="checkbox "
-        bind:checked={$instillinger.opgaver.visFristAbsolut}
-        disabled={windowWidth > 768 ? "" : "disabled"}
-      />
+      <input type="checkbox" class="checkbox " bind:checked={$indstillinger.opgaver.visFristAbsolut} />
     </label>
 
     <label class="label cursor-pointer">
       <span class="label-text">Vis hele opgavenoten</span>
-      <input
-        type="checkbox"
-        class="checkbox "
-        bind:checked={$instillinger.opgaver.visHeleBeskrivelsen}
-        disabled={windowWidth > 768 ? "" : "disabled"}
-      />
+      <input type="checkbox" class="checkbox " bind:checked={$indstillinger.opgaver.visHeleBeskrivelsen} />
     </label>
   </div>
 </div>
 
-<h2 class="font-mono mt-4 opacity-20 hover:opacity-100 transition-all duration-300" >BetterLectio version: {__APP_VERSION__}</h2>
+<!-- <div class="mt-4 rounded-lg bg-base-200 p-4">
+  <div class="form-control">
+    <span class="mb-2 text-lg font-bold">Skema siden</span>
+
+    <label class="label cursor-pointer">
+      <span class="label-text">Få forskellige farver på dine moduler</span>
+      <input type="checkbox" class="checkbox " bind:checked={$indstillinger.skema.classesWithDiffrentColors} />
+    </label>
+  </div>
+</div> -->
+
+<h2 class="mt-4 font-mono opacity-20 transition-all duration-300 hover:opacity-100">
+  BetterLectio version: {__APP_VERSION__}
+</h2>
