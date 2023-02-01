@@ -29,21 +29,17 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build
-      // windows
         if: matrix.os == 'windows-latest'
         run: npm run build-electron-windows
 
-      // macos
         if: matrix.os == 'macos-latest'
         run: npm run build-electron-mac
 
-      // linux
         if: matrix.os == 'ubuntu-latest'
         run: npm run build-electron-linux
 
       - name: Upload release
         uses: actions/upload-artifact@v2
         with:
-          // name of node project version in package.json
           name: ${{ github.event.repository.name }}-${{ github.event.repository.version }}
           path: dist/
