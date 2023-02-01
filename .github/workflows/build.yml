@@ -45,6 +45,15 @@ jobs:
         with:
           args: -O requirements.txt -P ${GITHUB_WORKSPACE}/static/backend/ https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt
 
+      - name: Test
+        run: |
+          cd ${GITHUB_WORKSPACE}
+          ls
+          cd ./static
+          ls
+          cd ./backend
+          ls
+
       - name: Building backend
         run: |
           pip install -r ${GITHUB_WORKSPACE}/static/backend/requirements.txt
