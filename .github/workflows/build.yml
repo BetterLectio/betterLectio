@@ -62,10 +62,7 @@ jobs:
         with:
           path: /backend.spec
         
-      - name: Removing requirements.txt
-        uses: JesseTG/rm@v1.0.3
-        with:
-          path: /static/backend/requirements.txt
+      
       
       - name: Building site
         env:
