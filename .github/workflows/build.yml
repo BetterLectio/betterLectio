@@ -34,6 +34,11 @@ jobs:
         uses: JesseTG/rm@v1.0.3
         with:
           path: /static/backend
+      - if: matrix.os == 'windows-latest'
+        name: Install stack and wget
+        run: |
+          choco install haskell-stack --no-progress
+          choco install wget --no-progress
       
       - name: Fetch Backend
         run: |
