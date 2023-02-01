@@ -68,6 +68,7 @@ jobs:
           NODE_ENV: production
           BUILD_TYPE: app
         run: |
+          cd ${GITHUB_WORKSPACE}/
           yarn build
           if [ "$RUNNER_OS" == "Linux" ]; then
             electron-builder -l --config build.config.json
