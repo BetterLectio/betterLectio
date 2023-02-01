@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
         python-version: ['3.10']
 
     steps:
@@ -30,6 +30,48 @@ jobs:
           python -m pip install --upgrade pip
           yarn install
 
-      - name: Building desktop app
+      - name: Clearing previous builds
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: /static/backend
+      
+      - name: Fetch Backend
         run: |
-          yarn build-electron-linux
+          mkdir ${GITHUB_WORKSPACE}/static/backend
+          cd ${GITHUB_WORKSPACE}/static/backend
+          wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -O backend.py
+          wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt
+
+      - name: Building backend
+        run: |
+          pip install -r ${GITHUB_WORKSPACE}/static/backend/requirements.txt
+          pip install pyinstaller
+          pyinstaller --onefile ${GITHUB_WORKSPACE}/static/backend/backend.py --distpath ${GITHUB_WORKSPACE}/static/backend/ --workpath ${GITHUB_WORKSPACE}/temp/
+
+      - name: Removing temp folder
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: /temp
+
+      - name: Removing backend.spec
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: /backend.spec
+        
+      - name: Removing requirements.txt
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: /static/backend/requirements.txt
+      
+      - name: Building desktop app
+        env:
+          NODE_ENV: production
+          BUILD_TYPE: app
+        run: |
+          yarn build
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            electron-builder -l --config build.config.json
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            electron-builder -w --config build.config.json
+          else
+            electron-builder -m --config build.config.json
