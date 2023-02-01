@@ -98,10 +98,7 @@
             <a class="btn-primary btn-xs btn mr-1 mb-4" href={vedhæftning.href}>{vedhæftning.navn}</a>
           {/each}
           <p class="mb-10">
-            {@html sanitizeHtml(md.render(_besked.besked)).replace(
-              "<a",
-              '<a class="btn btn-xs btn-primary" target="_blank"'
-            )}
+            {sanitizeHtml(md.render(_besked.besked)).replaceAll("<p>", "").replaceAll("</p>", "")}
           </p>
         </div>
       </div>
