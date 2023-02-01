@@ -35,10 +35,13 @@ jobs:
         with:
           path: /static/backend
       
-      - name: Building backend
+      - name: Fetching backend
         run: |
           wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -d ${GITHUB_WORKSPACE}/static/backend/backend.py
           wget https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt -d ${GITHUB_WORKSPACE}/static/backend/
+          
+      - name: Building backend
+        run: |
           pip install -r ${GITHUB_WORKSPACE}/static/backend/requirements.txt
           pip install pyinstaller
           pyinstaller --onefile ${GITHUB_WORKSPACE}/static/backend/backend.py --distpath ${GITHUB_WORKSPACE}/static/backend/ --workpath ${GITHUB_WORKSPACE}/temp/
