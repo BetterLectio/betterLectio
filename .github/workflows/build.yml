@@ -47,7 +47,10 @@ jobs:
           pip install -r ${GITHUB_WORKSPACE}/static/backend/requirements.txt
           pip install pyinstaller
           pyinstaller --onefile ${GITHUB_WORKSPACE}/static/backend/backend.py --distpath ${GITHUB_WORKSPACE}/static/backend/ --workpath ${GITHUB_WORKSPACE}/temp/
-      
+          ls
+          cd ${GITHUB_WORKSPACE}/static/backend/
+          ls
+
       - name: Removing temp folder
         uses: JesseTG/rm@v1.0.3
         with:
@@ -64,8 +67,11 @@ jobs:
           path: /static/backend/requirements.txt
       
       - name: Building desktop app
+        env:
+          NODE_ENV: production
+          BUILD_TYPE: app
         run: |
-          cross-env NODE_ENV=production BUILD_TYPE=app vite build
+          vite build
           if [ "$RUNNER_OS" == "Linux" ]; then
             electron-builder -l --config build.config.json
           elif [ "$RUNNER_OS" == "Windows" ]; then
