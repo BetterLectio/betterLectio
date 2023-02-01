@@ -79,9 +79,12 @@
   <h1 class="mb-2 text-3xl font-bold">{besked[0].titel}</h1>
   <p class="mb-4"><strong>Modtagere:</strong> {modtagere}</p>
   <!-- Måske en linje til at seperere beskeder-->
-  <div class="rounded-lg bg-base-200 p-4">
+  <div class="divide-y divide-base-content rounded-none md:divide-none md:rounded-lg md:bg-base-200 md:p-4">
     {#each besked as _besked}
-      <div class="relative mt-4 break-words rounded-lg bg-base-300 p-4" style="margin-left: {_besked.padding_left / 2}em;">
+      <div
+        class="relative mt-4 break-words p-2 md:rounded-lg md:bg-base-300 md:p-4"
+        style="margin-left: {_besked.padding_left / 2}em;"
+      >
         <button class="btn-sm btn absolute bottom-0 right-0 mb-4 mr-4" on:click={() => handleClick(_besked)}>Besvar</button>
         <BrugerPopup navn={_besked.bruger.navn} id={_besked.bruger.id}>
           <div class="flex">
