@@ -32,7 +32,6 @@ jobs:
 
       - name: Building desktop app
         run: |
-          cd ${GITHUB_WORKSPACE}
           if [ "$RUNNER_OS" == "Linux" ]; then
             yarn build-electron-linux
           elif [ "$RUNNER_OS" == "Windows" ]; then
