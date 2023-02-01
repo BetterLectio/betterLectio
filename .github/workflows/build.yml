@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         python-version: ['3.10']
 
     steps:
@@ -32,9 +32,4 @@ jobs:
 
       - name: Building desktop app
         run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            yarn build-electron-linux
-          elif [ "$RUNNER_OS" == "Windows" ]; then
-            yarn build-electron-windows
-          else
-            yarn build-electron-mac
+          yarn build-electron-linux
