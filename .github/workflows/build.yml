@@ -21,18 +21,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-      
-      - name: Extracting version
-        id: extract_version
-        uses: Saionaro/extract-package-version@v1.1.1
-
-      - if: matrix.os == 'ubuntu-latest'
-        name: Uploading release
-        env: 
-          GH_TOKEN: ${{ github.token }}
-          FILE_NAME: 'Better Lectio-${current-version}.AppImage'
-        run: |
-          echo gh release create [${{ steps.extract_version.outputs.version }}] [${FILE_NAME}]
 
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -104,12 +92,18 @@ jobs:
         run: |
           yarn build-electrononly-windows
 
+      
+      
+      - name: Extracting version
+        id: extract_version
+        uses: Saionaro/extract-package-version@v1.1.1
+
       - if: matrix.os == 'ubuntu-latest'
         name: Uploading release
         env: 
           GH_TOKEN: ${{ github.token }}
-          FILE_NAME: 'Better Lectio-${current-version}.AppImage'
+          FILE_NAME: 'Better Lectio-${{ steps.extract_version.outputs.version }}.AppImage'
         run: |
-          echo gh release create [${current-version}] [${FILE_NAME}]
+          echo gh release create [${{ steps.extract_version.outputs.version }}] [${FILE_NAME}]
           cd ${GITHUB_WORKSPACE}/static/backend/
           gh release create [${current-version}] [${FILE_NAME}]
