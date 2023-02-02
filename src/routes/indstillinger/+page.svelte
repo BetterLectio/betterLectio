@@ -7,6 +7,7 @@
   import Pro from "./routes/Pro.svelte";
   import Tilslut from "./routes/Tilslut.svelte";
   import Generelt from "./routes/Generelt.svelte";
+  import Opdateringer from "./routes/Opdateringer.svelte";
 
   let pageTransitionDirection;
 
@@ -32,6 +33,8 @@
         return 3;
       case "tilslut":
         return 4;
+      case "opdateringer":
+        return 5;
     }
   }
 
@@ -44,34 +47,18 @@
   }
 </script>
 
-<div class="tabs tabs-boxed mb-4 w-fit lg:hidden">
+<div class="tabs tabs-boxed mb-4 w-fit">
   <a id="generelt" class="tab {page == 'generelt' ? 'tab-active' : ''}" on:click={() => changePage("generelt")}>Generelt</a>
   <a id="konto" class="tab {page == 'konto' ? 'tab-active' : ''}" on:click={() => changePage("konto")}>Din konto</a>
   <a id="api" class="tab {page == 'api' ? 'tab-active' : ''}" on:click={() => changePage("api")}>API</a>
   <a id="pro" class="tab {page == 'pro' ? 'tab-active' : ''}" on:click={() => changePage("pro")}>Pro</a>
   <a id="tilslut" class="tab {page == 'tilslut' ? 'tab-active' : ''}" on:click={() => changePage("tilslut")}>Tilslut</a>
+  <a id="opdateringer" class="tab {page == 'opdateringer' ? 'tab-active' : ''}" on:click={() => changePage("opdateringer")}
+    >Opdateringer</a
+  >
 </div>
 
 <div class="flex min-h-screen">
-  <ul class="menu rounded-box mr-4 hidden h-fit w-52 bg-base-200 p-2 lg:inline">
-    <li class="mb-1">
-      <p class="font-bold {page == 'generelt' ? 'active' : ''}" on:click={() => changePage("generelt")}>Generelt</p>
-    </li>
-    <li class="mb-1">
-      <p class="font-bold {page == 'konto' ? 'active' : ''}" on:click={() => changePage("konto")}>Din konto</p>
-    </li>
-    <li class="mb-1">
-      <p class="font-bold {page == 'api' ? 'active' : ''}" on:click={() => changePage("api")}>API</p>
-    </li>
-    <li class="mb-1">
-      <p class="font-bold {page == 'pro' ? 'active' : ''}" on:click={() => changePage("pro")}>Better Lectio Pro</p>
-    </li>
-    <li class="mb-1">
-      <p class="font-bold {page == 'tilslut' ? 'active' : ''}" on:click={() => changePage("tilslut")}>
-        Tilsluttede tjenester
-      </p>
-    </li>
-  </ul>
   <div>
     {#if page === "generelt"}
       <div
@@ -107,6 +94,13 @@
         out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}
       >
         <Tilslut />
+      </div>
+    {:else if page === "opdateringer"}
+      <div
+        in:fly={{ x: -pageTransitionDirection, duration: 300, delay: 300, easing: quintOut }}
+        out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}
+      >
+        <Opdateringer />
       </div>
     {/if}
   </div>
