@@ -70,13 +70,6 @@ jobs:
           BUILD_TYPE: app
         run: |
           yarn build
-        
-      
-      - name: gettig package version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@main
-        with:
-          path: packages/better-lectio
           
       - if: matrix.os == 'macos-latest'
         name: Building electron
@@ -99,9 +92,14 @@ jobs:
         run: |
           yarn build-electrononly-windows
       
+      - name: Extracting version
+        id: extract_version
+        uses: Saionaro/extract-package-version@v1.1.1
+
       - if: matrix.os == 'ubuntu-latest'
         name: Uploading release
         env: 
+          GH_TOKEN: ${{ github.token }}
           FILE_NAME: 'Better Lectio-${current-version}.AppImage'
         run: |
           echo gh release create [${current-version}] [${FILE_NAME}]
