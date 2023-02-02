@@ -71,6 +71,13 @@ jobs:
         run: |
           yarn build
         
+      
+      - name: gettig package version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
+        with:
+          path: packages/better-lectio
+          
       - if: matrix.os == 'macos-latest'
         name: Building electron
         env:
@@ -91,3 +98,29 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-windows
+      
+      - if: matrix.os == 'ubuntu-latest'
+        name: Uploading release
+        uses: JasonEtco/upload-to-release@master
+        with:
+          args: ${GITHUB_WORKSPACE}/dist/Better Lectio-{current-version}.AppImage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      
+      - if: matrix.os == 'windows-latest'
+        name: Uploading release
+        uses: JasonEtco/upload-to-release@master
+        with:
+          args: ${GITHUB_WORKSPACE}/dist/Better Lectio Setup {current-version}.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      
+      - if: matrix.os == 'macos-latest'
+        name: Uploading release
+        uses: JasonEtco/upload-to-release@master
+        with:
+          args: ${GITHUB_WORKSPACE}/dist/Better Lectio-{current-version}.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
