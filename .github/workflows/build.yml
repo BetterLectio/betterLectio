@@ -107,4 +107,4 @@ jobs:
           echo gh release create [${{ steps.extract_version.outputs.version }}] [${FILE_NAME}]
           cd ${GITHUB_WORKSPACE}/dist
           ls
-          gh release create [${{ steps.extract_version.outputs.version }}] ["${FILE_NAME}"]
+          gh release create ${{ steps.extract_version.outputs.version }} '${FILE_NAME}' -t ${{ steps.extract_version.outputs.version }}
