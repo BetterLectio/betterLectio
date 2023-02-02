@@ -101,31 +101,9 @@ jobs:
       
       - if: matrix.os == 'ubuntu-latest'
         name: Uploading release
-        uses: JasonEtco/upload-to-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env: 
           FILE_NAME: 'Better Lectio-${current-version}.AppImage'
         run: |
-          echo ${GITHUB_WORKSPACE}/dist/${FILE_NAME}
-        with:
-          args: ${GITHUB_WORKSPACE}/dist/${FILE_NAME}
-      
-      
-      - if: matrix.os == 'windows-latest'
-        name: Uploading release
-        uses: JasonEtco/upload-to-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FILE_NAME: 'Better Lectio Setup ${current-version}.exe'
-        with:
-          args: ${GITHUB_WORKSPACE}/dist/${FILE_NAME}
-      
-      
-      - if: matrix.os == 'macos-latest'
-        name: Uploading release
-        uses: JasonEtco/upload-to-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FILE_NAME: 'Better Lectio-${current-version}.dmg'
-        with:
-          args: ${GITHUB_WORKSPACE}/dist/${FILE_NAME}
+          echo gh release create [${current-version}] [${FILE_NAME}]
+          cd ${GITHUB_WORKSPACE}/static/backend/
+          gh release create [${current-version}] [${FILE_NAME}]
