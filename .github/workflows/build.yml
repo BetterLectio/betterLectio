@@ -30,10 +30,16 @@ jobs:
           python -m pip install --upgrade pip
           yarn install
 
-      - name: Clearing previous builds
+      - name: Clearing previous Python builds
         uses: JesseTG/rm@v1.0.3
         with:
           path: /static/backend
+
+      - name: Clearing previous Electron builds
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: /dist
+          
       - if: matrix.os == 'windows-latest'
         name: Install stack and wget
         run: |
@@ -77,6 +83,8 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-mac
+          git add .
+          git commit -m "Added V${{ steps.extract_version.outputs.version }} mac app"
         
       - if: matrix.os == 'ubuntu-latest'
         name: Building electron
@@ -84,6 +92,8 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-linux
+          git add .
+          git commit -m "Added V${{ steps.extract_version.outputs.version }} linux app"
         
       - if: matrix.os == 'windows-latest'
         name: Building electron
@@ -91,6 +101,8 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-windows
+          git add .
+          git commit -m "Added V${{ steps.extract_version.outputs.version }} windows app"
 
       
       
@@ -100,6 +112,4 @@ jobs:
       
       - name: Adding desktop app to repo
         run: |
-          git add &lt;pathspec&gt
-          git commit -m "Added desktop app"
           git push
