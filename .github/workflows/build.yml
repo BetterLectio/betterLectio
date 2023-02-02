@@ -39,7 +39,7 @@ jobs:
         uses: JesseTG/rm@v1.0.3
         with:
           path: /dist
-          
+
       - if: matrix.os == 'windows-latest'
         name: Install stack and wget
         run: |
@@ -76,7 +76,12 @@ jobs:
           BUILD_TYPE: app
         run: |
           yarn build
-          
+      
+      - name: Configuring git
+        run: |
+          git config user.name "Github Actions"
+          git config user.email "githubactions@users.noreply.github.com"
+      
       - if: matrix.os == 'macos-latest'
         name: Building electron
         env:
