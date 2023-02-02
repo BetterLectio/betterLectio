@@ -30,16 +30,10 @@ jobs:
           python -m pip install --upgrade pip
           yarn install
 
-      - name: Clearing previous Python builds
+      - name: Clearing previous builds
         uses: JesseTG/rm@v1.0.3
         with:
           path: /static/backend
-
-      - name: Clearing previous Electron builds
-        uses: JesseTG/rm@v1.0.3
-        with:
-          path: /dist
-
       - if: matrix.os == 'windows-latest'
         name: Install stack and wget
         run: |
@@ -76,20 +70,13 @@ jobs:
           BUILD_TYPE: app
         run: |
           yarn build
-      
-      - name: Configuring git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      
+          
       - if: matrix.os == 'macos-latest'
         name: Building electron
         env:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-mac
-          git add .
-          git commit -m "Added V${{ steps.extract_version.outputs.version }} mac app"
         
       - if: matrix.os == 'ubuntu-latest'
         name: Building electron
@@ -97,8 +84,6 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-linux
-          git add .
-          git commit -m "Added V${{ steps.extract_version.outputs.version }} linux app"
         
       - if: matrix.os == 'windows-latest'
         name: Building electron
@@ -106,15 +91,30 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-windows
-          git add .
-          git commit -m "Added V${{ steps.extract_version.outputs.version }} windows app"
 
       
       
       - name: Extracting version
         id: extract_version
         uses: Saionaro/extract-package-version@v1.1.1
-      
-      - name: Adding desktop app to repo
-        run: |
-          git push origin HEAD:main
+
+      - if: matrix.os == 'ubuntu-latest'
+        name: Uploading release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.extract_version.outputs.version }}
+          files: ./dist/*.AppImage
+
+      - if: matrix.os == 'windows-latest'
+        name: Uploading release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.extract_version.outputs.version }}
+          files: ./dist/*.exe
+
+      - if: matrix.os == 'macos-latest'
+        name: Uploading release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.extract_version.outputs.version }}
+          files: ./dist/*.dmg
