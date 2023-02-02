@@ -93,6 +93,9 @@
     <div class="w-full rounded-lg bg-base-300 p-4 lg:w-1/2">
       <h2 class="text-2xl font-bold">Grafisk oversigt</h2>
       {#if $fravaer?.generalt}
+        {#if $fravaer.generalt.at(-1).heleåret_fravær_procent == "0,00%"}
+          <p class="mt-4">Du har ikke noget fravær</p>
+        {/if}
         <Doughnut
           data={{
             labels: $fravaer.generalt
