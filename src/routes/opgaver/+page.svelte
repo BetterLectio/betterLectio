@@ -50,6 +50,7 @@
     } else if (selected == "afleveredeOpgaver") {
       return afleveredeOpgaver;
     } else {
+      afsluttedeOpgaver.reverse();
       return afsluttedeOpgaver;
     }
   }
