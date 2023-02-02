@@ -8,6 +8,7 @@ import preprocess from 'svelte-preprocess';
 
 let config;
 if (process.env.BUILD_TYPE === 'app') {
+	console.log("Building for electron");
 	/** @type {import('@sveltejs/kit').Config} */
 	config = {
 		// Consult https://github.com/sveltejs/svelte-preprocess
@@ -22,6 +23,7 @@ if (process.env.BUILD_TYPE === 'app') {
 		},
 	};
 } else {
+	console.log("Building for the website");
 	/** @type {import('@sveltejs/kit').Config} */
 	config = {
 		kit: {
