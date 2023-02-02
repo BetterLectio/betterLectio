@@ -103,7 +103,7 @@ jobs:
         name: Uploading release
         uses: JasonEtco/upload-to-release@master
         with:
-          args: ${GITHUB_WORKSPACE}/dist/Better Lectio-{current-version}.AppImage
+          args: ${GITHUB_WORKSPACE}/dist/Better\ Lectio-{current-version}.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
@@ -112,7 +112,7 @@ jobs:
         name: Uploading release
         uses: JasonEtco/upload-to-release@master
         with:
-          args: ${GITHUB_WORKSPACE}/dist/Better Lectio Setup {current-version}.exe
+          args: ${GITHUB_WORKSPACE}/dist/Better\ Lectio Setup {current-version}.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
@@ -121,6 +121,6 @@ jobs:
         name: Uploading release
         uses: JasonEtco/upload-to-release@master
         with:
-          args: ${GITHUB_WORKSPACE}/dist/Better Lectio-{current-version}.dmg
+          args: ${GITHUB_WORKSPACE}/dist/Better\ Lectio-{current-version}.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
