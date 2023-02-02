@@ -48,6 +48,7 @@
         foråretFravaer = element.heleåret_fravær_procent;
       }
     });
+    $fravaer?.moduler?.oversigt.reverse();
     fravaerReady = true;
   });
 
