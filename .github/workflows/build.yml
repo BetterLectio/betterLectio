@@ -105,6 +105,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FILE_NAME: 'Better Lectio-${current-version}.AppImage'
+        run: |
+          echo ${GITHUB_WORKSPACE}/dist/${FILE_NAME}
         with:
           args: ${GITHUB_WORKSPACE}/dist/${FILE_NAME}
       
