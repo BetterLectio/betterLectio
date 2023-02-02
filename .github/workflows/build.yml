@@ -102,25 +102,28 @@ jobs:
       - if: matrix.os == 'ubuntu-latest'
         name: Uploading release
         uses: JasonEtco/upload-to-release@master
-        with:
-          args: ${GITHUB_WORKSPACE}/dist/'Better Lectio-{current-version}.AppImage'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FILE_NAME: 'Better Lectio-${current-version}.AppImage'
+        with:
+          args: ${GITHUB_WORKSPACE}/dist/${FILE_NAME}
       
       
       - if: matrix.os == 'windows-latest'
         name: Uploading release
         uses: JasonEtco/upload-to-release@master
-        with:
-          args: ${GITHUB_WORKSPACE}/dist/'Better Lectio Setup {current-version}.exe'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FILE_NAME: 'Better Lectio Setup ${current-version}.exe'
+        with:
+          args: ${GITHUB_WORKSPACE}/dist/${FILE_NAME}
       
       
       - if: matrix.os == 'macos-latest'
         name: Uploading release
         uses: JasonEtco/upload-to-release@master
-        with:
-          args: ${GITHUB_WORKSPACE}/dist/'Better Lectio-{current-version}.dmg'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FILE_NAME: 'Better Lectio-${current-version}.dmg'
+        with:
+          args: ${GITHUB_WORKSPACE}/dist/${FILE_NAME}
