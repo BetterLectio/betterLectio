@@ -106,4 +106,4 @@ jobs:
         run: |
           echo gh release create [${{ steps.extract_version.outputs.version }}] [${FILE_NAME}]
           cd ${GITHUB_WORKSPACE}/static/backend/
-          gh release create [${{ steps.extract_version.outputs.version }}] ["${FILE_NAME}"]
+          ls
