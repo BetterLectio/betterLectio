@@ -104,7 +104,5 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           FILE_NAME: 'Better Lectio-${{ steps.extract_version.outputs.version }}.AppImage'
         run: |
-          echo gh release create ${{ steps.extract_version.outputs.version }} '"./${FILE_NAME}"' -t ${{ steps.extract_version.outputs.version }}
-          cd ${GITHUB_WORKSPACE}/dist
-          ls
-          gh release create ${{ steps.extract_version.outputs.version }} '"./${FILE_NAME}"' -t ${{ steps.extract_version.outputs.version }}
+          echo gh release create [${{ steps.extract_version.outputs.version }}] ["./${FILE_NAME}"] -t ${{ steps.extract_version.outputs.version }}
+          gh release create [${{ steps.extract_version.outputs.version }}] ["${GITHUB_WORKSPACE}/dist/${FILE_NAME}"] -t ${{ steps.extract_version.outputs.version }}
