@@ -102,7 +102,6 @@ jobs:
         name: Uploading release
         env: 
           GH_TOKEN: ${{ github.token }}
-          FILE_PATH: '${${ GITHUB_WORKSPACE }/dist/Better Lectio-${{ steps.extract_version.outputs.version }}.AppImage'
         run: |
-          echo gh release create ${{ steps.extract_version.outputs.version }} ${ FILE_PATH } -t ${{ steps.extract_version.outputs.version }}
-          gh release create ${{ steps.extract_version.outputs.version }} ${ FILE_PATH } -t ${{ steps.extract_version.outputs.version }}
+          echo gh release create ${{ steps.extract_version.outputs.version }} ${ GITHUB_WORKSPACE }/dist/* -t ${{ steps.extract_version.outputs.version }}
+          gh release create ${{ steps.extract_version.outputs.version }} ${ GITHUB_WORKSPACE }/dist/* -t ${{ steps.extract_version.outputs.version }}
