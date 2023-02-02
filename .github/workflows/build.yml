@@ -69,7 +69,6 @@ jobs:
           NODE_ENV: production
           BUILD_TYPE: app
         run: |
-          cd ${GITHUB_WORKSPACE}/
           yarn build
         
       - if: matrix.os == 'macos-latest'
