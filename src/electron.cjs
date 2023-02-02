@@ -6,6 +6,7 @@ const { autoUpdater } = require("electron-updater");
 const serve = require('electron-serve');
 const path = require('path');
 const open = require('open');
+const DiscordRPC = require('discord-rpc');
 const { execFile } = require('child_process');
 const { auto } = require('@popperjs/core');
 const { updateLocale } = require('moment');
@@ -139,3 +140,52 @@ process.on('exit', () => {
 ipcMain.on('to-main', (event, count) => {
 	return mainWindow.webContents.send('from-main', `next count is ${count + 1}`);
 });
+
+// Discord RPC
+
+const clientId = '1070771346444910603';
+
+// Only needed if you want to use spectate, join, or ask to join
+DiscordRPC.register(clientId);
+
+const rpc = new DiscordRPC.Client({ transport: 'ipc' });
+const startTimestamp = new Date();
+
+async function setActivity() {
+  if (!rpc || !mainWindow) {
+    return;
+  }
+  // You'll need to have snek_large and snek_small assets uploaded to
+  // https://discord.com/developers/applications/<application_id>/rich-presence/assets
+  rpc.setActivity({
+    details: `Den ultimative Lectio forbedring`,
+    //state: 'Ser på forsiden',
+    startTimestamp,
+    largeImageKey: 'icon',
+    largeImageText: 'Forbedre dit Lectio med betterlectio.dk',
+    smallImageKey: 'questionmark',
+    smallImageText: 'BetterLectio er en open source forbedring af gymnasiesystemet lectio',
+	buttons: [
+		{
+			label: 'Hvad er BetterLectio?',
+			url: 'https://betterlectio.dk/',
+		},
+		{
+			label: 'BetterLectio\'s Discord Server',
+			url: 'https://discord.gg/uj4xtSUnKN',
+		},
+	],
+    instance: false,
+  });
+}
+
+rpc.on('ready', () => {
+  setActivity();
+
+  // activity can only be set every 15 seconds
+  setInterval(() => {
+    setActivity();
+  }, 15e3);
+});
+
+rpc.login({ clientId }).catch(console.error);
