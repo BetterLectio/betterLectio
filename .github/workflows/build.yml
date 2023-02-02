@@ -103,10 +103,6 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-windows
-      
-      - name: Extracting version
-        id: extract_version
-        uses: Saionaro/extract-package-version@v1.1.1
 
       - if: matrix.os == 'ubuntu-latest'
         name: Uploading release
