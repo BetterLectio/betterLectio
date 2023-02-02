@@ -103,6 +103,7 @@ jobs:
         env: 
           GH_TOKEN: ${{ github.token }}
         run: |
-          cd ${ GITHUB_WORKSPACE }/
+          ls
+          cd ${GITHUB_WORKSPACE}
           ls
           gh release create ${{ steps.extract_version.outputs.version }} ./dist/*.AppImage -t ${{ steps.extract_version.outputs.version }}
