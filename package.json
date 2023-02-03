@@ -23,6 +23,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"daisyui": "^2.47.0"
+		"daisyui": "^2.47.0",
+		"svelte-countup": "^0.2.6"
 	}
 }

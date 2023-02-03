@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { quintIn, quintInOut, quintOut } from 'svelte/easing';
+	import Countup from "svelte-countup";
   
 	//make a function that will be called when the page is loaded then it will figure out what os the user is using and then it will show the download button for that os
 	function getOS() {
@@ -30,8 +31,10 @@
 	}
 
 	let loaded = false;
+	let stats;
 	onMount(async () => {
 		loaded = true
+		stats = await (await fetch("https://db.betterlectio.dk/stats")).json();
 	});
 
 	function scrollIntoView({ target }) {
@@ -41,7 +44,7 @@
 			behavior: 'smooth'
 		});
 	}
-  </script>
+</script>
 
 <div class="mx-2 sm:mx-0">
 	<div class="flex navbar bg-base-100">
@@ -213,10 +216,37 @@
 		</div>
 	</div>
 
+	{#if stats}
+		<div id="stats" class="mb-40 bg-base-200 rounded-xl p-4">
+			<h1 class="mb-2 text-4xl font-extrabold">Hvor mange bruger BetterLectio?</h1>
+			<p class="mb-2">Selvom vi stadig er under konstant udvikling har vi alligevel fået ret mange brugere</p>
+			<div class="flex flex-col lg:flex-row ">
+				<!-- make 3 cards thae are nex to each other-->
+				<div class="bg-base-300 p-4 lg:mr-4 mb-4 lg:mb-0 rounded-lg w-full">
+					<span class="font-mono text-6xl">
+						<div class="flex items-center justify-center object-center">
+							<Countup value={stats["antal_brugere"]} duration={1000} format={false}/>
+						</div>
+						<h3 class="text-2xl text-center">Elever</h3>
+					</span>
+					
+				</div>
+				<div class="bg-base-300 p-4 lg:mr-4 mb-4 lg:mb-0 rounded-lg w-full">
+					<span class="font-mono text-6xl text-center">
+						<div class="flex items-center justify-center object-center">
+							<Countup value={stats["antal_skoler"]} duration={1000} format={false}/>
+						</div>
+						<h3 class="text-2xl text-center">Skoler</h3>
+					</span>
+				</div>
+			</div>
+		</div>
+	{/if}
+
 	{#if loaded}
 		<div id="downloads" class="mb-40 bg-base-200 rounded-xl p-4">
 			<h1 class="mb-2 text-4xl font-extrabold">Downloads</h1>
-			<p class="mb-2">Better Lectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github</p>
+			<p class="mb-2">BetterLectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github</p>
 			<div class="flex flex-col lg:flex-row ">
 				<!-- make 3 cards thae are nex to each other-->
 				<div class="bg-base-300 p-4 lg:mr-4 mb-4 lg:mb-0 rounded-lg w-full">
@@ -225,7 +255,7 @@
 					</svg>
 					<p class="text-center w-full font-bold text-3xl mt-2">Windows</p>
 
-					<a on:click={() => {alert("Better Lectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github")}} class="btn {getOS() == "Windows" ? "btn-primary" : ""} w-full mt-6 cursor-not-allowed">Download</a>
+					<a on:click={() => {alert("BetterLectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github")}} class="btn {getOS() == "Windows" ? "btn-primary" : ""} w-full mt-6 cursor-not-allowed">Download</a>
 				</div>
 				<div class="bg-base-300 p-4 lg:mr-4 mb-4 lg:mb-0 rounded-lg w-full">
 					<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="currentColor" class="bi bi-apple w-full" viewBox="0 0 16 16">
@@ -234,7 +264,7 @@
 					</svg>
 					<p class="text-center w-full font-bold text-3xl mt-2">MacOS</p>
 
-					<a on:click={() => {alert("Better Lectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github")}} class="btn {getOS() == "MacOS" ? "btn-primary" : ""} w-full mt-6 cursor-not-allowed">Download</a>
+					<a on:click={() => {alert("BetterLectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github")}} class="btn {getOS() == "MacOS" ? "btn-primary" : ""} w-full mt-6 cursor-not-allowed">Download</a>
 				</div>
 				<div class="bg-base-300 p-4 rounded-lg w-full">
 					<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="currentColor" class="bi bi-ubuntu w-full" viewBox="0 0 640 640">
@@ -242,7 +272,7 @@
 					</svg>
 					<p class="text-center w-full font-bold text-3xl mt-2">Linux</p>
 
-					<a on:click={() => {alert("Better Lectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github")}} class="btn {getOS() == "Linux" ? "btn-primary" : ""} w-full mt-6 cursor-not-allowed">Download</a>
+					<a on:click={() => {alert("BetterLectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github")}} class="btn {getOS() == "Linux" ? "btn-primary" : ""} w-full mt-6 cursor-not-allowed">Download</a>
 				</div>
 			</div>
 		</div>
