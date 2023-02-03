@@ -48,6 +48,7 @@
     if (selected == "ikkeAfleveredeOpgaver") {
       return ikkeAfleveredeOpgaver;
     } else if (selected == "afleveredeOpgaver") {
+      afleveredeOpgaver.reverse();
       return afleveredeOpgaver;
     } else {
       afsluttedeOpgaver.reverse();
