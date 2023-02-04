@@ -115,7 +115,7 @@ app.whenReady().then(() => {
 		if (BrowserWindow.getAllWindows().length == 0) createWindow();
 	});
 
-	console.log(autoUpdater.checkForUpdates());
+	autoUpdater.checkForUpdates();
 });
 
 let updateAvailable = false;
