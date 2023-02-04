@@ -53,6 +53,7 @@ jobs:
           pyinstaller --onefile ${GITHUB_WORKSPACE}/static/backend/backend.py --distpath ${GITHUB_WORKSPACE}/static/backend/ --workpath ${GITHUB_WORKSPACE}/temp/
           cd static
           ls
+          tree
 
       - name: Removing temp folder
         uses: JesseTG/rm@v1.0.3
