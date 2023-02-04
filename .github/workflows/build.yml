@@ -53,6 +53,9 @@ jobs:
           pyinstaller --onefile ${GITHUB_WORKSPACE}/static/backend/backend.py --distpath ${GITHUB_WORKSPACE}/static/backend/ --workpath ${GITHUB_WORKSPACE}/temp/
           cd static
           ls
+          
+      - if: matrix.os == 'windows-latest'
+        name: Tree
           tree
 
       - name: Removing temp folder
