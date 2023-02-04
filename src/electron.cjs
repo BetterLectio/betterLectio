@@ -108,14 +108,14 @@ function createMainWindow() {
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
 
+app.whenReady().then(() => {
+	createMainWindow();
 
-app.once('ready', createMainWindow);
-app.on('activate', () => {
-	if (!mainWindow) {
-		createMainWindow();
-	}
+	app.on("activate", function() {
+		if (BrowserWindow.getAllWindows().length == 0) createWindow();
+	});
 
-	autoUpdater.checkForUpdates();
+	console.log(autoUpdater.checkForUpdates());
 });
 
 let updateAvailable = false;
@@ -125,7 +125,7 @@ autoUpdater.on("update-available", (info) => {
 	updateAvailable = true;
 })
 
-process.on('exit', () => {
+process.on('window-all-closed', () => {
 	backend.stdin.pause();
 	backend.kill();
 	if (updateAvailable) {
