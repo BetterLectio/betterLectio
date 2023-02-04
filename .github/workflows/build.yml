@@ -51,6 +51,8 @@ jobs:
           pip install -r ${GITHUB_WORKSPACE}/static/backend/requirements.txt
           pip install pyinstaller
           pyinstaller --onefile ${GITHUB_WORKSPACE}/static/backend/backend.py --distpath ${GITHUB_WORKSPACE}/static/backend/ --workpath ${GITHUB_WORKSPACE}/temp/
+          cd static
+          ls
 
       - name: Removing temp folder
         uses: JesseTG/rm@v1.0.3
