@@ -61,8 +61,13 @@ jobs:
           BUILD_TYPE: app
         run: |
           yarn build
-          
-        yarn build-electrononly-windows
+        
+
+      - name: Building electron
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
+        run: |
+          yarn build-electrononly-windows
 
       
       
