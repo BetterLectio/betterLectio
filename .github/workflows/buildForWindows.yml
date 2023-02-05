@@ -46,7 +46,7 @@ jobs:
       - name: PyInstaller Windows
         uses: JackMcKew/pyinstaller-action-windows@main
         with:
-          path: ${GITHUB_WORKSPACE}/static/backend
+          path: /static/backend
       
       - name: Tree
         run: |
