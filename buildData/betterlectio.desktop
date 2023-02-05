@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=BetterLectio
+Comment=Den ultimative Lectio forbedring.
+GenericName=Better Lectio
+Exec=/usr/share/betterlectio/betterlectio
+Icon=/usr/share/app-logos/betterlectio.png
+Type=Application
+Categories=Lectio,Gymnasie;
+Path=/usr/bin
