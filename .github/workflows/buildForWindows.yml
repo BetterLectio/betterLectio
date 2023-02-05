@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [windows-latest]
         python-version: ['3.10']
 
     steps:
@@ -51,3 +51,43 @@ jobs:
       - name: Tree
         run: |
           tree
+      
+      - name: Building site
+        env:
+          NODE_ENV: production
+          BUILD_TYPE: app
+        run: |
+          yarn build
+          
+      - if: matrix.os == 'macos-latest'
+        name: Building electron
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
+        run: |
+          yarn build-electrononly-mac
+        
+      - if: matrix.os == 'ubuntu-latest'
+        name: Building electron
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
+        run: |
+          yarn build-electrononly-linux
+        
+      - if: matrix.os == 'windows-latest'
+        name: Building electron
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
+        run: |
+          yarn build-electrononly-windows
+
+      
+      
+      - name: Extracting version
+        id: extract_version
+        uses: Saionaro/extract-package-version@v1.1.1
+
+      - name: Uploading release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.extract_version.outputs.version }}
+          files: dist/*
