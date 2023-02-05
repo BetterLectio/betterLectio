@@ -49,7 +49,7 @@ jobs:
       - name: PyInstaller Windows
         uses: JackMcKew/pyinstaller-action-windows@main
         with:
-          path: /static/backend
+          path: /static/backend/
       
       - name: Tree
         run: |
