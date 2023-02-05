@@ -31,9 +31,11 @@
 	}
 
 	let loaded = false;
+	let latestRelease;
 	let stats;
 	onMount(async () => {
-		loaded = true
+		latestRelease = await (await fetch("https://api.github.com/repos/BetterLectio/betterLectio/releases/latest")).json();
+		loaded = true;
 		stats = await (await fetch("https://db.betterlectio.dk/stats")).json();
 	});
 
@@ -45,6 +47,18 @@
 		});
 	}
 </script>
+
+{#if loaded}
+	<input type="checkbox" id="linux-download" class="modal-toggle" />
+	<label for="linux-download" class="modal cursor-pointer">
+		<label class="modal-box relative" for="">
+			<h3 class="text-lg font-bold">Tak fordi interessere dig for BetterLectio på Linux!</h3>
+			<p class="py-4">Vi er stadig i tidlig beta, derfor er udgivelsen også bare et AppImage. I fremtiden kommer BetterLectio til at være bedre integreret i dit system</p>
+			<div class="modal-action">
+			<a class="btn" href="https://github.com/BetterLectio/betterLectio/releases/download/{latestRelease.tag_name}/BetterLectio-{latestRelease.tag_name}.AppImage">Download alligevel</a>
+		</label>
+	</label>
+{/if}
 
 <div class="mx-2 sm:mx-0">
 	<div class="flex navbar bg-base-100">
@@ -255,7 +269,7 @@
 					</svg>
 					<p class="text-center w-full font-bold text-3xl mt-2">Windows</p>
 
-					<a on:click={() => {alert("BetterLectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github")}} class="btn {getOS() == "Windows" ? "btn-primary" : ""} w-full mt-6 cursor-not-allowed">Download</a>
+					<a on:click={() => {alert("BetterLectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github")}} class="btn {getOS() == "Windows" ? "btn-primary" : ""} w-full mt-6 cursor-not-allowed">Download (Ikke tilgængelig endnu)</a>
 				</div>
 				<div class="bg-base-300 p-4 lg:mr-4 mb-4 lg:mb-0 rounded-lg w-full">
 					<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="currentColor" class="bi bi-apple w-full" viewBox="0 0 16 16">
@@ -264,7 +278,7 @@
 					</svg>
 					<p class="text-center w-full font-bold text-3xl mt-2">MacOS</p>
 
-					<a on:click={() => {alert("BetterLectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github")}} class="btn {getOS() == "MacOS" ? "btn-primary" : ""} w-full mt-6 cursor-not-allowed">Download</a>
+					<a on:click={() => {alert("BetterLectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github")}} class="btn {getOS() == "MacOS" ? "btn-primary" : ""} w-full mt-6 cursor-not-allowed">Download (Ikke tilgængelig endnu)</a>
 				</div>
 				<div class="bg-base-300 p-4 rounded-lg w-full">
 					<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="currentColor" class="bi bi-ubuntu w-full" viewBox="0 0 640 640">
@@ -272,7 +286,7 @@
 					</svg>
 					<p class="text-center w-full font-bold text-3xl mt-2">Linux</p>
 
-					<a on:click={() => {alert("BetterLectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde den på vores Github")}} class="btn {getOS() == "Linux" ? "btn-primary" : ""} w-full mt-6 cursor-not-allowed">Download</a>
+					<label class="btn {getOS() == "Linux" ? "btn-primary" : ""} w-full mt-6" for="linux-download">Download</label>
 				</div>
 			</div>
 		</div>
