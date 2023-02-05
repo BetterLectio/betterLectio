@@ -84,6 +84,7 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-mac
+          mv dist/BetterLectio*.dmg dist/BetterLectio.dmg
         
       - if: matrix.os == 'ubuntu-latest'
         name: Building electron
@@ -91,6 +92,8 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-linux
+          mv dist/BetterLectio*.AppImage dist/BetterLectio.AppImage
+
         
       - if: matrix.os == 'windows-latest'
         name: Building electron
@@ -98,6 +101,7 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-windows
+          move dist/BetterLectio.Setup.${{ steps.extract_version.outputs.version }}.exe dist/BetterLectio.Setup.exe
 
       
       
