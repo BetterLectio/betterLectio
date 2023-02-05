@@ -35,13 +35,16 @@ jobs:
         run: |
           choco install wget --no-progress
       
+      - name: Tree
+        run: |
+          tree
+      
       - name: Fetch Backend
         run: |
           mkdir ${GITHUB_WORKSPACE}/static/backend
           cd ${GITHUB_WORKSPACE}/static/backend
           wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -O backend.py
           wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt
-
 
       - name: PyInstaller Windows
         uses: JackMcKew/pyinstaller-action-windows@main
