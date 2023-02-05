@@ -10,44 +10,44 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [macos-latest, ubuntu-latest]
         python-version: ['3.10']
-  
-  steps:
-    - name: Check out Git repository
-      uses: actions/checkout@v1
 
-    - name: Install Node.js, NPM and Yarn
-      uses: actions/setup-node@v1
-      with:
-        node-version: 16
-    
-    - name: Configuring yarn
-      run: |
-        yarn install
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
 
-    - name: Clearing previous builds
-      uses: JesseTG/rm@v1.0.3
-      with:
-        path: /static/backend
-    - if: matrix.os == 'windows-latest'
-      name: Install stack and wget
-      run: |
-        choco install wget --no-progress
-    
-    - name: Fetch Backend
-      run: |
-        mkdir ${GITHUB_WORKSPACE}/static/backend
-        cd ${GITHUB_WORKSPACE}/static/backend
-        wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -O backend.py
-        wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      
+      - name: Configuring yarn
+        run: |
+          yarn install
+
+      - name: Clearing previous builds
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: /static/backend
+      - if: matrix.os == 'windows-latest'
+        name: Install stack and wget
+        run: |
+          choco install wget --no-progress
+      
+      - name: Fetch Backend
+        run: |
+          mkdir ${GITHUB_WORKSPACE}/static/backend
+          cd ${GITHUB_WORKSPACE}/static/backend
+          wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -O backend.py
+          wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt
 
 
-    - name: PyInstaller Windows
-      uses: JackMcKew/pyinstaller-action-windows@main
-      with:
-        path: ${GITHUB_WORKSPACE}/static/backend
-    
-    - name: Tree
-      run: |
-        tree
+      - name: PyInstaller Windows
+        uses: JackMcKew/pyinstaller-action-windows@main
+        with:
+          path: ${GITHUB_WORKSPACE}/static/backend
+      
+      - name: Tree
+        run: |
+          tree
