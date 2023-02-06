@@ -11,6 +11,7 @@
   import Notify from "../components/Notify.svelte";
   import SideBar from "../components/SideBar.svelte";
   import NavBar from "../components/NavBar.svelte";
+  import { addNotification, addNotificationIn } from "../components/notifyStore.js";
   import { get } from "../components/http.js";
 
   export let data;
@@ -43,6 +44,10 @@
   }
 
   window.addEventListener("resize", handleResize);
+
+  function electronAlert(event, message) {
+    addNotification(message, "alert-warning");
+  }
 </script>
 
 <!--Log ud pop up-->

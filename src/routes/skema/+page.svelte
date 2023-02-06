@@ -40,7 +40,7 @@
     draggable: "ec-draggable",
     dragging: "ec-dragging",
     event:
-      "btn btn-xs absolute overflow-hidden text-black border-none hover:shadow-xl -ml-8 sm:ml-0.5 visible hover:scale-110 z-10 hover:z-0",
+      "btn btn-xs absolute overflow-hidden text-black hover:shadow-xl -ml-8 sm:ml-0.5 visible hover:scale-110 z-10 hover:z-0 border-2 border-base-100",
     eventBody: "ec-event-body",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",

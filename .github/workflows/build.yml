@@ -1,0 +1,107 @@
+name: Build/release
+
+on: 
+  push:
+    branches: [ main ]
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+        python-version: ['3.10']
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+
+      - name: Configuring yarn and pip
+        run: |
+          python -m pip install --upgrade pip
+          yarn install
+
+      - name: Clearing previous builds
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: /static/backend
+      - if: matrix.os == 'windows-latest'
+        name: Install stack and wget
+        run: |
+          choco install wget --no-progress
+      
+      - name: Fetch Backend
+        run: |
+          mkdir ${GITHUB_WORKSPACE}/static/backend
+          cd ${GITHUB_WORKSPACE}/static/backend
+          wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -O backend.py
+          wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt
+
+      - name: Building backend
+        run: |
+          pip install -r ${GITHUB_WORKSPACE}/static/backend/requirements.txt
+          pip install pyinstaller
+          pyinstaller --onefile ${GITHUB_WORKSPACE}/static/backend/backend.py --distpath ${GITHUB_WORKSPACE}/static/backend/ --workpath ${GITHUB_WORKSPACE}/temp/
+          cd static
+          ls
+
+      - name: Removing temp folder
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: /temp
+
+      - name: Removing backend.spec
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: /backend.spec
+        
+      
+      
+      - name: Building site
+        env:
+          NODE_ENV: production
+          BUILD_TYPE: app
+        run: |
+          yarn build
+          
+      - if: matrix.os == 'macos-latest'
+        name: Building electron
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
+        run: |
+          yarn build-electrononly-mac
+        
+      - if: matrix.os == 'ubuntu-latest'
+        name: Building electron
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
+        run: |
+          yarn build-electrononly-linux
+        
+      - if: matrix.os == 'windows-latest'
+        name: Building electron
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
+        run: |
+          yarn build-electrononly-windows
+
+      
+      
+      - name: Extracting version
+        id: extract_version
+        uses: Saionaro/extract-package-version@v1.1.1
+
+      - name: Uploading release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.extract_version.outputs.version }}
+          files: dist/*

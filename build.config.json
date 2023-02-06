@@ -1,6 +1,6 @@
 {
 	"appId": "desktop.betterlectio.dk",
-	"productName": "Better Lectio",
+	"productName": "BetterLectio",
 	"directories": {
 		"output": "dist"
 	},
