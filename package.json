@@ -29,7 +29,6 @@
 		"Chrome 89"
 	],
 	"dependencies": {
-		"@esbuild/win32-x64": "^0.17.5",
 		"@popperjs/core": "^2.11.6",
 		"@tailwindcss/forms": "^0.5.3",
 		"bootstrap": "^5.2.2",
