@@ -4,8 +4,10 @@
   import Table from "../../components/Table.svelte";
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
+  import { fade } from "svelte/transition";
 
   import { cookieInfo } from "../../components/CookieInfo";
+  import { forEach } from "markdown-it/lib/common/html_blocks.js";
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
@@ -20,6 +22,8 @@
   let note = "";
   let items = {};
 
+  let linkPreviewBox = "";
+
   async function getModul() {
     modul = await get(`/modul?absid=${absid}`);
 
@@ -31,27 +35,72 @@
 
     if (modul.lektier) {
       await modul.lektier.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a class="btn btn-xs btn-primary" target="_blank"');
+        let translated = sanitizeHtml(md.render(element)).replace(
+          "<a",
+          '<a class="btn btn-xs btn-primary preview" target="_blank"'
+        );
         lektieHtml += "<p>" + translated + "<p/>";
       });
     }
 
     if (modul.øvrigtIndhold) {
       await modul.øvrigtIndhold.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a class="btn btn-xs btn-primary" target="_blank"');
+        let translated = sanitizeHtml(md.render(element)).replace(
+          "<a",
+          '<a class="btn btn-xs btn-primary preview" target="_blank"'
+        );
         øvrigeIndholdHtml += "<p>" + translated + "<p/>";
       });
     }
 
     if (modul.note) {
       await modul.note.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a class="btn btn-xs btn-primary" target="_blank"');
+        let translated = sanitizeHtml(md.render(element)).replace(
+          "<a",
+          '<a class="btn btn-xs btn-primary preview" target="_blank"'
+        );
         note += "<p>" + translated + "<p/>";
       });
     }
+    previewLink();
   }
   getModul();
+
+  function previewLink() {
+    let links = document.querySelectorAll(".preview");
+
+    console.log(links);
+    links.forEach((link) => {
+      link.addEventListener("mouseover", (e) => {
+        let url = e.target.href;
+        console.log(url);
+        //add an i frame to the linkpreviewbox div with the url
+        if (!url.includes("lectio")) {
+          linkPreviewBox = `<iframe src="${url}" width="600" height="400" title="link preview" class="rounded-lg" in:fade out:fade />`;
+        }
+        // place the linkpreviewbox div under the element
+        let rect = e.target.getBoundingClientRect();
+        let linkpreviewbox = document.getElementById("linkpreviewbox");
+        linkpreviewbox.style.top = rect.bottom + "px";
+        linkpreviewbox.style.left = rect.left + "px";
+
+        // on mouse out (btn and linkpreviewbox) remove the i frame
+        linkpreviewbox.addEventListener("mouseout", () => {
+          linkPreviewBox = "";
+        });
+
+        // if the site cant be loaded, remove the i frame
+        linkpreviewbox.addEventListener("error", () => {
+          linkPreviewBox.remove();
+        });
+      });
+    });
+  }
 </script>
+
+<div id="linkpreviewbox" class="invisible absolute shadow-2xl md:visible ">
+  {@html linkPreviewBox}
+</div>
 
 <div>
   {#if modul}
