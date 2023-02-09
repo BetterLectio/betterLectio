@@ -19,6 +19,8 @@
 
   let besked;
 
+  let linkPreviewBox = "";
+
   let modtagere;
   get("/besked?id=" + beskedId).then((data) => {
     besked = data.beskeder;
@@ -57,7 +59,42 @@
       modtagere = data.modtagere;
     });
   }
+
+  function previewLink() {
+    let links = document.querySelectorAll(".preview");
+
+    console.log(links);
+    links.forEach((link) => {
+      link.addEventListener("mouseover", (e) => {
+        let url = e.target.href;
+        console.log(url);
+        //add an i frame to the linkpreviewbox div with the url
+        if (!url.includes("lectio")) {
+          linkPreviewBox = `<iframe src="${url}" width="600" height="400" title="link preview" class="rounded-lg" in:fade out:fade />`;
+        }
+        // place the linkpreviewbox div under the element
+        let rect = e.target.getBoundingClientRect();
+        let linkpreviewbox = document.getElementById("linkpreviewbox");
+        linkpreviewbox.style.top = rect.bottom + "px";
+        linkpreviewbox.style.left = rect.left + "px";
+
+        // on mouse out (btn and linkpreviewbox) remove the i frame
+        linkpreviewbox.addEventListener("mouseout", () => {
+          linkPreviewBox = "";
+        });
+
+        // if the site cant be loaded, remove the i frame
+        linkpreviewbox.addEventListener("error", () => {
+          linkPreviewBox.remove();
+        });
+      });
+    });
+  }
 </script>
+
+<div id="linkpreviewbox" class="invisible absolute z-50 shadow-2xl md:visible">
+  {@html linkPreviewBox}
+</div>
 
 <input type="checkbox" id="besvar-modal" class="modal-toggle" bind:checked />
 <label for="besvar-modal" class="modal modal-bottom cursor-pointer sm:modal-middle">
@@ -100,10 +137,10 @@
           {#each _besked.vedhæftninger as vedhæftning}
             <a class="btn-primary btn-xs btn mr-1 mb-4" href={vedhæftning.href}>{vedhæftning.navn}</a>
           {/each}
-          <p class="mb-10">
+          <p class="mb-10" use:previewLink>
             {@html sanitizeHtml(md.render(_besked.besked)).replace(
               "<a",
-              '<a class="btn btn-xs btn-primary" target="_blank"'
+              '<a class="btn btn-xs btn-primary preview" target="_blank"'
             )}
           </p>
         </div>
