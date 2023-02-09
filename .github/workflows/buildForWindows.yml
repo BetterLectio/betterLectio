@@ -47,5 +47,5 @@ jobs:
           pip install -r ${GITHUB_WORKSPACE}/static/backend/requirements.txt
           pip install pyinstaller
           pyinstaller --onefile ${GITHUB_WORKSPACE}/static/backend/backend.py --distpath ${GITHUB_WORKSPACE}/static/backend/ --workpath ${GITHUB_WORKSPACE}/temp/
-          cd static
+          cd ${GITHUB_WORKSPACE}/static/backend
           ls
