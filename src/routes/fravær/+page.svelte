@@ -75,26 +75,34 @@
     "rgb(153, 102, 255)", // purple
   ];
 
+  let overblikType = "Opgjort";
+
   $: sort = (column) => {
-    if ($fravaer.sort.col == column) {
-      $fravaer.sort.ascending = !$fravaer.sort.ascending;
+    if (column != undefined) {
+      if ($fravaer.sort.col == column) {
+        $fravaer.sort.ascending = !$fravaer.sort.ascending;
+      } else {
+        $fravaer.sort.col = column;
+        $fravaer.sort.ascending = true;
+      }
     } else {
-      $fravaer.sort.col = column;
-      $fravaer.sort.ascending = true;
+      column = $fravaer.sort.col;
     }
     let sortModifier = $fravaer.sort.ascending ? 1 : -1;
     const parseProcent = (procent) => parseFloat(procent.replace(",", "."));
     let sortFunc = (a, b) => {
       switch (column) {
         case "procent":
-          return parseProcent(a.opgjort_fravær_procent) < parseProcent(b.opgjort_fravær_procent)
+          return parseProcent(overblikType == "Opgjort" ? a.opgjort_fravær_procent : a.heleåret_fravær_procent) <
+            parseProcent(overblikType == "Opgjort" ? b.opgjort_fravær_procent : b.heleåret_fravær_procent)
             ? -1 * sortModifier
-            : parseProcent(a.opgjort_fravær_procent) > parseProcent(b.opgjort_fravær_procent)
+            : parseProcent(overblikType == "Opgjort" ? a.opgjort_fravær_procent : a.heleåret_fravær_procent) >
+              parseProcent(overblikType == "Opgjort" ? b.opgjort_fravær_procent : b.heleåret_fravær_procent)
             ? 1 * sortModifier
             : 0;
         case "moduler":
-          const aValue = /(([0-9]+,)?[0-9]+)\//g.exec(a.opgjort_fravær_moduler)[1];
-          const bValue = /(([0-9]+,)?[0-9]+)\//g.exec(b.opgjort_fravær_moduler)[1];
+          const aValue = /(([0-9]+,)?[0-9]+)\//g.exec(overblikType == "Opgjort" ? a.opgjort_fravær_moduler : a.heleåret_fravær_moduler)[1];
+          const bValue = /(([0-9]+,)?[0-9]+)\//g.exec(overblikType == "Opgjort" ? b.opgjort_fravær_moduler : b.heleåret_fravær_moduler)[1];
           return aValue < bValue ? -1 * sortModifier : aValue > bValue ? 1 * sortModifier : 0;
         case "hold":
           return a.hold < b.hold ? -1 * sortModifier : a.hold > b.hold ? 1 * sortModifier : 0;
@@ -286,6 +294,30 @@
   <div class="mt-4 rounded-lg bg-none p-0 lg:bg-base-200 lg:p-4">
     <h2 class="mb-2 text-2xl font-bold">Overblik</h2>
     <p class="mb-2">Hold uden fravær er ikke vist.</p>
+    <ul class="flex flex-wrap border-b border-gray-700 text-center text-sm font-medium">
+      <li class="mr-2">
+        <button
+          on:click={() => {
+            overblikType = "Opgjort";
+            sort();
+          }}
+          class="inline-block rounded-t-lg p-4 {overblikType == 'Opgjort'
+            ? 'bg-primary text-white'
+            : 'hover:bg-primary-focus hover:text-white'}">Opgjort</button
+        >
+      </li>
+      <li class="mr-2">
+        <button
+          on:click={() => {
+            overblikType = "Hele året";
+            sort();
+          }}
+          class="inline-block rounded-t-lg p-4 {overblikType == 'Hele året'
+            ? 'bg-primary text-white'
+            : 'hover:bg-primary-focus hover:text-white'}">Hele året</button
+        >
+      </li>
+    </ul>
     <table class="table-zebra table-compact table w-full lg:inline-table">
       <!-- head -->
       <thead>
@@ -297,11 +329,11 @@
       </thead>
       <tbody>
         {#each $fravaer?.generalt as hold}
-          {#if hold.hold != "Samlet" && hold.opgjort_fravær_procent != "0,00%"}
+          {#if hold.hold != "Samlet" && (overblikType == "Opgjort" ? hold.opgjort_fravær_procent : hold.heleåret_fravær_procent) != "0,00%"}
             <tr>
               <td>{hold.hold}</td>
-              <td>{hold.opgjort_fravær_procent}</td>
-              <td>{hold.opgjort_fravær_moduler}</td>
+              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_procent : hold.heleåret_fravær_procent}</td>
+              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_moduler : hold.heleåret_fravær_moduler}</td>
             </tr>
           {/if}
         {/each}
@@ -310,8 +342,8 @@
           {#if hold.hold == "Samlet"}
             <tr>
               <td>{hold.hold}</td>
-              <td>{hold.opgjort_fravær_procent}</td>
-              <td>{hold.opgjort_fravær_moduler}</td>
+              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_procent : hold.heleåret_fravær_procent}</td>
+              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_moduler : hold.heleåret_fravær_moduler}</td>
             </tr>
           {/if}
         {/each}
