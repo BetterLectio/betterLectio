@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [windows-latest]
         python-version: ['3.10']
 
     steps:
@@ -42,39 +42,10 @@ jobs:
           wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -O backend.py
           wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt
 
-      - name: Tree
+      - name: Building backend
         run: |
-          tree
-
-      - name: PyInstaller Windows
-        uses: JackMcKew/pyinstaller-action-windows@main
-      
-      - name: Tree
-        run: |
-          tree
-      
-      - name: Building site
-        env:
-          NODE_ENV: production
-          BUILD_TYPE: app
-        run: |
-          yarn build
-        
-
-      - name: Building electron
-        env:
-          GH_TOKEN: ${{ secrets.github_token }}
-        run: |
-          yarn build-electrononly-windows
-
-      
-      
-      - name: Extracting version
-        id: extract_version
-        uses: Saionaro/extract-package-version@v1.1.1
-
-      - name: Uploading release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.extract_version.outputs.version }}
-          files: dist/*
+          pip install -r ${GITHUB_WORKSPACE}/static/backend/requirements.txt
+          pip install pyinstaller
+          pyinstaller --onefile ${GITHUB_WORKSPACE}/static/backend/backend.py --distpath ${GITHUB_WORKSPACE}/static/backend/ --workpath ${GITHUB_WORKSPACE}/temp/
+          cd static
+          ls
