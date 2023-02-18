@@ -5,10 +5,12 @@
 		"output": "dist"
 	},
 	"linux": {
-		"target": "appImage"
+		"target": "appImage",
+		"icon": "./static/favicon.png"
 	},
 	"win": {
-		"target": "nsis"
+		"target": "nsis",
+		"icon": "./static/favicon.png"
 	},
 	"mac": {
 		"target": "dmg"

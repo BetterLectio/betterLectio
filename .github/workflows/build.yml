@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
         python-version: ['3.10']
 
     steps:
@@ -41,16 +41,16 @@ jobs:
       
       - name: Fetch Backend
         run: |
-          mkdir ${GITHUB_WORKSPACE}/static/backend
-          cd ${GITHUB_WORKSPACE}/static/backend
+          mkdir ./static/backend
+          cd ./static/backend
           wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/api/app.py -O backend.py
           wget -c https://raw.githubusercontent.com/BetterLectio/BetterLectio-Flask-Backend/main/requirements.txt
 
       - name: Building backend
         run: |
-          pip install -r ${GITHUB_WORKSPACE}/static/backend/requirements.txt
+          pip install -r ./static/backend/requirements.txt
           pip install pyinstaller
-          pyinstaller --onefile ${GITHUB_WORKSPACE}/static/backend/backend.py --distpath ${GITHUB_WORKSPACE}/static/backend/ --workpath ${GITHUB_WORKSPACE}/temp/
+          pyinstaller --onefile ./static/backend/backend.py --distpath ./static/backend/ --workpath ./temp/
           cd static
           ls
 
@@ -86,6 +86,7 @@ jobs:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-linux
+
         
       - if: matrix.os == 'windows-latest'
         name: Building electron
