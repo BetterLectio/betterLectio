@@ -138,25 +138,26 @@
       {#if $fravaer?.generalt}
         {#if $fravaer.generalt.at(-1).heleåret_fravær_procent == "0,00%"}
           <p class="mt-4">Du har ikke noget fravær</p>
+        {:else}
+          <Doughnut
+            data={{
+              labels: $fravaer.generalt
+                .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
+                .map((element) => element.hold),
+              datasets: [
+                {
+                  label: "Fraværende moduler",
+                  data: $fravaer.generalt
+                    .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
+                    .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.opgjort_fravær_moduler)[1].replace(",", ".")),
+                  backgroundColor: $fravaer.generalt.map(
+                    (element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]
+                  ),
+                },
+              ],
+            }}
+          />
         {/if}
-        <Doughnut
-          data={{
-            labels: $fravaer.generalt
-              .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
-              .map((element) => element.hold),
-            datasets: [
-              {
-                label: "Fraværende moduler",
-                data: $fravaer.generalt
-                  .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
-                  .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.opgjort_fravær_moduler)[1].replace(",", ".")),
-                backgroundColor: $fravaer.generalt.map(
-                  (element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]
-                ),
-              },
-            ],
-          }}
-        />
       {/if}
 
       {#if monthToFravær}
