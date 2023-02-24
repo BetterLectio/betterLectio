@@ -11,36 +11,30 @@
           title: "Hvornår har jeg fri?",
           link: "/værktøjer/fri",
           description: "Viser dig hvornår du har fri",
+          status: "",
+        },
+        {
+          title: "Elev liste",
+          link: "/værktøjer/elever",
+          description: "Viser dig en liste over alle elever",
+          status: "",
+        },
+        {
+          title: "Find ledige lokaler",
+          link: "/værktøjer/ledigelokaler",
+          description: "Viser dig en liste over alle ledige lokaler",
+          status: "",
+        },
+        {
+          title: "Kantine",
+          link: "/værktøjer/kantine",
+          description: "Se hvad der er i kantinen",
           status: "BETA",
         },
         {
           title: "Fravær regner",
           link: "/værktøjer/fravær",
           description: "Find ud af, hvor mange moduler du kan pjække",
-          status: "BETA",
-        },
-        {
-          title: "Elev liste",
-          link: "/værktøjer/elever",
-          description: "Viser dig en liste over alle elever",
-          status: "BETA",
-        },
-        {
-          title: "Find ledige lokaler",
-          link: "/værktøjer/ledigelokaler",
-          description: "Viser dig en liste over alle ledige lokaler",
-          status: "BETA",
-        },
-        {
-          title: "Trekantsberegner",
-          link: "/værktøjer/trekantsberegner",
-          description: "Beregner trekantens egenskaber",
-          status: "BETA",
-        },
-        {
-          title: "Kantine",
-          link: "/værktøjer/kantine",
-          description: "Se hvad der er i kantinen",
           status: "BETA",
         },
       ],
@@ -80,7 +74,9 @@
       {#each elements as element}
         <a class="flex-row " href={element.link} target={element.new_tab ? "_blank" : ""}>
           <li class="element flex border-l-0 border-primary transition-all duration-100 hover:border-l-4">
-            <span part="afsender" class="btn btn-xs mr-4 w-fit">{element.status}</span>
+            {#if element.status}
+              <span part="afsender" class="btn-xs btn mr-4 w-fit">{element.status}</span>
+            {/if}
             <span part="emne" class="text-lg font-bold">{element.title}</span>
             <!-- <span part="emne" class="text-sm font-bold">{element.description}</span> -->
           </li>
