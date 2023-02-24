@@ -101,8 +101,12 @@
             ? 1 * sortModifier
             : 0;
         case "moduler":
-          const aValue = /(([0-9]+,)?[0-9]+)\//g.exec(overblikType == "Opgjort" ? a.opgjort_fravær_moduler : a.heleåret_fravær_moduler)[1];
-          const bValue = /(([0-9]+,)?[0-9]+)\//g.exec(overblikType == "Opgjort" ? b.opgjort_fravær_moduler : b.heleåret_fravær_moduler)[1];
+          const aValue = /(([0-9]+,)?[0-9]+)\//g.exec(
+            overblikType == "Opgjort" ? a.opgjort_fravær_moduler : a.heleåret_fravær_moduler
+          )[1];
+          const bValue = /(([0-9]+,)?[0-9]+)\//g.exec(
+            overblikType == "Opgjort" ? b.opgjort_fravær_moduler : b.heleåret_fravær_moduler
+          )[1];
           return aValue < bValue ? -1 * sortModifier : aValue > bValue ? 1 * sortModifier : 0;
         case "hold":
           return a.hold < b.hold ? -1 * sortModifier : a.hold > b.hold ? 1 * sortModifier : 0;
@@ -295,30 +299,22 @@
   <div class="mt-4 rounded-lg bg-none p-0 lg:bg-base-200 lg:p-4">
     <h2 class="mb-2 text-2xl font-bold">Overblik</h2>
     <p class="mb-2">Hold uden fravær er ikke vist.</p>
-    <ul class="flex flex-wrap border-b border-gray-700 text-center text-sm font-medium">
-      <li class="mr-2">
-        <button
-          on:click={() => {
-            overblikType = "Opgjort";
-            sort();
-          }}
-          class="inline-block rounded-t-lg p-4 {overblikType == 'Opgjort'
-            ? 'bg-primary text-white'
-            : 'hover:bg-primary-focus hover:text-white'}">Opgjort</button
-        >
-      </li>
-      <li class="mr-2">
-        <button
-          on:click={() => {
-            overblikType = "Hele året";
-            sort();
-          }}
-          class="inline-block rounded-t-lg p-4 {overblikType == 'Hele året'
-            ? 'bg-primary text-white'
-            : 'hover:bg-primary-focus hover:text-white'}">Hele året</button
-        >
-      </li>
-    </ul>
+    <div class="tabs justify-center">
+      <button
+        on:click={() => {
+          overblikType = "Opgjort";
+          sort();
+        }}
+        class="tab tab-lifted {overblikType == 'Opgjort' ? 'tab-active' : ''}">Opgjort</button
+      >
+      <button
+        on:click={() => {
+          overblikType = "Hele året";
+          sort();
+        }}
+        class="tab tab-lifted {overblikType == 'Hele året' ? 'tab-active' : ''}">Hele året</button
+      >
+    </div>
     <table class="table-zebra table-compact table w-full lg:inline-table">
       <!-- head -->
       <thead>
