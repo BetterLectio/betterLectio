@@ -38,10 +38,10 @@
   "resolved" "https://registry.npmjs.org/@polka/url/-/url-1.0.0-next.21.tgz"
   "version" "1.0.0-next.21"
 
-"@sveltejs/adapter-auto@^1.0.0":
-  "integrity" "sha512-UXpEO/gutERZnD+Z5Vi4J/ifD3WSRuCI7xwtLJTcKNQvJ6t5Xsj1X3Mw2F8Vv/XTUuxf7xPLYUgThU331r0Y9w=="
-  "resolved" "https://registry.npmjs.org/@sveltejs/adapter-auto/-/adapter-auto-1.0.2.tgz"
-  "version" "1.0.2"
+"@sveltejs/adapter-auto@^1.0.3":
+  "integrity" "sha512-hc7O12YQqvZ1CD4fo1gMJuPzBZvuoG5kwxb2RRoz4fVoB8B2vuPO2cY751Ln0G6T/HMrAf8kCqw6Pg+wbxcstw=="
+  "resolved" "https://registry.npmjs.org/@sveltejs/adapter-auto/-/adapter-auto-1.0.3.tgz"
+  "version" "1.0.3"
   dependencies:
     "import-meta-resolve" "^2.2.0"
 
