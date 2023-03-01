@@ -24,6 +24,7 @@
 	"type": "module",
 	"dependencies": {
 		"daisyui": "^2.47.0",
+		"svelte-canvas": "^0.9.2",
 		"svelte-countup": "^0.2.6"
 	}
 }

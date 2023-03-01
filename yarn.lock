@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@esbuild/linux-x64@0.16.17":
-  "integrity" "sha512-mdPjPxfnmoqhgpiEArqi4egmBAMYvaObgn4poorpUaqmvzzbvqbowRllQ+ZgzGVMGKaPkqUmPDOOFQRUFDmeUw=="
-  "resolved" "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.16.17.tgz"
+"@esbuild/win32-x64@0.16.17":
+  "integrity" "sha512-y+EHuSchhL7FjHgvQL/0fnnFmO4T1bhvWANX6gcnqTjtnKWbTvUMCpGnv2+t+31d7RzyEAYAd4u2fnIhHL6N/Q=="
+  "resolved" "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.16.17.tgz"
   "version" "0.16.17"
 
 "@jridgewell/sourcemap-codec@^1.4.13":
@@ -701,6 +701,13 @@
   "resolved" "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   "version" "1.0.0"
 
+"svelte-canvas@^0.9.2":
+  "integrity" "sha512-fih/UAgQaIbGDimt5l2dUm7QZppgjBaZNzh1/jPO2gvnKNT+9w+BZPDR50HllBIyPxLA6/u7J4f+Mf6jDx6UXA=="
+  "resolved" "https://registry.npmjs.org/svelte-canvas/-/svelte-canvas-0.9.2.tgz"
+  "version" "0.9.2"
+  dependencies:
+    "svelte" "^3.55.0"
+
 "svelte-countup@^0.2.6":
   "integrity" "sha512-n1jlDN/55O0w3+RTbCCwq02vvyw4DZIL+IcQht/CuZRq/VGceyADYGrH3ANG5U+P8HMqnIWnCn7xiIF7AxUqaA=="
   "resolved" "https://registry.npmjs.org/svelte-countup/-/svelte-countup-0.2.6.tgz"
@@ -719,7 +726,7 @@
   "resolved" "https://registry.npmjs.org/svelte-inview/-/svelte-inview-3.0.2.tgz"
   "version" "3.0.2"
 
-"svelte@^3.0.0", "svelte@^3.2.0", "svelte@^3.54.0", "svelte@>=3.19.0":
+"svelte@^3.0.0", "svelte@^3.2.0", "svelte@^3.54.0", "svelte@^3.55.0", "svelte@>=3.19.0":
   "integrity" "sha512-S+87/P0Ve67HxKkEV23iCdAh/SX1xiSfjF1HOglno/YTbSTW7RniICMCofWGdJJbdjw3S+0PfFb1JtGfTXE0oQ=="
   "resolved" "https://registry.npmjs.org/svelte/-/svelte-3.55.1.tgz"
   "version" "3.55.1"
