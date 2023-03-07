@@ -23,7 +23,7 @@
     });
 </script>
 
-<div class="z-50 flex h-full w-full flex-col items-center justify-center">
+<div class="z-50 flex w-full flex-col items-center justify-center">
   <svg
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -49,4 +49,8 @@
       {step}
     </p>
   {/key}
+</div>
+
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform opacity-25">
+  <p>Tager det længere tid end 5 sekunder, så er der måske sket en fejl. Prøv at genindlæse siden.</p>
 </div>
