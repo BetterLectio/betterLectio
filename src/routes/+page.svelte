@@ -1,6 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { cookieInfo } from "../components/CookieInfo";
+  import { get } from "../components/http";
 
   let cookie;
   cookieInfo()
@@ -8,9 +9,12 @@
       cookie = data;
     })
     .then(() => {
-      if (cookie) {
-        goto("/forside");
-      }
+      get("/forside") // to check if the user is able to access the page (a bonus is that it will update the landing page as well)
+        .then(() => {
+          if (cookie) {
+            goto("/forside");
+          }
+        });
     });
 </script>
 
