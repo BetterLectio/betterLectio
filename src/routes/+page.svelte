@@ -2,16 +2,21 @@
   import { goto } from "$app/navigation";
   import { cookieInfo } from "../components/CookieInfo";
   import { get } from "../components/http";
+  import { fade } from "svelte/transition";
+
+  let step = "indlæser";
 
   let cookie;
   cookieInfo()
     .then((data) => {
+      step = "logger ind";
       cookie = data;
     })
     .then(() => {
       get("/forside") // to check if the user is able to access the page (a bonus is that it will update the landing page as well)
         .then(() => {
           if (cookie) {
+            step = "vidrestiller";
             goto("/forside");
           }
         });
@@ -39,5 +44,9 @@
       d="M333.913,150.261c-12.277,0-22.261,9.99-22.261,22.261s9.984,22.261,22.261,22.261c12.277,0,22.261-9.99,22.261-22.261 S346.19,150.261,333.913,150.261z"
     />
   </svg>
-  <p class="loading btn-ghost btn animate-pulse">Indlæser</p>
+  {#key step}
+    <p class="loading btn-ghost btn animate-pulse" in:fade={{ delay: 50, duration: 50 }} out:fade={{ duration: 50 }}>
+      {step}
+    </p>
+  {/key}
 </div>
