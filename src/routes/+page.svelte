@@ -367,43 +367,43 @@
 					<div class="card-group" data-index="0" data-status="active">
 						<div class="little-card card">
 							<img
-								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic0.png"
+								src="https://raw.githubusercontent.com/BetterLectio/web-landing-page/main/static/pic0.png"
 								alt=""
 							/>
 						</div>
 						<div class="big-card card">
 							<img
-								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic1.png"
+								src="https://raw.githubusercontent.com/BetterLectio/web-landing-page/main/static/pic1.png"
 								alt=""
 							/>
 						</div>
 						<div class="little-card card">
 							<img
-								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic2.png"
+								src="https://raw.githubusercontent.com/BetterLectio/web-landing-page/main/static/pic2.png"
 								alt=""
 							/>
 						</div>
 						<div class="big-card card">
 							<img
-								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic3.png"
+								src="https://raw.githubusercontent.com/BetterLectio/web-landing-page/main/static/pic3.png"
 								alt=""
 							/>
 						</div>
 						<div class="little-card card">
 							<img
-								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic4.png"
+								src="https://raw.githubusercontent.com/BetterLectio/web-landing-page/main/static/pic4.png"
 								alt=""
 							/>
 						</div>
 						<div class="big-card card">
 							<img
-								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic5.png"
+								src="https://raw.githubusercontent.com/BetterLectio/web-landing-page/main/static/pic5.png"
 								alt=""
 							/>
 						</div>
 						<div class="little-card card">
 							<img
-								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic6.png"
+								src="https://raw.githubusercontent.com/BetterLectio/web-landing-page/main/static/pic6.png"
 								alt=""
 							/>
 						</div>
