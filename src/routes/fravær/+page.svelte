@@ -74,6 +74,53 @@
     "rgb(75, 192, 192)", // green
     "rgb(153, 102, 255)", // purple
   ];
+
+  let overblikType = "Opgjort";
+
+  $: sort = (column) => {
+    if (column != undefined) {
+      if ($fravaer.sort.col == column) {
+        $fravaer.sort.ascending = !$fravaer.sort.ascending;
+      } else {
+        $fravaer.sort.col = column;
+        $fravaer.sort.ascending = true;
+      }
+    } else {
+      column = $fravaer.sort.col;
+    }
+    let sortModifier = $fravaer.sort.ascending ? 1 : -1;
+    const parseProcent = (procent) => parseFloat(procent.replace(",", "."));
+    let sortFunc = (a, b) => {
+      switch (column) {
+        case "procent":
+          return parseProcent(overblikType == "Opgjort" ? a.opgjort_fravær_procent : a.heleåret_fravær_procent) <
+            parseProcent(overblikType == "Opgjort" ? b.opgjort_fravær_procent : b.heleåret_fravær_procent)
+            ? -1 * sortModifier
+            : parseProcent(overblikType == "Opgjort" ? a.opgjort_fravær_procent : a.heleåret_fravær_procent) >
+              parseProcent(overblikType == "Opgjort" ? b.opgjort_fravær_procent : b.heleåret_fravær_procent)
+            ? 1 * sortModifier
+            : 0;
+        case "moduler":
+          const aValue = /(([0-9]+,)?[0-9]+)\//g.exec(
+            overblikType == "Opgjort" ? a.opgjort_fravær_moduler : a.heleåret_fravær_moduler
+          )[1];
+          const bValue = /(([0-9]+,)?[0-9]+)\//g.exec(
+            overblikType == "Opgjort" ? b.opgjort_fravær_moduler : b.heleåret_fravær_moduler
+          )[1];
+          return aValue < bValue ? -1 * sortModifier : aValue > bValue ? 1 * sortModifier : 0;
+        case "hold":
+          return a.hold < b.hold ? -1 * sortModifier : a.hold > b.hold ? 1 * sortModifier : 0;
+      }
+    };
+    $fravaer.generalt = $fravaer.generalt.sort(sortFunc);
+  };
+  $: sortArrow = (column, sort) => {
+    if (column == sort.col) {
+      return sort.ascending ? "▲" : "▼";
+    } else {
+      return "";
+    }
+  };
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Fravær</h1>
@@ -95,28 +142,29 @@
       {#if $fravaer?.generalt}
         {#if $fravaer.generalt.at(-1).heleåret_fravær_procent == "0,00%"}
           <p class="mt-4">Du har ikke noget fravær</p>
+        {:else}
+          <Doughnut
+            data={{
+              labels: $fravaer.generalt
+                .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
+                .map((element) => element.hold),
+              datasets: [
+                {
+                  label: "Fraværende moduler",
+                  data: $fravaer.generalt
+                    .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
+                    .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.opgjort_fravær_moduler)[1].replace(",", ".")),
+                  backgroundColor: $fravaer.generalt.map(
+                    (element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]
+                  ),
+                },
+              ],
+            }}
+          />
         {/if}
-        <Doughnut
-          data={{
-            labels: $fravaer.generalt
-              .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
-              .map((element) => element.hold),
-            datasets: [
-              {
-                label: "Fraværende moduler",
-                data: $fravaer.generalt
-                  .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
-                  .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.opgjort_fravær_moduler)[1].replace(",", ".")),
-                backgroundColor: $fravaer.generalt.map(
-                  (element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]
-                ),
-              },
-            ],
-          }}
-        />
       {/if}
 
-      {#if monthToFravær && moment}
+      {#if monthToFravær}
         <Doughnut
           data={{
             labels: [...moment.months().slice(7), ...moment.months().slice(0, 7)], // start ved august, for der starter skoleåret
@@ -172,7 +220,7 @@
     </div>
   </div>
   <div class="mt-4 rounded-lg bg-none p-0 lg:bg-base-200 lg:p-4">
-    <h2 class="mb-2 text-2xl font-bold">Overblik</h2>
+    <h2 class="mb-2 text-2xl font-bold">Fraværsårsager</h2>
     <table class="table-zebra table-compact table hidden w-full lg:inline-table">
       <!-- head -->
       <thead>
@@ -246,6 +294,58 @@
         {/if}
       {/each}
     </div>
+  </div>
+
+  <div class="mt-4 rounded-lg bg-none p-0 lg:bg-base-200 lg:p-4">
+    <h2 class="mb-2 text-2xl font-bold">Overblik</h2>
+    <p class="mb-2">Hold uden fravær er ikke vist.</p>
+    <div class="tabs justify-center">
+      <button
+        on:click={() => {
+          overblikType = "Opgjort";
+          sort();
+        }}
+        class="tab tab-lifted {overblikType == 'Opgjort' ? 'tab-active' : ''}">Opgjort</button
+      >
+      <button
+        on:click={() => {
+          overblikType = "Hele året";
+          sort();
+        }}
+        class="tab tab-lifted {overblikType == 'Hele året' ? 'tab-active' : ''}">Hele året</button
+      >
+    </div>
+    <table class="table-zebra table-compact table w-full lg:inline-table">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th on:click={sort("hold")}>Hold {sortArrow("hold", $fravaer.sort)}</th>
+          <th on:click={sort("procent")}>Fravær {sortArrow("procent", $fravaer.sort)}</th>
+          <th on:click={sort("moduler")}>Moduler {sortArrow("moduler", $fravaer.sort)}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#each $fravaer?.generalt as hold}
+          {#if hold.hold != "Samlet" && (overblikType == "Opgjort" ? hold.opgjort_fravær_procent : hold.heleåret_fravær_procent) != "0,00%"}
+            <tr>
+              <td>{hold.hold}</td>
+              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_procent : hold.heleåret_fravær_procent}</td>
+              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_moduler : hold.heleåret_fravær_moduler}</td>
+            </tr>
+          {/if}
+        {/each}
+        <!-- Mess but easiest way to get "Samlet" always at bottom (after sorting) -->
+        {#each $fravaer?.generalt as hold}
+          {#if hold.hold == "Samlet"}
+            <tr>
+              <td>{hold.hold}</td>
+              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_procent : hold.heleåret_fravær_procent}</td>
+              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_moduler : hold.heleåret_fravær_moduler}</td>
+            </tr>
+          {/if}
+        {/each}
+      </tbody>
+    </table>
   </div>
 {:else}
   <div class="loading btn-ghost btn">Indlæser</div>

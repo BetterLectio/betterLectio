@@ -4,10 +4,8 @@
   import Table from "../../components/Table.svelte";
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
-  import { fade } from "svelte/transition";
 
   import { cookieInfo } from "../../components/CookieInfo";
-  import { forEach } from "markdown-it/lib/common/html_blocks.js";
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
@@ -106,7 +104,9 @@
   {#if modul}
     <span class="my-2 flex justify-between">
       <h1 class="text-3xl font-bold">
-        {modul.aktivitet.navn ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold}
+        {modul.aktivitet.navn ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold
+          ? modul.aktivitet.hold
+          : "Ukendt hold"}
       </h1>
       <a
         class="btn"

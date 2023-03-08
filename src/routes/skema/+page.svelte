@@ -176,7 +176,7 @@
       };
       let titel = "";
       if (modul["navn"] != undefined) {
-        titel = modul["navn"] != null ? modul["navn"] : modul["hold"];
+        titel = modul["navn"] != null ? modul["hold"] : modul["navn"];
         if (modul["lokale"]) {
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }

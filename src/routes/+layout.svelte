@@ -75,7 +75,7 @@
             localStorage.setItem("skole_id", skoleId);
             localStorage.setItem("theme", theme);
 
-            window.location.href = "/";
+            window.location.href = "/auth";
           }}
           class="btn-error btn">Log mig ud!</btn
         >
