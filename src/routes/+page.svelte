@@ -70,10 +70,13 @@
 		console.log(bluredDiv);
 
 		document.addEventListener("mousemove", (e) => {
-			bluredDiv.animate({
-				left: e.clientX - 192/2 + "px",
-				top: e.clientY - 144/2 + "px"
-			}, {duration: 3000, fill: "forwards"});
+			bluredDiv.animate(
+				{
+					left: e.clientX - 192 / 2 + "px",
+					top: e.clientY - 144 / 2 + "px"
+				},
+				{ duration: 3000, fill: "forwards" }
+			);
 		});
 	});
 
@@ -259,7 +262,9 @@
 				class="flex flex-col lg:flex-row justify-center items-stretch w-full h-fit mb-40"
 			>
 				<div class="lg:w-1/3 h-full">
-					<div class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500">
+					<div
+						class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500"
+					>
 						<h1 class="mb-2 text-4xl font-extrabold">Hvad er BetterLectio?</h1>
 						<p class=" w-fit font-bold border-l-4 border-warning border-dotted pl-4 mb-2">
 							BetterLectio er på nuværende tidspunkt under udvikling, det betyder at der kan
@@ -279,7 +284,9 @@
 				</div>
 
 				<div class="lg:w-1/3 h-full">
-					<div class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500">
+					<div
+						class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500"
+					>
 						<h1 class="mb-2 text-4xl font-extrabold">Er min skole understøttet?</h1>
 						<p>
 							BetterLectio understøtter alle skoler som bruger Lectio. Det betyder at hvis din skole
@@ -290,7 +297,9 @@
 				</div>
 
 				<div class="lg:w-1/3 h-full">
-					<div class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500">
+					<div
+						class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500"
+					>
 						<h1 class="mb-2 text-4xl font-extrabold">Open source</h1>
 						<p>
 							BetterLectio er et open source projekt, hvilket betyder at alle kan se koden, og alle
@@ -323,7 +332,10 @@
 
 			{#if stats}
 				<div class="w-full flex justify-center">
-					<div id="stats" class="mb-40 bg-base-200 rounded-xl p-4 lg:w-fit border-2 border-base-200 hover:border-secondary transition-all duration-500">
+					<div
+						id="stats"
+						class="mb-40 bg-base-200 rounded-xl p-4 lg:w-fit border-2 border-base-200 hover:border-secondary transition-all duration-500"
+					>
 						<h1 class="mb-6 text-4xl font-extrabold">Hvor mange bruger BetterLectio?</h1>
 						<div class="flex flex-col lg:flex-row">
 							<div class="stats shadow">
@@ -349,6 +361,56 @@
 				</div>
 			{/if}
 
+			<!-- following code is heavily inspired by https://codepen.io/Hyperplexed/pen/zYWdYoo -->
+			<div class="w-full h-fit mb-40 relative flex justify-center">
+				<div class="card-groups">
+					<div class="card-group" data-index="0" data-status="active">
+						<div class="little-card card">
+							<img
+								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic0.png"
+								alt=""
+							/>
+						</div>
+						<div class="big-card card">
+							<img
+								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic1.png"
+								alt=""
+							/>
+						</div>
+						<div class="little-card card">
+							<img
+								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic2.png"
+								alt=""
+							/>
+						</div>
+						<div class="big-card card">
+							<img
+								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic3.png"
+								alt=""
+							/>
+						</div>
+						<div class="little-card card">
+							<img
+								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic4.png"
+								alt=""
+							/>
+						</div>
+						<div class="big-card card">
+							<img
+								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic5.png"
+								alt=""
+							/>
+						</div>
+						<div class="little-card card">
+							<img
+								src="https://github.com/BetterLectio/web-landing-page/blob/main/static/pic6.png"
+								alt=""
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<h1 class="mb-2 text-4xl font-extrabold lg:text-center">Se BetterLectio i aktion</h1>
 			<div class="aspect-w-16 aspect-h-9 max-w-7xl mx-auto mb-40">
 				<iframe
@@ -360,7 +422,10 @@
 			</div>
 
 			{#if loaded}
-				<div id="downloads" class="mb-40 bg-base-200 rounded-xl p-4 border-2 border-base-200 hover:border-secondary transition-all duration-500">
+				<div
+					id="downloads"
+					class="mb-40 bg-base-200 rounded-xl p-4 border-2 border-base-200 hover:border-secondary transition-all duration-500"
+				>
 					<h1 class="mb-2 text-4xl font-extrabold">Downloads</h1>
 					<p class="mb-2">
 						BetterLectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde
@@ -447,11 +512,12 @@
 			{/if}
 		</div>
 	</div>
+
+	<div
+		class="invisible md:visible fixed h-36 w-48 rounded-full bg-gradient-to-r from-primary to-secondary -z-50 overflow-hidden filter blur-3xl spinslow"
+		id="bluredDiv"
+	/>
 {/if}
-
-<div class="fixed h-36 w-48 rounded-full bg-gradient-to-r from-primary to-secondary -z-50 overflow-hidden filter blur-3xl spinslow" id="bluredDiv" />
-
-
 
 <style>
 	.spinslow {
@@ -472,5 +538,101 @@
 		100% {
 			transform: rotate(360deg);
 		}
+	}
+
+	.card-groups,
+	.card-group,
+	.card {
+		aspect-ratio: 16 / 9;
+	}
+
+	.card-groups,
+	.card-group,
+	.big-card {
+		width: 50vmin;
+	}
+
+	.card-group {
+		position: absolute;
+		transition: transform 400ms ease;
+	}
+
+	.card-group[data-status="active"] {
+		transition-delay: 300ms;
+	}
+
+	.card {
+		background-color: rgba(255, 255, 255, 0.05);
+		position: absolute;
+		transition: transform 800ms cubic-bezier(0.05, 0.43, 0.25, 0.95);
+
+		background-position: center;
+		background-size: cover;
+	}
+
+	.big-card {
+		border-radius: 1vmin;
+	}
+
+	.little-card {
+		width: 25vmin;
+		border-radius: 1vmin;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		box-shadow: -1vmin 1vmin 2vmin rgba(0, 0, 0, 0.25);
+		pointer-events: none;
+	}
+
+	.big-card:nth-child(2) {
+		transform: translateX(-10%) rotate(-1deg);
+	}
+
+	.big-card:nth-child(4) {
+		transform: rotate(2deg);
+	}
+
+	.big-card:nth-child(6) {
+		transform: translateX(-6%) rotate(-3deg);
+	}
+
+	.big-card:nth-child(8) {
+		transform: translate(10%, 3%) rotate(5deg);
+	}
+
+	.card-group:hover > .card {
+		box-shadow: -2vmin 2vmin 3vmin rgba(0, 0, 0, 0.4);
+	}
+
+	.card-group:hover > .big-card:nth-child(2) {
+		transform: translate(-75%, 16%) rotate(-24deg);
+	}
+
+	.card-group:hover > .big-card:nth-child(4) {
+		transform: translate(-25%, 8%) rotate(-8deg);
+	}
+
+	.card-group:hover > .big-card:nth-child(6) {
+		transform: translate(25%, 8%) rotate(8deg);
+	}
+
+	.card-group:hover > .big-card:nth-child(8) {
+		transform: translate(75%, 16%) rotate(24deg);
+	}
+
+	.card-group:hover > .little-card:nth-child(1) {
+		transform: translate(200%, -160%) rotate(-15deg);
+	}
+
+	.card-group:hover > .little-card:nth-child(3) {
+		transform: translate(160%, 170%) rotate(15deg);
+	}
+
+	.card-group:hover > .little-card:nth-child(5) {
+		transform: translate(-200%, -170%) rotate(15deg);
+	}
+
+	.card-group:hover > .little-card:nth-child(7) {
+		transform: translate(-280%, 140%) rotate(-15deg);
 	}
 </style>
