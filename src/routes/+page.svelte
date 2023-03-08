@@ -63,6 +63,18 @@
 		).json();
 		loaded = true;
 		stats = await (await fetch("https://db.betterlectio.dk/stats")).json();
+
+		// the next lines are for the blured glow effect around the mouse cursor
+
+		let bluredDiv = document.getElementById("bluredDiv");
+		console.log(bluredDiv);
+
+		document.addEventListener("mousemove", (e) => {
+			bluredDiv.animate({
+				left: e.clientX - 192/2 + "px",
+				top: e.clientY - 144/2 + "px"
+			}, {duration: 3000, fill: "forwards"});
+		});
 	});
 
 	function scrollIntoView({ target }) {
@@ -125,7 +137,7 @@
 				</div>
 			</div>
 
-			<div class="flex flex-row xl:justify-around xl:items-center h-[60vh]">
+			<div class="flex flex-row xl:justify-around xl:items-center h-[60vh] group">
 				<div>
 					<h1
 						class="text-6xl font-extrabold md:text-8xl lg:text-9xl px-2"
@@ -211,7 +223,7 @@
 					version="1.1"
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 512 512"
-					class="mx-0 hidden h-80 w-80 rotate-12 fill-current p-0 xl:flex"
+					class="mx-0 hidden h-80 w-80 fill-current p-0 xl:flex group-hover:rotate-12 duration-1000 ease-in-out"
 				>
 					<path
 						d="M428.033,162.858C422.975,72.232,347.87,0,256,0S89.025,72.232,83.967,162.858c-0.323,3.179-0.489,6.402-0.489,9.663c0,15.543,0,320.162,0,322.783c0,9.22,7.475,16.696,16.696,16.696h111.304c119.87,0,217.043-97.174,217.043-217.043V172.522C428.522,169.261,428.356,166.037,428.033,162.858z M256,33.391c42.163,0,79.93,18.923,105.464,48.641c-8.722-2.662-17.967-4.119-27.551-4.119c-32.296,0-60.834,16.291-77.913,41.06c-17.079-24.77-45.617-41.06-77.913-41.06c-9.584,0-18.829,1.457-27.551,4.119C176.07,52.314,213.837,33.391,256,33.391z M163.169,360.642c-5.842-7.12-16.37-8.174-23.494-2.326c-6.988,5.731-14.635,10.267-22.804,13.595v-97.801c26.505,36.201,66.686,61.636,112.937,68.728c-18.13,49.489-60.64,87.32-112.937,98.783v-34.418h-0.001c16.082-4.569,30.884-12.325,43.979-23.061C167.978,378.293,169.017,367.772,163.169,360.642z M395.13,294.957c0,101.261-82.386,183.652-183.652,183.652H116.87v-2.97c70.214-12.524,126.789-63.872,147.277-131.009c53.767-2.53,101.081-29.682,130.984-70.521V294.957z M256,311.652c-76.718,0-139.13-62.413-139.13-139.13c0-33.75,27.462-61.217,61.217-61.217s61.217,27.468,61.217,61.217c0,9.22,7.475,16.696,16.696,16.696s16.696-7.475,16.696-16.696c0-33.75,27.462-61.217,61.217-61.217c33.755,0,61.217,27.468,61.217,61.217C395.13,249.239,332.718,311.652,256,311.652z"
@@ -247,7 +259,7 @@
 				class="flex flex-col lg:flex-row justify-center items-stretch w-full h-fit mb-40"
 			>
 				<div class="lg:w-1/3 h-full">
-					<div class="mt-6 rounded-lg bg-base-200 p-4 mx-2">
+					<div class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500">
 						<h1 class="mb-2 text-4xl font-extrabold">Hvad er BetterLectio?</h1>
 						<p class=" w-fit font-bold border-l-4 border-warning border-dotted pl-4 mb-2">
 							BetterLectio er på nuværende tidspunkt under udvikling, det betyder at der kan
@@ -267,7 +279,7 @@
 				</div>
 
 				<div class="lg:w-1/3 h-full">
-					<div class="mt-6 rounded-lg bg-base-200 p-4 mx-2">
+					<div class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500">
 						<h1 class="mb-2 text-4xl font-extrabold">Er min skole understøttet?</h1>
 						<p>
 							BetterLectio understøtter alle skoler som bruger Lectio. Det betyder at hvis din skole
@@ -278,7 +290,7 @@
 				</div>
 
 				<div class="lg:w-1/3 h-full">
-					<div class="mt-6 rounded-lg bg-base-200 p-4 mx-2">
+					<div class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500">
 						<h1 class="mb-2 text-4xl font-extrabold">Open source</h1>
 						<p>
 							BetterLectio er et open source projekt, hvilket betyder at alle kan se koden, og alle
@@ -310,31 +322,31 @@
 			</div>
 
 			{#if stats}
-			<div class="w-full flex justify-center">
-				<div id="stats" class="mb-40 bg-base-200 rounded-xl p-4 lg:w-fit">
-					<h1 class="mb-6 text-4xl font-extrabold">Hvor mange bruger BetterLectio?</h1>
-					<div class="flex flex-col lg:flex-row">
-						<div class="stats shadow">
-							<div class="stat">
-								<div class="stat-title">Elever</div>
-								<div class="stat-value text-6xl">
-									<Countup value={stats["antal_brugere"]} duration={3000} format={false} />
+				<div class="w-full flex justify-center">
+					<div id="stats" class="mb-40 bg-base-200 rounded-xl p-4 lg:w-fit border-2 border-base-200 hover:border-secondary transition-all duration-500">
+						<h1 class="mb-6 text-4xl font-extrabold">Hvor mange bruger BetterLectio?</h1>
+						<div class="flex flex-col lg:flex-row">
+							<div class="stats shadow">
+								<div class="stat">
+									<div class="stat-title">Elever</div>
+									<div class="stat-value text-6xl">
+										<Countup value={stats["antal_brugere"]} duration={3000} format={false} />
+									</div>
+									<div class="stat-desc">Elever der bruger BetterLectio</div>
 								</div>
-								<div class="stat-desc">Elever der bruger BetterLectio</div>
 							</div>
-						</div>
-						<div class="stats shadow lg:ml-6 mt-6 lg:mt-0">
-							<div class="stat">
-								<div class="stat-title">Skoler</div>
-								<div class="stat-value">
-									<Countup value={stats["antal_skoler"]} duration={3000} format={false} />
+							<div class="stats shadow lg:ml-6 mt-6 lg:mt-0">
+								<div class="stat">
+									<div class="stat-title">Skoler</div>
+									<div class="stat-value">
+										<Countup value={stats["antal_skoler"]} duration={3000} format={false} />
+									</div>
+									<div class="stat-desc">Skoler med BetterLectio</div>
 								</div>
-								<div class="stat-desc">Skoler med BetterLectio</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 			{/if}
 
 			<h1 class="mb-2 text-4xl font-extrabold lg:text-center">Se BetterLectio i aktion</h1>
@@ -348,7 +360,7 @@
 			</div>
 
 			{#if loaded}
-				<div id="downloads" class="mb-40 bg-base-200 rounded-xl p-4">
+				<div id="downloads" class="mb-40 bg-base-200 rounded-xl p-4 border-2 border-base-200 hover:border-secondary transition-all duration-500">
 					<h1 class="mb-2 text-4xl font-extrabold">Downloads</h1>
 					<p class="mb-2">
 						BetterLectio appen er ikke helt færdig endnu. Hvis du gerne vil teste den kan du finde
@@ -436,3 +448,29 @@
 		</div>
 	</div>
 {/if}
+
+<div class="fixed h-36 w-48 rounded-full bg-gradient-to-r from-primary to-secondary -z-50 overflow-hidden filter blur-3xl spinslow" id="bluredDiv" />
+
+
+
+<style>
+	.spinslow {
+		animation: spin 10s linear infinite;
+
+		/* blur */
+		-webkit-filter: blur(100px);
+		-moz-filter: blur(100px);
+		-o-filter: blur(100px);
+		-ms-filter: blur(100px);
+		filter: blur(100px);
+	}
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+</style>
