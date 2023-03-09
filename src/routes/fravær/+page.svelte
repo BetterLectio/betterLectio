@@ -254,7 +254,7 @@
                 <p class="btn-xs btn w-full">{modul.årsag}</p>
               {/if}
             </td>
-            <td>{modul.årsagsnote}</td>
+            <td class="whitespace-pre-wrap">{modul.årsagsnote}</td>
           </tr>
         {/each}
       </tbody>
