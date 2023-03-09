@@ -12,6 +12,13 @@
       step = "logger ind";
       cookie = data;
     })
+    .catch((err) => {
+      step = "prøver igen";
+      // wait 2 seconds and reload the page
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    })
     .then(() => {
       get("/forside") // to check if the user is able to access the page (a bonus is that it will update the landing page as well)
         .then(() => {
@@ -20,6 +27,13 @@
             goto("/forside");
           }
         });
+    })
+    .catch((err) => {
+      step = "prøver igen";
+      // wait 2 seconds and reload the page
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
     });
 </script>
 
