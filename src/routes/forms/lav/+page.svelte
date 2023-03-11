@@ -12,7 +12,6 @@
         tekst: "",
       },
     ];
-    console.log(spørgesmålArr);
   };
 
   const addEtSvar = () => {
@@ -22,10 +21,9 @@
         type: "etSvar",
         overskrift: "",
         tekst: "",
-        svarMuligheder: ["", "", "", ""],
+        svarMuligheder: ["1", "2", "3", "4"],
       },
     ];
-    console.log(spørgesmålArr);
   };
 
   const addFlereSvar = () => {
@@ -35,10 +33,9 @@
         type: "flereSvar",
         overskrift: "",
         tekst: "",
-        svarMuligheder: ["", "", "", ""],
+        svarMuligheder: ["1", "2", "3", "4"],
       },
     ];
-    console.log(spørgesmålArr);
   };
 
   const addÅbentSvar = () => {
@@ -48,15 +45,20 @@
         type: "åbentSvar",
         overskrift: "",
         tekst: "",
-        svar: "",
       },
     ];
-    console.log(spørgesmålArr);
   };
 
   const removeSpørgsmål = (i) => {
     spørgesmålArr = spørgesmålArr.filter((_, index) => index !== i);
-    console.log(spørgesmålArr);
+  };
+
+  const addSvarmulighed = (i) => {
+    spørgesmålArr[i].svarMuligheder = [...spørgesmålArr[i].svarMuligheder, ""];
+  };
+
+  const removeSvarmulighed = (i, j) => {
+    spørgesmålArr[i].svarMuligheder = spørgesmålArr[i].svarMuligheder.filter((_, index) => index !== j);
   };
 </script>
 
@@ -125,24 +127,41 @@
 
 <!-- make spørgesmålArr elements go here-->
 {#each spørgesmålArr as spørgsmål, i}
-  {#if spørgsmål.type === "overskrift"}
-    <section class="mb-4 h-fit w-full rounded-lg bg-base-200 p-4">
-      <!-- prettier-ignore -->
-      <div class="flex flex-row justify-end"><div class="btn btn-error btn-xs" on:click={() => {removeSpørgsmål(i);}}>Fjern</div></div>
+  <section class="mb-4 h-fit w-full rounded-lg bg-base-200 p-4">
+    <!-- prettier-ignore -->
+    <div class="flex flex-row justify-end"><div class="btn btn-error btn-xs" on:click={() => {removeSpørgsmål(i);}}>Fjern</div></div>
 
-      <label class="label" for="overskrift">
-        <span class="label-text">Overskrift:</span>
-      </label>
-      <!-- prettier-ignore -->
-      <input type="text" placeholder="Overskrift" bind:value={spørgesmålArr[i].overskrift} id="overskrift" class="mb-6 input-bordered input w-full max-w-md transition-all duration-300"/>
+    <label class="label" for="overskrift">
+      <span class="label-text">Overskrift:</span>
+    </label>
+    <!-- prettier-ignore -->
+    <input type="text" placeholder="Overskrift" bind:value={spørgesmålArr[i].overskrift} id="overskrift" class="mb-6 input-bordered input w-full max-w-md transition-all duration-300"/>
 
-      <label class="label" for="tekst">
-        <span class="label-text">Tekst:</span>
+    <label class="label" for="tekst">
+      <span class="label-text">Tekst:</span>
+    </label>
+    <!-- prettier-ignore -->
+    <input type="text" placeholder="tekst" bind:value={spørgesmålArr[i].tekst} id="tekst" class="mb-6 input-bordered input w-full transition-all duration-300"/>
+    {#if spørgsmål.type === "overskrift"}
+      <!-- ikke noget her-->
+    {:else if spørgsmål.type === "etSvar"}
+      <label class="label" for="svarmuligheder">
+        <span class="label-text">Svarmuligheder:</span>
       </label>
+      <div class="flex flex-col">
+        {#each spørgsmål.svarMuligheder as s, j}
+          <label class="input-group">
+            <!-- prettier-ignore -->
+            <input type="text" placeholder="Svarmulighed" id="svarmulighed" bind:value={spørgesmålArr[i].svarMuligheder[j]} class="mb-2 input-bordered input input-sm w-full max-w-xs transition-all duration-300"/>
+            <!-- prettier-ignore -->
+            <span class="btn btn-error btn-sm w-fit" on:click={() => {removeSvarmulighed(i, j);}}>slet</span>
+          </label>
+        {/each}
+      </div>
       <!-- prettier-ignore -->
-      <input type="text" placeholder="tekst" bind:value={spørgesmålArr[i].tekst} id="tekst" class="mb-6 input-bordered input w-full transition-all duration-300"/>
-    </section>
-  {/if}
+      <div class="btn btn-sm" on:click={() => {addSvarmulighed(i);}}>Tilføj svarmulighed</div>
+    {/if}
+  </section>
 {/each}
 
 <div class="divider" />
