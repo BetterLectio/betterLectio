@@ -1,9 +1,15 @@
 <script>
   import { fly } from "svelte/transition";
+  import { brugeren } from "../../../components/store";
+  import { addNotification } from "../../../components/notifyStore";
 
   let titel;
 
   $: spørgesmålArr = [];
+
+  let forhåndsvisning = false;
+
+  let anonymt = false;
 
   const addOverskrift = () => {
     spørgesmålArr = [
@@ -76,72 +82,90 @@
   };
 </script>
 
-<h1 class="mb-4 text-3xl font-bold">{titel == "" || titel == undefined ? "Nyt spørgeskema" : titel}</h1>
-
-<section class="h-fit w-full rounded-lg bg-base-200 p-4">
-  <div class="form-control w-full">
-    <label class="label" for="titel">
-      <span class="label-text">Titel:</span>
-    </label>
-    <!-- prettier-ignore -->
-    <input type="text" placeholder="Nyt spørgeskema" bind:value={titel} id="titel" class="mb-6 input-bordered input w-full max-w-xs transition-all duration-300 {titel == "" || titel == undefined ? "input-error" : ""}"/>
-
-    <div class="flex flex-col md:flex-row">
-      <div class="w-full max-w-xs">
-        <label class="label" for="Startdato">
-          <span class="label-text">Åben for besvarelse: - Fra</span>
-        </label>
-        <!-- prettier-ignore -->
-        <input type="date" placeholder="Start dato" id="Startdato" class="input-bordered input w-full max-w-xs transition-all duration-300 "/>
-      </div>
-      <div class="mb-6 w-full max-w-xs md:ml-4">
-        <label class="label" for="Slutdato">
-          <span class="label-text">Åben for besvarelse: - Til</span>
-        </label>
-        <!-- prettier-ignore -->
-        <input type="date" placeholder="Slut dato" id="Slutdato" class="input-bordered input w-full max-w-xs transition-all duration-300 "/>
-      </div>
-    </div>
-
-    <div class="flex flex-col md:flex-row">
-      <div class="w-full max-w-xs">
-        <label class="label" for="Startdatorapportering">
-          <span class="label-text">Åben for rapportering: - Fra</span>
-        </label>
-        <!-- prettier-ignore -->
-        <input type="date" placeholder="Start dato rapportering" id="Startdatorapportering" class="input-bordered input w-full max-w-xs transition-all duration-300 "/>
-      </div>
-      <div class="mb-6 w-full max-w-xs md:ml-4">
-        <label class="label" for="Slutdatorapportering">
-          <span class="label-text">Åben for rapportering: - Til</span>
-        </label>
-        <!-- prettier-ignore -->
-        <input type="date" placeholder="Slut dato rapportering" id="Slutdatorapportering" class="input-bordered input w-full max-w-xs transition-all duration-300 "/>
-      </div>
-    </div>
-
-    <label class="label mb-3 max-w-xs cursor-pointer">
-      <span class="label-text">Anonymt:</span>
-      <input type="checkbox" checked="checked" class="checkbox" />
-    </label>
-
-    <label class="label mb-3 max-w-xs cursor-pointer">
-      <span class="label-text">Lærer:</span>
-      <button class="btn btn-sm">Tilføj/fjern</button>
-    </label>
-
-    <label class="label mb-6 max-w-xs cursor-pointer">
-      <span class="label-text">Hold / Grupper:</span>
-      <button class="btn btn-sm">Tilføj/fjern</button>
-    </label>
+<div class="flex flex-row justify-between">
+  <h1 class="mb-4 text-3xl font-bold">{titel == "" || titel == undefined ? "Nyt spørgeskema" : titel}</h1>
+  <div class="btn-group">
+    <button class="btn btn-sm" on:click={() => (forhåndsvisning = !forhåndsvisning)}>
+      {forhåndsvisning ? "Rediger" : "Forhåndsvis"}
+    </button>
+    <button
+      class="btn btn-primary btn-sm"
+      on:click={() => {
+        addNotification("Noget gik galt", "alert-warning");
+      }}>Gem</button
+    >
   </div>
-</section>
+</div>
 
-<div class="divider" />
-{#if spørgesmålArr.length != 0}
-  {#each spørgesmålArr as spørgsmål, i}
-    <!-- prettier-ignore -->
-    <section class="mb-4 h-fit w-full rounded-lg bg-base-200 p-4" out:fly={{ duration: 200, y: -20 }} in:fly={{ duration: 200, y: -20, delay: 200 }}>
+{#if !forhåndsvisning}
+  <section
+    class="h-fit w-full rounded-lg bg-base-200 p-4"
+    out:fly={{ duration: 200, y: -20 }}
+    in:fly={{ duration: 200, y: -20, delay: 200 }}
+  >
+    <div class="form-control w-full">
+      <label class="label" for="titel">
+        <span class="label-text">Titel:</span>
+      </label>
+      <!-- prettier-ignore -->
+      <input type="text" placeholder="Nyt spørgeskema" bind:value={titel} id="titel" class="mb-6 input-bordered input w-full max-w-xs transition-all duration-300 {titel == "" || titel == undefined ? "input-error" : ""}"/>
+
+      <div class="flex flex-col md:flex-row">
+        <div class="w-full max-w-xs">
+          <label class="label" for="Startdato">
+            <span class="label-text">Åben for besvarelse: - Fra</span>
+          </label>
+          <!-- prettier-ignore -->
+          <input type="date" placeholder="Start dato" id="Startdato" class="input-bordered input w-full max-w-xs transition-all duration-300 "/>
+        </div>
+        <div class="mb-6 w-full max-w-xs md:ml-4">
+          <label class="label" for="Slutdato">
+            <span class="label-text">Åben for besvarelse: - Til</span>
+          </label>
+          <!-- prettier-ignore -->
+          <input type="date" placeholder="Slut dato" id="Slutdato" class="input-bordered input w-full max-w-xs transition-all duration-300 "/>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row">
+        <div class="w-full max-w-xs">
+          <label class="label" for="Startdatorapportering">
+            <span class="label-text">Åben for rapportering: - Fra</span>
+          </label>
+          <!-- prettier-ignore -->
+          <input type="date" placeholder="Start dato rapportering" id="Startdatorapportering" class="input-bordered input w-full max-w-xs transition-all duration-300 "/>
+        </div>
+        <div class="mb-6 w-full max-w-xs md:ml-4">
+          <label class="label" for="Slutdatorapportering">
+            <span class="label-text">Åben for rapportering: - Til</span>
+          </label>
+          <!-- prettier-ignore -->
+          <input type="date" placeholder="Slut dato rapportering" id="Slutdatorapportering" class="input-bordered input w-full max-w-xs transition-all duration-300 "/>
+        </div>
+      </div>
+
+      <label class="label mb-3 max-w-xs cursor-pointer">
+        <span class="label-text">Anonymt:</span>
+        <input type="checkbox" class="checkbox" bind:checked={anonymt} />
+      </label>
+
+      <label class="label mb-3 max-w-xs cursor-pointer">
+        <span class="label-text">Lærer:</span>
+        <button class="btn btn-sm">Tilføj/fjern</button>
+      </label>
+
+      <label class="label mb-6 max-w-xs cursor-pointer">
+        <span class="label-text">Hold / Grupper:</span>
+        <button class="btn btn-sm">Tilføj/fjern</button>
+      </label>
+    </div>
+  </section>
+
+  <div class="divider" out:fly={{ duration: 200, y: -20 }} in:fly={{ duration: 200, y: -20, delay: 200 }} />
+  {#if spørgesmålArr.length != 0}
+    {#each spørgesmålArr as spørgsmål, i}
+      <!-- prettier-ignore -->
+      <section class="mb-4 h-fit w-full rounded-lg bg-base-200 p-4" out:fly={{ duration: 200, y: -20 }} in:fly={{ duration: 200, y: -20, delay: 200 }}>
       <div class="flex flex-row justify-between">
         <p class="text-xl font-bold">{spørgesmålArr[i].type}</p>
         <div class="btn-group">
@@ -201,22 +225,70 @@
         <div class="btn btn-sm" on:click={() => {addSvarmulighed(i);}}>Tilføj svarmulighed</div>
         {/if}
       </section>
-  {/each}
-{:else}
-  <!-- prettier-ignore -->
-  <section class="mb-4 h-fit w-full rounded-lg bg-base-200 p-4" out:fly={{ duration: 200, y: -20 }} in:fly={{ duration: 200, y: -20, delay: 200 }}>
+    {/each}
+  {:else}
+    <!-- prettier-ignore -->
+    <section class="mb-4 h-fit w-full rounded-lg bg-base-200 p-4" out:fly={{ duration: 200, y: -20 }} in:fly={{ duration: 200, y: -20, delay: 200 }}>
     <p class="text-xl font-bold">Ingen spørgsmål</p>
   </section>
+  {/if}
+
+  <div class="divider" out:fly={{ duration: 200, y: -20 }} in:fly={{ duration: 200, y: -20, delay: 200 }} />
+
+  <section
+    class="h-fit w-full rounded-lg bg-base-200 p-4"
+    out:fly={{ duration: 200, y: -20 }}
+    in:fly={{ duration: 200, y: -20, delay: 200 }}
+  >
+    <label class="label max-w-xs cursor-pointer">
+      <span class="label-text">Indsæt element:</span>
+    </label>
+    <div class="btn mt-1 w-full md:w-32" on:click={addOverskrift}>Overskrift</div>
+    <div class="btn mt-1 w-full md:w-32" on:click={addEtSvar}>Ét svar</div>
+    <div class="btn mt-1 w-full md:w-32" on:click={addFlereSvar}>Flere svar</div>
+    <div class="btn mt-1 w-full md:w-32" on:click={addÅbentSvar}>Åbent svar</div>
+  </section>
+{:else}
+  <section
+    class="mb-6 h-fit w-full rounded-lg bg-base-200 p-4"
+    out:fly={{ duration: 200, y: -20 }}
+    in:fly={{ duration: 200, y: -20, delay: 200 }}
+  >
+    <p class="whitespace-pre-line text-xl font-bold">Af {$brugeren.navn}</p>
+    <p>Anonymt: {anonymt ? "ja" : "nej"}</p>
+  </section>
+
+  {#each spørgesmålArr as spørgesmål}
+    <section
+      class="mb-4 h-fit w-full rounded-lg bg-base-200 p-4"
+      out:fly={{ duration: 200, y: -20 }}
+      in:fly={{ duration: 200, y: -20, delay: 200 }}
+    >
+      {#if spørgesmål.type == "Overskrift"}
+        <h2 class="mb-2 text-2xl font-bold">{spørgesmål.overskrift}</h2>
+        <p class="mb-2  whitespace-pre-line">{spørgesmål.tekst}</p>
+      {:else if spørgesmål.type == "Ét svar" || spørgesmål.type == "Flere svar"}
+        <h2 class="mb-2 text-2xl font-bold">{spørgesmål.overskrift}</h2>
+        <p class="mb-2  whitespace-pre-line">{spørgesmål.tekst}</p>
+        <div class="mt-2">
+          <div class="form-control">
+            {#each spørgesmål.svarMuligheder as svarMulighed, i}
+              <label class="label cursor-pointer">
+                <span class="label-text">{spørgesmål.svarMuligheder[i]}</span>
+                {#if spørgesmål.type == "Ét svar"}
+                  <input type="radio" name={spørgesmål} class="radio bg-neutral-content" disabled />
+                {:else if spørgesmål.type == "Flere svar"}
+                  <input type="checkbox" class="checkbox" disabled />
+                {/if}
+              </label>
+            {/each}
+          </div>
+        </div>
+      {:else if spørgesmål.type == "Åbent svar"}
+        <h2 class="mb-2 text-2xl font-bold">{spørgesmål.overskrift}</h2>
+        <p class="mb-2 whitespace-pre-line">{spørgesmål.tekst}</p>
+        <input type="text" placeholder="Skriv her" class="input-bordered input w-full" />
+      {/if}
+    </section>
+  {/each}
 {/if}
-
-<div class="divider" />
-
-<section class="h-fit w-full rounded-lg bg-base-200 p-4">
-  <label class="label max-w-xs cursor-pointer">
-    <span class="label-text">Indsæt element:</span>
-  </label>
-  <div class="btn mt-1 w-full md:w-32" on:click={addOverskrift}>Overskrift</div>
-  <div class="btn mt-1 w-full md:w-32" on:click={addEtSvar}>Ét svar</div>
-  <div class="btn mt-1 w-full md:w-32" on:click={addFlereSvar}>Flere svar</div>
-  <div class="btn mt-1 w-full md:w-32" on:click={addÅbentSvar}>Åbent svar</div>
-</section>
