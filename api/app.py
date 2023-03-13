@@ -384,6 +384,21 @@ def skoler():
 
     return jsonify(skoler)
 
+@app.route("/spoergeskemaer")
+@cache_for(minutes=5)
+def spørgeskemaer():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.spørgeskemaer()))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception as e:
+        return jsonify({"backend_error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run()
