@@ -63,21 +63,6 @@
 		).json();
 		loaded = true;
 		stats = await (await fetch("https://db.betterlectio.dk/stats")).json();
-
-		// the next lines are for the blured glow effect around the mouse cursor
-
-		let bluredDiv = document.getElementById("bluredDiv");
-		console.log(bluredDiv);
-
-		document.addEventListener("mousemove", (e) => {
-			bluredDiv.animate(
-				{
-					left: e.clientX - 192 / 2 + "px",
-					top: e.clientY - 144 / 2 + "px"
-				},
-				{ duration: 3000, fill: "forwards" }
-			);
-		});
 	});
 
 	function scrollIntoView({ target }) {
@@ -140,7 +125,7 @@
 				</div>
 			</div>
 
-			<div class="flex flex-row xl:justify-around xl:items-center h-[60vh] group">
+			<div class="flex flex-row xl:justify-around xl:items-center h-fit mb-36 group">
 				<div>
 					<h1
 						class="text-6xl font-extrabold md:text-8xl lg:text-9xl px-2"
@@ -256,7 +241,6 @@
 					/>
 				</svg>
 			</div>
-
 			<div
 				id="om"
 				class="flex flex-col lg:flex-row justify-center items-stretch w-full h-fit mb-40"
@@ -329,6 +313,19 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div class="/md:flex/ justify-end hidden">
+		<picture class="" in:fade={{ duration: 1000 }}>
+			<source class="" srcset="/opg_dark.png" media="(prefers-color-scheme:dark)">
+			<img class="" src="/opg_light.png" alt="opgave side">
+		</picture>
+	</div>
+	<div class="md:flex justify-center hidden h-[900px] w-full background-cover mb-32">
+		<img class="" src="/3phone.png" alt="telefon mockup">
+	</div>
+	<div class="container mx-auto w-full mt-4 z-30 relative" in:fade={{ duration: 1000 }}>
+		<div>
 
 			{#if stats}
 				<div class="w-full flex justify-center">
@@ -462,31 +459,14 @@
 			{/if}
 		</div>
 	</div>
-
-	<div
-		class="invisible md:visible fixed h-36 w-48 rounded-full bg-gradient-to-r from-primary to-secondary -z-50 overflow-hidden filter blur-3xl spinslow"
-		id="bluredDiv"
-	/>
 {/if}
 
+
 <style>
-	.spinslow {
-		animation: spin 10s linear infinite;
-
-		/* blur */
-		-webkit-filter: blur(100px);
-		-moz-filter: blur(100px);
-		-o-filter: blur(100px);
-		-ms-filter: blur(100px);
-		filter: blur(100px);
-	}
-
-	@keyframes spin {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
-		}
+	.background-cover {
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-image: url(/background.jpg);
 	}
 </style>
