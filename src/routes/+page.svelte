@@ -295,7 +295,7 @@
 						<a
 							href="https://github.com/BetterLectio"
 							target="_blank"
-							class="btn mt-4"
+							class="btn mt-4 bg-gradient-to-tr hover:scale-105 hover:from-primary hover:to-secondary hover:font-black hover:text-base-300 transition-all duration-100"
 							in:fly={{ duration: 1000, y: 0, x: -30, easing: quintInOut, delay: 1600 }}
 							><svg
 								xmlns="http://www.w3.org/2000/svg"
