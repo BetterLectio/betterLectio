@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta, MO, TU, WE, TH, FR, SA, SU
 import logging
 import requests
 from bs4 import BeautifulSoup
+import traceback
 
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})
@@ -413,7 +414,7 @@ def få_bruger():
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 if __name__ == '__main__':
     app.run()
