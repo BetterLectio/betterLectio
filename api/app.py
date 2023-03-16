@@ -55,8 +55,8 @@ def auth():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"success": False, "backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"success": False, "backend_error": traceback.format_exc()}), 500
 
 @app.route('/check-cookie')
 def checkCookie():
@@ -84,8 +84,8 @@ def mig():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 
 @app.route('/skema')
@@ -105,8 +105,8 @@ def skema():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route('/lektier')
 @cache_for(minutes=5)
@@ -120,8 +120,8 @@ def lektier():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 @app.route('/opgaver')
 @cache_for(minutes=5)
 def opgaver():
@@ -134,8 +134,8 @@ def opgaver():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 @app.route('/modul')
 def modul():
     try:
@@ -148,8 +148,8 @@ def modul():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route('/besked')
 def besked():
@@ -163,8 +163,8 @@ def besked():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route('/beskeder')
 @cache_for(minutes=5)
@@ -178,8 +178,8 @@ def beskeder():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route('/beskeder2')
 @cache_for(minutes=5)
@@ -215,8 +215,8 @@ def beskeder2():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route('/besvar_besked', methods=['POST'])
 def result():
@@ -231,8 +231,8 @@ def result():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route('/informationer') 
 @cache_for(minutes=10080) # 1 week 
@@ -246,8 +246,8 @@ def informationer():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route('/profil_billed')
 @cache_for(minutes=20160) # 2 weeks
@@ -282,8 +282,8 @@ def opgave():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route("/fravaer")
 @cache_for(minutes=5)
@@ -297,8 +297,8 @@ def fravaer():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 @app.route("/dokumenter")
 @cache_for(minutes=5)
 def dokumenter():
@@ -312,8 +312,8 @@ def dokumenter():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 @app.route("/forside")
 @cache_for(minutes=5)
 def forside():
@@ -326,8 +326,8 @@ def forside():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 @app.route("/ledige_lokaler")
 @cache_for(minutes=5)
 def ledige_lokaler():
@@ -340,8 +340,8 @@ def ledige_lokaler():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route("/karakterer")
 @cache_for(minutes=5)
@@ -355,8 +355,8 @@ def karakterer():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route("/studieretningspraesentation")
 @cache_for(days=1)
@@ -371,8 +371,8 @@ def studieretningspræsentation():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route("/skoler")
 @cache_for(days=5)
@@ -397,8 +397,8 @@ def spørgeskemaer():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
-        return jsonify({"backend_error": str(e)}), 500
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route("/faa_bruger")
 @cache_for(minutes=5)
@@ -413,7 +413,7 @@ def få_bruger():
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
-    except Exception as e:
+    except Exception:
         return jsonify({"backend_error": traceback.format_exc()}), 500
 
 if __name__ == '__main__':
