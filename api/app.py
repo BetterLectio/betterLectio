@@ -399,7 +399,7 @@ def spørgeskemaer():
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
-@app.route("/få_bruger")
+@app.route("/faa_bruger")
 @cache_for(minutes=5)
 def få_bruger():
     try:
