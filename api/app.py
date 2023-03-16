@@ -399,6 +399,21 @@ def spørgeskemaer():
     except Exception as e:
         return jsonify({"backend_error": str(e)}), 500
 
+@app.route("/få_bruger")
+@cache_for(minutes=5)
+def få_bruger():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+        id = request.headers.get("id")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.fåBruger(id)))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception as e:
+        return jsonify({"backend_error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run()
