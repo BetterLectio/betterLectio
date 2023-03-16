@@ -162,6 +162,8 @@
                 .map((element) => element.hold),
               datasets: [
                 {
+                  borderWidth: 0,
+                  hoverOffset: 20,
                   label: "Fraværende moduler",
                   data: $fravaer.generalt
                     .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
