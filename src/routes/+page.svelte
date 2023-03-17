@@ -86,7 +86,7 @@
 {/if}
 
 {#if canvasReady}
-	<div class="container mx-auto w-full mt-4 z-30 relative" in:fade={{ duration: 1000 }}>
+	<div class="container mx-auto w-full mt-4 -z-60 relative" in:fade={{ duration: 1000 }}>
 		{#if loaded}
 			<input type="checkbox" id="linux-download" class="modal-toggle" />
 			<label for="linux-download" class="modal cursor-pointer">
