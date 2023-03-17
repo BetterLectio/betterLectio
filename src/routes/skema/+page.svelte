@@ -417,16 +417,16 @@
 
 <svelte:head />
 
-<span class="my-2 justify-between">
+<span class="my-2 flex justify-between">
   {#if skema[globalYear + "" + globalWeek]}
     <h1 class="mb-4  text-3xl font-bold ">{skema[globalYear + "" + globalWeek].overskrift}</h1>
   {:else}
-    <div class="btn loading btn-ghost" />
+    <div class="loading btn-ghost btn" />
   {/if}
 
   {#if cookie?.userid}
     <a
-      class="btn"
+      class="btn hidden md:flex"
       href={`https://www.lectio.dk/lectio/${cookie.school}/studieplan.aspx?elevid=${cookie.userid}`}
       target="_blank"
     >
