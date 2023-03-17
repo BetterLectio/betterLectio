@@ -418,7 +418,11 @@
 <svelte:head />
 
 <span class="my-2 justify-between">
-  <h1 class="mb-4  text-3xl font-bold ">Skema</h1>
+  {#if skema[globalYear + "" + globalWeek]}
+    <h1 class="mb-4  text-3xl font-bold ">{skema[globalYear + "" + globalWeek].overskrift}</h1>
+  {:else}
+    <div class="btn loading btn-ghost" />
+  {/if}
 
   {#if cookie?.userid}
     <a
