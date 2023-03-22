@@ -11,7 +11,6 @@
   import { fly } from "svelte/transition";
 
   const md = new MarkdownIt();
-  console.log(md);
 
   get(`/modul?absid=${lektie.aktivitet.absid}`).then((data) => {
     let modulData = data;
@@ -26,7 +25,6 @@
 
       linksArr.push(linkHtml);
     });
-    console.log(linksArr);
     showLinks = true;
   });
 </script>
