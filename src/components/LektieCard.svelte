@@ -1,0 +1,59 @@
+<script>
+  import { get } from "./http";
+
+  export let lektie;
+
+  let linksArr = [];
+  let showLinks = false;
+
+  import MarkdownIt from "markdown-it";
+  import sanitizeHtml from "sanitize-html";
+  import { fly } from "svelte/transition";
+
+  const md = new MarkdownIt();
+  console.log(md);
+
+  get(`/modul?absid=${lektie.aktivitet.absid}`).then((data) => {
+    let modulData = data;
+
+    let links = modulData.lektier.match(/\[.*\]\(.*\)/g);
+    if (links == null) {
+      return;
+    }
+
+    links.forEach((link) => {
+      let linkHtml = sanitizeHtml(md.render(link)).replace("<a", '<a class="btn btn-xs btn-outline" target="_blank"');
+
+      linksArr.push(linkHtml);
+    });
+    console.log(linksArr);
+    showLinks = true;
+  });
+</script>
+
+<a href="/modul?absid={lektie.aktivitet.absid}">
+  <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+    <div>
+      <div class="flex w-full flex-row justify-between">
+        <p>
+          <span class="font-bold"
+            >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet.hold}</span
+          >
+        </p>
+        <p class="font-light opacity-50">
+          {lektie.aktivitet.tidspunkt.split(" ")[1] + " - " + lektie.aktivitet.tidspunkt.split(" ")[3]}
+        </p>
+      </div>
+      <p>{lektie.lektier.beskrivelse}</p>
+      {#if showLinks}
+        <div in:fly={{ y: -30 }}>
+          <div class="divider">Links og filer</div>
+        </div>
+        <div in:fly={{ y: -30, delay: 300 }}>
+          <!-- cards -->
+          {@html linksArr}
+        </div>
+      {/if}
+    </div>
+  </li>
+</a>
