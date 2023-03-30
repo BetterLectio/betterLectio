@@ -13,6 +13,8 @@
     cookieReady = true;
   });
 
+  let BACKGROUND_COLORS = [];
+
   moment.defineLocale("en-dk", {
     parentLocale: "en",
     months: [
@@ -42,6 +44,7 @@
   let foråretFravaer = 0;
   get("/fravaer").then((data) => {
     $fravaer = { sort: { col: "procent", ascending: true }, ...data };
+    BACKGROUND_COLORS = makeBackgroundColorArray($fravaer.generalt.length);
     $fravaer.generalt.forEach((element) => {
       if (element.hold == "Samlet") {
         opgjortFravaer = element.opgjort_fravær_procent;
@@ -65,15 +68,24 @@
     }
   }
 
-  // https://github.com/chartjs/Chart.js/blob/master/src/plugins/plugin.colors.ts#L13
-  const BACKGROUND_COLORS = [
-    "rgb(54, 162, 235)", // blue
-    "rgb(255, 99, 132)", // red
-    "rgb(255, 159, 64)", // orange
-    "rgb(255, 205, 86)", // yellow
-    "rgb(75, 192, 192)", // green
-    "rgb(153, 102, 255)", // purple
-  ];
+  //const BACKGROUND_COLORS = [
+  //  "rgb(54, 162, 235)", // blue
+  //  "rgb(255, 99, 132)", // red
+  //  "rgb(255, 159, 64)", // orange
+  //  "rgb(255, 205, 86)", // yellow
+  //  "rgb(75, 192, 192)", // green
+  //  "rgb(153, 102, 255)", // purple
+  //];
+
+  function makeBackgroundColorArray(length) {
+    if (length == 0) return [];
+    let colors = [];
+    for (let i = 0; i < length; i++) {
+      colors.push(`hsl(${Math.round((i / length) * 1000)}, 100%, 65%)`);
+      console.log(Math.round((i / length) * 1000));
+    }
+    return colors;
+  }
 
   let overblikType = "Opgjort";
 
@@ -150,6 +162,8 @@
                 .map((element) => element.hold),
               datasets: [
                 {
+                  borderWidth: 0,
+                  hoverOffset: 20,
                   label: "Fraværende moduler",
                   data: $fravaer.generalt
                     .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
@@ -254,7 +268,7 @@
                 <p class="btn-xs btn w-full">{modul.årsag}</p>
               {/if}
             </td>
-            <td>{modul.årsagsnote}</td>
+            <td class="whitespace-pre-wrap">{modul.årsagsnote}</td>
           </tr>
         {/each}
       </tbody>

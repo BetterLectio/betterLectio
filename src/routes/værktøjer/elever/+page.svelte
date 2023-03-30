@@ -5,20 +5,16 @@
 
   let ready = false;
   let elevObjArray = [];
-  get("/informationer").then((data) => {
-    $informationer = data;
+  get("/informationer").then(async (data) => {
+    $informationer = await data;
     let _elever = {};
     for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn = key.split("(")[1].split(" ");
-      navn.pop();
-      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
-      _elever[navn] = value;
+      let navn = key;
+      _elever[navn] = await value;
     }
-    $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
+    $informationer.lærereOgElever = await { ...$informationer.lærere, ..._elever };
     for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn = key.split("(")[1].split(" ");
-      navn.pop();
-      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      let navn = key;
       elevObjArray.push({ navn: navn, id: value });
     }
     ready = true;
@@ -56,23 +52,23 @@
   on:input={search}
 />
 <div class="">
-  <table class="table table-zebra table-compact w-full">
+  <table class="table-zebra table-compact table w-full">
     <!-- head -->
     <thead>
       <tr>
-        <th></th>
+        <th />
         <th>Navn</th>
       </tr>
     </thead>
     <tbody>
-  {#if ready}
-    {#each elevObjArray as elev, i}
-      <tr>
-        <th>{i}</th>
-        <td><BrugerPopup navn={elev.navn} id={elev.id}>{elev.navn}</BrugerPopup></td>
-      </tr>
-    {/each}
-  {/if}
-</tbody>
-</table>
+      {#if ready}
+        {#each elevObjArray as elev, i}
+          <tr>
+            <th>{i}</th>
+            <td><BrugerPopup navn={elev.navn} id={elev.id}>{elev.navn}</BrugerPopup></td>
+          </tr>
+        {/each}
+      {/if}
+    </tbody>
+  </table>
 </div>

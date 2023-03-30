@@ -1,17 +1,7 @@
 <script>
   import { cookieInfo } from "./CookieInfo.js";
   import { get } from "../components/http.js";
-  import {
-    opgaver,
-    nyheder,
-    lektier,
-    forside,
-    skema,
-    beskeder,
-    fravaer,
-    dokumenter,
-    informationer,
-  } from "../components/store.js";
+  let opgaver, nyheder, lektier, forside, skema, beskeder, fravaer, dokumenter, informationer;
 
   import { blur } from "svelte/transition";
 
@@ -23,7 +13,7 @@
   let animationDelay = 0;
   function loadData() {
     get("/opgaver").then((data) => {
-      $opgaver = data;
+      opgaver = data;
       loadingProgress++;
     });
 
@@ -32,17 +22,17 @@
         return response.json();
       })
       .then((data) => {
-        $nyheder = data["news"];
+        nyheder = data["news"];
         loadingProgress++;
       });
 
     get("/lektier").then((data) => {
-      $lektier = data;
+      lektier = data;
       loadingProgress++;
     });
 
     get("/forside").then((data) => {
-      $forside = data;
+      forside = data;
       loadingProgress++;
     });
 
@@ -50,44 +40,40 @@
     cookieInfo().then((data) => {
       cookie = data;
       get(`/skema?id=${"S" + cookie.userid}`).then((data) => {
-        $skema = data;
+        skema = data;
         loadingProgress++;
       });
     });
 
     get("/fravaer").then((data) => {
-      $fravaer = { sort: { col: "procent", ascending: true }, data };
+      fravaer = { sort: { col: "procent", ascending: true }, data };
       loadingProgress++;
     });
 
     get("/dokumenter").then((data) => {
-      $dokumenter = data;
+      dokumenter = data;
       loadingProgress++;
     });
 
     get("/informationer").then((data) => {
-      $informationer = data;
+      informationer = data;
       let _elever = {};
-      for (const [key, value] of Object.entries($informationer.elever)) {
-        let navn = key.split("(")[1].split(" ");
-        navn.pop();
-        navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      for (const [key, value] of Object.entries(informationer.elever)) {
+        let navn = key;
         _elever[navn] = value;
       }
-      $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
-      for (const [key, value] of Object.entries($informationer.elever)) {
-        let navn = key.split("(")[1].split(" ");
-        navn.pop();
-        navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      informationer.lærereOgElever = { ...informationer.lærere, ..._elever };
+      for (const [key, value] of Object.entries(informationer.elever)) {
+        let navn = key;
         elevObjArray.push({ navn: navn, id: value });
       }
       loadingProgress++;
       get(`/beskeder2`).then((data) => {
-        $beskeder = data.map((besked) => {
+        beskeder = data.map((besked) => {
           besked.datoObject = convertDate(besked.dato);
           return besked;
         });
-        $beskeder = [...$beskeder];
+        beskeder = [...beskeder];
       });
       loadingProgress++;
     });
@@ -150,13 +136,13 @@
 
     deleteSearchResults();
 
-    $opgaver.forEach((opgave) => {
+    opgaver.forEach((opgave) => {
       if (opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.opgaver.push(opgave);
       }
     });
 
-    $lektier.forEach((lektie) => {
+    lektier.forEach((lektie) => {
       if (lektie.aktivitet.navn && lektie.aktivitet.navn.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.lektier.push(lektie);
       } else if (lektie.aktivitet.andet.toLowerCase().includes(searchString.toLowerCase())) {
@@ -164,13 +150,13 @@
       }
     });
 
-    $forside.aktuelt.forEach((forside) => {
+    forside.aktuelt.forEach((forside) => {
       if (forside.text.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.forside.push(forside);
       }
     });
 
-    $skema.moduler.forEach((modul) => {
+    skema.moduler.forEach((modul) => {
       if (modul.navn) {
         if (modul.navn.toLowerCase().includes(searchString.toLowerCase())) {
           searchResults.skema.push(modul);
@@ -191,7 +177,7 @@
       }
     });
 
-    $beskeder.forEach((besked) => {
+    beskeder.forEach((besked) => {
       if (besked.emne.toLowerCase().includes(searchString.toLowerCase())) {
         searchResults.beskeder.push(besked);
       }
