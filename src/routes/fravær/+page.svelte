@@ -43,16 +43,20 @@
   let opgjortFravaer = 0;
   let foråretFravaer = 0;
   get("/fravaer").then((data) => {
-    $fravaer = { sort: { col: "procent", ascending: true }, ...data };
-    BACKGROUND_COLORS = makeBackgroundColorArray($fravaer.generalt.length);
-    $fravaer.generalt.forEach((element) => {
-      if (element.hold == "Samlet") {
-        opgjortFravaer = element.opgjort_fravær_procent;
-        foråretFravaer = element.heleåret_fravær_procent;
-      }
-    });
-    $fravaer?.moduler?.oversigt.reverse();
-    fravaerReady = true;
+    try {
+      $fravaer = { sort: { col: "procent", ascending: true }, ...data };
+      BACKGROUND_COLORS = makeBackgroundColorArray($fravaer.generalt.length);
+      $fravaer.generalt.forEach((element) => {
+        if (element.hold == "Samlet") {
+          opgjortFravaer = element.opgjort_fravær_procent;
+          foråretFravaer = element.heleåret_fravær_procent;
+        }
+      });
+      $fravaer?.moduler?.oversigt.reverse();
+      fravaerReady = true;
+    } catch (error) {
+      //sig til bruger at der er sket en fejl
+    }
   });
 
   let monthToFravær = 0;
