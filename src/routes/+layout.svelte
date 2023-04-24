@@ -13,6 +13,7 @@
   import NavBar from "../components/NavBar.svelte";
   import { addNotification, addNotificationIn } from "../components/notifyStore.js";
   import { get } from "../components/http.js";
+  import ErrorMsg from "../components/ErrorMsg.svelte";
 
   export let data;
 
@@ -50,6 +51,8 @@
   }
 </script>
 
+<!-- error modal -->
+<ErrorMsg />
 <!--Log ud pop up-->
 <Notify />
 <input type="checkbox" id="logud-modal" class="modal-toggle" />
