@@ -75,9 +75,7 @@
 </script>
 
 {#if canvasReady}
-	<div
-		in:fade={{ duration: 2000, easing: quintInOut }}
-	>
+	<div in:fade={{ duration: 2000, easing: quintInOut }}>
 		<Canvas {width} height={700} class="absolute -z-50 overflow-y-clip filter blur-3xl">
 			<Layer {render} />
 		</Canvas>
@@ -118,9 +116,7 @@
 							>
 						</li>
 						<li>
-							<a href="/docs" class="font-bold"
-								>Docs</a
-							>
+							<a href="/docs" class="font-bold">Docs</a>
 						</li>
 					</ul>
 				</div>
@@ -321,16 +317,15 @@
 	</div>
 	<div class="/md:flex/ justify-end hidden">
 		<picture class="" in:fade={{ duration: 1000 }}>
-			<source class="" srcset="/opg_dark.png" media="(prefers-color-scheme:dark)">
-			<img class="" src="/opg_light.png" alt="opgave side">
+			<source class="" srcset="/opg_dark.png" media="(prefers-color-scheme:dark)" />
+			<img class="" src="/opg_light.png" alt="opgave side" />
 		</picture>
 	</div>
 	<div class="md:flex justify-center hidden h-[900px] background-cover mb-32 rounded-3xl mx-4">
-		<img class="" src="/3phone.png" alt="telefon mockup">
+		<img class="" src="/3phone.png" alt="telefon mockup" />
 	</div>
 	<div class="container mx-auto w-full mt-4 z-30 relative" in:fade={{ duration: 1000 }}>
 		<div>
-
 			{#if stats}
 				<div class="w-full flex justify-center">
 					<div
@@ -464,7 +459,6 @@
 		</div>
 	</div>
 {/if}
-
 
 <style>
 	.background-cover {
