@@ -77,7 +77,6 @@
 {#if canvasReady}
 	<div
 		in:fade={{ duration: 2000, easing: quintInOut }}
-		out:fade={{ duration: 2000, easing: quintInOut }}
 	>
 		<Canvas {width} height={700} class="absolute -z-50 overflow-y-clip filter blur-3xl">
 			<Layer {render} />
@@ -118,6 +117,11 @@
 								>Download</a
 							>
 						</li>
+						<li>
+							<a href="/bidrag" class="font-bold"
+								>Bidrag</a
+							>
+						</li>
 					</ul>
 				</div>
 				<div class="navbar-end hidden lg:flex">
@@ -139,7 +143,7 @@
 					>
 						- Den ultimative Lectio-forbedring!
 					</p>
-					<div class="w-fit rounded-lg bg-base-content p-4">
+					<div class="w-fit rounded-3xl bg-base-content p-4">
 						<p class="font-semibold text-base-100 md:text-xl">
 							Prøv BetterLectio i dag og oplev, hvordan det kan forbedre din Lectio-oplevelse
 						</p>
@@ -247,7 +251,7 @@
 			>
 				<div class="lg:w-1/3 h-full">
 					<div
-						class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500"
+						class="p-4 rounded-3xl filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 m-2"
 					>
 						<h1 class="mb-2 text-4xl font-extrabold">Hvad er BetterLectio?</h1>
 						<p class=" w-fit font-bold border-l-4 border-warning border-dotted pl-4 mb-2">
@@ -269,7 +273,7 @@
 
 				<div class="lg:w-1/3 h-full">
 					<div
-						class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500"
+						class="p-4 rounded-3xl filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 m-2"
 					>
 						<h1 class="mb-2 text-4xl font-extrabold">Er min skole understøttet?</h1>
 						<p>
@@ -282,7 +286,7 @@
 
 				<div class="lg:w-1/3 h-full">
 					<div
-						class="mt-6 rounded-lg bg-base-200 p-4 mx-2 border-2 border-base-200 hover:border-secondary transition-all duration-500"
+						class="p-4 rounded-3xl filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 m-2"
 					>
 						<h1 class="mb-2 text-4xl font-extrabold">Open source</h1>
 						<p>
@@ -321,7 +325,7 @@
 			<img class="" src="/opg_light.png" alt="opgave side">
 		</picture>
 	</div>
-	<div class="md:flex justify-center hidden h-[900px] w-full background-cover mb-32">
+	<div class="md:flex justify-center hidden h-[900px] background-cover mb-32 rounded-3xl mx-4">
 		<img class="" src="/3phone.png" alt="telefon mockup">
 	</div>
 	<div class="container mx-auto w-full mt-4 z-30 relative" in:fade={{ duration: 1000 }}>
@@ -331,7 +335,7 @@
 				<div class="w-full flex justify-center">
 					<div
 						id="stats"
-						class="mb-40 bg-base-200 rounded-xl p-4 lg:w-fit border-2 border-base-200 hover:border-secondary transition-all duration-500"
+						class="p-4 rounded-3xl filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 mb-32"
 					>
 						<h1 class="mb-6 text-4xl font-extrabold">Hvor mange bruger BetterLectio?</h1>
 						<div class="flex flex-col lg:flex-row">
@@ -371,7 +375,7 @@
 			{#if loaded}
 				<div
 					id="downloads"
-					class="mb-40 bg-base-200 rounded-xl p-4 border-2 border-base-200 hover:border-secondary transition-all duration-500"
+					class="p-4 rounded-3xl filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2"
 				>
 					<h1 class="mb-2 text-4xl font-extrabold">Downloads</h1>
 					<p class="mb-2">
