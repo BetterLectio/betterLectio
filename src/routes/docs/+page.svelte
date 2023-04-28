@@ -49,12 +49,12 @@
 	}
 
 	function findDivsInView() {
-		const divs = document.querySelectorAll("section");
+		const divs = document.getElementsByTagName("section");
 		const divsInView = [];
 		for (const div of divs) {
 			const rect = div.getBoundingClientRect();
 			if (rect.top < window.innerHeight && rect.bottom > 0) {
-				divsInView.push(div.innerHTML);
+				divsInView.push(div.id);
 			}
 		}
 		if (divsInView === []) {
