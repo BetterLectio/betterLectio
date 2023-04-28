@@ -118,8 +118,8 @@
 							>
 						</li>
 						<li>
-							<a href="/bidrag" class="font-bold"
-								>Bidrag</a
+							<a href="/docs" class="font-bold"
+								>Docs</a
 							>
 						</li>
 					</ul>
