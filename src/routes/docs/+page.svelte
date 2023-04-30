@@ -39,6 +39,7 @@
 
 	function scrollTo(id) {
 		document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+		history.pushState(null, null, "#" + id);
 	}
 
 	function findSections() {
