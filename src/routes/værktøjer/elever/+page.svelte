@@ -24,17 +24,29 @@
   function search() {
     let _elever = {};
     for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn = key.split("(")[1].split(" ");
-      navn.pop();
-      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
-      _elever[navn] = value;
+      let navn;
+      try {
+        navn = key.split("(")[1].split(" ");
+        navn.pop();
+        navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+        _elever[navn] = value;
+      } catch (error) {
+        navn = key;
+        console.warn("Can't spilt name:" + key);
+      }
     }
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
     elevObjArray = [];
     for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn = key.split("(")[1].split(" ");
-      navn.pop();
-      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      let navn;
+      try {
+        navn = key.split("(")[1].split(" ");
+        navn.pop();
+        navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+      } catch (error) {
+        navn = key;
+        console.warn("Can't spilt name:" + key);
+      }
       if (navn.toLowerCase().includes(searchString.toLowerCase())) {
         elevObjArray.push({ navn: navn, id: value });
       }
