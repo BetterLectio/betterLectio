@@ -4,6 +4,7 @@
   import Avatar from "../../components/Avatar.svelte";
   import { cookieInfo } from "../../components/CookieInfo";
   import { fade, fly } from "svelte/transition";
+  import BrugerPopup from "../../components/BrugerPopup.svelte";
 
   let cookie;
   cookieInfo().then((data) => {
@@ -138,17 +139,17 @@
 <!-- main content -->
 {#if ready}
   {#if $beskeder}
-    <ul class="list w-full">
+    <ul class="list h-[calc(100vh_-_16.5rem)] w-full overflow-clip">
       {#each Array.from($beskeder) as besked}
         {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
           {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
             <li transition:fade class="rounded-md p-2 hover:bg-base-100">
-              <a class="block" href="/besked?id={besked.message_id}">
-                <div class="flex justify-between">
-                  <div class="ml-1 flex items-center">
-                    {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
-                      <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
-                    {/if}
+              <div class="flex justify-between">
+                <div class="ml-1 flex items-center">
+                  <BrugerPopup navn={besked.førsteBesked} id={$informationer.lærereOgElever[besked.førsteBesked]}>
+                    <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
+                  </BrugerPopup>
+                  <a class="block" href="/besked?id={besked.message_id}">
                     <div class="ml-5">
                       <p part="emne" class="text-lg font-bold">
                         {besked.emne}
@@ -157,29 +158,29 @@
                         {besked.førsteBesked} · {besked.ændret}
                       </p>
                     </div>
-                  </div>
-                  <div class="right-1 flex items-center">
-                    <div class="mr-1 flex -space-x-4">
-                      {#if window.innerWidth > 640}
-                        {#each getValidModtagere(besked.modtagere).slice(0, 3) as modtager}
-                          {#if $informationer?.lærereOgElever[modtager]}
-                            <div class="z-0">
-                              <Avatar id={$informationer.lærereOgElever[modtager]} navn={modtager} size="h-10 w-10" />
-                            </div>
-                          {/if}
-                        {/each}
-                        {#if getValidModtagere(besked.modtagere).length > 3}
-                          <div
-                            class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white"
-                          >
-                            +{besked.modtagere.length - 3}
+                  </a>
+                </div>
+                <div class="right-1 flex items-center">
+                  <div class="mr-1 flex -space-x-4">
+                    {#if window.innerWidth > 640}
+                      {#each getValidModtagere(besked.modtagere).slice(0, 3) as modtager}
+                        {#if $informationer?.lærereOgElever[modtager]}
+                          <div class="z-0">
+                            <Avatar id={$informationer.lærereOgElever[modtager]} navn={modtager} size="h-10 w-10" />
                           </div>
                         {/if}
+                      {/each}
+                      {#if getValidModtagere(besked.modtagere).length > 3}
+                        <div
+                          class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white"
+                        >
+                          +{besked.modtagere.length - 3}
+                        </div>
                       {/if}
-                    </div>
+                    {/if}
                   </div>
                 </div>
-              </a>
+              </div>
             </li>
           {/if}
         {/if}
