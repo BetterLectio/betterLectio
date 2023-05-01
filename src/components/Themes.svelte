@@ -1,4 +1,8 @@
 <script>
+  if (localStorage.getItem("themeOverride")) {
+    let theme = JSON.parse(localStorage.getItem("themeOverride"));
+    setCustomTheme(theme);
+  }
   let themes = JSON.parse(localStorage.getItem("themes"));
   if (themes === null || !Array.isArray(themes) || themes.length === 0) {
     themes = [];
@@ -10,7 +14,7 @@
     themes = JSON.parse(localStorage.getItem("themes"));
   }
 
-  function setTheme(theme) {
+  function setCustomTheme(theme) {
     document.documentElement.style.setProperty("--p", hexToHSL(theme.primary));
     document.documentElement.style.setProperty("--pf", darken(hexToHSL(theme.primary)));
     document.documentElement.style.setProperty("--pc", readable(hexToHSL(theme.primary)));
@@ -27,6 +31,8 @@
     document.documentElement.style.setProperty("--nc", mono(readable(darken(darken(hexToHSL(theme.base))))));
     document.documentElement.style.setProperty("--n", mono(darken(darken(hexToHSL(theme.base)))));
     document.documentElement.style.setProperty("--nf", mono(darken(darken(darken(hexToHSL(theme.base))))));
+    // set theme in localstorage
+    localStorage.setItem("themeOverride", JSON.stringify(theme));
   }
 
   function hexToHSL(H) {
@@ -117,7 +123,17 @@
 </script>
 
 <li>
-  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="light" data-act-class="ACTIVECLASS">
+  <button
+    class="mx-0 my-1 p-0 hover:scale-110"
+    data-set-theme="light"
+    data-act-class="ACTIVECLASS"
+    on:click={() => {
+      if (localStorage.getItem("themeOverride")) {
+        localStorage.removeItem("themeOverride");
+        location.reload();
+      }
+    }}
+  >
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="light"
@@ -140,7 +156,17 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="dark" data-act-class="ACTIVECLASS">
+  <button
+    class="mx-0 my-1 p-0 hover:scale-110"
+    data-set-theme="dark"
+    data-act-class="ACTIVECLASS"
+    on:click={() => {
+      if (localStorage.getItem("themeOverride")) {
+        localStorage.removeItem("themeOverride");
+        location.reload();
+      }
+    }}
+  >
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="dark"
@@ -163,7 +189,17 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="winter" data-act-class="ACTIVECLASS">
+  <button
+    class="mx-0 my-1 p-0 hover:scale-110"
+    data-set-theme="winter"
+    data-act-class="ACTIVECLASS"
+    on:click={() => {
+      if (localStorage.getItem("themeOverride")) {
+        localStorage.removeItem("themeOverride");
+        location.reload();
+      }
+    }}
+  >
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="winter"
@@ -186,7 +222,17 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="lectio" data-act-class="ACTIVECLASS">
+  <button
+    class="mx-0 my-1 p-0 hover:scale-110"
+    data-set-theme="lectio"
+    data-act-class="ACTIVECLASS"
+    on:click={() => {
+      if (localStorage.getItem("themeOverride")) {
+        localStorage.removeItem("themeOverride");
+        location.reload();
+      }
+    }}
+  >
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="lectio"
@@ -209,7 +255,17 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="night" data-act-class="ACTIVECLASS">
+  <button
+    class="mx-0 my-1 p-0 hover:scale-110"
+    data-set-theme="night"
+    data-act-class="ACTIVECLASS"
+    on:click={() => {
+      if (localStorage.getItem("themeOverride")) {
+        localStorage.removeItem("themeOverride");
+        location.reload();
+      }
+    }}
+  >
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="night"
@@ -232,7 +288,17 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="garden" data-act-class="ACTIVECLASS">
+  <button
+    class="mx-0 my-1 p-0 hover:scale-110"
+    data-set-theme="garden"
+    data-act-class="ACTIVECLASS"
+    on:click={() => {
+      if (localStorage.getItem("themeOverride")) {
+        localStorage.removeItem("themeOverride");
+        location.reload();
+      }
+    }}
+  >
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="garden"
@@ -255,7 +321,17 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="dracula" data-act-class="ACTIVECLASS">
+  <button
+    class="mx-0 my-1 p-0 hover:scale-110"
+    data-set-theme="dracula"
+    data-act-class="ACTIVECLASS"
+    on:click={() => {
+      if (localStorage.getItem("themeOverride")) {
+        localStorage.removeItem("themeOverride");
+        location.reload();
+      }
+    }}
+  >
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="dracula"
@@ -278,7 +354,17 @@
   </button>
 </li>
 <li>
-  <button class="mx-0 my-1 p-0 hover:scale-110" data-set-theme="coffee" data-act-class="ACTIVECLASS">
+  <button
+    class="mx-0 my-1 p-0 hover:scale-110"
+    data-set-theme="coffee"
+    data-act-class="ACTIVECLASS"
+    on:click={() => {
+      if (localStorage.getItem("themeOverride")) {
+        localStorage.removeItem("themeOverride");
+        location.reload();
+      }
+    }}
+  >
     <div
       class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
       data-set-theme="coffee"
@@ -307,7 +393,7 @@
       <button
         class="rounded-lg w-full h-10 my-1 justify-between flex items-center px-4 py-3"
         style="background-color: {theme.base};"
-        on:click={() => setTheme(theme)}
+        on:click={() => setCustomTheme(theme)}
       >
         <p class="text-sm font-bold" style="color: hsl({theme.baseContent});">{theme.name}</p>
         <button on:click={() => deleteTheme(i)} class="text-sm font-bold" style="color: hsl({theme.baseContent});">
