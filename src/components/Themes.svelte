@@ -182,3 +182,57 @@
     </div>
   </button>
 </li>
+<li>
+  <a class="rainbow btn font-black" href="/tema">Lav dit eget</a>
+</li>
+
+<style>
+  .rainbow {
+    -webkit-animation: Animation 6s ease infinite;
+    -moz-animation: Animation 6s ease infinite;
+    animation: Animation 6s ease infinite;
+  }
+
+  @-webkit-keyframes Animation {
+    0% {
+      color: HSL(var(--pc));
+      background-color: HSL(var(--p));
+    }
+    50% {
+      color: HSL(var(--sc));
+      background-color: HSL(var(--s));
+    }
+    100% {
+      color: HSL(var(--pc));
+      background-color: HSL(var(--p));
+    }
+  }
+  @-moz-keyframes Animation {
+    0% {
+      color: HSL(var(--pc));
+      background-color: HSL(var(--p));
+    }
+    50% {
+      color: HSL(var(--sc));
+      background-color: HSL(var(--s));
+    }
+    100% {
+      color: HSL(var(--pc));
+      background-color: HSL(var(--p));
+    }
+  }
+  @keyframes Animation {
+    0% {
+      color: HSL(var(--pc));
+      background-color: HSL(var(--p));
+    }
+    50% {
+      color: HSL(var(--sc));
+      background-color: HSL(var(--s));
+    }
+    100% {
+      color: HSL(var(--pc));
+      background-color: HSL(var(--p));
+    }
+  }
+</style>
