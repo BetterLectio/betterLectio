@@ -19,10 +19,16 @@
     $informationer = data;
     let _elever = {};
     for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn = key.split("(")[1].split(" ");
-      navn.pop();
-      navn = `${key.split("(")[0]}(${navn.join(" ")})`;
-      _elever[navn] = value;
+      let navn;
+      try {
+        navn = key.split("(")[1].split(" ");
+        navn.pop();
+        navn = `${key.split("(")[0]}(${navn.join(" ")})`;
+        _elever[navn] = value;
+      } catch (error) {
+        _elever[key] = value;
+        console.warn("Couldn't parse navn for elev", key);
+      }
     }
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
   });

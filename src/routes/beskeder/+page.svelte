@@ -3,6 +3,8 @@
   import { get } from "../../components/http.js";
   import Avatar from "../../components/Avatar.svelte";
   import { cookieInfo } from "../../components/CookieInfo";
+  import { fade, fly } from "svelte/transition";
+  import BrugerPopup from "../../components/BrugerPopup.svelte";
 
   let cookie;
   cookieInfo().then((data) => {
@@ -31,13 +33,25 @@
     $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
   });
 
+  let ready = false;
+  let _beskeder = [];
+  let nrOfShownMessages = 50;
+
   get(`/beskeder2`).then((data) => {
-    const _beskeder = data.map((besked) => {
+    _beskeder = data.map((besked) => {
       besked.datoObject = convertDate(besked.dato);
       return besked;
     });
     $beskeder = [..._beskeder];
+    // only include the first 10 messages
+    $beskeder = $beskeder.slice(0, 50);
+    ready = true;
   });
+
+  function showMore() {
+    nrOfShownMessages += 50;
+    $beskeder = [..._beskeder.slice(0, nrOfShownMessages)];
+  }
 
   function convertDate(dateString) {
     // Split the date string into parts
@@ -78,64 +92,64 @@
   }
 </script>
 
-<body>
-  <span class="my-2 flex justify-between">
-    <h1 class="text-3xl font-bold">Beskeder</h1>
+<span class="my-2 flex justify-between">
+  <h1 class="text-3xl font-bold">Beskeder</h1>
+</span>
+<div class="flex flex-wrap justify-between">
+  <span class="mb-2 flex flex-col sm:flex-row">
+    <div class="tabs tabs-boxed flex w-full justify-between">
+      <button
+        class={selected == "Alle" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Alle";
+        }}>Alle</button
+      >
+      <button
+        class={selected == "Modtaget" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Modtaget";
+        }}>Modtaget</button
+      >
+      <button
+        class={selected == "Sendte" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
+        on:click={() => {
+          selected = "Sendte";
+        }}>Sendte</button
+      >
+    </div>
+    <input
+      type="text"
+      placeholder="Søg"
+      class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
+      bind:value={searchString}
+    />
   </span>
-  <div class="flex flex-wrap justify-between">
-    <span class="mb-2 flex flex-col sm:flex-row">
-      <div class="tabs tabs-boxed flex w-full justify-between">
-        <button
-          class={selected == "Alle" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-          on:click={() => {
-            selected = "Alle";
-          }}>Alle</button
-        >
-        <button
-          class={selected == "Modtaget" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-          on:click={() => {
-            selected = "Modtaget";
-          }}>Modtaget</button
-        >
-        <button
-          class={selected == "Sendte" ? "tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
-          on:click={() => {
-            selected = "Sendte";
-          }}>Sendte</button
-        >
-      </div>
-      <input
-        type="text"
-        placeholder="Søg"
-        class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
-        bind:value={searchString}
-      />
-    </span>
-    {#if cookie?.userid}
-      <div class="right-1 mb-2 flex items-center rounded-md bg-base-200 p-1">
-        <a
-          href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
-          target="_blank"
-          class="btn-primary btn-sm btn border-base-200 bg-base-200 font-normal normal-case text-gray-500 hover:text-gray-100"
-          >Skriv besked</a
-        >
-      </div>
-    {/if}
-  </div>
+  {#if cookie?.userid}
+    <div class="right-1 mb-2 flex items-center rounded-md bg-base-200 p-1">
+      <a
+        href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
+        target="_blank"
+        class="btn-primary btn-sm btn border-base-200 bg-base-200 font-normal normal-case text-gray-500 hover:text-gray-100"
+        >Skriv besked</a
+      >
+    </div>
+  {/if}
+</div>
 
-  <!-- main content -->
+<!-- main content -->
+{#if ready}
   {#if $beskeder}
-    <ul class="list w-full">
+    <ul class="list h-[calc(100vh_-_16.5rem)] w-full overflow-clip">
       {#each Array.from($beskeder) as besked}
         {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
           {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
-            <li class="rounded-md p-2 hover:bg-base-100">
-              <a class="block" href="/besked?id={besked.message_id}">
-                <div class="flex justify-between">
-                  <div class="ml-1 flex items-center">
-                    {#if $informationer?.lærereOgElever?.[besked.førsteBesked]}
-                      <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
-                    {/if}
+            <li transition:fade class="rounded-md p-2 hover:bg-base-100">
+              <div class="flex justify-between">
+                <div class="ml-1 flex items-center">
+                  <BrugerPopup navn={besked.førsteBesked} id={$informationer.lærereOgElever[besked.førsteBesked]}>
+                    <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
+                  </BrugerPopup>
+                  <a class="block" href="/besked?id={besked.message_id}">
                     <div class="ml-5">
                       <p part="emne" class="text-lg font-bold">
                         {besked.emne}
@@ -144,29 +158,29 @@
                         {besked.førsteBesked} · {besked.ændret}
                       </p>
                     </div>
-                  </div>
-                  <div class="right-1 flex items-center">
-                    <div class="mr-1 flex -space-x-4">
-                      {#if window.innerWidth > 640}
-                        {#each getValidModtagere(besked.modtagere).slice(0, 3) as modtager}
-                          {#if $informationer?.lærereOgElever[modtager]}
-                            <div class="z-0">
-                              <Avatar id={$informationer.lærereOgElever[modtager]} navn={modtager} size="h-10 w-10" />
-                            </div>
-                          {/if}
-                        {/each}
-                        {#if getValidModtagere(besked.modtagere).length > 3}
-                          <div
-                            class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white"
-                          >
-                            +{besked.modtagere.length - 3}
+                  </a>
+                </div>
+                <div class="right-1 flex items-center">
+                  <div class="mr-1 flex -space-x-4">
+                    {#if window.innerWidth > 640}
+                      {#each getValidModtagere(besked.modtagere).slice(0, 3) as modtager}
+                        {#if $informationer?.lærereOgElever[modtager]}
+                          <div class="z-0">
+                            <Avatar id={$informationer.lærereOgElever[modtager]} navn={modtager} size="h-10 w-10" />
                           </div>
                         {/if}
+                      {/each}
+                      {#if getValidModtagere(besked.modtagere).length > 3}
+                        <div
+                          class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white"
+                        >
+                          +{besked.modtagere.length - 3}
+                        </div>
                       {/if}
-                    </div>
+                    {/if}
                   </div>
                 </div>
-              </a>
+              </div>
             </li>
           {/if}
         {/if}
@@ -190,4 +204,11 @@
       </div>
     </div>
   {/if}
-</body>
+  <div class="flex justify-center">
+    {#if $beskeder.length != _beskeder.length}
+      <button class="btn-info btn-sm btn my-4" on:click={showMore}>Indlæs flere beskeder</button>
+    {:else}
+      <button class="btn-warning btn-sm btn my-4" on:click={showMore}>Ikke flere beskeder</button>
+    {/if}
+  </div>
+{/if}

@@ -14,23 +14,20 @@
   let source;
 
   async function getImageSource() {
-    const response = await fetch(`${api}/profil_billed?id=${id}&fullsize=1`, {
-      headers: {
-        "lectio-cookie": localStorage.getItem("lectio-cookie"),
-      },
-    });
-    if (response.ok) {
-      const base64Response = await response.text();
-      /*
-    Hvorfor er dette udkommenteret? Det er det fordi cachen på billeder vare i rigtig lang tid og derfor bliver lectio-cookie sat til noget gammelt. Indtil vi har fundet en bedre løsning vil det her være udkommenteret
-    if (response.ok) {
-      let lectioCookie = await response.headers.get('set-lectio-cookie')
-      if (lectioCookie && lectioCookie != "null") {
-        localStorage.setItem("lectio-cookie", lectioCookie);
+    console.log("getting image source", id);
+    try {
+      const response = await fetch(`${api}/profil_billed?id=${id}&fullsize=1`, {
+        headers: {
+          "lectio-cookie": localStorage.getItem("lectio-cookie"),
+        },
+      });
+      if (response.ok) {
+        const base64Response = await response.text();
+        return base64Response;
+      } else {
+        return null;
       }
-    }*/
-      return base64Response;
-    } else {
+    } catch (error) {
       return null;
     }
   }
@@ -49,7 +46,7 @@
     {#if source}
       <button class="avatar">
         <div class={squared ? `${size} rounded` : `${size} rounded-full`}>
-          <img id="${id}" src="data:image/png;base64, {source}" alt="" />
+          <img id="${id}" src="data:image/png;base64, {source}" alt="" class="image-full" />
         </div>
       </button>
     {:else}
