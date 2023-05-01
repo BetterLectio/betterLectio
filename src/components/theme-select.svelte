@@ -27,7 +27,11 @@
       viewBox="0 0 2048 2048"><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z" /></svg
     >
   </button>
-  <ul class="dropdown-content menu rounded-box mt-3 flex w-52 bg-base-100 p-2 shadow z-50" id="theme-select" tabindex="0">
+  <ul
+    class="dropdown-content menu rounded-box z-50 mt-3 flex h-96 w-52 flex-nowrap overflow-x-hidden overflow-y-scroll bg-base-100 p-2 shadow"
+    id="theme-select"
+    tabindex="0"
+  >
     <Themes class="z-50" />
   </ul>
 </div>

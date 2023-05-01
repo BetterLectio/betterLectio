@@ -1,4 +1,6 @@
 <script>
+  import { addNotification } from "../../components/notifyStore";
+
   let p;
   $: if (p) {
     document.documentElement.style.setProperty("--p", hexToHSL(p));
@@ -20,69 +22,17 @@
     document.documentElement.style.setProperty("--ac", readable(hexToHSL(a)));
   }
 
+  let bc;
   let b;
   $: if (b) {
     document.documentElement.style.setProperty("--b1", hexToHSL(b));
     document.documentElement.style.setProperty("--b2", darken(hexToHSL(b)));
     document.documentElement.style.setProperty("--b3", darken(darken(hexToHSL(b))));
     document.documentElement.style.setProperty("--bc", mono(readable(darken(darken(hexToHSL(b))))));
+    bc = mono(readable(darken(darken(hexToHSL(b))))); // for use in save function
     document.documentElement.style.setProperty("--nc", mono(readable(darken(darken(hexToHSL(b))))));
     document.documentElement.style.setProperty("--n", mono(darken(darken(hexToHSL(b)))));
     document.documentElement.style.setProperty("--nf", mono(darken(darken(darken(hexToHSL(b))))));
-  }
-
-  function HSLToHex(col) {
-    col = col.replace("%", "");
-    col = col.split(" ");
-    let h = col[1].replace("%", ""),
-      s = col[2].replace("%", ""),
-      l = col[3].replace("%", "");
-    s /= 100;
-    l /= 100;
-
-    let c = (1 - Math.abs(2 * l - 1)) * s,
-      x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
-      m = l - c / 2,
-      r = 0,
-      g = 0,
-      b = 0;
-
-    if (0 <= h && h < 60) {
-      r = c;
-      g = x;
-      b = 0;
-    } else if (60 <= h && h < 120) {
-      r = x;
-      g = c;
-      b = 0;
-    } else if (120 <= h && h < 180) {
-      r = 0;
-      g = c;
-      b = x;
-    } else if (180 <= h && h < 240) {
-      r = 0;
-      g = x;
-      b = c;
-    } else if (240 <= h && h < 300) {
-      r = x;
-      g = 0;
-      b = c;
-    } else if (300 <= h && h < 360) {
-      r = c;
-      g = 0;
-      b = x;
-    }
-    // Having obtained RGB, convert channels to hex
-    r = Math.round((r + m) * 255).toString(16);
-    g = Math.round((g + m) * 255).toString(16);
-    b = Math.round((b + m) * 255).toString(16);
-
-    // Prepend 0s, if necessary
-    if (r.length == 1) r = "0" + r;
-    if (g.length == 1) g = "0" + g;
-    if (b.length == 1) b = "0" + b;
-
-    return "#" + r + g + b;
   }
 
   function hexToHSL(H) {
@@ -175,7 +125,40 @@
 
   let temaName = "unavngivet tema";
 
-  function saveTema() {}
+  function saveTema() {
+    // first if a localstorage item with the name "themes" does not exist, create it
+    if (localStorage.getItem("themes") === null) {
+      localStorage.setItem("themes", JSON.stringify([]));
+    }
+    // get the current themes
+    let themes = JSON.parse(localStorage.getItem("themes"));
+    // check if the name is already taken
+    let nameTaken = false;
+    for (let i = 0; i < themes.length; i++) {
+      if (themes[i].name == temaName) {
+        nameTaken = true;
+      }
+    }
+    // if the name is taken, alert the user
+    if (nameTaken) {
+      addNotification("Temaet findes allerede", "alert-error");
+      return;
+    }
+    // add the new theme to the array
+    themes.push({
+      name: temaName,
+      primary: p,
+      secondary: s,
+      accent: a,
+      base: b,
+      baseContent: bc,
+    });
+
+    // save the new array
+    localStorage.setItem("themes", JSON.stringify(themes));
+    // reload the page
+    location.reload();
+  }
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Lav et tema</h1>
