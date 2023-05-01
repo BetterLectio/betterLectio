@@ -30,6 +30,9 @@
       <input
         type="checkbox"
         class="checkbox "
+        on:click={() => {
+          location.reload();
+        }}
         bind:checked={$indstillinger.sidebar}
         disabled={windowWidth > 768 ? "" : "disabled"}
       />
