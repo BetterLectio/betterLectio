@@ -6,6 +6,15 @@
     document.documentElement.style.setProperty("--p", hexToHSL(p));
     document.documentElement.style.setProperty("--pf", darken(hexToHSL(p)));
     document.documentElement.style.setProperty("--pc", readable(hexToHSL(p)));
+
+    document.documentElement.style.setProperty("--in", "198 93% 60%"); //Default color
+    document.documentElement.style.setProperty("--inc", "198 100% 12%"); //Default color
+    document.documentElement.style.setProperty("--su", "158 64% 52%"); //Default color
+    document.documentElement.style.setProperty("--suc", "158 100% 10%"); //Default color
+    document.documentElement.style.setProperty("--wa", "43 96% 56%"); //Default color
+    document.documentElement.style.setProperty("--wac", "43 100% 11%"); //Default color
+    document.documentElement.style.setProperty("--er", "0 91% 71%"); //Default color
+    document.documentElement.style.setProperty("--erc", "0 100% 14%"); //Default color
   }
 
   let s;
@@ -31,8 +40,8 @@
     document.documentElement.style.setProperty("--bc", mono(readable(darken(darken(hexToHSL(b))))));
     bc = mono(readable(darken(darken(hexToHSL(b))))); // for use in save function
     document.documentElement.style.setProperty("--nc", mono(readable(darken(darken(hexToHSL(b))))));
-    document.documentElement.style.setProperty("--n", mono(darken(darken(hexToHSL(b)))));
-    document.documentElement.style.setProperty("--nf", mono(darken(darken(darken(hexToHSL(b))))));
+    document.documentElement.style.setProperty("--n", darken(darken(darken(hexToHSL(b)))));
+    document.documentElement.style.setProperty("--nf", darken(darken(darken(darken(hexToHSL(b))))));
   }
 
   function hexToHSL(H) {
@@ -102,10 +111,7 @@
     l = l.replace("%", "");
     l /= 100;
     l = l - 0.1;
-    s = s.replace("%", "");
-    s /= 100;
-    s = s + 0.2;
-    return h + " " + s * 100 + "% " + l * 100 + "%";
+    return h + " " + s + " " + l * 100 + "%";
   }
 
   function mono(HSL) {
@@ -209,7 +215,7 @@
     <div class="form-control">
       <label class="label max-w-xs">
         <span class="label-text">Tema navn</span>
-        <input type="text" placeholder="Tema navn" class="input-bordered input" bind:value={temaName} />
+        <input type="text" placeholder="Tema navn" class="input-bordered input" bind:value={temaName} maxlength="8" />
       </label>
       <button class=" btn w-fit" on:click={saveTema}>Gem</button>
     </div>
