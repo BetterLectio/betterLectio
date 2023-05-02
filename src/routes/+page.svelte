@@ -316,14 +316,17 @@
 		</div>
 	</div>
 	<div class="/md:flex/ justify-end hidden">
-		<picture class="" in:fade={{ duration: 1000 }}>
-			<source class="" srcset="/opg_dark.avif" media="(prefers-color-scheme:dark)" />
-			<img class="" src="/opg_light.avif" alt="opgave side" />
+		<picture in:fade={{ duration: 1000 }}>
+			<source type="image/avif" srcset="/opg_dark.avif" media="(prefers-color-scheme:dark)" />
+			<source type="image/png" srcset="/opg_dark.png" media="(prefers-color-scheme:dark)" />
+			<source type="image/avif" srcset="/opg_light.avif" />
+			<img src="/opg_light.png" alt="opgave side" loading="lazy" decoding="async" />
 		</picture>
 	</div>
-	<div class="md:flex justify-center hidden h-[900px] background-cover mb-32 rounded-3xl mx-4">
-		<img class="" src="/3phone.avif" alt="telefon mockup" />
-	</div>
+	<picture class="md:flex justify-center hidden h-[900px] background-cover mb-32 rounded-3xl mx-4">
+		<source srcset="/3phone.avif" type="image/avif" />
+		<img src="/3phone.png" type="image/png" alt="telefon mockup" loading="lazy" decoding="async" />
+	</picture>
 	<div class="container mx-auto w-full mt-4 z-30 relative" in:fade={{ duration: 1000 }}>
 		<div>
 			{#if stats}
@@ -465,6 +468,6 @@
 		background-size: cover;
 		background-position: center;
 		background-repeat: no-repeat;
-		background-image: url(/background.avif);
+		background-image: url(/background.jpg);
 	}
 </style>
