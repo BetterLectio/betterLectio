@@ -317,12 +317,12 @@
 	</div>
 	<div class="/md:flex/ justify-end hidden">
 		<picture class="" in:fade={{ duration: 1000 }}>
-			<source class="" srcset="/opg_dark.png" media="(prefers-color-scheme:dark)" />
-			<img class="" src="/opg_light.png" alt="opgave side" />
+			<source class="" srcset="/opg_dark.avif" media="(prefers-color-scheme:dark)" />
+			<img class="" src="/opg_light.avif" alt="opgave side" />
 		</picture>
 	</div>
 	<div class="md:flex justify-center hidden h-[900px] background-cover mb-32 rounded-3xl mx-4">
-		<img class="" src="/3phone.png" alt="telefon mockup" />
+		<img class="" src="/3phone.avif" alt="telefon mockup" />
 	</div>
 	<div class="container mx-auto w-full mt-4 z-30 relative" in:fade={{ duration: 1000 }}>
 		<div>
@@ -362,11 +362,11 @@
 				<iframe
 					id="player"
 					type="text/html"
-					src="https://www.youtube.com/embed/594er80meJk?enablejsapi=1&origin=https://betterlectio.dk"
+					loading="lazy"
+					src="https://www.youtube-nocookie.com/embed/594er80meJk?enablejsapi=1&origin=https://betterlectio.dk"
 					frameborder="0"
 				/>
 			</div>
-
 			{#if loaded}
 				<div
 					id="downloads"
@@ -465,6 +465,6 @@
 		background-size: cover;
 		background-position: center;
 		background-repeat: no-repeat;
-		background-image: url(/background.jpg);
+		background-image: url(/background.avif);
 	}
 </style>
