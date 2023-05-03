@@ -150,6 +150,8 @@
 
   async function addSkemaToCalendar(skema) {
     options.view = dertermineView();
+    console.log("adding skema to calendar", skema);
+    const holdToColor = getHoldToColor();
     for (let i = 0; i < skema["moduler"].length; i++) {
       let modul = skema["moduler"][i];
       let start = modul["tidspunkt"].split(" til ")[0];
@@ -188,8 +190,13 @@
       }
       let status = modul["status"]; // can be "normal" "ændret" or "aflyst"
       let className;
+      console.log(holdToColor, modul.hold);
       if (status == "normal") {
-        className = "hsl(var(--in))";
+        if (holdToColor[modul.hold]) {
+          className = `hsl(${holdToColor[modul.hold]}, 100%, 50%)`;
+        } else {
+          className = "hsl(var(--in))";
+        }
       } else if (status == "ændret") {
         className = "hsl(var(--su))";
       } else {
@@ -221,6 +228,15 @@
 
   $: if (globalWeek && globalYear) {
     getSkema();
+  }
+  function getHoldToColor() {
+    let holdToColor = {};
+    console.log(skema[globalYear + "" + globalWeek]);
+    for (let i = 0; i < skema[globalYear + "" + globalWeek].hold.length; i++) {
+      holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] =
+        (255 / skema[globalYear + "" + globalWeek].hold.length) * i;
+    }
+    return holdToColor;
   }
 
   async function getSkema() {
