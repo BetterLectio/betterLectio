@@ -8,7 +8,7 @@
 
   let skema = {};
 
-  let skemaId = new URLSearchParams(window.location.search).get("id");
+  $: skemaId = new URLSearchParams(window.location.search).get("id");
 
   let cookie;
   cookieInfo().then((data) => {
@@ -124,6 +124,10 @@
     },
     eventDidMount: (event) => {
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
+      //if the event is cancelled, add a class to the event
+      if (event.event.backgroundColor == "hsl(var(--er))") {
+        event.el.classList.add("line-through", "hover:decoration-2");
+      }
     },
     viewDidMount: (view) => {
       dertermineView();
@@ -428,8 +432,6 @@
   //  }
   //}
 </script>
-
-<svelte:head />
 
 <span class="my-2 flex justify-between">
   {#if skema[globalYear + "" + globalWeek]}
