@@ -128,6 +128,9 @@
       if (event.event.backgroundColor == "hsl(var(--er))") {
         event.el.classList.add("line-through", "hover:decoration-2");
       }
+      if (event.event.extendedProps.hasContent) {
+        event.el.classList.add("after:content-['_📖']", "after:px-1", "hover:after:content-['_📖']");
+      }
     },
     viewDidMount: (view) => {
       dertermineView();
@@ -204,6 +207,7 @@
       } else {
         className = "hsl(var(--er))";
       }
+      let hasContent = modul["andet"] == null ? false : true;
       //const backgroundColor = $indstillinger?.classesWithDiffrentColors === true ? className : stringToHex(modul["hold"]);
 
       let modulCalenderObj = {
@@ -212,6 +216,7 @@
         end: new Date(`${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}`),
         id: modul["absid"],
         backgroundColor: className,
+        extendedProps: { hasContent: hasContent },
       };
       let isAdded = false;
       for (let i = 0; i < addedEventsId.length; i++) {
