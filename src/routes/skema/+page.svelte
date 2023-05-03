@@ -40,7 +40,7 @@
     draggable: "ec-draggable",
     dragging: "ec-dragging",
     event:
-      "btn btn-xs absolute overflow-hidden text-black hover:shadow-xl visible hover:scale-110 z-10 hover:z-0 border-2 border-base-100",
+      "btn btn-xs absolute overflow-hidden text-black hover:shadow-xl visible hover:scale-110 z-10 hover:z-0 border-0 m-0.5",
     eventBody: "ec-event-body",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
@@ -191,14 +191,12 @@
       let status = modul["status"]; // can be "normal" "ændret" or "aflyst"
       let className;
       console.log(holdToColor, modul.hold);
-      if (status == "normal") {
+      if (status == "normal" || status == "ændret") {
         if (holdToColor[modul.hold]) {
-          className = `hsl(${holdToColor[modul.hold]}, 100%, 50%)`;
+          className = `hsl(${holdToColor[modul.hold]}, 75%, 65%)`;
         } else {
           className = "hsl(var(--in))";
         }
-      } else if (status == "ændret") {
-        className = "hsl(var(--su))";
       } else {
         className = "hsl(var(--er))";
       }
@@ -234,7 +232,7 @@
     console.log(skema[globalYear + "" + globalWeek]);
     for (let i = 0; i < skema[globalYear + "" + globalWeek].hold.length; i++) {
       holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] =
-        (255 / skema[globalYear + "" + globalWeek].hold.length) * i;
+        (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
     }
     return holdToColor;
   }
