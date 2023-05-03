@@ -40,8 +40,8 @@
     draggable: "ec-draggable",
     dragging: "ec-dragging",
     event:
-      "btn btn-xs absolute overflow-hidden text-black hover:shadow-xl visible hover:scale-110 z-10 hover:z-0 border-0 m-0.5",
-    eventBody: "ec-event-body",
+      "btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden text-black hover:shadow-xl visible hover:scale-110 z-10 hover:z-0 border-0 m-0.5",
+    eventBody: "",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
     eventTitle: "ec-event-title",
@@ -123,14 +123,22 @@
       timeGridWeek: "uge",
     },
     eventDidMount: (event) => {
-      event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
       //if the event is cancelled, add a class to the event
       if (event.event.backgroundColor == "hsl(var(--er))") {
         event.el.classList.add("line-through", "hover:decoration-2");
       }
       if (event.event.extendedProps.hasContent) {
-        event.el.classList.add("after:content-['_📖']", "after:px-1", "hover:after:content-['_📖']");
+        event.el.classList.add(
+          "after:content-['_📖']",
+          "after:px-1",
+          "hover:after:content-['_📖']",
+          "text-left",
+          "justify-between"
+        );
+      } else {
+        event.el.classList.add("text-left", "justify-start");
       }
+      event.el.outerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.outerHTML}</a>`;
     },
     viewDidMount: (view) => {
       dertermineView();
