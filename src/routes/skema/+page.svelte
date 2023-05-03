@@ -138,7 +138,7 @@
       } else {
         event.el.classList.add("text-left", "justify-start");
       }
-      event.el.outerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.outerHTML}</a>`;
+      event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
     },
     viewDidMount: (view) => {
       dertermineView();
