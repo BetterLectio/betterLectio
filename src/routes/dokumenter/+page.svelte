@@ -138,11 +138,11 @@
       <tbody>
         {#if loading && now - loadingStarted >= 100}
           <tr class="animate-pulse">
-            <td><div class="h-6 w-6 rounded-md bg-gray-300" /></td>
-            <td><div class="h-6 w-36 rounded-md bg-gray-300" /></td>
+            <td><div class="h-6 w-6 rounded-md bg-base-300" /></td>
+            <td><div class="h-6 w-36 rounded-md bg-base-300" /></td>
             {#if window.innerWidth > 768}
-              <td><div class="h-6 w-36 rounded-md bg-gray-300" /></td>
-              <td><div class="h-6 w-36 rounded-md bg-gray-300" /></td>
+              <td><div class="h-6 w-36 rounded-md bg-base-300" /></td>
+              <td><div class="h-6 w-36 rounded-md bg-base-300" /></td>
             {/if}
           </tr>
         {:else}

@@ -143,7 +143,7 @@
       {#each Array.from($beskeder) as besked}
         {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
           {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
-            <li transition:fade class="rounded-md p-2 hover:bg-base-100">
+            <li in:fade class="rounded-md p-2 hover:bg-base-100">
               <div class="flex justify-between">
                 <div class="ml-1 flex items-center">
                   <BrugerPopup navn={besked.førsteBesked} id={$informationer.lærereOgElever[besked.førsteBesked]}>
