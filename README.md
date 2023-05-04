@@ -57,7 +57,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 2. skema side
 
-   - kunne se andre elevers skema (API) (UI)
+   - kunne skifte til sit ejet skema fra andres (UI)
    - se skema for lokaler (API) (UI)
 
 3. værktøjs side (nyttige værktøjer til brugeren)
