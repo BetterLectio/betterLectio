@@ -49,6 +49,15 @@
   function electronAlert(event, message) {
     addNotification(message, "alert-warning");
   }
+
+  $indstillinger ||= {};
+  $indstillinger.sidebar ||= false;
+  $indstillinger.opgaver ||= {};
+  $indstillinger.opgaver.visFristAbsolut ||= false;
+  $indstillinger.opgaver.visHeleBeskrivelsen ||= false;
+
+  $indstillinger.skema ||= {};
+  $indstillinger.skema.classesWithDiffrentColors ||= true;
 </script>
 
 <!-- error modal -->

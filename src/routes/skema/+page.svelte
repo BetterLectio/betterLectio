@@ -207,7 +207,7 @@
       let className;
       console.log(holdToColor, modul.hold);
       if (status == "normal" || status == "ændret") {
-        if (holdToColor[modul.hold]) {
+        if (holdToColor[modul.hold] && $indstillinger.skema.classesWithDiffrentColors == true) {
           className = `hsl(${holdToColor[modul.hold]}, 75%, 65%)`;
         } else {
           className = "hsl(var(--in))";

@@ -8,7 +8,7 @@
   $indstillinger.opgaver.visHeleBeskrivelsen ||= false;
 
   $indstillinger.skema ||= {};
-  $indstillinger.skema.classesWithDiffrentColors ||= false;
+  $indstillinger.skema.classesWithDiffrentColors ||= true;
 
   let windowWidth = window.innerWidth;
 
@@ -57,7 +57,7 @@
   </div>
 </div>
 
-<!-- <div class="mt-4 rounded-lg bg-base-200 p-4">
+<div class="mt-4 rounded-lg bg-base-200 p-4">
   <div class="form-control">
     <span class="mb-2 text-lg font-bold">Skema siden</span>
 
@@ -66,7 +66,7 @@
       <input type="checkbox" class="checkbox " bind:checked={$indstillinger.skema.classesWithDiffrentColors} />
     </label>
   </div>
-</div> -->
+</div>
 
 <h2 class="mt-4 font-mono opacity-20 transition-all duration-300 hover:opacity-100">
   BetterLectio version: {__APP_VERSION__}
