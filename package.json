@@ -68,7 +68,7 @@
 		"cross-env": "^7.0.3",
 		"dotenv": "^16.0.3",
 		"electron": "^22.0.3",
-		"electron-builder": "^23.6.0",
+		"electron-builder": "^24.0.0",
 		"electron-connect": "^0.6.3",
 		"electron-packager": "^17.1.1",
 		"eslint": "^8.16.0",
