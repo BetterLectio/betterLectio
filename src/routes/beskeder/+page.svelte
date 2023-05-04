@@ -143,7 +143,7 @@
       {#each Array.from($beskeder) as besked}
         {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
           {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
-            <li transition:fade class="rounded-md p-2 hover:bg-base-100">
+            <li in:fade class="rounded-md p-2 hover:bg-base-100">
               <div class="flex justify-between">
                 <div class="ml-1 flex items-center">
                   <BrugerPopup navn={besked.førsteBesked} id={$informationer.lærereOgElever[besked.førsteBesked]}>
@@ -185,6 +185,13 @@
           {/if}
         {/if}
       {/each}
+      <div class="flex justify-center">
+        {#if $beskeder.length != _beskeder.length}
+          <button class="btn-info btn-sm btn my-4" on:click={showMore}>Indlæs flere beskeder</button>
+        {:else}
+          <button class="btn-warning btn-sm btn my-4" on:click={showMore}>Ikke flere beskeder</button>
+        {/if}
+      </div>
     </ul>
   {:else}
     <div class="m-16 flex h-full items-center justify-center">
@@ -204,11 +211,4 @@
       </div>
     </div>
   {/if}
-  <div class="flex justify-center">
-    {#if $beskeder.length != _beskeder.length}
-      <button class="btn-info btn-sm btn my-4" on:click={showMore}>Indlæs flere beskeder</button>
-    {:else}
-      <button class="btn-warning btn-sm btn my-4" on:click={showMore}>Ikke flere beskeder</button>
-    {/if}
-  </div>
 {/if}

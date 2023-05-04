@@ -8,7 +8,7 @@
 
   let skema = {};
 
-  let skemaId = new URLSearchParams(window.location.search).get("id");
+  $: skemaId = new URLSearchParams(window.location.search).get("id");
 
   let cookie;
   cookieInfo().then((data) => {
@@ -40,8 +40,8 @@
     draggable: "ec-draggable",
     dragging: "ec-dragging",
     event:
-      "btn btn-xs absolute overflow-hidden text-black hover:shadow-xl visible hover:scale-110 z-10 hover:z-0 border-2 border-base-100",
-    eventBody: "ec-event-body",
+      "btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden text-black hover:shadow-xl visible hover:scale-110 z-10 hover:z-0 border-0 m-0.5",
+    eventBody: "",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
     eventTitle: "ec-event-title",
@@ -123,6 +123,21 @@
       timeGridWeek: "uge",
     },
     eventDidMount: (event) => {
+      //if the event is cancelled, add a class to the event
+      if (event.event.backgroundColor == "hsl(var(--er))") {
+        event.el.classList.add("line-through", "hover:decoration-2");
+      }
+      if (event.event.extendedProps.hasContent) {
+        event.el.classList.add(
+          "after:content-['_📖']",
+          "after:px-1",
+          "hover:after:content-['_📖']",
+          "text-left",
+          "justify-between"
+        );
+      } else {
+        event.el.classList.add("text-left", "justify-start");
+      }
       event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
     },
     viewDidMount: (view) => {
@@ -150,6 +165,8 @@
 
   async function addSkemaToCalendar(skema) {
     options.view = dertermineView();
+    console.log("adding skema to calendar", skema);
+    const holdToColor = getHoldToColor();
     for (let i = 0; i < skema["moduler"].length; i++) {
       let modul = skema["moduler"][i];
       let start = modul["tidspunkt"].split(" til ")[0];
@@ -188,13 +205,17 @@
       }
       let status = modul["status"]; // can be "normal" "ændret" or "aflyst"
       let className;
-      if (status == "normal") {
-        className = "hsl(var(--in))";
-      } else if (status == "ændret") {
-        className = "hsl(var(--su))";
+      console.log(holdToColor, modul.hold);
+      if (status == "normal" || status == "ændret") {
+        if (holdToColor[modul.hold]) {
+          className = `hsl(${holdToColor[modul.hold]}, 75%, 65%)`;
+        } else {
+          className = "hsl(var(--in))";
+        }
       } else {
         className = "hsl(var(--er))";
       }
+      let hasContent = modul["andet"] == null ? false : true;
       //const backgroundColor = $indstillinger?.classesWithDiffrentColors === true ? className : stringToHex(modul["hold"]);
 
       let modulCalenderObj = {
@@ -203,6 +224,7 @@
         end: new Date(`${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}`),
         id: modul["absid"],
         backgroundColor: className,
+        extendedProps: { hasContent: hasContent },
       };
       let isAdded = false;
       for (let i = 0; i < addedEventsId.length; i++) {
@@ -221,6 +243,15 @@
 
   $: if (globalWeek && globalYear) {
     getSkema();
+  }
+  function getHoldToColor() {
+    let holdToColor = {};
+    console.log(skema[globalYear + "" + globalWeek]);
+    for (let i = 0; i < skema[globalYear + "" + globalWeek].hold.length; i++) {
+      holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] =
+        (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
+    }
+    return holdToColor;
   }
 
   async function getSkema() {
@@ -414,8 +445,6 @@
   //  }
   //}
 </script>
-
-<svelte:head />
 
 <span class="my-2 flex justify-between">
   {#if skema[globalYear + "" + globalWeek]}
