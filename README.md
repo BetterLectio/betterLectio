@@ -88,3 +88,12 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
    - lav en dokumentation (UI)
    - lav en help side (UI)
    - lav en about side (UI)
+
+9. lektier
+- lav så man kan strege dem over
+
+10. karakterer
+- lav standpunkt og årskarakterer
+   
+   
+
