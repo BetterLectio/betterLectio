@@ -58,7 +58,7 @@
   >
 </div>
 
-<div class="flex min-h-screen">
+<div class="min-h-screen w-full">
   <div>
     {#if page === "generelt"}
       <div

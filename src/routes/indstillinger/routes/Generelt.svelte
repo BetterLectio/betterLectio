@@ -1,5 +1,5 @@
 <script>
-  import { indstillinger } from "../../../components/store";
+  import { indstillinger, hold } from "../../../components/store";
 
   $indstillinger ||= {};
   $indstillinger.sidebar ||= false;
@@ -17,6 +17,19 @@
   }
 
   window.addEventListener("resize", handleResize);
+
+  function onDelete(i) {
+    console.log($hold[i], i, $hold);
+    $hold.splice(i, 1);
+    $hold = $hold;
+  }
+
+  let fag = "",
+    forkortelse = "";
+  function addHold() {
+    $hold.push({ forkortelse: forkortelse, fag: fag });
+    $hold = $hold;
+  }
 </script>
 
 <h1 class="mb-4 text-3xl font-bold">Indstillinger - Generelt</h1>
@@ -65,6 +78,42 @@
       <span class="label-text">Få forskellige farver på dine moduler</span>
       <input type="checkbox" class="checkbox " bind:checked={$indstillinger.skema.classesWithDiffrentColors} />
     </label>
+  </div>
+</div>
+
+<div class="mt-4 rounded-lg bg-base-200 p-4">
+  <div class="form-control">
+    <span class="mb-2 text-lg font-bold">Fag Oversætter</span>
+    <p>Fag Oversætteren bliver brugt i BetterLectio til at lettere afkode hvilket fag du skal have</p>
+  </div>
+  <div class="divider" />
+  <div class="overflow-x-auto">
+    <table class="table-zebra table-compact table w-full">
+      <thead>
+        <th>forkortelse</th>
+        <th>Fag</th>
+        <th />
+      </thead>
+      <tbody>
+        {#each $hold as hold_, i}
+          <tr>
+            <td>{hold_.forkortelse}</td>
+            <td>{hold_.fag}</td>
+            <td><button class="btn-error btn-xs btn" on:click={() => onDelete(i)}>Slet</button></td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+    <div class="divider" />
+    <div class="form-control">
+      <label class="input-group-sm input-group">
+        <input type="text" placeholder="Forkortelse" bind:value={forkortelse} class="input-bordered input input-sm" />
+        <input type="text" placeholder="Fag" bind:value={fag} class="input-bordered input input-sm" />
+        <button class="btn-sm btn {fag != '' && forkortelse != '' ? '' : 'btn-disabled'}" on:click={() => addHold()}
+          >Gem</button
+        >
+      </label>
+    </div>
   </div>
 </div>
 

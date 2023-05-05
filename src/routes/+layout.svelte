@@ -58,19 +58,20 @@
 
   $indstillinger.skema ||= {};
   $indstillinger.skema.classesWithDiffrentColors ||= true;
-
-  $hold ||= [
-    { fag: "Dansk", forkortelse: "da" },
-    { fag: "Matematik", forkortelse: "ma" },
-    { fag: "Teknologi", forkortelse: "ti" },
-    { fag: "Engelsk", forkortelse: "en" },
-    { fag: "Historie", forkortelse: "hi" },
-    { fag: "Biologi", forkortelse: "bi" },
-    { fag: "Kemi", forkortelse: "ke" },
-    { fag: "Fysik", forkortelse: "fy" },
-    { fag: "Samfundsfag", forkortelse: "sa" },
-    { fag: "komm/it", forkortelse: "kit" },
-  ];
+  if ($hold === [] || !$hold) {
+    $hold = [
+      { fag: "Dansk", forkortelse: "da" },
+      { fag: "Matematik", forkortelse: "ma" },
+      { fag: "Teknologi", forkortelse: "ti" },
+      { fag: "Engelsk", forkortelse: "en" },
+      { fag: "Historie", forkortelse: "hi" },
+      { fag: "Biologi", forkortelse: "bi" },
+      { fag: "Kemi", forkortelse: "ke" },
+      { fag: "Fysik", forkortelse: "fy" },
+      { fag: "Samfundsfag", forkortelse: "sa" },
+      { fag: "komm/it", forkortelse: "kit" },
+    ];
+  }
 </script>
 
 <!-- error modal -->
