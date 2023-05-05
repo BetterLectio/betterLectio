@@ -63,6 +63,13 @@
     { fag: "Dansk", forkortelse: "da" },
     { fag: "Matematik", forkortelse: "ma" },
     { fag: "Teknologi", forkortelse: "ti" },
+    { fag: "Engelsk", forkortelse: "en" },
+    { fag: "Historie", forkortelse: "hi" },
+    { fag: "Biologi", forkortelse: "bi" },
+    { fag: "Kemi", forkortelse: "ke" },
+    { fag: "Fysik", forkortelse: "fy" },
+    { fag: "Samfundsfag", forkortelse: "sa" },
+    { fag: "komm/it", forkortelse: "kit" },
   ];
 </script>
 
