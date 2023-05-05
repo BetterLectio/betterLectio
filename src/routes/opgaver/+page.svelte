@@ -1,9 +1,10 @@
 <script>
   import { get } from "../../components/http.js";
-  import { opgaver } from "../../components/store.js";
+  import { opgaver, hold } from "../../components/store.js";
   import { fade } from "svelte/transition";
   import { formatDate } from "../../components/realtiveTime.js";
   import { indstillinger } from "../../components/store.js";
+  import { HoldOversætter } from "../../components/HoldOversætter.js";
 
   let _opgaver = [];
 
@@ -124,7 +125,7 @@
                 <p class="font-bold line-clamp-1 {opgave.status == 'Venter' ? 'mr-16' : ''}">
                   {opgave.opgavetitel}
                 </p>
-                <p>{opgave.hold}</p>
+                <p>{HoldOversætter(opgave.hold, $hold)}</p>
                 <p class="line-clamp-2 {opgave.status == 'Venter' ? 'mr-16' : ''}">{opgave.opgavenote}</p>
               </div>
 
@@ -149,7 +150,7 @@
           <tr>
             <th>Opgavetitel</th>
             <th>Timer</th>
-            <th>Hold</th>
+            <th>Fag</th>
             <th>Frist</th>
             <th>Opgavenote</th>
           </tr>
@@ -162,7 +163,7 @@
                 ></td
               >
               <td class="bg-">{opgave["elev-tid"]}</td>
-              <td class="">{opgave.hold}</td>
+              <td class="">{HoldOversætter(opgave.hold, $hold)}</td>
               <td class="">
                 {#if $indstillinger?.opgaver?.visFristAbsolut}
                   <p class="frist btn-xs btn">{opgave.frist}</p>
