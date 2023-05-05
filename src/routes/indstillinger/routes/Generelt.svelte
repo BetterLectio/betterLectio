@@ -1,15 +1,6 @@
 <script>
   import { indstillinger, hold } from "../../../components/store";
 
-  $indstillinger ||= {};
-  $indstillinger.sidebar ||= false;
-  $indstillinger.opgaver ||= {};
-  $indstillinger.opgaver.visFristAbsolut ||= false;
-  $indstillinger.opgaver.visHeleBeskrivelsen ||= false;
-
-  $indstillinger.skema ||= {};
-  $indstillinger.skema.classesWithDiffrentColors ||= true;
-
   let windowWidth = window.innerWidth;
 
   function handleResize() {
@@ -27,6 +18,8 @@
   let fag = "",
     forkortelse = "";
   function addHold() {
+    //TODO: if already present dont add
+
     $hold.push({ forkortelse: forkortelse, fag: fag });
     $hold = $hold;
   }
@@ -86,35 +79,41 @@
     <span class="mb-2 text-lg font-bold">Fag Oversætter</span>
     <p>Fag Oversætteren bliver brugt i BetterLectio til at lettere afkode hvilket fag du skal have</p>
   </div>
-  <div class="divider" />
-  <div class="overflow-x-auto">
-    <table class="table-zebra table-compact table w-full">
-      <thead>
-        <th>forkortelse</th>
-        <th>Fag</th>
-        <th />
-      </thead>
-      <tbody>
-        {#each $hold as hold_, i}
-          <tr>
-            <td>{hold_.forkortelse}</td>
-            <td>{hold_.fag}</td>
-            <td><button class="btn-error btn-xs btn" on:click={() => onDelete(i)}>Slet</button></td>
-          </tr>
-        {/each}
-      </tbody>
-    </table>
+  <label class="label cursor-pointer">
+    <span class="label-text">Fag Oversætter</span>
+    <input type="checkbox" class="checkbox " bind:checked={$indstillinger.brugHoldOversætter} />
+  </label>
+  {#if $indstillinger.brugHoldOversætter}
     <div class="divider" />
-    <div class="form-control">
-      <label class="input-group-sm input-group">
-        <input type="text" placeholder="Forkortelse" bind:value={forkortelse} class="input-bordered input input-sm" />
-        <input type="text" placeholder="Fag" bind:value={fag} class="input-bordered input input-sm" />
-        <button class="btn-sm btn {fag != '' && forkortelse != '' ? '' : 'btn-disabled'}" on:click={() => addHold()}
-          >Gem</button
-        >
-      </label>
+    <div class="overflow-x-auto">
+      <table class="table-zebra table-compact table w-full">
+        <thead>
+          <th>forkortelse</th>
+          <th>Fag</th>
+          <th />
+        </thead>
+        <tbody>
+          {#each $hold as hold_, i}
+            <tr>
+              <td>{hold_.forkortelse}</td>
+              <td>{hold_.fag}</td>
+              <td><button class="btn-error btn-xs btn" on:click={() => onDelete(i)}>Slet</button></td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+      <div class="divider" />
+      <div class="form-control">
+        <label class="input-group-sm input-group">
+          <input type="text" placeholder="Forkortelse" bind:value={forkortelse} class="input-bordered input input-sm" />
+          <input type="text" placeholder="Fag" bind:value={fag} class="input-bordered input input-sm" />
+          <button class="btn-sm btn {fag != '' && forkortelse != '' ? '' : 'btn-disabled'}" on:click={() => addHold()}
+            >Gem</button
+          >
+        </label>
+      </div>
     </div>
-  </div>
+  {/if}
 </div>
 
 <h2 class="mt-4 font-mono opacity-20 transition-all duration-300 hover:opacity-100">

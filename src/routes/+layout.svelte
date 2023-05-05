@@ -52,6 +52,7 @@
 
   $indstillinger ||= {};
   $indstillinger.sidebar ||= false;
+  $indstillinger.brugHoldOversætter ||= true;
   $indstillinger.opgaver ||= {};
   $indstillinger.opgaver.visFristAbsolut ||= false;
   $indstillinger.opgaver.visHeleBeskrivelsen ||= false;
