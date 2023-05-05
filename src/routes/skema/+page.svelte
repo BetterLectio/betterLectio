@@ -3,6 +3,8 @@
   import Calendar from "@event-calendar/core";
   import TimeGrid from "@event-calendar/time-grid";
   import { indstillinger } from "../../components/store.js";
+  import { HoldOversætter } from "../../components/HoldOversætter.js";
+  import { hold } from "../../components/store.js";
 
   import { cookieInfo } from "../../components/CookieInfo";
 
@@ -193,12 +195,12 @@
       };
       let titel = "";
       if (modul["navn"] != undefined) {
-        titel = modul["navn"] != null ? modul["hold"] : modul["navn"];
+        titel = modul["navn"] != null ? HoldOversætter(modul["hold"], $hold) : modul["navn"];
         if (modul["lokale"]) {
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       } else {
-        titel = modul["hold"];
+        titel = HoldOversætter(modul["hold"], $hold);
         if (modul["lokale"]) {
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }

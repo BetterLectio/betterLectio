@@ -1,11 +1,13 @@
 <script>
   import { page } from "$app/stores";
+  import { hold } from "../../components/store.js";
   import { get } from "../../components/http.js";
   import Table from "../../components/Table.svelte";
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
 
   import { cookieInfo } from "../../components/CookieInfo";
+  import { HoldOversætter } from "../../components/HoldOversætter.js";
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
@@ -105,7 +107,7 @@
     <span class="my-2 flex justify-between">
       <h1 class="text-3xl font-bold">
         {modul.aktivitet.navn ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold
-          ? modul.aktivitet.hold
+          ? HoldOversætter(modul.aktivitet.hold, $hold)
           : "Ukendt hold"}
       </h1>
       <a

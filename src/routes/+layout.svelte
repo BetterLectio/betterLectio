@@ -4,7 +4,7 @@
   import { themeChange } from "theme-change";
   import "../app.css";
   import PageTransition from "../components/PageTransition.svelte";
-  import { brugeren, indstillinger } from "../components/store.js";
+  import { brugeren, indstillinger, hold } from "../components/store.js";
   import Avatar from "../components/Avatar.svelte";
   import { reloadData } from "../components/http";
   import { cookieInfo } from "../components/CookieInfo";
@@ -58,6 +58,12 @@
 
   $indstillinger.skema ||= {};
   $indstillinger.skema.classesWithDiffrentColors ||= true;
+
+  $hold ||= [
+    { fag: "Dansk", forkortelse: "da" },
+    { fag: "Matematik", forkortelse: "ma" },
+    { fag: "Teknologi", forkortelse: "ti" },
+  ];
 </script>
 
 <!-- error modal -->
