@@ -1,9 +1,11 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/fe2851de-234e-4d0b-864e-25827514c5a5/deploy-status)](https://app.netlify.com/sites/betlec/deploys)
+<img src="https://badgen.net/github/release/BetterLectio/betterlectio" />
 ![GitHub issues](https://img.shields.io/github/issues-raw/victorDigital/betterLectio)
 [![Known Vulnerabilities](https://snyk.io/test/github/BetterLectio/betterLectio/badge.svg)](https://snyk.io/test/github/BetterLectio/betterLectio)
 
-
+<p align="center">
 <a href="https://www.netlify.com"> <img src="https://www.netlify.com/v3/img/components/netlify-light.svg" alt="Deploys by Netlify" /> </a>
+</p>
 
 # BetterLectio
 
