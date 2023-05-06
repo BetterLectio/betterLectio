@@ -44,6 +44,10 @@
     document.documentElement.style.setProperty("--nf", darken(darken(darken(darken(hexToHSL(b))))));
   }
 
+  $: if (p || s || a || b) {
+    localStorage.setItem("Previewing Theme", "true");
+  }
+
   function hexToHSL(H) {
     // Convert hex to RGB first
     let r = 0,
@@ -162,6 +166,7 @@
 
     // save the new array
     localStorage.setItem("themes", JSON.stringify(themes));
+    localStorage.setItem("Previewing Theme", "false");
     // reload the page
     location.reload();
   }
