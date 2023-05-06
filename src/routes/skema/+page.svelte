@@ -3,13 +3,15 @@
   import Calendar from "@event-calendar/core";
   import TimeGrid from "@event-calendar/time-grid";
   import { indstillinger } from "../../components/store.js";
-  import { HoldOversætter } from "../../components/HoldOversætter.js";
-  import { hold } from "../../components/store.js";
+  import { HoldOversætter, HoldOversætterNy } from "../../components/HoldOversætter.js";
+  import { fag, hold } from "../../components/store.js";
 
   import { cookieInfo } from "../../components/CookieInfo";
   import { error } from "@sveltejs/kit";
 
   let skema = {};
+
+  $fag ??= {};
 
   $: skemaId = new URLSearchParams(window.location.search).get("id");
 
@@ -194,13 +196,17 @@
         tidspunkt: slut.split(" ")[1],
       };
       let titel = "";
+      if (modul["hold_id"] != null && $fag[modul["hold_id"]] == undefined) {
+        let _fag = await HoldOversætterNy(modul["hold_id"]);
+        $fag[modul["hold_id"]] = _fag == "Andet" ? modul["hold"] : _fag;
+      }
       if (modul["navn"] != undefined) {
-        titel = modul["navn"] != null ? HoldOversætter(modul["hold"], $hold) : modul["navn"];
+        titel = modul["navn"] != null && modul["navn"] != "Ændret!" ? modul["navn"] : $fag[modul["hold_id"]];
         if (modul["lokale"]) {
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       } else {
-        titel = HoldOversætter(modul["hold"], $hold);
+        titel = $fag[modul["hold_id"]];
         if (modul["lokale"]) {
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
