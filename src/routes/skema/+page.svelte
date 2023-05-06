@@ -8,6 +8,7 @@
 
   import { cookieInfo } from "../../components/CookieInfo";
   import { error } from "@sveltejs/kit";
+  import { goto } from "$app/navigation";
 
   let skema = {};
 
@@ -153,8 +154,7 @@
       onload();
     },
     eventClick: (info) => {
-      info.el.outerHTML = `<a href="/modul?absid=${info.event.id}" class="btn-just-clicked">${info.el.outerHTML}</a>`;
-      window.document.getElementsByClassName("btn-just-clicked")[0].click();
+      goto(`/modul?absid=${info.event.id}`);
     },
   };
 
