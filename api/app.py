@@ -421,7 +421,7 @@ def få_bruger():
 def hold_til_fag():
     try:
         cookie = request.headers.get("lectio-cookie")
-        id = request.headers.get("id")
+        id = request.args.get("id")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
