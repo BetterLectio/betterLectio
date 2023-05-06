@@ -6,14 +6,14 @@ labels: ""
 assignees: ""
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**Er din funktionsanmodning relateret til et problem?**
+Beskriv venligst. En klar og præcis beskrivelse af, hvad problemet er. F.eks. Jeg bliver altid frustreret, når [...]
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**Beskriv den løsning, du ønsker.**
+En klar og præcis beskrivelse af, hvad du gerne vil have, der skal ske.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+**Beskriv alternative løsninger, du har overvejet.**
+En klar og præcis beskrivelse af eventuelle alternative løsninger eller funktioner, du har overvejet.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+**Yderligere kontekst.**
+Tilføj eventuel anden kontekst eller skærmbilleder om funktionsanmodningen her.
