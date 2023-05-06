@@ -201,7 +201,7 @@
         $fag[modul["hold_id"]] = _fag == "Andet" ? modul["hold"] : _fag;
       }
       if (modul["navn"] != undefined) {
-        titel = modul["navn"] != null ? modul["navn"] : $fag[modul["hold_id"]];
+        titel = modul["navn"] != null && modul["navn"] != "Ændret!" ? modul["navn"] : $fag[modul["hold_id"]];
         if (modul["lokale"]) {
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
