@@ -143,7 +143,6 @@
       } else {
         event.el.classList.add("text-left", "justify-start");
       }
-      event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
     },
     viewDidMount: (view) => {
       dertermineView();
@@ -152,6 +151,10 @@
       let dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
       globalWeek = Math.floor(dayOfYear / 7);
       onload();
+    },
+    eventClick: (info) => {
+      info.el.outerHTML = `<a href="/modul?absid=${info.event.id}" class="btn-just-clicked">${info.el.outerHTML}</a>`;
+      window.document.getElementsByClassName("btn-just-clicked")[0].click();
     },
   };
 
@@ -231,7 +234,9 @@
         end: new Date(`${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}`),
         id: modul["absid"],
         backgroundColor: className,
-        extendedProps: { hasContent: hasContent },
+        extendedProps: {
+          hasContent: hasContent,
+        },
       };
       let isAdded = false;
       for (let i = 0; i < addedEventsId.length; i++) {
