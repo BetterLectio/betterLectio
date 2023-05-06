@@ -45,7 +45,7 @@
     draggable: "ec-draggable",
     dragging: "ec-dragging",
     event:
-      "btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden text-black hover:shadow-xl visible hover:scale-110 z-10 hover:z-0 border-0 m-0.5",
+      "btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden text-black hover:shadow-xl visible hover:scale-110 z-10 hover:z-0 border-0 m-0.5 hover:brightness-90",
     eventBody: "",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
@@ -143,7 +143,7 @@
       } else {
         event.el.classList.add("text-left", "justify-start");
       }
-      event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
+      event.el.outerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.outerHTML}</a>`;
     },
     viewDidMount: (view) => {
       dertermineView();
