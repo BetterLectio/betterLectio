@@ -7,6 +7,7 @@
   import { hold } from "../../components/store.js";
 
   import { cookieInfo } from "../../components/CookieInfo";
+  import { error } from "@sveltejs/kit";
 
   let skema = {};
 
@@ -167,7 +168,6 @@
 
   async function addSkemaToCalendar(skema) {
     options.view = dertermineView();
-    console.log("adding skema to calendar", skema);
     const holdToColor = getHoldToColor();
     for (let i = 0; i < skema["moduler"].length; i++) {
       let modul = skema["moduler"][i];
@@ -207,7 +207,6 @@
       }
       let status = modul["status"]; // can be "normal" "ændret" or "aflyst"
       let className;
-      console.log(holdToColor, modul.hold);
       if (status == "normal" || status == "ændret") {
         if (holdToColor[modul.hold] && $indstillinger.skema.classesWithDiffrentColors == true) {
           className = `hsl(${holdToColor[modul.hold]}, 75%, 65%)`;
@@ -236,7 +235,6 @@
         }
       }
       if (!isAdded) {
-        console.log("new event added");
         addedEventsId.push(modulCalenderObj.id);
         ec.addEvent(modulCalenderObj);
       }
@@ -248,12 +246,19 @@
   }
   function getHoldToColor() {
     let holdToColor = {};
-    console.log(skema[globalYear + "" + globalWeek]);
-    for (let i = 0; i < skema[globalYear + "" + globalWeek].hold.length; i++) {
-      holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] =
-        (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
+    try {
+      if (!skema[globalYear + "" + globalWeek].hold) {
+        throw error;
+      }
+      for (let i = 0; i < skema[globalYear + "" + globalWeek].hold.length; i++) {
+        holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] =
+          (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
+      }
+      return holdToColor;
+    } catch (error) {
+      console.log("could not get hold to color, proceeding with default");
+      return holdToColor;
     }
-    return holdToColor;
   }
 
   async function getSkema() {
@@ -261,7 +266,6 @@
       skema = {};
     }
     await get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then((data) => {
-      console.log(data);
       skema[globalYear + "" + globalWeek] = data;
 
       options.slotMinTime = parseInt(
