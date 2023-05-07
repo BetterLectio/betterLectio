@@ -150,30 +150,30 @@
     <form action="login" autocomplete="on" method="post">
       <div class="form-control w-full max-w-xl">
         <label class="input-group input-group-horizontal mb-2">
-          <span class="w-28 bg-base-100 border-r-2">Brugernavn</span>
+          <span class="w-28 bg-base-100 border-r-2 border-base-200">Brugernavn</span>
           <input
             type="text"
             name="username"
             id="username-field"
             placeholder="Skriv her"
-            class="input font-semibold input-sm w-[calc(100%-7rem)]"
+            class="input font-semibold autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))] autofill:border-0 input-sm w-[calc(100%-7rem)]"
             bind:value={brugernavn}
           />
         </label>
         <label class="input-group input-group-horizontal mb-2">
-          <span class="w-28 bg-base-100 border-r-2">Kodeord</span>
+          <span class="w-28 bg-base-100 border-r-2 border-base-200">Kodeord</span>
           <input
             type="password"
             name="adgangskode"
             id="adgangskode"
             placeholder="Skriv her"
-            class="input font-semibold input-sm w-[calc(100%-7rem)]"
+            class="input autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))] autofill:border-0 font-semibold input-sm w-[calc(100%-7rem)]"
             bind:value={adgangskode}
             on:keypress={handleEnterLogin}
           />
         </label>
         <label class="input-group input-group-horizontal mb-2">
-          <span class="w-28 bg-base-100 border-r-2">Skole</span>
+          <span class="w-28 bg-base-100 border-r-2 border-base-200">Skole</span>
           <select
             name="skole"
             id="skole"
@@ -231,7 +231,4 @@
 </div>
 
 <style>
-  .input:-webkit-autofill {
-    transition: background-color 5000s;
-  }
 </style>
