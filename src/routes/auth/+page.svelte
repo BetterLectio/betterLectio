@@ -156,25 +156,31 @@
             name="username"
             id="username-field"
             placeholder="Skriv her"
-            class="input input-sm w-52"
+            class="input font-semibold input-sm w-[calc(100%-7rem)]"
             bind:value={brugernavn}
           />
         </label>
-        <label class="input-group input-group-horizontal mb-4">
+        <label class="input-group input-group-horizontal mb-2">
           <span class="w-28 bg-base-100 border-r-2">Kodeord</span>
           <input
             type="password"
             name="adgangskode"
             id="adgangskode"
             placeholder="Skriv her"
-            class="input input-sm w-52"
+            class="input font-semibold input-sm w-[calc(100%-7rem)]"
             bind:value={adgangskode}
             on:keypress={handleEnterLogin}
           />
         </label>
         <label class="input-group input-group-horizontal mb-2">
           <span class="w-28 bg-base-100 border-r-2">Skole</span>
-          <select name="skole" id="skole" placeholder="Vælg din skole" class="select w-52 md:w-fit" bind:value={skole_id}>
+          <select
+            name="skole"
+            id="skole"
+            placeholder="Vælg din skole"
+            class="select select-sm py-0 w-[calc(100%-7rem)]"
+            bind:value={skole_id}
+          >
             <option disabled selected> Vælg din skole </option>
             {#each Object.entries(options) as [key, value] (key)}
               <option value={value.id}>{value.skole}</option>
@@ -182,7 +188,7 @@
           </select>
         </label>
         {#if window.electron}
-          <label class="label w-80 md:w-full cursor-pointer">
+          <label class="label w-full cursor-pointer">
             <span class="block text-sm font-medium text-gray-700">Forbliv logget ind</span>
             <input
               type="checkbox"
@@ -196,7 +202,7 @@
             />
           </label>
         {/if}
-        <label class="label w-80 md:w-full cursor-pointer">
+        <label class="label w-full cursor-pointer">
           <span class="block text-sm font-medium text-gray-700">Gem skole</span>
           <input
             type="checkbox"
