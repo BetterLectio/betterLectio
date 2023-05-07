@@ -10,7 +10,6 @@
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "rohit-gohri.format-code-action",
         "svelte.svelte-vscode",
         "bradlc.vscode-tailwindcss",
         "github.copilot"
