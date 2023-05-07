@@ -29,7 +29,7 @@
 
   let customTheme = {
     active: "ec-active",
-    allDay: "ec-all-day relative",
+    allDay: "ec-all-day relative -mt-4 md:mt-0",
     bgEvent: "ec-bg-event",
     bgEvents: "ec-bg-events",
     body: "ec-body border border-base-content rounded-b-2xl",
@@ -55,7 +55,7 @@
     extra: "ec-extra",
     ghost: "ec-ghost",
     handle: "ec-handle",
-    header: "ec-header rounded-t-2xl",
+    header: window.innerWidth < 768 ? "flex hidden" : "ec-header rounded-t-2xl",
     hiddenScroll: "ec-hidden-scroll",
     hiddenTimes: "ec-hidden-times",
     highlight: "ec-highlight",
@@ -78,9 +78,10 @@
     sidebar: "ec-sidebar",
     sidebarTitle: "hidden",
     time: "ec-time",
-    title: "ec-title",
+    title: "md:ec-title",
     today: "bg-base-300",
-    toolbar: "ec-toolbar",
+    toolbar:
+      "flex items-center ec-toolbar bg-secondary text-secondary-content md:text-base-content md:bg-base-100 p-2 rounded-t-2xl -mt-8 md:mt-0 border border-base-content md:border-0",
     uniform: "ec-uniform",
     week: "ec-week",
     withScroll: "ec-with-scroll",
@@ -134,7 +135,13 @@
         event.el.classList.add("line-through", "hover:decoration-2");
       }
       if (event.event.extendedProps.hasContent) {
-        event.el.classList.add("after:content-['_📖']", "after:px-1", "hover:after:content-['_📖']", "text-left", "justify-between");
+        event.el.classList.add(
+          "after:content-['_📖']",
+          "after:px-1",
+          "hover:after:content-['_📖']",
+          "text-left",
+          "justify-between"
+        );
       } else {
         event.el.classList.add("text-left", "justify-start");
       }
@@ -173,7 +180,10 @@
       let start = modul["tidspunkt"].split(" til ")[0];
       start = {
         dag: start.split("/")[0].length == 1 ? "0" + start.split("/")[0] : start.split("/")[0],
-        måned: start.split("/")[1].split("-")[0].length == 1 ? "0" + start.split("/")[1].split("-")[0] : start.split("/")[1].split("-")[0],
+        måned:
+          start.split("/")[1].split("-")[0].length == 1
+            ? "0" + start.split("/")[1].split("-")[0]
+            : start.split("/")[1].split("-")[0],
         år: start.split("-")[1].split(" ")[0],
 
         tidspunkt: start.split(" ")[1],
@@ -181,7 +191,10 @@
       let slut = modul["tidspunkt"].split(" ")[0] + " " + modul["tidspunkt"].split(" til ")[1];
       slut = {
         dag: slut.split("/")[0].length == 1 ? "0" + slut.split("/")[0] : slut.split("/")[0],
-        måned: slut.split("/")[1].split("-")[0].length == 1 ? "0" + slut.split("/")[1].split("-")[0] : slut.split("/")[1].split("-")[0],
+        måned:
+          slut.split("/")[1].split("-")[0].length == 1
+            ? "0" + slut.split("/")[1].split("-")[0]
+            : slut.split("/")[1].split("-")[0],
         år: slut.split("-")[1].split(" ")[0],
 
         tidspunkt: slut.split(" ")[1],
@@ -250,7 +263,8 @@
         throw error;
       }
       for (let i = 0; i < skema[globalYear + "" + globalWeek].hold.length; i++) {
-        holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] = (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
+        holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] =
+          (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
       }
       return holdToColor;
     } catch (error) {
@@ -327,8 +341,12 @@
   function addButtonsToDagsnoter(year, week) {
     let slots = document.getElementsByClassName("ec-day");
     let slotsFiltered = [];
-    for (let i = 0; i < slots.length; i++) {
-      i >= 5 && i <= 9 ? slotsFiltered.push(slots[i]) : null;
+    if (window.innerWidth < 768) {
+      slotsFiltered.push(slots[1]);
+    } else {
+      for (let i = 0; i < slots.length; i++) {
+        i >= 5 && i <= 9 ? slotsFiltered.push(slots[i]) : null;
+      }
     }
     // add buttons to slots
     for (let i = 0; i < slotsFiltered.length; i++) {
@@ -452,7 +470,7 @@
 
 <span class="my-2 flex justify-between">
   {#if skema[globalYear + "" + globalWeek]}
-    <h1 class="mb-4 text-3xl font-bold">{skema[globalYear + "" + globalWeek].overskrift}</h1>
+    <h1 class="mb-4 hidden text-3xl font-bold md:flex">{skema[globalYear + "" + globalWeek].overskrift}</h1>
   {:else}
     <div class="loading btn-ghost btn" />
   {/if}
