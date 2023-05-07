@@ -5,8 +5,8 @@
   const key =
     "Ting som encrypter login data meget simplet så det ikke er vildt nemt at få fat i fra et andet program. BTW du kan kun gemme login hvis du kører appen, det virker altså ikke på hjemmesiden.";
 
-  import { reloadData, api } from "../../components/http";
-  import { cookieInfo } from "../../components/CookieInfo";
+  import { reloadData, api } from "$lib/js/http";
+  import { cookieInfo } from "$lib/js/CookieInfo";
   import { goto } from "$app/navigation";
 
   let brugernavn = "";

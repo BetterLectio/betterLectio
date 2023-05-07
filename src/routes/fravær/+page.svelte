@@ -1,12 +1,12 @@
 <script>
   import { Doughnut } from "svelte-chartjs";
-  import { fravaer, hold } from "$lib/js/components/store";
-  import { get } from "$lib/js/components/http";
+  import { fravaer, hold } from "$lib/js/store";
+  import { get } from "$lib/js/http";
   import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale } from "chart.js";
   import moment from "moment";
 
-  import { cookieInfo } from "$lib/js/components/CookieInfo";
-  import { HoldOversætter } from "$lib/js/components/HoldOversætter";
+  import { cookieInfo } from "$lib/js/CookieInfo";
+  import { HoldOversætter } from "$lib/js/HoldOversætter";
   let cookie;
   let cookieReady = false;
   cookieInfo().then((data) => {

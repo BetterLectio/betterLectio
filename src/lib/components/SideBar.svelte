@@ -3,7 +3,7 @@
   import { cookieInfo } from "$lib/js/CookieInfo";
   import Avatar from "$lib/components/Avatar.svelte";
   import { reloadData } from "$lib/js/http";
-  import Themes from "$lib/js/Themes.svelte";
+  import Themes from "$lib/components/Themes.svelte";
 
   let cookie;
   cookieInfo().then((data) => {

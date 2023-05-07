@@ -1,7 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { cookieInfo } from "$lib/js/CookieInfo";
-  import { get } from "$lib/js/components/http";
+  import { get } from "$lib/js/http";
   import { fade } from "svelte/transition";
 
   let step = "indlæser";

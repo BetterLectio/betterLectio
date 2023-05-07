@@ -1,5 +1,5 @@
 <script>
-  import { indstillinger, hold } from "$lib/js/components/store";
+  import { indstillinger, hold } from "$lib/js/store";
 
   let windowWidth = window.innerWidth;
 

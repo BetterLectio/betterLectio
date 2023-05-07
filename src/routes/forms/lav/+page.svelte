@@ -1,7 +1,7 @@
 <script>
   import { fly } from "svelte/transition";
-  import { brugeren } from "../../../components/store";
-  import { addNotification } from "../../../components/notifyStore";
+  import { brugeren } from "$lib/js/store";
+  import { addNotification } from "$lib/js/notifyStore";
 
   let titel;
 
