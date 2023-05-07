@@ -1,13 +1,11 @@
 <script>
   import { AES } from "crypto-es/lib/aes";
   import { Utf8 } from "crypto-es/lib/core";
-
-  const key =
-    "Ting som encrypter login data meget simplet så det ikke er vildt nemt at få fat i fra et andet program. BTW du kan kun gemme login hvis du kører appen, det virker altså ikke på hjemmesiden.";
-
   import { reloadData, api } from "$lib/js/http";
   import { cookieInfo } from "$lib/js/CookieInfo";
   import { goto } from "$app/navigation";
+  const key =
+    "Ting som encrypter login data meget simplet så det ikke er vildt nemt at få fat i fra et andet program. BTW du kan kun gemme login hvis du kører appen, det virker altså ikke på hjemmesiden.";
 
   let brugernavn = "";
   let adgangskode = "";
@@ -26,7 +24,7 @@
         res.json().then((data) => {
           if (data?.valid) {
             console.log("Logged in with cookie");
-            window.location.href = "/forside";
+            goto("/forside");
           } else {
             console.log("Cookie not valid.", "valitation:", data);
           }
@@ -106,9 +104,9 @@
         reloadData();
         if (redirectTo) {
           const originalLink = redirectTo.replace("%3", "/").replace("%3F", "?").replace("%3d", "=").replace("%22", `"`);
-          window.location.href = originalLink;
+          goto(originalLink);
         } else {
-          window.location.href = "/forside";
+          goto("/forside");
         }
       }
     }
@@ -129,7 +127,7 @@
   }
 </script>
 
-<body use:getCachedSchool>
+<body use:getCachedSchool class=" bg-base-200">
   <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
