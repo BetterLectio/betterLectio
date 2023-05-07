@@ -135,13 +135,7 @@
         event.el.classList.add("line-through", "hover:decoration-2");
       }
       if (event.event.extendedProps.hasContent) {
-        event.el.classList.add(
-          "after:content-['_📖']",
-          "after:px-1",
-          "hover:after:content-['_📖']",
-          "text-left",
-          "justify-between"
-        );
+        event.el.classList.add("after:content-['_📖']", "after:px-1", "hover:after:content-['_📖']", "text-left", "justify-between");
       } else {
         event.el.classList.add("text-left", "justify-start");
       }
@@ -180,10 +174,7 @@
       let start = modul["tidspunkt"].split(" til ")[0];
       start = {
         dag: start.split("/")[0].length == 1 ? "0" + start.split("/")[0] : start.split("/")[0],
-        måned:
-          start.split("/")[1].split("-")[0].length == 1
-            ? "0" + start.split("/")[1].split("-")[0]
-            : start.split("/")[1].split("-")[0],
+        måned: start.split("/")[1].split("-")[0].length == 1 ? "0" + start.split("/")[1].split("-")[0] : start.split("/")[1].split("-")[0],
         år: start.split("-")[1].split(" ")[0],
 
         tidspunkt: start.split(" ")[1],
@@ -191,10 +182,7 @@
       let slut = modul["tidspunkt"].split(" ")[0] + " " + modul["tidspunkt"].split(" til ")[1];
       slut = {
         dag: slut.split("/")[0].length == 1 ? "0" + slut.split("/")[0] : slut.split("/")[0],
-        måned:
-          slut.split("/")[1].split("-")[0].length == 1
-            ? "0" + slut.split("/")[1].split("-")[0]
-            : slut.split("/")[1].split("-")[0],
+        måned: slut.split("/")[1].split("-")[0].length == 1 ? "0" + slut.split("/")[1].split("-")[0] : slut.split("/")[1].split("-")[0],
         år: slut.split("-")[1].split(" ")[0],
 
         tidspunkt: slut.split(" ")[1],
@@ -210,7 +198,11 @@
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       } else {
-        titel = $fag[modul["hold_id"]];
+        if ($indstillinger.brugHoldOversætter) {
+          titel = $fag[modul["hold_id"]];
+        } else {
+          titel = modul["hold"];
+        }
         if (modul["lokale"]) {
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
@@ -263,8 +255,7 @@
         throw error;
       }
       for (let i = 0; i < skema[globalYear + "" + globalWeek].hold.length; i++) {
-        holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] =
-          (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
+        holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] = (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
       }
       return holdToColor;
     } catch (error) {

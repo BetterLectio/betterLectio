@@ -77,39 +77,9 @@
 <div class="mt-4 rounded-lg bg-base-200 p-4">
   <div class="form-control">
     <span class="mb-2 text-lg font-bold">Fag Oversætter</span>
-    <p>Fag Oversætteren bliver brugt i BetterLectio til at lettere afkode hvilket fag du skal have</p>
   </div>
   <label class="label cursor-pointer">
     <span class="label-text">Fag Oversætter</span>
     <input type="checkbox" class="checkbox" bind:checked={$indstillinger.brugHoldOversætter} />
   </label>
-  {#if $indstillinger.brugHoldOversætter}
-    <div class="divider" />
-    <div class="overflow-x-auto">
-      <table class="table-zebra table-compact table w-full">
-        <thead>
-          <th>forkortelse</th>
-          <th>Fag</th>
-          <th />
-        </thead>
-        <tbody>
-          {#each $hold as hold_, i}
-            <tr>
-              <td>{hold_.forkortelse}</td>
-              <td>{hold_.fag}</td>
-              <td><button class="btn-error btn-xs btn" on:click={() => onDelete(i)}>Slet</button></td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
-      <div class="divider" />
-      <div class="form-control">
-        <label class="input-group-sm input-group">
-          <input type="text" placeholder="Forkortelse" bind:value={forkortelse} class="input-bordered input input-sm" />
-          <input type="text" placeholder="Fag" bind:value={fag} class="input-bordered input input-sm" />
-          <button class="btn-sm btn {fag != '' && forkortelse != '' ? '' : 'btn-disabled'}" on:click={() => addHold()}>Gem</button>
-        </label>
-      </div>
-    </div>
-  {/if}
 </div>

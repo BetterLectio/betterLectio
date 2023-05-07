@@ -41,15 +41,15 @@
     addNotification(message, "alert-warning");
   }
 
-  $indstillinger ||= {};
-  $indstillinger.sidebar ||= false;
-  $indstillinger.brugHoldOversætter ||= true;
-  $indstillinger.opgaver ||= {};
-  $indstillinger.opgaver.visFristAbsolut ||= false;
-  $indstillinger.opgaver.visHeleBeskrivelsen ||= false;
+  $indstillinger ??= {};
+  $indstillinger.sidebar ??= false;
+  $indstillinger.brugHoldOversætter ??= true;
+  $indstillinger.opgaver ??= {};
+  $indstillinger.opgaver.visFristAbsolut ??= false;
+  $indstillinger.opgaver.visHeleBeskrivelsen ??= false;
 
-  $indstillinger.skema ||= {};
-  $indstillinger.skema.classesWithDiffrentColors ||= true;
+  $indstillinger.skema ??= {};
+  $indstillinger.skema.classesWithDiffrentColors ??= true;
   if ($hold === [] || !$hold) {
     $hold = [
       { fag: "Dansk", forkortelse: "da" },
