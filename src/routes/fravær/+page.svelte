@@ -1,12 +1,12 @@
 <script>
   import { Doughnut } from "svelte-chartjs";
-  import { fravaer, hold } from "../../components/store";
-  import { get } from "../../components/http";
+  import { fravaer, hold } from "$lib/js/components/store";
+  import { get } from "$lib/js/components/http";
   import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale } from "chart.js";
   import moment from "moment";
 
-  import { cookieInfo } from "../../components/CookieInfo";
-  import { HoldOversætter } from "../../components/HoldOversætter";
+  import { cookieInfo } from "$lib/js/components/CookieInfo";
+  import { HoldOversætter } from "$lib/js/components/HoldOversætter";
   let cookie;
   let cookieReady = false;
   cookieInfo().then((data) => {
@@ -18,20 +18,7 @@
 
   moment.defineLocale("en-dk", {
     parentLocale: "en",
-    months: [
-      "Januar",
-      "Februar",
-      "Marts",
-      "April",
-      "Maj",
-      "Juni",
-      "Juli",
-      "August",
-      "September",
-      "Oktober",
-      "November",
-      "December",
-    ],
+    months: ["Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "December"],
   });
   moment.locale("en-dk");
 
@@ -118,12 +105,8 @@
             ? 1 * sortModifier
             : 0;
         case "moduler":
-          const aValue = /(([0-9]+,)?[0-9]+)\//g.exec(
-            overblikType == "Opgjort" ? a.opgjort_fravær_moduler : a.heleåret_fravær_moduler
-          )[1];
-          const bValue = /(([0-9]+,)?[0-9]+)\//g.exec(
-            overblikType == "Opgjort" ? b.opgjort_fravær_moduler : b.heleåret_fravær_moduler
-          )[1];
+          const aValue = /(([0-9]+,)?[0-9]+)\//g.exec(overblikType == "Opgjort" ? a.opgjort_fravær_moduler : a.heleåret_fravær_moduler)[1];
+          const bValue = /(([0-9]+,)?[0-9]+)\//g.exec(overblikType == "Opgjort" ? b.opgjort_fravær_moduler : b.heleåret_fravær_moduler)[1];
           return aValue < bValue ? -1 * sortModifier : aValue > bValue ? 1 * sortModifier : 0;
         case "hold":
           return a.hold < b.hold ? -1 * sortModifier : a.hold > b.hold ? 1 * sortModifier : 0;
@@ -153,7 +136,7 @@
     </div>
   </div>
 
-  <div class="flex w-full flex-col rounded-lg bg-base-200 p-4 lg:flex-row ">
+  <div class="flex w-full flex-col rounded-lg bg-base-200 p-4 lg:flex-row">
     <div class="w-full rounded-lg bg-base-300 p-4 lg:w-1/2">
       <h2 class="text-2xl font-bold">Grafisk oversigt</h2>
       {#if $fravaer?.generalt}
@@ -173,9 +156,7 @@
                   data: $fravaer.generalt
                     .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
                     .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.opgjort_fravær_moduler)[1].replace(",", ".")),
-                  backgroundColor: $fravaer.generalt.map(
-                    (element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]
-                  ),
+                  backgroundColor: $fravaer.generalt.map((element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]),
                 },
               ],
             }}
@@ -214,8 +195,7 @@
             <tbody>
               {#each $fravaer?.moduler?.manglende_fraværsårsager as modul}
                 <tr>
-                  <td>{modul.aktivitet.navn == null ? HoldOversætter(modul.aktivitet.hold, $hold) : modul.aktivitet.navn}</td
-                  >
+                  <td>{modul.aktivitet.navn == null ? HoldOversætter(modul.aktivitet.hold, $hold) : modul.aktivitet.navn}</td>
                   <td>{modul.aktivitet.tidspunkt}</td>
                   <td>
                     <a

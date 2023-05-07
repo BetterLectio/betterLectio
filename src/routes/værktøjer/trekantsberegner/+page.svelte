@@ -317,9 +317,8 @@
           placeholder="a"
           id="a"
           bind:value={a}
-          class="input-bordered input w-full max-w-xs 
-            {(isCorrectAmountOfDataIsFilled == false && a == null) ||
-          (isCorrectAmountOfDataIsFilled == false && a == undefined)
+          class="input-bordered input w-full max-w-xs
+            {(isCorrectAmountOfDataIsFilled == false && a == null) || (isCorrectAmountOfDataIsFilled == false && a == undefined)
             ? 'border-error'
             : ''} 
             {areSidesValid == false ? 'border-warning' : ''}"
@@ -334,9 +333,8 @@
           placeholder="b"
           id="b"
           bind:value={b}
-          class="input-bordered input w-full max-w-xs 
-            {(isCorrectAmountOfDataIsFilled == false && b == null) ||
-          (isCorrectAmountOfDataIsFilled == false && b == undefined)
+          class="input-bordered input w-full max-w-xs
+            {(isCorrectAmountOfDataIsFilled == false && b == null) || (isCorrectAmountOfDataIsFilled == false && b == undefined)
             ? 'border-error'
             : ''} 
             {areSidesValid == false ? 'border-warning' : ''}"
@@ -351,9 +349,8 @@
           placeholder="c"
           id="c"
           bind:value={c}
-          class="input-bordered input w-full max-w-xs 
-            {(isCorrectAmountOfDataIsFilled == false && c == null) ||
-          (isCorrectAmountOfDataIsFilled == false && c == undefined)
+          class="input-bordered input w-full max-w-xs
+            {(isCorrectAmountOfDataIsFilled == false && c == null) || (isCorrectAmountOfDataIsFilled == false && c == undefined)
             ? 'border-error'
             : ''} 
             {areSidesValid == false ? 'border-warning' : ''}"
@@ -372,9 +369,8 @@
           placeholder="A"
           id="A"
           bind:value={A}
-          class="input-bordered input w-full max-w-xs 
-            {(isCorrectAmountOfDataIsFilled == false && A == null) ||
-          (isCorrectAmountOfDataIsFilled == false && A == undefined)
+          class="input-bordered input w-full max-w-xs
+            {(isCorrectAmountOfDataIsFilled == false && A == null) || (isCorrectAmountOfDataIsFilled == false && A == undefined)
             ? 'border-error'
             : ''} 
             {areAnglesValid == false ? 'border-error' : ''}"
@@ -389,9 +385,8 @@
           placeholder="B"
           id="B"
           bind:value={B}
-          class="input-bordered input w-full max-w-xs 
-            {(isCorrectAmountOfDataIsFilled == false && B == null) ||
-          (isCorrectAmountOfDataIsFilled == false && B == undefined)
+          class="input-bordered input w-full max-w-xs
+            {(isCorrectAmountOfDataIsFilled == false && B == null) || (isCorrectAmountOfDataIsFilled == false && B == undefined)
             ? 'border-error'
             : ''} 
             {areAnglesValid == false ? 'border-error' : ''}"
@@ -407,9 +402,8 @@
           bind:value={C}
           disabled
           id="C"
-          class="input-bordered input w-full max-w-xs 
-            {(isCorrectAmountOfDataIsFilled == false && C == null) ||
-          (isCorrectAmountOfDataIsFilled == false && C == undefined)
+          class="input-bordered input w-full max-w-xs
+            {(isCorrectAmountOfDataIsFilled == false && C == null) || (isCorrectAmountOfDataIsFilled == false && C == undefined)
             ? 'border-error'
             : ''} 
             {areAnglesValid == false ? 'border-error' : ''}"

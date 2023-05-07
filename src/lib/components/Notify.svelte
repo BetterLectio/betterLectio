@@ -1,6 +1,6 @@
 <script>
   import { blur } from "svelte/transition";
-  import { notifications } from "./notifyStore.js";
+  import { notifications } from "$lib/js/notifyStore.js";
 </script>
 
 <div class="toast-start toast-bottom toast z-10 inline h-fit lg:ml-20">

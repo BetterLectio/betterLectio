@@ -1,12 +1,12 @@
 <script>
-  import { get } from "../../components/http.js";
+  import { get } from "$lib/js/http.js";
   import Calendar from "@event-calendar/core";
   import TimeGrid from "@event-calendar/time-grid";
-  import { indstillinger } from "../../components/store.js";
-  import { HoldOversætter, HoldOversætterNy } from "../../components/HoldOversætter.js";
-  import { fag, hold } from "../../components/store.js";
+  import { indstillinger } from "$lib/js/store.js";
+  import { HoldOversætter, HoldOversætterNy } from "$lib/js/HoldOversætter.js";
+  import { fag, hold } from "$lib/js/store.js";
 
-  import { cookieInfo } from "../../components/CookieInfo";
+  import { cookieInfo } from "$lib/js/CookieInfo";
   import { error } from "@sveltejs/kit";
   import { goto } from "$app/navigation";
 
@@ -134,13 +134,7 @@
         event.el.classList.add("line-through", "hover:decoration-2");
       }
       if (event.event.extendedProps.hasContent) {
-        event.el.classList.add(
-          "after:content-['_📖']",
-          "after:px-1",
-          "hover:after:content-['_📖']",
-          "text-left",
-          "justify-between"
-        );
+        event.el.classList.add("after:content-['_📖']", "after:px-1", "hover:after:content-['_📖']", "text-left", "justify-between");
       } else {
         event.el.classList.add("text-left", "justify-start");
       }
@@ -179,10 +173,7 @@
       let start = modul["tidspunkt"].split(" til ")[0];
       start = {
         dag: start.split("/")[0].length == 1 ? "0" + start.split("/")[0] : start.split("/")[0],
-        måned:
-          start.split("/")[1].split("-")[0].length == 1
-            ? "0" + start.split("/")[1].split("-")[0]
-            : start.split("/")[1].split("-")[0],
+        måned: start.split("/")[1].split("-")[0].length == 1 ? "0" + start.split("/")[1].split("-")[0] : start.split("/")[1].split("-")[0],
         år: start.split("-")[1].split(" ")[0],
 
         tidspunkt: start.split(" ")[1],
@@ -190,10 +181,7 @@
       let slut = modul["tidspunkt"].split(" ")[0] + " " + modul["tidspunkt"].split(" til ")[1];
       slut = {
         dag: slut.split("/")[0].length == 1 ? "0" + slut.split("/")[0] : slut.split("/")[0],
-        måned:
-          slut.split("/")[1].split("-")[0].length == 1
-            ? "0" + slut.split("/")[1].split("-")[0]
-            : slut.split("/")[1].split("-")[0],
+        måned: slut.split("/")[1].split("-")[0].length == 1 ? "0" + slut.split("/")[1].split("-")[0] : slut.split("/")[1].split("-")[0],
         år: slut.split("-")[1].split(" ")[0],
 
         tidspunkt: slut.split(" ")[1],
@@ -262,8 +250,7 @@
         throw error;
       }
       for (let i = 0; i < skema[globalYear + "" + globalWeek].hold.length; i++) {
-        holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] =
-          (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
+        holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] = (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
       }
       return holdToColor;
     } catch (error) {
@@ -465,7 +452,7 @@
 
 <span class="my-2 flex justify-between">
   {#if skema[globalYear + "" + globalWeek]}
-    <h1 class="mb-4  text-3xl font-bold ">{skema[globalYear + "" + globalWeek].overskrift}</h1>
+    <h1 class="mb-4 text-3xl font-bold">{skema[globalYear + "" + globalWeek].overskrift}</h1>
   {:else}
     <div class="loading btn-ghost btn" />
   {/if}

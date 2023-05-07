@@ -1,10 +1,10 @@
 <script>
-  import { get } from "../../components/http.js";
-  import { opgaver, hold } from "../../components/store.js";
+  import { get } from "$lib/js/http.js";
+  import { opgaver, hold } from "$lib/js/store.js";
   import { fade } from "svelte/transition";
-  import { formatDate } from "../../components/realtiveTime.js";
-  import { indstillinger } from "../../components/store.js";
-  import { HoldOversætter } from "../../components/HoldOversætter.js";
+  import { formatDate } from "$lib/js/realtiveTime.js";
+  import { indstillinger } from "$lib/js/store.js";
+  import { HoldOversætter } from "$lib/js/HoldOversætter.js";
 
   let _opgaver = [];
 
@@ -12,10 +12,7 @@
     $opgaver = data;
   });
 
-  $: if (
-    $opgaver &&
-    (selected == "ikkeAfleveredeOpgaver" || selected == "afleveredeOpgaver" || selected == "afsluttedeOpgaver")
-  ) {
+  $: if ($opgaver && (selected == "ikkeAfleveredeOpgaver" || selected == "afleveredeOpgaver" || selected == "afsluttedeOpgaver")) {
     _opgaver = sortOpgaver($opgaver);
   }
 
@@ -76,7 +73,7 @@
 <div>
   <h1 class="mb-4 text-3xl font-bold">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="flex flex-col sm:flex-row ">
+  <div class="flex flex-col sm:flex-row">
     <div class="tabs tabs-boxed w-full justify-between sm:w-fit">
       <button
         class={selected == "ikkeAfleveredeOpgaver" ? "tab- tab tab-active tab-sm sm:tab-md" : "tab tab-sm sm:tab-md"}
@@ -158,10 +155,7 @@
         <tbody class="w-full">
           {#each _opgaver as opgave (opgave.exerciseid)}
             <tr class="" in:fade={{ duration: 200 }} out:fade={{ duration: 200 }}>
-              <td>
-                <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">{opgave.opgavetitel}</a
-                ></td
-              >
+              <td> <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">{opgave.opgavetitel}</a></td>
               <td class="bg-">{opgave["elev-tid"]}</td>
               <td class="">{HoldOversætter(opgave.hold, $hold)}</td>
               <td class="">

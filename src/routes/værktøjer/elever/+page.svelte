@@ -1,7 +1,7 @@
 <script>
-  import BrugerPopup from "../../../components/BrugerPopup.svelte";
-  import { get } from "../../../components/http";
-  import { informationer } from "../../../components/store";
+  import BrugerPopup from "$lib/components/BrugerPopup.svelte";
+  import { get } from "$lib/js/http";
+  import { informationer } from "$lib/js/store";
 
   let ready = false;
   let elevObjArray = [];

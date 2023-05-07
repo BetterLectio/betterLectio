@@ -3,17 +3,17 @@
   import { goto } from "$app/navigation";
   import { themeChange } from "theme-change";
   import "../app.css";
-  import PageTransition from "../components/PageTransition.svelte";
-  import { brugeren, indstillinger, hold } from "../components/store.js";
+  import PageTransition from "$lib/components/PageTransition.svelte";
+  import { brugeren, indstillinger, hold } from "$lib/js/store.js";
   import Avatar from "../components/Avatar.svelte";
   import { reloadData } from "../components/http";
-  import { cookieInfo } from "../components/CookieInfo";
-  import Notify from "../components/Notify.svelte";
-  import SideBar from "../components/SideBar.svelte";
-  import NavBar from "../components/NavBar.svelte";
-  import { addNotification, addNotificationIn } from "../components/notifyStore.js";
-  import { get } from "../components/http.js";
-  import ErrorMsg from "../components/ErrorMsg.svelte";
+  import { cookieInfo } from "$lib/js/CookieInfo";
+  import Notify from "$lib/components/Notify.svelte";
+  import SideBar from "$lib/components/SideBar.svelte";
+  import NavBar from "$lib/components/NavBar.svelte";
+  import { addNotification, addNotificationIn } from "$lib/js/notifyStore.js";
+  import { get } from "$lib/js/http.js";
+  import ErrorMsg from "$lib/components/ErrorMsg.svelte";
 
   export let data;
 
@@ -77,9 +77,7 @@
 <label for="logud-modal" class="modal cursor-pointer">
   <label class="modal-box relative" for="">
     <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
-    <p class="py-4">
-      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.
-    </p>
+    <p class="py-4">Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.</p>
     <span class="flex">
       <div class="modal-action">
         <label for="logud-modal" class="btn">Forbliv logget ind</label>

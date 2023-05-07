@@ -1,6 +1,6 @@
 <script>
-  import { get } from "../../../components/http";
-  import { fravaer } from "../../../components/store";
+  import { get } from "$lib/js/http";
+  import { fravaer } from "$lib/js/store";
 
   let desiredAmount = 10;
   let fravaerData = {};
@@ -82,9 +82,8 @@
           </p>
         {:else}
           <p class="mt-2 text-xl lg:text-2xl">
-            Du kan pjække <span class="font-bold"
-              >{(fravaerData.possibleAmount - fravaerData.currentClasses).toLocaleString("da")}</span
-            > moduler mere
+            Du kan pjække <span class="font-bold">{(fravaerData.possibleAmount - fravaerData.currentClasses).toLocaleString("da")}</span> moduler
+            mere
           </p>
         {/if}
         <br />

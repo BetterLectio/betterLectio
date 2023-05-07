@@ -1,17 +1,10 @@
 <script>
-  import Themes from "./Themes.svelte";
+  import Themes from "$lib/components/Themes.svelte";
 </script>
 
 <div class="dropdown dropdown-end" tabindex="0">
   <button class="btn-ghost btn gap-1 normal-case" for="theme-select" tabindex="0">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="22"
-      height="22"
-      fill="currentColor"
-      class="bi bi-palette"
-      viewBox="0 0 16 16"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-palette" viewBox="0 0 16 16">
       <path
         d="M8 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm4 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM5.5 7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm.5 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"
       />
