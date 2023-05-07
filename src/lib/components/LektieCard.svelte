@@ -1,5 +1,5 @@
 <script>
-  import { get } from "./http";
+  import { get } from "$lib/js/http";
 
   export let lektie;
 
@@ -34,9 +34,7 @@
     <div>
       <div class="flex w-full flex-row justify-between">
         <p>
-          <span class="font-bold"
-            >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet.hold}</span
-          >
+          <span class="font-bold">{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet.hold}</span>
         </p>
         <p class="font-light opacity-50">
           {lektie.aktivitet.tidspunkt.split(" ")[1] + " - " + lektie.aktivitet.tidspunkt.split(" ")[3]}

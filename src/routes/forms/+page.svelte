@@ -1,7 +1,7 @@
 <script>
   import { identity } from "svelte/internal";
-  import { get } from "../../components/http";
-  import { spørgeskemaer } from "../../components/store";
+  import { get } from "$lib/js/http";
+  import { spørgeskemaer } from "$lib/js/store";
 
   let ready = false;
 

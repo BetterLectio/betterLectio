@@ -1,13 +1,13 @@
 <script>
-  import Avatar from "../../components/Avatar.svelte";
-  import BrugerPopup from "../../components/BrugerPopup.svelte";
-  import { get, api } from "../../components/http";
-  import { addNotification } from "../../components/notifyStore.js";
+  import Avatar from "$lib/components/Avatar.svelte";
+  import BrugerPopup from "$lib/components/BrugerPopup.svelte";
+  import { get, api } from "$lib/js/http";
+  import { addNotification } from "$lib/js/notifyStore.js";
 
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
 
-  import { cookieInfo } from "../../components/CookieInfo";
+  import { cookieInfo } from "$lib/js/CookieInfo";
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
@@ -112,12 +112,7 @@
 <label for="besvar-modal" class="modal modal-bottom cursor-pointer sm:modal-middle">
   <label class="modal-box relative" for="">
     <input type="text" placeholder={titel} bind:value={titel} class="input-ghost input mb-2 text-lg font-bold" />
-    <textarea
-      class="textarea-bordered textarea resize-none"
-      placeholder="Besked"
-      bind:value={content}
-      style="width: 100%; height: 100%;"
-    />
+    <textarea class="textarea-bordered textarea resize-none" placeholder="Besked" bind:value={content} style="width: 100%; height: 100%;" />
     <div class="modal-action">
       <label for="besvar-modal" on:click={sendBesked} class="btn">Send</label>
     </div>
@@ -128,14 +123,7 @@
   <div class="flex-rox flex w-full justify-between">
     <h1 class="mb-2 text-3xl font-bold">{besked[0].titel}</h1>
     <button class={`btn-circle btn ml-4 ${updating ? "animate-spin" : ""}`} on:click={updateBesked}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="32"
-        height="32"
-        fill="currentColor"
-        class="bi bi-arrow-repeat"
-        viewBox="0 0 16 16"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
         <path
           d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"
         />
@@ -150,10 +138,7 @@
   <!-- Måske en linje til at seperere beskeder-->
   <div class="divide-y divide-base-content rounded-none md:divide-none md:rounded-lg md:bg-base-200 md:p-4">
     {#each besked as _besked}
-      <div
-        class="relative mt-4 break-words p-2 md:rounded-lg md:bg-base-300 md:p-4"
-        style="margin-left: {_besked.padding_left / 2}em;"
-      >
+      <div class="relative mt-4 break-words p-2 md:rounded-lg md:bg-base-300 md:p-4" style="margin-left: {_besked.padding_left / 2}em;">
         <button class="btn-sm btn absolute bottom-0 right-0 mb-4 mr-4" on:click={() => handleClick(_besked)}>Besvar</button>
         <BrugerPopup navn={_besked.bruger.navn} id={_besked.bruger.id}>
           <div class="flex">
@@ -170,10 +155,7 @@
             <a class="btn-primary btn-xs btn mr-1 mb-4" href={vedhæftning.href}>{vedhæftning.navn}</a>
           {/each}
           <p class="mb-10" use:previewLink>
-            {@html sanitizeHtml(md.render(_besked.besked)).replace(
-              "<a",
-              '<a class="btn btn-xs btn-primary preview" target="_blank"'
-            )}
+            {@html sanitizeHtml(md.render(_besked.besked)).replace("<a", '<a class="btn btn-xs btn-primary preview" target="_blank"')}
           </p>
         </div>
       </div>

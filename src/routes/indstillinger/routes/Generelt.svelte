@@ -1,5 +1,5 @@
 <script>
-  import { indstillinger, hold } from "../../../components/store";
+  import { indstillinger, hold } from "$lib/js/store";
 
   let windowWidth = window.innerWidth;
 
@@ -35,7 +35,7 @@
       <span class="label-text">Sidebar</span>
       <input
         type="checkbox"
-        class="checkbox "
+        class="checkbox"
         on:click={() => {
           location.reload();
         }}
@@ -43,7 +43,7 @@
         disabled={windowWidth > 768 ? "" : "disabled"}
       />
     </label>
-    <p class="text-error ">{windowWidth < 768 ? "Ikke understøttet på din enhed" : ""}</p>
+    <p class="text-error">{windowWidth < 768 ? "Ikke understøttet på din enhed" : ""}</p>
   </div>
 </div>
 
@@ -53,12 +53,12 @@
 
     <label class="label cursor-pointer">
       <span class="label-text">Vis absolut frist</span>
-      <input type="checkbox" class="checkbox " bind:checked={$indstillinger.opgaver.visFristAbsolut} />
+      <input type="checkbox" class="checkbox" bind:checked={$indstillinger.opgaver.visFristAbsolut} />
     </label>
 
     <label class="label cursor-pointer">
       <span class="label-text">Vis hele opgavenoten</span>
-      <input type="checkbox" class="checkbox " bind:checked={$indstillinger.opgaver.visHeleBeskrivelsen} />
+      <input type="checkbox" class="checkbox" bind:checked={$indstillinger.opgaver.visHeleBeskrivelsen} />
     </label>
   </div>
 </div>
@@ -69,7 +69,7 @@
 
     <label class="label cursor-pointer">
       <span class="label-text">Få forskellige farver på dine moduler</span>
-      <input type="checkbox" class="checkbox " bind:checked={$indstillinger.skema.classesWithDiffrentColors} />
+      <input type="checkbox" class="checkbox" bind:checked={$indstillinger.skema.classesWithDiffrentColors} />
     </label>
   </div>
 </div>
@@ -81,7 +81,7 @@
   </div>
   <label class="label cursor-pointer">
     <span class="label-text">Fag Oversætter</span>
-    <input type="checkbox" class="checkbox " bind:checked={$indstillinger.brugHoldOversætter} />
+    <input type="checkbox" class="checkbox" bind:checked={$indstillinger.brugHoldOversætter} />
   </label>
   {#if $indstillinger.brugHoldOversætter}
     <div class="divider" />
@@ -107,9 +107,7 @@
         <label class="input-group-sm input-group">
           <input type="text" placeholder="Forkortelse" bind:value={forkortelse} class="input-bordered input input-sm" />
           <input type="text" placeholder="Fag" bind:value={fag} class="input-bordered input input-sm" />
-          <button class="btn-sm btn {fag != '' && forkortelse != '' ? '' : 'btn-disabled'}" on:click={() => addHold()}
-            >Gem</button
-          >
+          <button class="btn-sm btn {fag != '' && forkortelse != '' ? '' : 'btn-disabled'}" on:click={() => addHold()}>Gem</button>
         </label>
       </div>
     </div>

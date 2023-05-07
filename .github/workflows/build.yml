@@ -1,8 +1,8 @@
 name: Build/release
 
-on: 
+on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   release:
@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        python-version: ['3.10']
+        python-version: ["3.10"]
 
     steps:
       - name: Check out Git repository
@@ -38,7 +38,7 @@ jobs:
         name: Install stack and wget
         run: |
           choco install wget --no-progress
-      
+
       - name: Fetch Backend
         run: |
           mkdir ./static/backend
@@ -63,23 +63,21 @@ jobs:
         uses: JesseTG/rm@v1.0.3
         with:
           path: /backend.spec
-        
-      
-      
+
       - name: Building site
         env:
           NODE_ENV: production
           BUILD_TYPE: app
         run: |
           yarn build
-          
+
       - if: matrix.os == 'macos-latest'
         name: Building electron
         env:
           GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn build-electrononly-mac
-        
+
       - if: matrix.os == 'ubuntu-latest'
         name: Building electron
         env:
@@ -87,7 +85,6 @@ jobs:
         run: |
           yarn build-electrononly-linux
 
-        
       - if: matrix.os == 'windows-latest'
         name: Building electron
         env:
@@ -95,8 +92,6 @@ jobs:
         run: |
           yarn build-electrononly-windows
 
-      
-      
       - name: Extracting version
         id: extract_version
         uses: Saionaro/extract-package-version@v1.1.1

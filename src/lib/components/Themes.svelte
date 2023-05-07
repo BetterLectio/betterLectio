@@ -1,5 +1,5 @@
 <script>
-  import { hexToHSL, mono, readable, darken } from "./Utils.js";
+  import { hexToHSL, mono, readable, darken } from "$lib/js/Utils.js";
 
   if (localStorage.getItem("themeOverride")) {
     let theme = JSON.parse(localStorage.getItem("themeOverride"));
@@ -320,9 +320,7 @@
         on:click={() => setCustomTheme(theme)}
       >
         <p class="text-sm font-bold" style="color: hsl({theme.baseContent});">{theme.name}</p>
-        <button on:click={() => deleteTheme(i)} class="text-sm font-bold" style="color: hsl({theme.baseContent});">
-          X
-        </button>
+        <button on:click={() => deleteTheme(i)} class="text-sm font-bold" style="color: hsl({theme.baseContent});"> X </button>
       </button>
     {/each}
   {/key}

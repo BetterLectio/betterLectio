@@ -5,15 +5,14 @@
   const key =
     "Ting som encrypter login data meget simplet så det ikke er vildt nemt at få fat i fra et andet program. BTW du kan kun gemme login hvis du kører appen, det virker altså ikke på hjemmesiden.";
 
-  import { reloadData, api } from "../../components/http";
-  import { cookieInfo } from "../../components/CookieInfo";
+  import { reloadData, api } from "$lib/js/http";
+  import { cookieInfo } from "$lib/js/CookieInfo";
   import { goto } from "$app/navigation";
 
   let brugernavn = "";
   let adgangskode = "";
   let skole_id = "";
   let options = { "": "" };
-
 
   let redirectTo = new URLSearchParams(window.location.search).get("redirect");
 
@@ -105,8 +104,8 @@
         });
         progress.classList.remove("loading");
         reloadData();
-        if(redirectTo) {
-          const originalLink = redirectTo.replace("%3", "/").replace("%3F", "?").replace("%3d", "=").replace("%22", `"`)
+        if (redirectTo) {
+          const originalLink = redirectTo.replace("%3", "/").replace("%3F", "?").replace("%3d", "=").replace("%22", `"`);
           window.location.href = originalLink;
         } else {
           window.location.href = "/forside";
@@ -241,9 +240,9 @@
                 </div>
               </div>
               <p class="text-gray-700">
-                Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind
-                accepterer du at din browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til
-                nogen server bortset fra Lectio og vores proxy/translation layer.
+                Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind accepterer du at din
+                browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server bortset fra Lectio og
+                vores proxy/translation layer.
                 <br /><br />
                 Når du logger ind accepterer du automatisk vores
                 <a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">TOS</a>

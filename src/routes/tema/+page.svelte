@@ -1,6 +1,6 @@
 <script>
-  import { addNotification } from "../../components/notifyStore";
-  import { hexToHSL, mono, readable, darken } from "../../components/Utils.js";
+  import { addNotification } from "$lib/js/notifyStore";
+  import { hexToHSL, mono, readable, darken } from "$lib/js/Utils.js";
 
   let p;
   $: if (p) {

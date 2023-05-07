@@ -1,6 +1,6 @@
 <script>
-  import { cookieInfo } from "./CookieInfo.js";
-  import { get } from "../components/http.js";
+  import { cookieInfo } from "$lib/js/CookieInfo.js";
+  import { get } from "$lib/js/http.js";
   let opgaver, nyheder, lektier, forside, skema, beskeder, fravaer, dokumenter, informationer;
 
   import { blur } from "svelte/transition";
@@ -206,9 +206,7 @@
         <div class="flex w-full flex-row">
           <input
             type="text"
-            placeholder={loadingProgress >= numOfLoads
-              ? "Søg"
-              : `Indlæser... ${Math.round((loadingProgress / numOfLoads) * 100)}%`}
+            placeholder={loadingProgress >= numOfLoads ? "Søg" : `Indlæser... ${Math.round((loadingProgress / numOfLoads) * 100)}%`}
             id="input"
             class="input-bordered input-primary input w-full bg-base-300"
             bind:value={searchString}
@@ -238,9 +236,7 @@
             {#each searchResults.lektier as lektie, i}
               <p class="hidden">{(animationDelay += i)}</p>
               <li class="w-full" in:blur={{ duration: 500, delay: animationDelay * 100 }} out:blur>
-                <a href="/modul?absid={lektie.aktivitet.absid}" rel="external"
-                  >{lektie.aktivitet.navn || lektie.aktivitet.hold}</a
-                >
+                <a href="/modul?absid={lektie.aktivitet.absid}" rel="external">{lektie.aktivitet.navn || lektie.aktivitet.hold}</a>
               </li>
             {/each}
           {/if}

@@ -1,14 +1,14 @@
 <script>
   import { page } from "$app/stores";
-  import { get } from "../../components/http.js";
-  import Avatar from "../../components/Avatar.svelte";
-  import Table from "../../components/Table.svelte";
+  import { get } from "$lib/js/http.js";
+  import Avatar from "$lib//components/Avatar.svelte";
+  import Table from "$lib/components/Table.svelte";
 
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
 
-  import { cookieInfo } from "../../components/CookieInfo";
-  import { addNotification, addNotificationIn } from "../../components/notifyStore.js";
+  import { cookieInfo } from "$lib/js/CookieInfo";
+  import { addNotification, addNotificationIn } from "$lib/js/notifyStore.js";
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
@@ -119,10 +119,7 @@
               <td>{indlæg["bruger"]["navn"]}</td>
               <td>{indlæg["indlæg"]}</td>
               <td>
-                {@html sanitizeHtml(md.render(indlæg["dokument"])).replace(
-                  "<a",
-                  '<a class="btn btn-xs btn-primary" target="_blank"'
-                )}
+                {@html sanitizeHtml(md.render(indlæg["dokument"])).replace("<a", '<a class="btn btn-xs btn-primary" target="_blank"')}
               </td>
               <td>{indlæg["tidspunkt"]}</td>
             </tr>

@@ -1,6 +1,6 @@
 <script>
-  import { get } from "../../../components/http.js";
-  import { lokaler, informationer } from "../../../components/store.js";
+  import { get } from "$lib/js/http.js";
+  import { lokaler, informationer } from "$lib/js/store.js";
   import { goto } from "$app/navigation";
 
   get("/ledige_lokaler").then((data) => {
@@ -53,10 +53,7 @@
   <ul class="list mb-4">
     <h1 class="pb-2 text-2xl font-bold">Optagede lokaler</h1>
     {#each $lokaler.optagede as lokale}
-      <li
-        class="btn-error btn mb-2 flex h-fit scale-99 justify-between hover:scale-100"
-        on:click={findRoomIdAndRedirect(lokale.lokale)}
-      >
+      <li class="btn-error btn mb-2 flex h-fit scale-99 justify-between hover:scale-100" on:click={findRoomIdAndRedirect(lokale.lokale)}>
         <p class="text-lg font-bold">{lokale.lokale}</p>
       </li>
     {/each}

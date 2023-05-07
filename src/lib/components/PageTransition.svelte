@@ -12,10 +12,7 @@
         location.reload();
       }
     }
-    if (
-      window.location.href.indexOf("betlec.netlify.app") > -1 &&
-      window.location.href.indexOf("dev--betlec.netlify.app") == -1
-    ) {
+    if (window.location.href.indexOf("betlec.netlify.app") > -1 && window.location.href.indexOf("dev--betlec.netlify.app") == -1) {
       console.log("%c ROUTE NOT PERMITTED", "color: red");
       window.location.href = "https://betterlectio.dk";
     }

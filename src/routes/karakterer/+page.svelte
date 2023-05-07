@@ -1,6 +1,6 @@
 <script>
-  import { get } from "../../components/http.js";
-  import { karakterer } from "../../components/store.js";
+  import { get } from "$lib/js/http.js";
+  import { karakterer } from "$lib/js/store.js";
 
   get("/karakterer").then((data) => {
     let karaktererSum = 0;

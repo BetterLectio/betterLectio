@@ -87,15 +87,15 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
    - Når man kigger på en side og man så får login siden skal man når man har logget ind blive redirected til den side man originalt var på (client side) ✅
 
 8. dokumentation
+
    - lav en dokumentation (UI)
    - lav en help side (UI)
    - lav en about side (UI)
 
 9. lektier
+
 - lav så man kan strege dem over
 
 10. karakterer
-- lav standpunkt og årskarakterer
-   
-   
 
+- lav standpunkt og årskarakterer

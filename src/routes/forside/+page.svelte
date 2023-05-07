@@ -1,6 +1,6 @@
 <script>
-  import { brugeren, nyheder, lektier, forside, skema } from "../../components/store.js";
-  import { get } from "../../components/http.js";
+  import { brugeren, nyheder, lektier, forside, skema } from "$lib/js/store.js";
+  import { get } from "$lib/js/http.js";
 
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
@@ -143,9 +143,7 @@
                     class="bi bi-bookmark-fill ml-4 mt-1"
                     viewBox="0 0 16 16"
                   >
-                    <path
-                      d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"
-                    />
+                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
                   </svg>
                 </div>
               {:else}
@@ -170,9 +168,9 @@
         {#each $forside.kommunikation.beskeder as besked}
           <a href="/besked?id={besked['id']}">
             <div class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
-              <p class="text-xl font-bold ">{besked["navn"]}</p>
-              <p class="text-sm ">{besked["afsender"]}</p>
-              <p class="text-xs ">{besked["dato"]}</p>
+              <p class="text-xl font-bold">{besked["navn"]}</p>
+              <p class="text-sm">{besked["afsender"]}</p>
+              <p class="text-xs">{besked["dato"]}</p>
             </div>
           </a>
         {/each}
@@ -187,9 +185,7 @@
           <a href="/modul?absid={lektie.aktivitet.absid}">
             <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
               <p class="text-xl font-bold">
-                <span class="font-bold"
-                  >{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet.hold}</span
-                >
+                <span class="font-bold">{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet.hold}</span>
                 ({lektie.aktivitet.tidspunkt})
               </p>
               <p>{lektie.lektier.beskrivelse}</p>
@@ -205,14 +201,12 @@
       {#if $nyheder}
         {#each $nyheder as newsItem}
           <li class="element">
-            <h3 class="text-xl font-bold ">{newsItem.title}</h3>
-            <p class="text-sm ">{newsItem.date}</p>
+            <h3 class="text-xl font-bold">{newsItem.title}</h3>
+            <p class="text-sm">{newsItem.date}</p>
             <p>{newsItem.body}</p>
             <!--if the newsItem has a link then use it-->
             {#if newsItem.link}
-              <a href={newsItem.link} target="_blank" rel="noreferrer" class="btn-primary btn-sm btn mt-2"
-                >{newsItem.linkText}</a
-              >
+              <a href={newsItem.link} target="_blank" rel="noreferrer" class="btn-primary btn-sm btn mt-2">{newsItem.linkText}</a>
             {/if}
           </li>
         {/each}

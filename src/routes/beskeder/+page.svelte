@@ -1,10 +1,10 @@
 <script>
-  import { informationer, beskeder, brugeren } from "../../components/store.js";
-  import { get } from "../../components/http.js";
-  import Avatar from "../../components/Avatar.svelte";
-  import { cookieInfo } from "../../components/CookieInfo";
+  import { informationer, beskeder, brugeren } from "$lib/js/store.js";
+  import { get } from "$lib/js/http.js";
+  import Avatar from "$lib/components/Avatar.svelte";
+  import { cookieInfo } from "$lib/js/CookieInfo";
   import { fade, fly } from "svelte/transition";
-  import BrugerPopup from "../../components/BrugerPopup.svelte";
+  import BrugerPopup from "$lib/components/BrugerPopup.svelte";
 
   let cookie;
   cookieInfo().then((data) => {
@@ -117,20 +117,14 @@
         }}>Sendte</button
       >
     </div>
-    <input
-      type="text"
-      placeholder="Søg"
-      class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit"
-      bind:value={searchString}
-    />
+    <input type="text" placeholder="Søg" class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit" bind:value={searchString} />
   </span>
   {#if cookie?.userid}
     <div class="right-1 mb-2 flex items-center rounded-md bg-base-200 p-1">
       <a
         href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
         target="_blank"
-        class="btn-primary btn-sm btn border-base-200 bg-base-200 font-normal normal-case text-gray-500 hover:text-gray-100"
-        >Skriv besked</a
+        class="btn-primary btn-sm btn border-base-200 bg-base-200 font-normal normal-case text-gray-500 hover:text-gray-100">Skriv besked</a
       >
     </div>
   {/if}
@@ -171,9 +165,7 @@
                         {/if}
                       {/each}
                       {#if getValidModtagere(besked.modtagere).length > 3}
-                        <div
-                          class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white"
-                        >
+                        <div class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white">
                           +{besked.modtagere.length - 3}
                         </div>
                       {/if}
@@ -197,13 +189,7 @@
     <div class="m-16 flex h-full items-center justify-center">
       <div class="flex flex-col items-center">
         <div class="flex h-20 w-20 items-center justify-center rounded-full bg-base-200">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-10 w-10 text-gray-500"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
           </svg>
         </div>
