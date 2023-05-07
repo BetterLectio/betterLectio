@@ -1,16 +1,17 @@
 <script>
+  import ErrorMsg from "$lib/components/ErrorMsg.svelte";
+  import GlobalSearch from "$lib/components/GlobalSearch.svelte";
+  import NavBar from "$lib/components/NavBar.svelte";
+  import Notify from "$lib/components/Notify.svelte";
+  import PageTransition from "$lib/components/PageTransition.svelte";
+  import SideBar from "$lib/components/SideBar.svelte";
+  import { cookieInfo } from "$lib/js/CookieInfo";
+  import { get } from "$lib/js/http.js";
+  import { addNotification } from "$lib/js/notifyStore.js";
+  import { brugeren, hold, indstillinger } from "$lib/js/store.js";
   import { onMount } from "svelte";
   import { themeChange } from "theme-change";
   import "../app.css";
-  import PageTransition from "$lib/components/PageTransition.svelte";
-  import { brugeren, indstillinger, hold } from "$lib/js/store.js";
-  import { cookieInfo } from "$lib/js/CookieInfo";
-  import Notify from "$lib/components/Notify.svelte";
-  import SideBar from "$lib/components/SideBar.svelte";
-  import NavBar from "$lib/components/NavBar.svelte";
-  import { addNotification } from "$lib/js/notifyStore.js";
-  import { get } from "$lib/js/http.js";
-  import ErrorMsg from "$lib/components/ErrorMsg.svelte";
 
   export let data;
 
@@ -28,7 +29,6 @@
   onMount(() => {
     themeChange(false);
   });
-  import GlobalSearch from "$lib/components/GlobalSearch.svelte";
 
   let windowWidth = window.innerWidth;
   function handleResize() {
