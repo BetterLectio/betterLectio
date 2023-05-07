@@ -113,7 +113,3 @@
     </div>
   {/if}
 </div>
-
-<h2 class="mt-4 font-mono opacity-20 transition-all duration-300 hover:opacity-100">
-  BetterLectio version: {__APP_VERSION__}
-</h2>
