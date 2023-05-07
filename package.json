@@ -12,6 +12,8 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.5.0",
+		"@tailwindcss/forms": "^0.5.3",
+		"@tailwindcss/line-clamp": "^0.4.4",
 		"autoprefixer": "^10.4.14",
 		"daisyui": "^2.51.6",
 		"eslint": "^8.28.0",
@@ -24,5 +26,15 @@
 		"tailwindcss": "^3.3.2",
 		"vite": "^4.3.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@event-calendar/core": "^0.19.0",
+		"@event-calendar/time-grid": "^0.19.0",
+		"crypto-es": "^1.2.7",
+		"markdown-it": "^13.0.1",
+		"moment": "^2.29.4",
+		"sanitize-html": "^2.10.0",
+		"svelte-intersection-observer": "^0.10.0",
+		"theme-change": "^2.5.0"
+	}
 }
