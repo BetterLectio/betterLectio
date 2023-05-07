@@ -143,7 +143,7 @@
     <p class="py-4">Du skal udfylde alle felterne for at logge ind.</p>
   </div>
 </div>
-<div use:getCachedSchool class="flex justify-center items-center">
+<div use:getCachedSchool class="flex justify-center md:h-[75vh] items-center">
   <div class="bg-base-200 h-fit p-4 rounded-2xl shadow-lg">
     <h1 class="font-bold text-xl">Log ind med din Lectio konto</h1>
     <div class="divider mt-0" />
@@ -174,10 +174,10 @@
         </label>
         <label class="input-group input-group-horizontal mb-2">
           <span class="w-28 bg-base-100 border-r-2">Skole</span>
-          <select name="skole" id="skole" placeholder="Vælg din skole" class="select w-52 md:w-fit">
+          <select name="skole" id="skole" placeholder="Vælg din skole" class="select w-52 md:w-fit" bind:value={skole_id}>
             <option disabled selected> Vælg din skole </option>
             {#each Object.entries(options) as [key, value] (key)}
-              <option value={value.key}>{value.skole}</option>
+              <option value={value.id}>{value.skole}</option>
             {/each}
           </select>
         </label>
