@@ -213,7 +213,7 @@
           browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server bortset fra Lectio og vores
           proxy/translation layer.
           <span class="font-bold">Når du logger ind accepterer du automatisk vores</span>
-          <a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">TOS</a>
+          <a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
         </p>
         <div class="divider" />
         <div class="flex justify-end">
