@@ -51,6 +51,10 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 ## TODO
 
+- [ ] https://github.com/BetterLectio/betterLectio/issues/154
+- [ ] https://github.com/BetterLectio/betterLectio/issues/99
+- [ ] https://github.com/BetterLectio/betterLectio/issues/113
+
 1. opgave side
 
   - [ ] hvis det er en gruppeopgave, så skal der være en liste over alle gruppemedlemmer og man skal kunne vælge personer fra listen (API) (UI)
