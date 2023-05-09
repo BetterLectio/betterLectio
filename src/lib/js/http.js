@@ -10,7 +10,7 @@ import { goto } from "$app/navigation";
 //     .LastLoginUserName
 // );
 
-export const api = (window.electron) ? "http://localhost:5000" : "https://api.betterlectio.dk"
+export const api = window.electron ? "http://localhost:5000" : "https://api.betterlectio.dk";
 
 export function reloadData(reload = true) {
   localStorage.setItem("nonce", Date.now().toString(36));
@@ -26,13 +26,13 @@ export async function get(endpoint) {
       await localStorage.getItem("lectio-cookie");
       await window.location.href;
       break;
-    } catch (err) {}
+    } catch (err) { }
     await new Promise((resolve) => setTimeout(resolve, 10));
   }
   // If the user is not authenticated, redirect to the auth page
   if (!localStorage.getItem("lectio-cookie") || localStorage.getItem("lectio-cookie") == "null") {
     console.log("No cookie, redirecting to auth page");
-    const transformedLink = window.location.href.split("/")[3].replace("/", "%3").replace("?", "%3F").replace("=", "%3d").replace(`"`, "%22")
+    const transformedLink = encodeURIComponent(window.location.href)
     window.location.href = "/auth?redirect=" + transformedLink;
   }
 
@@ -94,7 +94,7 @@ export async function get(endpoint) {
       addNotification(`Error fetching data from ${api}${endpoint}`, "alert-error");
     } else {
       console.log("Cookie not valid, redirecting to auth page.", "validationCheck:", validationCheck);
-      const transformedLink = window.location.href.split("/")[3].replace("/", "%3").replace("?", "%3F").replace("=", "%3d").replace(`"`, "%22")
+      const transformedLink = encodeURIComponent(window.location.href)
       window.location.href = "/auth?redirect=" + transformedLink;
     }
   }

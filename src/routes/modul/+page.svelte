@@ -1,11 +1,13 @@
 <script>
   import { page } from "$app/stores";
-  import { get } from "../../components/http.js";
-  import Table from "../../components/Table.svelte";
+  import { hold } from "$lib/js/store.js";
+  import { get } from "$lib/js/http.js";
+  import Table from "$lib/components/Table.svelte";
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
 
-  import { cookieInfo } from "../../components/CookieInfo";
+  import { cookieInfo } from "$lib/js/CookieInfo";
+  import { HoldOversætter } from "$lib/js/HoldOversætter.js";
   let cookie;
   cookieInfo().then((data) => {
     cookie = data;
@@ -33,30 +35,21 @@
 
     if (modul.lektier) {
       await modul.lektier.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace(
-          "<a",
-          '<a class="btn btn-xs btn-primary preview" target="_blank"'
-        );
+        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a class="btn btn-xs btn-primary preview" target="_blank"');
         lektieHtml += "<p>" + translated + "<p/>";
       });
     }
 
     if (modul.øvrigtIndhold) {
       await modul.øvrigtIndhold.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace(
-          "<a",
-          '<a class="btn btn-xs btn-primary preview" target="_blank"'
-        );
+        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a class="btn btn-xs btn-primary preview" target="_blank"');
         øvrigeIndholdHtml += "<p>" + translated + "<p/>";
       });
     }
 
     if (modul.note) {
       await modul.note.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace(
-          "<a",
-          '<a class="btn btn-xs btn-primary preview" target="_blank"'
-        );
+        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a class="btn btn-xs btn-primary preview" target="_blank"');
         note += "<p>" + translated + "<p/>";
       });
     }
@@ -96,7 +89,7 @@
   }
 </script>
 
-<div id="linkpreviewbox" class="invisible absolute shadow-2xl md:visible ">
+<div id="linkpreviewbox" class="invisible absolute shadow-2xl md:visible">
   {@html linkPreviewBox}
 </div>
 
@@ -105,7 +98,7 @@
     <span class="my-2 flex justify-between">
       <h1 class="text-3xl font-bold">
         {modul.aktivitet.navn ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold
-          ? modul.aktivitet.hold
+          ? HoldOversætter(modul.aktivitet.hold, $hold)
           : "Ukendt hold"}
       </h1>
       <a

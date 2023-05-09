@@ -1,19 +1,17 @@
 <script>
+  import ErrorMsg from "$lib/components/ErrorMsg.svelte";
+  import GlobalSearch from "$lib/components/GlobalSearch.svelte";
+  import NavBar from "$lib/components/NavBar.svelte";
+  import Notify from "$lib/components/Notify.svelte";
+  import PageTransition from "$lib/components/PageTransition.svelte";
+  import SideBar from "$lib/components/SideBar.svelte";
+  import { cookieInfo } from "$lib/js/CookieInfo";
+  import { get } from "$lib/js/http.js";
+  import { addNotification } from "$lib/js/notifyStore.js";
+  import { brugeren, hold, indstillinger } from "$lib/js/store.js";
   import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
   import { themeChange } from "theme-change";
   import "../app.css";
-  import PageTransition from "../components/PageTransition.svelte";
-  import { brugeren, indstillinger } from "../components/store.js";
-  import Avatar from "../components/Avatar.svelte";
-  import { reloadData } from "../components/http";
-  import { cookieInfo } from "../components/CookieInfo";
-  import Notify from "../components/Notify.svelte";
-  import SideBar from "../components/SideBar.svelte";
-  import NavBar from "../components/NavBar.svelte";
-  import { addNotification, addNotificationIn } from "../components/notifyStore.js";
-  import { get } from "../components/http.js";
-  import ErrorMsg from "../components/ErrorMsg.svelte";
 
   export let data;
 
@@ -30,14 +28,7 @@
 
   onMount(() => {
     themeChange(false);
-    if (
-      window.location.href.indexOf("betlec.netlify.app") > -1 &&
-      window.location.href.indexOf("dev--betlec.netlify.app") == -1
-    ) {
-      window.location.href = "https://betterlectio.dk";
-    }
   });
-  import GlobalSearch from "../components/GlobalSearch.svelte";
 
   let windowWidth = window.innerWidth;
   function handleResize() {
@@ -49,6 +40,30 @@
   function electronAlert(event, message) {
     addNotification(message, "alert-warning");
   }
+
+  $indstillinger ??= {};
+  $indstillinger.sidebar ??= false;
+  $indstillinger.brugHoldOversætter ??= true;
+  $indstillinger.opgaver ??= {};
+  $indstillinger.opgaver.visFristAbsolut ??= false;
+  $indstillinger.opgaver.visHeleBeskrivelsen ??= false;
+
+  $indstillinger.skema ??= {};
+  $indstillinger.skema.classesWithDiffrentColors ??= true;
+  if ($hold === [] || !$hold) {
+    $hold = [
+      { fag: "Dansk", forkortelse: "da" },
+      { fag: "Matematik", forkortelse: "ma" },
+      { fag: "Teknologi", forkortelse: "ti" },
+      { fag: "Engelsk", forkortelse: "en" },
+      { fag: "Historie", forkortelse: "hi" },
+      { fag: "Biologi", forkortelse: "bi" },
+      { fag: "Kemi", forkortelse: "ke" },
+      { fag: "Fysik", forkortelse: "fy" },
+      { fag: "Samfundsfag", forkortelse: "sa" },
+      { fag: "komm/it", forkortelse: "kit" },
+    ];
+  }
 </script>
 
 <!-- error modal -->
@@ -59,9 +74,7 @@
 <label for="logud-modal" class="modal cursor-pointer">
   <label class="modal-box relative" for="">
     <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
-    <p class="py-4">
-      Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.
-    </p>
+    <p class="py-4">Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.</p>
     <span class="flex">
       <div class="modal-action">
         <label for="logud-modal" class="btn">Forbliv logget ind</label>

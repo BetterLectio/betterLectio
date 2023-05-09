@@ -1,12 +1,18 @@
 <script>
-  import { get } from "../../components/http.js";
+  import { get } from "$lib/js/http.js";
   import Calendar from "@event-calendar/core";
   import TimeGrid from "@event-calendar/time-grid";
-  import { indstillinger } from "../../components/store.js";
+  import { indstillinger } from "$lib/js/store.js";
+  import { HoldOversætter, HoldOversætterNy } from "$lib/js/HoldOversætter.js";
+  import { fag, hold } from "$lib/js/store.js";
 
-  import { cookieInfo } from "../../components/CookieInfo";
+  import { cookieInfo } from "$lib/js/CookieInfo";
+  import { error } from "@sveltejs/kit";
+  import { goto } from "$app/navigation";
 
   let skema = {};
+
+  $fag ??= {};
 
   $: skemaId = new URLSearchParams(window.location.search).get("id");
 
@@ -23,7 +29,7 @@
 
   let customTheme = {
     active: "ec-active",
-    allDay: "ec-all-day relative",
+    allDay: "ec-all-day relative -mt-4 md:mt-0",
     bgEvent: "ec-bg-event",
     bgEvents: "ec-bg-events",
     body: "ec-body border border-base-content rounded-b-2xl",
@@ -40,7 +46,7 @@
     draggable: "ec-draggable",
     dragging: "ec-dragging",
     event:
-      "btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden text-black hover:shadow-xl visible hover:scale-110 z-10 hover:z-0 border-0 m-0.5",
+      "btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden text-black hover:shadow-xl visible hover:scale-110 z-10 hover:z-0 border-0 m-0.5 hover:brightness-90",
     eventBody: "",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
@@ -49,7 +55,7 @@
     extra: "ec-extra",
     ghost: "ec-ghost",
     handle: "ec-handle",
-    header: "ec-header rounded-t-2xl",
+    header: window.innerWidth < 768 ? "flex hidden" : "ec-header rounded-t-2xl",
     hiddenScroll: "ec-hidden-scroll",
     hiddenTimes: "ec-hidden-times",
     highlight: "ec-highlight",
@@ -72,9 +78,10 @@
     sidebar: "ec-sidebar",
     sidebarTitle: "hidden",
     time: "ec-time",
-    title: "ec-title",
+    title: "md:ec-title",
     today: "bg-base-300",
-    toolbar: "ec-toolbar",
+    toolbar:
+      "flex items-center ec-toolbar bg-secondary text-secondary-content md:text-base-content md:bg-base-100 p-2 rounded-t-2xl -mt-8 md:mt-0 border border-base-content md:border-0",
     uniform: "ec-uniform",
     week: "ec-week",
     withScroll: "ec-with-scroll",
@@ -128,17 +135,10 @@
         event.el.classList.add("line-through", "hover:decoration-2");
       }
       if (event.event.extendedProps.hasContent) {
-        event.el.classList.add(
-          "after:content-['_📖']",
-          "after:px-1",
-          "hover:after:content-['_📖']",
-          "text-left",
-          "justify-between"
-        );
+        event.el.classList.add("after:content-['_📖']", "after:px-1", "hover:after:content-['_📖']", "text-left", "justify-between");
       } else {
         event.el.classList.add("text-left", "justify-start");
       }
-      event.el.innerHTML = `<a href="/modul?absid=${event.event.id}">${event.el.innerHTML}</a>`;
     },
     viewDidMount: (view) => {
       dertermineView();
@@ -147,6 +147,9 @@
       let dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
       globalWeek = Math.floor(dayOfYear / 7);
       onload();
+    },
+    eventClick: (info) => {
+      goto(`/modul?absid=${info.event.id}`);
     },
   };
 
@@ -165,17 +168,13 @@
 
   async function addSkemaToCalendar(skema) {
     options.view = dertermineView();
-    console.log("adding skema to calendar", skema);
     const holdToColor = getHoldToColor();
     for (let i = 0; i < skema["moduler"].length; i++) {
       let modul = skema["moduler"][i];
       let start = modul["tidspunkt"].split(" til ")[0];
       start = {
         dag: start.split("/")[0].length == 1 ? "0" + start.split("/")[0] : start.split("/")[0],
-        måned:
-          start.split("/")[1].split("-")[0].length == 1
-            ? "0" + start.split("/")[1].split("-")[0]
-            : start.split("/")[1].split("-")[0],
+        måned: start.split("/")[1].split("-")[0].length == 1 ? "0" + start.split("/")[1].split("-")[0] : start.split("/")[1].split("-")[0],
         år: start.split("-")[1].split(" ")[0],
 
         tidspunkt: start.split(" ")[1],
@@ -183,31 +182,35 @@
       let slut = modul["tidspunkt"].split(" ")[0] + " " + modul["tidspunkt"].split(" til ")[1];
       slut = {
         dag: slut.split("/")[0].length == 1 ? "0" + slut.split("/")[0] : slut.split("/")[0],
-        måned:
-          slut.split("/")[1].split("-")[0].length == 1
-            ? "0" + slut.split("/")[1].split("-")[0]
-            : slut.split("/")[1].split("-")[0],
+        måned: slut.split("/")[1].split("-")[0].length == 1 ? "0" + slut.split("/")[1].split("-")[0] : slut.split("/")[1].split("-")[0],
         år: slut.split("-")[1].split(" ")[0],
 
         tidspunkt: slut.split(" ")[1],
       };
       let titel = "";
+      if (modul["hold_id"] != null && $fag[modul["hold_id"]] == undefined) {
+        let _fag = await HoldOversætterNy(modul["hold_id"]);
+        $fag[modul["hold_id"]] = _fag == "Andet" ? modul["hold"] : _fag;
+      }
       if (modul["navn"] != undefined) {
-        titel = modul["navn"] != null ? modul["hold"] : modul["navn"];
+        titel = modul["navn"] != null && modul["navn"] != "Ændret!" ? modul["navn"] : $fag[modul["hold_id"]];
         if (modul["lokale"]) {
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       } else {
-        titel = modul["hold"];
+        if ($indstillinger.brugHoldOversætter) {
+          titel = $fag[modul["hold_id"]];
+        } else {
+          titel = modul["hold"];
+        }
         if (modul["lokale"]) {
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       }
       let status = modul["status"]; // can be "normal" "ændret" or "aflyst"
       let className;
-      console.log(holdToColor, modul.hold);
       if (status == "normal" || status == "ændret") {
-        if (holdToColor[modul.hold]) {
+        if (holdToColor[modul.hold] && $indstillinger.skema.classesWithDiffrentColors == true) {
           className = `hsl(${holdToColor[modul.hold]}, 75%, 65%)`;
         } else {
           className = "hsl(var(--in))";
@@ -224,7 +227,9 @@
         end: new Date(`${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}`),
         id: modul["absid"],
         backgroundColor: className,
-        extendedProps: { hasContent: hasContent },
+        extendedProps: {
+          hasContent: hasContent,
+        },
       };
       let isAdded = false;
       for (let i = 0; i < addedEventsId.length; i++) {
@@ -234,7 +239,6 @@
         }
       }
       if (!isAdded) {
-        console.log("new event added");
         addedEventsId.push(modulCalenderObj.id);
         ec.addEvent(modulCalenderObj);
       }
@@ -246,12 +250,18 @@
   }
   function getHoldToColor() {
     let holdToColor = {};
-    console.log(skema[globalYear + "" + globalWeek]);
-    for (let i = 0; i < skema[globalYear + "" + globalWeek].hold.length; i++) {
-      holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] =
-        (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
+    try {
+      if (!skema[globalYear + "" + globalWeek].hold) {
+        throw error;
+      }
+      for (let i = 0; i < skema[globalYear + "" + globalWeek].hold.length; i++) {
+        holdToColor[skema[globalYear + "" + globalWeek].hold[i].navn] = (255 / (skema[globalYear + "" + globalWeek].hold.length - 1)) * i;
+      }
+      return holdToColor;
+    } catch (error) {
+      console.log("could not get hold to color, proceeding with default");
+      return holdToColor;
     }
-    return holdToColor;
   }
 
   async function getSkema() {
@@ -259,7 +269,6 @@
       skema = {};
     }
     await get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then((data) => {
-      console.log(data);
       skema[globalYear + "" + globalWeek] = data;
 
       options.slotMinTime = parseInt(
@@ -323,8 +332,12 @@
   function addButtonsToDagsnoter(year, week) {
     let slots = document.getElementsByClassName("ec-day");
     let slotsFiltered = [];
-    for (let i = 0; i < slots.length; i++) {
-      i >= 5 && i <= 9 ? slotsFiltered.push(slots[i]) : null;
+    if (window.innerWidth < 768) {
+      slotsFiltered.push(slots[1]);
+    } else {
+      for (let i = 0; i < slots.length; i++) {
+        i >= 5 && i <= 9 ? slotsFiltered.push(slots[i]) : null;
+      }
     }
     // add buttons to slots
     for (let i = 0; i < slotsFiltered.length; i++) {
@@ -448,7 +461,7 @@
 
 <span class="my-2 flex justify-between">
   {#if skema[globalYear + "" + globalWeek]}
-    <h1 class="mb-4  text-3xl font-bold ">{skema[globalYear + "" + globalWeek].overskrift}</h1>
+    <h1 class="mb-4 hidden text-3xl font-bold md:flex">{skema[globalYear + "" + globalWeek].overskrift}</h1>
   {:else}
     <div class="loading btn-ghost btn" />
   {/if}

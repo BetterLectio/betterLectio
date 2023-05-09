@@ -1,8 +1,8 @@
 <script defer>
-  import { cookieInfo } from "../../../components/CookieInfo";
-  import { get } from "../../../components/http.js";
+  import { cookieInfo } from "$lib/js/CookieInfo";
+  import { get } from "$lib/js/http.js";
   import moment from "moment";
-  import Spinner from "../../../components/Spinner.svelte";
+  import Spinner from "$lib/components/Spinner.svelte";
 
   let counterIsVisible = true;
   const timeRegex =
@@ -74,11 +74,7 @@
     if (["obligatorisk"].some((x) => name.includes(x))) {
       return false;
     }
-    if (
-      ["café", "cafe", "klub", "club", "fri", "konkurrence", "mesterskab", "workshop", "kemi ol"].some((x) =>
-        name.includes(x)
-      )
-    ) {
+    if (["café", "cafe", "klub", "club", "fri", "konkurrence", "mesterskab", "workshop", "kemi ol"].some((x) => name.includes(x))) {
       return true;
     }
     return false;

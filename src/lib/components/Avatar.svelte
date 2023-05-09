@@ -1,5 +1,5 @@
 <script>
-  import { api } from "./http.js";
+  import { api } from "$lib/js/http.js";
 
   import IntersectionObserver from "svelte-intersection-observer";
 

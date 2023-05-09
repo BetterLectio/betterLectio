@@ -1,7 +1,7 @@
 <script>
   import { start_hydrating } from "svelte/internal";
-  import Avatar from "./Avatar.svelte";
-  import { get } from "./http.js";
+  import Avatar from "$lib/components/Avatar.svelte";
+  import { get } from "$lib/js//http.js";
 
   export let navn;
   export let id;
@@ -15,10 +15,7 @@
       let start = modul["tidspunkt"].split(" til ")[0];
       start = {
         dag: start.split("/")[0].length == 1 ? "0" + start.split("/")[0] : start.split("/")[0],
-        måned:
-          start.split("/")[1].split("-")[0].length == 1
-            ? "0" + start.split("/")[1].split("-")[0]
-            : start.split("/")[1].split("-")[0],
+        måned: start.split("/")[1].split("-")[0].length == 1 ? "0" + start.split("/")[1].split("-")[0] : start.split("/")[1].split("-")[0],
         år: start.split("-")[1].split(" ")[0],
 
         tidspunkt: start.split(" ")[1],
@@ -26,10 +23,7 @@
       let slut = modul["tidspunkt"].split(" ")[0] + " " + modul["tidspunkt"].split(" til ")[1];
       slut = {
         dag: slut.split("/")[0].length == 1 ? "0" + slut.split("/")[0] : slut.split("/")[0],
-        måned:
-          slut.split("/")[1].split("-")[0].length == 1
-            ? "0" + slut.split("/")[1].split("-")[0]
-            : slut.split("/")[1].split("-")[0],
+        måned: slut.split("/")[1].split("-")[0].length == 1 ? "0" + slut.split("/")[1].split("-")[0] : slut.split("/")[1].split("-")[0],
         år: slut.split("-")[1].split(" ")[0],
 
         tidspunkt: slut.split(" ")[1],

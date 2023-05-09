@@ -1,8 +1,8 @@
 <script>
   import moment from "moment";
-  import { get } from "../../components/http.js";
-  import { lektier } from "../../components/store.js";
-  import LektieCard from "../../components/LektieCard.svelte";
+  import { get } from "$lib/js/http.js";
+  import { lektier } from "$lib/js//store.js";
+  import LektieCard from "$lib/components/LektieCard.svelte";
 
   let ready = false;
 

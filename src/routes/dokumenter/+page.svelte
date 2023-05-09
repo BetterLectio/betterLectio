@@ -1,10 +1,10 @@
 <script>
   import { fly } from "svelte/transition";
 
-  import { informationer, dokumenter } from "../../components/store";
-  import { get } from "../../components/http";
+  import { informationer, dokumenter } from "$lib/js/store";
+  import { get } from "$lib/js/http";
 
-  import { cookieInfo } from "../../components/CookieInfo";
+  import { cookieInfo } from "$lib/js/CookieInfo";
   import { onMount } from "svelte";
   let cookie;
   cookieInfo().then((data) => {
@@ -152,23 +152,14 @@
                 {#if dokument["type"] == "folder"}
                   <i style="font-size: 1.4rem;" class="bi bi-folder-fill text-yellow-300" />
                 {:else if dokument["type"] == "dokument"}
-                  <i
-                    style="font-size: 1.4rem;"
-                    class="bi-file-earmark bi-filetype-{dokument['navn'].split('.').slice(-1)}"
-                  />
+                  <i style="font-size: 1.4rem;" class="bi-file-earmark bi-filetype-{dokument['navn'].split('.').slice(-1)}" />
                   <!-- bi-file-earmark er fallback hvis filtypen ikke har et icon-->
                 {/if}
               </td>
               <td>{dokument["navn"]}</td>
               {#if window.innerWidth > 768}
                 <td>{dokument["type"] == "dokument" ? dokument["dato"] : ""}</td>
-                <td
-                  >{dokument["type"] == "dokument"
-                    ? dokument["ændret_af"] == "ukendt"
-                      ? ""
-                      : dokument["ændret_af"]
-                    : ""}</td
-                >
+                <td>{dokument["type"] == "dokument" ? (dokument["ændret_af"] == "ukendt" ? "" : dokument["ændret_af"]) : ""}</td>
               {/if}
               <!--<Brugernavn navn={dokument.ændret_af} id={$informationer.lærereOgElever[dokument.ændret_af]}/>-->
             </tr>

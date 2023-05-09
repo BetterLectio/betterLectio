@@ -17,3 +17,5 @@ export const karakterer = localStore("karakterer");
 export const indstillinger = localStore("indstillinger");
 export const studieretningspraesentation = localStore("studieretningspraesentation");
 export const spørgeskemaer = localStore("spørgeskemaer");
+export const hold = localStore("hold");
+export const fag = localStore("fag");

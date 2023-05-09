@@ -1,11 +1,12 @@
 <script>
   import { Doughnut } from "svelte-chartjs";
-  import { fravaer } from "../../components/store";
-  import { get } from "../../components/http";
+  import { fravaer, hold } from "$lib/js/store";
+  import { get } from "$lib/js/http";
   import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale } from "chart.js";
   import moment from "moment";
 
-  import { cookieInfo } from "../../components/CookieInfo";
+  import { cookieInfo } from "$lib/js/CookieInfo";
+  import { HoldOversætter } from "$lib/js/HoldOversætter";
   let cookie;
   let cookieReady = false;
   cookieInfo().then((data) => {
@@ -17,20 +18,7 @@
 
   moment.defineLocale("en-dk", {
     parentLocale: "en",
-    months: [
-      "Januar",
-      "Februar",
-      "Marts",
-      "April",
-      "Maj",
-      "Juni",
-      "Juli",
-      "August",
-      "September",
-      "Oktober",
-      "November",
-      "December",
-    ],
+    months: ["Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "December"],
   });
   moment.locale("en-dk");
 
@@ -117,12 +105,8 @@
             ? 1 * sortModifier
             : 0;
         case "moduler":
-          const aValue = /(([0-9]+,)?[0-9]+)\//g.exec(
-            overblikType == "Opgjort" ? a.opgjort_fravær_moduler : a.heleåret_fravær_moduler
-          )[1];
-          const bValue = /(([0-9]+,)?[0-9]+)\//g.exec(
-            overblikType == "Opgjort" ? b.opgjort_fravær_moduler : b.heleåret_fravær_moduler
-          )[1];
+          const aValue = /(([0-9]+,)?[0-9]+)\//g.exec(overblikType == "Opgjort" ? a.opgjort_fravær_moduler : a.heleåret_fravær_moduler)[1];
+          const bValue = /(([0-9]+,)?[0-9]+)\//g.exec(overblikType == "Opgjort" ? b.opgjort_fravær_moduler : b.heleåret_fravær_moduler)[1];
           return aValue < bValue ? -1 * sortModifier : aValue > bValue ? 1 * sortModifier : 0;
         case "hold":
           return a.hold < b.hold ? -1 * sortModifier : a.hold > b.hold ? 1 * sortModifier : 0;
@@ -152,7 +136,7 @@
     </div>
   </div>
 
-  <div class="flex w-full flex-col rounded-lg bg-base-200 p-4 lg:flex-row ">
+  <div class="flex w-full flex-col rounded-lg bg-base-200 p-4 lg:flex-row">
     <div class="w-full rounded-lg bg-base-300 p-4 lg:w-1/2">
       <h2 class="text-2xl font-bold">Grafisk oversigt</h2>
       {#if $fravaer?.generalt}
@@ -172,9 +156,7 @@
                   data: $fravaer.generalt
                     .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
                     .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.opgjort_fravær_moduler)[1].replace(",", ".")),
-                  backgroundColor: $fravaer.generalt.map(
-                    (element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]
-                  ),
+                  backgroundColor: $fravaer.generalt.map((element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]),
                 },
               ],
             }}
@@ -213,7 +195,7 @@
             <tbody>
               {#each $fravaer?.moduler?.manglende_fraværsårsager as modul}
                 <tr>
-                  <td>{modul.aktivitet.navn == null ? modul.aktivitet.hold : modul.aktivitet.navn}</td>
+                  <td>{modul.aktivitet.navn == null ? HoldOversætter(modul.aktivitet.hold, $hold) : modul.aktivitet.navn}</td>
                   <td>{modul.aktivitet.tidspunkt}</td>
                   <td>
                     <a
@@ -243,7 +225,7 @@
       <!-- head -->
       <thead>
         <tr>
-          <th>hold</th>
+          <th>fag</th>
           <th>navn</th>
           <th>fravær</th>
           <th>dato</th>
@@ -254,7 +236,7 @@
       <tbody>
         {#each $fravaer?.moduler?.oversigt as modul}
           <tr>
-            <td>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</td>
+            <td>{modul.aktivitet.hold == null ? "" : HoldOversætter(modul.aktivitet.hold, $hold)}</td>
             <td>{modul.aktivitet.navn == null ? "" : modul.aktivitet.navn}</td>
             <td>{modul.fravær}</td>
 
@@ -282,31 +264,46 @@
         {#if modul.årsag == "Sygdom"}
           <div class="element border-l-4 border-l-warning">
             <p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
-            <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+            <p>
+              <strong>{modul.aktivitet.hold == null ? "" : HoldOversætter(modul.aktivitet.hold, $hold)}</strong>
+              {modul.årsag}
+            </p>
             <p>{modul.årsagsnote}</p>
           </div>
         {:else if modul.årsag == "Private forhold"}
           <div class="element border-l-4 border-l-info">
             <p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
-            <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+            <p>
+              <strong>{modul.aktivitet.hold == null ? "" : HoldOversætter(modul.aktivitet.hold, $hold)}</strong>
+              {modul.årsag}
+            </p>
             <p>{modul.årsagsnote}</p>
           </div>
         {:else if modul.årsag == "Skolerelaterede aktiviteter"}
           <div class="element border-l-4 border-l-success">
             <p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
-            <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+            <p>
+              <strong>{modul.aktivitet.hold == null ? "" : HoldOversætter(modul.aktivitet.hold, $hold)}</strong>
+              {modul.årsag}
+            </p>
             <p>{modul.årsagsnote}</p>
           </div>
         {:else if modul.årsag == "Kom for sent"}
           <div class="element border-l-4 border-l-error">
             <p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
-            <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+            <p>
+              <strong>{modul.aktivitet.hold == null ? "" : HoldOversætter(modul.aktivitet.hold, $hold)}</strong>
+              {modul.årsag}
+            </p>
             <p>{modul.årsagsnote}</p>
           </div>
         {:else if modul.årsag == "Andet"}
           <div class="element">
             <p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
-            <p><strong>{modul.aktivitet.hold == null ? "" : modul.aktivitet.hold}</strong> {modul.årsag}</p>
+            <p>
+              <strong>{modul.aktivitet.hold == null ? "" : HoldOversætter(modul.aktivitet.hold, $hold)}</strong>
+              {modul.årsag}
+            </p>
             <p>{modul.årsagsnote}</p>
           </div>
         {/if}
@@ -337,28 +334,28 @@
       <!-- head -->
       <thead>
         <tr>
-          <th on:click={sort("hold")}>Hold {sortArrow("hold", $fravaer.sort)}</th>
+          <th on:click={sort("hold")}>Fag {sortArrow("hold", $fravaer.sort)}</th>
           <th on:click={sort("procent")}>Fravær {sortArrow("procent", $fravaer.sort)}</th>
           <th on:click={sort("moduler")}>Moduler {sortArrow("moduler", $fravaer.sort)}</th>
         </tr>
       </thead>
       <tbody>
-        {#each $fravaer?.generalt as hold}
-          {#if hold.hold != "Samlet" && (overblikType == "Opgjort" ? hold.opgjort_fravær_procent : hold.heleåret_fravær_procent) != "0,00%"}
+        {#each $fravaer?.generalt as fravaerhold}
+          {#if fravaerhold.hold != "Samlet" && (overblikType == "Opgjort" ? fravaerhold.opgjort_fravær_procent : fravaerhold.heleåret_fravær_procent) != "0,00%"}
             <tr>
-              <td>{hold.hold}</td>
-              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_procent : hold.heleåret_fravær_procent}</td>
-              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_moduler : hold.heleåret_fravær_moduler}</td>
+              <td>{HoldOversætter(fravaerhold.hold, $hold)}</td>
+              <td>{overblikType == "Opgjort" ? fravaerhold.opgjort_fravær_procent : fravaerhold.heleåret_fravær_procent}</td>
+              <td>{overblikType == "Opgjort" ? fravaerhold.opgjort_fravær_moduler : fravaerhold.heleåret_fravær_moduler}</td>
             </tr>
           {/if}
         {/each}
         <!-- Mess but easiest way to get "Samlet" always at bottom (after sorting) -->
-        {#each $fravaer?.generalt as hold}
-          {#if hold.hold == "Samlet"}
+        {#each $fravaer?.generalt as fravaerhold}
+          {#if fravaerhold.hold == "Samlet"}
             <tr>
-              <td>{hold.hold}</td>
-              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_procent : hold.heleåret_fravær_procent}</td>
-              <td>{overblikType == "Opgjort" ? hold.opgjort_fravær_moduler : hold.heleåret_fravær_moduler}</td>
+              <td>{HoldOversætter(fravaerhold.hold, $hold)}</td>
+              <td>{overblikType == "Opgjort" ? fravaerhold.opgjort_fravær_procent : fravaerhold.heleåret_fravær_procent}</td>
+              <td>{overblikType == "Opgjort" ? fravaerhold.opgjort_fravær_moduler : fravaerhold.heleåret_fravær_moduler}</td>
             </tr>
           {/if}
         {/each}

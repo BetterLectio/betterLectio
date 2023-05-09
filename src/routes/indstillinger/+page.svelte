@@ -7,7 +7,6 @@
   import Pro from "./routes/Pro.svelte";
   import Tilslut from "./routes/Tilslut.svelte";
   import Generelt from "./routes/Generelt.svelte";
-  import Opdateringer from "./routes/Opdateringer.svelte";
 
   let pageTransitionDirection;
 
@@ -33,8 +32,6 @@
         return 3;
       case "tilslut":
         return 4;
-      case "opdateringer":
-        return 5;
     }
   }
 
@@ -53,12 +50,9 @@
   <a id="api" class="tab {page == 'api' ? 'tab-active' : ''}" on:click={() => changePage("api")}>API</a>
   <a id="pro" class="tab {page == 'pro' ? 'tab-active' : ''}" on:click={() => changePage("pro")}>Pro</a>
   <a id="tilslut" class="tab {page == 'tilslut' ? 'tab-active' : ''}" on:click={() => changePage("tilslut")}>Tilslut</a>
-  <a id="opdateringer" class="tab {page == 'opdateringer' ? 'tab-active' : ''}" on:click={() => changePage("opdateringer")}
-    >Opdateringer</a
-  >
 </div>
 
-<div class="flex min-h-screen">
+<div class="min-h-screen w-full">
   <div>
     {#if page === "generelt"}
       <div
@@ -94,13 +88,6 @@
         out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}
       >
         <Tilslut />
-      </div>
-    {:else if page === "opdateringer"}
-      <div
-        in:fly={{ x: -pageTransitionDirection, duration: 300, delay: 300, easing: quintOut }}
-        out:fly={{ x: pageTransitionDirection, duration: 300, easing: quintIn }}
-      >
-        <Opdateringer />
       </div>
     {/if}
   </div>

@@ -1,7 +1,7 @@
 <script>
   import { fly } from "svelte/transition";
-  import { brugeren } from "../../../components/store";
-  import { addNotification } from "../../../components/notifyStore";
+  import { brugeren } from "$lib/js/store";
+  import { addNotification } from "$lib/js/notifyStore";
 
   let titel;
 
@@ -266,10 +266,10 @@
     >
       {#if spørgesmål.type == "Overskrift"}
         <h2 class="mb-2 text-2xl font-bold">{spørgesmål.overskrift}</h2>
-        <p class="mb-2  whitespace-pre-line">{spørgesmål.tekst}</p>
+        <p class="mb-2 whitespace-pre-line">{spørgesmål.tekst}</p>
       {:else if spørgesmål.type == "Ét svar" || spørgesmål.type == "Flere svar"}
         <h2 class="mb-2 text-2xl font-bold">{spørgesmål.overskrift}</h2>
-        <p class="mb-2  whitespace-pre-line">{spørgesmål.tekst}</p>
+        <p class="mb-2 whitespace-pre-line">{spørgesmål.tekst}</p>
         <div class="mt-2">
           <div class="form-control">
             {#each spørgesmål.svarMuligheder as svarMulighed, i}
