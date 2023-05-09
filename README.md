@@ -53,49 +53,49 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 1. opgave side
 
-   - hvis det er en gruppeopgave, så skal der være en liste over alle gruppemedlemmer og man skal kunne vælge personer fra listen (API) (UI)
-   - der kan være en måde at uploade filer på (UI) (API)
-   - der skal være en måde at skrive beskeder på (UI) (API)
+  - [ ] hvis det er en gruppeopgave, så skal der være en liste over alle gruppemedlemmer og man skal kunne vælge personer fra listen (API) (UI)
+  - [ ] der kan være en måde at uploade filer på (UI) (API)
+  - [ ] der skal være en måde at skrive beskeder på (UI) (API)
 
-2. skema side
+1. skema side
 
-   - kunne skifte til sit ejet skema fra andres (UI)
-   - se skema for lokaler (API) (UI)
+   - [ ] kunne skifte til sit ejet skema fra andres (UI)
+   - [x] se skema for lokaler (API) (UI)
 
-3. værktøjs side (nyttige værktøjer til brugeren)
+2. værktøjs side (nyttige værktøjer til brugeren)
 
-   - IDÉ - hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
-   - IDÉ - hvor mange dage til næste prøve (API)
-   - IDÉ - hvor mange moduler kan jeg i teorien pjække før jeg får x% fravær (client side med callback til server) (brug data fra fravær side) ✅
+    - hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
+   - [ ] IDÉ - hvor mange dage til næste prøve (API)
+   - [x] IDÉ - hvor mange moduler kan jeg i teorien pjække før jeg får x% fravær (client side med callback til server) (brug data fra fravær side)
    - IDÉ - Skole community side hvor man kan ved hjælp af Discord OAuth2 lave private Discord servere hvor man kan vælge hvilke klasser/grupper/klubber der kan være med eller hele skolen om hele skolen kan være med (Discord OAuth2, database)
-   - IDÉ - Man kan højre klikke på en anden bruger og så kommer der en popup lidt som på Discord hvor der står en status som er om de har fri eller om de har time og hvilken time de har og med en knap til at skrive til dem osv. ✅
+   - [x] IDÉ - Man kan højre klikke på en anden bruger og så kommer der en popup lidt som på Discord hvor der står en status som er om de har fri eller om de har time og hvilken time de har og med en knap til at skrive til dem osv.
 
-4. fravær side
+3. fravær side
 
-   - få grafen til at loade på første pageload ✅
+   - [x] få grafen til at loade på første pageload
 
-5. beskeder side
+4. beskeder side
 
-   - IDÉ - :emojis: (UI)
+   - [ ] IDÉ - :emojis: (UI)
 
-6. features
+5. features
 
-   - Tilføj alerts fra daisy ui i alert.js (UI)
+   - [ ] Tilføj alerts fra daisy ui i alert.js (UI)
 
-7. bugs
+6. bugs
 
-   - Når man kigger på en side og man så får login siden skal man når man har logget ind blive redirected til den side man originalt var på (client side) ✅
+   - [x] Når man kigger på en side og man så får login siden skal man når man har logget ind blive redirected til den side man originalt var på (client side)
 
-8. dokumentation
+7. dokumentation
 
-   - lav en dokumentation (UI)
-   - lav en help side (UI)
-   - lav en about side (UI)
+   - [x] lav en dokumentation (UI)
+   - [x] lav en help side (UI)
+   - [ ] lav en about side (UI)
 
-9. lektier
+8. lektier
 
-- lav så man kan strege dem over
+   - [ ] lav så man kan strege dem over
 
-10. karakterer
+9.  karakterer
 
-- lav standpunkt og årskarakterer
+    - [ ] lav standpunkt og årskarakterer
