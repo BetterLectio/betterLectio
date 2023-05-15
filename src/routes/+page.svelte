@@ -1,6 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
-  import { get, api } from "$lib/js/http";
+  import { api } from "$lib/js/http";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
@@ -59,8 +59,4 @@
       {step}
     </p>
   {/key}
-</div>
-
-<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform opacity-25">
-  <p>Tager det længere tid end 5 sekunder, så er der måske sket en fejl. Prøv at genindlæse siden.</p>
 </div>
