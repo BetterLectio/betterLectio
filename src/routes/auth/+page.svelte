@@ -4,6 +4,7 @@
   import { reloadData, api } from "$lib/js/http";
   import { cookieInfo } from "$lib/js/CookieInfo";
   import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
   const key =
     "Ting som encrypter login data meget simplet så det ikke er vildt nemt at få fat i fra et andet program. BTW du kan kun gemme login hvis du kører appen, det virker altså ikke på hjemmesiden.";
 
@@ -11,6 +12,28 @@
   let adgangskode = "";
   let skole_id = "";
   let options = { "": "" };
+  onMount(async () => {
+    if (new URLSearchParams(window.location.search).get("redirect") || (await localStorage.getItem("lectio-cookie"))) {
+      const data = await window.navigator.credentials.get({
+        password: true,
+        mediation: "optional",
+      });
+      console.log(data);
+      if (data.type == "password") {
+        const response = await fetch(`${api}/auth`, {
+          headers: {
+            brugernavn: data.id,
+            adgangskode: data.password,
+            skole_id: skole_id,
+          },
+        });
+        if (response.ok) {
+          await localStorage.setItem("lectio-cookie", await response.headers.get("set-lectio-cookie"));
+          window.location.href = decodeURIComponent(new URLSearchParams(window.location.search).get("redirect") || "/forside");
+        }
+      }
+    }
+  });
 
   let redirectTo = new URLSearchParams(window.location.search).get("redirect");
   decodeURIComponent(redirectTo) == "null" ? (redirectTo = "/forside") : (redirectTo = decodeURIComponent(redirectTo));
