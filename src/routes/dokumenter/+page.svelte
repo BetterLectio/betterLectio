@@ -114,7 +114,7 @@
 <div class="breadcrumbs text-sm">
   <ul>
     {#each computedBreadcrumbs as crumb (crumb.id)}
-      <li class="folder breadcrumb" id={crumb.id} in:fly={{ x: -30, duration: 200 }} out:fly={{ x: 30, duration: 200 }}>
+      <li class="folder breadcrumb" id={crumb.id} in:fly={{ x: -30, duration: 200 }}>
         <button on:click={clickHandler}>{crumb.navn}</button>
       </li>
     {/each}
