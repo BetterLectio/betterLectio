@@ -82,7 +82,7 @@
       <div class="mb-4">
         <h1 class="font-bold">Opgave beskrivelse:</h1>
         {@html sanitizeHtml(md.render(_oplysninger.opgavebeskrivelse))
-          .replace(/<a/g, '<a class="btn btn-xs btn-primary" target="_blank"')
+          .replace(/<a/g, '<a data-sveltekit-preload-data  class="btn btn-xs btn-primary" target="_blank"')
           .replace("</a>", "</a><br>")}
       </div>
     {/if}
@@ -119,7 +119,10 @@
               <td>{indlæg["bruger"]["navn"]}</td>
               <td>{indlæg["indlæg"]}</td>
               <td>
-                {@html sanitizeHtml(md.render(indlæg["dokument"])).replace("<a", '<a class="btn btn-xs btn-primary" target="_blank"')}
+                {@html sanitizeHtml(md.render(indlæg["dokument"])).replace(
+                  "<a",
+                  '<a data-sveltekit-preload-data  class="btn btn-xs btn-primary" target="_blank"'
+                )}
               </td>
               <td>{indlæg["tidspunkt"]}</td>
             </tr>
@@ -128,6 +131,7 @@
       </table>
       {#if personAfleveringItems?.afsluttet == "Nej"}
         <a
+          data-sveltekit-preload-data
           href="https://www.lectio.dk/lectio/{cookie.school}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
           target="_blank"
           class="btn-primary btn my-2">Aflever igen</a
@@ -135,6 +139,7 @@
       {/if}
     {:else if cookie?.school}
       <a
+        data-sveltekit-preload-data
         href="https://www.lectio.dk/lectio/{cookie.school}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
         target="_blank"
         class="btn-primary btn my-2">Aflever Her!</a

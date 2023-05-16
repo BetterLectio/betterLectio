@@ -152,10 +152,13 @@
 
         <div class="mt-4 mb-4">
           {#each _besked.vedhæftninger as vedhæftning}
-            <a class="btn-primary btn-xs btn mr-1 mb-4" href={vedhæftning.href}>{vedhæftning.navn}</a>
+            <a data-sveltekit-preload-data class="btn-primary btn-xs btn mr-1 mb-4" href={vedhæftning.href}>{vedhæftning.navn}</a>
           {/each}
           <p class="mb-10" use:previewLink>
-            {@html sanitizeHtml(md.render(_besked.besked)).replace("<a", '<a class="btn btn-xs btn-primary preview" target="_blank"')}
+            {@html sanitizeHtml(md.render(_besked.besked)).replace(
+              "<a",
+              '<a data-sveltekit-preload-data class="btn btn-xs btn-primary preview" target="_blank"'
+            )}
           </p>
         </div>
       </div>

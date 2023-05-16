@@ -122,6 +122,7 @@
   {#if cookie?.userid}
     <div class="right-1 mb-2 flex items-center rounded-md bg-base-200 p-1">
       <a
+        data-sveltekit-preload-data
         href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
         target="_blank"
         class="btn-primary btn-sm btn border-base-200 bg-base-200 font-normal normal-case text-gray-500 hover:text-gray-100">Skriv besked</a
@@ -143,7 +144,7 @@
                   <BrugerPopup navn={besked.førsteBesked} id={$informationer.lærereOgElever[besked.førsteBesked]}>
                     <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
                   </BrugerPopup>
-                  <a class="block" href="/besked?id={besked.message_id}">
+                  <a data-sveltekit-preload-data class="block" href="/besked?id={besked.message_id}">
                     <div class="ml-5">
                       <p part="emne" class="text-lg font-bold">
                         {besked.emne}

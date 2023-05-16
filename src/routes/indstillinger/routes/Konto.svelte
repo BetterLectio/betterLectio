@@ -89,7 +89,7 @@
       }}>Log ud</button
     >
     <div class="btn-warning btn mt-8 font-bold drop-shadow-xl md:ml-4 md:w-fit md:font-normal">
-      <a href="https://github.com/betterlectio/betterLectio/issues/" target="_blank"> Rapporter Fejl </a>
+      <a data-sveltekit-preload-data href="https://github.com/betterlectio/betterLectio/issues/" target="_blank"> Rapporter Fejl </a>
     </div>
   </div>
 </div>
