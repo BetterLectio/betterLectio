@@ -188,19 +188,19 @@
     <!-- skeleton loader start-->
     {#each Array(20) as _}
       <div class="w-full p-2">
-        <div class="flex rounded-md h-14 justify-between bg-base-100 animate-pulse">
+        <div class="flex rounded-md h-14 justify-between animate-pulse">
           <div class="flex items-center">
-            <div class="rounded-full ml-2 h-12 w-12 bg-base-200" />
+            <div class="rounded-full ml-2 h-12 w-12 bg-base-300" />
             <div class="ml-5">
-              <div class="h-4 bg-base-200 rounded w-48" />
-              <div class="h-4 bg-base-200 rounded w-1/4 mt-1" />
+              <div class="h-4 bg-base-300 rounded w-48" />
+              <div class="h-4 bg-base-300 rounded w-1/4 mt-1" />
             </div>
           </div>
           <div class="flex items-center">
             <div class="flex -space-x-4">
-              <div class="rounded-full h-10 w-10 bg-base-200" />
-              <div class="rounded-full h-10 w-10 bg-base-200" />
-              <div class="rounded-full h-10 w-10 bg-base-200" />
+              <div class="rounded-full h-10 w-10 bg-base-300" />
+              <div class="rounded-full h-10 w-10 bg-base-300" />
+              <div class="rounded-full h-10 w-10 bg-base-300" />
             </div>
           </div>
         </div>
