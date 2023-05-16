@@ -132,70 +132,80 @@
 </div>
 
 <!-- main content -->
-{#if ready}
-  {#if $beskeder}
-    <ul class="list h-[calc(100vh_-_16.5rem)] w-full overflow-clip">
-      {#each Array.from($beskeder) as besked}
-        {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
-          {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
-            <li in:fade class="rounded-md p-2 hover:bg-base-100">
-              <div class="flex justify-between">
-                <div class="ml-1 flex items-center">
-                  <BrugerPopup navn={besked.førsteBesked} id={$informationer.lærereOgElever[besked.førsteBesked]}>
-                    <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} />
-                  </BrugerPopup>
-                  <a data-sveltekit-preload-data class="block" href="/besked?id={besked.message_id}">
-                    <div class="ml-5">
-                      <p part="emne" class="text-lg font-bold">
-                        {besked.emne}
-                      </p>
-                      <p part="afsender">
-                        {besked.førsteBesked} · {besked.ændret}
-                      </p>
-                    </div>
-                  </a>
-                </div>
-                <div class="right-1 flex items-center">
-                  <div class="mr-1 flex -space-x-4">
-                    {#if window.innerWidth > 640}
-                      {#each getValidModtagere(besked.modtagere).slice(0, 3) as modtager}
-                        {#if $informationer?.lærereOgElever[modtager]}
-                          <div class="z-0">
-                            <Avatar id={$informationer.lærereOgElever[modtager]} navn={modtager} size="h-10 w-10" />
-                          </div>
-                        {/if}
-                      {/each}
-                      {#if getValidModtagere(besked.modtagere).length > 3}
-                        <div class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white">
-                          +{besked.modtagere.length - 3}
+<ul class="list h-[calc(100vh_-_16.5rem)] w-full overflow-clip">
+  {#if ready && $informationer && $beskeder}
+    {#each Array.from($beskeder) as besked}
+      {#if selected == "Alle" || (selected == "Sendte" && isAuther(besked.førsteBesked)) || (selected == "Modtaget" && !isAuther(besked.førsteBesked))}
+        {#if !searchString || besked.emne.toLowerCase().includes(searchString.toLowerCase())}
+          <li in:fade class="rounded-md p-2 hover:bg-base-100">
+            <div class="flex justify-between">
+              <div class="ml-1 flex items-center">
+                <BrugerPopup navn={besked.førsteBesked} id={$informationer.lærereOgElever[besked.førsteBesked]}>
+                  <Avatar id={$informationer.lærereOgElever[besked.førsteBesked]} navn={besked.førsteBesked} size="h-12 w-12" />
+                </BrugerPopup>
+                <a data-sveltekit-preload-data class="block" href="/besked?id={besked.message_id}">
+                  <div class="ml-5">
+                    <p part="emne" class="text-lg font-bold">
+                      {besked.emne}
+                    </p>
+                    <p part="afsender">
+                      {besked.førsteBesked} · {besked.ændret}
+                    </p>
+                  </div>
+                </a>
+              </div>
+              <div class="right-1 flex items-center">
+                <div class="mr-1 flex -space-x-4">
+                  {#if window.innerWidth > 640}
+                    {#each getValidModtagere(besked.modtagere).slice(0, 3) as modtager}
+                      {#if $informationer?.lærereOgElever[modtager]}
+                        <div class="z-0">
+                          <Avatar id={$informationer.lærereOgElever[modtager]} navn={modtager} size="h-10 w-10" />
                         </div>
                       {/if}
+                    {/each}
+                    {#if getValidModtagere(besked.modtagere).length > 3}
+                      <div class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-xs font-medium text-white">
+                        +{besked.modtagere.length - 3}
+                      </div>
                     {/if}
-                  </div>
+                  {/if}
                 </div>
               </div>
-            </li>
-          {/if}
+            </div>
+          </li>
         {/if}
-      {/each}
-      <div class="flex justify-center">
-        {#if $beskeder.length != _beskeder.length}
-          <button class="btn-info btn-sm btn my-4" on:click={showMore}>Indlæs flere beskeder</button>
-        {:else}
-          <button class="btn-warning btn-sm btn my-4" on:click={showMore}>Ikke flere beskeder</button>
-        {/if}
-      </div>
-    </ul>
-  {:else}
-    <div class="m-16 flex h-full items-center justify-center">
-      <div class="flex flex-col items-center">
-        <div class="flex h-20 w-20 items-center justify-center rounded-full bg-base-200">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-          </svg>
-        </div>
-        <span class="text-gray-500">Indlæser beskeder...</span>
-      </div>
+      {/if}
+    {/each}
+    <div class="flex justify-center">
+      {#if $beskeder.length != _beskeder.length}
+        <button class="btn-info btn-sm btn my-4" on:click={showMore}>Indlæs flere beskeder</button>
+      {:else}
+        <button class="btn-warning btn-sm btn my-4" on:click={showMore}>Ikke flere beskeder</button>
+      {/if}
     </div>
+  {:else}
+    <!-- skeleton loader start-->
+    {#each Array(20) as _}
+      <div class="w-full p-2">
+        <div class="flex rounded-md h-14 justify-between bg-base-100 animate-pulse">
+          <div class="flex items-center">
+            <div class="rounded-full ml-2 h-12 w-12 bg-base-200" />
+            <div class="ml-5">
+              <div class="h-4 bg-base-200 rounded w-48" />
+              <div class="h-4 bg-base-200 rounded w-1/4 mt-1" />
+            </div>
+          </div>
+          <div class="flex items-center">
+            <div class="flex -space-x-4">
+              <div class="rounded-full h-10 w-10 bg-base-200" />
+              <div class="rounded-full h-10 w-10 bg-base-200" />
+              <div class="rounded-full h-10 w-10 bg-base-200" />
+            </div>
+          </div>
+        </div>
+      </div>
+    {/each}
+    <!-- skeleton loader end-->
   {/if}
-{/if}
+</ul>
