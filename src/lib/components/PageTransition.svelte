@@ -2,7 +2,7 @@
   export let pathname = "";
 
   function onRouteChange() {
-    console.log("%c ROUTE CHANGE => " + pathname, "color: Lightgreen");
+    console.info("%c Route change started => " + pathname, "color: Lightgreen");
     if (!window.location.href.includes("tema")) {
       if (localStorage.getItem("Previewing Theme") == "true") {
         console.log("removing temp theme, reloading");
@@ -11,10 +11,31 @@
       }
     }
     if (window.location.href.indexOf("betlec.netlify.app") > -1 && window.location.href.indexOf("dev--betlec.netlify.app") == -1) {
-      console.log("%c ROUTE NOT PERMITTED", "color: red");
+      console.warn("%c ROUTE NOT PERMITTED", "color: red");
       window.location.href = "https://betterlectio.dk";
     }
-    console.log("%c ROUTE PERMITTED", "color: Lightgreen");
+  }
+
+  import { navigating } from "$app/stores";
+
+  let previous;
+  let start;
+  let end;
+
+  $: if ($navigating) {
+    start = Date.now();
+    end = null;
+    previous = $navigating;
+  } else {
+    end = Date.now();
+  }
+
+  $: if (previous && end) {
+    if (end - start > 100) {
+      console.log(`%c Route change (${pathname}) in ${end - start}ms`, "color: Yellow; font-weight: bold");
+    } else {
+      console.log(`%c Route change (${pathname}) in ${end - start}ms`, "color: Lightgreen; font-weight: bold");
+    }
   }
 </script>
 

@@ -14,5 +14,5 @@
 <h2 class="text-center text-3xl font-black" in:blur={{ duration: 1300, delay: 325 }}>Det lader til at du er gået lidt forkert...</h2>
 
 <p class="mt-10 text-center" in:blur={{ duration: 1300, delay: 650 }}>
-  <a href="/forside" class="btn-sm btn">Gå tilbage</a>
+  <a data-sveltekit-preload-data href="/forside" class="btn-sm btn">Gå tilbage</a>
 </p>

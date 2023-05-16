@@ -327,7 +327,7 @@
 {/await}
 <div class="divider" />
 <li class="my-1">
-  <a class="rainbow btn font-black" href="/tema">Lav et nyt tema</a>
+  <a data-sveltekit-preload-data  class="rainbow btn font-black" href="/tema">Lav et nyt tema</a>
 </li>
 
 <style>

@@ -45,11 +45,17 @@
 </script>
 
 <div class="tabs tabs-boxed mb-4 w-fit">
-  <a id="generelt" class="tab {page == 'generelt' ? 'tab-active' : ''}" on:click={() => changePage("generelt")}>Generelt</a>
-  <a id="konto" class="tab {page == 'konto' ? 'tab-active' : ''}" on:click={() => changePage("konto")}>Din konto</a>
-  <a id="api" class="tab {page == 'api' ? 'tab-active' : ''}" on:click={() => changePage("api")}>API</a>
-  <a id="pro" class="tab {page == 'pro' ? 'tab-active' : ''}" on:click={() => changePage("pro")}>Pro</a>
-  <a id="tilslut" class="tab {page == 'tilslut' ? 'tab-active' : ''}" on:click={() => changePage("tilslut")}>Tilslut</a>
+  <a data-sveltekit-preload-data id="generelt" class="tab {page == 'generelt' ? 'tab-active' : ''}" on:click={() => changePage("generelt")}
+    >Generelt</a
+  >
+  <a data-sveltekit-preload-data id="konto" class="tab {page == 'konto' ? 'tab-active' : ''}" on:click={() => changePage("konto")}
+    >Din konto</a
+  >
+  <a data-sveltekit-preload-data id="api" class="tab {page == 'api' ? 'tab-active' : ''}" on:click={() => changePage("api")}>API</a>
+  <a data-sveltekit-preload-data id="pro" class="tab {page == 'pro' ? 'tab-active' : ''}" on:click={() => changePage("pro")}>Pro</a>
+  <a data-sveltekit-preload-data id="tilslut" class="tab {page == 'tilslut' ? 'tab-active' : ''}" on:click={() => changePage("tilslut")}
+    >Tilslut</a
+  >
 </div>
 
 <div class="min-h-screen w-full">

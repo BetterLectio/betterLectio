@@ -468,6 +468,7 @@
 
   {#if cookie?.userid}
     <a
+      data-sveltekit-preload-data
       class="btn hidden md:flex"
       href={`https://www.lectio.dk/lectio/${cookie.school}/studieplan.aspx?elevid=${cookie.userid}`}
       target="_blank"
