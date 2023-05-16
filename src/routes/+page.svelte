@@ -1,40 +1,42 @@
 <script>
   import { goto } from "$app/navigation";
-  import { cookieInfo } from "$lib/js/CookieInfo";
-  import { get } from "$lib/js/http";
+  import { api } from "$lib/js/http";
+  import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
   let step = "indlæser";
-
-  let cookie;
-  cookieInfo()
-    .then((data) => {
-      step = "logger ind";
-      cookie = data;
-    })
-    .catch((err) => {
-      step = "prøver igen";
-      // wait 2 seconds and reload the page
-      setTimeout(() => {
-        location.reload();
-      }, 2000);
-    })
-    .then(() => {
-      get("/forside") // to check if the user is able to access the page (a bonus is that it will update the landing page as well)
-        .then(() => {
-          if (cookie) {
-            step = "vidrestiller";
-            goto("/forside");
-          }
+  onMount(() => {
+    try {
+      step = "finding cookie";
+      if (localStorage.getItem("lectio-cookie")) {
+        step = "validating cookie";
+        fetch(`${api}/check-cookie`, {
+          headers: {
+            "lectio-cookie": localStorage.getItem("lectio-cookie"),
+          },
+        }).then((res) => {
+          step = "checking cookie";
+          res.json().then((data) => {
+            if (data?.valid) {
+              step = "cookie valid";
+              console.log("Logged in with cookie");
+              goto("forside");
+            } else {
+              step = "cookie invalid";
+              goto("auth?redirect=forside");
+            }
+          });
         });
-    })
-    .catch((err) => {
-      step = "prøver igen";
-      // wait 2 seconds and reload the page
-      setTimeout(() => {
-        location.reload();
-      }, 2000);
-    });
+      } else {
+        step = "no cookie";
+        goto("auth?redirect=forside");
+      }
+    } catch (error) {
+      step = "error";
+      console.error(error);
+      window.location.href = "/auth?redirect=forside";
+    }
+  });
 </script>
 
 <div class="z-50 flex w-full flex-col items-center justify-center">
@@ -57,8 +59,4 @@
       {step}
     </p>
   {/key}
-</div>
-
-<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform opacity-25">
-  <p>Tager det længere tid end 5 sekunder, så er der måske sket en fejl. Prøv at genindlæse siden.</p>
 </div>
