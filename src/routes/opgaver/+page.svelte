@@ -154,7 +154,7 @@
         </thead>
         <tbody class="w-full">
           {#each _opgaver as opgave (opgave.exerciseid)}
-            <tr class="" in:fade={{ duration: 200 }} out:fade={{ duration: 200 }}>
+            <tr class="" in:fade={{ duration: 200 }}>
               <td> <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">{opgave.opgavetitel}</a></td>
               <td class="bg-">{opgave["elev-tid"]}</td>
               <td class="">{HoldOversætter(opgave.hold, $hold)}</td>
