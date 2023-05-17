@@ -1,5 +1,4 @@
 <script>
-  import { element } from "svelte/internal";
   import { cookieInfo } from "$lib/js/CookieInfo";
   let cookie;
   let indhold;
@@ -24,6 +23,12 @@
           link: "/værktøjer/ledigelokaler",
           description: "Viser dig en liste over alle ledige lokaler",
           status: "",
+        },
+        {
+          title: "Eksamener",
+          link: "/værktøjer/eksamener",
+          description: "Se hvilke eksamener du har foran dig",
+          status: "BETA",
         },
         {
           title: "Kantine",
