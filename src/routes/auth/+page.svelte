@@ -176,6 +176,7 @@
             name="username"
             id="username-field"
             placeholder="Skriv her"
+            autocomplete="username"
             class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
             bind:value={brugernavn}
           />
@@ -184,8 +185,9 @@
           <span class="w-28 border-r-2 border-base-200 bg-base-100">Kodeord</span>
           <input
             type="password"
-            name="adgangskode"
-            id="adgangskode"
+            name="current-password"
+            id="current-password-field"
+            autocomplete="current-password"
             placeholder="Skriv her"
             class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
             bind:value={adgangskode}
