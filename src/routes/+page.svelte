@@ -23,18 +23,18 @@
               goto("forside");
             } else {
               step = "cookie invalid";
-              goto("auth?redirect=forside");
+              goto("auth");
             }
           });
         });
       } else {
         step = "no cookie";
-        goto("auth?redirect=forside");
+        goto("auth");
       }
     } catch (error) {
       step = "error";
       console.error(error);
-      window.location.href = "/auth?redirect=forside";
+      window.location.href = "/auth";
     }
   });
 </script>
