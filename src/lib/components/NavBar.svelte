@@ -20,8 +20,9 @@
   import { fly } from "svelte/transition";
 </script>
 
-<div class="drawer h-screen">
+<div class="drawer fixed h-[calc(100%-4px)]">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" bind:checked />
+  <!-- h-screen - 4px -->
   <div class="drawer-content">
     <div class="navbar relative z-50 mb-10" in:fly={{ y: -64, duration: 200 }}>
       <div class="navbar-start">
