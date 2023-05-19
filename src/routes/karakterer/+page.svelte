@@ -5,7 +5,7 @@
   get("/karakterer").then((data) => {
     let karaktererSum = 0;
     let karaktererVægtningSum = 0;
-    data.forEach((karakter) => {
+    data.protokollinjer.forEach((karakter) => {
       if (karakter.medtæller == "Ja" && karakter.karakter != "--") {
         karaktererSum += parseFloat(karakter.karakter) * parseFloat(karakter.vægt.replace(",", "."));
         karaktererVægtningSum += parseFloat(karakter.vægt.replace(",", "."));
@@ -28,7 +28,7 @@
       </div>
       <div class="stat">
         <div class="stat-title">Antal Færdige Eksamener</div>
-        <div class="stat-value">{$karakterer.karakterer.length}</div>
+        <div class="stat-value">{$karakterer.karakterer.protokollinjer.length}</div>
       </div>
     </div>
 
@@ -36,13 +36,13 @@
       <table class="table w-full">
         <thead>
           <tr>
-            {#each Object.entries($karakterer.karakterer[0]) as [key, value]}
+            {#each Object.entries($karakterer.karakterer.protokollinjer[0]) as [key, value]}
               <th>{key}</th>
             {/each}
           </tr>
         </thead>
         <tbody>
-          {#each $karakterer.karakterer as karakter}
+          {#each $karakterer.karakterer.protokollinjer as karakter}
             <tr>
               {#each Object.entries(karakter) as [key, value]}
                 <td>{value}</td>
@@ -71,7 +71,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each $karakterer.karakterer as karakter}
+          {#each $karakterer.karakterer.protokollinjer as karakter}
             <tr>
               <td>{karakter.xprs_fag.split("- ").at(-1)}</td>
               <td>{karakter.karakter}</td>

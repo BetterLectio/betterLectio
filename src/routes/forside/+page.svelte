@@ -125,6 +125,20 @@
           {/if}
         {/each}
       {/if}
+      {#if $forside.eksamener.length}
+        <div class="flex flex-row">
+          <h2 class="mb-4 text-2xl font-bold">Eksamener</h2>
+          <a href="/værktøjer/eksamener" class="btn btn-primary ml-auto">Se alle</a>
+        </div>
+        {#each $forside.eksamener as eksamen}
+          <a href={eksamen["link"]} target="_blank">
+            <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+              <span class="text-xl font-bold">{eksamen["navn"]}</span>
+              <p>Tryk for at se på lectio.</p>
+            </li>
+          </a>
+        {/each}
+      {/if}
     </ul>
     <ul class="list max-h-96">
       <h2 class="mb-4 text-2xl font-bold">Kommende moduler</h2>
