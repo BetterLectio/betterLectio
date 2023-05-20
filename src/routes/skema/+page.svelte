@@ -82,10 +82,10 @@
     title: "md:ec-title",
     today: "bg-base-300",
     toolbar:
-      "flex items-center ec-toolbar bg-secondary text-secondary-content md:text-base-content md:bg-base-100 p-2 rounded-t-2xl -mt-8 md:mt-0 border border-base-content md:border-0",
+      "flex items-center ec-toolbar bg-base-200 md:text-base-content md:bg-base-100 p-2 rounded-t-2xl -mt-8 md:mt-0 border border-base-content md:border-0",
     uniform: "ec-uniform",
     week: "ec-week",
-    withScroll: "ec-with-scroll",
+    withScroll: "ec-hidden-scroll",
   };
 
   addEventListener("resize", (event) => {});
