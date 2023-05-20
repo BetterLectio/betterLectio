@@ -15,10 +15,8 @@
       gennemsnit: karaktererSum / karaktererVægtningSum,
       karakterer: data,
     };
-    console.log($karakterer);
   });
 </script>
-
 
 <h1 class="heading">Karakterer</h1>
 

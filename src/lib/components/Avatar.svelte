@@ -14,7 +14,6 @@
   let source;
 
   async function getImageSource() {
-    console.log("getting image source", id);
     try {
       const response = await fetch(`${api}/profil_billed?id=${id}&fullsize=1`, {
         headers: {

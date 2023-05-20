@@ -74,7 +74,6 @@
     let colors = [];
     for (let i = 0; i < length; i++) {
       colors.push(`hsl(${Math.round((i / length) * 1000)}, 100%, 65%)`);
-      console.log(Math.round((i / length) * 1000));
     }
     return colors;
   }

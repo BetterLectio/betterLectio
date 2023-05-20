@@ -75,11 +75,10 @@
   function previewLink() {
     let links = document.querySelectorAll(".preview");
 
-    console.log(links);
     links.forEach((link) => {
       link.addEventListener("mouseover", (e) => {
         let url = e.target.href;
-        console.log(url);
+        console.log("previewing link: " + url);
         //add an i frame to the linkpreviewbox div with the url
         if (!url.includes("lectio")) {
           linkPreviewBox = `<iframe src="${url}" width="600" height="400" title="link preview" class="rounded-lg" in:fade out:fade />`;

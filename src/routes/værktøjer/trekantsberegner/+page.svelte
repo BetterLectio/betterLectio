@@ -149,7 +149,7 @@
     if (C == undefined || C == null ? false : true) {
       hash += "C";
     }
-    console.log(hash); // the hash is used to determine which values are determined and which are not and which values are needed to calculate the missing values
+    console.log("hash", hash); // the hash is used to determine which values are determined and which are not and which values are needed to calculate the missing values
 
     switch (hash) {
       case "aAC":

@@ -9,7 +9,6 @@
   <button
     on:click={async () => {
       if (!BrugerPopupWindow) {
-        console.log("Loading BrugerPopup");
         BrugerPopupWindow = (await import("./BrugerPopupWindow.svelte")).default;
       }
     }}

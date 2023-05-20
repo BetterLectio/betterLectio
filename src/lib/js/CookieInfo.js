@@ -27,7 +27,7 @@ export async function cookieInfo() {
       });
       return userDict;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return false;
     }
   }

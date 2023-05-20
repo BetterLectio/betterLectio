@@ -23,7 +23,6 @@
           password: true,
           mediation: "optional",
         });
-        console.log(data);
         if (data.type == "password") {
           const response = await fetch(`${api}/auth`, {
             headers: {
@@ -107,9 +106,7 @@
           skole_id: skole_id,
         },
       });
-      //console.log("Log in was successful")
       const authentication = await response.text();
-      //console.log(authentication)
       if (await !response.ok) {
         progress.classList.remove("loading");
         document.querySelector("#CantLogInAlert").checked = true;

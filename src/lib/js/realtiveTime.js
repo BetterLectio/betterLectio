@@ -73,7 +73,6 @@ export function formatDate(date) {
 
 // const dateString = "sø 15:30";
 // const date = convertDate(dateString);
-// console.log(date); // 2022-12-25T15:30:00.000Z (assuming today is a Friday)
 
 ////////////////
 
@@ -145,12 +144,9 @@ export function formatDate(date) {
 
 // const dateString1 = "sø 15:30";
 // const date1 = convertDate(dateString1);
-// console.log(date1);
 
 // const dateString2 = "22/12-2022";
 // const date2 = convertDate(dateString2);
-// console.log(date2);
 
 // const dateString3 = "15:30";
 // const date3 = convertDate(dateString3);
-// console.log(date3);

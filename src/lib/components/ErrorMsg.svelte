@@ -1,20 +1,15 @@
 <!-- 
 <script>
-  console.log("error check active");
   let error;
   let details;
   
   addEventListener("error", (event) => {
-    console.log("unhandledrejection");
-    console.log(event);
     error = event.reason;
     details = JSON.stringify(event);
     document.getElementById("error-modal").checked = true;
     });
   
     addEventListener("unhandledrejection", (event) => {
-      console.log("unhandledrejection");
-      console.log(event);
       error = event.reason;
       details = JSON.stringify(event);
       document.getElementById("error-modal").checked = true;
