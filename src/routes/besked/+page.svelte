@@ -75,11 +75,10 @@
   function previewLink() {
     let links = document.querySelectorAll(".preview");
 
-    console.log(links);
     links.forEach((link) => {
       link.addEventListener("mouseover", (e) => {
         let url = e.target.href;
-        console.log(url);
+        console.log("previewing link: " + url);
         //add an i frame to the linkpreviewbox div with the url
         if (!url.includes("lectio")) {
           linkPreviewBox = `<iframe src="${url}" width="600" height="400" title="link preview" class="rounded-lg" in:fade out:fade />`;
@@ -121,7 +120,7 @@
 
 {#if besked}
   <div class="flex-rox flex w-full justify-between">
-    <h1 class="mb-2 text-3xl font-bold">{besked[0].titel}</h1>
+    <h1 class="heading">{besked[0].titel}</h1>
     <button class={`btn-circle btn ml-4 ${updating ? "animate-spin" : ""}`} on:click={updateBesked}>
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
         <path
@@ -155,7 +154,7 @@
             <a class="btn-primary btn-xs btn mr-1 mb-4" href={vedhæftning.href}>{vedhæftning.navn}</a>
           {/each}
           <p class="mb-10" use:previewLink>
-            {@html sanitizeHtml(md.render(_besked.besked)).replace("<a", '<a class="btn btn-xs btn-primary preview" target="_blank"')}
+            {@html sanitizeHtml(md.render(_besked.besked)).replace("<a", '<a  class="btn btn-xs btn-primary preview" target="_blank"')}
           </p>
         </div>
       </div>

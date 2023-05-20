@@ -20,10 +20,11 @@
   import { fly } from "svelte/transition";
 </script>
 
-<div class="drawer h-screen">
+<div class="drawer fixed h-[calc(100%-4px)]">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" bind:checked />
+  <!-- h-screen - 4px -->
   <div class="drawer-content">
-    <div class="navbar relative z-50 mb-10" transition:fly={{ y: -64, duration: 200 }}>
+    <div class="navbar relative z-50 mb-10" in:fly={{ y: -64, duration: 200 }}>
       <div class="navbar-start">
         <p />
         <div class="dropdown">
@@ -117,7 +118,7 @@
         {/if}
         <ThemeSelect tabindex="0" />
         {#if $brugeren && localStorage.getItem("lectio-cookie") && cookie}
-          <div class="dropdown-bottom dropdown-end dropdown hidden md:block">
+          <div class="dropdown dropdown-bottom dropdown-end hidden md:block">
             <div tabindex="0" class="btn-ghost btn flex justify-end gap-1 font-normal normal-case">
               <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-10" />
               <svg

@@ -54,7 +54,7 @@
   }
 </script>
 
-<h1 class="mb-4 text-3xl font-bold">Elev liste</h1>
+<h1 class="heading">Elev liste</h1>
 
 <input
   type="text"

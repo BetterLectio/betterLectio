@@ -21,7 +21,7 @@
     }
 
     links.forEach((link) => {
-      let linkHtml = sanitizeHtml(md.render(link)).replace("<a", '<a class="btn btn-xs btn-outline" target="_blank"');
+      let linkHtml = sanitizeHtml(md.render(link)).replace("<a", '<a  class="btn btn-xs btn-outline" target="_blank"');
 
       linksArr.push(linkHtml);
     });

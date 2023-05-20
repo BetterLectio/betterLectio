@@ -12,7 +12,6 @@ export function HoldOversætter(holdForkortet = String, holdArray = Array) {
 export async function HoldOversætterNy(holdId = String) {
   try {
     let fag = await get("/hold_til_fag?id=" + holdId);
-    console.log(fag);
     return fag.fag;
   } catch {
     return "Andet";

@@ -1,4 +1,4 @@
-<h1 class="mb-4 text-3xl font-bold">Indstillinger - Tilsluttede tjenester</h1>
+<h1 class="heading">Indstillinger - Tilsluttede tjenester</h1>
 <div class="flex">
   <div class="card mr-4 bg-base-200 p-3">
     <h2 class="text-2xl font-bold">Discord</h2>

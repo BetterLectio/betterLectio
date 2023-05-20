@@ -73,7 +73,7 @@
 <body>
   <!-- greeting -->
 
-  <h1 class="mb-4 text-3xl font-bold">
+  <h1 class="heading">
     {getGreeting()},
     {#if $brugeren}
       {$brugeren.navn}
@@ -91,7 +91,7 @@
               <div class="">
                 {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
                   "<a",
-                  '<a class="btn btn-xs btn-primary" target="_blank"'
+                  '<a  class="btn btn-xs btn-primary" target="_blank"'
                 )}
               </div>
             </li>
@@ -100,7 +100,7 @@
               <div class="">
                 {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
                   "<a",
-                  '<a class="btn btn-xs btn-primary" target="_blank"'
+                  '<a   class="btn btn-xs btn-primary" target="_blank"'
                 )}
               </div>
             </li>
@@ -109,7 +109,7 @@
               <div class="">
                 {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
                   "<a",
-                  '<a class="btn btn-xs btn-primary" target="_blank"'
+                  '<a   class="btn btn-xs btn-primary" target="_blank"'
                 )}
               </div>
             </li>
@@ -118,11 +118,25 @@
               <div class="">
                 {@html sanitizeHtml(md.render(aktuelt.text.replaceAll("\n", "  \n"))).replaceAll(
                   "<a",
-                  '<a class="btn btn-xs btn-primary" target="_blank"'
+                  '<a   class="btn btn-xs btn-primary" target="_blank"'
                 )}
               </div>
             </li>
           {/if}
+        {/each}
+      {/if}
+      {#if $forside?.eksamener?.length}
+        <div class="flex flex-row">
+          <h2 class="mb-4 text-2xl font-bold">Eksamener</h2>
+          <a href="/værktøjer/eksamener" class="btn btn-primary ml-auto">Se alle</a>
+        </div>
+        {#each $forside?.eksamener as eksamen}
+          <a href={eksamen["link"]} target="_blank">
+            <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+              <span class="text-xl font-bold">{eksamen["navn"]}</span>
+              <p>Tryk for at se på lectio.</p>
+            </li>
+          </a>
         {/each}
       {/if}
     </ul>

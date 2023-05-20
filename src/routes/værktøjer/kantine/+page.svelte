@@ -66,7 +66,7 @@
   </select>
   {#if !$indstillinger.kantineId}
     <div class="mt-20 flex justify-center">
-      <h1 class="text-3xl">Vælg en skole</h1>
+      <h1 class="heading">Vælg en skole</h1>
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
         <path
           fill-rule="evenodd"

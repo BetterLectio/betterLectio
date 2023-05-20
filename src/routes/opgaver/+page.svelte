@@ -71,7 +71,7 @@
 </script>
 
 <div>
-  <h1 class="mb-4 text-3xl font-bold">Opgaver</h1>
+  <h1 class="heading">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="flex flex-col sm:flex-row">
     <div class="tabs tabs-boxed w-full justify-between sm:w-fit">
@@ -154,7 +154,7 @@
         </thead>
         <tbody class="w-full">
           {#each _opgaver as opgave (opgave.exerciseid)}
-            <tr class="" in:fade={{ duration: 200 }} out:fade={{ duration: 200 }}>
+            <tr class="" in:fade={{ duration: 200 }}>
               <td> <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">{opgave.opgavetitel}</a></td>
               <td class="bg-">{opgave["elev-tid"]}</td>
               <td class="">{HoldOversætter(opgave.hold, $hold)}</td>

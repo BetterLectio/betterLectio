@@ -11,6 +11,7 @@
   import { goto } from "$app/navigation";
 
   let skema = {};
+  let heading = "Skema";
 
   $fag ??= {};
 
@@ -81,10 +82,10 @@
     title: "md:ec-title",
     today: "bg-base-300",
     toolbar:
-      "flex items-center ec-toolbar bg-secondary text-secondary-content md:text-base-content md:bg-base-100 p-2 rounded-t-2xl -mt-8 md:mt-0 border border-base-content md:border-0",
+      "flex items-center ec-toolbar bg-base-200 md:text-base-content md:bg-base-100 p-2 rounded-t-2xl -mt-8 md:mt-0 border border-base-content md:border-0",
     uniform: "ec-uniform",
     week: "ec-week",
-    withScroll: "ec-with-scroll",
+    withScroll: "ec-hidden-scroll",
   };
 
   addEventListener("resize", (event) => {});
@@ -270,6 +271,7 @@
     }
     await get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then((data) => {
       skema[globalYear + "" + globalWeek] = data;
+      heading = skema?.[globalYear + "" + globalWeek]?.overskrift || "skema";
 
       options.slotMinTime = parseInt(
         Object.values(skema[globalYear + "" + globalWeek].modulTider)[0]
@@ -459,12 +461,8 @@
   //}
 </script>
 
-<span class="my-2 flex justify-between">
-  {#if skema[globalYear + "" + globalWeek]}
-    <h1 class="mb-4 hidden text-3xl font-bold md:flex">{skema[globalYear + "" + globalWeek].overskrift}</h1>
-  {:else}
-    <div class="loading btn-ghost btn" />
-  {/if}
+<div class="my-2 flex justify-between">
+  <h1 class="heading">{heading}</h1>
 
   {#if cookie?.userid}
     <a
@@ -475,9 +473,9 @@
       Se studieplan
     </a>
   {/if}
-</span>
+</div>
 
-<div>
+<div class="translate-y-5 md:translate-y-0">
   <Calendar bind:this={ec} {plugins} {options} />
 </div>
 

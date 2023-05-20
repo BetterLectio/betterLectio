@@ -31,7 +31,7 @@
   };
 </script>
 
-<h1 class="mb-4 text-3xl font-bold">Fravær Regner</h1>
+<h1 class="heading">Fravær Regner</h1>
 
 {#if !$fravaer}
   <p class="loading btn-ghost btn">Henter data...</p>
