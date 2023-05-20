@@ -18,7 +18,7 @@
   });
 </script>
 
-<h1 class="mb-4 text-3xl font-bold">Karakterer</h1>
+<h1 class="heading">Karakterer</h1>
 {#if $karakterer}
   {#if window.innerWidth > 768}
     <div class="stats mb-4 bg-base-200 shadow">
