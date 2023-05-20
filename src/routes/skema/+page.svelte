@@ -11,6 +11,7 @@
   import { goto } from "$app/navigation";
 
   let skema = {};
+  let heading = "Skema";
 
   $fag ??= {};
 
@@ -270,6 +271,7 @@
     }
     await get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then((data) => {
       skema[globalYear + "" + globalWeek] = data;
+      heading = skema?.[globalYear + "" + globalWeek]?.overskrift || "skema";
 
       options.slotMinTime = parseInt(
         Object.values(skema[globalYear + "" + globalWeek].modulTider)[0]
@@ -460,7 +462,7 @@
 </script>
 
 <span class="my-2 flex justify-between">
-  <h1 class="heading">{skema?.[globalYear + "" + globalWeek]?.overskrift || "Skema"}</h1>
+  <h1 class="heading">{heading}</h1>
 
   {#if cookie?.userid}
     <a
