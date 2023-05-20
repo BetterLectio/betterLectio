@@ -36,30 +36,21 @@
 
     if (modul.lektier) {
       await modul.lektier.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace(
-          "<a",
-          '<a data-sveltekit-preload-data  class="btn btn-xs btn-primary preview" target="_blank"'
-        );
+        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a   class="btn btn-xs btn-primary preview" target="_blank"');
         lektieHtml += "<p>" + translated + "<p/>";
       });
     }
 
     if (modul.øvrigtIndhold) {
       await modul.øvrigtIndhold.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace(
-          "<a",
-          '<a data-sveltekit-preload-data  class="btn btn-xs btn-primary preview" target="_blank"'
-        );
+        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a   class="btn btn-xs btn-primary preview" target="_blank"');
         øvrigeIndholdHtml += "<p>" + translated + "<p/>";
       });
     }
 
     if (modul.note) {
       await modul.note.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace(
-          "<a",
-          '<a data-sveltekit-preload-data  class="btn btn-xs btn-primary preview" target="_blank"'
-        );
+        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a   class="btn btn-xs btn-primary preview" target="_blank"');
         note += "<p>" + translated + "<p/>";
       });
     }
@@ -116,7 +107,6 @@
     {/if}
     {#if modul}
       <a
-        data-sveltekit-preload-data
         class="btn"
         href={`https://www.lectio.dk/lectio/${cookie.school}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
       >

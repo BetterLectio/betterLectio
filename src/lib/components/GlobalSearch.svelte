@@ -223,7 +223,7 @@
             {#each searchResults.opgaver as opgave, i}
               <p class="hidden">{(animationDelay += i)}</p>
               <li class="w-full" in:blur={{ duration: 500, delay: animationDelay * 100 }} out:blur>
-                <a data-sveltekit-preload-data href="/opgave?exerciseid={opgave.exerciseid}" rel="external">{opgave.opgavetitel}</a>
+                <a href="/opgave?exerciseid={opgave.exerciseid}" rel="external">{opgave.opgavetitel}</a>
               </li>
             {/each}
           {/if}
@@ -236,9 +236,7 @@
             {#each searchResults.lektier as lektie, i}
               <p class="hidden">{(animationDelay += i)}</p>
               <li class="w-full" in:blur={{ duration: 500, delay: animationDelay * 100 }} out:blur>
-                <a data-sveltekit-preload-data href="/modul?absid={lektie.aktivitet.absid}" rel="external"
-                  >{lektie.aktivitet.navn || lektie.aktivitet.hold}</a
-                >
+                <a href="/modul?absid={lektie.aktivitet.absid}" rel="external">{lektie.aktivitet.navn || lektie.aktivitet.hold}</a>
               </li>
             {/each}
           {/if}
@@ -251,7 +249,7 @@
             {#each searchResults.forside as forside, i}
               <p class="hidden">{(animationDelay += i)}</p>
               <li class="w-full" in:blur={{ duration: 500, delay: animationDelay * 100 }} out:blur>
-                <a data-sveltekit-preload-data href="/forside" class="w-full overflow-x-scroll" rel="external">{forside.text}</a>
+                <a href="/forside" class="w-full overflow-x-scroll" rel="external">{forside.text}</a>
               </li>
             {/each}
           {/if}
@@ -264,7 +262,7 @@
             {#each searchResults.skema as modul, i}
               <p class="hidden">{(animationDelay += i)}</p>
               <li class="w-full" in:blur={{ duration: 500, delay: animationDelay * 100 }} out:blur>
-                <a data-sveltekit-preload-data href="/modul?absid={modul.absid}" rel="external">
+                <a href="/modul?absid={modul.absid}" rel="external">
                   {#if modul.navn}
                     {modul.navn}
                   {:else if modul.hold}
@@ -285,7 +283,7 @@
             {#each searchResults.beskeder as besked, i}
               <p class="hidden">{(animationDelay += i)}</p>
               <li class="w-full" in:blur={{ duration: 500, delay: animationDelay * 100 }} out:blur>
-                <a data-sveltekit-preload-data href="/besked?id={besked.message_id}" rel="external">{besked.emne}</a>
+                <a href="/besked?id={besked.message_id}" rel="external">{besked.emne}</a>
               </li>
             {/each}
           {/if}

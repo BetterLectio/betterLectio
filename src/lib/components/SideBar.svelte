@@ -19,7 +19,6 @@
 >
   <div>
     <a
-      data-sveltekit-preload-data
       href="/forside"
       class="group btn-primary btn mb-1 flex h-14 w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
     >
@@ -52,11 +51,7 @@
       <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Søg</span>
     </label>
     <div class="my-4" />
-    <a
-      data-sveltekit-preload-data
-      href="/skema"
-      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
-    >
+    <a href="/skema" class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
@@ -71,11 +66,7 @@
 
       <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Skema</span>
     </a>
-    <a
-      data-sveltekit-preload-data
-      href="/opgaver"
-      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
-    >
+    <a href="/opgaver" class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16"
         ><path
           fill-rule="evenodd"
@@ -90,11 +81,7 @@
 
       <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Opgaver</span>
     </a>
-    <a
-      data-sveltekit-preload-data
-      href="/lektier"
-      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
-    >
+    <a href="/lektier" class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmarks-fill" viewBox="0 0 16 16"
         ><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4z" /><path
           d="M4.268 1A2 2 0 0 1 6 0h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L13 13.768V2a1 1 0 0 0-1-1H4.268z"
@@ -103,11 +90,7 @@
 
       <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Lektier</span>
     </a>
-    <a
-      data-sveltekit-preload-data
-      href="/fravær"
-      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
-    >
+    <a href="/fravær" class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16"
         ><path
           d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"
@@ -116,7 +99,6 @@
       <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Fravær</span>
     </a>
     <a
-      data-sveltekit-preload-data
       href="/dokumenter"
       class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
     >
@@ -127,11 +109,7 @@
       >
       <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-28 group-hover:opacity-100">Dokumenter</span>
     </a>
-    <a
-      data-sveltekit-preload-data
-      href="/beskeder"
-      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
-    >
+    <a href="/beskeder" class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
@@ -146,7 +124,6 @@
       <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Beskeder</span>
     </a>
     <a
-      data-sveltekit-preload-data
       href="/karakterer"
       class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
     >
@@ -160,7 +137,6 @@
       <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-28 group-hover:opacity-100">Karakterer</span>
     </a>
     <a
-      data-sveltekit-preload-data
       href="/værktøjer"
       class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
     >
@@ -193,7 +169,6 @@
       </ul>
     </div>
     <a
-      data-sveltekit-preload-data
       href="/discord"
       target="_blank"
       class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
@@ -206,7 +181,7 @@
       <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-28 group-hover:opacity-100">Discord</span>
     </a>
     {#if $brugeren && localStorage.getItem("lectio-cookie") && cookie}
-      <a data-sveltekit-preload-data href="/indstillinger" class="group btn mb-1 h-14 w-full">
+      <a href="/indstillinger" class="group btn mb-1 h-14 w-full">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
           <path
             d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"

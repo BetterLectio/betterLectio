@@ -63,20 +63,20 @@
         <p class="whitespace-pre-line">
           <strong>Grupper:</strong>
           {#each skema["grupper"] as gruppe}
-            <a data-sveltekit-preload-data href="/skema?id=HE{gruppe['id']}" class="btn btn-primary btn-xs mr-1 mb-1">{gruppe["navn"]}</a>
+            <a href="/skema?id=HE{gruppe['id']}" class="btn btn-primary btn-xs mr-1 mb-1">{gruppe["navn"]}</a>
           {/each}
         </p>
       {:else if skema["type"] == "lærer"}
         <p>
           <strong>Hold:</strong>
           {#each Object.entries(skema["hold"]) as hold}
-            <a data-sveltekit-preload-data href="/skema?id=HE{hold[1]}" class="btn btn-primary btn-xs mr-1">{hold[0]}</a>
+            <a href="/skema?id=HE{hold[1]}" class="btn btn-primary btn-xs mr-1">{hold[0]}</a>
           {/each}
         </p>
       {/if}
       <p class="whitespace-pre-line"><strong>Aktivitet: </strong>{setActivity(aktivitet)}</p>
       <div class="card-actions mt-4 justify-start">
-        <a data-sveltekit-preload-data href={"/skema?id=" + id} class="btn btn-primary">Se skema</a>
+        <a href={"/skema?id=" + id} class="btn btn-primary">Se skema</a>
         <div class="tooltip" data-tip="Kommer snart">
           <button class="btn btn-disabled">Send besked</button>
         </div>
