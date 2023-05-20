@@ -461,7 +461,7 @@
   //}
 </script>
 
-<span class="my-2 flex justify-between">
+<div class="my-2 flex justify-between">
   <h1 class="heading">{heading}</h1>
 
   {#if cookie?.userid}
@@ -474,9 +474,9 @@
       Se studieplan
     </a>
   {/if}
-</span>
+</div>
 
-<div>
+<div class="translate-y-5 md:translate-y-0">
   <Calendar bind:this={ec} {plugins} {options} />
 </div>
 
