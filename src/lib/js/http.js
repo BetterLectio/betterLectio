@@ -67,7 +67,7 @@ export async function get(endpoint) {
         localStorage.setItem("lectio-cookie", lectioCookie);
       }
     }
-    return JSON.parse(textResponse.replace("\n", "  "));
+    return JSON.parse(textResponse.replaceAll("\n", "  "));
   } else {
     const validationCheck = await (
       await fetch(api + `/check-cookie`, {
