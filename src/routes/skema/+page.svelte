@@ -460,14 +460,11 @@
 </script>
 
 <span class="my-2 flex justify-between">
-  {#if skema[globalYear + "" + globalWeek]}
-    <h1 class="mb-4 hidden text-3xl font-bold md:flex">{skema[globalYear + "" + globalWeek].overskrift}</h1>
-  {:else}
-    <div class="loading btn-ghost btn" />
-  {/if}
+  <h1 class="heading">{skema?.[globalYear + "" + globalWeek]?.overskrift || "Skema"}</h1>
 
   {#if cookie?.userid}
     <a
+      data-sveltekit-preload-data
       class="btn hidden md:flex"
       href={`https://www.lectio.dk/lectio/${cookie.school}/studieplan.aspx?elevid=${cookie.userid}`}
       target="_blank"

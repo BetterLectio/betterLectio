@@ -71,7 +71,7 @@
 </script>
 
 <div>
-  <h1 class="mb-4 text-3xl font-bold">Opgaver</h1>
+  <h1 class="heading">Opgaver</h1>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="flex flex-col sm:flex-row">
     <div class="tabs tabs-boxed w-full justify-between sm:w-fit">
@@ -109,7 +109,7 @@
     <ul class="list my-4 lg:hidden">
       {#each _opgaver as opgave}
         <li class="relative flex {opgave.class} mt-2 h-full w-full justify-start text-left font-normal normal-case">
-          <a class="mt-2 mb-2" href="/opgave?exerciseid={opgave.exerciseid}">
+          <a data-sveltekit-preload-data class="mt-2 mb-2" href="/opgave?exerciseid={opgave.exerciseid}">
             <div class="flex items-center">
               <div class="mr-4 flex-none">
                 <div>
@@ -154,8 +154,12 @@
         </thead>
         <tbody class="w-full">
           {#each _opgaver as opgave (opgave.exerciseid)}
-            <tr class="" in:fade={{ duration: 200 }} out:fade={{ duration: 200 }}>
-              <td> <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">{opgave.opgavetitel}</a></td>
+            <tr class="" in:fade={{ duration: 200 }}>
+              <td>
+                <a data-sveltekit-preload-data href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full"
+                  >{opgave.opgavetitel}</a
+                ></td
+              >
               <td class="bg-">{opgave["elev-tid"]}</td>
               <td class="">{HoldOversætter(opgave.hold, $hold)}</td>
               <td class="">

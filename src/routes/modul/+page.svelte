@@ -21,6 +21,7 @@
   let øvrigeIndholdHtml = "";
   let note = "";
   let items = {};
+  let isOpen = "";
 
   let linkPreviewBox = "";
 
@@ -35,25 +36,35 @@
 
     if (modul.lektier) {
       await modul.lektier.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a class="btn btn-xs btn-primary preview" target="_blank"');
+        let translated = sanitizeHtml(md.render(element)).replace(
+          "<a",
+          '<a data-sveltekit-preload-data  class="btn btn-xs btn-primary preview" target="_blank"'
+        );
         lektieHtml += "<p>" + translated + "<p/>";
       });
     }
 
     if (modul.øvrigtIndhold) {
       await modul.øvrigtIndhold.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a class="btn btn-xs btn-primary preview" target="_blank"');
+        let translated = sanitizeHtml(md.render(element)).replace(
+          "<a",
+          '<a data-sveltekit-preload-data  class="btn btn-xs btn-primary preview" target="_blank"'
+        );
         øvrigeIndholdHtml += "<p>" + translated + "<p/>";
       });
     }
 
     if (modul.note) {
       await modul.note.split("\n").forEach((element) => {
-        let translated = sanitizeHtml(md.render(element)).replace("<a", '<a class="btn btn-xs btn-primary preview" target="_blank"');
+        let translated = sanitizeHtml(md.render(element)).replace(
+          "<a",
+          '<a data-sveltekit-preload-data  class="btn btn-xs btn-primary preview" target="_blank"'
+        );
         note += "<p>" + translated + "<p/>";
       });
     }
     previewLink();
+    isOpen = "active";
   }
   getModul();
 
@@ -94,42 +105,71 @@
 </div>
 
 <div>
-  {#if modul}
-    <span class="my-2 flex justify-between">
-      <h1 class="text-3xl font-bold">
+  <span class="my-2 flex justify-between">
+    {#if modul}
+      <h1 class="heading">
         {modul.aktivitet.navn ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold
           ? HoldOversætter(modul.aktivitet.hold, $hold)
           : "Ukendt hold"}
       </h1>
+    {:else}
+      <div class="animate-pulse bg-base-200 rounded-lg h-12 w-1/2" />
+    {/if}
+    {#if modul}
       <a
+        data-sveltekit-preload-data
         class="btn"
         href={`https://www.lectio.dk/lectio/${cookie.school}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
       >
         Åben Elevfeedback
       </a>
-    </span>
-
+    {/if}
+  </span>
+  {#if modul}
     <Table {items} />
-
-    {#if lektieHtml}
-      <h3 class="text-xl font-bold">Lektier</h3>
-      {@html lektieHtml}
-      <div class="mb-4" />
-    {/if}
-    {#if note}
-      <h3 class="text-xl font-bold">Noter</h3>
-      {@html note}
-      <div class="mb-4" />
-    {/if}
-    {#if øvrigeIndholdHtml}
-      <h3 class="text-xl font-bold">Øvrigt indhold</h3>
-      {@html øvrigeIndholdHtml}
-      <div class="mb-4" />
-    {/if}
-
-    {#if !lektieHtml && !øvrigeIndholdHtml && !note}
-      <p>Aktiviteten har ikke noget indhold.</p>
-      <div class="mb-4" />
-    {/if}
+  {:else}
+    <div>
+      <div class="w-full h-12 bg-base-200 rounded-t-lg shadow-xl animate-pulse" />
+      <div class="w-full h-14 bg-base-100 rounded-b-lg shadow-xl animate-pulse" />
+    </div>
   {/if}
+
+  <div class="fromhzerotohauto {isOpen}">
+    {#if modul}
+      {#if lektieHtml}
+        <h3 class="text-xl font-bold">Lektier</h3>
+        {@html lektieHtml}
+        <div class="mb-4" />
+      {/if}
+      {#if note}
+        <h3 class="text-xl font-bold">Noter</h3>
+        {@html note}
+        <div class="mb-4" />
+      {/if}
+      {#if øvrigeIndholdHtml}
+        <h3 class="text-xl font-bold">Øvrigt indhold</h3>
+        {@html øvrigeIndholdHtml}
+        <div class="mb-4" />
+      {/if}
+
+      {#if !lektieHtml && !øvrigeIndholdHtml && !note}
+        <p>Aktiviteten har ikke noget indhold.</p>
+        <div class="mb-4" />
+      {/if}
+    {/if}
+  </div>
 </div>
+
+<style>
+  .fromhzerotohauto {
+    max-height: 10px;
+    transition: max-height 0.5s ease-in-out;
+    overflow: hidden;
+  }
+
+  .fromhzerotohauto.active {
+    max-height: 1000px;
+    height: auto;
+    transition: max-height 0.5s ease-in-out;
+  }
+</style>

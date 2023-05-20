@@ -19,6 +19,9 @@
   });
 </script>
 
+
+<h1 class="heading">Karakterer</h1>
+
 {#if $karakterer}
   {#if window.innerWidth > 768}
     <!--

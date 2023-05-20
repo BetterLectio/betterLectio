@@ -115,126 +115,128 @@
     $fravaer.generalt = $fravaer.generalt.sort(sortFunc);
   };
   $: sortArrow = (column, sort) => {
-    if (column == sort.col) {
-      return sort.ascending ? "▲" : "▼";
+    if (column == sort?.col) {
+      return sort?.ascending ? "▲" : "▼";
     } else {
       return "";
     }
   };
 </script>
 
-<h1 class="mb-4 text-3xl font-bold">Fravær</h1>
-{#if cookieReady && fravaerReady}
-  <div class="stats mb-4 bg-base-200 shadow">
-    <div class="stat">
-      <div class="stat-title">Opgjort</div>
-      <div class="stat-value">{opgjortFravaer}</div>
-    </div>
-    <div class="stat">
-      <div class="stat-title">For året</div>
-      <div class="stat-value">{foråretFravaer}</div>
-    </div>
+<h1 class="heading">Fravær</h1>
+<div class="stats mb-4 bg-base-200 shadow">
+  <div class="stat">
+    <div class="stat-title">Opgjort</div>
+    <div class="stat-value {opgjortFravaer ? '' : 'animate-pulse'}">{opgjortFravaer}</div>
   </div>
+  <div class="stat">
+    <div class="stat-title">For året</div>
+    <div class="stat-value {foråretFravaer ? '' : 'animate-pulse'}">{foråretFravaer}</div>
+  </div>
+</div>
 
-  <div class="flex w-full flex-col rounded-lg bg-base-200 p-4 lg:flex-row">
-    <div class="w-full rounded-lg bg-base-300 p-4 lg:w-1/2">
-      <h2 class="text-2xl font-bold">Grafisk oversigt</h2>
-      {#if $fravaer?.generalt}
-        {#if $fravaer.generalt.at(-1).heleåret_fravær_procent == "0,00%"}
-          <p class="mt-4">Du har ikke noget fravær</p>
-        {:else}
-          <Doughnut
-            data={{
-              labels: $fravaer.generalt
-                .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
-                .map((element) => element.hold),
-              datasets: [
-                {
-                  borderWidth: 0,
-                  hoverOffset: 20,
-                  label: "Fraværende moduler",
-                  data: $fravaer.generalt
-                    .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
-                    .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.opgjort_fravær_moduler)[1].replace(",", ".")),
-                  backgroundColor: $fravaer.generalt.map((element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]),
-                },
-              ],
-            }}
-          />
-        {/if}
-      {/if}
-
-      {#if monthToFravær}
+<div class="flex w-full flex-col rounded-lg bg-base-200 p-4 lg:flex-row">
+  <div class="w-full rounded-lg bg-base-300 p-4 lg:w-1/2">
+    <h2 class="text-2xl font-bold">Grafisk oversigt</h2>
+    {#if $fravaer?.generalt}
+      {#if $fravaer.generalt.at(-1).heleåret_fravær_procent == "0,00%"}
+        <p class="mt-4">Du har ikke noget fravær</p>
+      {:else}
         <Doughnut
           data={{
-            labels: [...moment.months().slice(7), ...moment.months().slice(0, 7)], // start ved august, for der starter skoleåret
+            labels: $fravaer.generalt
+              .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
+              .map((element) => element.hold),
             datasets: [
               {
-                label: "Registreret fravær",
-                data: [...Object.values(monthToFravær).slice(7), ...Object.values(monthToFravær).slice(0, 7)], // start ved august, for der starter skoleåret
-                fill: "origin",
+                borderWidth: 0,
+                hoverOffset: 20,
+                label: "Fraværende moduler",
+                data: $fravaer.generalt
+                  .filter((element) => element.hold != "Samlet" && element.opgjort_fravær_procent != "0,00%")
+                  .map((element) => /(\d+\,?\d*|\,\d+)\//g.exec(element.opgjort_fravær_moduler)[1].replace(",", ".")),
+                backgroundColor: $fravaer.generalt.map((element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length]),
               },
             ],
           }}
         />
       {/if}
-    </div>
-    <div class="mt-4 w-full overflow-y-scroll rounded-lg bg-base-300 p-4 lg:ml-4 lg:mt-0">
-      <h2 class="mb-4 text-2xl font-bold">Manglende fraværsårsager</h2>
-      {#if $fravaer?.moduler?.manglende_fraværsårsager.length}
-        <div class="overflow-x-auto">
-          <table class="table-zebra table w-full">
-            <!-- head -->
-            <thead>
-              <tr>
-                <th>modul</th>
-                <th>dato</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {#each $fravaer?.moduler?.manglende_fraværsårsager as modul}
+    {/if}
+
+    {#if monthToFravær}
+      <Doughnut
+        data={{
+          labels: [...moment.months().slice(7), ...moment.months().slice(0, 7)], // start ved august, for der starter skoleåret
+          datasets: [
+            {
+              label: "Registreret fravær",
+              data: [...Object.values(monthToFravær).slice(7), ...Object.values(monthToFravær).slice(0, 7)], // start ved august, for der starter skoleåret
+              fill: "origin",
+            },
+          ],
+        }}
+      />
+    {/if}
+  </div>
+  <div class="mt-4 w-full overflow-y-scroll rounded-lg bg-base-300 p-4 lg:ml-4 lg:mt-0">
+    <h2 class="mb-4 text-2xl font-bold">Manglende fraværsårsager</h2>
+    {#if $fravaer?.moduler?.manglende_fraværsårsager.length}
+      <div class="overflow-x-auto">
+        <table class="table-zebra table w-full">
+          <!-- head -->
+          <thead>
+            <tr>
+              <th>modul</th>
+              <th>dato</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {#if $fravaer?.moduler?.manglende_fraværsårsager}
+              {#each $fravaer.moduler.manglende_fraværsårsager as modul}
                 <tr>
                   <td>{modul.aktivitet.navn == null ? HoldOversætter(modul.aktivitet.hold, $hold) : modul.aktivitet.navn}</td>
                   <td>{modul.aktivitet.tidspunkt}</td>
                   <td>
                     <a
                       href={"https://www.lectio.dk/lectio/" +
-                        cookie.school +
+                        cookie?.school +
                         "/fravaer_aarsag.aspx?elevid=" +
-                        cookie.userid +
+                        cookie?.userid +
                         "&id=" +
-                        modul.aktivitet.absid +
+                        modul?.aktivitet?.absid +
                         "&atype=aa"}
                       class="btn-xs btn">Skriv fraværsårsag</a
                     ></td
                   >
                 </tr>
               {/each}
-            </tbody>
-          </table>
-        </div>
-      {:else}
-        <p>Du har ingen manglende fraværsårsager</p>
-      {/if}
-    </div>
+            {/if}
+          </tbody>
+        </table>
+      </div>
+    {:else}
+      <p>Du har ingen manglende fraværsårsager</p>
+    {/if}
   </div>
-  <div class="mt-4 rounded-lg bg-none p-0 lg:bg-base-200 lg:p-4">
-    <h2 class="mb-2 text-2xl font-bold">Fraværsårsager</h2>
-    <table class="table-zebra table-compact table hidden w-full lg:inline-table">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th>fag</th>
-          <th>navn</th>
-          <th>fravær</th>
-          <th>dato</th>
-          <th>årsag</th>
-          <th>årsagsnote</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each $fravaer?.moduler?.oversigt as modul}
+</div>
+<div class="mt-4 rounded-lg bg-none p-0 lg:bg-base-200 lg:p-4">
+  <h2 class="mb-2 text-2xl font-bold">Fraværsårsager</h2>
+  <table class="table-zebra table-compact table hidden w-full lg:inline-table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>fag</th>
+        <th>navn</th>
+        <th>fravær</th>
+        <th>dato</th>
+        <th>årsag</th>
+        <th>årsagsnote</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#if $fravaer?.moduler?.oversigt}
+        {#each $fravaer.moduler.oversigt as modul}
           <tr>
             <td>{modul.aktivitet.hold == null ? "" : HoldOversætter(modul.aktivitet.hold, $hold)}</td>
             <td>{modul.aktivitet.navn == null ? "" : modul.aktivitet.navn}</td>
@@ -257,10 +259,12 @@
             <td class="whitespace-pre-wrap">{modul.årsagsnote}</td>
           </tr>
         {/each}
-      </tbody>
-    </table>
-    <div class="list lg:hidden">
-      {#each $fravaer?.moduler?.oversigt as modul}
+      {/if}
+    </tbody>
+  </table>
+  <div class="list lg:hidden">
+    {#if $fravaer?.moduler?.oversigt}
+      {#each $fravaer.moduler.oversigt as modul}
         {#if modul.årsag == "Sygdom"}
           <div class="element border-l-4 border-l-warning">
             <p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
@@ -308,60 +312,60 @@
           </div>
         {/if}
       {/each}
-    </div>
+    {/if}
   </div>
+</div>
 
-  <div class="mt-4 rounded-lg bg-none p-0 lg:bg-base-200 lg:p-4">
-    <h2 class="mb-2 text-2xl font-bold">Overblik</h2>
-    <p class="mb-2">Hold uden fravær er ikke vist.</p>
-    <div class="tabs justify-center">
-      <button
-        on:click={() => {
-          overblikType = "Opgjort";
-          sort();
-        }}
-        class="tab tab-lifted {overblikType == 'Opgjort' ? 'tab-active' : ''}">Opgjort</button
-      >
-      <button
-        on:click={() => {
-          overblikType = "Hele året";
-          sort();
-        }}
-        class="tab tab-lifted {overblikType == 'Hele året' ? 'tab-active' : ''}">Hele året</button
-      >
-    </div>
-    <table class="table-zebra table-compact table w-full lg:inline-table">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th on:click={sort("hold")}>Fag {sortArrow("hold", $fravaer.sort)}</th>
-          <th on:click={sort("procent")}>Fravær {sortArrow("procent", $fravaer.sort)}</th>
-          <th on:click={sort("moduler")}>Moduler {sortArrow("moduler", $fravaer.sort)}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each $fravaer?.generalt as fravaerhold}
-          {#if fravaerhold.hold != "Samlet" && (overblikType == "Opgjort" ? fravaerhold.opgjort_fravær_procent : fravaerhold.heleåret_fravær_procent) != "0,00%"}
+<div class="mt-4 rounded-lg bg-none p-0 lg:bg-base-200 lg:p-4">
+  <h2 class="mb-2 text-2xl font-bold">Overblik</h2>
+  <p class="mb-2">Hold uden fravær er ikke vist.</p>
+  <div class="tabs justify-center">
+    <button
+      on:click={() => {
+        overblikType = "Opgjort";
+        sort();
+      }}
+      class="tab tab-lifted {overblikType == 'Opgjort' ? 'tab-active' : ''}">Opgjort</button
+    >
+    <button
+      on:click={() => {
+        overblikType = "Hele året";
+        sort();
+      }}
+      class="tab tab-lifted {overblikType == 'Hele året' ? 'tab-active' : ''}">Hele året</button
+    >
+  </div>
+  <table class="table-zebra table-compact table w-full lg:inline-table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th on:click={sort("hold")}>Fag {sortArrow("hold", $fravaer?.sort)}</th>
+        <th on:click={sort("procent")}>Fravær {sortArrow("procent", $fravaer?.sort)}</th>
+        <th on:click={sort("moduler")}>Moduler {sortArrow("moduler", $fravaer?.sort)}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#if $fravaer?.generalt}
+        {#each $fravaer.generalt as fravaerhold}
+          {#if fravaerhold?.hold != "Samlet" && (overblikType == "Opgjort" ? fravaerhold?.opgjort_fravær_procent : fravaerhold?.heleåret_fravær_procent) != "0,00%"}
             <tr>
-              <td>{HoldOversætter(fravaerhold.hold, $hold)}</td>
-              <td>{overblikType == "Opgjort" ? fravaerhold.opgjort_fravær_procent : fravaerhold.heleåret_fravær_procent}</td>
-              <td>{overblikType == "Opgjort" ? fravaerhold.opgjort_fravær_moduler : fravaerhold.heleåret_fravær_moduler}</td>
+              <td>{HoldOversætter(fravaerhold?.hold, $hold)}</td>
+              <td>{overblikType == "Opgjort" ? fravaerhold?.opgjort_fravær_procent : fravaerhold?.heleåret_fravær_procent}</td>
+              <td>{overblikType == "Opgjort" ? fravaerhold?.opgjort_fravær_moduler : fravaerhold?.heleåret_fravær_moduler}</td>
             </tr>
           {/if}
         {/each}
         <!-- Mess but easiest way to get "Samlet" always at bottom (after sorting) -->
         {#each $fravaer?.generalt as fravaerhold}
-          {#if fravaerhold.hold == "Samlet"}
+          {#if fravaerhold?.hold == "Samlet"}
             <tr>
-              <td>{HoldOversætter(fravaerhold.hold, $hold)}</td>
-              <td>{overblikType == "Opgjort" ? fravaerhold.opgjort_fravær_procent : fravaerhold.heleåret_fravær_procent}</td>
-              <td>{overblikType == "Opgjort" ? fravaerhold.opgjort_fravær_moduler : fravaerhold.heleåret_fravær_moduler}</td>
+              <td>{HoldOversætter(fravaerhold?.hold, $hold)}</td>
+              <td>{overblikType == "Opgjort" ? fravaerhold?.opgjort_fravær_procent : fravaerhold?.heleåret_fravær_procent}</td>
+              <td>{overblikType == "Opgjort" ? fravaerhold?.opgjort_fravær_moduler : fravaerhold?.heleåret_fravær_moduler}</td>
             </tr>
           {/if}
         {/each}
-      </tbody>
-    </table>
-  </div>
-{:else}
-  <div class="loading btn-ghost btn">Indlæser</div>
-{/if}
+      {/if}
+    </tbody>
+  </table>
+</div>

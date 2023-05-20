@@ -17,7 +17,7 @@
 
 <svelte:body src="http://danml.com/js/download.js" />
 
-<h1 class="mb-4 text-3xl font-bold">Indstillinger - Din konto</h1>
+<h1 class="heading">Indstillinger - Din konto</h1>
 
 <div>
   <div class="form-control">
@@ -89,7 +89,7 @@
       }}>Log ud</button
     >
     <div class="btn-warning btn mt-8 font-bold drop-shadow-xl md:ml-4 md:w-fit md:font-normal">
-      <a href="https://github.com/betterlectio/betterLectio/issues/" target="_blank"> Rapporter Fejl </a>
+      <a data-sveltekit-preload-data href="https://github.com/betterlectio/betterLectio/issues/" target="_blank"> Rapporter Fejl </a>
     </div>
   </div>
 </div>

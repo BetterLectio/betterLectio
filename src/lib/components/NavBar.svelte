@@ -20,10 +20,11 @@
   import { fly } from "svelte/transition";
 </script>
 
-<div class="drawer h-screen">
+<div class="drawer fixed h-[calc(100%-4px)]">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" bind:checked />
+  <!-- h-screen - 4px -->
   <div class="drawer-content">
-    <div class="navbar relative z-50 mb-10" transition:fly={{ y: -64, duration: 200 }}>
+    <div class="navbar relative z-50 mb-10" in:fly={{ y: -64, duration: 200 }}>
       <div class="navbar-start">
         <p />
         <div class="dropdown">
@@ -62,19 +63,21 @@
       <div class="navbar-center hidden xl:flex">
         <ul class="menu menu-horizontal p-0">
           {#if $brugeren && localStorage.getItem("lectio-cookie")}
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/skema">Skema</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/opgaver">Opgaver</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/lektier">Lektier</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/fravær">Fravær</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/dokumenter">Dokumenter</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/beskeder">Beskeder</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/karakterer">Karakterer</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/værktøjer">Værktøjer</a></li>
+            <li><a data-sveltekit-preload-data class="rounded-lg text-xs font-bold hover:scale-125" href="/skema">Skema</a></li>
+            <li><a data-sveltekit-preload-data class="rounded-lg text-xs font-bold hover:scale-125" href="/opgaver">Opgaver</a></li>
+            <li><a data-sveltekit-preload-data class="rounded-lg text-xs font-bold hover:scale-125" href="/lektier">Lektier</a></li>
+            <li><a data-sveltekit-preload-data class="rounded-lg text-xs font-bold hover:scale-125" href="/fravær">Fravær</a></li>
+            <li><a data-sveltekit-preload-data class="rounded-lg text-xs font-bold hover:scale-125" href="/dokumenter">Dokumenter</a></li>
+            <li><a data-sveltekit-preload-data class="rounded-lg text-xs font-bold hover:scale-125" href="/beskeder">Beskeder</a></li>
+            <li><a data-sveltekit-preload-data class="rounded-lg text-xs font-bold hover:scale-125" href="/karakterer">Karakterer</a></li>
+            <li><a data-sveltekit-preload-data class="rounded-lg text-xs font-bold hover:scale-125" href="/værktøjer">Værktøjer</a></li>
           {:else}
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/">Forside</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/help">Hjælp</a></li>
+            <li><a data-sveltekit-preload-data class="rounded-lg text-xs font-bold hover:scale-125" href="/">Forside</a></li>
+            <li><a data-sveltekit-preload-data class="rounded-lg text-xs font-bold hover:scale-125" href="/help">Hjælp</a></li>
             <li>
-              <a class="rounded-lg text-xs font-bold hover:scale-125" href="/tos">Servicevilkår & Privatlivspolitik</a>
+              <a data-sveltekit-preload-data class="rounded-lg text-xs font-bold hover:scale-125" href="/tos"
+                >Servicevilkår & Privatlivspolitik</a
+              >
             </li>
           {/if}
         </ul>
@@ -117,7 +120,7 @@
         {/if}
         <ThemeSelect tabindex="0" />
         {#if $brugeren && localStorage.getItem("lectio-cookie") && cookie}
-          <div class="dropdown-bottom dropdown-end dropdown hidden md:block">
+          <div class="dropdown dropdown-bottom dropdown-end hidden md:block">
             <div tabindex="0" class="btn-ghost btn flex justify-end gap-1 font-normal normal-case">
               <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-10" />
               <svg
@@ -137,7 +140,7 @@
                 <p class="flex justify-start">{$brugeren.navn.split(", ")[1]}</p>
               </div>
               <li>
-                <a href="/indstillinger">
+                <a data-sveltekit-preload-data href="/indstillinger">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
                     <path
                       d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"
@@ -150,7 +153,7 @@
                 </a>
               </li>
               <li>
-                <a href="/discord">
+                <a href="/discord" data-sveltekit-preload-data>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -219,7 +222,7 @@
         <div class="ml-3 mr-3 mt-2 mb-2 h-px border-0 bg-gray-700" />
         <div>
           <li on:click={handleClick}>
-            <a href="/skema"
+            <a data-sveltekit-preload-data href="/skema"
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -235,7 +238,7 @@
             >
           </li>
           <li on:click={handleClick}>
-            <a href="/opgaver"
+            <a data-sveltekit-preload-data href="/opgaver"
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -259,7 +262,7 @@
             >
           </li>
           <li on:click={handleClick}>
-            <a href="/lektier"
+            <a data-sveltekit-preload-data href="/lektier"
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -274,7 +277,7 @@
             >
           </li>
           <li on:click={handleClick}>
-            <a href="/fravær"
+            <a data-sveltekit-preload-data href="/fravær"
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -290,7 +293,7 @@
             >
           </li>
           <li on:click={handleClick}>
-            <a href="/dokumenter"
+            <a data-sveltekit-preload-data href="/dokumenter"
               ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
                 <path
                   d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"
@@ -299,7 +302,7 @@
             >
           </li>
           <li on:click={handleClick}>
-            <a href="/karakterer"
+            <a data-sveltekit-preload-data href="/karakterer"
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -318,7 +321,7 @@
             >
           </li>
           <li on:click={handleClick}>
-            <a href="/beskeder"
+            <a data-sveltekit-preload-data href="/beskeder"
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -334,7 +337,7 @@
             >
           </li>
           <li on:click={handleClick}>
-            <a href="/værktøjer"
+            <a data-sveltekit-preload-data href="/værktøjer"
               ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
                 <path
                   d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0Zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708ZM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11Z"
@@ -345,7 +348,7 @@
         </div>
         <div class="ml-3 mr-3 mt-2 mb-2 h-px border-0 bg-gray-700" />
         <li on:click={handleClick}>
-          <a href="/indstillinger">
+          <a data-sveltekit-preload-data href="/indstillinger">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
               <path
                 d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"
@@ -358,7 +361,7 @@
           </a>
         </li>
         <li on:click={handleClick}>
-          <a href="/discord">
+          <a data-sveltekit-preload-data href="/discord">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
               <path
                 d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"
@@ -391,10 +394,10 @@
           </label>
         </li>
       {:else}
-        <li><a href="/">Forside</a></li>
-        <li><a href="/help">Hjælp</a></li>
-        <li><a href="/tos">Servicevilkår & Privatlivspolitik</a></li>
-        <li><a href="/discord" target="_blank">Discord</a></li>
+        <li><a data-sveltekit-preload-data href="/">Forside</a></li>
+        <li><a data-sveltekit-preload-data href="/help">Hjælp</a></li>
+        <li><a data-sveltekit-preload-data href="/tos">Servicevilkår & Privatlivspolitik</a></li>
+        <li><a data-sveltekit-preload-data href="/discord" target="_blank">Discord</a></li>
       {/if}
     </ul>
   </div>

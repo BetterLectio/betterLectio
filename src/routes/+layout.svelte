@@ -11,6 +11,7 @@
   import { brugeren, hold, indstillinger } from "$lib/js/store.js";
   import { onMount } from "svelte";
   import { themeChange } from "theme-change";
+  import PageLoadTopBar from "$lib/components/PageLoadTopBar.svelte";
   import "../app.css";
 
   export let data;
@@ -101,6 +102,7 @@
 </label>
 <GlobalSearch />
 
+<PageLoadTopBar />
 {#if $indstillinger?.sidebar && windowWidth > 768}
   <SideBar />
   <div class="md:ml-16">

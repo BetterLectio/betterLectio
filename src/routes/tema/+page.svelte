@@ -90,7 +90,7 @@
   }
 </script>
 
-<h1 class="mb-4 text-3xl font-bold">Lav et tema</h1>
+<h1 class="heading">Lav et tema</h1>
 
 <div class="flex w-full flex-col md:flex-row">
   <div class="m-2 w-full rounded-lg bg-base-200 p-4 md:max-w-xs">

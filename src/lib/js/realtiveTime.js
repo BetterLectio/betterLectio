@@ -1,6 +1,5 @@
 export function formatDate(date) {
   const difference = ((date.getTime() - Date.now()) / 1000).toFixed(0);
-  console.log(difference);
   const RelativeTimeFormat = new Intl.RelativeTimeFormat(`da`, { style: `long` });
   if (Math.abs(difference) < 60) {
     // Less than a minute has passed:

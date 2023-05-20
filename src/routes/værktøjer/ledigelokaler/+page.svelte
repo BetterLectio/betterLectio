@@ -36,7 +36,7 @@
 
 {#if $lokaler}
   <ul class="list mb-4">
-    <h1 class="pb-2 text-2xl font-bold">Ledige lokaler</h1>
+    <h1 class="heading">Ledige lokaler</h1>
     {#each $lokaler.ledige as lokale}
       <li
         class="btn-success btn mb-2 flex h-fit scale-99 hover:scale-100 md:justify-between"

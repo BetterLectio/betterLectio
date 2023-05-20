@@ -1,4 +1,4 @@
-<h1 class=" mb-4 text-3xl font-bold">Hjælp</h1>
+<h1 class=" heading">Hjælp</h1>
 
 <div class="rounded-lg bg-base-200 p-4">
   <h2 class=" mb-2 text-2xl font-bold">Hvad er BetterLectio?</h2>

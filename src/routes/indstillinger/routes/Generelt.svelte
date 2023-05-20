@@ -25,7 +25,7 @@
   }
 </script>
 
-<h1 class="mb-4 text-3xl font-bold">Indstillinger - Generelt</h1>
+<h1 class="heading">Indstillinger - Generelt</h1>
 
 <div class="rounded-lg bg-base-200 p-4">
   <div class="form-control">

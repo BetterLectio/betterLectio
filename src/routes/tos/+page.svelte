@@ -1,4 +1,4 @@
-<h1 class="mb-4 text-3xl font-bold">Servicevilkår & Privatlivspolitik</h1>
+<h1 class="heading">Servicevilkår & Privatlivspolitik</h1>
 
 <div tabindex="0" class="collapse-plus rounded-box collapse my-5 border border-base-300 bg-base-300">
   <div class="collapse-title text-xl font-medium">
@@ -52,6 +52,7 @@
   <div class="collapse-content">
     <p class="my-4">
       Hvis du har spørgsmål til vores servicevilkår eller privatlivspolitik, så er du velkommen til at kontakte os på github: <a
+        data-sveltekit-preload-data
         class="btn-primary btn btn-xs"
         href="https://github.com/betterLectio/betterLectio">her</a
       >
