@@ -123,7 +123,7 @@
   };
 </script>
 
-<h1 class="mb-4 text-3xl font-bold">Fravær</h1>
+<h1 class="heading">Fravær</h1>
 {#if cookieReady && fravaerReady}
   <div class="stats mb-4 bg-base-200 shadow">
     <div class="stat">

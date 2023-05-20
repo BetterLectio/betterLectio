@@ -1,1 +1,1 @@
-<h1 class="mb-4 text-3xl font-bold">Indstillinger - API</h1>
+<h1 class="heading">Indstillinger - API</h1>

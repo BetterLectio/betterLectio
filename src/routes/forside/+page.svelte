@@ -73,7 +73,7 @@
 <body>
   <!-- greeting -->
 
-  <h1 class="mb-4 text-3xl font-bold">
+  <h1 class="heading">
     {getGreeting()},
     {#if $brugeren}
       {$brugeren.navn}

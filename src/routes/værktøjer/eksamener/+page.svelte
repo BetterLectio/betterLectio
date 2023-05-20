@@ -7,7 +7,7 @@
   });
 </script>
 
-<h1 class="pb-2 text-2xl font-bold">Eksamener</h1>
+<h1 class="heading">Eksamener</h1>
 {#if $eksamener}
   {#if $eksamener.exams.length === 0}
     <p class="mb-4">Du har ingen eksamener foran dig</p>

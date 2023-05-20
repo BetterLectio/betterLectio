@@ -75,7 +75,7 @@
 {#if cookie}
   {#each Object.entries(indhold) as [sectionTitel, elements]}
     <ul class="list mb-4">
-      <h1 class="mb-4 text-2xl font-bold">{sectionTitel}</h1>
+      <h1 class="heading">{sectionTitel}</h1>
       {#each elements as element}
         <a data-sveltekit-preload-data class="flex-row" href={element.link} target={element.new_tab ? "_blank" : ""}>
           <li class="element flex border-l-0 border-primary transition-all duration-100 hover:border-l-4">

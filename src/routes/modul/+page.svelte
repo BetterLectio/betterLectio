@@ -107,7 +107,7 @@
 <div>
   <span class="my-2 flex justify-between">
     {#if modul}
-      <h1 class="text-3xl font-bold">
+      <h1 class="heading">
         {modul.aktivitet.navn ? modul.aktivitet.navn + " - " : ""}{modul.aktivitet.hold
           ? HoldOversætter(modul.aktivitet.hold, $hold)
           : "Ukendt hold"}

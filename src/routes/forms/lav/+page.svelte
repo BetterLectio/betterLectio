@@ -83,7 +83,7 @@
 </script>
 
 <div class="flex flex-row justify-between">
-  <h1 class="mb-4 text-3xl font-bold">{titel == "" || titel == undefined ? "Nyt spørgeskema" : titel}</h1>
+  <h1 class="heading">{titel == "" || titel == undefined ? "Nyt spørgeskema" : titel}</h1>
   <div class="btn-group">
     <button class="btn btn-sm" on:click={() => (forhåndsvisning = !forhåndsvisning)}>
       {forhåndsvisning ? "Rediger" : "Forhåndsvis"}

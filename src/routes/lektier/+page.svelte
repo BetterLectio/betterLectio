@@ -43,7 +43,7 @@
 </script>
 
 {#if ready}
-  <h1 class="text-3xl font-bold">Lektier</h1>
+  <h1 class="heading">Lektier</h1>
   <h3 class="mb-4 text-xl">Lektier for de næste 14 dage</h3>
   {#if $lektier.length > 0}
     {#each Object.values(seperateAssignmentsByDate()) as day}

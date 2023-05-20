@@ -93,7 +93,7 @@
 </script>
 
 <span class="my-2 flex justify-between">
-  <h1 class="text-3xl font-bold">Beskeder</h1>
+  <h1 class="heading">Beskeder</h1>
 </span>
 <div class="flex flex-wrap justify-between">
   <span class="mb-2 flex flex-col sm:flex-row">

@@ -17,7 +17,7 @@
 
 <svelte:body src="http://danml.com/js/download.js" />
 
-<h1 class="mb-4 text-3xl font-bold">Indstillinger - Din konto</h1>
+<h1 class="heading">Indstillinger - Din konto</h1>
 
 <div>
   <div class="form-control">

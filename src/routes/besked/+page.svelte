@@ -121,7 +121,7 @@
 
 {#if besked}
   <div class="flex-rox flex w-full justify-between">
-    <h1 class="mb-2 text-3xl font-bold">{besked[0].titel}</h1>
+    <h1 class="heading">{besked[0].titel}</h1>
     <button class={`btn-circle btn ml-4 ${updating ? "animate-spin" : ""}`} on:click={updateBesked}>
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
         <path
