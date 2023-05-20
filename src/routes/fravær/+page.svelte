@@ -200,11 +200,11 @@
                   <td>
                     <a
                       href={"https://www.lectio.dk/lectio/" +
-                        cookie.school +
+                        cookie?.school +
                         "/fravaer_aarsag.aspx?elevid=" +
-                        cookie.userid +
+                        cookie?.userid +
                         "&id=" +
-                        modul.aktivitet.absid +
+                        modul?.aktivitet?.absid +
                         "&atype=aa"}
                       class="btn-xs btn">Skriv fraværsårsag</a
                     ></td
