@@ -219,7 +219,7 @@
     <div class="h-full w-60 bg-base-200 p-2 mr-2 rounded-lg hidden lg:inline">
       {#each exploreArr as item}
         <div
-          class="flex flex-row items-center cursor-pointer animateheight0toauto hover:bg-base-300 rounded-md {'ml-' + item.depth}"
+          class="flex flex-row items-center cursor-pointer hover:bg-base-300 rounded-md {'ml-' + item.depth}"
           on:click={() => handleExploreClick(item.id)}
         >
           <!-- prettier-ignore -->
@@ -277,20 +277,3 @@
     </table>
   </div>
 {/if}
-
-<style>
-  .animateheight0toauto {
-    animation: height0toauto 0.2s ease-in-out;
-  }
-
-  @keyframes height0toauto {
-    0% {
-      height: 0px;
-      opacity: 0;
-    }
-    100% {
-      height: 24px;
-      opacity: 1;
-    }
-  }
-</style>
