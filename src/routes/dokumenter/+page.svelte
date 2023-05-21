@@ -137,14 +137,17 @@
       </thead>
       <tbody>
         {#if loading && now - loadingStarted >= 100}
-          <tr class="animate-pulse">
-            <td><div class="h-6 w-6 rounded-md bg-base-300" /></td>
-            <td><div class="h-6 w-36 rounded-md bg-base-300" /></td>
-            {#if window.innerWidth > 768}
-              <td><div class="h-6 w-36 rounded-md bg-base-300" /></td>
-              <td><div class="h-6 w-36 rounded-md bg-base-300" /></td>
-            {/if}
-          </tr>
+          <!--loop 3 times-->
+          {#each [1, 2, 3] as i}
+            <tr class="animate-pulse">
+              <td><div class="h-[33.609px] w-6 rounded-md bg-base-300" /></td>
+              <td><div class="h-[33.609px] w-36 rounded-md bg-base-300" /></td>
+              {#if window.innerWidth > 768}
+                <td><div class="h-[33.609px] w-36 rounded-md bg-base-300" /></td>
+                <td><div class="h-[33.609px] w-36 rounded-md bg-base-300" /></td>
+              {/if}
+            </tr>
+          {/each}
         {:else}
           {#each $dokumenter["indhold"] as dokument}
             <tr class="hover cursor-pointer {dokument['type']}" on:click={clickHandler} id={dokument["id"]}>
