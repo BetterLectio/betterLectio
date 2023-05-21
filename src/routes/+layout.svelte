@@ -106,18 +106,18 @@
 {#if $indstillinger?.sidebar && windowWidth > 768}
   <SideBar />
   <div class="md:ml-16">
-    <div class="container mx-auto w-full md:pt-10">
+    <main class="container mx-auto w-full md:pt-10">
       <PageTransition pathname={data.pathname}>
         <slot />
       </PageTransition>
-    </div>
+    </main>
   </div>
 {:else}
   <NavBar>
-    <div class="container mx-auto">
+    <main class="container mx-auto">
       <PageTransition pathname={data.pathname}>
         <slot />
       </PageTransition>
-    </div>
+    </main>
   </NavBar>
 {/if}

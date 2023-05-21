@@ -21,10 +21,7 @@
     }
 
     links.forEach((link) => {
-      let linkHtml = sanitizeHtml(md.render(link)).replace(
-        "<a",
-        '<a data-sveltekit-preload-data class="btn btn-xs btn-outline" target="_blank"'
-      );
+      let linkHtml = sanitizeHtml(md.render(link)).replace("<a", '<a  class="btn btn-xs btn-outline" target="_blank"');
 
       linksArr.push(linkHtml);
     });
@@ -32,7 +29,7 @@
   });
 </script>
 
-<a data-sveltekit-preload-data href="/modul?absid={lektie.aktivitet.absid}">
+<a href="/modul?absid={lektie.aktivitet.absid}">
   <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
     <div>
       <div class="flex w-full flex-row justify-between">

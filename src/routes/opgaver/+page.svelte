@@ -109,7 +109,7 @@
     <ul class="list my-4 lg:hidden">
       {#each _opgaver as opgave}
         <li class="relative flex {opgave.class} mt-2 h-full w-full justify-start text-left font-normal normal-case">
-          <a data-sveltekit-preload-data class="mt-2 mb-2" href="/opgave?exerciseid={opgave.exerciseid}">
+          <a class="mt-2 mb-2" href="/opgave?exerciseid={opgave.exerciseid}">
             <div class="flex items-center">
               <div class="mr-4 flex-none">
                 <div>
@@ -155,11 +155,7 @@
         <tbody class="w-full">
           {#each _opgaver as opgave (opgave.exerciseid)}
             <tr class="" in:fade={{ duration: 200 }}>
-              <td>
-                <a data-sveltekit-preload-data href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full"
-                  >{opgave.opgavetitel}</a
-                ></td
-              >
+              <td> <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">{opgave.opgavetitel}</a></td>
               <td class="bg-">{opgave["elev-tid"]}</td>
               <td class="">{HoldOversætter(opgave.hold, $hold)}</td>
               <td class="">
