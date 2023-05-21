@@ -14,6 +14,8 @@
   let lastClickedFolder = null;
   $: breadcrumbs = [{ id: "..", navn: "/" }];
   $: computedBreadcrumbs = breadcrumbs;
+  $: exploreArr = [];
+  $: selectedFolderId = null;
 
   get("/informationer").then((data) => {
     $informationer = data;
@@ -37,6 +39,7 @@
   let loadingStarted = Date.now();
   get("/dokumenter").then((data) => {
     $dokumenter = data;
+    calcExploreArr(data, "..");
     loading = false;
     loadingStarted = Date.now();
   });
@@ -44,34 +47,34 @@
   async function clickHandler(element) {
     const id = element.srcElement.parentNode.id;
 
-    if ((await element.srcElement.parentNode.className.indexOf("breadcrumb")) > -1) {
-      breadcrumbs = [];
-      let done = false;
-      await computedBreadcrumbs.forEach((item, index) => {
-        if (!done) {
-          breadcrumbs.push(item);
-          if (item.id == element.srcElement.parentNode.id) {
-            done = true;
-          }
-        }
-      });
-    } else if (element.srcElement.parentNode.children[1].innerText != "..") {
-      lastClickedFolder = {
-        id: id,
-        navn: element.srcElement.parentNode.children[1].innerText,
-      };
-      // before pushing the last clicked folder, check if it's already in the breadcrumbs
-      if (breadcrumbs[breadcrumbs.length - 1].id != lastClickedFolder.id) {
-        // before pushing the last clicked folder, check if it has the class "folder" (if it doesn't, it's a file and shouldn't be added to the breadcrumbs)
-        if ((await element.srcElement.parentNode.className.indexOf("folder")) > -1) {
-          await breadcrumbs.push(lastClickedFolder);
-        }
-      }
-    } else {
-      await breadcrumbs.pop();
-    }
-    // update the breadcrumbs in the html
-    computedBreadcrumbs = breadcrumbs;
+    //if ((await element.srcElement.parentNode.className.indexOf("breadcrumb")) > -1) {
+    //  breadcrumbs = [];
+    //  let done = false;
+    //  await computedBreadcrumbs.forEach((item, index) => {
+    //    if (!done) {
+    //      breadcrumbs.push(item);
+    //      if (item.id == element.srcElement.parentNode.id) {
+    //        done = true;
+    //      }
+    //    }
+    //  });
+    //} else if (element.srcElement.parentNode.children[1].innerText != "..") {
+    //  lastClickedFolder = {
+    //    id: id,
+    //    navn: element.srcElement.parentNode.children[1].innerText,
+    //  };
+    //  // before pushing the last clicked folder, check if it's already in the breadcrumbs
+    //  if (breadcrumbs[breadcrumbs.length - 1].id != lastClickedFolder.id) {
+    //    // before pushing the last clicked folder, check if it has the class "folder" (if it doesn't, it's a file and shouldn't be added to the breadcrumbs)
+    //    if ((await element.srcElement.parentNode.className.indexOf("folder")) > -1) {
+    //      await breadcrumbs.push(lastClickedFolder);
+    //    }
+    //  }
+    //} else {
+    //  await breadcrumbs.pop();
+    //}
+    //// update the breadcrumbs in the html
+    //computedBreadcrumbs = breadcrumbs;
     if ((await element.srcElement.parentNode.className.indexOf("folder")) > -1) {
       // same as .includes("folder") but works in all browsers
       loading = true;
@@ -79,10 +82,12 @@
       if (id == "..") {
         await get("/dokumenter").then((data) => {
           $dokumenter = data;
+          calcExploreArr(data, id);
         });
       } else {
         await get("/dokumenter?folderid=" + id).then((data) => {
           $dokumenter = data;
+          calcExploreArr(data, id);
         });
       }
       loading = false;
@@ -103,6 +108,92 @@
       clearInterval(interval);
     };
   });
+
+  function calcExploreArr(data, id) {
+    selectedFolderId = id;
+    console.log("selectedFolderId", id);
+    let dataBefore = data.indhold;
+    let dataAfter = [];
+    dataBefore.forEach((item) => {
+      if (item.type == "folder" && item.navn != "..") {
+        dataAfter.unshift({
+          id: item.id,
+          navn: item.navn,
+          type: item.type,
+          depth: 0,
+          parent: id,
+          isArrowDown: false,
+          isSelected: false, //not implemented yet
+        });
+      }
+    });
+    if (!exploreArr[0]) {
+      exploreArr = dataAfter;
+      return;
+    }
+    if (id == "..") {
+      exploreArr = dataAfter;
+      return;
+    }
+    //if the array is not empty, match the id and append the new folders to the array under the parent folder with the correct depth
+    exploreArr.forEach((item) => {
+      if (item.id == id) {
+        dataAfter.forEach((item2) => {
+          //before adding the new folders, check if they already exist in the array
+          let exists = false;
+          exploreArr.forEach((item3) => {
+            if (item3.id == item2.id) {
+              exists = true;
+            }
+          });
+          if (exists) {
+            return;
+          }
+          item2.depth = item.depth + 1;
+          exploreArr.splice(exploreArr.indexOf(item) + 1, 0, item2);
+          exploreArr = [...exploreArr];
+        });
+      }
+    });
+    exploreArr.forEach((item) => {
+      if (item.id == id) {
+        item.isArrowDown = true;
+      }
+    });
+
+    //if the array has content already, find the id of the parent folder and add the new folders to the array under the parent folder with the correct depth
+    console.log("exploreArr", exploreArr);
+  }
+
+  function handleExploreClick(id) {
+    exploreArr.forEach((item) => {
+      if (item.id == id) {
+        item.isArrowDown = !item.isArrowDown;
+        //if the arrow is pointing up, remove all the folders under the parent folder with a higher depth
+        if (!item.isArrowDown) {
+          for (let i = exploreArr.indexOf(item) + 1; i < exploreArr.length; i++) {
+            if (exploreArr[i].depth > item.depth) {
+              exploreArr.splice(i, 1);
+              i--;
+            } else {
+              break;
+            }
+          }
+        } else {
+          if (item.type == "folder") {
+            loading = true;
+            get("/dokumenter?folderid=" + id).then((data) => {
+              calcExploreArr(data, id);
+              // in the future, add bredcrum to the exploreArr but im too lazy to do it now :))
+              $dokumenter = data;
+              loading = false;
+            });
+          }
+        }
+      }
+    });
+    exploreArr = [...exploreArr];
+  }
 </script>
 
 <svelte:head>
@@ -111,19 +202,33 @@
 
 <h1 class="heading">Dokumenter</h1>
 
-<div class="breadcrumbs text-sm">
-  <ul>
-    {#each computedBreadcrumbs as crumb (crumb.id)}
-      <li class="folder breadcrumb" id={crumb.id} in:fly={{ x: -30, duration: 200 }}>
-        <button on:click={clickHandler}>{crumb.navn}</button>
-      </li>
-    {/each}
-  </ul>
-</div>
+<!-- breadcrumbs diasbled for now to avoid confusion 
+  <div class="breadcrumbs text-sm">
+    <ul>
+      {#each computedBreadcrumbs as crumb}
+        <li class="folder breadcrumb" id={crumb.id} in:fly={{ x: -30, duration: 200 }}>
+          <button on:click={clickHandler}>{crumb.navn}</button>
+        </li>
+      {/each}
+    </ul>
+  </div>
+-->
 
 {#if $dokumenter}
-  <div class="overflow-x-auto">
-    <table class="table-zebra mb-4 table w-full">
+  <div class="overflow-x-auto flex">
+    <div class="h-full w-60 bg-base-200 p-2 mr-2 rounded-lg hidden lg:inline">
+      {#each exploreArr as item}
+        <div
+          class="flex flex-row items-center cursor-pointer animateheight0toauto hover:bg-base-300 rounded-md {'ml-' + item.depth}"
+          on:click={() => handleExploreClick(item.id)}
+        >
+          <!-- prettier-ignore -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill mr-1 {item.isArrowDown ? "rotate-90" : ""}" viewBox="0 0 16 16"><path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg>
+          <p>{item.navn}</p>
+        </div>
+      {/each}
+    </div>
+    <table class="table-zebra mb-4 table w-full h-fit">
       <!-- head -->
       <thead>
         <tr>
@@ -172,3 +277,20 @@
     </table>
   </div>
 {/if}
+
+<style>
+  .animateheight0toauto {
+    animation: height0toauto 0.2s ease-in-out;
+  }
+
+  @keyframes height0toauto {
+    0% {
+      height: 0px;
+      opacity: 0;
+    }
+    100% {
+      height: 24px;
+      opacity: 1;
+    }
+  }
+</style>
