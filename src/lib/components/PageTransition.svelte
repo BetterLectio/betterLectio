@@ -1,4 +1,6 @@
 <script>
+  import mixpanel from "mixpanel-browser";
+
   export let pathname = "";
 
   function onRouteChange() {
@@ -31,6 +33,7 @@
   }
 
   $: if (previous && end) {
+    mixpanel.track(`on ${pathname}`, { page: pathname });
     if (end - start > 100) {
       console.log(`%c Route change (${pathname}) in ${end - start}ms`, "color: Yellow; font-weight: bold");
     } else {
