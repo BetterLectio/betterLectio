@@ -33,7 +33,7 @@
   }
 
   $: if (previous && end) {
-    mixpanel.track("on page", { page: pathname });
+    mixpanel.track(`on ${pathname}`, { page: pathname });
     if (end - start > 100) {
       console.log(`%c Route change (${pathname}) in ${end - start}ms`, "color: Yellow; font-weight: bold");
     } else {
