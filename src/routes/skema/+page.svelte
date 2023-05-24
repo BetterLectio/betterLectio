@@ -189,7 +189,7 @@
         tidspunkt: slut.split(" ")[1],
       };
       let titel = "";
-      let status = modul["status"]; // can be "normal" "ændret" "eksamen" or "aflyst"
+      let status = modul["status"]; // can be "normal" "ændret" "aflyst" or "eksamen"
       if (modul["hold_id"] != null && $fag[modul["hold_id"]] == undefined) {
         let _fag = await HoldOversætterNy(modul["hold_id"]);
         $fag[modul["hold_id"]] = _fag == "Andet" ? modul["hold"] : _fag;
@@ -213,7 +213,6 @@
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       }
-
       let className;
       if (status == "normal" || status == "ændret") {
         if (holdToColor[modul.hold] && $indstillinger.skema.classesWithDiffrentColors == true) {
