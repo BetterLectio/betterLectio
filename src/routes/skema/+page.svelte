@@ -189,14 +189,19 @@
         tidspunkt: slut.split(" ")[1],
       };
       let titel = "";
+      let status = modul["status"]; // can be "normal" "ændret" "aflyst" or "eksamen"
       if (modul["hold_id"] != null && $fag[modul["hold_id"]] == undefined) {
         let _fag = await HoldOversætterNy(modul["hold_id"]);
         $fag[modul["hold_id"]] = _fag == "Andet" ? modul["hold"] : _fag;
       }
       if (modul["navn"] != undefined) {
         titel = modul["navn"] != null && modul["navn"] != "Ændret!" ? modul["navn"] : $fag[modul["hold_id"]];
-        if (modul["lokale"]) {
-          titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
+        if (status == "eksamen") {
+          titel = "Eksamen! " + titel.replace("mdt.", "mundtlig").replace("skr.", "skriftlig").replace("prv.", "prøve").replace("eks.", "eksamen");
+        } else {
+          if (modul["lokale"]) {
+            titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
+          }
         }
       } else {
         if ($indstillinger.brugHoldOversætter) {
@@ -208,14 +213,15 @@
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       }
-      let status = modul["status"]; // can be "normal" "ændret" "aflyst" or "eksamen"
       let className;
-      if (status == "normal" || status == "ændret" || status == "eksamen") {
+      if (status == "normal" || status == "ændret") {
         if (holdToColor[modul.hold] && $indstillinger.skema.classesWithDiffrentColors == true) {
           className = `hsl(${holdToColor[modul.hold]}, 75%, 65%)`;
         } else {
           className = "hsl(var(--in))";
         }
+      } else if (status == "eksamen") {
+        className = "hsl(262, 100%, 65%)";
       } else {
         className = "hsl(var(--er))";
       }
