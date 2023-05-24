@@ -197,7 +197,7 @@
       if (modul["navn"] != undefined) {
         titel = modul["navn"] != null && modul["navn"] != "Ændret!" ? modul["navn"] : $fag[modul["hold_id"]];
         if (status == "eksamen") {
-          titel = "Eksamen! " + titel.replace("mdt.", "mundtlig").replace("prv.", "prøve");
+          titel = "Eksamen! " + titel.replace("mdt.", "mundtlig").replace("skr.", "skriftlig").replace("prv.", "prøve").replace("eks.", "eksamen");
         } else {
           if (modul["lokale"]) {
             titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
