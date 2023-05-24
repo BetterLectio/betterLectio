@@ -208,9 +208,9 @@
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       }
-      let status = modul["status"]; // can be "normal" "ændret" or "aflyst"
+      let status = modul["status"]; // can be "normal" "ændret" "aflyst" or "eksamen"
       let className;
-      if (status == "normal" || status == "ændret") {
+      if (status == "normal" || status == "ændret" || status == "eksamen") {
         if (holdToColor[modul.hold] && $indstillinger.skema.classesWithDiffrentColors == true) {
           className = `hsl(${holdToColor[modul.hold]}, 75%, 65%)`;
         } else {
