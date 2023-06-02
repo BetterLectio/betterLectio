@@ -31,17 +31,15 @@ module.exports = {
             opacity: "1",
             transform: "translateY(0)",
           },
+          wiggle: {
+            "0%, 100%": { transform: "rotate(-10deg)" },
+            "50%": { transform: "rotate(10deg)" },
+          },
         },
       },
       animation: {
         "fade-in-down": "fade-in-down 0.5s ease-out",
         wiggle: "wiggle 1.5s ease-in-out infinite",
-      },
-      keyframes: {
-        wiggle: {
-          "0%, 100%": { transform: "rotate(-10deg)" },
-          "50%": { transform: "rotate(10deg)" },
-        },
       },
     },
     container: {
@@ -100,5 +98,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [require("daisyui"), require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],
+  plugins: [require("daisyui"), require("@tailwindcss/forms")],
 };
