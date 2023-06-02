@@ -2,8 +2,8 @@
   import Themes from "$lib/components/Themes.svelte";
 </script>
 
-<div class="dropdown dropdown-end" tabindex="0">
-  <button class="btn-ghost btn gap-1 normal-case" for="theme-select" tabindex="0">
+<details class="dropdown dropdown-end">
+  <summary class="btn-ghost btn gap-1 normal-case" for="theme-select">
     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-palette" viewBox="0 0 16 16">
       <path
         d="M8 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm4 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM5.5 7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm.5 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"
@@ -19,12 +19,11 @@
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 2048 2048"><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z" /></svg
     >
-  </button>
+  </summary>
   <ul
     class="dropdown-content menu rounded-box z-50 mt-3 flex h-96 w-52 flex-nowrap overflow-x-hidden overflow-y-scroll bg-base-100 p-2 shadow"
     id="theme-select"
-    tabindex="0"
   >
     <Themes class="z-50" />
   </ul>
-</div>
+</details>
