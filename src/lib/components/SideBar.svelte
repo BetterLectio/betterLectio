@@ -18,10 +18,7 @@
   in:fly={{ x: -64, duration: 200 }}
 >
   <div>
-    <a
-      href="/forside"
-      class="group btn-primary btn mb-1 flex h-14 w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
-    >
+    <a href="/forside" class="btn-accent btn mb-1 flex flex-col content-center h-14 w-full tooltip tooltip-right" data-tip="Forside">
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="40" class="mx-0 fill-current p-0">
         <path
           d="M428.033,162.858C422.975,72.232,347.87,0,256,0S89.025,72.232,83.967,162.858c-0.323,3.179-0.489,6.402-0.489,9.663c0,15.543,0,320.162,0,322.783c0,9.22,7.475,16.696,16.696,16.696h111.304c119.87,0,217.043-97.174,217.043-217.043V172.522C428.522,169.261,428.356,166.037,428.033,162.858z M256,33.391c42.163,0,79.93,18.923,105.464,48.641c-8.722-2.662-17.967-4.119-27.551-4.119c-32.296,0-60.834,16.291-77.913,41.06c-17.079-24.77-45.617-41.06-77.913-41.06c-9.584,0-18.829,1.457-27.551,4.119C176.07,52.314,213.837,33.391,256,33.391z M163.169,360.642c-5.842-7.12-16.37-8.174-23.494-2.326c-6.988,5.731-14.635,10.267-22.804,13.595v-97.801c26.505,36.201,66.686,61.636,112.937,68.728c-18.13,49.489-60.64,87.32-112.937,98.783v-34.418h-0.001c16.082-4.569,30.884-12.325,43.979-23.061C167.978,378.293,169.017,367.772,163.169,360.642z M395.13,294.957c0,101.261-82.386,183.652-183.652,183.652H116.87v-2.97c70.214-12.524,126.789-63.872,147.277-131.009c53.767-2.53,101.081-29.682,130.984-70.521V294.957z M256,311.652c-76.718,0-139.13-62.413-139.13-139.13c0-33.75,27.462-61.217,61.217-61.217s61.217,27.468,61.217,61.217c0,9.22,7.475,16.696,16.696,16.696s16.696-7.475,16.696-16.696c0-33.75,27.462-61.217,61.217-61.217c33.755,0,61.217,27.468,61.217,61.217C395.13,249.239,332.718,311.652,256,311.652z"
@@ -36,22 +33,16 @@
           d="M333.913,150.261c-12.277,0-22.261,9.99-22.261,22.261s9.984,22.261,22.261,22.261c12.277,0,22.261-9.99,22.261-22.261 S346.19,150.261,333.913,150.261z"
         />
       </svg>
-
-      <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Forside</span>
     </a>
-    <label
-      for="søg-popup"
-      class="group btn mb-1 flex h-14 w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
-    >
+    <label for="søg-popup" class="btn mb-1 flex flex-col content-center h-14 w-full tooltip tooltip-right" data-tip="Søg">
       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"
         ><path
           d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
         /></svg
       >
-      <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Søg</span>
     </label>
     <div class="my-4" />
-    <a href="/skema" class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44">
+    <a href="/skema" class="btn btn-sm mb-1 flex flex-col content-center w-full tooltip tooltip-right" data-tip="Skema">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
@@ -63,10 +54,8 @@
           d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zm9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5zM8.5 7a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM3 10.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1z"
         /></svg
       >
-
-      <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Skema</span>
     </a>
-    <a href="/opgaver" class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44">
+    <a href="/opgaver" class="btn btn-sm mb-1 flex flex-col content-center w-full tooltip tooltip-right" data-tip="Opgaver">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16"
         ><path
           fill-rule="evenodd"
@@ -78,38 +67,29 @@
           d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z"
         /></svg
       >
-
-      <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Opgaver</span>
     </a>
-    <a href="/lektier" class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44">
+    <a href="/lektier" class="btn btn-sm mb-1 flex flex-col content-center w-full tooltip tooltip-right" data-tip="Lektier">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmarks-fill" viewBox="0 0 16 16"
         ><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4z" /><path
           d="M4.268 1A2 2 0 0 1 6 0h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L13 13.768V2a1 1 0 0 0-1-1H4.268z"
         /></svg
       >
-
-      <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Lektier</span>
     </a>
-    <a href="/fravær" class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44">
+    <a href="/fravær" class="btn btn-sm mb-1 flex flex-col content-center w-full tooltip tooltip-right" data-tip="Fravær">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16"
         ><path
           d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"
         /></svg
       >
-      <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Fravær</span>
     </a>
-    <a
-      href="/dokumenter"
-      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
-    >
+    <a href="/dokumenter" class="btn btn-sm mb-1 flex flex-col content-center w-full tooltip tooltip-right" data-tip="Dokumenter">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16"
         ><path
           d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"
         /></svg
       >
-      <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-28 group-hover:opacity-100">Dokumenter</span>
     </a>
-    <a href="/beskeder" class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44">
+    <a href="/beskeder" class="btn btn-sm mb-1 flex flex-col content-center w-full tooltip tooltip-right" data-tip="Beskeder">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
@@ -121,12 +101,8 @@
           d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"
         /></svg
       >
-      <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-20 group-hover:opacity-100">Beskeder</span>
     </a>
-    <a
-      href="/karakterer"
-      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
-    >
+    <a href="/karakterer" class="btn btn-sm mb-1 flex flex-col content-center w-full tooltip tooltip-right" data-tip="Karakterer">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16"
         ><path
           d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"
@@ -134,18 +110,13 @@
           d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"
         /></svg
       >
-      <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-28 group-hover:opacity-100">Karakterer</span>
     </a>
-    <a
-      href="/værktøjer"
-      class="group btn-sm btn mb-1 flex w-full flex-row overflow-x-hidden p-0 transition-[width] duration-150 hover:w-44"
-    >
+    <a href="/værktøjer" class="btn btn-sm mb-1 flex flex-col content-center w-full tooltip tooltip-right" data-tip="Værktøjer">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16"
         ><path
           d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0Zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708ZM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11Z"
         /></svg
       >
-      <span class=" w-0 opacity-0 transition-all duration-150 group-hover:w-28 group-hover:opacity-100">Værktøjer</span>
     </a>
   </div>
   <div>
