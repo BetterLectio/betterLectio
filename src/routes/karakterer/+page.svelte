@@ -128,5 +128,36 @@
         </table>
       </div>
     </div>
+  {:else}
+    <div class="flex items-center justify-center">
+      <div
+        class="radial-progress text-center"
+        style="--value:{(($karakterer.oversigt.karakterblad.gennemsnit + 3) / 15) * 100}; --size:12rem; --thickness: 1rem;"
+      >
+        <p>Gennemsnit</p>
+        <p class="text-3xl font-bold">{$karakterer.oversigt.karakterblad.gennemsnit.toFixed(2).replace(".", ",")}</p>
+      </div>
+    </div>
+    <div class="mt-4 bg-base-300 rounded-lg p-4">
+      <h1 class="pb-2 text-2xl font-bold">Karakterblad</h1>
+      <div class="overflow-x-auto">
+        <table class="table table-zebra table-compact w-full">
+          <thead>
+            <tr>
+              <th>Fag</th>
+              <th>Karakter</th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each $karakterer.karakterblad as karakter}
+              <tr>
+                <td>{karakter.fag}, {karakter.evalueringsform}</td>
+                <td>{karakter.karakter}</td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+    </div>
   {/if}
 {/if}
