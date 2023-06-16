@@ -348,11 +348,10 @@ def ledige_lokaler():
 def karakterer():
     try:
         cookie = request.headers.get("lectio-cookie")
-        mode = request.args.get("mode")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
 
-        resp = make_response(jsonify(lectioClient.karakterer(mode)))
+        resp = make_response(jsonify(lectioClient.karakterer()))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
