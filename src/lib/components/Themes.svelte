@@ -327,10 +327,14 @@
 {/await}
 <div class="divider" />
 <li class="my-1">
-  <a class="rainbow btn font-black" href="/tema">Lav et nyt tema</a>
+  <a class="rainbow btn font-black content-center-btn" href="/tema">Lav et nyt tema</a>
 </li>
 
 <style>
+  .content-center-btn {
+    align-content: center !important;
+  }
+
   .rainbow {
     -webkit-animation: Animation 6s ease infinite;
     -moz-animation: Animation 6s ease infinite;
