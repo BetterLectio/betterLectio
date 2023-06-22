@@ -48,7 +48,7 @@ def auth():
     try:
         brugernavn = request.headers.get('brugernavn')
         adgangskode = request.headers.get('adgangskode')
-        skoleId = request.headers.get('skole_id')
+        skoleId = request.headers.get('skoleid')
 
         lectioClient = lectio.sdk(brugernavn=brugernavn, adgangskode=adgangskode, skoleId=skoleId)
         resp = make_response(jsonify({"success": True}))
