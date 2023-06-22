@@ -28,7 +28,7 @@
             headers: {
               brugernavn: data.id,
               adgangskode: data.password,
-              skole_id: skole_id,
+              skoleid: skole_id,
             },
           });
           if (response.ok) {
