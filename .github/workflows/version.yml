@@ -7,7 +7,7 @@ on:
 jobs:
   update-version:
     runs-on: ${{ matrix.os }}
-    if: ${{ !contains(github.event.head_commit.message, 'Opdaterede versionen') }}
+    #if: ${{ !${{ github.event.head_commit.message }} == 'Opdaterede versionen') }}
 
     strategy:
       matrix:
@@ -20,23 +20,27 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
-
-      - name: Set up Python
-        uses: actions/setup-python@v3
       
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
-
-      - name: Update version
+      - name: Commit name
         run: |
-          python .github/workflows/scripts/version.py --branch ${{ steps.extract_branch.outputs.branch }}
+          echo ${{ github.event.head_commit.message }}
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Opdaterede versionen
-          branch: ${{ steps.extract_branch.outputs.branch }}
-
-          commit_user_name: github-actions[bot]
-          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+    #  - name: Set up Python
+    #    uses: actions/setup-python@v3
+    #  
+    #  - name: Extract branch name
+    #    shell: bash
+    #    run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+    #    id: extract_branch
+#
+    #  - name: Update version
+    #    run: |
+    #      python .github/workflows/scripts/version.py --branch ${{ steps.extract_branch.outputs.branch }}
+#
+    #  - uses: stefanzweifel/git-auto-commit-action@v4
+    #    with:
+    #      commit_message: Opdaterede versionen
+    #      branch: ${{ steps.extract_branch.outputs.branch }}
+#
+    #      commit_user_name: github-actions[bot]
+    #      commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
