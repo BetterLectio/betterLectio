@@ -19,7 +19,10 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -33,10 +36,14 @@ jobs:
         run: |
           python .github/workflows/scripts/version.py --branch ${{ steps.extract_branch.outputs.branch }}
 
-      - name: Push til branch
+      - name: Commit til branch
         run: |
-          git config --global user.name = "github-actions[bot]"
-          git config --global user.email = "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Opdaterede versionen"
-          git push origin HEAD:${{ steps.extract_branch.outputs.branch }}
+          git config --local user.name = "github-actions[bot]"
+          git config --local user.email = "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -a -m "Opdaterede versionen"
+      
+      - name: Push til branch
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
