@@ -155,25 +155,28 @@
         <tbody class="w-full">
           {#each _opgaver as opgave (opgave.exerciseid)}
             <tr class="" in:fade={{ duration: 200 }}>
-              <td> <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">{opgave.opgavetitel}</a></td>
+              <td>
+                <a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">
+                  <p class="line-clamp-1">{opgave.opgavetitel}</p>
+                </a></td
+              >
               <td class="bg-">{opgave["elev-tid"]}</td>
               <td class="">{HoldOversætter(opgave.hold, $hold)}</td>
-              <td class="">
+              <td class="w-fit">
                 {#if $indstillinger?.opgaver?.visFristAbsolut}
-                  <p class="frist btn-xs btn">{opgave.frist}</p>
+                  <div class="frist w-max btn-xs btn">
+                    {opgave.frist}
+                  </div>
                 {:else}
-                  <p class="frist btn-xs btn">
+                  <div class="frist btn-xs w-max btn">
                     {formatDate(opgave.date)}
-                  </p>
+                  </div>
                 {/if}
               </td>
-              <td
-                class="{$indstillinger?.opgaver?.visHeleBeskrivelsen == true ? 'whitespace-pre-wrap' : ''} text-left"
-                id={opgave.exerciseid}
-              >
-                <div>
+              <td class="text-left" id={opgave.exerciseid}>
+                <p class="line-clamp-1">
                   {opgave.opgavenote}
-                </div>
+                </p>
               </td>
             </tr>
           {/each}

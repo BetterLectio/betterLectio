@@ -84,5 +84,5 @@
     </div>
   </div>
 {:else}
-  <div class="btn loading btn-ghost">indlæser</div>
+  <div class="btn btn-ghost">indlæser <span class="loading" /></div>
 {/if}

@@ -56,8 +56,8 @@
       />
     </svg>
     {#key step}
-      <p class="loading btn-ghost btn animate-pulse" in:fade={{ delay: 50, duration: 50 }}>
-        {step}
+      <p class="btn-ghost btn animate-pulse" in:fade={{ delay: 50, duration: 50 }}>
+        {step} <span class="loading" />
       </p>
     {/key}
   </div>

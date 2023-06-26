@@ -254,7 +254,9 @@
             </p>
             <div class="divider" />
             <div class="flex justify-end">
-              <div type="submit" class="AOC btn-primary btn" style="user-select: none" on:click={login}>Log ind</div>
+              <div type="submit" class="btn-primary btn" style="user-select: none" on:click={login}>
+                Log ind <div class="AOC" />
+              </div>
             </div>
           </div>
         </form>
@@ -282,7 +284,9 @@
             d="M333.913,150.261c-12.277,0-22.261,9.99-22.261,22.261s9.984,22.261,22.261,22.261c12.277,0,22.261-9.99,22.261-22.261 S346.19,150.261,333.913,150.261z"
           />
         </svg>
-        <p class="loading btn-ghost btn animate-pulse" in:fade={{ delay: 50, duration: 50 }}>Logger ind automatisk</p>
+        <p class="btn-ghost btn animate-pulse" in:fade={{ delay: 50, duration: 50 }}>
+          Logger ind automatisk <span class="loading loading-dots" />
+        </p>
       </div>
     {/if}
   {/key}

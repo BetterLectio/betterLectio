@@ -63,7 +63,7 @@
       data-set-theme="light"
       data-act-class="outline"
     >
-      <div data-theme="light" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
+      <div data-theme="light" class="w-[182px] cursor-pointer bg-base-100 font-sans text-base-content">
         <div class="grid grid-cols-5 grid-rows-3">
           <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
             <div class="flex-grow text-sm font-bold">Lys</div>
@@ -96,7 +96,7 @@
       data-set-theme="dark"
       data-act-class="outline"
     >
-      <div data-theme="dark" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
+      <div data-theme="dark" class="w-[182px] cursor-pointer bg-base-100 font-sans text-base-content">
         <div class="grid grid-cols-5 grid-rows-3">
           <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
             <div class="flex-grow text-sm font-bold">Mørk</div>
@@ -129,7 +129,7 @@
       data-set-theme="winter"
       data-act-class="outline"
     >
-      <div data-theme="winter" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
+      <div data-theme="winter" class="w-[182px] cursor-pointer bg-base-100 font-sans text-base-content">
         <div class="grid grid-cols-5 grid-rows-3">
           <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
             <div class="flex-grow text-sm font-bold">Vinter</div>
@@ -162,7 +162,7 @@
       data-set-theme="lectio"
       data-act-class="outline"
     >
-      <div data-theme="lectio" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
+      <div data-theme="lectio" class="w-[182px] cursor-pointer bg-base-100 font-sans text-base-content">
         <div class="grid grid-cols-5 grid-rows-3">
           <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
             <div class="flex-grow text-sm font-bold">Lectio</div>
@@ -195,7 +195,7 @@
       data-set-theme="night"
       data-act-class="outline"
     >
-      <div data-theme="night" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
+      <div data-theme="night" class="w-[182px] cursor-pointer bg-base-100 font-sans text-base-content">
         <div class="grid grid-cols-5 grid-rows-3">
           <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
             <div class="flex-grow text-sm font-bold">Nat</div>
@@ -228,7 +228,7 @@
       data-set-theme="garden"
       data-act-class="outline"
     >
-      <div data-theme="garden" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
+      <div data-theme="garden" class="w-[182px] cursor-pointer bg-base-100 font-sans text-base-content">
         <div class="grid grid-cols-5 grid-rows-3">
           <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
             <div class="flex-grow text-sm font-bold">Natur</div>
@@ -261,7 +261,7 @@
       data-set-theme="dracula"
       data-act-class="outline"
     >
-      <div data-theme="dracula" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
+      <div data-theme="dracula" class="w-[182px] cursor-pointer bg-base-100 font-sans text-base-content">
         <div class="grid grid-cols-5 grid-rows-3">
           <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
             <div class="flex-grow text-sm font-bold">Slik</div>
@@ -294,7 +294,7 @@
       data-set-theme="coffee"
       data-act-class="outline"
     >
-      <div data-theme="coffee" class="w-full cursor-pointer bg-base-100 font-sans text-base-content">
+      <div data-theme="coffee" class="w-[182px] cursor-pointer bg-base-100 font-sans text-base-content">
         <div class="grid grid-cols-5 grid-rows-3">
           <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
             <div class="flex-grow text-sm font-bold">Kaffe</div>
@@ -327,10 +327,14 @@
 {/await}
 <div class="divider" />
 <li class="my-1">
-  <a class="rainbow btn font-black" href="/tema">Lav et nyt tema</a>
+  <a class="rainbow btn font-black content-center-btn" href="/tema">Lav et nyt tema</a>
 </li>
 
 <style>
+  .content-center-btn {
+    align-content: center !important;
+  }
+
   .rainbow {
     -webkit-animation: Animation 6s ease infinite;
     -moz-animation: Animation 6s ease infinite;
