@@ -307,7 +307,7 @@
           />
         </svg>
         <p class="btn-ghost btn animate-pulse" in:fade={{ delay: 50, duration: 50 }}>
-          Logger ind automatisk <span class="loading loading-dots" />
+          Logger ind automatisk <span class="loading" />
         </p>
       </div>
     {/if}
