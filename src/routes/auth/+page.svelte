@@ -97,8 +97,8 @@
       });
     } else {
       console.log("Logging into lectio");
-      let progress = document.querySelector(".AOC");
-      progress.classList.add("loading");
+      let progress = document.querySelector(".SWAPICONSTATE");
+      progress.classList.add("swap-active");
       const response = await fetch(`${api}/auth`, {
         headers: {
           brugernavn: brugernavn,
@@ -108,7 +108,7 @@
       });
       const authentication = await response.text();
       if (await !response.ok) {
-        progress.classList.remove("loading");
+        progress.classList.remove("swap-active");
         document.querySelector("#CantLogInAlert").checked = true;
         document.querySelector("#CantLogInAlertX").addEventListener("click", () => {
           document.querySelector("#CantLogInAlert").checked = false;
@@ -131,7 +131,7 @@
         await cookieInfo().then(async (cookie) => {
           await fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userid}&skole_id=${cookie.school}`);
         });
-        progress.classList.remove("loading");
+        progress.classList.remove("swap-active");
         reloadData();
         const originalLink = decodeURIComponent(redirectTo);
         window.location.href = originalLink;
@@ -254,8 +254,30 @@
             </p>
             <div class="divider" />
             <div class="flex justify-end">
-              <div type="submit" class="btn-primary btn" style="user-select: none" on:click={login}>
-                Log ind <div class="AOC" />
+              <div type="submit" class="btn-primary btn group" on:click={login}>
+                <p>Log ind</p>
+                <label class="swap SWAPICONSTATE">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="octicon arrow-symbol-mktg swap-off"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    ><path
+                      class="group-hover:translate-x-1 translate-x-0 transition-all ease-in-out duration-200"
+                      fill="currentColor"
+                      d="M7.28033 3.21967C6.98744 2.92678 6.51256 2.92678 6.21967 3.21967C5.92678 3.51256 5.92678 3.98744 6.21967 4.28033L7.28033 3.21967ZM11 8L11.5303 8.53033C11.8232 8.23744 11.8232 7.76256 11.5303 7.46967L11 8ZM6.21967 11.7197C5.92678 12.0126 5.92678 12.4874 6.21967 12.7803C6.51256 13.0732 6.98744 13.0732 7.28033 12.7803L6.21967 11.7197ZM6.21967 4.28033L10.4697 8.53033L11.5303 7.46967L7.28033 3.21967L6.21967 4.28033ZM10.4697 7.46967L6.21967 11.7197L7.28033 12.7803L11.5303 8.53033L10.4697 7.46967Z"
+                    /><path
+                      class="scale-x-0 group-hover:scale-x-100 group-hover:translate-x-1 group-hover:opacity-100 opacity-0 translate-x-0 transition-all duration-200 ease-in-out origin-bottom"
+                      stroke="currentColor"
+                      d="M1.75 8H11"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    /></svg
+                  >
+                  <div class="swap-on loading loading-sm" />
+                </label>
               </div>
             </div>
           </div>
