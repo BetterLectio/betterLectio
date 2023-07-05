@@ -12,10 +12,11 @@
         location.reload();
       }
     }
+    /* Tror ikke det er nødvendigt længere
     if (window.location.href.indexOf("betlec.netlify.app") > -1 && window.location.href.indexOf("dev--betlec.netlify.app") == -1) {
       console.warn("%c ROUTE NOT PERMITTED", "color: red");
       window.location.href = "https://betterlectio.dk";
-    }
+    }*/
   }
 
   import { navigating } from "$app/stores";
