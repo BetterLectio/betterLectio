@@ -448,7 +448,6 @@ def eksamener():
         return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route("/terminer")
-@cache_for(days=5)
 def terminer():
     try:
         cookie = request.headers.get("lectio-cookie")
