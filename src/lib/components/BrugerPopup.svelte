@@ -19,11 +19,11 @@
   </button>
 
   <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-  <div tabindex="0" class="dropdown-content rounded-box bg-base-100 p-2 shadow">
+  <div tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box">
     {#if BrugerPopupWindow}
       <svelte:component this={BrugerPopupWindow} {navn} {id} />
     {:else}
-      <div class="text-center">Henter brugerdata...</div>
+      <div class="btn btn-ghost">indlæser <span class="loading" /></div>
     {/if}
   </div>
 </div>
