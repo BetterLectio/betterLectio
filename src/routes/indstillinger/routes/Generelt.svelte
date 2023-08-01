@@ -1,6 +1,6 @@
 <script>
   import { indstillinger, hold } from "$lib/js/store";
-  import { get } from "$lib/js/http.js";
+  import { get, reloadData } from "$lib/js/http.js";
 
   let windowWidth = window.innerWidth;
 
@@ -42,9 +42,7 @@
       }
     });
 
-    get("/terminer").then((data) => {
-      terminer = data;
-    });
+    reloadData();
   }
 </script>
 
