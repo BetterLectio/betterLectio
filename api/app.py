@@ -447,5 +447,35 @@ def eksamener():
     except Exception:
         return jsonify({"backend_error": traceback.format_exc()}), 500
 
+@app.route("/terminer")
+@cache_for(days=5)
+def hold_til_fag():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.fåTerminer()))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
+
+@app.route("/ændre_termin")
+def eksamener():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+        id = request.args.get("id")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.ændreTermin(id)))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
+
 if __name__ == '__main__':
     app.run()
