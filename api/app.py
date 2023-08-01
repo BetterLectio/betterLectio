@@ -462,7 +462,7 @@ def terminer():
     except Exception:
         return jsonify({"backend_error": traceback.format_exc()}), 500
 
-@app.route("/ændre_termin")
+@app.route("/aendre_termin")
 def ændre_termin():
     try:
         cookie = request.headers.get("lectio-cookie")
