@@ -3,6 +3,7 @@
   import { fag, hold } from "$lib/js/store.js";
   import { get } from "$lib/js/http.js";
   import { cookieInfo } from "$lib/js/CookieInfo";
+  import { error } from "@sveltejs/kit";
 
   let cookie;
   cookieInfo().then((data) => {
@@ -14,6 +15,7 @@
   let gisInited = false;
 
   let loggedin = false;
+  let responseObj;
 
   //weeknr = url param "week"
   let weeknr = new URLSearchParams(window.location.search).get("week");
@@ -146,12 +148,14 @@
     return [formattedStartDate, formattedEndDate];
   }
 
+  let processedBatch = [];
+
   async function sync() {
+    processedBatch = [];
     //fetch data from Lectio
     const year = new Date().getFullYear();
     const res = await get(`/skema?id=${"S" + cookie.userid}&uge=${weeknr}&år=${year}`);
     let moduler = res.moduler;
-    let processedBatch = [];
     //make a forEach loop that creates an event for each module
     moduler.forEach((modul) => {
       const [startDate, endDate] = convertLectioTime(modul.tidspunkt);
@@ -173,6 +177,7 @@
     batch.then(
       function (response) {
         console.log(response.result);
+        responseObj = response.result;
       },
       function (err) {
         console.error(err);
@@ -214,4 +219,39 @@
     <input class="input input-bordered join-item" bind:value={weeknr} placeholder="Uge Nr." />
     <button class="btn btn-primary join-item" on:click={() => sync()}>synkroniser</button>
   </div>
+
+  {#if responseObj}
+    <h2 class="text-xl font-bold mt-4">Resultat</h2>
+    <div class="overflow-x-auto w-fit">
+      <table class="table table-xs">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th>status</th>
+            <th>besked</th>
+            <th>hold</th>
+            {#if Object.values(responseObj)[0].status != "200"}
+              <th>forklaring</th>
+            {/if}
+          </tr>
+        </thead>
+        <tbody>
+          {#each processedBatch as event, i}
+            <tr>
+              <th
+                ><p class="btn btn-xs {Object.values(responseObj)[i].status == '200' ? 'btn-success' : 'btn-error'}">
+                  {Object.values(responseObj)[0].status}
+                </p></th
+              >
+              <td>{Object.values(responseObj)[i].statusText}</td>
+              <td>{processedBatch[i].summary}</td>
+              {#if Object.values(responseObj)[i].status != "200"}
+                <td>{Object.values(responseObj)[i].result.error.message}</td>
+              {/if}
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  {/if}
 {/if}
