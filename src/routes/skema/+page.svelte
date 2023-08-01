@@ -13,6 +13,8 @@
   let skema = {};
   let heading = "Skema";
 
+  let mySkema;
+
   $fag ??= {};
 
   $: skemaId = new URLSearchParams(window.location.search).get("id");
@@ -291,6 +293,8 @@
       skema[globalYear + "" + globalWeek] = data;
       heading = skema?.[globalYear + "" + globalWeek]?.overskrift || "skema";
 
+      mySkema = cookie.userid == skemaId.slice(1);
+
       options.slotMinTime = parseInt(
         Object.values(skema[globalYear + "" + globalWeek].modulTider)[0]
           .split(" - ")[0]
@@ -385,3 +389,13 @@
 <div class="translate-y-5 md:translate-y-0">
   <Calendar bind:this={ec} {plugins} {options} />
 </div>
+
+<div class="divider hidden md:flex" />
+{#if mySkema}
+  <a
+    href="/værktøjer/googlecalsync?week={globalWeek}&from=skema"
+    class="btn btn-sm pl-1 rounded-full shadow-sm hidden md:inline-flex items-center"
+    ><p class="btn btn-xs btn-accent font-black rounded-full">NY!</p>
+    synkroniser denne uge med Google Kalender
+  </a>
+{/if}
