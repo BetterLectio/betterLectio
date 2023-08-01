@@ -43,7 +43,7 @@
           status: "BETA",
         },
         {
-          title: "Modul synkronisering med google kalender",
+          title: "Google Kalender-synkronisering",
           link: "/værktøjer/googlecalsync",
           description: "Synkroniser dine moduler med din google kalender",
           status: "BETA",

@@ -5,6 +5,15 @@
   let gapiInited = false;
   let gisInited = false;
 
+  let loggedin = false;
+
+  //weeknr = url param "week"
+  let weeknr = new URLSearchParams(window.location.search).get("week");
+
+  $: if (weeknr) {
+    console.log(weeknr);
+  }
+
   const secretKey = "meget hemmelig nøgle"; // TODO: flyt til .env eller pin kode indtastning eller noget ¯\_(ツ)_/¯
 
   const start = async () => {
@@ -46,6 +55,7 @@
     const token = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
     //se if token is expired
     if (token !== null && token.expires_at < Date.now()) {
+      loggedin = false;
       localStorage.removeItem("G-apitoken");
       return;
     }
@@ -53,36 +63,8 @@
       document.getElementById("signout_button").style.visibility = "visible";
       document.getElementById("authorize_button").innerText = "genopfrisk adgang";
       gapi.client.setToken(token);
-
-      listUpcomingEvents();
+      loggedin = true;
     }
-  }
-
-  async function listUpcomingEvents() {
-    let response;
-    try {
-      const request = {
-        calendarId: "primary",
-        timeMin: new Date().toISOString(),
-        showDeleted: false,
-        singleEvents: true,
-        maxResults: 10,
-        orderBy: "startTime",
-      };
-      response = await gapi.client.calendar.events.list(request);
-    } catch (err) {
-      alert(`Error: ${JSON.stringify(err)}`);
-      return;
-    }
-
-    const events = response.result.items;
-    if (!events || events.length == 0) {
-      alert("No upcoming events found.");
-      return;
-    }
-    // Flatten to string to display
-    const output = events.reduce((str, event) => `${str}${event.summary} (${event.start.dateTime || event.start.date})\n`, "Events:\n");
-    alert(output);
   }
 
   function handleAuthClick() {
@@ -92,7 +74,9 @@
       }
       document.getElementById("signout_button").style.visibility = "visible";
       document.getElementById("authorize_button").innerText = "genopfrisk adgang";
-      listUpcomingEvents();
+      loggedin = true;
+
+      //save token to localstorage
       const ciphertext = CryptoJS.AES.encrypt(
         JSON.stringify({ ...gapi.client.getToken(), expires_at: Date.now() + 3600000 }),
         secretKey
@@ -118,8 +102,9 @@
     if (token !== null) {
       google.accounts.oauth2.revoke(token.access_token);
       gapi.client.setToken("");
-      document.getElementById("authorize_button").innerText = "Authorize";
+      document.getElementById("authorize_button").innerText = "Log ind";
       document.getElementById("signout_button").style.visibility = "hidden";
+      loggedin = false;
     }
   }
 
@@ -165,15 +150,32 @@
   <script src="https://apis.google.com/js/api.js" on:load={initializeGapi}></script>
 </svelte:head>
 
-<h1 class="heading">Google kalender synkronisering</h1>
+<h1 class="heading">Google Kalender-synkronisering</h1>
 
-<div class="alert alert-warning mb-4">
-  <!-- prettier-ignore -->
-  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" ><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg >
-  <span
-    >Adgang er på nuværende tidspunkt begrænset til udviklere. Hvis du er interesseret i at teste funktionen, så kontakt os på discorden.</span
-  >
-</div>
+{#if !loggedin}
+  <div class="alert alert-warning mb-4">
+    <!-- prettier-ignore -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" ><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg >
+    <span
+      >Adgang er på nuværende tidspunkt begrænset til udviklere. Hvis du er interesseret i at teste funktionen, så kontakt os på discorden.</span
+    >
+  </div>
+{:else}
+  <p class="text-sm md:w-96 italic my-4 border-l-2 pl-2 border-warning">
+    Google Kalender-synkronisering er en funktion, der gør det muligt at synkronisere dine moduler fra BetterLectio til din Google Kalender.
+    Hvis du synkroniserer en uge, du tidligere har synkroniseret, vil de gamle events ikke altid blive slettet. Hvis du har problemer med
+    funktionen, så kontakt os på Discord.
+  </p>
+{/if}
 
-<button class="btn" id="authorize_button" on:click={handleAuthClick}>Synkroniser</button>
-<button class="btn" id="signout_button" on:click={handleSignoutClick}>Log ud</button>
+<button class="btn btn-sm" id="authorize_button" on:click={handleAuthClick}>Log ind</button>
+<button class="btn btn-sm" id="signout_button" on:click={handleSignoutClick}>Log ud</button>
+
+<div class="divider" />
+
+{#if loggedin}
+  <div class="join">
+    <input class="input input-bordered join-item" bind:value={weeknr} placeholder="Uge Nr." />
+    <button class="btn btn-primary join-item">synkroniser</button>
+  </div>
+{/if}
