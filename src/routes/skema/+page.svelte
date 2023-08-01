@@ -22,7 +22,9 @@
     cookie = data;
     if (skemaId == null) {
       skemaId = "S" + cookie.userid;
-      window.history.pushState({}, null, "/skema?id=" + skemaId);
+      const url = new URL(location);
+      url.searchParams.set("id", skemaId);
+      history.replaceState({}, "", url);
     }
   });
   let ec; // to store the calendar instance and access it's methods
@@ -110,7 +112,9 @@
   $: if (globalWeek) {
     console.log("week changed to: " + globalWeek);
     //add the week to the url
-    window.history.pushState({}, null, "/skema?id=" + skemaId + "&week=" + globalWeek);
+    //const url = new URL(location);
+    //url.searchParams.set("week", globalWeek);
+    //history.replaceState({}, "", url);
   }
 
   let options = {
