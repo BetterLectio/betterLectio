@@ -449,7 +449,7 @@ def eksamener():
 
 @app.route("/terminer")
 @cache_for(days=5)
-def hold_til_fag():
+def terminer():
     try:
         cookie = request.headers.get("lectio-cookie")
 
@@ -463,7 +463,7 @@ def hold_til_fag():
         return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route("/ændre_termin")
-def eksamener():
+def ændre_termin():
     try:
         cookie = request.headers.get("lectio-cookie")
         id = request.args.get("id")
