@@ -1,5 +1,13 @@
 <script>
   import CryptoJS from "crypto-es";
+  import { fag, hold } from "$lib/js/store.js";
+  import { get } from "$lib/js/http.js";
+  import { cookieInfo } from "$lib/js/CookieInfo";
+
+  let cookie;
+  cookieInfo().then((data) => {
+    cookie = data;
+  });
 
   let tokenClient;
   let gapiInited = false;
@@ -108,27 +116,21 @@
     }
   }
 
-  function createEvent() {
-    let d = convertLectioTime("29/05-2021 17:00 til 20:00");
+  function createEvent(modul) {
     var event = {
-      summary: "TEST",
+      summary: modul.hold,
+      id: modul.absid + "betlec2",
+      description: modul.linkToLectio,
       start: {
-        dateTime: d[0],
+        dateTime: modul.googleStart,
         timeZone: "Europe/Copenhagen",
       },
       end: {
-        dateTime: d[1],
+        dateTime: modul.googleEnd,
         timeZone: "Europe/Copenhagen",
       },
     };
-    const request = gapi.client.calendar.events.insert({
-      calendarId: "primary",
-      resource: event,
-    });
-
-    request.execute((event) => {
-      console.log(`Event created: ${event.htmlLink}`);
-    });
+    return event;
   }
 
   function convertLectioTime(dateString) {
@@ -136,12 +138,46 @@
     const [startDay, startMonth, startYear, startHour, startMinute] = startDateString.match(/\d+/g);
     const [endHour, endMinute] = endDateString.match(/\d+/g);
 
-    const startDate = new Date(`${startYear}-${startMonth}-${startDay}T${startHour}:${startMinute}:00`);
-    const endDate = new Date(`${startYear}-${startMonth}-${startDay}T${endHour}:${endMinute}:00`);
+    const startDate = new Date(startYear, startMonth - 1, startDay, startHour, startMinute, 0); // month is 0-indexed
+    const endDate = new Date(startYear, startMonth - 1, startDay, endHour, endMinute, 0); // month is 0-indexed
 
     const formattedStartDate = startDate.toISOString();
     const formattedEndDate = endDate.toISOString();
     return [formattedStartDate, formattedEndDate];
+  }
+
+  async function sync() {
+    //fetch data from Lectio
+    const year = new Date().getFullYear();
+    const res = await get(`/skema?id=${"S" + cookie.userid}&uge=${weeknr}&år=${year}`);
+    let moduler = res.moduler;
+    let processedBatch = [];
+    //make a forEach loop that creates an event for each module
+    moduler.forEach((modul) => {
+      const [startDate, endDate] = convertLectioTime(modul.tidspunkt);
+      modul = {
+        ...modul,
+        googleStart: startDate,
+        googleEnd: endDate,
+        linkToLectio: "https://app.betterlectio.dk/modul?absid=" + modul.absid,
+      };
+      processedBatch.push(createEvent(modul)); // create event does additonal processing of the event
+    });
+    console.log(processedBatch);
+
+    //batch insert events
+    const batch = gapi.client.newBatch();
+    processedBatch.forEach((event) => {
+      batch.add(gapi.client.calendar.events.insert({ calendarId: "primary", resource: event }));
+    });
+    batch.then(
+      function (response) {
+        console.log(response.result);
+      },
+      function (err) {
+        console.error(err);
+      }
+    );
   }
 </script>
 
@@ -176,6 +212,6 @@
 {#if loggedin}
   <div class="join">
     <input class="input input-bordered join-item" bind:value={weeknr} placeholder="Uge Nr." />
-    <button class="btn btn-primary join-item">synkroniser</button>
+    <button class="btn btn-primary join-item" on:click={() => sync()}>synkroniser</button>
   </div>
 {/if}
