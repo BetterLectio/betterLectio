@@ -10,7 +10,7 @@ import { goto } from "$app/navigation";
 //     .LastLoginUserName
 // );
 
-export const api = window.electron ? "http://localhost:5000" : "https://api.betterlectio.dk";
+export const api = window.electron || window.navigator.userAgent == "BetterLectio Mobile" ? "http://localhost:5000" : "https://api.betterlectio.dk";
 
 export function reloadData(reload = true) {
   localStorage.setItem("nonce", Date.now().toString(36));
