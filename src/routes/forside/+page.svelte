@@ -1,6 +1,8 @@
 <script>
   import { brugeren, nyheder, lektier, forside, skema } from "$lib/js/store.js";
   import { get } from "$lib/js/http.js";
+  import { cookieInfo } from "$lib/js/CookieInfo";
+  import Avatar from "$lib/components/Avatar.svelte";
 
   import MarkdownIt from "markdown-it";
   import sanitizeHtml from "sanitize-html";
@@ -18,6 +20,11 @@
 
   get("/lektier").then((data) => {
     $lektier = data;
+  });
+
+  let cookie;
+  cookieInfo().then((data) => {
+    cookie = data;
   });
 
   const colorDict = {
@@ -51,7 +58,7 @@
     let alldayGreetings = ["Velkommen tilbage", "Hejsa", "Velkommen"];
     let morningGreetings = ["Go' morgen", "Godmorgen"];
     let afternoonGreetings = ["God eftermiddag"];
-    let eveningGreetings = ["Tak for i dag", "Godnat", "sov godt"];
+    let eveningGreetings = ["Tak for i dag", "Godnat", "Sov godt"];
     let chosenGreeting = "";
     // Get the current time
     let currentTime = new Date().getHours();
@@ -73,12 +80,29 @@
 <body>
   <!-- greeting -->
 
-  <h1 class="heading">
-    {getGreeting()},
-    {#if $brugeren}
-      {$brugeren.navn}
-    {/if}
-  </h1>
+  {#if $brugeren && localStorage.getItem("lectio-cookie") && cookie}
+    <div class="flex justify-start">
+      <div class="flex flex-row">
+        <div class="hidden md:inline-block">
+          <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-20" />
+        </div>
+        <div class="flex flex-col align-top mx-4">
+          <h1 class="text-3xl font-bold line-clamp-1">
+            {#if $brugeren}
+              {$brugeren.navn}
+            {/if}
+          </h1>
+          {getGreeting()}
+        </div>
+      </div>
+      <!--
+        <div class="flex flex-rox">
+          <div class="bg-base-200 m-1 p-2 rounded-xl flex justify-center items-center aspect-square">Skema</div>
+        </div>
+      -->
+    </div>
+    <div class="divider" />
+  {/if}
 
   <!-- main content -->
   <div class="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">

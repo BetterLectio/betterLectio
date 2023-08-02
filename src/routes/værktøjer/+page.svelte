@@ -42,6 +42,12 @@
           description: "Find ud af, hvor mange moduler du kan pjække",
           status: "BETA",
         },
+        {
+          title: "Google Kalender-synkronisering",
+          link: "/værktøjer/googlecalsync",
+          description: "Synkroniser dine moduler med din google kalender",
+          status: "BETA",
+        },
       ],
       "Lectio (Vi arbejder på at flytte disse sider til Better Lectio)": [
         {

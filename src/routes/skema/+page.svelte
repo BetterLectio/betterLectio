@@ -13,6 +13,8 @@
   let skema = {};
   let heading = "Skema";
 
+  let mySkema;
+
   $fag ??= {};
 
   $: skemaId = new URLSearchParams(window.location.search).get("id");
@@ -22,7 +24,9 @@
     cookie = data;
     if (skemaId == null) {
       skemaId = "S" + cookie.userid;
-      window.history.pushState({}, null, "/skema?id=" + skemaId);
+      const url = new URL(location);
+      url.searchParams.set("id", skemaId);
+      history.replaceState({}, "", url);
     }
   });
   let ec; // to store the calendar instance and access it's methods
@@ -106,6 +110,14 @@
   let globalWeek = 0;
   let globalYear = 0;
   let addedEventsId = [];
+
+  $: if (globalWeek) {
+    console.log("week changed to: " + globalWeek);
+    //add the week to the url
+    //const url = new URL(location);
+    //url.searchParams.set("week", globalWeek);
+    //history.replaceState({}, "", url);
+  }
 
   let options = {
     locale: "da",
@@ -197,7 +209,9 @@
       if (modul["navn"] != undefined) {
         titel = modul["navn"] != null && modul["navn"] != "Ændret!" ? modul["navn"] : $fag[modul["hold_id"]];
         if (status == "eksamen") {
-          titel = "Eksamen! " + titel.replace("mdt.", "mundtlig").replace("skr.", "skriftlig").replace("prv.", "prøve").replace("eks.", "eksamen");
+          titel =
+            "Eksamen! " +
+            titel.replace("mdt.", "mundtlig").replace("skr.", "skriftlig").replace("prv.", "prøve").replace("eks.", "eksamen");
         } else {
           if (modul["lokale"]) {
             titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
@@ -279,6 +293,8 @@
       skema[globalYear + "" + globalWeek] = data;
       heading = skema?.[globalYear + "" + globalWeek]?.overskrift || "skema";
 
+      mySkema = cookie.userid == skemaId.slice(1);
+
       options.slotMinTime = parseInt(
         Object.values(skema[globalYear + "" + globalWeek].modulTider)[0]
           .split(" - ")[0]
@@ -322,20 +338,6 @@
         break;
     }
   }
-  //function stringToHex(string) {
-  //  var hash = 0;
-  //  if (string.length === 0) return hash;
-  //  for (var i = 0; i < string.length; i++) {
-  //    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  //    hash = hash & hash;
-  //  }
-  //  var color = "#";
-  //  for (var i = 0; i < 3; i++) {
-  //    var value = (hash >> (i * 8)) & 255;
-  //    color += ("00" + value.toString(16)).substr(-2);
-  //  }
-  //  return color;
-  //}
 
   function addButtonsToDagsnoter(year, week) {
     let slots = document.getElementsByClassName("ec-day");
@@ -368,103 +370,6 @@
       `;
     }
   }
-
-  //let dayOffset = 0;
-
-  //$: nextDay = () => {
-  //  dayOffset++;
-  //  // if going from sunday to monday, change week
-  //  if (getCurrentday() == 0) {
-  //    changeWeek("plus");
-  //  }
-  //  getAgenda();
-  //};
-
-  //$: prevDay = () => {
-  //  dayOffset--;
-  //  // if going from sunday to monday, change week
-  //  if (getCurrentday() == 6) {
-  //    changeWeek("minus");
-  //  }
-  //  getAgenda();
-  //};
-
-  //$: resetDay = () => {
-  //  dayOffset = 0;
-  //  // if reseting to current day, change week
-  //  let date = new Date();
-  //  if (getCurrentday() != date.getDay()) {
-  //    changeWeek("reset");
-  //  }
-  //  getAgenda();
-  //};
-
-  //function getCurrentday() {
-  //  let date = new Date();
-  //  let cDay = (date.getDay() + dayOffset - 1) % 7;
-  //  if (cDay < 0) {
-  //    cDay = 7 + cDay;
-  //  }
-  //  return cDay;
-  //}
-
-  //$: getCurrentdayLive = () => {
-  //  let date = new Date();
-  //  let cDay = (date.getDay() + dayOffset - 1) % 7;
-  //  if (cDay < 0) {
-  //    cDay = 7 + cDay;
-  //  }
-  //  return cDay;
-  //};
-
-  //$: MapDayNrToName = (dayNr) => {
-  //  switch (dayNr) {
-  //    case 0:
-  //      return "Mandag";
-  //    case 1:
-  //      return "Tirsdag";
-  //    case 2:
-  //      return "Onsdag";
-  //    case 3:
-  //      return "Torsdag";
-  //    case 4:
-  //      return "Fredag";
-  //    case 5:
-  //      return "Lørdag";
-  //    case 6:
-  //      return "Søndag";
-  //  }
-  //};
-  //let dagensModuler = [];
-
-  //$: getAgenda = async () => {
-  //  dagensModuler = [];
-  //  let currentWeek = skema[globalYear + "" + globalWeek];
-  //  let moduler = currentWeek["moduler"];
-  //  moduler.forEach((modul) => {
-  //    let modulTidspunkt = modul["tidspunkt"];
-  //    let modulDato = modulTidspunkt.match(/(\d{1,2}\/\d{1,2}-\d{4})/g)[0];
-  //    modulDato = modulDato.replace("-", "/");
-  //    let split = modulDato.split("/");
-  //    let modulDatoUS = split[1] + "/" + split[0] + "/" + split[2];
-  //    let modulDatoObj = new Date(modulDatoUS);
-  //    if (modulDatoObj.getDay() - 1 == getCurrentday()) {
-  //      dagensModuler.push(modul);
-  //    }
-  //  });
-  //};
-
-  //function colorModul(modul) {
-  //  let modulType = modul["status"];
-  //  switch (modulType) {
-  //    case "aflyst":
-  //      return "btn btn-error mb-4 block h-fit p-2 normal-case";
-  //    case "ændret":
-  //      return "btn btn-success mb-4 block h-fit p-2 normal-case";
-  //    case "normal":
-  //      return "btn btn-info mb-4 block h-fit p-2 normal-case";
-  //  }
-  //}
 </script>
 
 <div class="my-2 flex justify-between">
@@ -485,78 +390,12 @@
   <Calendar bind:this={ec} {plugins} {options} />
 </div>
 
-<!--
-<div class="block h-20 w-full md:hidden">
-  <div class=" mb-3 flex justify-around rounded-xl bg-base-300 py-4">
-    <div class="align btn-group flex justify-center">
-      <button class="btn btn-primary btn-sm" on:click={prevDay}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-caret-left-fill"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"
-          />
-        </svg>
-      </button>
-      <button class="btn btn-primary btn-sm" on:click={resetDay}> i dag </button>
-      <button class="btn btn-primary btn-sm" on:click={nextDay}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-caret-right-fill"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"
-          />
-        </svg>
-      </button>
-    </div>
-    <h1 class="text-xl font-bold ">{MapDayNrToName(getCurrentdayLive())}</h1>
-  </div>
-  {#if dagensModuler.length > 0}
-    <div class="flex flex-col rounded-xl bg-base-300 p-4 py-4 pb-0">
-      {#each dagensModuler as modul}
-        <a class={colorModul(modul)} href="/modul/?absid={modul['absid']}">
-          {#if modul["navn"]}
-            {#if modul["andet"]}
-              <div class="tooltip flex justify-center" data-tip="Har indhold">
-                <h1 class="text-xl font-bold">{modul["navn"]} {modul["hold"]}</h1>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-bookmark-fill ml-4 mt-1"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"
-                  />
-                </svg>
-              </div>
-            {:else}
-              <h1 class="text-xl font-bold">{modul["navn"]} {modul["hold"]}</h1>
-            {/if}
-          {:else}
-            <h1 class="text-xl font-bold">{modul["hold"]}</h1>
-          {/if}
-          <h1 class="text-sm font-bold">{modul["tidspunkt"]}</h1>
-          {#if modul["lokale"]}
-            <h1 class="text-sm font-bold">{modul["lokale"]}</h1>
-          {/if}
-        </a>
-      {/each}
-    </div>
-  {:else}
-    <p class="text-center">{MapDayNrToName(getCurrentdayLive())} har ingen moduler</p>
-  {/if}
-</div>
--->
+<div class="divider hidden md:flex" />
+{#if mySkema}
+  <a
+    href="/værktøjer/googlecalsync?week={globalWeek}&from=skema"
+    class="btn btn-sm pl-1 rounded-full shadow-sm hidden md:inline-flex items-center"
+    ><p class="btn btn-xs btn-accent font-black rounded-full">NY!</p>
+    synkroniser denne uge med Google Kalender
+  </a>
+{/if}
