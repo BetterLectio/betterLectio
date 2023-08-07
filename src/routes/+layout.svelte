@@ -82,7 +82,7 @@
       </div>
       <div class="modal-action ml-2">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <btn
+        <button
           on:click={() => {
             const skoleId = localStorage.getItem("skole_id");
             const theme = localStorage.getItem("theme");
@@ -94,7 +94,7 @@
 
             window.location.href = "/auth";
           }}
-          class="btn-error btn">Log mig ud!</btn
+          class="btn-error btn">Log mig ud!</button
         >
       </div>
     </span>

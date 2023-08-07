@@ -174,7 +174,7 @@
                 </a>
               </li>
               <li>
-                <btn
+                <button
                   on:click={() => {
                     reloadData();
                   }}
@@ -184,7 +184,7 @@
                     <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
                   </svg>
                   Reload data
-                </btn>
+                </button>
               </li>
               <li>
                 <label for="logud-modal" class="border-2 border-error-content bg-error">
@@ -380,7 +380,7 @@
             </a>
           </li>
           <li on:click={handleClick}>
-            <btn
+            <button
               on:click={() => {
                 reloadData();
               }}
@@ -390,7 +390,7 @@
                 <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
               </svg>
               Reload data
-            </btn>
+            </button>
           </li>
           <div class="divider" />
           <li>
