@@ -216,10 +216,10 @@
 
 {#if $dokumenter}
   <div class="overflow-x-auto flex">
-    <div class="h-full w-60 bg-base-200 p-2 mr-2 rounded-lg hidden lg:inline">
+    <div class="h-full w-60 mr-2 hidden lg:inline">
       {#each exploreArr as item}
         <div
-          class="flex flex-row items-center cursor-pointer hover:bg-base-300 rounded-md {'ml-' + item.depth}"
+          class="flex flex-row items-center cursor-pointer hover:bg-base-300 rounded-md {'ml-' + item.depth * 2}"
           on:click={() => handleExploreClick(item.id)}
         >
           <!-- prettier-ignore -->
@@ -228,8 +228,9 @@
         </div>
       {/each}
     </div>
+    <div class="divider divider-horizontal" />
     <div class="w-full h-fit">
-      <h2 class="text-2xl ml-3 font-bold">{$dokumenter["titel"]}</h2>
+      <h2 class="text-2xl ml-3 font-bold">{selectedFolderId == ".." ? "Dokument Oversigt" : $dokumenter["titel"]}</h2>
       <table class="table-zebra mb-4 table w-full h-fit">
         <!-- head -->
         <thead>
