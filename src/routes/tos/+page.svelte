@@ -125,9 +125,8 @@
   <h3 class="text-xl font-bold">7,5. Begrænset Brug af Data</h3>
   <p class="my-4">
     Synkroniseringsappens brug af Google-brugerdata er strengt begrænset til de praksisser, der eksplicit er beskrevet i den offentliggjorte
-    privatlivspolitik. Eventuelle ændringer i, hvordan Synkroniseringsappen bruger Google-brugerdata, vil blive kommunikeret til brugerne
-    gennem opdaterede privatlivspolitikmeddelelser. Brugere vil blive bedt om at give samtykke til disse ændringer, inden nogen ny brug af
-    data finder sted.
+    privatlivspolitik. Eventuelle ændringer i, hvordan Synkroniseringsappen bruger Google-brugerdata, vil ske uden varsel, så det er din
+    pligt at følge med i eventuelle opdateringer.
   </p>
 
   <h3 class="text-xl font-bold">7,6. Dataoffentliggørelse og Gennemsigtighed</h3>
@@ -139,9 +138,8 @@
 
   <h3 class="text-xl font-bold">7,7. Opdateringer til Privatlivspolitik</h3>
   <p class="my-4">
-    Denne Privatlivspolitik kan opdateres fra tid til anden for at afspejle ændringer i datapraksis eller juridiske krav. Brugere vil blive
-    informeret om eventuelle ændringer og bedt om at gennemgå og acceptere den opdaterede politik, inden de fortsætter med at bruge
-    Synkroniseringsappen.
+    Denne Privatlivspolitik kan opdateres fra tid til anden for at afspejle ændringer i datapraksis eller juridiske krav. Opdateringer vil
+    ske uden varsel, så det er din pligt at følge med i eventuelle opdateringer og ændringer.
   </p>
 </div>
 
