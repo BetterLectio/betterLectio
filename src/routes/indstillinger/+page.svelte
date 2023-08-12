@@ -4,6 +4,8 @@
   import Pro from "./routes/Pro.svelte";
   import Tilslut from "./routes/Tilslut.svelte";
   import Generelt from "./routes/Generelt.svelte";
+
+  import { version } from "$app/environment";
 </script>
 
 <div class="w-full">
@@ -14,4 +16,5 @@
     <Pro />
     <Tilslut />
   -->
+  <p class="mt-4">BetterLectio version: {version}</p>
 </div>
