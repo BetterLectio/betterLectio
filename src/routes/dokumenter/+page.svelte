@@ -216,10 +216,10 @@
 
 {#if $dokumenter}
   <div class="overflow-x-auto flex">
-    <div class="h-full w-60 bg-base-200 p-2 mr-2 rounded-lg hidden lg:inline">
+    <div class="h-full w-60 mr-2 hidden lg:inline">
       {#each exploreArr as item}
         <div
-          class="flex flex-row items-center cursor-pointer hover:bg-base-300 rounded-md {'ml-' + item.depth}"
+          class="flex flex-row items-center cursor-pointer hover:bg-base-300 rounded-md {'ml-' + item.depth * 2}"
           on:click={() => handleExploreClick(item.id)}
         >
           <!-- prettier-ignore -->
@@ -228,52 +228,56 @@
         </div>
       {/each}
     </div>
-    <table class="table-zebra mb-4 table w-full h-fit">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th />
-          <th>Navn</th>
-          {#if window.innerWidth > 768}
-            <th>Dato</th>
-            <th>Ændret af</th>
-          {/if}
-        </tr>
-      </thead>
-      <tbody>
-        {#if loading && now - loadingStarted >= 100}
-          <!--loop 3 times-->
-          {#each [1, 2, 3] as i}
-            <tr class="animate-pulse">
-              <td><div class="h-[33.609px] w-6 rounded-md bg-base-300" /></td>
-              <td><div class="h-[33.609px] w-36 rounded-md bg-base-300" /></td>
-              {#if window.innerWidth > 768}
+    <div class="divider divider-horizontal" />
+    <div class="w-full h-fit">
+      <h2 class="text-2xl ml-3 font-bold">{selectedFolderId == ".." ? "Dokument Oversigt" : $dokumenter["titel"]}</h2>
+      <table class="table-zebra mb-4 table w-full h-fit">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th />
+            <th>Navn</th>
+            {#if window.innerWidth > 768}
+              <th>Dato</th>
+              <th>Ændret af</th>
+            {/if}
+          </tr>
+        </thead>
+        <tbody>
+          {#if loading && now - loadingStarted >= 100}
+            <!--loop 3 times-->
+            {#each [1, 2, 3] as i}
+              <tr class="animate-pulse">
+                <td><div class="h-[33.609px] w-6 rounded-md bg-base-300" /></td>
                 <td><div class="h-[33.609px] w-36 rounded-md bg-base-300" /></td>
-                <td><div class="h-[33.609px] w-36 rounded-md bg-base-300" /></td>
-              {/if}
-            </tr>
-          {/each}
-        {:else}
-          {#each $dokumenter["indhold"] as dokument}
-            <tr class="hover cursor-pointer {dokument['type']}" on:click={clickHandler} id={dokument["id"]}>
-              <td>
-                {#if dokument["type"] == "folder"}
-                  <i style="font-size: 1.4rem;" class="bi bi-folder-fill text-yellow-300" />
-                {:else if dokument["type"] == "dokument"}
-                  <i style="font-size: 1.4rem;" class="bi-file-earmark bi-filetype-{dokument['navn'].split('.').slice(-1)}" />
-                  <!-- bi-file-earmark er fallback hvis filtypen ikke har et icon-->
+                {#if window.innerWidth > 768}
+                  <td><div class="h-[33.609px] w-36 rounded-md bg-base-300" /></td>
+                  <td><div class="h-[33.609px] w-36 rounded-md bg-base-300" /></td>
                 {/if}
-              </td>
-              <td>{dokument["navn"]}</td>
-              {#if window.innerWidth > 768}
-                <td>{dokument["type"] == "dokument" ? dokument["dato"] : ""}</td>
-                <td>{dokument["type"] == "dokument" ? (dokument["ændret_af"] == "ukendt" ? "" : dokument["ændret_af"]) : ""}</td>
-              {/if}
-              <!--<Brugernavn navn={dokument.ændret_af} id={$informationer.lærereOgElever[dokument.ændret_af]}/>-->
-            </tr>
-          {/each}
-        {/if}
-      </tbody>
-    </table>
+              </tr>
+            {/each}
+          {:else}
+            {#each $dokumenter["indhold"] as dokument}
+              <tr class="hover cursor-pointer {dokument['type']}" on:click={clickHandler} id={dokument["id"]}>
+                <td>
+                  {#if dokument["type"] == "folder"}
+                    <i style="font-size: 1.4rem;" class="bi bi-folder-fill text-yellow-300" />
+                  {:else if dokument["type"] == "dokument"}
+                    <i style="font-size: 1.4rem;" class="bi-file-earmark bi-filetype-{dokument['navn'].split('.').slice(-1)}" />
+                    <!-- bi-file-earmark er fallback hvis filtypen ikke har et icon-->
+                  {/if}
+                </td>
+                <td>{dokument["navn"]}</td>
+                {#if window.innerWidth > 768}
+                  <td>{dokument["type"] == "dokument" ? dokument["dato"] : ""}</td>
+                  <td>{dokument["type"] == "dokument" ? (dokument["ændret_af"] == "ukendt" ? "" : dokument["ændret_af"]) : ""}</td>
+                {/if}
+                <!--<Brugernavn navn={dokument.ændret_af} id={$informationer.lærereOgElever[dokument.ændret_af]}/>-->
+              </tr>
+            {/each}
+          {/if}
+        </tbody>
+      </table>
+    </div>
   </div>
 {/if}
