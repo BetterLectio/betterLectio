@@ -84,7 +84,7 @@
       <h1 class="heading">{sectionTitel}</h1>
       {#each elements as element}
         <a class="flex-row" href={element.link} target={element.new_tab ? "_blank" : ""}>
-          <li class="element flex border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+          <li class="element flex border-l-0 border-primary transition-all duration-100 hover:border-l-4 hover:rounded-l-none">
             {#if element.status}
               <span part="afsender" class="btn-xs btn mr-4 w-fit">{element.status}</span>
             {/if}
