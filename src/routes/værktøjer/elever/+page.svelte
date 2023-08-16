@@ -1,56 +1,56 @@
 <script>
   import BrugerPopup from "$lib/components/BrugerPopup.svelte";
   import { get } from "$lib/js/http";
-  import { informationer } from "$lib/js/store";
 
-  let ready = false;
-  let elevObjArray = [];
-  get("/informationer").then(async (data) => {
-    $informationer = await data;
-    let _elever = {};
-    for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn = key;
-      _elever[navn] = await value;
+  const showAllClasses = "Alle Klasser";
+  const allStudents = [];
+  let classes = new Set();
+  let studentsIndexed = [];
+  let studentsInClass = [];
+  let usersLoaded = false;
+  let searchString = "";
+  let selectedClass = showAllClasses;
+
+  function parseStudentInfo(navnOgKlasse, userId) {
+    let [navn, klasse] = navnOgKlasse.match(/(?:\([^)]+\))|(?:[^()]+)/gu);
+    if (typeof klasse !== "string") {
+      return {
+        navn,
+        userId,
+        klasse: "Ukendt",
+        elevIndeks: "00",
+      };
     }
-    $informationer.lærereOgElever = await { ...$informationer.lærere, ..._elever };
-    for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn = key;
-      elevObjArray.push({ navn: navn, id: value });
+
+    const lastSpace = klasse.lastIndexOf(" ");
+    return {
+      navn,
+      userId,
+      klasse: klasse.slice(1, lastSpace),
+      elevIndeks: klasse.slice(lastSpace, -1) || "00",
+    };
+  }
+
+  get("/informationer").then(($informationer) => {
+    for (const [navn, userId] of Object.entries($informationer.elever)) {
+      allStudents.push(parseStudentInfo(navn, userId));
     }
-    ready = true;
+
+    for (const student of allStudents) classes.add(student.klasse);
+    classes = [...classes].sort((a, b) => a.localeCompare(b));
+
+    studentsIndexed = studentsInClass = allStudents;
+    usersLoaded = true;
   });
 
-  let searchString = "";
+  function sortByClass() {
+    if (selectedClass === showAllClasses) studentsInClass = allStudents;
+    else studentsInClass = allStudents.filter((student) => student.klasse === selectedClass);
+
+    search();
+  }
   function search() {
-    let _elever = {};
-    for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn;
-      try {
-        navn = key.split("(")[1].split(" ");
-        navn.pop();
-        navn = `${key.split("(")[0]}(${navn.join(" ")})`;
-        _elever[navn] = value;
-      } catch (error) {
-        navn = key;
-        console.warn("Can't spilt name:" + key);
-      }
-    }
-    $informationer.lærereOgElever = { ...$informationer.lærere, ..._elever };
-    elevObjArray = [];
-    for (const [key, value] of Object.entries($informationer.elever)) {
-      let navn;
-      try {
-        navn = key.split("(")[1].split(" ");
-        navn.pop();
-        navn = `${key.split("(")[0]}(${navn.join(" ")})`;
-      } catch (error) {
-        navn = key;
-        console.warn("Can't spilt name:" + key);
-      }
-      if (navn.toLowerCase().includes(searchString.toLowerCase())) {
-        elevObjArray.push({ navn: navn, id: value });
-      }
-    }
+    studentsIndexed = studentsInClass.filter(({ navn }) => navn.toLowerCase().includes(searchString.toLowerCase()));
   }
 </script>
 
@@ -63,6 +63,14 @@
   bind:value={searchString}
   on:input={search}
 />
+<select class="select select-bordered w-full max-w-xs" bind:value={selectedClass} on:change={sortByClass}>
+  <option value={showAllClasses}>{usersLoaded ? showAllClasses : "Indlæser ..."}</option>
+  {#if usersLoaded}
+    {#each [...classes] as option}
+      <option value={option}>{option}</option>
+    {/each}
+  {/if}
+</select>
 <div class="">
   <table class="table-zebra table-compact table w-full">
     <!-- head -->
@@ -73,11 +81,11 @@
       </tr>
     </thead>
     <tbody>
-      {#if ready}
-        {#each elevObjArray as elev, i}
+      {#if usersLoaded}
+        {#each studentsIndexed as elev, index}
           <tr>
-            <th>{i}</th>
-            <td><BrugerPopup navn={elev.navn} id={elev.id}>{elev.navn}</BrugerPopup></td>
+            <th>{index}</th>
+            <td><BrugerPopup navn={elev.navn} id={elev.userId}>{elev.navn} ({elev.klasse} {elev.elevIndeks})</BrugerPopup></td>
           </tr>
         {/each}
       {/if}
