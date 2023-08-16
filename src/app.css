@@ -41,8 +41,8 @@
 .school-schedule .ec-body,
 .school-schedule .ec-days,
 .school-schedule .ec-day {
-  border-color: hsl(var(--b2));
-  border-width: 2px;
+  border-color: hsl(var(--bc) / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.1;
 }
 .school-schedule .ec-all-day {
   border-bottom: none;
