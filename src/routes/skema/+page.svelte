@@ -34,7 +34,7 @@
 
   let customTheme = {
     active: "ec-active",
-    allDay: "ec-all-day relative -mt-4 md:mt-0",
+    allDay: "ec-all-day border-b-0 relative -mt-4 md:mt-0",
     bgEvent: "ec-bg-event",
     bgEvents: "ec-bg-events",
     body: "ec-body rounded-b-2xl",

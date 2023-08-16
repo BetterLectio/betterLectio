@@ -44,6 +44,3 @@
   border-color: hsl(var(--bc) / var(--tw-bg-opacity));
   --tw-bg-opacity: 0.1;
 }
-.school-schedule .ec-all-day {
-  border-bottom: none;
-}
