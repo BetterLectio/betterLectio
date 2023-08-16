@@ -13,7 +13,7 @@
           status: "",
         },
         {
-          title: "Elev liste",
+          title: "Elevliste",
           link: "/værktøjer/elever",
           description: "Viser dig en liste over alle elever",
           status: "",

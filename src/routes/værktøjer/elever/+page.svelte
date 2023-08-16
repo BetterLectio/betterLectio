@@ -54,11 +54,11 @@
   }
 </script>
 
-<h1 class="heading">Elev liste</h1>
+<h1 class="heading">Elevliste</h1>
 
 <input
   type="text"
-  placeholder="Søg i elev liste"
+  placeholder="Søg i elevliste"
   class="input-bordered input mb-4 w-full md:w-1/4"
   bind:value={searchString}
   on:input={search}
