@@ -12,14 +12,13 @@
   let selectedClass = showAllClasses;
 
   function parseStudentInfo(navnOgKlasse, userId) {
-    const lastParentheses = navnOgKlasse.lastIndexOf("(");
-    let [navn, klasse] = [navnOgKlasse.substr(0, lastParentheses), navnOgKlasse.substr(lastParentheses)];
-    if (typeof klasse !== "string") {
+    const lastParentheses = navnOgKlasse.lastIndexOf("(") || 0;
+    let [navn, klasse] = [navnOgKlasse.substr(0, lastParentheses) || navnOgKlasse, navnOgKlasse.substr(lastParentheses)];
+    if (!klasse) {
       return {
         navn,
         userId,
-        klasse: "Ukendt",
-        elevIndeks: "00",
+        elevIndeks: "",
       };
     }
 
@@ -30,7 +29,7 @@
       elevIndeks = "";
       klasse = klasse.slice(1, -1);
     } else {
-      elevIndeks = " " + elevIndeks;
+      elevIndeks = ` ${elevIndeks}`;
       klasse = klasse.slice(1, lastSpace);
     }
 
@@ -47,7 +46,7 @@
       allStudents.push(parseStudentInfo(navn, userId));
     }
 
-    for (const student of allStudents) classes.add(student.klasse);
+    for (const klasse in $informationer.klasser) classes.add(klasse);
     classes = [...classes].sort((a, b) => a.localeCompare(b));
 
     studentsIndexed = studentsInClass = allStudents;
@@ -89,6 +88,7 @@
       <tr>
         <th />
         <th>Navn</th>
+        <th>Klasse</th>
       </tr>
     </thead>
     <tbody>
@@ -96,7 +96,8 @@
         {#each studentsIndexed as elev, index}
           <tr>
             <th>{index + 1}</th>
-            <td><BrugerPopup navn={elev.navn} id={elev.userId}>{elev.navn} ({elev.klasse}{elev.elevIndeks})</BrugerPopup></td>
+            <td><BrugerPopup navn={elev.navn} id={elev.userId}>{elev.navn}</BrugerPopup></td>
+            <td>{elev.klasse}{elev.elevIndeks}</td>
           </tr>
         {/each}
       {/if}
