@@ -29,7 +29,7 @@
         {#if cookie}
           <div
             class="hover:cursor-not-allowed hover:opacity-70"
-            on:click={() => addNotification("Denne handling kræver Better Lectio Pro", "alert-error")}
+            on:click={() => addNotification("Denne handling kræver BetterLectio Pro", "alert-error")}
           >
             <Avatar id={"S" + cookie.userid} navn={$brugeren.navn} size="w-20" />
           </div>

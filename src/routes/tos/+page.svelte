@@ -83,31 +83,31 @@
 </p>
 
 <div class="my-4 bg-base-200 p-4 rounded-2xl">
-  <h2 class="text-2xl font-bold">7. Privatlivspolitik for Better Lectio Google Kalender Synkronisering</h2>
+  <h2 class="text-2xl font-bold">7. Privatlivspolitik for BetterLectio Google Kalender Synkronisering</h2>
   <p class="my-4">
-    Denne Privatlivspolitik ("Politik") beskriver, hvordan "Better Lectio Google Kalender Synkronisering" under-appen ("Google
-    Kalender-synkronisering") af webapplikationen Better Lectio ("Better Lectio") indsamler, bruger, opbevarer og deler brugerdata, når der
-    synkroniseres Better Lectio-planer med Google Kalender. Ved at bruge Synkroniseringsappen accepterer du vilkårene, der er beskrevet i
+    Denne Privatlivspolitik ("Politik") beskriver, hvordan "BetterLectio Google Kalender Synkronisering" under-appen ("Google
+    Kalender-synkronisering") af webapplikationen BetterLectio ("BetterLectio") indsamler, bruger, opbevarer og deler brugerdata, når der
+    synkroniseres BetterLectio-planer med Google Kalender. Ved at bruge Synkroniseringsappen accepterer du vilkårene, der er beskrevet i
     denne Politik.
   </p>
 
   <h3 class="text-xl font-bold">7,1. Identitet og Formål</h3>
   <p class="my-4">
     Synkroniseringsappen repræsenterer nøjagtigt sin identitet og hensigt i overensstemmelse med Googles retningslinjer. Den er udviklet og
-    drives af Better Lectio-teamet, som har opnået autoriserede klientlegitimationsoplysninger for at få adgang til Google API-tjenester.
+    drives af BetterLectio-teamet, som har opnået autoriserede klientlegitimationsoplysninger for at få adgang til Google API-tjenester.
     Disse oplysninger holdes fortrolige for at sikre brugerdataenes sikkerhed.
   </p>
 
   <h3 class="text-xl font-bold">7,2. Indsamling af Data</h3>
   <p class="my-4">
-    Synkroniseringsappen anmoder om adgang til specifikke Google-brugerdata for at lette synkroniseringen af Better Lectio-planer med Google
+    Synkroniseringsappen anmoder om adgang til specifikke Google-brugerdata for at lette synkroniseringen af BetterLectio-planer med Google
     Kalender. De typer data, der anmodes om, inkluderer kalenderbegivenheder og relevante planlægningsoplysninger.
   </p>
 
   <h3 class="text-xl font-bold">7,3. Formål med Dataanmodning</h3>
   <p class="my-4">
     Synkroniseringsappen forklarer ærligt og gennemsigtigt formålet med anmodningen om Google-brugerdata. Det primære formål er at give
-    brugerne mulighed for at synkronisere deres Better Lectio-planer med deres Google Kalender. Det er vigtigt at bemærke, at de data, der
+    brugerne mulighed for at synkronisere deres BetterLectio-planer med deres Google Kalender. Det er vigtigt at bemærke, at de data, der
     tilgås til dette formål, kun vil blive brugt til den til tænkte synkronisering og ikke vil blive brugt til nogen sekundær formål uden
     brugersamtykke.
   </p>
@@ -151,7 +151,7 @@
 
 <h2 class="text-2xl font-bold">9. Effektiv Dato</h2>
 <p class="my-4">
-  Denne Privatlivspolitik er gældende fra 07/08/2023 og gælder for alle brugere af betterLectio. Ved at bruge "Better Lectio" under-appen
+  Denne Privatlivspolitik er gældende fra 07/08/2023 og gælder for alle brugere af BetterLectio. Ved at bruge "BetterLectio" under-appen
   anerkender du, at du har læst og forstået denne Privatlivspolitik og giver samtykke til indsamling, brug og deling af dine data, som
   beskrevet heri.
 </p>

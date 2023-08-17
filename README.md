@@ -9,10 +9,10 @@
 
 # BetterLectio
 
-Better Lectio er en forbredelse af [Lectio](https://lectio.dk). Lectio er et dansk webbaseret lektionssystem udviklet af det danske softwarefirma MaCom A/S. [vi](https://github.com/victorDigital/betterLectio/graphs/contributors) har udviklet Better Lectio for at gøre det nemmere at bruge Lectio. Vi har fokuseret på at gøre det nemmere at finde informationer, og at gøre det nemmere at få overblik over sin skolegang. og vi har lavet en række andre forbedringer som f.eks. at lave en hel ny brugerflade, som både er mere brugervenlig og mere moderne.  
+BetterLectio er en forbredelse af [Lectio](https://lectio.dk). Lectio er et dansk webbaseret lektionssystem udviklet af det danske softwarefirma MaCom A/S. [vi](https://github.com/victorDigital/betterLectio/graphs/contributors) har udviklet BetterLectio for at gøre det nemmere at bruge Lectio. Vi har fokuseret på at gøre det nemmere at finde informationer, og at gøre det nemmere at få overblik over sin skolegang. og vi har lavet en række andre forbedringer som f.eks. at lave en hel ny brugerflade, som både er mere brugervenlig og mere moderne.  
 læs hvordan systemet fungerer [HER](https://betterlectio.dk/help)
 
-Better lectio er et open source projekt, hvilket betyder at alle kan se koden, og alle kan bidrage til projektet. Better lectio er på nuværende tidspunkt under udvikling, hvis du har nogle forslag til forbedringer, eller hvis du har fundet en fejl, så er du meget velkommen til åbne en issue, eller lave en pull request.
+BetterLectio er et open source projekt, hvilket betyder at alle kan se koden, og alle kan bidrage til projektet. BetterLectio er på nuværende tidspunkt under udvikling, hvis du har nogle forslag til forbedringer, eller hvis du har fundet en fejl, så er du meget velkommen til åbne en issue, eller lave en pull request.
 
 Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)  
 <a href="https://github.com/BetterLectio/betterlectio/graphs/contributors">
@@ -50,11 +50,12 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 <br/>
 
 ## TODO
+
 1. opgave side
 
-  - [ ] hvis det er en gruppeopgave, så skal der være en liste over alle gruppemedlemmer og man skal kunne vælge personer fra listen (API) (UI)
-  - [ ] der kan være en måde at uploade filer på (UI) (API)
-  - [ ] der skal være en måde at skrive beskeder på (UI) (API)
+- [ ] hvis det er en gruppeopgave, så skal der være en liste over alle gruppemedlemmer og man skal kunne vælge personer fra listen (API) (UI)
+- [ ] der kan være en måde at uploade filer på (UI) (API)
+- [ ] der skal være en måde at skrive beskeder på (UI) (API)
 
 1. skema side
 
@@ -63,7 +64,7 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 2. værktøjs side (nyttige værktøjer til brugeren)
 
-    - hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
+   - hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
    - [ ] IDÉ - hvor mange dage til næste prøve (API)
    - [x] IDÉ - hvor mange moduler kan jeg i teorien pjække før jeg får x% fravær (client side med callback til server) (brug data fra fravær side)
    - IDÉ - Skole community side hvor man kan ved hjælp af Discord OAuth2 lave private Discord servere hvor man kan vælge hvilke klasser/grupper/klubber der kan være med eller hele skolen om hele skolen kan være med (Discord OAuth2, database)
@@ -95,6 +96,6 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
    - [ ] lav så man kan strege dem over
 
-9.  karakterer
+9. karakterer
 
-    - [ ] lav standpunkt og årskarakterer
+   - [ ] lav standpunkt og årskarakterer

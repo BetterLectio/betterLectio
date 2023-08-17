@@ -63,7 +63,7 @@
             <path
               d="M333.913,150.261c-12.277,0-22.261,9.99-22.261,22.261s9.984,22.261,22.261,22.261c12.277,0,22.261-9.99,22.261-22.261 S346.19,150.261,333.913,150.261z"
             />
-          </svg><span class="hidden md:block">Better Lectio</span>
+          </svg><span class="hidden md:block">BetterLectio</span>
         </p>
       </div>
       <div class="navbar-center hidden xl:flex">
