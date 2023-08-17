@@ -28,7 +28,7 @@
     <ul>
       {#each $spørgeskemaer.åbne_for_besvarelse as spørgeskema}
         <a href="/forms/besvar?id={spørgeskema.id}">
-          <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+          <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4 hover:rounded-l-none">
             <div>
               <div class="flex w-full flex-row justify-between">
                 <p>
