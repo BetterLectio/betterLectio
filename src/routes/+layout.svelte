@@ -50,7 +50,7 @@
   $indstillinger.opgaver.visHeleBeskrivelsen ??= false;
 
   $indstillinger.skema ??= {};
-  $indstillinger.skema.classesWithDiffrentColors ??= true;
+  $indstillinger.skema.classesWithDifferentColors ??= true;
   if ($hold === [] || !$hold) {
     $hold = [
       { fag: "Dansk", forkortelse: "da" },
