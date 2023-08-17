@@ -12,7 +12,8 @@
   let selectedClass = showAllClasses;
 
   function parseStudentInfo(navnOgKlasse, userId) {
-    let [navn, klasse] = navnOgKlasse.match(/(?:\([^)]+\))|(?:[^()]+)/gu);
+    const lastParentheses = navnOgKlasse.lastIndexOf("(");
+    let [navn, klasse] = [navnOgKlasse.substr(0, lastParentheses), navnOgKlasse.substr(lastParentheses)];
     if (typeof klasse !== "string") {
       return {
         navn,
@@ -23,11 +24,21 @@
     }
 
     const lastSpace = klasse.lastIndexOf(" ");
+    let elevIndeks = klasse.slice(lastSpace, -1);
+
+    if (isNaN(parseInt(elevIndeks))) {
+      elevIndeks = "";
+      klasse = klasse.slice(1, -1);
+    } else {
+      elevIndeks = " " + elevIndeks;
+      klasse = klasse.slice(1, lastSpace);
+    }
+
     return {
       navn,
       userId,
-      klasse: klasse.slice(1, lastSpace),
-      elevIndeks: klasse.slice(lastSpace, -1) || "00",
+      klasse,
+      elevIndeks,
     };
   }
 
@@ -84,8 +95,8 @@
       {#if usersLoaded}
         {#each studentsIndexed as elev, index}
           <tr>
-            <th>{index}</th>
-            <td><BrugerPopup navn={elev.navn} id={elev.userId}>{elev.navn} ({elev.klasse} {elev.elevIndeks})</BrugerPopup></td>
+            <th>{index + 1}</th>
+            <td><BrugerPopup navn={elev.navn} id={elev.userId}>{elev.navn} ({elev.klasse}{elev.elevIndeks})</BrugerPopup></td>
           </tr>
         {/each}
       {/if}
