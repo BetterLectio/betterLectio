@@ -74,7 +74,7 @@
   on:input={search}
 />
 <select class="select select-bordered w-full max-w-xs" bind:value={selectedClass} on:change={sortByClass}>
-  <option value={showAllClasses}>{usersLoaded ? showAllClasses : "Indlæser ..."}</option>
+  <option value={showAllClasses}>{usersLoaded ? showAllClasses : "Indlæser..."}</option>
   {#if usersLoaded}
     {#each [...classes] as option}
       <option value={option}>{option}</option>
