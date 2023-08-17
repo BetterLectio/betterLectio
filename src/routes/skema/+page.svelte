@@ -34,13 +34,13 @@
 
   let customTheme = {
     active: "ec-active",
-    allDay: "ec-all-day relative -mt-4 md:mt-0",
+    allDay: "ec-all-day border-b-0 relative -mt-4 md:mt-0",
     bgEvent: "ec-bg-event",
     bgEvents: "ec-bg-events",
-    body: "ec-body border border-base-content rounded-b-2xl",
+    body: "ec-body rounded-b-2xl",
     button: "btn btn-primary btn-sm ONCHANGE visible",
     buttonGroup: "btn-group visible",
-    calendar: "ec-calendar",
+    calendar: "ec-calendar school-schedule",
     compact: "ec-compact",
     content: "ec-content",
     day: "ec-day",
@@ -51,7 +51,7 @@
     draggable: "ec-draggable",
     dragging: "ec-dragging",
     event:
-      "btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden text-black hover:shadow-xl visible hover:scale-110 z-10 hover:z-0 border-0 m-0.5 hover:brightness-90",
+      "btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden hover:shadow-[0_3px_12px_rgba(0,0,0,0.1)] visible hover:scale-105 z-5 hover:z-0 border-0 m-0.5",
     eventBody: "",
     eventTag: "ec-event-tag",
     eventTime: "ec-event-time",
@@ -148,7 +148,14 @@
         event.el.classList.add("line-through", "hover:decoration-2");
       }
       if (event.event.extendedProps.hasContent) {
-        event.el.classList.add("after:content-['_📖']", "after:px-1", "hover:after:content-['_📖']", "text-left", "justify-between");
+        event.el.classList.add(
+          "after:text-base",
+          "after:content-['_📖']",
+          "after:px-1",
+          "hover:after:content-['_📖']",
+          "text-left",
+          "justify-between"
+        );
       } else {
         event.el.classList.add("text-left", "justify-start");
       }
@@ -227,27 +234,25 @@
           titel += " · " + modul["lokale"].split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)[0];
         }
       }
-      let className;
+      let backgroundColor = "hsl(0, 0%, 0%, 0.1)";
       if (status == "normal" || status == "ændret") {
-        if (holdToColor[modul.hold] && $indstillinger.skema.classesWithDiffrentColors == true) {
-          className = `hsl(${holdToColor[modul.hold]}, 75%, 65%)`;
+        if (holdToColor[modul.hold] && $indstillinger.skema.classesWithDifferentColors == true) {
+          backgroundColor = `hsla(${holdToColor[modul.hold]}, 75%, 65%, 0.25)`;
         } else {
-          className = "hsl(var(--in))";
+          backgroundColor = "hsla(212.5, 75%, 65%, 0.25)";
         }
       } else if (status == "eksamen") {
-        className = "hsl(262, 100%, 65%)";
-      } else {
-        className = "hsl(var(--er))";
+        backgroundColor = "hsla(262, 100%, 65%, 0.25)";
       }
       let hasContent = modul["andet"] == null ? false : true;
-      //const backgroundColor = $indstillinger?.classesWithDiffrentColors === true ? className : stringToHex(modul["hold"]);
+      //const backgroundColor = $indstillinger?.classesWithDifferentColors === true ? className : stringToHex(modul["hold"]);
 
       let modulCalenderObj = {
         title: titel,
         start: new Date(`${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}`),
         end: new Date(`${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}`),
         id: modul["absid"],
-        backgroundColor: className,
+        backgroundColor,
         extendedProps: {
           hasContent: hasContent,
         },

@@ -156,7 +156,7 @@
         </div>
         {#each $forside?.eksamener as eksamen}
           <a href={eksamen["link"]} target="_blank">
-            <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+            <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4 hover:rounded-l-none">
               <span class="text-xl font-bold">{eksamen["navn"]}</span>
               <p>Tryk for at se på lectio.</p>
             </li>
@@ -205,7 +205,7 @@
       {#if $forside?.kommunikation.beskeder.length > 0}
         {#each $forside.kommunikation.beskeder as besked}
           <a href="/besked?id={besked['id']}">
-            <div class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+            <div class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4 hover:rounded-l-none">
               <p class="text-xl font-bold">{besked["navn"]}</p>
               <p class="text-sm">{besked["afsender"]}</p>
               <p class="text-xs">{besked["dato"]}</p>
@@ -221,7 +221,7 @@
       {#if $lektier?.length > 0}
         {#each $lektier as lektie}
           <a href="/modul?absid={lektie.aktivitet.absid}">
-            <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4">
+            <li class="element border-l-0 border-primary transition-all duration-100 hover:border-l-4 hover:rounded-l-none">
               <p class="text-xl font-bold">
                 <span class="font-bold">{lektie.aktivitet.navn != null ? lektie.aktivitet.navn + " · " : ""}{lektie.aktivitet.hold}</span>
                 ({lektie.aktivitet.tidspunkt})

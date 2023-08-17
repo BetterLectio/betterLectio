@@ -31,6 +31,16 @@
 .element {
   @apply mb-4 rounded-lg bg-base-300 p-4;
 }
-.heading{
-  @apply mb-4 text-3xl font-bold
+.heading {
+  @apply mb-4 text-3xl font-bold;
+}
+
+/* Calender outline */
+.school-schedule .ec-header,
+.school-schedule .ec-all-day,
+.school-schedule .ec-body,
+.school-schedule .ec-days,
+.school-schedule .ec-day {
+  border-color: hsl(var(--bc) / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.1;
 }

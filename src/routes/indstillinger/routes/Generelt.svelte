@@ -90,7 +90,7 @@
 
     <label class="label cursor-pointer">
       <span class="label-text">Få forskellige farver på dine moduler</span>
-      <input type="checkbox" class="checkbox" bind:checked={$indstillinger.skema.classesWithDiffrentColors} />
+      <input type="checkbox" class="checkbox" bind:checked={$indstillinger.skema.classesWithDifferentColors} />
     </label>
   </div>
 </div>

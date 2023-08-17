@@ -64,7 +64,7 @@
 
   function updateBesked() {
     updating = true;
-    addNotification("opdaterer beskedtråden", "alert-info");
+    addNotification("Opdaterer beskedtråden...", "alert-info");
     get("/besked?id=" + beskedId).then((data) => {
       besked = data.beskeder;
       modtagere = data.modtagere;
