@@ -141,6 +141,13 @@
     Denne Privatlivspolitik kan opdateres fra tid til anden for at afspejle ændringer i datapraksis eller juridiske krav. Opdateringer vil
     ske uden varsel, så det er din pligt at følge med i eventuelle opdateringer og ændringer.
   </p>
+
+  <h3 class="text-xl font-bold">7,8. Link til Google API Services User Data Policy.</h3>
+  <p class="my-4">
+    <a class="btn btn-xs btn-primary" href="https://developers.google.com/terms/api-services-user-data-policy"
+      >Google API Services User Data Policy</a
+    >
+  </p>
 </div>
 
 <h2 class="text-2xl font-bold">8. Kontaktinformation</h2>
