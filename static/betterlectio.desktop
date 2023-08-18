@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=BetterLectio
 Comment=Den ultimative Lectio forbedring.
-GenericName=Better Lectio
+GenericName=BetterLectio
 Exec=/usr/share/betterlectio/betterlectio
 Icon=/usr/share/app-logos/betterlectio.png
 Type=Application

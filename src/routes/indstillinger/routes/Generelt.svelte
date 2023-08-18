@@ -70,7 +70,7 @@
 
 <div class="mt-4 rounded-lg bg-base-200 p-4">
   <div class="form-control">
-    <span class="mb-2 text-lg font-bold">Opgaver siden</span>
+    <span class="mb-2 text-lg font-bold">Opgavesiden</span>
 
     <label class="label cursor-pointer">
       <span class="label-text">Vis absolut frist</span>
@@ -86,7 +86,7 @@
 
 <div class="mt-4 rounded-lg bg-base-200 p-4">
   <div class="form-control">
-    <span class="mb-2 text-lg font-bold">Skema siden</span>
+    <span class="mb-2 text-lg font-bold">Skemasiden</span>
 
     <label class="label cursor-pointer">
       <span class="label-text">Få forskellige farver på dine moduler</span>

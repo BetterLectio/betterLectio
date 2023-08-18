@@ -75,7 +75,7 @@
 <label for="logud-modal" class="modal cursor-pointer">
   <label class="modal-box relative" for="">
     <h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
-    <p class="py-4">Du vil blive logget ud af Better Lectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.</p>
+    <p class="py-4">Du vil blive logget ud af BetterLectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.</p>
     <span class="flex">
       <div class="modal-action">
         <label for="logud-modal" class="btn">Forbliv logget ind</label>

@@ -5,7 +5,7 @@
   cookieInfo().then((data) => {
     cookie = data;
     indhold = {
-      "Better Lectio": [
+      BetterLectio: [
         {
           title: "Hvornår har jeg fri?",
           link: "/værktøjer/fri",
@@ -49,7 +49,7 @@
           status: "BETA",
         },
       ],
-      "Lectio (Vi arbejder på at flytte disse sider til Better Lectio)": [
+      "Lectio (Vi arbejder på at flytte disse sider til BetterLectio)": [
         {
           title: "Bøger",
           link: `https://www.lectio.dk/lectio/${cookie.school}/BD/UserReservations.aspx?ElevID=${cookie.userid}`,

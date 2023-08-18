@@ -1,6 +1,6 @@
 {
-  "short_name": "Better Lectio",
-  "name": "Better Lectio",
+  "short_name": "BetterLectio",
+  "name": "BetterLectio",
   "start_url": "/",
   "icons": [
     {
@@ -57,9 +57,9 @@
       "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
     },
     {
-      "name": "Se Better Lectio's værktøjer",
+      "name": "Se BetterLectio's værktøjer",
       "short_name": "Værktøjer",
-      "description": "Se Better Lectio's værktøjer",
+      "description": "Se BetterLectio's værktøjer",
       "url": "/værktøjer",
       "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
     },
@@ -71,5 +71,5 @@
       "icons": [{ "src": "favicon.png", "sizes": "192x192" }]
     }
   ],
-  "description": "Better Lectio er en forbredelse af Lectio. Lectio er et dansk webbaseret lektionssystem udviklet af det danske softwarefirma MaCom A/S."
+  "description": "BetterLectio er en forbedrelse af Lectio. Lectio er et dansk webbaseret lektionssystem udviklet af det danske softwarefirma MaCom A/S."
 }
