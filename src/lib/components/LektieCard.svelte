@@ -12,16 +12,14 @@
 
   const md = new MarkdownIt();
 
-  get(`/modul?absid=${lektie.aktivitet.absid}`).then((data) => {
-    let modulData = data;
-
-    let links = modulData.lektier.match(/\[.*\]\(.*\)/g);
+  get(`/modul?absid=${lektie.aktivitet.absid}`).then((modulData) => {
+    const links = modulData.lektier.match(/\[.*\]\(.*\)/g);
     if (links == null) {
       return;
     }
 
     links.forEach((link) => {
-      let linkHtml = sanitizeHtml(md.render(link)).replace("<a", '<a  class="btn btn-xs btn-outline" target="_blank"');
+      const linkHtml = sanitizeHtml(md.render(link)).replace("<a", '<a  class="btn btn-xs btn-outline" target="_blank"');
 
       linksArr.push(linkHtml);
     });

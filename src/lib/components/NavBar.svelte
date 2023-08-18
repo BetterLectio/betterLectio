@@ -24,7 +24,10 @@
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" bind:checked />
   <!-- h-screen - 4px -->
   <div class="drawer-content">
-    <div class="navbar relative z-30 mb-10" in:fly={{ y: -64, duration: 200 }}>
+    <div
+      class="navbar relative z-30 mb-10 before:absolute before:bottom-0 before:left-0 before:content-[''] before:h-px before:w-full before:bg-navbar-line"
+      in:fly={{ y: -64, duration: 200 }}
+    >
       <div class="navbar-start">
         <p />
         <div class="dropdown">

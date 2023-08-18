@@ -51,6 +51,9 @@ module.exports = {
         "2xl": "6rem",
       },
     },
+    backgroundImage: {
+      "navbar-line": "radial-gradient(62.87% 100% at 50% 100%, hsl(var(--bc) / 0.2) 0%, hsl(0, 0%, 0%, 0) 100%)",
+    },
   },
   daisyui: {
     themes: [
