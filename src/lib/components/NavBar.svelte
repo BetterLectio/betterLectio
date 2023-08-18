@@ -24,8 +24,11 @@
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" bind:checked />
   <!-- h-screen - 4px -->
   <div class="drawer-content">
-    <div class="navbar relative z-30 mb-10" in:fly={{ y: -64, duration: 200 }}>
-      <div class="navbar-start">
+    <div
+      class="navbar justify-between relative z-30 mb-10 before:absolute before:bottom-0 before:left-0 before:content-[''] before:h-px before:w-full before:bg-navbar-line"
+      in:fly={{ y: -64, duration: 200 }}
+    >
+      <div class="navbar-start w-fit">
         <p />
         <div class="dropdown">
           <button on:click={handleClick} class="btn-ghost btn xl:hidden" aria-label="navbar button">
@@ -36,7 +39,7 @@
         </div>
 
         <p
-          class="btn-ghost btn mx-0 hidden text-2xl normal-case sm:flex group"
+          class="btn-ghost btn mx-0 hidden text-xl normal-case sm:flex group"
           on:keypress={() => {
             /*makes error go away*/
           }}
@@ -48,7 +51,7 @@
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
-            height="40"
+            height="30"
             class="mx-0 fill-current p-0 group-hover:rotate-12 duration-200"
           >
             <path
@@ -69,19 +72,19 @@
       <div class="navbar-center hidden xl:flex">
         <ul class="menu menu-horizontal p-0">
           {#if $brugeren && localStorage.getItem("lectio-cookie")}
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/skema">Skema</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/opgaver">Opgaver</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/lektier">Lektier</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/fravær">Fravær</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/dokumenter">Dokumenter</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/beskeder">Beskeder</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/karakterer">Karakterer</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/værktøjer">Værktøjer</a></li>
+            <li><a class="text-sm font-bold hover:scale-110" href="/skema">Skema</a></li>
+            <li><a class="text-sm font-bold hover:scale-110" href="/opgaver">Opgaver</a></li>
+            <li><a class="text-sm font-bold hover:scale-110" href="/lektier">Lektier</a></li>
+            <li><a class="text-sm font-bold hover:scale-110" href="/fravær">Fravær</a></li>
+            <li><a class="text-sm font-bold hover:scale-110" href="/dokumenter">Dokumenter</a></li>
+            <li><a class="text-sm font-bold hover:scale-110" href="/beskeder">Beskeder</a></li>
+            <li><a class="text-sm font-bold hover:scale-110" href="/karakterer">Karakterer</a></li>
+            <li><a class="text-sm font-bold hover:scale-110" href="/værktøjer">Værktøjer</a></li>
           {:else}
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/">Forside</a></li>
-            <li><a class="rounded-lg text-xs font-bold hover:scale-125" href="/help">Hjælp</a></li>
+            <li><a class="text-sm font-bold hover:scale-110" href="/">Forside</a></li>
+            <li><a class="text-sm font-bold hover:scale-110" href="/help">Hjælp</a></li>
             <li>
-              <a class="rounded-lg text-xs font-bold hover:scale-125" href="/tos">Servicevilkår & Privatlivspolitik</a>
+              <a class="text-sm font-bold hover:scale-110" href="/tos">Servicevilkår & Privatlivspolitik</a>
             </li>
           {/if}
         </ul>
@@ -112,7 +115,7 @@
           </svg>
         </p>
       </div>
-      <div class="navbar-end">
+      <div class="navbar-end w-fit">
         {#if $brugeren && localStorage.getItem("lectio-cookie")}
           <label for="søg-popup" class="btn-ghost btn gap-1 normal-case">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">

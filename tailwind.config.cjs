@@ -51,6 +51,9 @@ module.exports = {
         "2xl": "6rem",
       },
     },
+    backgroundImage: {
+      "navbar-line": "radial-gradient(62.87% 100% at 50% 100%, hsl(var(--bc) / 0.2) 0%, hsl(0, 0%, 0%, 0) 100%)",
+    },
   },
   daisyui: {
     themes: [
@@ -77,7 +80,6 @@ module.exports = {
       "dracula",
       "cmyk",
       "autumn",
-      "business",
       "acid",
       "lemonade",
       "night",
@@ -94,6 +96,18 @@ module.exports = {
           success: "#339900",
           warning: "#F3CC30",
           error: "#B20C00",
+        },
+        business: {
+          "color-scheme": "dark",
+          primary: "#1C4E80",
+          secondary: "#7C909A",
+          accent: "#EA6947",
+          neutral: "#23282E",
+          "base-100": "#202020",
+          info: "#0091D5",
+          success: "#6BB187",
+          warning: "#DBAE59",
+          error: "#AC3E31",
         },
       },
     ],

@@ -5,7 +5,7 @@ export async function cookieInfo() {
     window.location.href.split("?")[0].split("/").at(-1) != ""
   ) {
     console.log("Redirect");
-    const transformedLink = encodeURIComponent(window.location.href)
+    const transformedLink = encodeURIComponent(window.location.href);
     window.location.href = "/auth?redirect=" + transformedLink;
   } else {
     try {

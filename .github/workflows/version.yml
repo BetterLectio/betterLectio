@@ -2,7 +2,7 @@ name: Build/release
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [main, dev]
 
 jobs:
   update-version:
@@ -13,7 +13,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python-version: ["3.10"]
-    
+
     permissions:
       contents: write
 
@@ -26,7 +26,7 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v3
-      
+
       - name: Extract branch name
         shell: bash
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
@@ -41,7 +41,7 @@ jobs:
           git config --local user.name = "github-actions[bot]"
           git config --local user.email = "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -a -m "Opdaterede versionen"
-      
+
       - name: Push til branch
         uses: ad-m/github-push-action@master
         with:
