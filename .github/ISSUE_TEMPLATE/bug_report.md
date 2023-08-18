@@ -6,32 +6,35 @@ labels: "bug"
 assignees: ""
 ---
 
-**Beskriv fejlen**
+### Beskriv fejlen
+
 En klar og præcis beskrivelse af, hvad fejlen er.
 
-**For at genskabe**
+### For at genskabe
+
 Trin til at genskabe adfærden:
 
 1. Gå til '...'
-1. Klik på '....'
-1. Rul ned til '....'
-1. Se fejlen
-**Forventet adfærd**
+2. Klik på '....'
+3. Rul ned til '....'
+4. Se fejlen
+
+### Forventet adfærd
+
 En klar og præcis beskrivelse af, hvad du forventede skulle ske.
 
-**Skærmbilleder**
+### Skærmbilleder
+
 Hvis relevant, tilføj skærmbilleder for at hjælpe med at forklare dit problem.
 
-**Stationær computer** (udfyld venligst følgende information):
+### Enhed
 
-Styresystem: [f.eks. iOS]
-- Browser: [f.eks. Chrome, Safari]
-- Version: [f.eks. 22]
-**Smartphone** (udfyld venligst følgende information):
+Hvis du bruger en computer eller smartphone, så udfyld venligst følgende information:
 
-Enhed: [f.eks. iPhone6]
-- Styresystem: [f.eks. iOS8.1]
-- Browser: [f.eks. standardbrowser, Safari]
-- Version: [f.eks. 22]
-**Yderligere kontekst**
+- Operativsystem: [f.eks. Windows 11, MacOS, Android eller iOS]
+- Browser: [f.eks. Google Chrome, Safari, Samsung Browser]
+- Browserversion: [f.eks. 115.xx]
+
+### Yderlig kontekst
+
 Tilføj enhver anden relevant kontekst om problemet her.
