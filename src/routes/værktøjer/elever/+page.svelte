@@ -66,21 +66,23 @@
 
 <h1 class="heading">Elevliste</h1>
 
-<input
-  type="text"
-  placeholder="Søg i elevliste"
-  class="input-bordered input mb-4 w-full md:w-1/4"
-  bind:value={searchString}
-  on:input={search}
-/>
-<select class="select select-bordered w-full max-w-xs" bind:value={selectedClass} on:change={sortByClass}>
-  <option value={showAllClasses}>{usersLoaded ? showAllClasses : "Indlæser..."}</option>
-  {#if usersLoaded}
-    {#each [...classes] as option}
-      <option value={option}>{option}</option>
-    {/each}
-  {/if}
-</select>
+<div>
+  <input
+    type="text"
+    placeholder="Søg i elevliste"
+    class="input-bordered input mb-4 w-full md:w-1/4"
+    bind:value={searchString}
+    on:input={search}
+  />
+  <select class="select select-bordered mb-4 w-full md:w-1/4" bind:value={selectedClass} on:change={sortByClass}>
+    <option value={showAllClasses}>{usersLoaded ? showAllClasses : "Indlæser..."}</option>
+    {#if usersLoaded}
+      {#each [...classes] as option}
+        <option value={option}>{option}</option>
+      {/each}
+    {/if}
+  </select>
+</div>
 <div class="">
   <table class="table-zebra table-compact table w-full">
     <!-- head -->

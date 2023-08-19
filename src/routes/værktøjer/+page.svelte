@@ -49,7 +49,7 @@
           status: "BETA",
         },
       ],
-      "Lectio (Vi arbejder på at flytte disse sider til BetterLectio)": [
+      "Lectio (vi arbejder på at flytte disse sider til BetterLectio)": [
         {
           title: "Bøger",
           link: `https://www.lectio.dk/lectio/${cookie.school}/BD/UserReservations.aspx?ElevID=${cookie.userid}`,

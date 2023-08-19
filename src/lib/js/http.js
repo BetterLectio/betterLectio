@@ -1,4 +1,4 @@
-import { goto } from "$app/navigation";
+import { addNotification } from "$lib/js/notifyStore";
 
 // async function sha256(str) {
 //   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(str));
@@ -15,23 +15,21 @@ export const api =
 
 export function reloadData(reload = true) {
   localStorage.setItem("nonce", Date.now().toString(36));
-  if (reload) {
-    window.location.reload();
-  }
+  if (reload) window.location.reload();
 }
 
 export async function get(endpoint) {
   // Wait until the user is authenticated
   while (true) {
     try {
-      await localStorage.getItem("lectio-cookie");
-      await window.location.href;
+      localStorage.getItem("lectio-cookie");
+      window.location.href;
       break;
     } catch (err) {}
     await new Promise((resolve) => setTimeout(resolve, 10));
   }
   // If the user is not authenticated, redirect to the auth page
-  if (!localStorage.getItem("lectio-cookie") || localStorage.getItem("lectio-cookie") == "null") {
+  if (!localStorage.getItem("lectio-cookie") || localStorage.getItem("lectio-cookie") == null) {
     console.log("No cookie, redirecting to auth page");
     const transformedLink = encodeURIComponent(window.location.href);
     window.location.href = "/auth?redirect=" + transformedLink;
@@ -50,39 +48,37 @@ export async function get(endpoint) {
   } else {
     url += "?nonce=" + nonce;
   }
-  let start = performance.now();
+  const start = performance.now();
   const response = await fetch(url, {
     headers: {
       "lectio-cookie": localStorage.getItem("lectio-cookie"),
     },
   });
-  let stop = performance.now();
+  const stop = performance.now();
 
   const textResponse = await response.text();
   if (response.ok) {
     // If the response is ok, return the data, otherwise redirect to the auth page
     if (stop - start > 100) {
       // Dette gøres for at tjekke om responset er cached. Vi skal finde en bedre måde at gøre det på. Et eksempel kunne være https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/transferSize da transferSize er lig med 0 hvis den er cached men det er ikke understøttet på safari
-      let lectioCookie = await response.headers.get("set-lectio-cookie");
-      if (lectioCookie && lectioCookie != "null") {
+      let lectioCookie = response.headers.get("set-lectio-cookie");
+      if (lectioCookie) {
         localStorage.setItem("lectio-cookie", lectioCookie);
       }
     }
     return JSON.parse(textResponse.replaceAll("\n", "  "));
   } else {
-    const validationCheck = await (
-      await fetch(api + `/check-cookie`, {
-        headers: {
-          "lectio-cookie": localStorage.getItem("lectio-cookie"),
-        },
-      })
-    ).json();
+    const validationCheck = await fetch(api + `/check-cookie`, {
+      headers: {
+        "lectio-cookie": localStorage.getItem("lectio-cookie"),
+      },
+    });
+    const { valid } = await validationCheck.json();
 
-    if (validationCheck?.valid) {
-      let lectioCookie = await validationCheck.headers.get("set-lectio-cookie");
-      if (lectioCookie && lectioCookie != "null") {
-        localStorage.setItem("lectio-cookie", lectioCookie);
-      }
+    if (valid) {
+      const lectioCookie = validationCheck.headers.get("set-lectio-cookie");
+      if (lectioCookie) localStorage.setItem("lectio-cookie", lectioCookie);
+
       console.error(
         `Error fetching data from ${api}${endpoint}`,
         "validationCheck:",

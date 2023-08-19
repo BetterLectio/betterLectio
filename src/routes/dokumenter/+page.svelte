@@ -75,7 +75,7 @@
     //}
     //// update the breadcrumbs in the html
     //computedBreadcrumbs = breadcrumbs;
-    if ((await element.srcElement.parentNode.className.indexOf("folder")) > -1) {
+    if (element.srcElement.parentNode.className.indexOf("folder") > -1) {
       // same as .includes("folder") but works in all browsers
       loading = true;
       loadingStarted = Date.now();
@@ -92,9 +92,9 @@
       }
       loading = false;
     } else if (id.includes("/res/")) {
-      await window.open(`https://www.lectio.dk/lectio/${cookie.school}/lc/${id}`);
+      window.open(`https://www.lectio.dk/lectio/${cookie.school}/lc/${id}`);
     } else {
-      await window.open(`https://www.lectio.dk/lectio/${cookie.school}/dokumenthent.aspx?documentid=${id}`);
+      window.open(`https://www.lectio.dk/lectio/${cookie.school}/dokumenthent.aspx?documentid=${id}`);
     }
   }
 

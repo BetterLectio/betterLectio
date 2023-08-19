@@ -19,7 +19,6 @@ export function formatDate(date) {
   } else {
     // More than a year has passed:
     return new Intl.DateTimeFormat("da-DK").format(date);
-    return RelativeTimeFormat.format(Math.floor(difference / 31449600), "year");
   }
   // else {
   //   return new Intl.DateTimeFormat("da-DK").format(date);

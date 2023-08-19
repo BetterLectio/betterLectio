@@ -35,21 +35,21 @@
     };
 
     if (modul.lektier) {
-      await modul.lektier.split("\n").forEach((element) => {
+      modul.lektier.split("\n").forEach((element) => {
         let translated = sanitizeHtml(md.render(element)).replace("<a", '<a   class="btn btn-xs btn-primary preview" target="_blank"');
         lektieHtml += "<p>" + translated + "<p/>";
       });
     }
 
     if (modul.øvrigtIndhold) {
-      await modul.øvrigtIndhold.split("\n").forEach((element) => {
+      modul.øvrigtIndhold.split("\n").forEach((element) => {
         let translated = sanitizeHtml(md.render(element)).replace("<a", '<a   class="btn btn-xs btn-primary preview" target="_blank"');
         øvrigeIndholdHtml += "<p>" + translated + "<p/>";
       });
     }
 
     if (modul.note) {
-      await modul.note.split("\n").forEach((element) => {
+      modul.note.split("\n").forEach((element) => {
         let translated = sanitizeHtml(md.render(element)).replace("<a", '<a   class="btn btn-xs btn-primary preview" target="_blank"');
         note += "<p>" + translated + "<p/>";
       });

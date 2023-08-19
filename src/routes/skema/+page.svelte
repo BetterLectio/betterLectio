@@ -290,11 +290,11 @@
     }
   }
 
-  async function getSkema() {
+  function getSkema() {
     if (!skema) {
       skema = {};
     }
-    await get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then((data) => {
+    get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then((data) => {
       skema[globalYear + "" + globalWeek] = data;
       heading = skema?.[globalYear + "" + globalWeek]?.overskrift || "skema";
 
@@ -313,8 +313,9 @@
             .split(":")[0]
         ) + 1
       ).toString();
+
+      addButtonsToDagsnoter(globalYear, globalWeek);
     });
-    addButtonsToDagsnoter(globalYear, globalWeek);
   }
 
   function onload() {

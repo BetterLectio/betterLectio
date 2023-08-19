@@ -2,7 +2,7 @@
   import { get } from "$lib/js/http.js";
   import { opgaver, hold } from "$lib/js/store.js";
   import { fade } from "svelte/transition";
-  import { formatDate } from "$lib/js/realtiveTime.js";
+  import { formatDate } from "$lib/js/relativeTime.js";
   import { indstillinger } from "$lib/js/store.js";
   import { HoldOversætter } from "$lib/js/HoldOversætter.js";
 

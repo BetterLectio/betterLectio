@@ -1,5 +1,4 @@
 <script>
-  import { start_hydrating } from "svelte/internal";
   import Avatar from "$lib/components/Avatar.svelte";
   import { get } from "$lib/js//http.js";
 
@@ -8,6 +7,7 @@
 
   let skema;
   let aktivitet;
+
   get(`/skema?id=${id}`).then((data) => {
     skema = data;
 
@@ -29,25 +29,24 @@
         tidspunkt: slut.split(" ")[1],
       };
 
-      modul.start = new Date(`${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}`);
-      modul.slut = new Date(`${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}`);
-
-      let now = new Date(Date.now());
+      modul.start = new Date(`${start.år}-${start.måned}-${start.dag}T${start.tidspunkt}`).getTime();
+      modul.slut = new Date(`${slut.år}-${slut.måned}-${slut.dag}T${slut.tidspunkt}`).getTime();
+      const now = new Date().getTime();
 
       if (now >= modul.start && now <= modul.slut) {
-        if (modul.status != "aflyst") {
+        if (modul.status !== "aflyst") {
           aktivitet = modul;
         }
       }
     });
   });
 
-  function setActivity(modul) {
+  function setActivity() {
     if (aktivitet == undefined) {
       return "Fri";
     } else {
       if (aktivitet.hold == null) {
-        return "ukendt aktivitet i lokale " + aktivitet.lokale;
+        return "Ukendt aktivitet i lokale " + aktivitet.lokale;
       }
       return aktivitet.hold + " i lokale " + aktivitet.lokale;
     }

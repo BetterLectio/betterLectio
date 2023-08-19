@@ -154,8 +154,8 @@
     processedBatch = [];
     //fetch data from Lectio
     const year = new Date().getFullYear();
-    const res = await get(`/skema?id=${"S" + cookie.userid}&uge=${weeknr}&år=${year}`);
-    let moduler = res.moduler;
+    const skema = await get(`/skema?id=${"S" + cookie.userid}&uge=${weeknr}&år=${year}`);
+    const moduler = skema.moduler;
     //make a forEach loop that creates an event for each module
     moduler.forEach((modul) => {
       const [startDate, endDate] = convertLectioTime(modul.tidspunkt);

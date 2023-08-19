@@ -20,12 +20,9 @@
           "lectio-cookie": localStorage.getItem("lectio-cookie"),
         },
       });
-      if (response.ok) {
-        const base64Response = await response.text();
-        return base64Response;
-      } else {
-        return null;
-      }
+      if (response.ok) return await response.text();
+
+      return null;
     } catch (error) {
       return null;
     }

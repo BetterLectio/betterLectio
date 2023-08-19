@@ -51,15 +51,20 @@
         content: content,
       }),
     });
-    if (!response.ok) {
-      addNotification("Beskeden kunne ikke sendes, prøv igen senere.", "alert-error");
-    } else {
-      addNotification("Beskeden blev sendt.", "alert-success");
-    }
+    if (!response.ok) addNotification("Beskeden kunne ikke sendes, prøv igen senere.", "alert-error");
+    else addNotification("Beskeden blev sendt.", "alert-success");
+
     get("/besked?id=" + beskedId).then((data) => {
       besked = data.beskeder;
       modtagere = data.modtagere;
     });
+  }
+
+  function attemptPreviewAttachment(url) {
+    const { pathname, search } = new URL(url);
+    get(pathname + search, {
+      method: "HEAD",
+    }).then((res) => console.log(url, res.headers.get("content-disposition")));
   }
 
   function updateBesked() {
@@ -151,7 +156,11 @@
 
         <div class="mt-4 mb-4">
           {#each _besked.vedhæftninger as vedhæftning}
-            <a class="btn-primary btn-xs btn mr-1 mb-4" href={vedhæftning.href}>{vedhæftning.navn}</a>
+            <a
+              class="btn-primary btn-xs btn mr-1 mb-4"
+              href={vedhæftning.href}
+              on:mouseup={() => attemptPreviewAttachment(vedhæftning.href)}>{vedhæftning.navn}</a
+            >
           {/each}
           <p class="mb-10" use:previewLink>
             {@html sanitizeHtml(md.render(_besked.besked)).replace("<a", '<a  class="btn btn-xs btn-primary preview" target="_blank"')}

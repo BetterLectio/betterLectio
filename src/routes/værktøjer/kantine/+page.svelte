@@ -25,8 +25,8 @@
         accept: "application/json, text/javascript, */*; q=0.01",
       },
     });
-    let __kantine = await _kantine.json();
-    __kantine = __kantine.company[0];
+    let __kantine = (await _kantine.json()).company;
+    [__kantine] = __kantine;
 
     let _varer = await fetch(
       `https://api.nemtakeaway.dk/api/v1/products.php?selfservice_token=${kantineDomain}&cmd=get_categories_list&get_products=true`,
@@ -41,8 +41,8 @@
     kantine = __kantine;
   }
 
-  addNotification("Denne side virker kun hvis din skole benytter sig af Grab 'N Go.", "alert-warning");
-  addNotification("Kunne du tænke dig at det system din skole bruger også er understøttet så kontakt os på vores Discord.");
+  addNotification("Denne side virker kun hvis din skole benytter sig af Grab 'N Go", "alert-warning");
+  addNotification("Kunne du tænke dig at det system din skole bruger også er understøttet, så kontakt os på vores Discord");
 
   let closed = [];
 </script>

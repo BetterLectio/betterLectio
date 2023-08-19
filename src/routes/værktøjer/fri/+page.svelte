@@ -39,7 +39,7 @@
   })();
 
   async function getRemainingTime() {
-    if (lastLesson == "no lessons today") {
+    if (lastLesson === "no lessons today") {
       const counterel = document.getElementById("counter");
       counterel.parentNode.removeChild(counterel);
       const ingentimerel = document.getElementById("ingentimer");

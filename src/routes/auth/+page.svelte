@@ -3,7 +3,6 @@
   import { Utf8 } from "crypto-es/lib/core";
   import { reloadData, api } from "$lib/js/http";
   import { cookieInfo } from "$lib/js/CookieInfo";
-  import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   const key =
@@ -11,13 +10,13 @@
 
   let brugernavn = "";
   let adgangskode = "";
-  let skole_id = "";
+  let skoleid = "";
   let options = { "": "" };
   let isInAutoAuth = false;
 
   onMount(async () => {
     try {
-      if (new URLSearchParams(window.location.search).get("redirect") || (await localStorage.getItem("lectio-cookie"))) {
+      if (new URLSearchParams(window.location.search).get("redirect") || localStorage.getItem("lectio-cookie")) {
         isInAutoAuth = true;
         const data = await window.navigator.credentials.get({
           password: true,
@@ -28,11 +27,11 @@
             headers: {
               brugernavn: data.id,
               adgangskode: data.password,
-              skoleid: skole_id,
+              skoleid,
             },
           });
           if (response.ok) {
-            await localStorage.setItem("lectio-cookie", await response.headers.get("set-lectio-cookie"));
+            localStorage.setItem("lectio-cookie", response.headers.get("set-lectio-cookie"));
             window.location.href = decodeURIComponent(new URLSearchParams(window.location.search).get("redirect") || "/forside");
           }
           isInAutoAuth = false;
@@ -44,16 +43,17 @@
   });
 
   let redirectTo = new URLSearchParams(window.location.search).get("redirect");
-  decodeURIComponent(redirectTo) == "null" ? (redirectTo = "/forside") : (redirectTo = decodeURIComponent(redirectTo));
+  redirectTo = redirectTo === null ? "/forside" : decodeURIComponent(redirectTo);
 
   function tryLoginInWithCookie() {
-    if (localStorage.getItem("lectio-cookie") || localStorage.getItem("lectio-cookie") != "null") {
+    if (localStorage.getItem("lectio-cookie") || localStorage.getItem("lectio-cookie") !== null) {
       fetch(`${api}/check-cookie`, {
         headers: {
           "lectio-cookie": localStorage.getItem("lectio-cookie"),
         },
-      }).then((res) => {
-        res.json().then((data) => {
+      })
+        .then((result) => result.json())
+        .then((data) => {
           if (data?.valid) {
             console.log("Logged in with cookie");
             window.location.href = decodeURIComponent(redirectTo);
@@ -61,16 +61,16 @@
             console.log("Cookie not valid.", "valitation:", data);
           }
         });
-      });
     }
   }
   tryLoginInWithCookie();
 
   async function setSkole() {
     if (isInAutoAuth) return;
-    await document.window;
-    let checkbox = document.getElementById("saveSchoolIdCheck");
-    checkbox.checked == true ? localStorage.setItem("skole_id", skole_id) : localStorage.removeItem("skole_id");
+    if (document.readyState === "complete") {
+      const checkbox = document.getElementById("saveSchoolIdCheck");
+      checkbox.checked === true ? localStorage.setItem("skole_id", skoleid) : localStorage.removeItem("skole_id");
+    }
   }
 
   let saveLogin = true;
@@ -84,57 +84,69 @@
   async function getCachedSchool() {
     // load the schoolid from localstorage and set it to the select
     if (localStorage.getItem("skole_id")) {
-      skole_id = localStorage.getItem("skole_id");
+      skoleid = localStorage.getItem("skole_id");
     }
+  }
+
+  function validateLoginFields() {
+    const usernameValid = typeof brugernavn === "string" && brugernavn.length > 0;
+    const passwordValid = typeof adgangskode === "string" && adgangskode.length > 0;
+    const schoolValid = typeof skoleid === "string" && skoleid.length > 0;
+
+    return usernameValid && passwordValid && schoolValid;
   }
 
   async function login() {
     setSkole();
-    if (brugernavn == "" || adgangskode == "" || skole_id == "") {
+    if (!validateLoginFields()) {
       document.querySelector("#MissingInfoAlert").checked = true;
       document.querySelector("#MissingInfoAlertX").addEventListener("click", () => {
         document.querySelector("#MissingInfoAlert").checked = false;
       });
     } else {
       console.log("Logging into lectio");
+
       let progress = document.querySelector(".SWAPICONSTATE");
       progress.classList.add("swap-active");
       const response = await fetch(`${api}/auth`, {
         headers: {
-          brugernavn: brugernavn,
-          adgangskode: adgangskode,
-          skoleid: skole_id,
+          brugernavn,
+          adgangskode,
+          skoleid,
         },
       });
-      const authentication = await response.text();
-      if (await !response.ok) {
-        progress.classList.remove("swap-active");
-        document.querySelector("#CantLogInAlert").checked = true;
-        document.querySelector("#CantLogInAlertX").addEventListener("click", () => {
-          document.querySelector("#CantLogInAlert").checked = false;
-        });
-      } else {
+      if (response.ok) {
         setSkole();
+
         if (saveLogin && window.electron) {
           localStorage.setItem("brugernavn", AES.encrypt(brugernavn, key));
           localStorage.setItem("adgangskode", AES.encrypt(adgangskode, key));
-          localStorage.setItem("skole_id", skole_id);
+          localStorage.setItem("skole_id", skoleid);
         } else {
           localStorage.removeItem("brugernavn");
           localStorage.removeItem("adgangskode");
           localStorage.removeItem("skole_id");
         }
-        let lectioCookie = await response.headers.get("set-lectio-cookie");
-        if (lectioCookie && lectioCookie != "null") {
+
+        const lectioCookie = response.headers.get("set-lectio-cookie");
+        if (lectioCookie && lectioCookie !== null) {
           localStorage.setItem("lectio-cookie", lectioCookie);
         }
-        await cookieInfo().then(async (cookie) => {
-          await fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userid}&skole_id=${cookie.school}`);
-        });
+        await cookieInfo().then(
+          async (cookie) => await fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userid}&skole_id=${cookie.school}`)
+        );
         progress.classList.remove("swap-active");
         reloadData();
+
         const originalLink = decodeURIComponent(redirectTo);
         window.location.href = originalLink;
+      } else {
+        progress.classList.remove("swap-active");
+
+        document.querySelector("#CantLogInAlert").checked = true;
+        document.querySelector("#CantLogInAlertX").addEventListener("click", () => {
+          document.querySelector("#CantLogInAlert").checked = false;
+        });
       }
     }
   }
@@ -148,7 +160,7 @@
   if (localStorage.getItem("brugernavn") && localStorage.getItem("adgangskode") && localStorage.getItem("skole_id")) {
     brugernavn = AES.decrypt(localStorage.getItem("brugernavn"), key).toString(Utf8);
     adgangskode = AES.decrypt(localStorage.getItem("adgangskode"), key).toString(Utf8);
-    skole_id = localStorage.getItem("skole_id");
+    skoleid = localStorage.getItem("skole_id");
 
     login();
   }
@@ -210,7 +222,7 @@
                 id="skole"
                 placeholder="Vælg din skole"
                 class="select select-sm w-[calc(100%-7rem)] py-0"
-                bind:value={skole_id}
+                bind:value={skoleid}
               >
                 <option disabled selected> Vælg din skole </option>
                 {#each Object.entries(options) as [key, value] (key)}
