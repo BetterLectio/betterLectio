@@ -174,9 +174,14 @@
                 {/if}
               </td>
               <td class="text-left" id={opgave.exerciseid}>
-                <p class="line-clamp-1">
-                  {opgave.opgavenote}
-                </p>
+                <div
+                  class={"h-full text-left" + (opgave.opgavenote.length > 100 ? " tooltip tooltip-top" : "")}
+                  data-tip={opgave.opgavenote}
+                >
+                  <p class="line-clamp-1">
+                    {opgave.opgavenote}
+                  </p>
+                </div>
               </td>
             </tr>
           {/each}
