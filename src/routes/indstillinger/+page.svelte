@@ -1,5 +1,4 @@
 <script>
-
 	// import Konto from './routes/Konto.svelte';
 	// import Api from './routes/Api.svelte';
 	// import Pro from './routes/Pro.svelte';
@@ -9,10 +8,10 @@
 
 <div class="w-full">
 	<Generelt />
-	<!-- (ikke nødvednige endnu)
-<Konto />
-<Api />
-<Pro />
-<Tilslut />
--->
+	<!-- (ikke nødvændige endnu)
+	<Konto />
+	<Api />
+	<Pro />
+	<Tilslut />
+	-->
 </div>

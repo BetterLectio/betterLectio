@@ -115,7 +115,6 @@
 								<p>{holdOversætter(opgave.hold, $hold)}</p>
 								<p class="line-clamp-2 {opgave.status === 'Venter' ? 'mr-16' : ''}">{opgave.opgavenote}</p>
 							</div>
-
 							{#if opgave.status === 'Venter'}
 								<div class="flex items-center">
 									<div class="absolute right-0 mr-4 text-end">
@@ -164,7 +163,11 @@
 								{/if}
 							</td>
 							<td class="text-left" id={opgave.exerciseid}>
-								<p class="line-clamp-1">
+								<div
+									class={"h-full text-left" + (opgave.opgavenote.length > 100 ? " tooltip tooltip-top" : "")}
+									data-tip={opgave.opgavenote}
+                ></div>
+                <p class="line-clamp-1">
 									{opgave.opgavenote}
 								</p>
 							</td>
