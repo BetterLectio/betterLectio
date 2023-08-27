@@ -262,7 +262,7 @@
 		return result;
 	}
 
-	function addSkemaToCalendar(_skema) {
+	async function addSkemaToCalendar(_skema) {
 		options.view = dertermineView();
 		const holdToColor = getHoldToColor();
 		for (let i = 0; i < _skema.moduler.length; i++) {
@@ -273,7 +273,8 @@
 			const { status } = modul;
 
 			if (modul.hold_id !== null && $fag[modul.hold_id] === undefined) {
-				holdOversætterNy(modul.hold.id).then(_fag => {
+				// eslint-disable-next-line no-await-in-loop
+				await holdOversætterNy(modul.hold_id).then(_fag => {
 					$fag[modul.hold_id] = _fag === 'Andet' ? modul.hold : _fag;
 				});
 			}
