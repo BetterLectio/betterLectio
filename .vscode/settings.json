@@ -1,6 +1,11 @@
 {
   "editor.formatOnSave": true,
-
+  "editor.tabSize": 2,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "svelte"
+  ],
   "[svelte]": {
     "editor.defaultFormatter": "svelte.svelte-vscode"
   }

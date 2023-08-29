@@ -1,29 +1,29 @@
 export function formatDate(date) {
-  const difference = ((date.getTime() - Date.now()) / 1000).toFixed(0);
-  const RelativeTimeFormat = new Intl.RelativeTimeFormat(`da`, { style: `long` });
-  if (Math.abs(difference) < 60) {
-    // Less than a minute has passed:
-    return RelativeTimeFormat.format(difference, "second");
-  } else if (Math.abs(difference) < 3600) {
-    // Less than an hour has passed:
-    return RelativeTimeFormat.format(Math.floor(difference / 60), "minute");
-  } else if (Math.abs(difference) < 86400) {
-    // Less than a day has passed:
-    return RelativeTimeFormat.format(Math.floor(difference / 3600), "hour");
-  } else if (Math.abs(difference) < 2620800) {
-    // Less than a month has passed:
-    return RelativeTimeFormat.format(Math.floor(difference / 86400), "day");
-  } else if (Math.abs(difference) < 31449600) {
-    // Less than a year has passed:
-    return RelativeTimeFormat.format(Math.floor(difference / 2620800), "month");
-  } else {
-    // More than a year has passed:
-    return new Intl.DateTimeFormat("da-DK").format(date);
-    return RelativeTimeFormat.format(Math.floor(difference / 31449600), "year");
-  }
-  // else {
-  //   return new Intl.DateTimeFormat("da-DK").format(date);
-  // }
+	const difference = ((date.getTime() - Date.now()) / 1000).toFixed(0);
+	const RelativeTimeFormat = new Intl.RelativeTimeFormat(`da`, { style: `long` });
+	if (Math.abs(difference) < 60) {
+		// Less than a minute has passed:
+		return RelativeTimeFormat.format(difference, 'second');
+	} else if (Math.abs(difference) < 3600) {
+		// Less than an hour has passed:
+		return RelativeTimeFormat.format(Math.floor(difference / 60), 'minute');
+	} else if (Math.abs(difference) < 86400) {
+		// Less than a day has passed:
+		return RelativeTimeFormat.format(Math.floor(difference / 3600), 'hour');
+	} else if (Math.abs(difference) < 2620800) {
+		// Less than a month has passed:
+		return RelativeTimeFormat.format(Math.floor(difference / 86400), 'day');
+	} else if (Math.abs(difference) < 31449600) {
+		// Less than a year has passed:
+		return RelativeTimeFormat.format(Math.floor(difference / 2620800), 'month');
+	}
+
+	// More than a year has passed:
+	return new Intl.DateTimeFormat('da-DK').format(date);
+
+	// else {
+	//   return new Intl.DateTimeFormat("da-DK").format(date);
+	// }
 }
 
 // //To convert a date in the format "DD/MM-YYYY HH:MM" to a JavaScript Date object, you can use the following code:
@@ -74,7 +74,7 @@ export function formatDate(date) {
 // const dateString = "sø 15:30";
 // const date = convertDate(dateString);
 
-////////////////
+// //////////////
 
 // function convertDate(dateString) {
 //   const regex = /^(sø|ma|ti|on|to|fr|lø)\s(\d{2}:\d{2})$/;

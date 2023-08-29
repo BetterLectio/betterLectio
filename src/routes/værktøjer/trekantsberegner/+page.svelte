@@ -1,419 +1,396 @@
 <script>
-  let isCalculatible = false;
+	const semicircle = 180;
+	const rightTriangleC = 90;
 
-  let a;
-  let b;
-  let c;
-  let A;
-  let B;
-  let C = 90;
+	let isCalculatible = false;
 
-  function reset() {
-    // this function resets all the values
-    a = undefined;
-    b = undefined;
-    c = undefined;
-    A = undefined;
-    B = undefined;
-    C = 90;
-  }
+	let sideA = null;
+	let sideB = null;
+	let sideC = null;
+	let angleA = null;
+	let angleB = null;
+	let angleC = rightTriangleC;
 
-  // if any of the values change, the function checkData() is called
-  $: if (
-    a != undefined ||
-    b != undefined ||
-    c != undefined ||
-    A != undefined ||
-    B != undefined ||
-    C != undefined ||
-    a != null ||
-    b != null ||
-    c != null ||
-    A != null ||
-    B != null ||
-    C != null
-  ) {
-    checkData();
-  }
+	function reset() {
+		// this function resets all the values
+		sideA = undefined;
+		sideB = undefined;
+		sideC = undefined;
+		angleA = undefined;
+		angleB = undefined;
+		angleC = rightTriangleC;
+	}
 
-  function checkAngles() {
-    // this function checks if the angles are valid and returns true or false depending on the result
-    if (A == undefined || B == undefined || C == undefined || A == null || B == null || C == null) {
-      if (A != undefined || B != undefined || C != undefined || A != null || B != null || C != null) {
-        return true;
-      }
-      return false;
-    }
+	function checkAngles() {
+		// this function checks if the angles are valid and returns true or false depending on the result
+		if (angleA === undefined || angleB === undefined || angleC === undefined || angleA === null || angleB === null || angleC === null) {
+			if (angleA !== undefined || angleB !== undefined || angleC !== undefined || angleA !== null || angleB !== null || angleC !== null) return true;
 
-    if (A + B + C == 180) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+			return false;
+		}
 
-  function checkIfCorrectAmountOfDataIsFilled() {
-    // this function checks if at least 3 properties are filled out one of which must be a side
-    let count = 0;
-    let sideCount = 0;
-    if (a != undefined || a != null) {
-      count++;
-      sideCount++;
-    }
-    if (b != undefined || b != null) {
-      count++;
-      sideCount++;
-    }
-    if (c != undefined || c != null) {
-      count++;
-      sideCount++;
-    }
-    if (A != undefined || A != null) {
-      count++;
-    }
-    if (B != undefined || B != null) {
-      count++;
-    }
-    if (C != undefined || C != null) {
-      count++;
-    }
+		if (angleA + angleB + angleC === semicircle) return true;
 
-    if (count >= 3 && sideCount >= 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+		return false;
+	}
 
-  function checkSides() {
-    // using pythagoras' theorem, this function checks if the sides are valid and returns true or false depending on the result
-    if (a == undefined || b == undefined || c == undefined || a == null || b == null || c == null) {
-      return true;
-    }
+	function checkIfCorrectAmountOfDataIsFilled() {
+		// this function checks if at least 3 properties are filled out one of which must be a side
+		let count = 0;
+		let sideCount = 0;
+		if (sideA !== undefined || sideA !== null) {
+			count++;
+			sideCount++;
+		}
+		if (sideB !== undefined || sideB !== null) {
+			count++;
+			sideCount++;
+		}
+		if (sideC !== undefined || sideC !== null) {
+			count++;
+			sideCount++;
+		}
+		if (angleA !== undefined || angleA !== null) count++;
 
-    if (Math.pow(a, 2) + Math.pow(b, 2) == Math.pow(c, 2)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+		if (angleB !== undefined || angleB !== null) count++;
 
-  let areSidesValid = true;
-  let areAnglesValid = true;
-  let isCorrectAmountOfDataIsFilled = false;
-  function checkData() {
-    if (checkAngles()) {
-      areAnglesValid = true;
-    } else {
-      areAnglesValid = false;
-    }
-    if (checkIfCorrectAmountOfDataIsFilled()) {
-      isCorrectAmountOfDataIsFilled = true;
-    } else {
-      isCorrectAmountOfDataIsFilled = false;
-    }
+		if (angleC !== undefined || angleC !== null) count++;
 
-    if (checkSides()) {
-      areSidesValid = true;
-    } else {
-      areSidesValid = false;
-    }
 
-    if (areAnglesValid && isCorrectAmountOfDataIsFilled && areSidesValid) {
-      isCalculatible = true;
-    } else {
-      isCalculatible = false;
-    }
-  }
+		if (count >= 3 && sideCount >= 1) return true;
 
-  function calculate() {
-    if (!isCalculatible) {
-      return;
-    }
-    let hash = "";
-    if (a == undefined || a == null ? false : true) {
-      hash += "a";
-    }
-    if (b == undefined || b == null ? false : true) {
-      hash += "b";
-    }
-    if (c == undefined || c == null ? false : true) {
-      hash += "c";
-    }
-    if (A == undefined || A == null ? false : true) {
-      hash += "A";
-    }
-    if (B == undefined || B == null ? false : true) {
-      hash += "B";
-    }
-    if (C == undefined || C == null ? false : true) {
-      hash += "C";
-    }
-    console.log("hash", hash); // the hash is used to determine which values are determined and which are not and which values are needed to calculate the missing values
+		return false;
+	}
 
-    switch (hash) {
-      case "aAC":
-        c = a / Math.sin((A * Math.PI) / 180);
-        b = a / Math.tan((A * Math.PI) / 180);
-        B = 180 - A - C;
-        break;
-      case "aBC":
-        A = 180 - B - C;
-        c = a / Math.sin((A * Math.PI) / 180);
-        b = a / Math.tan((A * Math.PI) / 180);
-        break;
-      case "aABC":
-        c = a / Math.sin((A * Math.PI) / 180);
-        b = a / Math.tan((A * Math.PI) / 180);
-        break;
-      case "bAC":
-        a = b * Math.tan((A * Math.PI) / 180);
-        c = b / Math.cos((A * Math.PI) / 180);
-        B = 180 - A - C;
-        break;
-      case "bBC":
-        A = 180 - B - C;
-        a = b * Math.tan((A * Math.PI) / 180);
-        c = b / Math.cos((A * Math.PI) / 180);
-        break;
-      case "bABC":
-        a = b * Math.tan((A * Math.PI) / 180);
-        c = b / Math.cos((A * Math.PI) / 180);
-        break;
-      case "cAC":
-        a = c * Math.sin((A * Math.PI) / 180);
-        b = c * Math.cos((A * Math.PI) / 180);
-        B = 180 - A - C;
-        break;
-      case "cBC":
-        A = 180 - B - C;
-        a = c * Math.sin((A * Math.PI) / 180);
-        b = c * Math.cos((A * Math.PI) / 180);
-        break;
-      case "cABC":
-        a = c * Math.sin((A * Math.PI) / 180);
-        b = c * Math.cos((A * Math.PI) / 180);
-        break;
-      case "abC":
-        c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-        A = (Math.asin(a / c) * 180) / Math.PI;
-        B = (Math.asin(b / c) * 180) / Math.PI;
-        break;
-      case "acC":
-        b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
-        A = (Math.asin(a / c) * 180) / Math.PI;
-        B = (Math.asin(b / c) * 180) / Math.PI;
-        break;
-      case "bcC":
-        a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
-        A = (Math.asin(a / c) * 180) / Math.PI;
-        B = (Math.asin(b / c) * 180) / Math.PI;
-        break;
-      case "abcC":
-        A = (Math.asin(a / c) * 180) / Math.PI;
-        B = (Math.asin(b / c) * 180) / Math.PI;
-        break;
-      case "abcAC":
-        B = (Math.asin(b / c) * 180) / Math.PI;
-        break;
-      case "abcBC":
-        A = (Math.asin(a / c) * 180) / Math.PI;
-        break;
-      case "abcABC":
-        break;
-      case "abAC":
-        c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-        B = (Math.asin(b / c) * 180) / Math.PI;
-        break;
-      case "abBC":
-        c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-        A = (Math.asin(a / c) * 180) / Math.PI;
-        break;
-      case "abABC":
-        c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-        break;
-      case "acAC":
-        b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
-        B = (Math.asin(b / c) * 180) / Math.PI;
-        break;
-      case "acBC":
-        b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
-        A = (Math.asin(a / c) * 180) / Math.PI;
-        break;
-      case "acABC":
-        b = math.sqrt(math.pow(c, 2) - math.pow(a, 2));
-        break;
-      case "bcAC":
-        a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
-        B = (Math.asin(b / c) * 180) / Math.PI;
-        break;
-      case "bcBC":
-        a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
-        A = (Math.asin(a / c) * 180) / Math.PI;
-        break;
-      case "bcABC":
-        a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));
-        break;
-    }
-  }
+	function checkSides() {
+		// using pythagoras' theorem, this function checks if the sides are valid and returns true or false depending on the result
+		if (sideA === undefined || sideB === undefined || sideC === undefined || sideA === null || sideB === null || sideC === null) return true;
+
+
+		if (Math.pow(sideA, 2) + Math.pow(sideB, 2) === Math.pow(sideC, 2)) return true;
+
+		return false;
+	}
+
+	let areSidesValid = true;
+	let areAnglesValid = true;
+	let isCorrectAmountOfDataIsFilled = false;
+	function checkData() {
+		if (checkAngles()) areAnglesValid = true;
+		else areAnglesValid = false;
+
+		if (checkIfCorrectAmountOfDataIsFilled()) isCorrectAmountOfDataIsFilled = true;
+		else isCorrectAmountOfDataIsFilled = false;
+
+
+		if (checkSides()) areSidesValid = true;
+		else areSidesValid = false;
+
+
+		if (areAnglesValid && isCorrectAmountOfDataIsFilled && areSidesValid) isCalculatible = true;
+		else isCalculatible = false;
+	}
+
+	function calculate() {
+		if (!isCalculatible) return;
+
+		let hash = '';
+		if (!(sideA === undefined || sideA === null)) hash += 'a';
+
+		if (!(sideB === undefined || sideB === null)) hash += 'b';
+
+		if (!(sideC === undefined || sideC === null)) hash += 'c';
+
+		if (!(angleA === undefined || angleA === null)) hash += 'A';
+
+		if (!(angleB === undefined || angleB === null)) hash += 'B';
+
+		if (!(angleC === undefined || angleC === null)) hash += 'C';
+
+		// the hash is used to determine which values are determined and which are not and which values are needed to calculate the missing values
+		console.log('hash', hash);
+
+		switch (hash) {
+		case 'aAC':
+			sideC = sideA / Math.sin(angleA * Math.PI / semicircle);
+			sideB = sideA / Math.tan(angleA * Math.PI / semicircle);
+			angleB = semicircle - angleA - angleC;
+			break;
+		case 'aBC':
+			angleA = semicircle - angleB - angleC;
+			sideC = sideA / Math.sin(angleA * Math.PI / semicircle);
+			sideB = sideA / Math.tan(angleA * Math.PI / semicircle);
+			break;
+		case 'aABC':
+			sideC = sideA / Math.sin(angleA * Math.PI / semicircle);
+			sideB = sideA / Math.tan(angleA * Math.PI / semicircle);
+			break;
+		case 'bAC':
+			sideA = sideB * Math.tan(angleA * Math.PI / semicircle);
+			sideC = sideB / Math.cos(angleA * Math.PI / semicircle);
+			angleB = semicircle - angleA - angleC;
+			break;
+		case 'bBC':
+			angleA = semicircle - angleB - angleC;
+			sideA = sideB * Math.tan(angleA * Math.PI / semicircle);
+			sideC = sideB / Math.cos(angleA * Math.PI / semicircle);
+			break;
+		case 'bABC':
+			sideA = sideB * Math.tan(angleA * Math.PI / semicircle);
+			sideC = sideB / Math.cos(angleA * Math.PI / semicircle);
+			break;
+		case 'cAC':
+			sideA = sideC * Math.sin(angleA * Math.PI / semicircle);
+			sideB = sideC * Math.cos(angleA * Math.PI / semicircle);
+			angleB = semicircle - angleA - angleC;
+			break;
+		case 'cBC':
+			angleA = semicircle - angleB - angleC;
+			sideA = sideC * Math.sin(angleA * Math.PI / semicircle);
+			sideB = sideC * Math.cos(angleA * Math.PI / semicircle);
+			break;
+		case 'cABC':
+			sideA = sideC * Math.sin(angleA * Math.PI / semicircle);
+			sideB = sideC * Math.cos(angleA * Math.PI / semicircle);
+			break;
+		case 'abC':
+			sideC = Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));
+			angleA = Math.asin(sideA / sideC) * semicircle / Math.PI;
+			angleB = Math.asin(sideB / sideC) * semicircle / Math.PI;
+			break;
+		case 'acC':
+			sideB = Math.sqrt(Math.pow(sideC, 2) - Math.pow(sideA, 2));
+			angleA = Math.asin(sideA / sideC) * semicircle / Math.PI;
+			angleB = Math.asin(sideB / sideC) * semicircle / Math.PI;
+			break;
+		case 'bcC':
+			sideA = Math.sqrt(Math.pow(sideC, 2) - Math.pow(sideB, 2));
+			angleA = Math.asin(sideA / sideC) * semicircle / Math.PI;
+			angleB = Math.asin(sideB / sideC) * semicircle / Math.PI;
+			break;
+		case 'abcC':
+			angleA = Math.asin(sideA / sideC) * semicircle / Math.PI;
+			angleB = Math.asin(sideB / sideC) * semicircle / Math.PI;
+			break;
+		case 'abcAC':
+			angleB = Math.asin(sideB / sideC) * semicircle / Math.PI;
+			break;
+		case 'abcBC':
+			angleA = Math.asin(sideA / sideC) * semicircle / Math.PI;
+			break;
+		case 'abcABC':
+			break;
+		case 'abAC':
+			sideC = Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));
+			angleB = Math.asin(sideB / sideC) * semicircle / Math.PI;
+			break;
+		case 'abBC':
+			sideC = Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));
+			angleA = Math.asin(sideA / sideC) * semicircle / Math.PI;
+			break;
+		case 'abABC':
+			sideC = Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));
+			break;
+		case 'acAC':
+			sideB = Math.sqrt(Math.pow(sideC, 2) - Math.pow(sideA, 2));
+			angleB = Math.asin(sideB / sideC) * semicircle / Math.PI;
+			break;
+		case 'acBC':
+			sideB = Math.sqrt(Math.pow(sideC, 2) - Math.pow(sideA, 2));
+			angleA = Math.asin(sideA / sideC) * semicircle / Math.PI;
+			break;
+		case 'acABC':
+			sideB = Math.sqrt(Math.pow(sideC, 2) - Math.pow(sideA, 2));
+			break;
+		case 'bcAC':
+			sideA = Math.sqrt(Math.pow(sideC, 2) - Math.pow(sideB, 2));
+			angleB = Math.asin(sideB / sideC) * semicircle / Math.PI;
+			break;
+		case 'bcBC':
+			sideA = Math.sqrt(Math.pow(sideC, 2) - Math.pow(sideB, 2));
+			angleA = Math.asin(sideA / sideC) * semicircle / Math.PI;
+			break;
+		case 'bcABC':
+			sideA = Math.sqrt(Math.pow(sideC, 2) - Math.pow(sideB, 2));
+			break;
+		default:
+			break;
+		}
+	}
+
+	// if any of the values change, the function checkData() is called
+	$: if (
+		sideA !== undefined
+			|| sideB !== undefined
+			|| sideC !== undefined
+			|| angleA !== undefined
+			|| angleB !== undefined
+			|| angleC !== undefined
+			|| sideA !== null
+			|| sideB !== null
+			|| sideC !== null
+			|| angleA !== null
+			|| angleB !== null
+			|| angleC !== null
+	) checkData();
 </script>
 
 <h1 class="heading">Trekantsberegner</h1>
 
 {#if !isCorrectAmountOfDataIsFilled}
-  <div class="alert alert-error mb-2 shadow-lg">
-    <div>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"
-        ><path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-        /></svg
-      >
-      <span>Ikke nok data!</span>
-    </div>
-  </div>
+	<div class="alert alert-error mb-2 shadow-lg">
+		<div>
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"
+			><path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+				d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+			/></svg
+			>
+			<span>Ikke nok data!</span>
+		</div>
+	</div>
 {/if}
 {#if !areAnglesValid}
-  <div class="alert alert-error mb-2 shadow-lg">
-    <div>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"
-        ><path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-        /></svg
-      >
-      <span>Alle vinkler angivet, men vinkelsummen er ikke 180°</span>
-    </div>
-  </div>
+	<div class="alert alert-error mb-2 shadow-lg">
+		<div>
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"
+			><path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+				d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+			/></svg
+			>
+			<span>Alle vinkler angivet, men vinkelsummen er ikke semicircle°</span>
+		</div>
+	</div>
 {/if}
 {#if !areSidesValid}
-  <div class="alert alert-warning mb-2 shadow-lg">
-    <div>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"
-        ><path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-        /></svg
-      >
-      <span>Alle sider angivet, men Pythagoras' læresætning er ikke opfyldt (a² + b² = c²)</span>
-    </div>
-  </div>
+	<div class="alert alert-warning mb-2 shadow-lg">
+		<div>
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"
+			><path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+				d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+			/></svg
+			>
+			<span>Alle sider angivet, men Pythagoras' læresætning er ikke opfyldt (a² + b² = c²)</span>
+		</div>
+	</div>
 {/if}
 
 <div class="flex w-full flex-row rounded-lg p-4">
-  <div class="w-full">
-    <p>Sider</p>
-    <div class="form-control m-2">
-      <label class="input-group-md input-group">
-        <span>a</span>
-        <input
-          type="number"
-          placeholder="a"
-          id="a"
-          bind:value={a}
-          class="input-bordered input w-full max-w-xs
-            {(isCorrectAmountOfDataIsFilled == false && a == null) || (isCorrectAmountOfDataIsFilled == false && a == undefined)
-            ? 'border-error'
-            : ''} 
-            {areSidesValid == false ? 'border-warning' : ''}"
-        />
-      </label>
-    </div>
-    <div class="form-control m-2">
-      <label class="input-group-md input-group">
-        <span>b</span>
-        <input
-          type="number"
-          placeholder="b"
-          id="b"
-          bind:value={b}
-          class="input-bordered input w-full max-w-xs
-            {(isCorrectAmountOfDataIsFilled == false && b == null) || (isCorrectAmountOfDataIsFilled == false && b == undefined)
-            ? 'border-error'
-            : ''} 
-            {areSidesValid == false ? 'border-warning' : ''}"
-        />
-      </label>
-    </div>
-    <div class="form-control m-2">
-      <label class="input-group-md input-group">
-        <span>c</span>
-        <input
-          type="number"
-          placeholder="c"
-          id="c"
-          bind:value={c}
-          class="input-bordered input w-full max-w-xs
-            {(isCorrectAmountOfDataIsFilled == false && c == null) || (isCorrectAmountOfDataIsFilled == false && c == undefined)
-            ? 'border-error'
-            : ''} 
-            {areSidesValid == false ? 'border-warning' : ''}"
-        />
-      </label>
-    </div>
-  </div>
+	<div class="w-full">
+		<p>Sider</p>
+		<div class="form-control m-2">
+			<label class="input-group-md input-group">
+				<span>a</span>
+				<input
+					type="number"
+					placeholder="a"
+					id="a"
+					bind:value={sideA}
+					class="input-bordered input w-full max-w-xs
+						{isCorrectAmountOfDataIsFilled === false && (sideA === null || isCorrectAmountOfDataIsFilled === false) && sideA === undefined
+							? 'border-error'
+							: ''}
+						{areSidesValid === false ? 'border-warning' : ''}"
+				/>
+			</label>
+		</div>
+		<div class="form-control m-2">
+			<label class="input-group-md input-group">
+				<span>b</span>
+				<input
+					type="number"
+					placeholder="b"
+					id="b"
+					bind:value={sideB}
+					class="input-bordered input w-full max-w-xs
+						{isCorrectAmountOfDataIsFilled === false && (sideB === null || isCorrectAmountOfDataIsFilled === false) && sideB === undefined
+							? 'border-error'
+							: ''}
+						{areSidesValid === false ? 'border-warning' : ''}"
+				/>
+			</label>
+		</div>
+		<div class="form-control m-2">
+			<label class="input-group-md input-group">
+				<span>c</span>
+				<input
+					type="number"
+					placeholder="c"
+					id="c"
+					bind:value={sideC}
+					class="input-bordered input w-full max-w-xs
+						{isCorrectAmountOfDataIsFilled === false && (sideC === null || isCorrectAmountOfDataIsFilled === false) && sideC === undefined
+							? 'border-error'
+							: ''}
+						{areSidesValid === false ? 'border-warning' : ''}"
+				/>
+			</label>
+		</div>
+	</div>
 
-  <div class="w-full">
-    <p>Vinkler</p>
-    <div class="form-control m-2">
-      <label class="input-group-md input-group">
-        <span>A</span>
-        <input
-          type="number"
-          placeholder="A"
-          id="A"
-          bind:value={A}
-          class="input-bordered input w-full max-w-xs
-            {(isCorrectAmountOfDataIsFilled == false && A == null) || (isCorrectAmountOfDataIsFilled == false && A == undefined)
-            ? 'border-error'
-            : ''} 
-            {areAnglesValid == false ? 'border-error' : ''}"
-        />
-      </label>
-    </div>
-    <div class="form-control m-2">
-      <label class="input-group-md input-group">
-        <span>B</span>
-        <input
-          type="number"
-          placeholder="B"
-          id="B"
-          bind:value={B}
-          class="input-bordered input w-full max-w-xs
-            {(isCorrectAmountOfDataIsFilled == false && B == null) || (isCorrectAmountOfDataIsFilled == false && B == undefined)
-            ? 'border-error'
-            : ''} 
-            {areAnglesValid == false ? 'border-error' : ''}"
-        />
-      </label>
-    </div>
-    <div class="form-control m-2">
-      <label class="input-group-md input-group">
-        <span>C</span>
-        <input
-          type="number"
-          placeholder="C"
-          bind:value={C}
-          disabled
-          id="C"
-          class="input-bordered input w-full max-w-xs
-            {(isCorrectAmountOfDataIsFilled == false && C == null) || (isCorrectAmountOfDataIsFilled == false && C == undefined)
-            ? 'border-error'
-            : ''} 
-            {areAnglesValid == false ? 'border-error' : ''}"
-        />
-      </label>
-    </div>
-  </div>
+	<div class="w-full">
+		<p>Vinkler</p>
+		<div class="form-control m-2">
+			<label class="input-group-md input-group">
+				<span>A</span>
+				<input
+					type="number"
+					placeholder="A"
+					id="A"
+					bind:value={angleA}
+					class="input-bordered input w-full max-w-xs
+						{isCorrectAmountOfDataIsFilled === false && (angleA === null || isCorrectAmountOfDataIsFilled === false) && angleA === undefined
+							? 'border-error'
+							: ''}
+						{areAnglesValid === false ? 'border-error' : ''}"
+				/>
+			</label>
+		</div>
+		<div class="form-control m-2">
+			<label class="input-group-md input-group">
+				<span>B</span>
+				<input
+					type="number"
+					placeholder="B"
+					id="B"
+					bind:value={angleB}
+					class="input-bordered input w-full max-w-xs
+						{isCorrectAmountOfDataIsFilled === false && (angleB === null || isCorrectAmountOfDataIsFilled === false) && angleB === undefined
+							? 'border-error'
+							: ''}
+						{areAnglesValid === false ? 'border-error' : ''}"
+				/>
+			</label>
+		</div>
+		<div class="form-control m-2">
+			<label class="input-group-md input-group">
+				<span>C</span>
+				<input
+					type="number"
+					placeholder="C"
+					bind:value={angleC}
+					disabled
+					id="C"
+					class="input-bordered input w-full max-w-xs
+						{isCorrectAmountOfDataIsFilled === false && (angleC === null || isCorrectAmountOfDataIsFilled === false) && angleC === undefined
+							? 'border-error'
+							: ''}
+						{areAnglesValid === false ? 'border-error' : ''}"
+				/>
+			</label>
+		</div>
+	</div>
 </div>
 
 <div class="flex flex-row">
-  <button class="btn-primary btn mt-2" on:click={() => calculate()}>Beregn</button>
-  <button class="btn mt-2 ml-2" on:click={() => reset()}>Nulstil</button>
+	<button class="btn-primary btn mt-2" on:click={() => calculate()}>Beregn</button>
+	<button class="btn mt-2 ml-2" on:click={() => reset()}>Nulstil</button>
 </div>
