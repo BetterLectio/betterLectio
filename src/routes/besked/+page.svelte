@@ -27,7 +27,7 @@
 	let id = '';
 	function handleClick(_besked) {
 		titel = _besked.titel.indexOf('Re:') > -1 ? `Re: ${ beskedChain[0].titel}` : `Re: ${ _besked.titel}`;
-		[id] = _besked;
+		({ id } = _besked);
 		checked = checked === 'checked' ? '' : 'checked';
 	}
 	async function sendBesked() {
