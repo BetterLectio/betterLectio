@@ -1,10 +1,10 @@
 <script>
 	import { ArcElement, CategoryScale, Chart as ChartJS, Legend, Title, Tooltip } from 'chart.js';
-	import { fravaer, hold } from '$lib/js/store';
+	import { fravaer, hold } from '$lib/js/store.js';
 	import { Doughnut } from 'svelte-chartjs';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
-	import { get } from '$lib/js/http';
-	import { holdOversætter } from '$lib/js/HoldOversætter';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
+	import { get } from '$lib/js/http.js';
+	import { holdOversætter } from '$lib/js/HoldOversætter.js';
 	import moment from 'moment';
 
 	let cookie = null;
@@ -124,11 +124,11 @@
 <div class="stats mb-4 bg-base-200 shadow">
 	<div class="stat">
 		<div class="stat-title">Opgjort</div>
-		<div class="stat-value {opgjortFravaer ? '' : 'animate-pulse'}">{opgjortFravaer}</div>
+		<div class="stat-value {opgjortFravaer ? '' : 'animate-pulse'}">{opgjortFravaer || '--'}</div>
 	</div>
 	<div class="stat">
 		<div class="stat-title">For året</div>
-		<div class="stat-value {foråretFravaer ? '' : 'animate-pulse'}">{foråretFravaer}</div>
+		<div class="stat-value {foråretFravaer ? '' : 'animate-pulse'}">{foråretFravaer || '--'}</div>
 	</div>
 </div>
 

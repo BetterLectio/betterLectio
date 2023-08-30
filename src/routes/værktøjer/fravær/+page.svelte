@@ -1,6 +1,6 @@
 <script>
-	import { fravaer } from '$lib/js/store';
-	import { get } from '$lib/js/http';
+	import { fravaer } from '$lib/js/store.js';
+	import { get } from '$lib/js/http.js';
 
 	const defaultDesiredAmount = 10;
 	let desiredAmount = defaultDesiredAmount;

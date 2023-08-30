@@ -1,7 +1,7 @@
 <script>
 	import { beskeder, brugeren, informationer } from '$lib/js/store.js';
 	import Avatar from '$lib/components/Avatar.svelte';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { fade } from 'svelte/transition';
 	import { get } from '$lib/js/http.js';
 
@@ -72,6 +72,8 @@
 		// only include the first 10 messages
 		$beskeder = $beskeder.slice(0, 50);
 		ready = true;
+
+		console.log(_beskeder);
 	});
 
 	function showMore() {

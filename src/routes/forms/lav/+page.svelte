@@ -1,6 +1,6 @@
 <script>
-	import { addNotification } from '$lib/js/notifyStore';
-	import { brugeren } from '$lib/js/store';
+	import { addNotification } from '$lib/js/notifyStore.js';
+	import { brugeren } from '$lib/js/store.js';
 
 	let titel = null;
 

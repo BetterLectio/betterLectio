@@ -1,5 +1,5 @@
 <script>
-	import { api } from '$lib/js/http';
+	import { api } from '$lib/js/http.js';
 	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';

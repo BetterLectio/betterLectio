@@ -1,7 +1,7 @@
 <script>
 	import { get, reloadData } from '$lib/js/http.js';
-	import { indstillinger } from '$lib/js/store';
 	import { addNotification } from '$lib/js/notifyStore.js';
+	import { indstillinger } from '$lib/js/store.js';
 
 	let windowWidth = window.innerWidth;
 

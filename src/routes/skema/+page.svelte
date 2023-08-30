@@ -2,9 +2,9 @@
 	import { fag, indstillinger } from '$lib/js/store.js';
 	import Calendar from '@event-calendar/core';
 	import TimeGrid from '@event-calendar/time-grid';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
-	import { error } from '@sveltejs/kit';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
+	import { getModulColor } from '$lib/js/LectioUtils.js';
 	import { goto } from '$app/navigation';
 	import { holdOversætterNy } from '$lib/js/HoldOversætter.js';
 
@@ -195,20 +195,6 @@
 		options.view = dertermineView();
 	};
 
-	function getHoldToColor() {
-		const holdToColor = {};
-		try {
-			if (!skema[String(globalYear) + globalWeek].hold) throw error;
-
-			for (let i = 0; i < skema[String(globalYear) + globalWeek].hold.length; i++) holdToColor[skema[String(globalYear) + globalWeek].hold[i].navn] = 255 / (skema[String(globalYear) + globalWeek].hold.length - 1) * i;
-
-			return holdToColor;
-		} catch {
-			console.log('could not get hold to color, proceeding with default');
-			return holdToColor;
-		}
-	}
-
 	const lectioDateLocale = 'en-DK';
 	const lectioDateOptions = {
 		year: 'numeric',
@@ -264,7 +250,6 @@
 
 	async function addSkemaToCalendar(_skema) {
 		options.view = dertermineView();
-		const holdToColor = getHoldToColor();
 		for (let i = 0; i < _skema.moduler.length; i++) {
 			const modul = _skema.moduler[i];
 			let titel = '';
@@ -296,13 +281,6 @@
 
 				if (modul.lokale) titel += ` · ${ modul.lokale.split(/(?:[\uD800-\uDBFF][\uDC00-\uDFFF])/u)[0]}`;
 			}
-			let backgroundColor = 'hsl(0, 0%, 0%, 0.1)';
-			if (status === 'normal' || status === 'ændret') {
-				if (holdToColor[modul.hold] && $indstillinger.skema.classesWithDifferentColors === true) backgroundColor = `hsla(${holdToColor[modul.hold]}, 75%, 65%, 0.25)`;
-				else backgroundColor = 'hsla(212.5, 75%, 65%, 0.25)';
-			} else if (status === 'eksamen') {
-				backgroundColor = 'hsla(262, 100%, 65%, 0.25)';
-			}
 			const hasContent = modul.andet !== null;
 
 			const [modulStart, modulEnd] = reformatTime(modul.tidspunkt);
@@ -313,7 +291,7 @@
 				start: new Date(modulStart),
 				end: new Date(modulEnd),
 				id: modul.absid,
-				backgroundColor,
+				backgroundColor: getModulColor(modul, $indstillinger.skema.classesWithDifferentColors),
 				extendedProps: { hasContent }
 			};
 

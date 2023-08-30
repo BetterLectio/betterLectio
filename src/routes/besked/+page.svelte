@@ -1,5 +1,5 @@
 <script>
-	import { api, get } from '$lib/js/http';
+	import { api, get } from '$lib/js/http.js';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import BrugerPopup from '$lib/components/BrugerPopup.svelte';
 	import MarkdownIt from 'markdown-it';

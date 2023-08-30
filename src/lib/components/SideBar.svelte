@@ -2,9 +2,9 @@
 	import Avatar from '$lib/components/Avatar.svelte';
 	import Themes from '$lib/components/Themes.svelte';
 	import { brugeren } from '$lib/js/store.js';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { fly } from 'svelte/transition';
-	import { reloadData } from '$lib/js/http';
+	import { reloadData } from '$lib/js/http.js';
 
 	let cookie = null;
 	cookieInfo().then(data => {

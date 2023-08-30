@@ -1,7 +1,7 @@
 <script>
 	import MarkdownIt from 'markdown-it';
 	import Table from '$lib/components/Table.svelte';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
 	import { hold } from '$lib/js/store.js';
 	import { holdOversætter } from '$lib/js/HoldOversætter.js';

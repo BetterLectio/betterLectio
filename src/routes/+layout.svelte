@@ -8,8 +8,8 @@
 	import PageLoadTopBar from '$lib/components/PageLoadTopBar.svelte';
 	import PageTransition from '$lib/components/PageTransition.svelte';
 	import SideBar from '$lib/components/SideBar.svelte';
-	import { addNotification } from '$lib/js/notifyStore';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { addNotification } from '$lib/js/notifyStore.js';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
 	import { onMount } from 'svelte';
 	import { themeChange } from 'theme-change';

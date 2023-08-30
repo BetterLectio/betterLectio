@@ -1,5 +1,5 @@
 <script>
-	import { addNotification } from '$lib/js/notifyStore';
+	import { addNotification } from '$lib/js/notifyStore.js';
 	import { indstillinger } from '$lib/js/store.js';
 	$indstillinger = $indstillinger ?? {};
 	$indstillinger.kantineId = $indstillinger.kantineId ?? null;

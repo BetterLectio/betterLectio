@@ -1,8 +1,8 @@
 <script>
-	import { api, reloadData } from '$lib/js/http';
+	import { api, reloadData } from '$lib/js/http.js';
 	import { AES } from 'crypto-es/lib/aes';
 	import { Utf8 } from 'crypto-es/lib/core';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	const key

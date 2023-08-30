@@ -2,7 +2,7 @@
 	import Avatar from '$lib/components/Avatar.svelte';
 	import { addNotification } from '$lib/js/notifyStore.js';
 	import { brugeren } from '$lib/js/store.js';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
 	let cookie = null;
 	cookieInfo().then(data => {
@@ -24,7 +24,7 @@
 		<div class="flex">
 			<div class="block">
 				<label class="label">
-					<span class="label-text">Profil billed</span>
+					<span class="label-text">Profilbillede</span>
 				</label>
 				{#if cookie}
 					<div

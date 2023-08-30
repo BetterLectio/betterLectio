@@ -1,5 +1,5 @@
 <script>
-	import { addNotification } from '$lib/js/notifyStore';
+	import { addNotification } from '$lib/js/notifyStore.js';
 	import { blur } from 'svelte/transition';
 
 	const getCurrentEndpoint = () => {

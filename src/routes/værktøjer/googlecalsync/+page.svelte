@@ -1,6 +1,6 @@
 <script>
 	import CryptoJS from 'crypto-es';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
 
 	let cookie = null;

@@ -4,7 +4,7 @@
 	import BrugerPopup from '$lib/components/BrugerPopup.svelte';
 	import MarkdownIt from 'markdown-it';
 	import Table from '$lib/components/Table.svelte';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
 	import { page } from '$app/stores';
 	import purifier from 'dompurify';
@@ -46,7 +46,7 @@
 
 			oplysningsItems = {
 				Afleveringsfrist: afleveringsfrist,
-				Elevtid: elevtid,
+				Fordybelsestimer: elevtid,
 				Hold: hold,
 				Karakterskala: karakterskala
 			};
@@ -96,16 +96,23 @@
 			</div>
 		{/if}
 
+		<div class="divider" />
+
 		<h1 class="text-2xl font-bold">Oplysninger</h1>
 		<Table items={oplysningsItems} />
+
+		<div class="divider" />
 
 		<h1 class="text-2xl font-bold">Afleveres af</h1>
 		<Table items={personAfleveringItems} />
 
 		{#if feedbackItems.karakter}
+			<div class="divider" />
 			<h1 class="text-2xl font-bold">Feedback</h1>
 			<Table items={feedbackItems} />
 		{/if}
+
+		<div class="divider" />
 
 		<h1 class="text-2xl font-bold">Opgaveindlæg</h1>
 		{#if aflevedeOpgaveItems.harAfleveret}
@@ -147,7 +154,7 @@
 			<a
 				href="https://www.lectio.dk/lectio/{cookie.school}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
 				target="_blank"
-				class="btn-primary btn my-2">Aflever Her!</a
+				class="btn-primary btn my-2">Aflever her</a
 			>
 		{/if}
 	{/if}
