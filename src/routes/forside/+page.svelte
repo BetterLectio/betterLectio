@@ -107,7 +107,7 @@
 			{#if $forside}
 				{#each $forside.aktuelt as aktuelt}
 					{#if aktuelt.punkt_farve === 'rød'}
-						<li class="element border-l-4 border-l-red-400">
+						<li class="element border-l-4 !rounded-l-none border-l-red-400">
 							<div class="">
 								<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 								{@html sanitize(md.render(aktuelt.text.replaceAll('\n', '  \n'))).replaceAll('<a',
@@ -115,7 +115,7 @@
 							</div>
 						</li>
 					{:else if aktuelt.punkt_farve === 'gul'}
-						<li class="element border-l-4 border-l-yellow-300">
+						<li class="element border-l-4 !rounded-l-none border-l-yellow-300">
 							<div class="">
 								<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 								{@html sanitize(md.render(aktuelt.text.replaceAll('\n', '  \n'))).replaceAll('<a',
@@ -131,7 +131,7 @@
 							</div>
 						</li>
 					{:else}
-						<li class="element border-l-4 border-l-green-400">
+						<li class="element border-l-4 !rounded-l-none border-l-green-400">
 							<div class="">
 								<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 								{@html sanitize(md.render(aktuelt.text.replaceAll('\n', '  \n'))).replaceAll('<a',
@@ -223,7 +223,7 @@
 					</a>
 				{/each}
 			{:else}
-				<p class="mb-4">Ingen ulæste beskeder</p>
+				<p class="mb-4">Ingen lektier</p>
 			{/if}
 		</ul>
 		<ul class="list max-h-96">
