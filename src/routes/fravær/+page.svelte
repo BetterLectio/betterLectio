@@ -266,7 +266,7 @@
 		{#if $fravaer?.moduler?.oversigt}
 			{#each $fravaer.moduler.oversigt as modul}
 				{#if modul.årsag === 'Sygdom'}
-					<div class="element border-l-4 border-l-warning">
+					<div class="element border-l-4 !rounded-l-none border-l-warning">
 						<p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
 						<p>
 							<strong>{modul.aktivitet.hold ? '' : holdOversætter(modul.aktivitet.hold, $hold)}</strong>
@@ -275,7 +275,7 @@
 						<p>{modul.årsagsnote}</p>
 					</div>
 				{:else if modul.årsag === 'Private forhold'}
-					<div class="element border-l-4 border-l-info">
+					<div class="element border-l-4 !rounded-l-none border-l-info">
 						<p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
 						<p>
 							<strong>{modul.aktivitet.hold ? '' : holdOversætter(modul.aktivitet.hold, $hold)}</strong>
@@ -284,7 +284,7 @@
 						<p>{modul.årsagsnote}</p>
 					</div>
 				{:else if modul.årsag === 'Skolerelaterede aktiviteter'}
-					<div class="element border-l-4 border-l-success">
+					<div class="element border-l-4 !rounded-l-none border-l-success">
 						<p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
 						<p>
 							<strong>{modul.aktivitet.hold ? '' : holdOversætter(modul.aktivitet.hold, $hold)}</strong>
