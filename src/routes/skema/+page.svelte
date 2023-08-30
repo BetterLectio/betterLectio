@@ -46,7 +46,7 @@
 		dayFoot: 'ec-day-foot',
 		dayHead: 'ec-day-head',
 		daySide: 'ec-day-side',
-		days: 'ec-days capitalize',
+		days: 'ec-days',
 		draggable: 'ec-draggable',
 		dragging: 'ec-dragging',
 		event:
@@ -105,7 +105,7 @@
 	// url.searchParams.set("week", globalWeek);
 	// history.replaceState({}, "", url);
 
-	// fixme: Date.prototype.getWeekNumber is implemented in another route
+	// FIXME: Date.prototype.getWeekNumber is implemented in another route
 	function getWeekNumber() {
 		const now = new Date();
 		if (now.getWeekNumber) return now.getWeekNumber();
@@ -408,6 +408,6 @@
 		href="/værktøjer/googlecalsync?week={globalWeek}&from=skema"
 		class="btn btn-sm pl-1 rounded-full shadow-sm hidden md:inline-flex items-center"
 	><p class="btn btn-xs btn-accent font-black rounded-full">NY!</p>
-		synkroniser denne uge med Google Kalender
+		Synkroniser din uge med Google Kalender
 	</a>
 {/if}
