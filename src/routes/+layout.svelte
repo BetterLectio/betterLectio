@@ -8,6 +8,7 @@
 	import PageLoadTopBar from '$lib/components/PageLoadTopBar.svelte';
 	import PageTransition from '$lib/components/PageTransition.svelte';
 	import SideBar from '$lib/components/SideBar.svelte';
+	import { addNotification } from '$lib/js/notifyStore';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler';
 	import { get } from '$lib/js/http.js';
 	import { onMount } from 'svelte';
@@ -59,6 +60,13 @@
 			{ fag: 'Samfundsfag', forkortelse: 'sa' },
 			{ fag: 'komm/it', forkortelse: 'kit' }
 		];
+	}
+
+	// add a welcoming notification if the user is visting
+	// for the first time
+	if (localStorage.getItem('firstTime') === null) {
+		addNotification('Hej og velkommen, tusind tak fordi at bruge BetterLectio', 'alert-success');
+		localStorage.setItem('firstTime', 'false');
 	}
 </script>
 
