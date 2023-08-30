@@ -52,3 +52,7 @@
 .school-schedule .ec-header .ec-days > .ec-day {
   text-transform: capitalize;
 }
+
+.school-schedule .ec-event-title {
+  white-space: nowrap;
+}
