@@ -51,7 +51,7 @@
 
 <Theme themeName="Lys" daisyTheme="light" />
 <Theme themeName="Lectio" daisyTheme="lectio" />
-<Theme themeName="Natur" daisyTheme="garden" />
+<Theme themeName="Tropisk" daisyTheme="lemonade" />
 <Theme themeName="Kærlig" daisyTheme="valentine" />
 <Theme themeName="Mørk" daisyTheme="dark" />
 <Theme themeName="Nedtonet" daisyTheme="business" />

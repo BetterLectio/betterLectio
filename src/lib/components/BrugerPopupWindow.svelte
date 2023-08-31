@@ -75,5 +75,5 @@
 		</div>
 	</div>
 {:else}
-	<div class="btn btn-ghost">indlæser <span class="loading" /></div>
+	<div class="btn btn-ghost">Indlæser <span class="loading" /></div>
 {/if}

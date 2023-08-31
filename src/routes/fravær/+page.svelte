@@ -1,10 +1,10 @@
 <script>
 	import { ArcElement, CategoryScale, Chart as ChartJS, Legend, Title, Tooltip } from 'chart.js';
-	import { fravaer, hold } from '$lib/js/store';
+	import { fravaer, hold } from '$lib/js/store.js';
 	import { Doughnut } from 'svelte-chartjs';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
-	import { get } from '$lib/js/http';
-	import { holdOversætter } from '$lib/js/HoldOversætter';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
+	import { get } from '$lib/js/http.js';
+	import { holdOversætter } from '$lib/js/HoldOversætter.js';
 	import moment from 'moment';
 
 	let cookie = null;
@@ -124,11 +124,11 @@
 <div class="stats mb-4 bg-base-200 shadow">
 	<div class="stat">
 		<div class="stat-title">Opgjort</div>
-		<div class="stat-value {opgjortFravaer ? '' : 'animate-pulse'}">{opgjortFravaer}</div>
+		<div class="stat-value {opgjortFravaer ? '' : 'animate-pulse'}">{opgjortFravaer || '--'}</div>
 	</div>
 	<div class="stat">
 		<div class="stat-title">For året</div>
-		<div class="stat-value {foråretFravaer ? '' : 'animate-pulse'}">{foråretFravaer}</div>
+		<div class="stat-value {foråretFravaer ? '' : 'animate-pulse'}">{foråretFravaer || '--'}</div>
 	</div>
 </div>
 
@@ -266,7 +266,7 @@
 		{#if $fravaer?.moduler?.oversigt}
 			{#each $fravaer.moduler.oversigt as modul}
 				{#if modul.årsag === 'Sygdom'}
-					<div class="element border-l-4 border-l-warning">
+					<div class="element border-l-4 !rounded-l-none border-l-warning">
 						<p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
 						<p>
 							<strong>{modul.aktivitet.hold ? '' : holdOversætter(modul.aktivitet.hold, $hold)}</strong>
@@ -275,7 +275,7 @@
 						<p>{modul.årsagsnote}</p>
 					</div>
 				{:else if modul.årsag === 'Private forhold'}
-					<div class="element border-l-4 border-l-info">
+					<div class="element border-l-4 !rounded-l-none border-l-info">
 						<p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
 						<p>
 							<strong>{modul.aktivitet.hold ? '' : holdOversætter(modul.aktivitet.hold, $hold)}</strong>
@@ -284,7 +284,7 @@
 						<p>{modul.årsagsnote}</p>
 					</div>
 				{:else if modul.årsag === 'Skolerelaterede aktiviteter'}
-					<div class="element border-l-4 border-l-success">
+					<div class="element border-l-4 !rounded-l-none border-l-success">
 						<p class="text-sm font-light">{modul.aktivitet.tidspunkt}</p>
 						<p>
 							<strong>{modul.aktivitet.hold ? '' : holdOversætter(modul.aktivitet.hold, $hold)}</strong>

@@ -1,9 +1,10 @@
 <script>
-	import { brugeren, forside, lektier, nyheder } from '$lib/js/store.js';
+	import { brugeren, forside, indstillinger, lektier, nyheder } from '$lib/js/store.js';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import MarkdownIt from 'markdown-it';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
+	import { getModulColor } from '$lib/js/LectioUtils.js';
 	import purifier from 'dompurify';
 
 	const { sanitize } = purifier();
@@ -26,26 +27,6 @@
 	cookieInfo().then(data => {
 		cookie = data;
 	});
-
-	// const colorDict = {
-	// rød: 'red-400',
-	// gul: 'yellow-300',
-	// grå: 'grey-300',
-	// grøn: 'green-400'
-	// };
-
-	function colorModul(modul) {
-		const modulType = modul.status;
-		switch (modulType) {
-		case 'aflyst':
-			return 'btn btn-error mb-4 block h-fit p-2 normal-case';
-		case 'ændret':
-			return 'btn btn-success mb-4 block h-fit p-2 normal-case';
-		case 'normal':
-		default:
-			return 'btn btn-info mb-4 block h-fit p-2 normal-case';
-		}
-	}
 
 	fetch('https://raw.githubusercontent.com/BetterLectio/news/main/news.json')
 		.then(response => response.json())
@@ -107,7 +88,7 @@
 			{#if $forside}
 				{#each $forside.aktuelt as aktuelt}
 					{#if aktuelt.punkt_farve === 'rød'}
-						<li class="element border-l-4 border-l-red-400">
+						<li class="element border-l-4 !rounded-l-none border-l-red-400">
 							<div class="">
 								<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 								{@html sanitize(md.render(aktuelt.text.replaceAll('\n', '  \n'))).replaceAll('<a',
@@ -115,7 +96,7 @@
 							</div>
 						</li>
 					{:else if aktuelt.punkt_farve === 'gul'}
-						<li class="element border-l-4 border-l-yellow-300">
+						<li class="element border-l-4 !rounded-l-none border-l-yellow-300">
 							<div class="">
 								<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 								{@html sanitize(md.render(aktuelt.text.replaceAll('\n', '  \n'))).replaceAll('<a',
@@ -131,7 +112,7 @@
 							</div>
 						</li>
 					{:else}
-						<li class="element border-l-4 border-l-green-400">
+						<li class="element border-l-4 !rounded-l-none border-l-green-400">
 							<div class="">
 								<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 								{@html sanitize(md.render(aktuelt.text.replaceAll('\n', '  \n'))).replaceAll('<a',
@@ -160,7 +141,7 @@
 			<h2 class="mb-4 text-2xl font-bold">Kommende moduler</h2>
 			{#if $forside?.skema.length > 0}
 				{#each $forside.skema as modul}
-					<a class={colorModul(modul)} href="/modul/?absid={modul.absid}">
+					<a class="btn mb-4 block h-fit p-2 normal-case" href="/modul/?absid={modul.absid}" style={`background-color:${getModulColor(modul, $indstillinger.skema.classesWithDifferentColors)}`}>
 						{#if modul.navn}
 							{#if modul.andet}
 								<div class="tooltip flex justify-center" data-tip="Har indhold">
@@ -223,7 +204,7 @@
 					</a>
 				{/each}
 			{:else}
-				<p class="mb-4">Ingen ulæste beskeder</p>
+				<p class="mb-4">Ingen lektier</p>
 			{/if}
 		</ul>
 		<ul class="list max-h-96">

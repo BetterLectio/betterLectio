@@ -1,8 +1,8 @@
 <script>
-	import { api, reloadData } from '$lib/js/http';
+	import { api, reloadData } from '$lib/js/http.js';
 	import { AES } from 'crypto-es/lib/aes';
 	import { Utf8 } from 'crypto-es/lib/core';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	const key
@@ -101,7 +101,7 @@
 				document.querySelector('#MissingInfoAlert').checked = false;
 			});
 		} else {
-			console.log('Logging into lectio');
+			console.log('Logging into Lectio');
 
 			const progress = document.querySelector('.SWAPICONSTATE');
 			progress.classList.add('swap-active');
@@ -146,7 +146,7 @@
 	}
 
 	function handleEnterLogin(evt) {
-		if (evt.key === 'Enter') login();
+		if (evt?.key === 'Enter') login();
 	}
 
 	if (localStorage.getItem('brugernavn') && localStorage.getItem('adgangskode') && localStorage.getItem('skole_id')) {
@@ -180,7 +180,7 @@
 			<div class="h-fit rounded-2xl bg-base-200 p-4 shadow-lg">
 				<h1 class="text-xl font-bold">Log ind med din Lectio konto</h1>
 				<div class="divider mt-0" />
-				<form action="login" autocomplete="on" method="post">
+				<form action="javascript:void(0);" autocomplete="on" method="post">
 					<div class="form-control w-full max-w-xl">
 						<label class="input-group-horizontal input-group mb-2">
 							<span class="w-28 border-r-2 border-base-200 bg-base-100">Brugernavn</span>
@@ -189,6 +189,7 @@
 								name="username"
 								id="username-field"
 								placeholder="Skriv her"
+								tabindex="0"
 								autocomplete="username"
 								class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
 								bind:value={brugernavn}
@@ -201,6 +202,7 @@
 								name="current-password"
 								id="current-password-field"
 								autocomplete="current-password"
+								tabindex="0"
 								placeholder="Skriv her"
 								class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
 								bind:value={adgangskode}
@@ -213,10 +215,11 @@
 								name="skole"
 								id="skole"
 								placeholder="Vælg din skole"
+								tabindex="0"
 								class="select select-sm w-[calc(100%-7rem)] py-0"
 								bind:value={skoleid}
 							>
-								<option disabled selected> Vælg din skole </option>
+								<option value="" disabled selected> Vælg din skole </option>
 								{#each Object.entries(options) as [, value]}
 									<option value={value.id}>{value.skole}</option>
 								{/each}
@@ -229,6 +232,7 @@
 									type="checkbox"
 									id="saveLogin"
 									class="checkbox-primary checkbox"
+									tabindex="0"
 									checked={saveLogin}
 									on:click={() => {
 										saveLogin = !saveLogin;
@@ -243,6 +247,7 @@
 								type="checkbox"
 								checked="checked"
 								id="saveSchoolIdCheck"
+								tabindex="0"
 								class="checkbox-primary checkbox"
 								on:click={setSkole()}
 								name="setSkole"
@@ -258,7 +263,7 @@
 						</p>
 						<div class="divider" />
 						<div class="flex justify-end">
-							<div type="submit" class="btn-primary btn group" on:click={login} on:keyup={login}>
+							<button tabindex="0" type="submit" class="btn-primary btn group" on:click={login} on:keyup={handleEnterLogin}>
 								<p>Log ind</p>
 								<label class="swap SWAPICONSTATE" for="login">
 									<svg
@@ -282,7 +287,7 @@
 									>
 									<div class="swap-on loading loading-sm" />
 								</label>
-							</div>
+							</button>
 						</div>
 					</div>
 				</form>
@@ -311,7 +316,8 @@
 					/>
 				</svg>
 				<p class="btn-ghost btn animate-pulse" in:fade={{ delay: 50, duration: 50 }}>
-					Logger ind automatisk <span class="loading" />
+					Logger ind automatisk
+					<span class="loading" />
 				</p>
 			</div>
 		{/if}

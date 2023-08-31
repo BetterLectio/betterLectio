@@ -1,6 +1,6 @@
 <script>
-	import { get } from '$lib/js/http';
-	import { spørgeskemaer } from '$lib/js/store';
+	import { get } from '$lib/js/http.js';
+	import { spørgeskemaer } from '$lib/js/store.js';
 
 	let ready = false;
 	let åbneForBesvarelse = null;

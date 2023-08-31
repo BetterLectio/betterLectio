@@ -34,6 +34,10 @@
 .heading {
   @apply mb-4 text-3xl font-bold;
 }
+.btn {
+  @apply normal-case;
+  @apply leading-4;
+}
 
 /* Calender outline */
 .school-schedule .ec-header,
@@ -43,4 +47,12 @@
 .school-schedule .ec-day {
   border-color: hsl(var(--bc) / var(--tw-bg-opacity));
   --tw-bg-opacity: 0.1;
+}
+
+.school-schedule .ec-header .ec-days > .ec-day {
+  text-transform: capitalize;
+}
+
+.school-schedule .ec-event-title {
+  white-space: nowrap;
 }

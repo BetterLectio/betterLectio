@@ -1,6 +1,6 @@
 <script>
 	import CryptoJS from 'crypto-es';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
 
 	let cookie = null;
@@ -212,7 +212,9 @@
 {/if}
 
 <button class="btn btn-sm" id="authorize_button" on:click={handleAuthClick}>Log ind</button>
-<button class="btn btn-sm" id="signout_button" on:click={handleSignoutClick}>Log ud</button>
+{#if !loggedin}
+	<button class="btn btn-sm" id="signout_button" on:click={handleSignoutClick}>Log ud</button>
+{/if}
 
 <div class="divider" />
 
@@ -240,7 +242,7 @@
 				<tbody>
 					{#each processedBatch as event, i}
 						<tr>
-							<!-- fixme: investigate if response.status is string or number type -->
+							<!-- FIXME: investigate if response.status is string or number type -->
 							<th
 							><p class="btn btn-xs {Object.values(responseObj)[i].status === 200 ? 'btn-success' : 'btn-error'}">
 								{Object.values(responseObj)[0].status}

@@ -1,5 +1,5 @@
 <script>
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	let cookie = null;
 	let indhold = null;
 	cookieInfo().then(data => {

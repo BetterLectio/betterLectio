@@ -5,7 +5,7 @@
 </script>
 
 <button
-	class="mx-0 my-1 p-0 hover:scale-110"
+	class="mx-0 my-1 p-0 transition-all duration-150 hover:scale-105"
 	data-set-theme={daisyTheme}
 	data-act-class="ACTIVECLASS"
 	on:click={() => {
@@ -16,11 +16,11 @@
 	}}
 >
 	<div
-		class="w-full overflow-hidden rounded-lg text-left outline outline-2 outline-offset-2 outline-base-content"
+		class="w-full overflow-hidden rounded-lg text-left outline-none"
 		data-set-theme={daisyTheme}
 		data-act-class="outline"
 	>
-		<div data-theme={daisyTheme} class="w-[182px] cursor-pointer bg-base-100 font-sans text-base-content">
+		<div data-theme={daisyTheme} class="cursor-pointer bg-base-100 font-sans text-base-content">
 			<div class="grid grid-cols-5 grid-rows-3">
 				<div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
 					<div class="flex-grow text-sm font-bold">{themeName}</div>

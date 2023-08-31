@@ -1,7 +1,7 @@
 <script>
 	import BrugerPopup from '$lib/components/BrugerPopup.svelte';
-	import { get } from '$lib/js/http';
-	import { parseStudentInfo } from '$lib/js/LectioParserUtils';
+	import { get } from '$lib/js/http.js';
+	import { parseStudentInfo } from '$lib/js/LectioUtils.js';
 
 	const showAllClasses = 'Alle Klasser';
 	const allStudents = [];

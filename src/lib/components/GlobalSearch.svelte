@@ -1,7 +1,7 @@
 <script>
 	import BrugerPopup from '$lib/components/BrugerPopup.svelte';
 	import { blur } from 'svelte/transition';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
 
 	let cookie = null;

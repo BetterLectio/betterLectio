@@ -1,30 +1,30 @@
 <script>
-	import { api } from '$lib/js/http';
+	import { api } from '$lib/js/http.js';
 	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
-	let step = 'indlæser';
+	let step = 'Indlæser';
 	onMount(() => {
 		try {
-			step = 'finding cookie';
+			step = 'Finder session';
 			if (localStorage.getItem('lectio-cookie')) {
-				step = 'validating cookie';
+				step = 'Validerer session';
 				fetch(`${api}/check-cookie`, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } }).then(res => {
-					step = 'checking cookie';
+					step = 'Tjekker session';
 					res.json().then(data => {
 						if (data?.valid) {
-							step = 'cookie valid';
+							step = 'Session er gyldig';
 							console.log('Logged in with cookie');
 							goto('forside');
 						} else {
-							step = 'cookie invalid';
+							step = 'Session er ugyldig';
 							goto('auth');
 						}
 					});
 				});
 			} else {
-				step = 'no cookie';
+				step = 'Ingen cookie';
 				goto('auth');
 			}
 		} catch (error) {

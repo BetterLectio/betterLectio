@@ -3,7 +3,6 @@ module.exports = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		extend: {
-			colors: { blurple: '#5865F2' },
 			height: {
 				'10v': '10vh',
 				'20v': '20vh',
@@ -51,33 +50,12 @@ module.exports = {
 	},
 	daisyui: {
 		themes: [
+			'light',
 			'garden',
 			'dark',
-			'light',
-			'cupcake',
-			'bumblebee',
-			'emerald',
-			'corporate',
-			'synthwave',
-			'retro',
-			'cyberpunk',
-			'halloween',
-			'forest',
-			'aqua',
-			'lofi',
-			'pastel',
-			'fantasy',
-			'wireframe',
-			'black',
-			'luxury',
 			'dracula',
-			'cmyk',
-			'autumn',
-			'acid',
-			'lemonade',
 			'night',
-			'coffee',
-			'winter',
+			'lemonade',
 			{
 				lectio: {
 					primary: '#1b5c9e',
@@ -92,13 +70,13 @@ module.exports = {
 				},
 				business: {
 					'color-scheme': 'dark',
-					primary: '#1C4E80',
+					primary: '#254c73',
 					secondary: '#7C909A',
 					accent: '#EA6947',
 					neutral: '#23282E',
-					'base-100': '#202020',
-					info: '#0091D5',
-					success: '#6BB187',
+					'base-100': '#272a2b',
+					info: '#56A1D6',
+					success: '#65BF89',
 					warning: '#DBAE59',
 					error: '#AC3E31'
 				},
@@ -119,5 +97,6 @@ module.exports = {
 			}
 		]
 	},
+	// eslint-disable-next-line global-require
 	plugins: [require('daisyui'), require('@tailwindcss/forms')]
 };

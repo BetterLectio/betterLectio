@@ -1,5 +1,5 @@
 <script>
-	import { api, get } from '$lib/js/http';
+	import { api, get } from '$lib/js/http.js';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import BrugerPopup from '$lib/components/BrugerPopup.svelte';
 	import MarkdownIt from 'markdown-it';
@@ -27,7 +27,7 @@
 	let id = '';
 	function handleClick(_besked) {
 		titel = _besked.titel.indexOf('Re:') > -1 ? `Re: ${ beskedChain[0].titel}` : `Re: ${ _besked.titel}`;
-		[id] = _besked;
+		({ id } = _besked);
 		checked = checked === 'checked' ? '' : 'checked';
 	}
 	async function sendBesked() {

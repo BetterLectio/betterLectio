@@ -32,12 +32,6 @@ notifications.subscribe(noti => {
 
 				return _notification;
 			});
-		}, 5000);
+		}, 3000);
 	});
 });
-
-// on the first fime the following code is run, add a notification if its not the first time do nothing
-if (localStorage.getItem('firstTime') === null) {
-	addNotification('Hej og velkommen til BetterLectio, tusind tak fordi du bruger BetterLectio', 'alert-success');
-	localStorage.setItem('firstTime', 'false');
-}

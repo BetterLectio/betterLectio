@@ -9,19 +9,27 @@
 
 # BetterLectio
 
-BetterLectio er en forbredelse af [Lectio](https://lectio.dk). Lectio er et dansk webbaseret lektionssystem udviklet af det danske softwarefirma MaCom A/S. [vi](https://github.com/victorDigital/betterLectio/graphs/contributors) har udviklet BetterLectio for at gøre det nemmere at bruge Lectio. Vi har fokuseret på at gøre det nemmere at finde informationer, og at gøre det nemmere at få overblik over sin skolegang. og vi har lavet en række andre forbedringer som f.eks. at lave en hel ny brugerflade, som både er mere brugervenlig og mere moderne.  
-læs hvordan systemet fungerer [HER](https://betterlectio.dk/help)
+BetterLectio er en forbredelse af [Lectio](https://lectio.dk).
 
-BetterLectio er et open source projekt, hvilket betyder at alle kan se koden, og alle kan bidrage til projektet. BetterLectio er på nuværende tidspunkt under udvikling, hvis du har nogle forslag til forbedringer, eller hvis du har fundet en fejl, så er du meget velkommen til åbne en issue, eller lave en pull request.
+Lectio er et dansk webbaseret lektionssystem udviklet af det danske softwarefirma MaCom A/S. 
 
-Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)  
+BetterLectio er et hobbyprojekt der gør det nemmere at bruge og navigere Lectio.
+
+Vi har fokuseret på at gøre det nemmere at finde informationer, og at gøre det nemmere at få overblik over sin skolegang. og vi har lavet en række andre forbedringer som f.eks. at lave en hel ny brugerflade, som både er mere brugervenlig og mere moderne.
+
+BetterLectio er open-source og under aktiv udvikling, og er ikke helt i mål endnu. Derfor hvis du har nogle fede ideér, forslag og forbedringer, så skriv ind med et issue eller åben en pull request.
+
+## Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
+
 <a href="https://github.com/BetterLectio/betterlectio/graphs/contributors">
 <img src="https://contrib.rocks/image?repo=BetterLectio/betterlectio" />
 </a>
 
-### siden er tilgængelig på [betterlectio.dk](https://betterlectio.dk)
+---
 
-### vores dev side er tilgængelig på [dev--betlec.netlify.app](https://dev--betlec.netlify.app/)
+### Appen er tilgængelig på [betterlectio.dk](https://betterlectio.dk)
+
+### Vores development-miljø er tilgængelig på [dev--betlec.netlify.app](https://dev--betlec.netlify.app/)
 
 <br/>
 
@@ -29,9 +37,9 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 <summary>Browser support</summary>
 
-| Chrome | Firefox | Safari |    Edge     |    Opera    |
-| :----: | :-----: | :----: | :---------: | :---------: |
-|   ✅   |   ✅    |   ⚠️   | ikke testet | ikke testet |
+| Chrome | Firefox | Safari | Edge  | Opera |
+| :----: | :-----: | :----: | :---: | :---: |
+|   ✅    |    ✅    |   ⚠️    |   ✅   |   ✅   |
 
 </details>
 
@@ -41,61 +49,61 @@ Lavet af [os](https://github.com/victorDigital/betterLectio/graphs/contributors)
 
 <summary>OS support</summary>
 
-| Windows | Mac OS | Linux |       IOS        | Android  |
-| :-----: | :----: | :---: | :--------------: | :------: |
-|   ✅    |   ✅   |  ✅   | ⚠️ få bugs (PWA) | ✅ (PWA) |
+| Windows | Mac OS | Linux |       IOS       | Android |
+| :-----: | :----: | :---: | :-------------: | :-----: |
+|    ✅    |   ✅    |   ✅   | ⚠️ få bugs (PWA) | ✅ (PWA) |
 
 </details>
 
 <br/>
 
-## TODO
+## Work-in-progress
 
-1. opgave side
+1. Opgaveside
 
-- [ ] hvis det er en gruppeopgave, så skal der være en liste over alle gruppemedlemmer og man skal kunne vælge personer fra listen (API) (UI)
-- [ ] der kan være en måde at uploade filer på (UI) (API)
-- [ ] der skal være en måde at skrive beskeder på (UI) (API)
+ - [ ] Hvis det er en gruppeopgave, så skal der være en liste over alle gruppemedlemmer og man skal kunne vælge personer fra listen (API) (UI)
+ - [ ] Der kan være en måde at uploade filer på (UI) (API)
+ - [ ] Der skal være en måde at skrive beskeder på (UI) (API)
 
-1. skema side
+1. Skemaside
 
-   - [ ] kunne skifte til sit ejet skema fra andres (UI)
-   - [x] se skema for lokaler (API) (UI)
+ - [ ] Kunne skifte til sit ejet skema fra andres (UI)
+ - [x] Se skema for lokaler (API) (UI)
 
-2. værktøjs side (nyttige værktøjer til brugeren)
+2. Værktøjsside (nyttige værktøjer til brugeren)
 
-   - hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
-   - [ ] IDÉ - hvor mange dage til næste prøve (API)
-   - [x] IDÉ - hvor mange moduler kan jeg i teorien pjække før jeg får x% fravær (client side med callback til server) (brug data fra fravær side)
-   - IDÉ - Skole community side hvor man kan ved hjælp af Discord OAuth2 lave private Discord servere hvor man kan vælge hvilke klasser/grupper/klubber der kan være med eller hele skolen om hele skolen kan være med (Discord OAuth2, database)
-   - [x] IDÉ - Man kan højre klikke på en anden bruger og så kommer der en popup lidt som på Discord hvor der står en status som er om de har fri eller om de har time og hvilken time de har og med en knap til at skrive til dem osv.
+ - Hvornår møder jeg samme tid / tag hjem som min klassekammerat (elev id / elev navn) (client side med callback til server) (API)
+ - [ ] Idé - hvor mange dage til næste prøve (API)
+ - [x] Idé - hvor mange moduler kan jeg i teorien pjække før jeg får x% fravær (client side med callback til server) (brug data fra fravær side)
+ - Idé - skole community side hvor man kan ved hjælp af Discord OAuth2 lave private Discord servere hvor man kan vælge hvilke klasser/grupper/klubber der kan være med eller hele skolen om hele skolen kan være med (Discord OAuth2, database)
+ - [x] Idé - ,an kan højre klikke på en anden bruger og så kommer der en popup lidt som på Discord hvor der står en status som er om de har fri eller om de har time og hvilken time de har og med en knap til at skrive til dem osv.
 
-3. fravær side
+3. Fraværsside
 
-   - [x] få grafen til at loade på første pageload
+ - [x] Få grafen til at loade på første pageload
 
-4. beskeder side
+4. Besked-side
 
-   - [ ] IDÉ - :emojis: (UI)
+ - [ ] Idé - :emojis: (UI)
 
-5. features
+5. Lektier
 
-   - [ ] Tilføj alerts fra daisy ui i alert.js (UI)
+ - [ ] Man skal kunne strege sine lektier over
 
-6. bugs
+6. Karakterer
 
-   - [x] Når man kigger på en side og man så får login siden skal man når man har logget ind blive redirected til den side man originalt var på (client side)
+ - [ ] Lav standpunkt og årskarakterer
 
-7. dokumentation
+7. Features
 
-   - [x] lav en dokumentation (UI)
-   - [x] lav en help side (UI)
-   - [ ] lav en about side (UI)
+ - [ ] Tilføj alerts fra daisyUI i alert.js (UI)
 
-8. lektier
+8. Bugs
 
-   - [ ] lav så man kan strege dem over
+ - [x] Når man kigger på en side og man så får login siden skal man når man har logget ind blive redirected til den side man originalt var på (client side)
 
-9. karakterer
+9. Dokumentation
 
-   - [ ] lav standpunkt og årskarakterer
+ - [x] Lav dokumentation (UI)
+ - [x] Lav en Help side (UI)
+ - [ ] Lav en About side (UI)

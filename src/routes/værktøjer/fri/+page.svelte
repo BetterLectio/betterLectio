@@ -1,6 +1,6 @@
 <script defer>
 	import Spinner from '$lib/components/Spinner.svelte';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
 	import moment from 'moment';
 

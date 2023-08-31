@@ -1,9 +1,9 @@
 <script>
-	import { dokumenter, informationer } from '$lib/js/store';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
-	import { get } from '$lib/js/http';
+	import { dokumenter, informationer } from '$lib/js/store.js';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
+	import { get } from '$lib/js/http.js';
 	import { onMount } from 'svelte';
-	import { parseStudentInfo } from '$lib/js/LectioParserUtils';
+	import { parseStudentInfo } from '$lib/js/LectioUtils.js';
 
 	let cookie = null;
 	cookieInfo().then(data => {

@@ -1,4 +1,4 @@
-import { addNotification } from '$lib/js/notifyStore';
+import { addNotification } from '$lib/js/notifyStore.js';
 
 // async function sha256(str) {
 //   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(str));
@@ -16,6 +16,16 @@ export const api
 export function reloadData(reload = true) {
 	localStorage.setItem('nonce', Date.now().toString(36));
 	if (reload) window.location.reload();
+}
+
+async function checkCookieValidity() {
+	const cookieValidationCheck = await fetch(`${api }/check-cookie`, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } });
+	const { valid: isCookieValid } = await cookieValidationCheck.json();
+
+	return {
+		isCookieValid,
+		lectioCookie: cookieValidationCheck.headers.get('set-lectio-cookie')
+	};
 }
 
 export async function get(endpoint) {
@@ -53,8 +63,9 @@ export async function get(endpoint) {
 	const stop = performance.now();
 
 	const textResponse = await response.text();
+
+	// Tjek om responsen er OK
 	if (response.ok) {
-		// If the response is ok, return the data, otherwise redirect to the auth page
 		if (stop - start > 100) {
 			// Dette gøres for at tjekke om responset er cached.
 			// Vi skal finde en bedre måde at gøre det på.
@@ -65,23 +76,23 @@ export async function get(endpoint) {
 		}
 		return JSON.parse(textResponse.replaceAll('\n', '  '));
 	}
-	const validationCheck = await fetch(`${api }/check-cookie`, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } });
-	const { valid } = await validationCheck.json();
 
-	if (valid) {
-		const lectioCookie = validationCheck.headers.get('set-lectio-cookie');
-		if (lectioCookie) localStorage.setItem('lectio-cookie', lectioCookie);
+	// Responsen er ikke OK, derfor validerer vi om det var en fejl med requesten,
+	// eller om vores cookie er udløbet/ikke valid
+	const { isCookieValid, lectioCookie } = await checkCookieValidity();
+
+	if (isCookieValid) {
+		if (lectioCookie !== null) localStorage.setItem('lectio-cookie', lectioCookie);
 
 		console.error(`Error fetching data from ${api}${endpoint}`,
-			'validationCheck:',
-			validationCheck,
-			'response:',
+			'\n\nrequest response:',
 			response,
-			'textResponse:',
+			'\n\nrequest response body:',
 			textResponse);
-		addNotification(`Error fetching data from ${api}${endpoint}`, 'alert-error');
 	} else {
-		console.log('Cookie not valid, redirecting to auth page.', 'validationCheck:', validationCheck);
+		console.log('Cookie not valid, redirecting to auth page.');
+		addNotification(`Din session er ugyldig, omdirigerer til login-side`, 'alert-error');
+
 		const transformedLink = encodeURIComponent(window.location.href);
 		window.location.href = `/auth?redirect=${ transformedLink}`;
 	}

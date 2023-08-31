@@ -1,7 +1,7 @@
 <script>
 	import MarkdownIt from 'markdown-it';
 	import { fly } from 'svelte/transition';
-	import { get } from '$lib/js/http';
+	import { get } from '$lib/js/http.js';
 	import purifier from 'dompurify';
 
 	const { sanitize } = purifier();
