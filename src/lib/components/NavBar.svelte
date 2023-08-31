@@ -28,7 +28,7 @@
 			class="navbar justify-between relative z-30 mb-10 before:absolute before:bottom-0 before:left-0 before:content-[''] before:h-px before:w-full before:bg-navbar-line"
 			in:fly={{ y: -64, duration: 200 }}
 		>
-			<div class="navbar-start w-fit">
+			<div class="navbar-start sm:w-fit">
 				<p />
 				<div class="dropdown">
 					<button on:click={handleClick} class="btn-ghost btn xl:hidden" aria-label="navbar button">
@@ -115,7 +115,7 @@
 					</svg>
 				</p>
 			</div>
-			<div class="navbar-end w-fit">
+			<div class="navbar-end sm:w-fit">
 				{#if $brugeren && localStorage.getItem('lectio-cookie')}
 					<label for="søg-popup" class="btn-ghost btn gap-1 normal-case">
 						<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
