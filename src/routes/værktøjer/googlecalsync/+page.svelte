@@ -30,8 +30,8 @@
 		const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
 		const token = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
-		// se if token is expired
-		if (token !== null && token.expires_at < Date.now()) {
+		// see if token is expired
+		if (token !== null && token.expiresAt < Date.now()) {
 			loggedin = false;
 			localStorage.removeItem('G-apitoken');
 			return;
@@ -39,7 +39,7 @@
 		if (token !== null) {
 			document.getElementById('signout_button').style.visibility = 'visible';
 			document.getElementById('authorize_button').innerText = 'genopfrisk adgang';
-			gapi.client.setToken(token);
+			window.gapi.client.setToken(token);
 			loggedin = true;
 		}
 	}
@@ -53,12 +53,13 @@
 		document.getElementById('authorize_button').style.visibility = 'hidden';
 		document.getElementById('signout_button').style.visibility = 'hidden';
 
-		await gapi.client.init({
+		await window.gapi.client.init({
 			apiKey: API_KEY,
 			discoveryDocs: DISCOVERY_DOCS
 		});
 		gApiInitialized = true;
-		tokenClient = google.accounts.oauth2.initTokenClient({
+		tokenClient = window.google.accounts.oauth2.initTokenClient({
+			// eslint-disable-next-line camelcase
 			client_id: CLIENT_ID,
 			scope: SCOPES,
 
@@ -72,7 +73,7 @@
 	};
 
 	const initializeGapi = () => {
-		gapi.load('client', start);
+		window.gapi.load('client', start);
 	};
 
 	function handleAuthClick() {
@@ -84,12 +85,12 @@
 			loggedin = true;
 
 			// save token to localstorage
-			const ciphertext = CryptoJS.AES.encrypt(JSON.stringify({ ...gapi.client.getToken(), expires_at: Date.now() + 3600000 }),
+			const ciphertext = CryptoJS.AES.encrypt(JSON.stringify({ ...window.gapi.client.getToken(), expiresAt: Date.now() + 3600000 }),
 				secretKey).toString();
 			localStorage.setItem('G-apitoken', ciphertext);
 		};
 
-		if (gapi.client.getToken() === null) {
+		if (window.gapi.client.getToken() === null) {
 			// Prompt the user to select a Google Account and ask for consent to share their data
 			// when establishing a new session.
 			tokenClient.requestAccessToken({ prompt: 'consent' });
@@ -103,10 +104,10 @@
 		// remove token from localstorage
 		localStorage.removeItem('G-apitoken');
 
-		const token = gapi.client.getToken();
+		const token = window.gapi.client.getToken();
 		if (token !== null) {
-			google.accounts.oauth2.revoke(token.access_token);
-			gapi.client.setToken('');
+			window.google.accounts.oauth2.revoke(token.access_token);
+			window.gapi.client.setToken('');
 			document.getElementById('authorize_button').innerText = 'Log ind';
 			document.getElementById('signout_button').style.visibility = 'hidden';
 			loggedin = false;
@@ -171,9 +172,9 @@
 		console.log(processedBatch);
 
 		// batch insert events
-		const batch = gapi.client.newBatch();
+		const batch = window.gapi.client.newBatch();
 		processedBatch.forEach(event => {
-			batch.add(gapi.client.calendar.events.insert({ calendarId: 'primary', resource: event }));
+			batch.add(window.gapi.client.calendar.events.insert({ calendarId: 'primary', resource: event }));
 		});
 		batch.then(response => {
 			console.log(response.result);
