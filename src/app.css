@@ -36,7 +36,7 @@
 }
 .btn {
   @apply normal-case;
-  @apply leading-5;
+  @apply leading-4;
 }
 
 /* Calender outline */
