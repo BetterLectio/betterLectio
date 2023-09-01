@@ -4,8 +4,13 @@
 	import { karakterer } from '$lib/js/store.js';
 
 	let ready = false;
+	$karakterer = {
+		protokollinjer: [],
+		karakternoter: [],
+		oversigt: { karakterblad: {} }
+	};
 	get('/karakterer').then(data => {
-		$karakterer = data;
+		if (data) $karakterer = data;
 		ready = true;
 	});
 </script>
@@ -36,7 +41,7 @@
 							<p class="mt-4">Du har intet karaktergennemsnit på nuværende tidspunkt.</p>
 						{/if}
 					</div>
-					<div class="mt-4 w-1/2 overflow-y-scroll rounded-lg bg-base-300 p-4 lg:ml-4 lg:mt-0">
+					<div class="w-full mt-4 w-1/2 overflow-y-scroll rounded-lg bg-base-300 p-4 lg:ml-4 lg:mt-0">
 						<h2 class="mb-4 text-2xl font-bold">Afsluttede fag gennemsnit</h2>
 						{#if $karakterer.oversigt.karakterblad.gennemsnit}
 							<div class="stats mb-4 bg-base shadow">
