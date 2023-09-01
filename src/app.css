@@ -38,6 +38,9 @@
   @apply normal-case;
   @apply leading-4;
 }
+.checkbox {
+  @apply bg-transparent;
+}
 
 /* Calender outline */
 .school-schedule .ec-header,

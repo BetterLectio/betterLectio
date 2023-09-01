@@ -241,18 +241,6 @@
 								/>
 							</label>
 						{/if}
-						<label class="label w-full cursor-pointer">
-							<span class="block text-sm font-medium text-gray-700">Gem skole</span>
-							<input
-								type="checkbox"
-								checked="checked"
-								id="saveSchoolIdCheck"
-								tabindex="0"
-								class="checkbox-primary checkbox"
-								on:click={setSkole()}
-								name="setSkole"
-							/>
-						</label>
 						<div class="divider" />
 						<p class="text-xs">
 							Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind accepterer du at din
@@ -262,7 +250,19 @@
 							<a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
 						</p>
 						<div class="divider" />
-						<div class="flex justify-end">
+						<div class="flex justify-end items-center">
+							<label class="input-group-horizontal input-group w-auto h-8 mr-4">
+								<span class="w-28 border-r-2 border-base-200 bg-base-100">Gem skole</span>
+								<input
+									type="checkbox"
+									checked="checked"
+									id="saveSchoolIdCheck"
+									tabindex="0"
+									class="checkbox w-8 h-8"
+									on:click={setSkole()}
+									name="setSkole"
+								/>
+							</label>
 							<button tabindex="0" type="submit" class="btn-primary btn group" on:click={login} on:keyup={handleEnterLogin}>
 								<p>Log ind</p>
 								<label class="swap SWAPICONSTATE" for="login">
