@@ -69,7 +69,7 @@
 			fetch('https://raw.githubusercontent.com/BetterLectio/news/main/news.json').then(response => response.json()),
 			get('/lektier'),
 			get('/forside'),
-			get(`/skema?id=${`S${ cookie.userid}`}`),
+			get(`/skema?id=${`S${ cookie.userId}`}`),
 			get('/fravaer').then(data => ({ sort: { col: 'procent', ascending: true }, data })),
 			get('/informationer').then($informationer => Object.entries($informationer.elever).map(([navn, id]) => ({ navn, id }))),
 			get(`/beskeder2`).then(data => data.map(besked => {

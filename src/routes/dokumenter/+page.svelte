@@ -143,9 +143,9 @@
 			}
 			loading = false;
 		} else if (id.includes('/res/')) {
-			window.open(`https://www.lectio.dk/lectio/${cookie.school}/lc/${id}`);
+			window.open(`https://www.lectio.dk/lectio/${cookie.schoolId}/lc/${id}`);
 		} else {
-			window.open(`https://www.lectio.dk/lectio/${cookie.school}/dokumenthent.aspx?documentid=${id}`);
+			window.open(`https://www.lectio.dk/lectio/${cookie.schoolId}/dokumenthent.aspx?documentid=${id}`);
 		}
 	}
 

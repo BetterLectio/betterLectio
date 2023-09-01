@@ -52,14 +52,14 @@
 			'Lectio (vi arbejder på at flytte disse sider til BetterLectio)': [
 				{
 					title: 'Bøger',
-					link: `https://www.lectio.dk/lectio/${cookie.school}/BD/UserReservations.aspx?ElevID=${cookie.userid}`,
+					link: `https://www.lectio.dk/lectio/${cookie.schoolId}/BD/UserReservations.aspx?ElevID=${cookie.userId}`,
 					newTab: true,
 					description: 'Viser dig dine bøger',
 					status: 'WIP'
 				},
 				{
 					title: 'Spørgeskema',
-					link: `https://www.lectio.dk/lectio/${cookie.school}/spoergeskema/spoergeskema_rapport.aspx?type=mine&elevid=${cookie.userid}`,
+					link: `https://www.lectio.dk/lectio/${cookie.schoolId}/spoergeskema/spoergeskema_rapport.aspx?type=mine&elevid=${cookie.userId}`,
 					newTab: true,
 					description: 'Viser dig dine spørgeskemaer',
 					status: 'WIP'

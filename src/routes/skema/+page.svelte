@@ -1,10 +1,10 @@
 <script>
 	import { fag, indstillinger } from '$lib/js/store.js';
+	import { getModulColor, standardizeTimeRange } from '$lib/js/LectioUtils.js';
 	import Calendar from '@event-calendar/core';
 	import TimeGrid from '@event-calendar/time-grid';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
-	import { getModulColor } from '$lib/js/LectioUtils.js';
 	import { goto } from '$app/navigation';
 	import { holdOversætterNy } from '$lib/js/HoldOversætter.js';
 
@@ -20,7 +20,7 @@
 	cookieInfo().then(data => {
 		cookie = data;
 		if (skemaId === null) {
-			skemaId = `S${ cookie.userid}`;
+			skemaId = `S${ cookie.userId}`;
 			const url = new URL(location);
 			url.searchParams.set('id', skemaId);
 			history.replaceState({}, '', url);
@@ -195,59 +195,6 @@
 		options.view = dertermineView();
 	};
 
-	const lectioDateLocale = 'en-DK';
-	const lectioDateOptions = {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-		hour: '2-digit',
-		minute: '2-digit'
-	};
-
-	/**
-	 * Input Lectio timestamp and output "Date constructor"-valid timestamp
-	 *
-	 * @example
-	 * ```javascript
-	 * reformatTime("21/8-2023 09:15 til 10:45")
-	 * // Expected output: ["2023-08-21T09:15", "2023-08-21T10:45"]
-	 * ```
-	 * @param time Lectio time string
-	 * @returns Date timestamp(s)
-	 */
-	function reformatTime(timeRangeRaw) {
-		const dateTimestampSymbols = ['-', '-', 'T', ':', ''];
-		const nowTimestamp = new Date().toLocaleString(lectioDateLocale, lectioDateOptions)
-			.replace(',', '');
-		const result = [];
-
-		const rawTimeArray = timeRangeRaw.split('til').map(timestamp => timestamp.trim());
-		for (let i = 0; i < rawTimeArray.length; i++) {
-			// First, second (and third) are arbitrary
-			// as they may be either a date or a time
-			const [first, second, third, ...rest] = rawTimeArray[i].match(/(?:\d+\.)?\d+/gu).map(number => number.padStart(2, '0'));
-
-			const timeTwoDigit = rest.length
-				? [third, second, first, ...rest].join('-')
-				: [first, second].join('-');
-
-			let standardizedDate = timeTwoDigit.padStart(nowTimestamp.length, nowTimestamp);
-
-			// If end time is relative
-			if (!rest.length) {
-				const startTimestamp = result[0] || nowTimestamp;
-				standardizedDate = timeTwoDigit.padStart(startTimestamp.length, startTimestamp);
-			}
-
-			const timeFormatted = standardizedDate.split(/[^0-9]/gu)
-				.map((number, j) => number + dateTimestampSymbols[j])
-				.join('');
-			result.push(timeFormatted);
-		}
-
-		return result;
-	}
-
 	async function addSkemaToCalendar(_skema) {
 		options.view = dertermineView();
 		for (let i = 0; i < _skema.moduler.length; i++) {
@@ -281,15 +228,14 @@
 
 				if (modul.lokale) titel += ` · ${ modul.lokale.split(/(?:[\uD800-\uDBFF][\uDC00-\uDFFF])/u)[0]}`;
 			}
+
 			const hasContent = modul.andet !== null;
+			const [modulStart, modulEnd] = standardizeTimeRange(modul.tidspunkt);
 
-			const [modulStart, modulEnd] = reformatTime(modul.tidspunkt);
-
-			// console.log(modulStart, modulEnd);
 			const modulCalenderObj = {
 				title: titel,
-				start: new Date(modulStart),
-				end: new Date(modulEnd),
+				start: modulStart,
+				end: modulEnd,
 				id: modul.absid,
 				backgroundColor: getModulColor(modul, $indstillinger.skema.classesWithDifferentColors),
 				extendedProps: { hasContent }
@@ -341,7 +287,7 @@
 			skema[String(globalYear) + globalWeek] = data;
 			heading = skema?.[String(globalYear) + globalWeek]?.overskrift || 'skema';
 
-			mySkema = cookie.userid === skemaId.slice(1);
+			mySkema = cookie.userId === skemaId.slice(1);
 
 			options.slotMinTime = parseInt(Object.values(skema[String(globalYear) + globalWeek].modulTider)[0]
 				.split(' - ')[0]
@@ -365,10 +311,10 @@
 <div class="my-2 flex justify-between">
 	<h1 class="heading">{heading}</h1>
 
-	{#if cookie?.userid}
+	{#if cookie?.userId}
 		<a
 			class="btn hidden md:flex"
-			href={`https://www.lectio.dk/lectio/${cookie.school}/studieplan.aspx?elevid=${cookie.userid}`}
+			href={`https://www.lectio.dk/lectio/${cookie.schoolId}/studieplan.aspx?elevid=${cookie.userId}`}
 			target="_blank"
 		>
 			Se studieplan

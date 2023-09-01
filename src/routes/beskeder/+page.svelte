@@ -13,11 +13,8 @@
 		$brugeren = data;
 	});
 
-	/**
-	 * TODO:
-	 *    - Gør så man kan downloade filer uden at blive redirectet til modul siden
-	 *    - Måske gør så man får al teksten og derfor ikke behøver at klikke på lektien
-	 */
+	// TODO: Gør så man kan downloade filer uden at blive redirectet til modul siden
+	// Måske gør så man får al teksten og derfor ikke behøver at klikke på lektien
 
 	get('/informationer').then(data => {
 		$informationer = data;
@@ -42,14 +39,14 @@
 		const allparts = dateString.split(' ');
 		const parts = allparts[0].split('-');
 		const year = parseInt(parts[1], 10);
-		const dateparts = parts[0].split('/');
+		const dateParts = parts[0].split('/');
 		const timepart = allparts[1].split(':');
 		const hour = parseInt(timepart[0], 10);
 		const minute = parseInt(timepart[1], 10);
 
 		// Extract the day, month, and year from the parts array
-		const day = parseInt(dateparts[0], 10);
-		const month = parseInt(dateparts[1], 10);
+		const day = parseInt(dateParts[0], 10);
+		const month = parseInt(dateParts[1], 10);
 
 		// Create a new Date object
 		const date = new Date();
@@ -123,10 +120,10 @@
 		</div>
 		<input type="text" placeholder="Søg" class="input m-0 mt-4 h-10 w-fit bg-base-200 sm:mt-0 sm:ml-4 sm:w-fit" bind:value={searchString} />
 	</span>
-	{#if cookie?.userid}
+	{#if cookie?.userId}
 		<div class="right-1 mb-2 flex items-center rounded-md bg-base-200 p-1">
 			<a
-				href={`https://www.lectio.dk/lectio/${cookie.school}/beskeder2.aspx?type=nybesked&elevid=${cookie.userid}`}
+				href={`https://www.lectio.dk/lectio/${cookie.schoolId}/beskeder2.aspx?type=nybesked&elevid=${cookie.userId}`}
 				target="_blank"
 				class="btn-primary btn-sm btn border-base-200 bg-base-200 font-normal normal-case text-gray-500 hover:text-gray-100">Skriv besked</a
 			>

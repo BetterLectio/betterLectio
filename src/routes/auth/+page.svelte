@@ -10,7 +10,7 @@
 
 	let brugernavn = '';
 	let adgangskode = '';
-	let skoleid = '';
+	let schoolId = '';
 	let options = { '': '' };
 	let isInAutoAuth = false;
 
@@ -27,7 +27,7 @@
 						headers: {
 							brugernavn: data.id,
 							adgangskode: data.password,
-							skoleid
+							skoleid: schoolId
 						}
 					});
 					if (response.ok) {
@@ -66,8 +66,8 @@
 		if (document.readyState === 'complete') {
 			const checkbox = document.getElementById('saveSchoolIdCheck');
 
-			if (checkbox.checked === true) localStorage.setItem('skole_id', skoleid);
-			else localStorage.removeItem('skole_id');
+			if (checkbox.checked === true) localStorage.setItem('schoolId', schoolId);
+			else localStorage.removeItem('schoolId');
 		}
 	}
 
@@ -79,14 +79,14 @@
 		});
 
 	function getCachedSchool() {
-		// load the schoolid from localstorage and set it to the select
-		if (localStorage.getItem('skole_id')) skoleid = localStorage.getItem('skole_id');
+		// load the schoolId from localstorage and set it to the select
+		if (localStorage.getItem('schoolId')) schoolId = localStorage.getItem('schoolId');
 	}
 
 	function validateLoginFields() {
 		const usernameValid = typeof brugernavn === 'string' && brugernavn.length > 0;
 		const passwordValid = typeof adgangskode === 'string' && adgangskode.length > 0;
-		const schoolValid = typeof skoleid === 'string' && skoleid.length > 0;
+		const schoolValid = typeof schoolId === 'string' && schoolId.length > 0;
 
 		return usernameValid && passwordValid && schoolValid;
 	}
@@ -109,7 +109,7 @@
 				headers: {
 					brugernavn,
 					adgangskode,
-					skoleid
+					skoleid: schoolId
 				}
 			});
 			if (response.ok) {
@@ -118,17 +118,17 @@
 				if (saveLogin && window.electron) {
 					localStorage.setItem('brugernavn', AES.encrypt(brugernavn, key));
 					localStorage.setItem('adgangskode', AES.encrypt(adgangskode, key));
-					localStorage.setItem('skole_id', skoleid);
+					localStorage.setItem('schoolId', schoolId);
 				} else {
 					localStorage.removeItem('brugernavn');
 					localStorage.removeItem('adgangskode');
-					localStorage.removeItem('skole_id');
+					localStorage.removeItem('schoolId');
 				}
 
 				const lectioCookie = response.headers.get('set-lectio-cookie');
 				if (lectioCookie && lectioCookie !== null) localStorage.setItem('lectio-cookie', lectioCookie);
 
-				await cookieInfo().then(cookie => fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userid}&skole_id=${cookie.school}`));
+				await cookieInfo().then(cookie => fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userId}&schoolId=${cookie.schoolId}`));
 				progress.classList.remove('swap-active');
 				reloadData();
 
@@ -149,10 +149,10 @@
 		if (evt?.key === 'Enter') login();
 	}
 
-	if (localStorage.getItem('brugernavn') && localStorage.getItem('adgangskode') && localStorage.getItem('skole_id')) {
+	if (localStorage.getItem('brugernavn') && localStorage.getItem('adgangskode') && localStorage.getItem('schoolId')) {
 		brugernavn = AES.decrypt(localStorage.getItem('brugernavn'), key).toString(Utf8);
 		adgangskode = AES.decrypt(localStorage.getItem('adgangskode'), key).toString(Utf8);
-		skoleid = localStorage.getItem('skole_id');
+		schoolId = localStorage.getItem('schoolId');
 
 		login();
 	}
@@ -217,7 +217,7 @@
 								placeholder="Vælg din skole"
 								tabindex="0"
 								class="select select-sm w-[calc(100%-7rem)] py-0"
-								bind:value={skoleid}
+								bind:value={schoolId}
 							>
 								<option value="" disabled selected> Vælg din skole </option>
 								{#each Object.entries(options) as [, value]}

@@ -64,10 +64,14 @@
 	const monthToFravær = {};
 	$: if ($fravaer) {
 		const concFravær = [...$fravaer.moduler.manglende_fraværsårsager, ...$fravaer.moduler.oversigt];
-		moment.months().map(monthName => (monthToFravær[monthName] = 0));
+		const months = moment.months();
 
-		for (let index = 0; index < concFravær.length; index++) {
-			const modul = concFravær[index].aktivitet;
+		// Shift månederne til at starte ved skolestart (august)
+		for (let i = 0; i < 7; i++) months.push(months.shift());
+		months.map(monthName => (monthToFravær[monthName] = 0));
+
+		for (let i = 0; i < concFravær.length; i++) {
+			const modul = concFravær[i].aktivitet;
 			const timeMatch = modul.tidspunkt.match(timeRegex);
 			const { date, endTime } = timeMatch.groups;
 			const momentTime = moment(`${date} ${endTime}`, 'DD/MM-YYYY HH:mm');
@@ -118,6 +122,8 @@
 
 		return '';
 	};
+	$: monthsWithFravær = Object.values(monthToFravær)
+		.reduce((acc, fravær) => acc + Math.min(fravær, 1), 0);
 </script>
 
 <h1 class="heading">Fravær</h1>
@@ -151,8 +157,8 @@
 								label: 'Fraværende moduler',
 								data: $fravaer.generalt
 									.filter(element => element.hold !== 'Samlet' && element.opgjort_fravær_procent !== '0,00%')
-									.map(element => /(?:\d+,?\d*|,\d+)\//gu.exec(element.opgjort_fravær_moduler)[1].replace(',', '.')),
-								backgroundColor: $fravaer.generalt.map((element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length])
+									.map(element => /(?<_>\d+,?\d*|,\d+)\//gu.exec(element.opgjort_fravær_moduler)[1].replace(',', '.')),
+								backgroundColor: $fravaer.generalt.map((_element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length])
 							}
 						]
 					}}
@@ -160,18 +166,15 @@
 			{/if}
 		{/if}
 
-		{#if Object.values(monthToFravær).some(month => month !== 0)}
+		{#if monthsWithFravær >= 2}
 			<Doughnut
 				data={{
-
-					// start ved august, for der starter skoleåret
-					labels: [...moment.months().slice(7), ...moment.months().slice(0, 7)],
+					labels: Object.keys(monthToFravær),
 					datasets: [
 						{
 							label: 'Registreret fravær',
-
-							// start ved august, for der starter skoleåret
-							data: [...Object.values(monthToFravær).slice(7), ...Object.values(monthToFravær).slice(0, 7)]
+							data: Object.values(monthToFravær),
+							backgroundColor: Object.values(monthToFravær).map((_element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length])
 						}
 					]
 				}}
@@ -200,9 +203,9 @@
 									<td>
 										<a
 											href={`https://www.lectio.dk/lectio/${
-												cookie?.school
+												cookie?.schoolId
 											}/fravaer_aarsag.aspx?elevid=${
-												cookie?.userid
+												cookie?.userId
 											}&id=${
 												modul?.aktivitet?.absid
 											}&atype=aa`}
@@ -238,8 +241,8 @@
 			{#if $fravaer?.moduler?.oversigt}
 				{#each $fravaer.moduler.oversigt as modul}
 					<tr>
-						<td>{modul.aktivitet.hold ? '' : holdOversætter(modul.aktivitet.hold, $hold)}</td>
-						<td>{modul.aktivitet.navn ? '' : modul.aktivitet.navn}</td>
+						<td>{!modul.aktivitet.hold ? '' : holdOversætter(modul.aktivitet.hold, $hold)}</td>
+						<td>{!modul.aktivitet.navn ? '' : modul.aktivitet.navn}</td>
 						<td>{modul.fravær}</td>
 
 						<td>{modul.aktivitet.tidspunkt}</td>

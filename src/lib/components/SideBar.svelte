@@ -160,7 +160,7 @@
 				class="group btn flex h-14 w-full flex-row flex-nowrap justify-between overflow-x-hidden whitespace-nowrap px-3 pl-2 transition-[width] duration-150 hover:w-80"
 			>
 				<div class="pl-[1.8px] pt-[1.5px]">
-					<Avatar id={`S${ cookie.userid}`} navn={$brugeren.navn} size="w-[2.1rem]" />
+					<Avatar id={`S${ cookie.userId}`} navn={$brugeren.navn} size="w-[2.1rem]" />
 				</div>
 				<button
 					class="btn-warning btn-sm btn-circle btn w-36 border-none opacity-0 transition-all duration-150 group-hover:opacity-100"
