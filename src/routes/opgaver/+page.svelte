@@ -71,7 +71,7 @@
 				class={selected === 'ikkeAfleveredeOpgaver' ? 'tab- tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
 				on:click={() => {
 					selected = 'ikkeAfleveredeOpgaver';
-				}}>Ikke-afleverede</button
+				}}>Ikke afleverede</button
 			>
 			<button
 				class={selected === 'afleveredeOpgaver' ? 'tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
@@ -89,7 +89,7 @@
 		<input
 			type="text"
 			placeholder="Søg"
-			class="input input-lg mt-4 w-full bg-base-200 sm:mt-0 sm:ml-4 sm:h-10 sm:w-fit"
+			class="input input-sm mt-4 w-full bg-base-200 sm:mt-0 sm:ml-4 sm:h-10 sm:w-fit"
 			bind:value={searchString}
 			on:input={search}
 		/>
