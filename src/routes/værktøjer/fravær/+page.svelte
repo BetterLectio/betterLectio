@@ -1,4 +1,5 @@
 <script>
+	import PageLoading from '$lib/components/PageLoading.svelte';
 	import { fravaer } from '$lib/js/store.js';
 	import { get } from '$lib/js/http.js';
 
@@ -34,10 +35,10 @@
 	};
 </script>
 
-<h1 class="heading">Fravær Regner</h1>
+<h1 class="heading">Fraværsudregner</h1>
 
 {#if !$fravaer}
-	<p class="loading btn-ghost btn">Henter data...</p>
+	<PageLoading></PageLoading>
 {:else}
 	<label for="procent-range" class="mb-2 block font-medium">Hvor meget procent fravær vil du ende med?</label>
 	<input on:input={updateDesired} bind:value={desiredAmount} id="procent-range" type="range" class="range range-primary" />

@@ -37,7 +37,7 @@
 					status: 'BETA'
 				},
 				{
-					title: 'Fravær regner',
+					title: 'Fraværsudregner',
 					link: '/værktøjer/fravær',
 					description: 'Find ud af, hvor mange moduler du kan pjække',
 					status: 'BETA'
