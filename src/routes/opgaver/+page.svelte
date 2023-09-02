@@ -158,9 +158,9 @@
 										{opgave.frist}
 									</div>
 								{:else}
-									<div class="frist btn-xs w-max btn !first-letter:uppercase">
+									<p class="frist inline-block p-0 pt-0.5 btn-xs w-max btn first-letter:uppercase">
 										{formatDate(opgave.date)}
-									</div>
+									</p>
 								{/if}
 							</td>
 							<td class="text-left" id={opgave.exerciseid}>
