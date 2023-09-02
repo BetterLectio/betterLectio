@@ -40,7 +40,7 @@
 			<span class="label-text">Sidebar</span>
 			<input
 				type="checkbox"
-				class="checkbox"
+				class="toggle"
 				on:click={() => {
 					location.reload();
 				}}
@@ -58,12 +58,7 @@
 
 		<label class="label cursor-pointer">
 			<span class="label-text">Vis absolut frist</span>
-			<input type="checkbox" class="checkbox" bind:checked={$indstillinger.opgaver.visFristAbsolut} />
-		</label>
-
-		<label class="label cursor-pointer">
-			<span class="label-text">Vis hele opgavenoten</span>
-			<input type="checkbox" class="checkbox" bind:checked={$indstillinger.opgaver.visHeleBeskrivelsen} />
+			<input type="checkbox" class="toggle" bind:checked={$indstillinger.opgaver.visFristAbsolut} />
 		</label>
 	</div>
 </div>
@@ -74,7 +69,7 @@
 
 		<label class="label cursor-pointer">
 			<span class="label-text">Få forskellige farver på dine moduler</span>
-			<input type="checkbox" class="checkbox" bind:checked={$indstillinger.skema.classesWithDifferentColors} />
+			<input type="checkbox" class="toggle" bind:checked={$indstillinger.skema.classesWithDifferentColors} />
 		</label>
 	</div>
 </div>
@@ -84,8 +79,8 @@
 		<span class="mb-2 text-lg font-bold">Fag Oversætter</span>
 	</div>
 	<label class="label cursor-pointer">
-		<span class="label-text">Fag Oversætter</span>
-		<input type="checkbox" class="checkbox" bind:checked={$indstillinger.brugHoldOversætter} />
+		<span class="label-text">Skriver f.eks. "Matematik" istedet for "1a Ma" på moduler</span>
+		<input type="checkbox" class="toggle" bind:checked={$indstillinger.brugHoldOversætter} />
 	</label>
 </div>
 

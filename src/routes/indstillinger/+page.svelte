@@ -17,5 +17,5 @@
 	<Tilslut />
 	-->
 
-	<p class="mt-4">BetterLectio version: {version}</p>
+	<p class="mt-4 font-mono">BetterLectio version: {version}</p>
 </div>
