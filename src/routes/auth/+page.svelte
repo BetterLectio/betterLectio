@@ -189,7 +189,7 @@
 							placeholder="Brugernavn"
 							tabindex="0"
 							autocomplete="username"
-							class="input input-sm w-full max-w-wl mb-2.5"
+							class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
 							bind:value={brugernavn}
 						/>
 						<input
@@ -199,7 +199,7 @@
 							autocomplete="current-password"
 							tabindex="0"
 							placeholder="Adgangskode"
-							class="input input-sm w-full max-w-wl mb-2.5"
+							class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
 							bind:value={adgangskode}
 							on:keypress={handleEnterLogin}
 						/>
