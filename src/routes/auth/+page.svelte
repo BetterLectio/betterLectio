@@ -227,7 +227,7 @@
 									on:click={setSkole()}
 									name="setSkole"
 								/>
-								<span class="block text-sm pr-0 font-medium px-3">Gem skole</span>
+								<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveSchoolIdCheck">Husk skole</label>
 							</div>
 							{#if window.electron}
 								<div class="divider divider-horizontal"></div>
@@ -243,13 +243,13 @@
 										}}
 										name="saveLogin"
 									/>
-									<span class="block text-sm pr-0 font-medium px-3">Forbliv logget ind</span>
+									<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveLogin">Forbliv logget ind</label>
 								</div>
 							{/if}
 						</div>
 						<p class="text-xs mt-4">
 							Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind accepterer du at din
-							browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server bortset fra Lectio og
+							browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server udover Lectio og
 							vores proxy/translation layer.
 							<br>
 							<span class="font-bold">Når du logger ind accepterer du automatisk vores</span>
