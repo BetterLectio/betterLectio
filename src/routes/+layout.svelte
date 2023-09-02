@@ -91,8 +91,8 @@
 
 						localStorage.clear();
 
-						localStorage.setItem('schoolId', schoolId);
-						localStorage.setItem('theme', theme);
+						if (schoolId !== null) localStorage.setItem('schoolId', schoolId);
+						if (theme !== null) localStorage.setItem('theme', theme);
 
 						window.location.href = '/auth';
 					}}
