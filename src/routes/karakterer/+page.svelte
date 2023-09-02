@@ -42,7 +42,7 @@
 						{/if}
 					</div>
 					<div class="w-full mt-4 overflow-y-scroll rounded-lg bg-base-300 p-4 lg:ml-4 lg:mt-0">
-						<h2 class="mb-4 text-2xl font-bold">Afsluttede fag gennemsnit</h2>
+						<h2 class="mb-4 text-2xl font-bold">Gennemsnit for afsluttede fag</h2>
 						{#if $karakterer.oversigt.karakterblad.gennemsnit}
 							<div class="stats mb-4 bg-base shadow">
 								<div class="stat">

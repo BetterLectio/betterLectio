@@ -69,7 +69,7 @@
 	</ul>
 
 	<div class="flex">
-		<div class="mt-2 w-full max-w-xl rounded-lg bg-base-200 p-4 shadow-md sm:p-6 md:p-8">
+		<div class="mt-2 w-full max-w-xl rounded-lg bg-base-200 p-4 sm:p-6 md:p-8">
 			<h2 class="text-2xl font-bold">{fravaerType}</h2>
 
 			{#if fravaerData}
@@ -91,15 +91,15 @@
 					</p>
 				{/if}
 				<br />
-				<p class="mt-2 text-2xl">Stats</p>
+				<h2 class="text-2xl font-bold">Nuværende</h2>
 				<p class="mt-2 text-xl">
-					Antal fraværende moduler: <span class="font-bold">{fravaerData.currentClasses.toLocaleString('da')}</span>
+					Antal moduler fraværende: <span class="font-bold">{fravaerData.currentClasses.toLocaleString('da')}</span>
 				</p>
 				<p class="mt-2 text-xl">
 					Totalt antal moduler: <span class="font-bold">{fravaerData.totalClasses.toLocaleString('da')}</span>
 				</p>
 				<p class="mt-2 text-xl">
-					Fravær procent: <span class="font-bold">{fravaerData.currentFravær.toLocaleString('da')}%</span>
+					Fravær procent: <span class="font-bold">{(Math.round(fravaerData.currentFravær * 100) / 100).toLocaleString('da')}%</span>
 				</p>
 			{/if}
 		</div>

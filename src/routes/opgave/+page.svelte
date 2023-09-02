@@ -116,7 +116,7 @@
 
 		<h1 class="text-2xl font-bold">Opgaveindlæg</h1>
 		{#if aflevedeOpgaveItems.harAfleveret}
-			<table class="mb-4 mt-2 table w-full rounded-xl shadow-xl">
+			<table class="mb-4 mt-2 table w-full rounded-xl">
 				<thead>
 					<tr>
 						<th />

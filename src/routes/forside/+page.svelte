@@ -84,7 +84,7 @@
 
 	<!-- main content -->
 	<div class="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-		<ul class="list p-4 shadow-lg md:col-span-2 xl:row-span-4">
+		<ul class="list p-4 md:col-span-2 xl:row-span-4">
 			<h2 class="mb-4 text-2xl font-bold">Aktuelt</h2>
 			{#if $forside}
 				{#each $forside.aktuelt as aktuelt}

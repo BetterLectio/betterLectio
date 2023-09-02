@@ -177,7 +177,7 @@
 <div use:getCachedSchool class="flex items-center justify-center md:h-[75vh]">
 	{#key isInAutoAuth}
 		{#if !isInAutoAuth}
-			<div class="h-fit rounded-2xl bg-base-200 p-4 shadow-lg">
+			<div class="h-fit rounded-2xl bg-base-200 p-4 shadow">
 				<h1 class="text-xl font-bold">Log ind med din Lectio konto</h1>
 				<div class="divider mt-0" />
 				<form action="javascript:void(0);" autocomplete="on" method="post">
@@ -191,7 +191,7 @@
 								placeholder="Skriv her"
 								tabindex="0"
 								autocomplete="username"
-								class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
+								class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0"
 								bind:value={brugernavn}
 							/>
 						</label>
@@ -204,7 +204,7 @@
 								autocomplete="current-password"
 								tabindex="0"
 								placeholder="Skriv her"
-								class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
+								class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0"
 								bind:value={adgangskode}
 								on:keypress={handleEnterLogin}
 							/>
