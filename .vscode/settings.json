@@ -9,5 +9,6 @@
   "[svelte]": {
     "editor.defaultFormatter": "svelte.svelte-vscode"
   },
-  "svelte.plugin.svelte.format.enable": false
+  "svelte.plugin.svelte.format.enable": false,
+  "files.eol": "\n"
 }
