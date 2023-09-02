@@ -122,7 +122,8 @@
 				} else {
 					localStorage.removeItem('brugernavn');
 					localStorage.removeItem('adgangskode');
-					localStorage.removeItem('schoolId');
+
+				// localStorage.removeItem('schoolId');
 				}
 
 				const lectioCookie = response.headers.get('set-lectio-cookie');
