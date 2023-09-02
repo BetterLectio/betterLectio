@@ -177,92 +177,86 @@
 <div use:getCachedSchool class="flex items-center justify-center md:h-[75vh]">
 	{#key isInAutoAuth}
 		{#if !isInAutoAuth}
-			<div class="h-fit rounded-2xl bg-base-200 p-4 shadow">
+			<div class="h-fit rounded-2xl bg-base-200 p-4 shadow-lg">
 				<h1 class="text-xl font-bold">Log ind med din Lectio konto</h1>
-				<div class="divider mt-0" />
+				<div class="divider mt-1 mb-2" />
 				<form action="javascript:void(0);" autocomplete="on" method="post">
 					<div class="form-control w-full max-w-xl">
-						<label class="input-group-horizontal input-group mb-2">
-							<span class="w-28 border-r-2 border-base-200 bg-base-100">Brugernavn</span>
-							<input
-								type="text"
-								name="username"
-								id="username-field"
-								placeholder="Skriv her"
-								tabindex="0"
-								autocomplete="username"
-								class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0"
-								bind:value={brugernavn}
-							/>
-						</label>
-						<label class="input-group-horizontal input-group mb-2">
-							<span class="w-28 border-r-2 border-base-200 bg-base-100">Kodeord</span>
-							<input
-								type="password"
-								name="current-password"
-								id="current-password-field"
-								autocomplete="current-password"
-								tabindex="0"
-								placeholder="Skriv her"
-								class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0"
-								bind:value={adgangskode}
-								on:keypress={handleEnterLogin}
-							/>
-						</label>
-						<label class="input-group-horizontal input-group mb-2">
-							<span class="w-28 border-r-2 border-base-200 bg-base-100">Skole</span>
-							<select
-								name="skole"
-								id="skole"
-								placeholder="Vælg din skole"
-								tabindex="0"
-								class="select select-sm w-[calc(100%-7rem)] py-0"
-								bind:value={schoolId}
-							>
-								<option value="" disabled selected> Vælg din skole </option>
-								{#each Object.entries(options) as [, value]}
-									<option value={value.id}>{value.skole}</option>
-								{/each}
-							</select>
-						</label>
-						<div class="divider" />
-						<p class="text-xs">
-							Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind accepterer du at din
-							browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server bortset fra Lectio og
-							vores proxy/translation layer.
-							<span class="font-bold">Når du logger ind accepterer du automatisk vores</span>
-							<a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
-						</p>
-						<div class="divider" />
-						<div class="flex justify-end items-center">
-							{#if window.electron}
-								<label class="input-group-horizontal input-group w-auto h-8 mr-4">
-									<span class="w-auto border-r-2 border-base-200 bg-base-100">Forbliv logget ind</span>
-									<input
-										type="checkbox"
-										id="saveLogin"
-										class="checkbox w-8 h-8"
-										tabindex="0"
-										checked={saveLogin}
-										on:click={() => {
-											saveLogin = !saveLogin;
-										}}
-										name="setSkole"
-									/>
-								</label>
-							{/if}
-							<label class="input-group-horizontal input-group w-auto h-8 mr-4">
-								<span class="w-auto border-r-2 border-base-200 bg-base-100">Gem skole</span>
+						<input
+							type="text"
+							name="username"
+							id="username-field"
+							placeholder="Brugernavn"
+							tabindex="0"
+							autocomplete="username"
+							class="input input-sm w-full max-w-wl mb-2.5"
+							bind:value={brugernavn}
+						/>
+						<input
+							type="password"
+							name="current-password"
+							id="current-password-field"
+							autocomplete="current-password"
+							tabindex="0"
+							placeholder="Adgangskode"
+							class="input input-sm w-full max-w-wl mb-2.5"
+							bind:value={adgangskode}
+							on:keypress={handleEnterLogin}
+						/>
+						<select
+							name="skole"
+							id="skole"
+							placeholder="Vælg din skole"
+							tabindex="0"
+							class="select select-sm w-full max-w-wl py-0 mb-2.5"
+							bind:value={schoolId}
+						>
+							<option value="" disabled selected> Vælg din skole </option>
+							{#each Object.entries(options) as [, value]}
+								<option value={value.id}>{value.skole}</option>
+							{/each}
+						</select>
+						<div class="join p-1.5 bg-base-100">
+							<div class="flex join-item">
 								<input
 									type="checkbox"
 									checked="checked"
 									id="saveSchoolIdCheck"
 									tabindex="0"
-									class="checkbox w-8 h-8"
+									class="checkbox checkbox-sm"
 									on:click={setSkole()}
 									name="setSkole"
 								/>
-							</label>
+								<span class="block text-sm pr-0 font-medium px-3">Gem skole</span>
+							</div>
+							{#if window.electron}
+								<div class="divider divider-horizontal"></div>
+								<div class="flex join-item">
+									<input
+										type="checkbox"
+										checked="checked"
+										id="saveLogin"
+										tabindex="0"
+										class="checkbox checkbox-sm"
+										on:click={() => {
+											saveLogin = !saveLogin;
+										}}
+										name="saveLogin"
+									/>
+									<span class="block text-sm pr-0 font-medium px-3">Forbliv logget ind</span>
+								</div>
+							{/if}
+						</div>
+						<p class="text-xs mt-4">
+							Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind accepterer du at din
+							browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server bortset fra Lectio og
+							vores proxy/translation layer.
+							<br>
+							<span class="font-bold">Når du logger ind accepterer du automatisk vores</span>
+							<a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
+						</p>
+						<div class="divider" />
+						<div class="flex justify-end">
 							<button tabindex="0" type="submit" class="btn-primary btn group" on:click={login} on:keyup={handleEnterLogin}>
 								<p>Log ind</p>
 								<label class="swap SWAPICONSTATE" for="login">
