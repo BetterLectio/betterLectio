@@ -225,22 +225,6 @@
 								{/each}
 							</select>
 						</label>
-						{#if window.electron}
-							<label class="label w-full cursor-pointer">
-								<span class="block text-sm font-medium text-gray-700">Forbliv logget ind</span>
-								<input
-									type="checkbox"
-									id="saveLogin"
-									class="checkbox-primary checkbox"
-									tabindex="0"
-									checked={saveLogin}
-									on:click={() => {
-										saveLogin = !saveLogin;
-									}}
-									name="setSkole"
-								/>
-							</label>
-						{/if}
 						<div class="divider" />
 						<p class="text-xs">
 							Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind accepterer du at din
@@ -251,8 +235,24 @@
 						</p>
 						<div class="divider" />
 						<div class="flex justify-end items-center">
+							{#if window.electron}
+								<label class="input-group-horizontal input-group w-auto h-8 mr-4">
+									<span class="w-auto border-r-2 border-base-200 bg-base-100">Forbliv logget ind</span>
+									<input
+										type="checkbox"
+										id="saveLogin"
+										class="checkbox w-8 h-8"
+										tabindex="0"
+										checked={saveLogin}
+										on:click={() => {
+											saveLogin = !saveLogin;
+										}}
+										name="setSkole"
+									/>
+								</label>
+							{/if}
 							<label class="input-group-horizontal input-group w-auto h-8 mr-4">
-								<span class="w-28 border-r-2 border-base-200 bg-base-100">Gem skole</span>
+								<span class="w-auto border-r-2 border-base-200 bg-base-100">Gem skole</span>
 								<input
 									type="checkbox"
 									checked="checked"
