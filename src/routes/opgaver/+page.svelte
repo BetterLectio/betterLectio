@@ -108,12 +108,13 @@
 								</div>
 							</div>
 
-							<div class="flex-1">
-								<p class="font-bold line-clamp-1 {opgave.status === 'Venter' ? 'mr-16' : ''}">
+							<!-- the following css is to fix the overflow bug on mobile -->
+							<div class="w-[calc(100vw-150px)]">
+								<p class="font-bold line-clamp-2 {opgave.status === 'Venter' ? 'mr-16' : ''}">
 									{opgave.opgavetitel}
 								</p>
 								<p>{holdOversætter(opgave.hold, $hold)}</p>
-								<p class="line-clamp-2 {opgave.status === 'Venter' ? 'mr-16' : ''}">{opgave.opgavenote}</p>
+								<p class="line-clamp-1 max-w {opgave.status === 'Venter' ? 'mr-16' : ''}">{opgave.opgavenote}</p>
 							</div>
 							{#if opgave.status === 'Venter'}
 								<div class="flex items-center">
