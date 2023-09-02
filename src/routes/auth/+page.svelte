@@ -227,11 +227,11 @@
 						</label>
 						{#if window.electron}
 							<label class="label w-full cursor-pointer">
-								<span class="block text-sm font-medium text-gray-700">Forbliv logget ind</span>
+								<span class="block text-sm font-medium">Forbliv logget ind</span>
 								<input
 									type="checkbox"
 									id="saveLogin"
-									class="checkbox-primary checkbox"
+									class="toggle border-0"
 									tabindex="0"
 									checked={saveLogin}
 									on:click={() => {
@@ -242,13 +242,13 @@
 							</label>
 						{/if}
 						<label class="label w-full cursor-pointer">
-							<span class="block text-sm font-medium text-gray-700">Gem skole</span>
+							<span class="block text-sm font-medium">Gem skole</span>
 							<input
 								type="checkbox"
 								checked="checked"
 								id="saveSchoolIdCheck"
 								tabindex="0"
-								class="checkbox-primary checkbox"
+								class="toggle border-0"
 								on:click={setSkole()}
 								name="setSkole"
 							/>
