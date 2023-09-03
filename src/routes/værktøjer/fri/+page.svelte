@@ -124,7 +124,7 @@
 	}, second);
 </script>
 
-<div class="grid h-screen place-items-center">
+<div class="grid h-[calc(100vh-104px)] place-items-center">
 	{#if lastLesson}
 		<div class="grid auto-cols-max grid-flow-col gap-5 text-center" id="counter">
 			<div class="flex flex-col">
