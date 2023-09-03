@@ -160,21 +160,21 @@
 </script>
 
 <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
-<div class="modal">
-	<div class="modal-box relative">
-		<label for="CantLogInAlert" id="CantLogInAlertX" class="btn-sm btn-circle btn absolute right-2 top-2">✕</label>
+<label class="modal" for="CantLogInAlert">
+	<label class="modal-box relative" for="">
+		<label for="CantLogInAlert" id="CantLogInAlert" class="btn-sm btn-circle btn absolute right-2 top-2">✕</label>
 		<h3 class="text-lg font-bold">Kunne ikke logge ind</h3>
 		<p class="py-4">Der skete en fejl. Er du sikker på, at du har indtastet dine oplysninger korrekt?</p>
-	</div>
-</div>
+	</label>
+</label>
 <input type="checkbox" id="MissingInfoAlert" class="modal-toggle" />
-<div class="modal">
-	<div class="modal-box relative">
-		<label for="MissingInfoAlert" id="MissingInfoAlertX" class="btn-sm btn-circle btn absolute right-2 top-2">✕</label>
+<label class="modal" for="MissingInfoAlert">
+	<label class="modal-box relative" for="">
+		<label for="MissingInfoAlert" id="MissingInfoAlert" class="btn-sm btn-circle btn absolute right-2 top-2">✕</label>
 		<h3 class="text-lg font-bold">Mangler info</h3>
 		<p class="py-4">Du skal udfylde alle felterne for at kunne logge ind.</p>
-	</div>
-</div>
+	</label>
+</label>
 <div use:getCachedSchool class="flex items-center justify-center md:h-[75vh]">
 	{#key isInAutoAuth}
 		{#if !isInAutoAuth}
