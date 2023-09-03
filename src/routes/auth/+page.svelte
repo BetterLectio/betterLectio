@@ -163,7 +163,7 @@
 	<div class="modal-box relative">
 		<label for="CantLogInAlert" id="CantLogInAlertX" class="btn-sm btn-circle btn absolute right-2 top-2">✕</label>
 		<h3 class="text-lg font-bold">Kunne ikke logge ind</h3>
-		<p class="py-4">Der skete en fejl, er du sikker på at du har indtastet dine oplysninger korrekt?</p>
+		<p class="py-4">Der skete en fejl. Er du sikker på, at du har indtastet dine oplysninger korrekt?</p>
 	</div>
 </div>
 <input type="checkbox" id="MissingInfoAlert" class="modal-toggle" />
@@ -171,7 +171,7 @@
 	<div class="modal-box relative">
 		<label for="MissingInfoAlert" id="MissingInfoAlertX" class="btn-sm btn-circle btn absolute right-2 top-2">✕</label>
 		<h3 class="text-lg font-bold">Mangler info</h3>
-		<p class="py-4">Du skal udfylde alle felterne for at logge ind.</p>
+		<p class="py-4">Du skal udfylde alle felterne for at kunne logge ind.</p>
 	</div>
 </div>
 <div use:getCachedSchool class="flex items-center justify-center md:h-[75vh]">
@@ -255,10 +255,10 @@
 						</label>
 						<div class="divider" />
 						<p class="text-xs">
-							Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind accepterer du at din
+							Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind, accepterer du, at din
 							browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server bortset fra Lectio og
 							vores proxy/translation layer.
-							<span class="font-bold">Når du logger ind accepterer du automatisk vores</span>
+							<span class="font-bold">Når du logger ind, accepterer du automatisk vores</span>
 							<a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
 						</p>
 						<div class="divider" />
