@@ -7,6 +7,7 @@
 	import { get } from '$lib/js/http.js';
 	import { goto } from '$app/navigation';
 	import { holdOversætterNy } from '$lib/js/HoldOversætter.js';
+	import { addNotification } from '$lib/js/notifyStore.js';
 
 	let skema = {};
 	let heading = 'Skema';
@@ -185,7 +186,8 @@
 			onload();
 		},
 		eventClick: info => {
-			goto(`/modul?absid=${info.event.id}`);
+			if (!info.event.id.includes('privat')) goto(`/modul?absid=${info.event.id}`);
+			else addNotification('modul siden er ikke tilgængelig for private moduler', 'alert-warning');
 		}
 	};
 
