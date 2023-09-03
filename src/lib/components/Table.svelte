@@ -4,7 +4,7 @@
 
 <div class="mb-4 mt-2">
 	<div class="hidden md:block">
-		<table class="table w-full rounded-xl shadow-xl">
+		<table class="table w-full rounded-xl">
 			<thead>
 				<tr>
 					{#each Object.entries(items) as [key, value]}
@@ -27,7 +27,7 @@
 	</div>
 
 	<div class="block md:hidden">
-		<ul class="menu rounded-box w-full bg-base-100 p-2 drop-shadow-xl md:w-56">
+		<ul class="menu rounded-box w-full bg-base-100 p-2 md:w-56">
 			{#each Object.entries(items) as [key, value]}
 				{#if key && value}
 					<li>

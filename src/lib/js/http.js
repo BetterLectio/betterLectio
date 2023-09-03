@@ -91,7 +91,7 @@ export async function get(endpoint) {
 			textResponse);
 	} else {
 		console.log('Cookie not valid, redirecting to auth page.');
-		addNotification(`Din session er ugyldig, omdirigerer til login-side`, 'alert-error');
+		addNotification('Din session er ugyldig, omdirigerer til login-side', 'alert-error');
 
 		const transformedLink = encodeURIComponent(window.location.href);
 		window.location.href = `/auth?redirect=${ transformedLink}`;

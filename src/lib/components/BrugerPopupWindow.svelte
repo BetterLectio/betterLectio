@@ -46,7 +46,7 @@
 </script>
 
 {#if skema !== null}
-	<div class="card w-96 shadow-2xl">
+	<div class="card w-96">
 		<div class="card-body">
 			<Avatar {id} {navn} size="w-24" />
 			<h2 class="card-title whitespace-pre-line">{navn}</h2>

@@ -113,7 +113,7 @@
 		{#if modul}
 			<a
 				class="btn"
-				href={`https://www.lectio.dk/lectio/${cookie.school}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
+				href={`https://www.lectio.dk/lectio/${cookie.schoolId}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
 			>
 				Åben Elevfeedback
 			</a>

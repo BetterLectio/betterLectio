@@ -10,7 +10,7 @@
 
 	let brugernavn = '';
 	let adgangskode = '';
-	let skoleid = '';
+	let schoolId = '';
 	let options = { '': '' };
 	let isInAutoAuth = false;
 
@@ -27,7 +27,7 @@
 						headers: {
 							brugernavn: data.id,
 							adgangskode: data.password,
-							skoleid
+							skoleid: schoolId
 						}
 					});
 					if (response.ok) {
@@ -66,8 +66,8 @@
 		if (document.readyState === 'complete') {
 			const checkbox = document.getElementById('saveSchoolIdCheck');
 
-			if (checkbox.checked === true) localStorage.setItem('skole_id', skoleid);
-			else localStorage.removeItem('skole_id');
+			if (checkbox.checked === true) localStorage.setItem('schoolId', schoolId);
+			else localStorage.removeItem('schoolId');
 		}
 	}
 
@@ -79,14 +79,14 @@
 		});
 
 	function getCachedSchool() {
-		// load the schoolid from localstorage and set it to the select
-		if (localStorage.getItem('skole_id')) skoleid = localStorage.getItem('skole_id');
+		// load the schoolId from localstorage and set it to the select
+		if (localStorage.getItem('schoolId')) schoolId = localStorage.getItem('schoolId');
 	}
 
 	function validateLoginFields() {
 		const usernameValid = typeof brugernavn === 'string' && brugernavn.length > 0;
 		const passwordValid = typeof adgangskode === 'string' && adgangskode.length > 0;
-		const schoolValid = typeof skoleid === 'string' && skoleid.length > 0;
+		const schoolValid = typeof schoolId === 'string' && schoolId.length > 0;
 
 		return usernameValid && passwordValid && schoolValid;
 	}
@@ -109,7 +109,7 @@
 				headers: {
 					brugernavn,
 					adgangskode,
-					skoleid
+					skoleid: schoolId
 				}
 			});
 			if (response.ok) {
@@ -118,17 +118,18 @@
 				if (saveLogin && window.electron) {
 					localStorage.setItem('brugernavn', AES.encrypt(brugernavn, key));
 					localStorage.setItem('adgangskode', AES.encrypt(adgangskode, key));
-					localStorage.setItem('skole_id', skoleid);
+					localStorage.setItem('schoolId', schoolId);
 				} else {
 					localStorage.removeItem('brugernavn');
 					localStorage.removeItem('adgangskode');
-					localStorage.removeItem('skole_id');
+
+				// localStorage.removeItem('schoolId');
 				}
 
 				const lectioCookie = response.headers.get('set-lectio-cookie');
 				if (lectioCookie && lectioCookie !== null) localStorage.setItem('lectio-cookie', lectioCookie);
 
-				await cookieInfo().then(cookie => fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userid}&skole_id=${cookie.school}`));
+				await cookieInfo().then(cookie => fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userId}&schoolId=${cookie.schoolId}`));
 				progress.classList.remove('swap-active');
 				reloadData();
 
@@ -149,10 +150,10 @@
 		if (evt?.key === 'Enter') login();
 	}
 
-	if (localStorage.getItem('brugernavn') && localStorage.getItem('adgangskode') && localStorage.getItem('skole_id')) {
+	if (localStorage.getItem('brugernavn') && localStorage.getItem('adgangskode') && localStorage.getItem('schoolId')) {
 		brugernavn = AES.decrypt(localStorage.getItem('brugernavn'), key).toString(Utf8);
 		adgangskode = AES.decrypt(localStorage.getItem('adgangskode'), key).toString(Utf8);
-		skoleid = localStorage.getItem('skole_id');
+		schoolId = localStorage.getItem('schoolId');
 
 		login();
 	}
@@ -179,85 +180,79 @@
 		{#if !isInAutoAuth}
 			<div class="h-fit rounded-2xl bg-base-200 p-4 shadow-lg">
 				<h1 class="text-xl font-bold">Log ind med din Lectio konto</h1>
-				<div class="divider mt-0" />
+				<div class="divider mt-1 mb-2" />
 				<form action="javascript:void(0);" autocomplete="on" method="post">
 					<div class="form-control w-full max-w-xl">
-						<label class="input-group-horizontal input-group mb-2">
-							<span class="w-28 border-r-2 border-base-200 bg-base-100">Brugernavn</span>
-							<input
-								type="text"
-								name="username"
-								id="username-field"
-								placeholder="Skriv her"
-								tabindex="0"
-								autocomplete="username"
-								class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
-								bind:value={brugernavn}
-							/>
-						</label>
-						<label class="input-group-horizontal input-group mb-2">
-							<span class="w-28 border-r-2 border-base-200 bg-base-100">Kodeord</span>
-							<input
-								type="password"
-								name="current-password"
-								id="current-password-field"
-								autocomplete="current-password"
-								tabindex="0"
-								placeholder="Skriv her"
-								class="input input-sm w-[calc(100%-7rem)] font-semibold autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
-								bind:value={adgangskode}
-								on:keypress={handleEnterLogin}
-							/>
-						</label>
-						<label class="input-group-horizontal input-group mb-2">
-							<span class="w-28 border-r-2 border-base-200 bg-base-100">Skole</span>
-							<select
-								name="skole"
-								id="skole"
-								placeholder="Vælg din skole"
-								tabindex="0"
-								class="select select-sm w-[calc(100%-7rem)] py-0"
-								bind:value={skoleid}
-							>
-								<option value="" disabled selected> Vælg din skole </option>
-								{#each Object.entries(options) as [, value]}
-									<option value={value.id}>{value.skole}</option>
-								{/each}
-							</select>
-						</label>
-						{#if window.electron}
-							<label class="label w-full cursor-pointer">
-								<span class="block text-sm font-medium">Forbliv logget ind</span>
+						<input
+							type="text"
+							name="username"
+							id="username-field"
+							placeholder="Brugernavn"
+							tabindex="0"
+							autocomplete="username"
+							class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
+							bind:value={brugernavn}
+						/>
+						<input
+							type="password"
+							name="current-password"
+							id="current-password-field"
+							autocomplete="current-password"
+							tabindex="0"
+							placeholder="Adgangskode"
+							class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
+							bind:value={adgangskode}
+							on:keypress={handleEnterLogin}
+						/>
+						<select
+							name="skole"
+							id="skole"
+							placeholder="Vælg din skole"
+							tabindex="0"
+							class="select select-sm w-full max-w-wl py-0 mb-2.5"
+							bind:value={schoolId}
+						>
+							<option value="" disabled selected> Vælg din skole </option>
+							{#each Object.entries(options) as [, value]}
+								<option value={value.id}>{value.skole}</option>
+							{/each}
+						</select>
+						<div class="join p-1.5 bg-base-100">
+							<div class="flex join-item">
 								<input
 									type="checkbox"
-									id="saveLogin"
-									class="toggle border-0"
+									checked="checked"
+									id="saveSchoolIdCheck"
 									tabindex="0"
-									checked={saveLogin}
-									on:click={() => {
-										saveLogin = !saveLogin;
-									}}
+									class="checkbox checkbox-sm"
+									on:click={setSkole()}
 									name="setSkole"
 								/>
-							</label>
-						{/if}
-						<label class="label w-full cursor-pointer">
-							<span class="block text-sm font-medium">Gem skole</span>
-							<input
-								type="checkbox"
-								checked="checked"
-								id="saveSchoolIdCheck"
-								tabindex="0"
-								class="toggle border-0"
-								on:click={setSkole()}
-								name="setSkole"
-							/>
-						</label>
-						<div class="divider" />
-						<p class="text-xs">
+								<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveSchoolIdCheck">Husk skole</label>
+							</div>
+							{#if window.electron}
+								<div class="divider divider-horizontal"></div>
+								<div class="flex join-item">
+									<input
+										type="checkbox"
+										checked="checked"
+										id="saveLogin"
+										tabindex="0"
+										class="checkbox checkbox-sm"
+										on:click={() => {
+											saveLogin = !saveLogin;
+										}}
+										name="saveLogin"
+									/>
+									<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveLogin">Forbliv logget ind</label>
+								</div>
+							{/if}
+						</div>
+						<p class="text-xs mt-4">
 							Denne side bruger cookies til at huske dine oplysninger til næste gang du logger ind. Når du logger ind accepterer du at din
-							browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server bortset fra Lectio og
+							browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server udover Lectio og
 							vores proxy/translation layer.
+							<br>
 							<span class="font-bold">Når du logger ind accepterer du automatisk vores</span>
 							<a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
 						</p>

@@ -12,7 +12,7 @@
 	get('/mig').then(data => {
 		$brugeren = data;
 	});
-	const school = localStorage.getItem('skole_id');
+	const schoolId = localStorage.getItem('schoolId');
 </script>
 
 <svelte:body src="http://danml.com/js/download.js" />
@@ -31,7 +31,7 @@
 						class="hover:cursor-not-allowed hover:opacity-70"
 						on:click={() => addNotification('Denne handling kræver BetterLectio Pro', 'alert-error')}
 					>
-						<Avatar id={`S${ cookie.userid}`} navn={$brugeren.navn} size="w-20" />
+						<Avatar id={`S${ cookie.userId}`} navn={$brugeren.navn} size="w-20" />
 					</div>
 				{/if}
 			</div>
@@ -64,7 +64,7 @@
 				</p>
 			</li>
 		{/if}
-		{#if school}
+		{#if schoolId}
 			<li class="tooltip" data-tip="Dit skole-ID">
 				<p id="scho">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
@@ -75,7 +75,7 @@
 						<path
 							d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"
 						/>
-					</svg>{school}
+					</svg>{schoolId}
 				</p>
 			</li>
 		{/if}
