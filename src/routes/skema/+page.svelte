@@ -23,7 +23,6 @@
 			skemaId = `S${ cookie.userId}`;
 			const url = new URL(location);
 			url.searchParams.set('id', skemaId);
-			history.replaceState({}, '', url);
 		}
 	});
 

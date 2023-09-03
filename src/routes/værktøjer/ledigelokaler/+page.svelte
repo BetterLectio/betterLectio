@@ -32,6 +32,7 @@
 	<ul class="list mb-4">
 		<h1 class="heading">Ledige lokaler</h1>
 		{#each $lokaler.ledige as lokale}
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<li
 				class="btn-success btn mb-2 flex h-fit scale-99 hover:scale-100 md:justify-between"
 				on:click={findRoomIdAndRedirect(lokale.lokale)}
@@ -47,6 +48,7 @@
 	<ul class="list mb-4">
 		<h1 class="pb-2 text-2xl font-bold">Optagede lokaler</h1>
 		{#each $lokaler.optagede as lokale}
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<li class="btn-error btn mb-2 flex h-fit scale-99 justify-between hover:scale-100" on:click={findRoomIdAndRedirect(lokale.lokale)}>
 				<p class="text-lg font-bold">{lokale.lokale}</p>
 			</li>

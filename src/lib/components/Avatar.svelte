@@ -16,7 +16,6 @@
 		try {
 			const response = await fetch(`${api}/profil_billed?id=${id}&fullsize=1`, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } });
 			if (response.ok) return await response.text();
-
 			return null;
 		} catch (error) {
 			return null;
