@@ -35,11 +35,11 @@
 
 <h1 class="heading">Elevliste</h1>
 
-<div>
+<div class="md:flex md:flex-cols">
 	<input
 		type="text"
 		placeholder="Søg i elevliste"
-		class="input-bordered input mb-4 w-full md:w-1/4"
+		class="input-bordered input mb-4 w-full mr-0 md:mr-2 md:w-1/4"
 		bind:value={searchString}
 		on:input={search}
 	/>
