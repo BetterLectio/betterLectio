@@ -158,19 +158,20 @@
 										{opgave.frist}
 									</div>
 								{:else}
-									<p class="frist inline-block p-0 pt-0.5 btn-xs w-max btn first-letter:uppercase">
+									<p class="frist inline-block pt-0.5 btn-xs w-max btn first-letter:uppercase">
 										{formatDate(opgave.date)}
 									</p>
 								{/if}
 							</td>
 							<td class="text-left" id={opgave.exerciseid}>
 								<div
-									class={`h-full text-left${ opgave.opgavenote.length > 100 ? ' tooltip tooltip-top' : ''}`}
+									class={`h-full text-left${ opgave.opgavenote.length > 100 ? ' tooltip cursor-pointer' : ''}`}
 									data-tip={opgave.opgavenote}
-								></div>
-								<p class="line-clamp-1">
-									{opgave.opgavenote}
-								</p>
+								>
+									<p class="line-clamp-1">
+										{opgave.opgavenote}
+									</p>
+								</div>
 							</td>
 						</tr>
 					{/each}
