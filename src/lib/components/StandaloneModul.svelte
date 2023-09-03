@@ -6,7 +6,7 @@
 </script>
 
 {#if !modul.absid.includes('privat')}
-	<a class="btn mb-4 block h-fit p-2 normal-case hover:scale-105 border-0" href="/modul/?absid={modul.absid}" style={`background-color:${getModulColor(modul, renderWithColor)}`}>
+	<a class="btn mb-4 last:mb-0 block h-fit p-2 normal-case hover:scale-105 border-0" href="/modul/?absid={modul.absid}" style={`background-color:${getModulColor(modul, renderWithColor)}`}>
 		{#if modul.navn}
 			{#if modul.andet}
 				<div class="tooltip flex justify-center" data-tip="Har indhold">
@@ -34,7 +34,7 @@
 		{/if}
 	</a>
 {:else}
-	<div class="btn mb-4 block h-fit p-2 normal-case border-0 no-animation" style={`background-color:${getModulColor(modul, renderWithColor)}`}>
+	<div class="btn mb-4 block h-fit p-2 normal-case border-0 no-animation last:mb-0" style={`background-color:${getModulColor(modul, renderWithColor)}`}>
 		<div class="flex justify-center items-center">
 			{#if modul.navn}
 				<h1 class="text-xl font-bold">{modul.navn} {modul.hold ? modul.hold : ''}</h1>
