@@ -86,12 +86,12 @@
 			<div class="modal-action ml-2">
 				<button
 					on:click={() => {
-						const skoleId = localStorage.getItem('skole_id');
+						const schoolId = localStorage.getItem('schoolId');
 						const theme = localStorage.getItem('theme');
 
 						localStorage.clear();
 
-						localStorage.setItem('skole_id', skoleId);
+						localStorage.setItem('schoolId', schoolId);
 						localStorage.setItem('theme', theme);
 
 						window.location.href = '/auth';

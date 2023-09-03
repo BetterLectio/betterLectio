@@ -12,21 +12,22 @@
 	window.addEventListener('resize', handleResize);
 
 	let terminer = null;
+	let selectedTermin = null;
 	get('/terminer').then(data => {
 		terminer = data;
+		selectedTermin = terminer.selected;
 	});
 
-	function aendreTermin(btn) {
+	$: ændrerTermin = () => {
 		terminer = null;
 
-		const id = btn.srcElement.id.toString();
-		get(`/aendre_termin?id=${id}`).then(data => {
-			if (data.success) terminer.selected = id;
+		get(`/aendre_termin?id=${selectedTermin}`).then(data => {
+			if (data.success) terminer.selected = selectedTermin;
 			else addNotification('Der skete en fejl ved ændringen af terminet', 'alert-error');
 		});
 
 		reloadData();
-	}
+	};
 </script>
 
 <h1 class="heading">Indstillinger - Generelt</h1>
@@ -86,22 +87,26 @@
 <div class="mt-4 rounded-lg bg-base-200 p-4">
 	<div class="form-control">
 		<span class="mb-2 text-lg font-bold">Termin</span>
-		<p>Skift dit termin</p>
+		<label class="label cursor-pointer">
+			<span class="label-text">Vælg dit termin</span>
+			{#if terminer}
+				<select
+					name="termin"
+					id="termin"
+					placeholder="Vælg dit termin"
+					tabindex="0"
+					class="select select-sm py-0"
+					bind:value={selectedTermin}
+					on:change={ændrerTermin}
+				>
+					<option value="" disabled selected> Vælg termin </option>
+					{#each Object.entries(terminer.terminer) as [terminId, terminName]}
+						<option value={terminId}>{terminName}</option>
+					{/each}
+				</select>
+			{:else}
+				<span class="loading loading-dots loading-lg" />
+			{/if}
+		</label>
 	</div>
-	{#if terminer}
-		{#each Object.entries(terminer.terminer) as termin}
-			<label class="label cursor-pointer">
-				<span class="label-text">{termin[1]}</span>
-				<input
-					type="checkbox"
-					class="checkbox"
-					checked={termin[0] === terminer.selected ? 'checked' : ''}
-					id={termin[0]}
-					on:click={aendreTermin}
-				/>
-			</label>
-		{/each}
-	{:else}
-		<span class="loading loading-dots loading-lg" />
-	{/if}
 </div>

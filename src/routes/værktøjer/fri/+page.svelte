@@ -10,7 +10,7 @@
 
 	let id = null;
 	cookieInfo().then(cookie => {
-		if (id === null) id = `S${ cookie.userid}`;
+		if (id === null) id = `S${ cookie.userId}`;
 	});
 
 	// eslint-disable-next-line no-extend-native

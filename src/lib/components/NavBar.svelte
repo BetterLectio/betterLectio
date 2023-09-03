@@ -129,7 +129,7 @@
 				{#if $brugeren && localStorage.getItem('lectio-cookie') && cookie}
 					<div class="dropdown dropdown-bottom dropdown-end hidden md:block">
 						<div tabindex="0" class="btn-ghost btn flex justify-end gap-1 font-normal normal-case">
-							<Avatar id={`S${ cookie.userid}`} navn={$brugeren.navn} size="w-10" />
+							<Avatar id={`S${ cookie.userId}`} navn={$brugeren.navn} size="w-10" />
 							<svg
 								width="12px"
 								height="12px"
@@ -212,7 +212,7 @@
 			{#if $brugeren && localStorage.getItem('lectio-cookie') && cookie}
 				<div>
 					<span class="md:hidden">
-						<Avatar id={`S${ cookie.userid}`} navn={$brugeren.navn} size="w-20 ml-4" />
+						<Avatar id={`S${ cookie.userId}`} navn={$brugeren.navn} size="w-20 ml-4" />
 						<div class="mt-2 mb-2 ml-4 mr-4">
 							<h1 class="flex justify-start whitespace-nowrap text-lg font-bold">
 								{$brugeren.navn.split(', ')[0]}

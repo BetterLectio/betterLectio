@@ -116,7 +116,7 @@
 
 		<h1 class="text-2xl font-bold">Opgaveindlæg</h1>
 		{#if aflevedeOpgaveItems.harAfleveret}
-			<table class="mb-4 mt-2 table w-full rounded-xl shadow-xl">
+			<table class="mb-4 mt-2 table w-full rounded-xl">
 				<thead>
 					<tr>
 						<th />
@@ -145,14 +145,14 @@
 			</table>
 			{#if personAfleveringItems?.afsluttet === 'Nej'}
 				<a
-					href="https://www.lectio.dk/lectio/{cookie.school}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
+					href="https://www.lectio.dk/lectio/{cookie.schoolId}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
 					target="_blank"
 					class="btn-primary btn my-2">Aflever igen</a
 				>
 			{/if}
-		{:else if cookie?.school}
+		{:else if cookie?.schoolId}
 			<a
-				href="https://www.lectio.dk/lectio/{cookie.school}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
+				href="https://www.lectio.dk/lectio/{cookie.schoolId}/ElevAflevering.aspx?elevid={elevId}&exerciseid={exerciseid}"
 				target="_blank"
 				class="btn-primary btn my-2">Aflever her</a
 			>
