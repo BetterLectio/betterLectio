@@ -368,7 +368,7 @@
 					{#each $fravaer?.generalt as fravaerhold}
 						{#if fravaerhold?.hold === 'Samlet'}
 							<tr>
-								<td>{holdOversætter(fravaerhold?.hold, $hold)}</td>
+								<td>{fravaerhold?.hold}</td>
 								<td>{overblikType === 'Opgjort' ? fravaerhold?.opgjort_fravær_procent : fravaerhold?.heleåret_fravær_procent}</td>
 								<td>{overblikType === 'Opgjort' ? fravaerhold?.opgjort_fravær_moduler : fravaerhold?.heleåret_fravær_moduler}</td>
 							</tr>
