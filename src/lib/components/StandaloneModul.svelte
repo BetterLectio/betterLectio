@@ -5,7 +5,7 @@
 	export let renderWithColor = true;
 </script>
 
-<a class="btn mb-4 block h-fit p-2 normal-case" href="/modul/?absid={modul.absid}" style={`background-color:${getModulColor(modul, renderWithColor)}`}>
+<a class="btn mb-4 block h-fit p-2 normal-case hover:scale-105" href="/modul/?absid={modul.absid}" style={`background-color:${getModulColor(modul, renderWithColor)}`}>
 	{#if modul.navn}
 		{#if modul.andet}
 			<div class="tooltip flex justify-center" data-tip="Har indhold">
