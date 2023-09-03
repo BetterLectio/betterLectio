@@ -20,7 +20,7 @@
 
 	$: if (weeknr) console.log(weeknr);
 
-	// TODO: flyt til .env eller pin kode indtastning eller noget ¯\_(ツ)_/¯
+	// flyt til .env eller pin kode indtastning eller noget ¯\_(ツ)_/¯
 	const secretKey = 'meget hemmelig nøgle';
 
 	function handleAutoAuth() {

@@ -11,6 +11,7 @@
 	let brugernavn = '';
 	let adgangskode = '';
 	let schoolId = '';
+	if (localStorage.getItem('schoolId')) schoolId = localStorage.getItem('schoolId');
 	let options = { '': '' };
 	let isInAutoAuth = false;
 
