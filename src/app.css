@@ -26,13 +26,24 @@
 @tailwind utilities;
 
 .list {
-  @apply overflow-y-scroll rounded-lg bg-base-200 p-4 pb-0 shadow-lg;
+  @apply overflow-y-scroll rounded-lg bg-base-200 p-4 pb-0;
 }
+
 .element {
   @apply mb-4 rounded-lg bg-base-300 p-4;
 }
+
 .heading {
   @apply mb-4 text-3xl font-bold;
+}
+
+.btn {
+  @apply normal-case;
+  @apply leading-4;
+}
+
+.checkbox {
+  @apply bg-transparent;
 }
 
 /* Calender outline */
@@ -40,7 +51,16 @@
 .school-schedule .ec-all-day,
 .school-schedule .ec-body,
 .school-schedule .ec-days,
+.school-schedule .ec-toolbar,
 .school-schedule .ec-day {
   border-color: hsl(var(--bc) / var(--tw-bg-opacity));
   --tw-bg-opacity: 0.1;
+}
+
+.school-schedule .ec-header .ec-days>.ec-day {
+  text-transform: capitalize;
+}
+
+.school-schedule .ec-event-title {
+  white-space: nowrap;
 }
