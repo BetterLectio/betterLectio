@@ -85,7 +85,7 @@
 		title: 'md:ec-title',
 		today: 'bg-base-300',
 		toolbar:
-			'flex items-center ec-toolbar bg-base-100 border border-1 md:text-base-content md:bg-base-100 p-2 rounded-t-2xl -mt-8 md:mt-0 ',
+			'flex items-center ec-toolbar bg-base-100 border border-1 md:border-none md:text-base-content md:bg-base-100 p-2 rounded-t-2xl -mt-8 md:mt-0 ',
 		uniform: 'ec-uniform',
 		week: 'ec-week',
 		withScroll: 'ec-hidden-scroll'
@@ -310,7 +310,7 @@
 </script>
 
 <div class="my-2 flex justify-between">
-	<h1 class="heading hidden md:visible">{heading}</h1>
+	<h1 class="heading invisible md:visible">{heading}</h1>
 
 	{#if cookie?.userId}
 		<a
