@@ -28,7 +28,7 @@
 	onMount(async () => {
 		await themeChange(false);
 
-		if (!await window.navigator.userAgent.includes('BetterLectio Mobile')) {
+		if (await window.navigator.userAgent.includes('BetterLectio Mobile')) {
 			const _version = await fetch(api+"/app_version");
 			app_version = await _version.text();
 		}
