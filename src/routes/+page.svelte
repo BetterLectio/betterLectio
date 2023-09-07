@@ -316,14 +316,17 @@
 		</div>
 	</div>
 	<div class="/md:flex/ justify-end hidden">
-		<picture class="" in:fade={{ duration: 1000 }}>
-			<source class="" srcset="/opg_dark.png" media="(prefers-color-scheme:dark)" />
-			<img class="" src="/opg_light.png" alt="opgave side" />
+		<picture in:fade={{ duration: 1000 }}>
+			<source type="image/avif" srcset="/opg_dark.avif" media="(prefers-color-scheme:dark)" />
+			<source type="image/png" srcset="/opg_dark.png" media="(prefers-color-scheme:dark)" />
+			<source type="image/avif" srcset="/opg_light.avif" />
+			<img src="/opg_light.png" alt="opgave side" loading="lazy" decoding="async" />
 		</picture>
 	</div>
-	<div class="md:flex justify-center hidden h-[900px] background-cover mb-32 rounded-3xl mx-4">
-		<img class="" src="/3phone.png" alt="telefon mockup" />
-	</div>
+	<picture class="md:flex justify-center hidden h-[900px] background-cover mb-32 rounded-3xl mx-4">
+		<source srcset="/3phone.avif" type="image/avif" />
+		<img src="/3phone.png" type="image/png" alt="telefon mockup" loading="lazy" decoding="async" />
+	</picture>
 	<div class="container mx-auto w-full mt-4 z-30 relative" in:fade={{ duration: 1000 }}>
 		<div>
 			{#if stats}
@@ -362,11 +365,11 @@
 				<iframe
 					id="player"
 					type="text/html"
-					src="https://www.youtube.com/embed/594er80meJk?enablejsapi=1&origin=https://betterlectio.dk"
+					loading="lazy"
+					src="https://www.youtube-nocookie.com/embed/594er80meJk?enablejsapi=1&origin=https://betterlectio.dk"
 					frameborder="0"
 				/>
 			</div>
-
 			{#if loaded}
 				<div
 					id="downloads"
