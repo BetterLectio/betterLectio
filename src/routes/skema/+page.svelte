@@ -3,11 +3,11 @@
 	import { getModulColor, standardizeTimeRange } from '$lib/js/LectioUtils.js';
 	import Calendar from '@event-calendar/core';
 	import TimeGrid from '@event-calendar/time-grid';
+	import { addNotification } from '$lib/js/notifyStore.js';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
 	import { goto } from '$app/navigation';
 	import { holdOversætterNy } from '$lib/js/HoldOversætter.js';
-	import { addNotification } from '$lib/js/notifyStore.js';
 
 	let skema = {};
 	let heading = 'Skema';
@@ -207,7 +207,7 @@
 
 			if (modul.hold_id !== null && $fag[modul.hold_id] === undefined) {
 				// eslint-disable-next-line no-await-in-loop
-				await holdOversætterNy(modul.hold_id).then(_fag => {
+				await holdOversætterNy(modul.hold_id, modul.hold).then(_fag => {
 					$fag[modul.hold_id] = _fag === 'Andet' ? modul.hold : _fag;
 				});
 			}
@@ -310,7 +310,7 @@
 </script>
 
 <div class="my-2 flex justify-between">
-	<h1 class="heading {window.innerWidth < 768 ? "hidden" : "visible"}">{heading}</h1>
+	<h1 class="heading {window.innerWidth < 768 ? 'hidden' : 'visible'}">{heading}</h1>
 
 	{#if cookie?.userId}
 		<a

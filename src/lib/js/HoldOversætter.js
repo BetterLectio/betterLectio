@@ -15,11 +15,11 @@ export function holdOversætter(holdForkortet = '', holdArray = []) {
 	return JSON.parse(fagObj).fag;
 }
 
-export async function holdOversætterNy(holdId = '') {
+export async function holdOversætterNy(holdId, fallback = 'Andet') {
 	try {
 		const { fag } = await get(`/hold_til_fag?id=${ holdId}`);
 		return fag;
 	} catch {
-		return 'Andet';
+		return fallback;
 	}
 }
