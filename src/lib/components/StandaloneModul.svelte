@@ -58,7 +58,7 @@
 		{/if}
 		<h1 class="text-sm font-bold">
 			{startTime.toLocaleTimeString(...timeOptions)} - {endTime.toLocaleTimeString(...timeOptions)}
-			{modul.lokale ? ` · ${modul.lokale}` : ''}
+			<p class="border-2 inline">{modul.lokale ? ` · ${modul.lokale}` : ''}</p>
 		</h1>
 	</a>
 {:else}
@@ -78,7 +78,6 @@
 		</div>
 		<h1 class="text-sm font-bold">
 			{startTime.toLocaleTimeString(...timeOptions)} - {endTime.toLocaleTimeString(...timeOptions)}
-			{modul.lokale ? `, ${modul.lokale}` : ''}
 		</h1>
 	</div>
 {/if}

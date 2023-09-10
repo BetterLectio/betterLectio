@@ -165,7 +165,7 @@
 		},
 		eventDidMount: event => {
 			// if the event is cancelled, add a class to the event
-			if (event.event.backgroundColor === 'hsl(var(--er))') event.el.classList.add('line-through', 'hover:decoration-2');
+			if (event.event.backgroundColor === 'hsl(0, 75%, 65%, 0.9)') event.el.classList.add('line-through', 'hover:decoration-2');
 
 			if (event.event.extendedProps.hasContent) {
 				event.el.classList.add('after:text-base',
