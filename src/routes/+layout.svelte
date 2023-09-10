@@ -12,6 +12,7 @@
 	import { addNotification } from '$lib/js/notifyStore.js';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { onMount } from 'svelte';
+	import { onNavigate } from '$app/navigation';
 	import { themeChange } from 'theme-change';
 	import { version } from '$app/environment';
 
@@ -37,6 +38,17 @@
 			const _version = await fetch(`${api}/app_version`);
 			appVersion = await _version.text();
 		}
+	});
+
+	onNavigate(navigation => {
+		if (!document.startViewTransition) return;
+		// eslint-disable-next-line consistent-return
+		return new Promise(resolve => {
+			document.startViewTransition(async() => {
+				resolve();
+				await navigation.complete;
+			});
+		});
 	});
 
 	$indstillinger = $indstillinger ?? {};
