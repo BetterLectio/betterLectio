@@ -12,30 +12,30 @@
   "devDependencies": {
     "@sveltejs/adapter-auto": "^2.1.0",
     "@sveltejs/kit": "^1.24.1",
-    "@tailwindcss/forms": "^0.5.6",
+    "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.4",
-    "autoprefixer": "^10.4.15",
-    "daisyui": "^3.7.3",
-    "eslint": "^8.49.0",
+    "autoprefixer": "^10.4.14",
+    "daisyui": "^3.5.0",
+    "eslint": "^8.47.0",
     "eslint-config-raven": "^1.0.3",
-    "eslint-plugin-svelte": "^2.33.1",
-    "postcss": "^8.4.29",
-    "svelte": "^4.2.0",
-    "svelte-eslint-parser": "^0.33.0",
-    "tailwindcss": "^3.3.3",
-    "vite": "^4.4.9"
+    "eslint-plugin-svelte": "^2.26.0",
+    "postcss": "^8.4.23",
+    "svelte": "^3.54.0",
+    "svelte-eslint-parser": "^0.32.2",
+    "tailwindcss": "^3.3.2",
+    "vite": "^4.3.9"
   },
   "type": "module",
   "dependencies": {
     "@event-calendar/core": "^1.5.0",
     "@event-calendar/time-grid": "^1.5.0",
-    "crypto-es": "^2.0.4",
+    "crypto-es": "^1.2.7",
     "dompurify": "^3.0.5",
     "markdown-it": "^13.0.1",
     "mixpanel-browser": "^2.47.0",
     "moment": "^2.29.4",
     "svelte-chartjs": "^3.1.2",
-    "svelte-intersection-observer": "^0.10.1",
+    "svelte-intersection-observer": "^0.10.0",
     "theme-change": "^2.5.0"
   }
 }
