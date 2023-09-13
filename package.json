@@ -7,7 +7,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint 'src/**/*.{js,svelte}'",
-    "format": "eslint 'src/**/*.{js,svelte}' --fix"
+    "lint-fix": "eslint 'src/**/*.{js,svelte}' --fix"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^2.1.0",
