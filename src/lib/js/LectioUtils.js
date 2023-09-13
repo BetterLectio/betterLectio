@@ -57,7 +57,7 @@ export function getModulColor(modul, useDifferentColors) {
 		case 'ændret':
 			if (useDifferentColors) return `hsl(${getHoldHue(modul.hold)}, 75%, 65%, 0.25)`;
 			return 'hsl(212.5, 75%, 65%, 0.25)';
-		case 'eksamnen':
+		case 'eksamen':
 			return 'hsl(262, 100%, 65%, 0.25)';
 		default:
 			return 'hsl(0, 0%, 0%, 0.1)';
