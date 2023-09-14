@@ -120,42 +120,7 @@
 	</div>
 
 	{#if _opgaver}
-		<ul class="list my-4 lg:hidden">
-			{#each _opgaver as opgave}
-				<li class="relative flex {opgave.class} mt-2 h-full w-full justify-start text-left font-normal normal-case">
-					<a class="mt-2 mb-2" href="/opgave?exerciseid={opgave.exerciseid}">
-						<div class="flex items-center">
-							<div class="mr-4 flex-none">
-								<div>
-									<p><strong>{opgave.frist.split('-')[0]}</strong></p>
-									<p><strong>{opgave.frist.split(' ')[1]}</strong></p>
-								</div>
-							</div>
-
-							<!-- the following css is to fix the overflow bug on mobile -->
-							<div class="w-[calc(100vw-150px)]">
-								<p class="font-bold line-clamp-2 {opgave.status === 'Venter' ? 'mr-16' : ''}">
-									{opgave.opgavetitel}
-								</p>
-								<p>{holdOversætter(opgave.hold, $hold)}</p>
-								<p class="line-clamp-1 max-w {opgave.status === 'Venter' ? 'mr-16' : ''}">{opgave.opgavenote}</p>
-							</div>
-							{#if opgave.status === 'Venter'}
-								<div class="flex items-center">
-									<div class="absolute right-0 mr-4 text-end">
-										<p><strong>Om</strong></p>
-										<p>
-											<strong>{formatDate(opgave.date).replace('om ', '')}</strong>
-										</p>
-									</div>
-								</div>
-							{/if}
-						</div>
-					</a>
-				</li>
-			{/each}
-		</ul>
-		<div class="hidden overflow-x-hidden lg:flex">
+		<div class="overflow-x-hidden flex">
 			<table class="table-zebra my-4 table w-full">
 				<thead>
 					<tr>
@@ -163,13 +128,12 @@
 						<th>Timer</th>
 						<th>Fag</th>
 						<th>Frist</th>
-						<th>Opgavenote</th>
+						<th class="max-sm:hidden">Opgavenote</th>
 					</tr>
 				</thead>
 				<tbody class="w-full">
 					{#each _opgaver as opgave (opgave.exerciseid)}
-						<tr class="" in:fade={{ duration: 200 }}>
-						<tr on:click={goto(`/opgave?exerciseid=${opgave.exerciseid}`)} class="" in:fade={{ duration: 200 }}>
+						<tr on:click={goto(`/opgave?exerciseid=${opgave.exerciseid}`)} class="max-sm:h-8" in:fade={{ duration: 200 }}>
 							<td>
 								<a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">
 									<p class="line-clamp-1">{opgave.opgavetitel}</p>
@@ -179,16 +143,16 @@
 							<td class="">{holdOversætter(opgave.hold, $hold)}</td>
 							<td class="w-fit">
 								{#if $indstillinger?.opgaver?.visFristAbsolut}
-									<div class="frist w-max btn-xs btn">
+									<div class="w-max btn-xs btn">
 										{opgave.frist}
 									</div>
 								{:else}
-									<p class="frist inline-block pt-0.5 btn-xs w-max btn first-letter:uppercase">
+									<p class="inline-block pt-0.5 btn-xs w-max btn first-letter:uppercase">
 										{formatDate(opgave.date)}
 									</p>
 								{/if}
 							</td>
-							<td class="text-left" id={opgave.exerciseid}>
+							<td class="text-left max-sm:hidden" id={opgave.exerciseid}>
 								<div
 									class={`h-full text-left${ opgave.opgavenote.length > 100 ? ' tooltip cursor-pointer' : ''}`}
 									data-tip={opgave.opgavenote}
