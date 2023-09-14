@@ -235,9 +235,7 @@
 						<th>status</th>
 						<th>besked</th>
 						<th>hold</th>
-						{#if Object.values(responseObj)[0].status !== '200'}
-							<th>forklaring</th>
-						{/if}
+						<th>forklaring</th>
 					</tr>
 				</thead>
 				<tbody>
