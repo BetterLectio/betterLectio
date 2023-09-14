@@ -4,6 +4,7 @@
 	import { formatDate } from '$lib/js/relativeTime.js';
 	import { get } from '$lib/js/http.js';
 	import { holdOversætter } from '$lib/js/HoldOversætter.js';
+	import { goto } from '$app/navigation';
 
 	let _opgaver = [];
 	let selected = 'ikkeAfleveredeOpgaver';
@@ -38,11 +39,11 @@
 				continue;
 			} else if (opgave.status === 'Venter') {
 				opgave.class = 'btn btn-warning';
+				ikkeAfleveredeOpgaver.push(opgave);
 			} else {
 				opgave.class = 'btn btn-error';
+				ikkeAfleveredeOpgaver.push(opgave);
 			}
-			ikkeAfleveredeOpgaver.push(opgave);
-			afleveredeOpgaver.reverse();
 		}
 
 		if (selected === 'ikkeAfleveredeOpgaver') {
@@ -168,6 +169,7 @@
 				<tbody class="w-full">
 					{#each _opgaver as opgave (opgave.exerciseid)}
 						<tr class="" in:fade={{ duration: 200 }}>
+						<tr on:click={goto(`/opgave?exerciseid=${opgave.exerciseid}`)} class="" in:fade={{ duration: 200 }}>
 							<td>
 								<a href="/opgave?exerciseid={opgave.exerciseid}" class="{opgave.class} btn-xs w-full">
 									<p class="line-clamp-1">{opgave.opgavetitel}</p>
