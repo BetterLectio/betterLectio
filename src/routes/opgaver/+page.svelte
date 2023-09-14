@@ -74,38 +74,44 @@
 
 <div>
 	<h1 class="heading">Opgaver</h1>
-	<div class="flex flex-col sm:flex-row">
-		<div class="tabs tabs-boxed w-full justify-between sm:w-fit">
+	<div class="flex sm:flex-row flex-col">
+		<div class="tabs items-center tabs-boxed justify-between max-sm:hidden">
 			<button
-				class={selected === 'ikkeAfleveredeOpgaver' ? 'tab- tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
+				class="{selected === 'ikkeAfleveredeOpgaver' ? 'tab-active ' : ''} tab"
 				on:click={() => {
 					selected = 'ikkeAfleveredeOpgaver';
 				}}>Ikke Afleverede
 			</button			>
 			<button
-				class={selected === 'afleveredeOpgaver' ? 'tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
+				class="{selected === 'afleveredeOpgaver' ? 'tab-active ' : ''} tab"
 				on:click={() => {
 					selected = 'afleveredeOpgaver';
 				}}>Afleverede
 			</button>
 			<button
-				class={selected === 'afsluttedeOpgaver' ? 'tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
+				class="{selected === 'afsluttedeOpgaver' ? 'tab-active ' : ''} tab"
 				on:click={() => {
 					selected = 'afsluttedeOpgaver';
 				}}>Afsluttet
 			</button>
 			<button
-				class={selected === 'feedbackOpgaver' ? 'tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
+				class="{selected === 'feedbackOpgaver' ? 'tab-active ' : ''} tab"
 				on:click={() => {
 					selected = 'feedbackOpgaver';
 				}}>Med Feedback
 			</button>
 
 		</div>
+		<select class="select select-bordered w-full bg-base-200 sm:hidden" bind:value={selected}>
+			<option value='ikkeAfleveredeOpgaver' >Ikke Afleverede</option>
+			<option value='afleveredeOpgaver' >Afleverede</option>
+			<option value='afsluttedeOpgaver' >Afsluttet</option>
+			<option value='feedbackOpgaver' >Med Feedback</option>
+		</select>
 		<input
 			type="text"
 			placeholder="Søg"
-			class="input input-sm mt-4 w-full bg-base-200 sm:mt-0 sm:ml-4 sm:h-10 sm:w-fit"
+			class="input sm:h-10 bg-base-200 mt-4 sm:mt-0 sm:ml-4 "
 			bind:value={searchString}
 			on:input={search}
 		/>
