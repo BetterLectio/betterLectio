@@ -33,7 +33,7 @@
 				afleveredeOpgaver.push(opgave);
 				continue;
 			} else if (opgave.status === 'Afsluttet') {
-				opgave.class = 'btn';
+				opgave.class = 'btn btn-neutral';
 				afsluttedeOpgaver.push(opgave);
 				continue;
 			} else if (opgave.status === 'Venter') {
@@ -102,7 +102,7 @@
 			</button>
 
 		</div>
-		<select class="select select-bordered w-full bg-base-200 sm:hidden" bind:value={selected}>
+		<select class="select w-full bg-base-200 sm:hidden" bind:value={selected}>
 			<option value='ikkeAfleveredeOpgaver' >Ikke Afleverede</option>
 			<option value='afleveredeOpgaver' >Afleverede</option>
 			<option value='afsluttedeOpgaver' >Afsluttet</option>
