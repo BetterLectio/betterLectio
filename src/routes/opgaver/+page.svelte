@@ -65,9 +65,10 @@
 
 		const searchResults = [];
 		$opgaver.forEach(opgave => {
-			if (opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase())) searchResults.push(opgave);
+			if (opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase()) || holdOversætter(opgave.hold, $hold).toLowerCase()
+				.includes(searchString.toLowerCase())) searchResults.push(opgave);
 		});
-		_opgaver = searchResults;
+		_opgaver = searchResults.reverse();
 	}
 
 	$: if ($opgaver && (selected === 'ikkeAfleveredeOpgaver' || selected === 'afleveredeOpgaver' || selected === 'afsluttedeOpgaver' || selected === 'feedbackOpgaver')) _opgaver = sortOpgaver($opgaver);
