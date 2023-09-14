@@ -103,6 +103,7 @@
 				}}>Med Feedback
 			</button>
 
+
 		</div>
 		<select class="select w-full bg-base-200 sm:hidden" bind:value={selected}>
 			<option value='ikkeAfleveredeOpgaver' >Ikke Afleverede</option>
@@ -113,12 +114,20 @@
 		<input
 			type="text"
 			placeholder="Søg"
-			class="input sm:h-10 bg-base-200 mt-4 sm:mt-0 sm:ml-4 "
+			class="input sm:h-10 bg-base-200 mt-4 sm:mt-0 sm:mx-4 "
 			bind:value={searchString}
 			on:input={search}
 		/>
 
+
 	</div>
+	{#if selected === 'feedbackOpgaver'}
+		<div class="alert w-fit mt-4 p-2">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+			<span class="text-xs">Der kan være opgaver på denne liste, der ikke har fået feedback, hvis læren har afsluttet opgaven uden at give feedback.</span>
+		</div>
+	{/if}
+
 
 	{#if _opgaver}
 		<div class="overflow-x-hidden flex">
