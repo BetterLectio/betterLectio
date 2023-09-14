@@ -17,12 +17,17 @@
 		const ikkeAfleveredeOpgaver = [];
 		const afleveredeOpgaver = [];
 		const afsluttedeOpgaver = [];
+		const feedbackOpgaver = [];
 
 		// loop trouh __opgaver
 		for (const opgave of __opgaver) {
 			const _date = opgave.frist.replace('-', '/').split(' ');
 			const __date = _date[0].split('/');
 			opgave.date = new Date(`${__date[1]}/${__date[0]}/${__date[2]} ${_date[1]}`);
+			if ((opgave.status === 'Afleveret' && opgave.afventer === 'Elev') || (opgave.status === 'Afsluttet' && opgave.afventer === '')) {
+				feedbackOpgaver.push(opgave);
+				console.log('pushed', opgave);
+			}
 			if (opgave.status === 'Afleveret') {
 				opgave.class = 'btn btn-success';
 				afleveredeOpgaver.push(opgave);
@@ -45,9 +50,13 @@
 		} else if (selected === 'afleveredeOpgaver') {
 			afleveredeOpgaver.reverse();
 			return afleveredeOpgaver;
+		} else if (selected === 'afsluttedeOpgaver') {
+			afsluttedeOpgaver.reverse();
+			return afsluttedeOpgaver;
+		} else if (selected === 'feedbackOpgaver') {
+			feedbackOpgaver.reverse();
+			return feedbackOpgaver;
 		}
-		afsluttedeOpgaver.reverse();
-		return afsluttedeOpgaver;
 	}
 
 	function search() {
@@ -60,7 +69,7 @@
 		_opgaver = searchResults;
 	}
 
-	$: if ($opgaver && (selected === 'ikkeAfleveredeOpgaver' || selected === 'afleveredeOpgaver' || selected === 'afsluttedeOpgaver')) _opgaver = sortOpgaver($opgaver);
+	$: if ($opgaver && (selected === 'ikkeAfleveredeOpgaver' || selected === 'afleveredeOpgaver' || selected === 'afsluttedeOpgaver' || selected === 'feedbackOpgaver')) _opgaver = sortOpgaver($opgaver);
 </script>
 
 <div>
@@ -71,20 +80,27 @@
 				class={selected === 'ikkeAfleveredeOpgaver' ? 'tab- tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
 				on:click={() => {
 					selected = 'ikkeAfleveredeOpgaver';
-				}}>Ikke afleverede</button
-			>
+				}}>Ikke fleverede
+			</button			>
 			<button
 				class={selected === 'afleveredeOpgaver' ? 'tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
 				on:click={() => {
 					selected = 'afleveredeOpgaver';
-				}}>Afleverede</button
-			>
+				}}>Afleverede
+			</button>
 			<button
 				class={selected === 'afsluttedeOpgaver' ? 'tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
 				on:click={() => {
 					selected = 'afsluttedeOpgaver';
-				}}>Afsluttet</button
-			>
+				}}>Afsluttet
+			</button>
+			<button
+				class={selected === 'feedbackOpgaver' ? 'tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
+				on:click={() => {
+					selected = 'feedbackOpgaver';
+				}}>Med Feedback
+			</button>
+
 		</div>
 		<input
 			type="text"
@@ -93,6 +109,7 @@
 			bind:value={searchString}
 			on:input={search}
 		/>
+
 	</div>
 
 	{#if _opgaver}
