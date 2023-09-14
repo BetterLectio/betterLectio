@@ -80,7 +80,7 @@
 				class={selected === 'ikkeAfleveredeOpgaver' ? 'tab- tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
 				on:click={() => {
 					selected = 'ikkeAfleveredeOpgaver';
-				}}>Ikke fleverede
+				}}>Ikke Afleverede
 			</button			>
 			<button
 				class={selected === 'afleveredeOpgaver' ? 'tab tab-active tab-sm sm:tab-md' : 'tab tab-sm sm:tab-md'}
