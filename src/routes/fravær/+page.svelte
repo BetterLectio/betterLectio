@@ -56,10 +56,6 @@
 				if (element.hold === 'Samlet') {
 					opgjortFravaer = element.opgjort_fravær_procent;
 					forÅretFravaer = element.heleåret_fravær_procent;
-					// eslint-disable-next-line camelcase
-					element.heleåret_fravær_moduler = element.heleåret_fravær_moduler.replace(/,/gu, '.');
-					// eslint-disable-next-line camelcase
-					element.opgjort_fravær_moduler = element.opgjort_fravær_moduler.replace(/,/gu, '.');
 				}
 			});
 			$fravaer?.moduler?.oversigt.reverse();
