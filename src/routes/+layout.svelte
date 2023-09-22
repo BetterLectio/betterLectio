@@ -23,8 +23,6 @@
 	if (app == 'iOS') $mobile = 'iOS';
 	else if (app == 'none') localStorage.removeItem('mobile');
 
-	alert(api);
-
 	let appVersion = null;
 	let windowWidth = window.innerWidth;
 
