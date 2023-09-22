@@ -1,7 +1,7 @@
 <script>
 	import '../app.css';
 	import { api, get } from '$lib/js/http.js';
-	import { brugeren, hold, indstillinger } from '$lib/js/store.js';
+	import { brugeren, hold, indstillinger, mobile } from '$lib/js/store.js';
 	import ErrorMsg from '$lib/components/ErrorMsg.svelte';
 	import GlobalSearch from '$lib/components/GlobalSearch.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
@@ -15,8 +15,16 @@
 	import { onNavigate } from '$app/navigation';
 	import { themeChange } from 'theme-change';
 	import { version } from '$app/environment';
+	import { page } from '$app/stores';
 
 	export let data = null;
+
+	const app = $page.url.searchParams.get('app');
+	if (app == 'iOS') $mobile = 'iOS';
+	else if (app == 'none') localStorage.removeItem('mobile');
+
+	alert(api);
+
 	let appVersion = null;
 	let windowWidth = window.innerWidth;
 

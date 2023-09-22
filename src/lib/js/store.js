@@ -18,3 +18,4 @@ export const studieretningspraesentation = localStore('studieretningspraesentati
 export const spørgeskemaer = localStore('spørgeskemaer');
 export const hold = localStore('hold');
 export const fag = localStore('fag');
+export const mobile = localStore('mobile');

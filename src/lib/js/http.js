@@ -9,9 +9,8 @@ import { addNotification } from '$lib/js/notifyStore.js';
 //   JSON.parse(Buffer.from(localStorage.getItem("authentication"), "base64").toString("ascii"))
 //     .LastLoginUserName
 // );
-
 export const api
-	= window.electron || window.navigator.userAgent.includes('BetterLectio Mobile') ? 'http://localhost:5000' : 'https://api.betterlectio.dk';
+	= window.electron || window.navigator.userAgent.includes('BetterLectio Mobile') || localStorage.getItem('mobile') ? 'http://localhost:5000' : 'https://api.betterlectio.dk';
 
 export function reloadData(reload = true) {
 	localStorage.setItem('nonce', Date.now().toString(36));
