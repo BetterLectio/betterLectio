@@ -20,8 +20,8 @@
 	export let data = null;
 
 	const app = $page.url.searchParams.get('app');
-	if (app == 'iOS') $mobile = 'iOS';
-	else if (app == 'none') localStorage.removeItem('mobile');
+	if (app === 'iOS') $mobile = 'iOS';
+	else if (app === 'none') localStorage.removeItem('mobile');
 
 	let appVersion = null;
 	let windowWidth = window.innerWidth;
