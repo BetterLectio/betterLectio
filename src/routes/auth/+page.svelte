@@ -47,6 +47,8 @@
 						window.location.href = decodeURIComponent(new URLSearchParams(window.location.search).get('redirect') || '/forside');
 					}
 					isInAutoAuth = false;
+				} else {
+					isInAutoAuth = false;
 				}
 			}
 		} catch (error) {
