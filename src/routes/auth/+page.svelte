@@ -19,10 +19,21 @@
 		try {
 			if (new URLSearchParams(window.location.search).get('redirect') || localStorage.getItem('lectio-cookie')) {
 				isInAutoAuth = true;
-				const data = await window.navigator.credentials.get({
-					password: true,
-					mediation: 'optional'
-				});
+				let data = {};
+				if (api === 'http://localhost:5000') {
+					if (localStorage.getItem('brugernavn') && localStorage.getItem('adgangskode') && localStorage.getItem('schoolId')) {
+						data.id = AES.decrypt(localStorage.getItem('brugernavn'), key).toString(Utf8);
+						data.password = AES.decrypt(localStorage.getItem('adgangskode'), key).toString(Utf8);
+						schoolId = localStorage.getItem('schoolId');
+
+						data.type = 'password';
+					}
+				} else {
+					data = await window.navigator.credentials.get({
+						password: true,
+						mediation: 'optional'
+					});
+				}
 				if (data.type === 'password') {
 					const response = await fetch(`${api}/auth`, {
 						headers: {
@@ -116,7 +127,7 @@
 			if (response.ok) {
 				setSkole();
 
-				if (saveLogin && api == 'http://localhost:5000') {
+				if (saveLogin && api === 'http://localhost:5000') {
 					localStorage.setItem('brugernavn', AES.encrypt(brugernavn, key));
 					localStorage.setItem('adgangskode', AES.encrypt(adgangskode, key));
 					localStorage.setItem('schoolId', schoolId);
@@ -149,14 +160,6 @@
 
 	function handleEnterLogin(evt) {
 		if (evt?.key === 'Enter') login();
-	}
-
-	if (localStorage.getItem('brugernavn') && localStorage.getItem('adgangskode') && localStorage.getItem('schoolId')) {
-		brugernavn = AES.decrypt(localStorage.getItem('brugernavn'), key).toString(Utf8);
-		adgangskode = AES.decrypt(localStorage.getItem('adgangskode'), key).toString(Utf8);
-		schoolId = localStorage.getItem('schoolId');
-
-		login();
 	}
 </script>
 
@@ -231,7 +234,7 @@
 								/>
 								<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveSchoolIdCheck">Husk skole</label>
 							</div>
-							{#if api == 'http://localhost:5000'}
+							{#if api === 'http://localhost:5000'}
 								<div class="divider divider-horizontal"></div>
 								<div class="flex join-item">
 									<input
