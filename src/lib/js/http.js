@@ -9,9 +9,8 @@ import { addNotification } from '$lib/js/notifyStore.js';
 //   JSON.parse(Buffer.from(localStorage.getItem("authentication"), "base64").toString("ascii"))
 //     .LastLoginUserName
 // );
-
 export const api
-  = window.electron || window.navigator.userAgent.includes('BetterLectio Mobile') ? 'http://localhost:5000' : 'https://api.betterlectio.dk';
+	= window.electron || window.navigator.userAgent.includes('BetterLectio Mobile') || localStorage.getItem('mobile') ? 'http://localhost:5000' : 'https://api.betterlectio.dk';
 
 export function reloadData(reload = true) {
 	localStorage.setItem('nonce', Date.now().toString(36));
@@ -19,7 +18,7 @@ export function reloadData(reload = true) {
 }
 
 async function checkCookieValidity() {
-	const cookieValidationCheck = await fetch(`${api }/check-cookie`, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } });
+	const cookieValidationCheck = await fetch(`${api}/check-cookie`, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } });
 	const { valid: isCookieValid } = await cookieValidationCheck.json();
 
 	return {
@@ -44,7 +43,7 @@ export async function get(endpoint) {
 	if (localStorage.getItem('lectio-cookie') === null) {
 		console.log('No cookie, redirecting to auth page');
 		const transformedLink = encodeURIComponent(window.location.href);
-		window.location.href = `/auth?redirect=${ transformedLink}`;
+		window.location.href = `/auth?redirect=${transformedLink}`;
 	}
 
 	let nonce = localStorage.getItem('nonce');
@@ -55,8 +54,8 @@ export async function get(endpoint) {
 
 	// Fetch the data from the API
 	let url = api + endpoint;
-	if (url.indexOf('?') > -1) url += `&nonce=${ nonce}`;
-	else url += `?nonce=${ nonce}`;
+	if (url.indexOf('?') > -1) url += `&nonce=${nonce}`;
+	else url += `?nonce=${nonce}`;
 
 	const start = performance.now();
 	const response = await fetch(url, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } });
@@ -94,7 +93,7 @@ export async function get(endpoint) {
 		addNotification('Din session er ugyldig, omdirigerer til login-side', 'alert-error');
 
 		const transformedLink = encodeURIComponent(window.location.href);
-		window.location.href = `/auth?redirect=${ transformedLink}`;
+		window.location.href = `/auth?redirect=${transformedLink}`;
 	}
 
 	return null;

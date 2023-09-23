@@ -47,13 +47,17 @@ export function getHoldHue(hold) {
  * @returns {string} CSS farve i hsl format
  */
 export function getModulColor(modul, useDifferentColors) {
+	console.log(modul.status);
 	try {
 		switch (modul.status) {
+		case 'aflyst':
+			return 'hsl(0, 75%, 65%, 0.9)';
 		case 'normal':
+		case 's2normal':
 		case 'ændret':
 			if (useDifferentColors) return `hsl(${getHoldHue(modul.hold)}, 75%, 65%, 0.25)`;
 			return 'hsl(212.5, 75%, 65%, 0.25)';
-		case 'eksamnen':
+		case 'eksamen':
 			return 'hsl(262, 100%, 65%, 0.25)';
 		default:
 			return 'hsl(0, 0%, 0%, 0.1)';

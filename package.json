@@ -1,17 +1,17 @@
 {
   "name": "betterlectio",
-  "version": "0.10.52",
+  "version": "0.10.74",
   "private": true,
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint 'src/**/*.{js,svelte}'",
-    "format": "eslint 'src/**/*.{js,svelte}' --fix"
+    "lint-fix": "eslint 'src/**/*.{js,svelte}' --fix"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^2.1.0",
-    "@sveltejs/kit": "^1.20.5",
+    "@sveltejs/kit": "^1.24.1",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.4",
     "autoprefixer": "^10.4.14",

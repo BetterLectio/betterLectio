@@ -27,6 +27,9 @@
 	};
 
 	function nameBlacklisted(name) {
+		// Test
+		return false;
+
 		let lessonName = name;
 
 		// TODO: Check notes for "frivillig" string (very rare)
