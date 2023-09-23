@@ -116,7 +116,7 @@
 			if (response.ok) {
 				setSkole();
 
-				if (saveLogin && window.electron) {
+				if (saveLogin && api == 'http://localhost:5000') {
 					localStorage.setItem('brugernavn', AES.encrypt(brugernavn, key));
 					localStorage.setItem('adgangskode', AES.encrypt(adgangskode, key));
 					localStorage.setItem('schoolId', schoolId);
@@ -231,7 +231,7 @@
 								/>
 								<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveSchoolIdCheck">Husk skole</label>
 							</div>
-							{#if window.electron}
+							{#if api == 'http://localhost:5000'}
 								<div class="divider divider-horizontal"></div>
 								<div class="flex join-item">
 									<input
