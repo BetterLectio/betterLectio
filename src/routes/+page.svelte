@@ -49,6 +49,9 @@
 	let latestRelease;
 	let stats;
 	let canvasReady = false;
+	let netlifyStatus = "";
+	let vercelStatus = "";
+	
 	onMount(async () => {
 		width = window.innerWidth - 17;
 		canvasReady = true;
@@ -62,7 +65,13 @@
 			await fetch("https://api.github.com/repos/BetterLectio/betterLectio/releases/latest")
 		).json();
 		loaded = true;
-		stats = await (await fetch("https://db.betterlectio.dk/stats")).json();
+		netlifyStatus = await (await fetch("https://www.netlifystatus.com/api/v2/status.json")).json();
+		console.log(netlifyStatus);
+
+		vercelStatus = await (await fetch("https://www.vercel-status.com/api/v2/status.json")).json();
+		console.log(vercelStatus);
+
+		stats = await (await fetch("https://db.betterlectio.dk/stats")).json();		
 	});
 
 	function scrollIntoView({ target }) {
@@ -457,6 +466,31 @@
 				</div>
 			{/if}
 		</div>
+	</div>
+	<div class="w-full mt-56 flex items-center p-2 pl-4 h-10 bg-base-300">
+		<span class="font-bold">Driftstatus: </span>
+		<span class="divider divider-horizontal"></span>
+		<span>Netlify:</span>
+		{#if netlifyStatus}
+			<span class={netlifyStatus.status.description === "All Systems Operational" ? "ml-2 h-4 w-4 rounded-full bg-green-500" : "ml-2 h-4 w-4 rounded-full bg-red-500"}></span>
+		{:else}
+			<span class="ml-2 h-4 w-4 rounded-full bg-yellow-500"></span>
+		{/if}
+		<span class="divider divider-horizontal"></span>
+		<img src="https://app.netlify.com/access-control/bb-api/api/v1/badges/e94b60ca-d0f9-4ebf-bffb-d1b0e83aca81/deploy-status" alt="status">
+
+		<span class="divider divider-horizontal"></span>
+		<span>Vercel:</span>
+		{#if vercelStatus}
+			<span class={vercelStatus.status.description === "All Systems Operational" ? "ml-2 h-4 w-4 rounded-full bg-green-500" : "ml-2 h-4 w-4 rounded-full bg-red-500"}></span>
+		{:else}
+			<span class="ml-2 h-4 w-4 rounded-full bg-yellow-500"></span>
+		{/if}
+
+		<span class="divider divider-horizontal"></span>
+
+		<!--lav et repo med noget json vi nemt kan opdaterer hvis en bug skulle poppe op idk-->
+
 	</div>
 {/if}
 
