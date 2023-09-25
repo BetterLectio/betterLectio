@@ -476,5 +476,21 @@ def ændre_termin():
     except Exception:
         return jsonify({"backend_error": traceback.format_exc()}), 500
 
+@app.route("/spoergeskema")
+@cache_for(minutes=5)
+def spørgeskema():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+        id = request.args.get("id")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.spørgeskema(id)))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
+
 if __name__ == '__main__':
     app.run()
