@@ -502,17 +502,18 @@
 		<span class="divider divider-horizontal"></span>
 		<span>Netlify:</span>
 		{#if netlifyStatus}
-			<span class={netlifyStatus.status.description === "All Systems Operational" ? "ml-2 h-4 w-4 rounded-full bg-green-500" : "ml-2 h-4 w-4 rounded-full bg-red-500"}></span>
+			<span class={netlifyStatus.status.indicator === "none" ? "ml-2 h-4 w-4 rounded-full bg-green-500" : netlifyStatus.status.indicator === "minor" ? "ml-2 h-4 w-4 rounded-full bg-yellow-500" : "ml-2 h-4 w-4 rounded-full bg-red-500"}></span>
 		{:else}
 			<span class="ml-2 h-4 w-4 rounded-full bg-yellow-500"></span>
 		{/if}
 		<span class="divider divider-horizontal"></span>
+		<span class="mr-2">BetterLectio:</span>
 		<img src="https://app.netlify.com/access-control/bb-api/api/v1/badges/e94b60ca-d0f9-4ebf-bffb-d1b0e83aca81/deploy-status" alt="status">
 
 		<span class="divider divider-horizontal"></span>
 		<span>Vercel:</span>
 		{#if vercelStatus}
-			<span class={vercelStatus.status.description === "All Systems Operational" ? "ml-2 h-4 w-4 rounded-full bg-green-500" : "ml-2 h-4 w-4 rounded-full bg-red-500"}></span>
+			<span class={vercelStatus.status.indicator === "none" ? "ml-2 h-4 w-4 rounded-full bg-green-500" : vercelStatus.status.indicator === "minor" ? "ml-2 h-4 w-4 rounded-full bg-yellow-500" : "ml-2 h-4 w-4 rounded-full bg-red-500"}></span>
 		{:else}
 			<span class="ml-2 h-4 w-4 rounded-full bg-yellow-500"></span>
 		{/if}
