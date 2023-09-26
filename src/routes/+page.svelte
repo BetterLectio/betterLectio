@@ -497,7 +497,7 @@
 			{/if}
 		</div>
 	</div>
-	<div class="w-full mt-56 flex items-center p-2 pl-4 h-10 bg-base-300">
+	<div class="w-full hidden mt-56 md:flex items-center p-2 pl-4 h-10 bg-base-300">
 		<span class="font-bold">Driftstatus: </span>
 		<span class="divider divider-horizontal"></span>
 		<span>Netlify:</span>
