@@ -1,3 +1,14 @@
+// function getHoldToColor() {
+// 	const holdToColor = {};
+// 	try {
+// 		// if (!skema[String(globalYear) + globalWeek].hold) throw error;
+// 		for (let i = 0; i < skema[String(globalYear) + globalWeek].hold.length; i++) holdToColor[skema[String(globalYear) + globalWeek].hold[i].navn] = 255 / (skema[String(globalYear) + globalWeek].hold.length - 1) * i;
+// 		return holdToColor;
+// 	} catch {
+// 		console.log('could not get hold to color, proceeding with default');
+// 		return holdToColor;
+// 	}
+// }
 function makeCRCTable() {
 	let num = 0;
 	const crcTable = [];
@@ -48,22 +59,19 @@ export function getHoldHue(hold) {
  */
 export function getModulColor(modul, useDifferentColors) {
 	console.log(modul.status);
+	const alpha = 0.4;
 	try {
 		switch (modul.status) {
 		case 'aflyst':
-			return 'hsl(0, 75%, 65%, 0.9)';
+			return `hsl(0, 100%, 50%, ${alpha})`;
 		case 'normal':
 		case 's2normal':
 		case 'ændret':
-			if (useDifferentColors) return `hsl(${getHoldHue(modul.hold)}, 75%, 65%, 0.25)`;
-			return 'hsl(212.5, 75%, 65%, 0.25)';
+			if (useDifferentColors) return `hsl(${getHoldHue(modul.hold)}, 75%, 50%, ${alpha})`;
 		case 'eksamen':
-			return 'hsl(262, 100%, 65%, 0.25)';
 		default:
-			return 'hsl(0, 0%, 0%, 0.1)';
 		}
 	} catch (error) {
-		return 'hsl(0, 0%, 0%, 0.1)';
 	}
 }
 
