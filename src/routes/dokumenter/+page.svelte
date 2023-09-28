@@ -221,9 +221,9 @@
 				</div>
 			{/each}
 		</div>
-		<div class="divider divider-horizontal" />
+		<div class="divider divider-horizontal max-lg:hidden" />
 		<div class="w-full h-fit">
-			<h2 class="text-2xl ml-3 font-bold">{selectedFolderId === '..' ? 'Dokument Oversigt' : $dokumenter.titel}</h2>
+			<h2 class="text-2xl ml-3 font-bold max-lg:hidden">{selectedFolderId === '..' ? 'Dokument Oversigt' : $dokumenter.titel}</h2>
 			<table class="table-zebra mb-4 table w-full h-fit">
 				<!-- head -->
 				<thead>
