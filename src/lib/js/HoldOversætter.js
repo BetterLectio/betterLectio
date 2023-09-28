@@ -9,10 +9,10 @@ export function holdOversætter(holdForkortet = '', holdArray = []) {
 	if (holdForkortet === null) return 'Ukendt hold';
 
 	// return the name of the hold if the holdForkortet is found in the holdArray
-	const fagObj = JSON.stringify(holdArray.find(hold => holdForkortet.toLowerCase().includes(hold.forkortelse.toLowerCase())));
+	const fagObj = holdArray.find(hold => holdForkortet.toLowerCase().includes(hold.forkortelse.toLowerCase()));
 
-	if (fagObj === undefined) return holdForkortet;
-	return JSON.parse(fagObj).fag;
+	if (fagObj?.fag) return fagObj.fag;
+	return holdForkortet;
 }
 
 export async function holdOversætterNy(holdId, fallback = 'Andet') {

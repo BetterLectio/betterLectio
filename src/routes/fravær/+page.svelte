@@ -204,7 +204,7 @@
 							{#if $fravaer?.moduler?.manglende_fraværsårsager}
 								{#each $fravaer.moduler.manglende_fraværsårsager as modul}
 									<tr>
-										<td>{modul.aktivitet.navn ? holdOversætter(modul.aktivitet.hold, $hold) : modul.aktivitet.navn}</td>
+										<td>{holdOversætter(modul.aktivitet.hold, $hold)}</td>
 										<td>{modul.aktivitet.tidspunkt}</td>
 										<td>
 											<a
