@@ -492,5 +492,21 @@ def spørgeskema():
     except Exception:
         return jsonify({"backend_error": traceback.format_exc()}), 500
 
+@app.route("/besvar_spoergeskema", methods=["POST"])
+def besvarSpørgeskema():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+        id = request.args.get("id")
+        besvarelser = request.json.get("besvarelser")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.besvarSpørgeskema(id, besvarelser)))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
+
 if __name__ == '__main__':
     app.run()
