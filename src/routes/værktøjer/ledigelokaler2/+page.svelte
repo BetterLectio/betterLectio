@@ -3,12 +3,15 @@
 	import { lokaleDagsorden } from '$lib/js/store.js';
 	import { standardizeTimeRange } from '$lib/js/LectioUtils.js';
 
+	let ledigeLokaler = [];
+	let _ledigeLokaler = [];
+	let optagedeLokaler = [];
+	let _optagedeLokaler = [];
+	let searchString = '';
+
 	get('/lokale_dagsorden').then(data => {
 		$lokaleDagsorden = data;
 	});
-
-	let ledigeLokaler = [];
-	let optagedeLokaler = [];
 
 	function sortLokaler(_time) {
 		ledigeLokaler = [];
@@ -27,37 +30,75 @@
 				}
 			});
 		});
+		_ledigeLokaler = ledigeLokaler;
+		_optagedeLokaler = optagedeLokaler;
+	}
+
+	function search() {
+		const __ledigeLokaler = [];
+		ledigeLokaler.forEach(lokale => {
+			if (lokale.navn.toLowerCase().includes(searchString.toLowerCase())) __ledigeLokaler.push(lokale);
+		});
+		_ledigeLokaler = __ledigeLokaler;
+
+		const __optagedeLokaler = [];
+		optagedeLokaler.forEach(lokale => {
+			if (lokale.navn.toLowerCase().includes(searchString.toLowerCase())) __optagedeLokaler.push(lokale);
+		});
+		_optagedeLokaler = __optagedeLokaler;
 	}
 
 	const now = new Date(Date.now());
-	let time = `${now.getHours() }:${ now.getMinutes()}`;
+	let time = `${(`0${ now.getHours()}`).slice(-2)}:${(`0${ now.getMinutes()}`).slice(-2)}`;
+	console.log(time);
 	// eslint-disable-next-line no-unused-expressions
 	$: time, sortLokaler(time);
 </script>
 
+<h1 class="heading">Ledige lokaler</h1>
+
 {#if $lokaleDagsorden}
-	<input type="time" bind:value={time} class="input input-bordered w-full max-w-xs" />
+	<div class="flex sm:flex-row flex-col mb-2">
+		<div class="form-control">
+			<label class="input-group">
+				<span class="sm:h-10 mt-2 sm:mt-0">Klokken</span>
+				<input type="time" bind:value={time} class="input sm:h-10 bg-base-200 mt-2 sm:mt-0 w-full" />
+			</label>
+		</div>
+		<div class="form-control sm:ml-2">
+			<label class="input-group">
+				<span class="sm:h-10 mt-2 sm:mt-0">Søg</span>
+				<input
+					type="text"
+					placeholder=""
+					class="input sm:h-10 bg-base-200 mt-2 sm:mt-0 w-full"
+					bind:value={searchString}
+					on:input={search}
+				/>
+			</label>
+		</div>
+	</div>
 
 	<ul class="list mb-4">
 		<h1 class="heading">Ledige lokaler</h1>
-		{#each ledigeLokaler as lokale}
+		{#each _ledigeLokaler as lokale}
 			<li>
 				<a class="btn-success btn mb-2 flex h-fit scale-99 hover:scale-100 md:justify-between text-lg font-bold" href="/skema?id={lokale.id}">{lokale.navn}</a>
 			</li>
 		{/each}
-		{#if ledigeLokaler.length === 0}
+		{#if _ledigeLokaler.length === 0}
 			<p class="mb-2">Der er ingen optagede lokaler!</p>
 		{/if}
 	</ul>
 
 	<ul class="list mb-4">
 		<h1 class="pb-2 text-2xl font-bold">Optagede lokaler</h1>
-		{#each optagedeLokaler as lokale}
+		{#each _optagedeLokaler as lokale}
 			<li>
 				<a class="btn-error btn mb-2 flex h-fit scale-99 justify-between hover:scale-100 text-lg font-bold" href="/skema?id={lokale.id}">{lokale.navn}</a>
 			</li>
 		{/each}
-		{#if optagedeLokaler.length === 0}
+		{#if _optagedeLokaler.length === 0}
 			<p class="mb-2">Der er ingen optagede lokaler!</p>
 		{/if}
 	</ul>
