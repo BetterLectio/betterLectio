@@ -163,7 +163,7 @@
 									label: 'Fraværende moduler',
 									data: $fravaer.generalt
 										.filter(element => element.hold !== 'Samlet' && element.opgjort_fravær_procent !== '0,00%')
-										.map(element => /(?<_>\d+,?\d*|,\d+)\//gu.exec(element.opgjort_fravær_moduler)[1].replace(',', '.')),
+										.map(element => element.opgjort_fravær_moduler.replace(',', '.').split('/')[0]),
 									backgroundColor: $fravaer.generalt.map((_element, index) => BACKGROUND_COLORS[index % BACKGROUND_COLORS.length])
 								}
 							]
@@ -204,7 +204,7 @@
 							{#if $fravaer?.moduler?.manglende_fraværsårsager}
 								{#each $fravaer.moduler.manglende_fraværsårsager as modul}
 									<tr>
-										<td>{modul.aktivitet.navn ? holdOversætter(modul.aktivitet.hold, $hold) : modul.aktivitet.navn}</td>
+										<td>{holdOversætter(modul.aktivitet.hold, $hold)}</td>
 										<td>{modul.aktivitet.tidspunkt}</td>
 										<td>
 											<a
