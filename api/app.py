@@ -508,5 +508,20 @@ def besvarSpørgeskema():
     except Exception:
         return jsonify({"backend_error": traceback.format_exc()}), 500
 
+@app.route("/lokale_dagsorden")
+@cache_for(minutes=5)
+def lokaleDagsorden():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+
+        lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.lokaleDagsorden()))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
+
 if __name__ == '__main__':
     app.run()
