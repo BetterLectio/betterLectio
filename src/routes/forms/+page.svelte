@@ -1,5 +1,6 @@
 <script>
 	import { get } from '$lib/js/http.js';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { spørgeskemaer } from '$lib/js/store.js';
 
 	let ready = false;
@@ -7,11 +8,19 @@
 		$spørgeskemaer = data;
 		ready = true;
 	});
+
+	let cookie = null;
+	cookieInfo().then(data => {
+		cookie = data;
+	});
 </script>
 
 <div class="flex flex-row items-center justify-between">
 	<h1 class="heading">Spørgeskemaer</h1>
-	<a href="/forms/lav" class="btn-success btn-sm btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg mr-2" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/></svg>Nyt</a>
+	{#if cookie?.userId}
+		<a href="https://www.lectio.dk/lectio/{cookie.schoolId}/spoergeskema/spoergeskema_rediger.aspx" target="_blank" class="btn-success btn-sm btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg mr-2" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/></svg>Nyt</a>
+	{/if}
+	<!--<a href="/forms/lav" class="btn-success btn-sm btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg mr-2" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/></svg>Nyt</a>-->
 </div>
 
 <div class="divider" />
