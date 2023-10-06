@@ -32,6 +32,10 @@
 		});
 		_ledigeLokaler = ledigeLokaler;
 		_optagedeLokaler = optagedeLokaler;
+
+		if (searchString.length > 0) {
+			search();
+		}
 	}
 
 	function search() {
@@ -86,7 +90,7 @@
 			</li>
 		{/each}
 		{#if _ledigeLokaler.length === 0}
-			<p class="mb-2">Der er ingen optagede lokaler!</p>
+			<p class="mb-2">Der er ingen ledige lokaler!</p>
 		{/if}
 	</ul>
 
