@@ -1,19 +1,33 @@
 <script>
+	import PageLoading from '$lib/components/PageLoading.svelte';
 	import { get } from '$lib/js/http.js';
 	import { lokaleDagsorden } from '$lib/js/store.js';
 	import { standardizeTimeRange } from '$lib/js/LectioUtils.js';
+
 
 	let ledigeLokaler = [];
 	let _ledigeLokaler = [];
 	let optagedeLokaler = [];
 	let _optagedeLokaler = [];
 	let searchString = '';
+	let ready = false;
 
+	const now = new Date(Date.now());
+	let time = `${(`0${ now.getHours()}`).slice(-2)}:${(`0${ now.getMinutes()}`).slice(-2)}`;
 	get('/lokale_dagsorden').then(data => {
+		console.log(time);
 		$lokaleDagsorden = data;
+		ready = true;
+		// eslint-disable-next-line no-use-before-define
+		sortLokaler(time);
 	});
 
+	// eslint-disable-next-line no-use-before-define
+	$: sortLokaler(time);
+
+
 	function sortLokaler(_time) {
+		if (!ready) return;
 		ledigeLokaler = [];
 		optagedeLokaler = [];
 		const time = new Date(Date.now());
@@ -47,17 +61,12 @@
 		});
 		_optagedeLokaler = __optagedeLokaler;
 	}
-
-	const now = new Date(Date.now());
-	let time = `${(`0${ now.getHours()}`).slice(-2)}:${(`0${ now.getMinutes()}`).slice(-2)}`;
-	console.log(time);
-	// eslint-disable-next-line no-unused-expressions
-	$: time, sortLokaler(time);
+// eslint-disable-next-line no-unused-expressions
 </script>
 
-<h1 class="heading">Ledige lokaler</h1>
+{#if $lokaleDagsorden && ready}
+	<h1 class="heading">Ledige lokaler</h1>
 
-{#if $lokaleDagsorden}
 	<div class="flex sm:flex-row flex-col mb-2">
 		<div class="form-control">
 			<label class="input-group">
@@ -101,4 +110,6 @@
 			<p class="mb-2">Der er ingen optagede lokaler!</p>
 		{/if}
 	</ul>
+{:else}
+	<PageLoading></PageLoading>
 {/if}
