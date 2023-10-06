@@ -56,13 +56,6 @@
 					newTab: true,
 					description: 'Viser dig dine bøger',
 					status: 'WIP'
-				},
-				{
-					title: 'Spørgeskema',
-					link: `https://www.lectio.dk/lectio/${cookie.schoolId}/spoergeskema/spoergeskema_rapport.aspx?type=mine&elevid=${cookie.userId}`,
-					newTab: true,
-					description: 'Viser dig dine spørgeskemaer',
-					status: 'WIP'
 				}
 			],
 			Eksterne: [
