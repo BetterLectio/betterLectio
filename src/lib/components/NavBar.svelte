@@ -31,7 +31,7 @@
 			<div class="navbar-start sm:w-fit">
 				<p />
 				<div class="dropdown">
-					<button on:click={handleClick} class="btn-ghost btn xl:hidden" aria-label="navbar button">
+					<button on:click={handleClick} class="btn-ghost btn desktop:hidden" aria-label="navbar button">
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
 						><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg
 						>
@@ -69,7 +69,7 @@
 					</svg><span class="hidden md:block">BetterLectio</span>
 				</p>
 			</div>
-			<div class="navbar-center hidden xl:flex">
+			<div class="navbar-center hidden desktop:flex">
 				<ul class="menu menu-horizontal p-0">
 					{#if $brugeren && localStorage.getItem('lectio-cookie')}
 						<li><a class="text-sm font-bold hover:scale-110" href="/skema">Skema</a></li>
@@ -78,6 +78,7 @@
 						<li><a class="text-sm font-bold hover:scale-110" href="/fravær">Fravær</a></li>
 						<li><a class="text-sm font-bold hover:scale-110" href="/dokumenter">Dokumenter</a></li>
 						<li><a class="text-sm font-bold hover:scale-110" href="/beskeder">Beskeder</a></li>
+						<li><a class="text-sm font-bold hover:scale-110" href="/forms">Spørgeskemaer</a></li>
 						<li><a class="text-sm font-bold hover:scale-110" href="/karakterer">Karakterer</a></li>
 						<li><a class="text-sm font-bold hover:scale-110" href="/værktøjer">Værktøjer</a></li>
 					{:else}
@@ -319,6 +320,20 @@
 									d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"
 								/>
 							</svg>Karakterer</a
+							>
+						</li>
+						<li on:click={handleClick} on:keyup={handleClick}>
+							<a href="/forms"
+							><svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								fill="currentColor"
+								class="bi bi-chat-left-text-fill"
+								viewBox="0 0 16 16"
+							>
+								<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+							</svg>Spørgeskemaer</a
 							>
 						</li>
 						<li on:click={handleClick} on:keyup={handleClick}>
