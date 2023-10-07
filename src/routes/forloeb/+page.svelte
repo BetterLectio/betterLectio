@@ -2,6 +2,9 @@
 	import PageLoading from '$lib/components/PageLoading.svelte';
 	import { page } from '$app/stores';
 	import { get } from '$lib/js/http.js';
+	import purifier from 'dompurify';
+
+	const { sanitize } = purifier();
 
 	const id = $page.url.searchParams.get('id');
 	let forløb;
@@ -21,7 +24,8 @@
 	<p><b>Estimat:</b> {forløb.estimat}</p>
 	<br/>
 	<b>Beskrivelse:</b>
-	<p>{forløb.forløbsbeskrivelse}</p>
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+	<p>{@html sanitize(forløb.forløbsbeskrivelse.replaceAll('\n', '<br/>'))}</p>
 {:else}
 	<PageLoading></PageLoading>
 {/if}
