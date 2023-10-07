@@ -31,6 +31,12 @@
 					status: 'BETA'
 				},
 				{
+					title: 'Studieplan',
+					link: '/studieplan',
+					description: 'Se hvilke eksamener du har foran dig',
+					status: 'BETA'
+				},
+				{
 					title: 'Kantine',
 					link: '/værktøjer/kantine',
 					description: 'Se hvad der er i kantinen',
