@@ -315,8 +315,7 @@
 	{#if cookie?.userId}
 		<a
 			class="btn hidden md:flex"
-			href={`https://www.lectio.dk/lectio/${cookie.schoolId}/studieplan.aspx?elevid=${cookie.userId}`}
-			target="_blank"
+			href="/studieplan"
 		>
 			Se studieplan
 		</a>
