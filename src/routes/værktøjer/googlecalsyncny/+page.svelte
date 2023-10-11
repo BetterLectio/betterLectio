@@ -314,8 +314,55 @@
 			<div class="mt-2 flex justify-end">
 				<button class="btn btn-sm btn-primary" on:click={() => {
 					turn = 4;
-				}}>Næste</button>
+				}}>Synkroniser</button>
 			</div>
+		</div>
+	</div>
+	<div class="collapse {turn === 4 ? 'collapse-open' : 'collapse-close'} join-item border border-base-300">
+		<input type="radio" name="my-accordion-4" checked="checked" />
+		<div class="collapse-title text-xl font-bold flex flex-row justify-between">
+			<div>
+				Synkroniser
+			</div>
+			{#if turn > 4}
+				<div class="flex">
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle-fill justify-center" viewBox="0 0 16 16">
+						<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+					</svg>
+				</div>
+			{/if}
+		</div>
+		<div class="collapse-content">
+			<div class="flex justify-between items-center mb-4 w-60">
+				<p>henter skema</p>
+				<span class="loading loading-spinner loading-md"></span>
+			</div>
+			<div class="flex justify-between items-center mb-4 w-60">
+				<p>henter opgaver</p>
+				<span class="loading loading-spinner loading-md"></span>
+			</div>
+			<div class="flex justify-between items-center mb-4 w-60">
+				<p>synkroniser</p>
+				<span class="loading loading-spinner loading-md"></span>
+			</div>
+		</div>
+	</div>
+	<div class="collapse {turn === 5 ? 'collapse-open' : 'collapse-close'} join-item border border-base-300">
+		<input type="radio" name="my-accordion-4" checked="checked" />
+		<div class="collapse-title text-xl font-bold flex flex-row justify-between">
+			<div>
+				Færdig
+			</div>
+			{#if turn > 5}
+				<div class="flex">
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle-fill justify-center" viewBox="0 0 16 16">
+						<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+					</svg>
+				</div>
+			{/if}
+		</div>
+		<div class="collapse-content">
+			TODO
 		</div>
 	</div>
 </div>
