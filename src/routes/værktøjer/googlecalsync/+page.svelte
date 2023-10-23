@@ -14,11 +14,13 @@
 	let gIsInitialized = false;
 
 	let loggedin = false;
-	let responseObj = {};
+	const responseObj = {};
 	let turn = 0;
 
 	$: isModulerSynced = true;
 	$: isOpgaverSynced = false;
+
+	// if one is true, the other is false
 
 	// weeknr = url param "week"
 	let weeknr = new URLSearchParams(window.location.search).get('week');
@@ -52,9 +54,9 @@
 
 	const start = async() => {
 		const CLIENT_ID = '24684948206-14gdudquegcmmekdkfk2ud0isq4i2bnj.apps.googleusercontent.com';
-		const API_KEY = 'AIzaSyA8zKy_id5K_c7_HvmueBjRf_EB-8n0-z4';
-		const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
-		const SCOPES = 'https://www.googleapis.com/auth/calendar';
+		const API_KEY = 'AIzaSyDW02jMJFpHyJuvHG_IgXAvJQsnqy0EWiQ';
+		const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest', 'https://www.googleapis.com/discovery/v1/apis/tasks/v1/rest'];
+		const SCOPES = 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/tasks';
 
 		// document.getElementById('authorize_button').style.visibility = 'hidden';
 		// document.getElementById('signout_button').style.visibility = 'hidden';
@@ -176,6 +178,16 @@
 		return [formattedStartDate, formattedEndDate];
 	}
 
+	function convertLectioTimeSingle(dateString) {
+		const [startDay, startMonth, startYear, startHour, startMinute] = dateString.match(/\d+/gu);
+
+		// month is 0-indexed
+		const startDate = new Date(startYear, startMonth - 1, startDay, startHour, startMinute, 0);
+
+		const formattedStartDate = startDate.toISOString();
+		return formattedStartDate;
+	}
+
 	function formatModuler(moduler) {
 		const events = [];
 		moduler.forEach(modul => {
@@ -193,6 +205,26 @@
 		return events;
 	}
 
+	function formatOpgaver(opgaver) {
+		const tasks = [];
+		opgaver.forEach(opgave => {
+			const dueDate = convertLectioTimeSingle(opgave.frist);
+			tasks.push({
+				kind: 'tasks#task',
+				etag: `betlec${opgave.exerciseid }`,
+				title: opgave.opgavetitel,
+				updated: new Date().toDateString(),
+				notes: `${opgave.opgavenote === '' ? 'ingen opgavenote' : opgave.opgavenote }\nlink: https://app.betterlectio.dk/opgave?exerciseid=${opgave.exerciseid}\n\nikke slet (betterlectio${ opgave.exerciseid})`,
+				status: opgave.status === 'Venter' ? 'needsAction' : 'completed',
+				due: dueDate,
+				completed: opgave.status === 'Afleveret' ? opgave.dueDate : null,
+				deleted: false,
+				hidden: false
+			});
+		});
+		return tasks;
+	}
+
 	async function pushEvents(events) {
 		const batch = window.gapi.client.newBatch();
 		events.forEach(event => {
@@ -200,7 +232,21 @@
 		});
 		await batch.then(response => {
 			console.log(response.result);
-			responseObj = response.result;
+		}).catch(err => {
+			console.error(err);
+		});
+	}
+
+	async function pushTasks(tasks) {
+		let _tasks = tasks;
+		if (tasks.length > 50) _tasks = tasks.slice(-50);
+
+		const batch = window.gapi.client.newBatch();
+		_tasks.forEach(task => {
+			batch.add(window.gapi.client.tasks.tasks.insert({ tasklist: '@default', resource: task }));
+		});
+		await batch.then(response => {
+			console.log(response.result);
 		}).catch(err => {
 			console.error(err);
 		});
@@ -231,14 +277,44 @@
 		});
 		await batch.then(response => {
 			console.log(response.result);
-			responseObj = response.result;
+		}).catch(err => {
+			console.error(err);
+		});
+	}
+
+	async function removeOldTasks() {
+		// get the list of events from the calendar for that week
+		const response = await window.gapi.client.tasks.tasks.list({
+			tasklist: '@default',
+			showCompleted: true,
+			showHidden: true,
+			showDeleted: false,
+			maxResults: 10000
+		});
+		const { items } = response.result;
+		console.log(items);
+		const betterlectioTasks = items.filter(item => {
+			if (item.notes === undefined) return false;
+			return item.notes.includes('betterlectio');
+		});
+		console.log(betterlectioTasks);
+
+		if (betterlectioTasks.length === 0) return;
+
+		console.log(`removing ${betterlectioTasks.length} old tasks ahead of sync`);
+		const batch = window.gapi.client.newBatch();
+		betterlectioTasks.forEach(task => {
+			batch.add(window.gapi.client.tasks.tasks.delete({ tasklist: '@default', task: task.id }));
+		});
+		await batch.then(response => {
+			console.log(response.result);
 		}).catch(err => {
 			console.error(err);
 		});
 	}
 
 	let skemaLoaded = false;
-	let OpgaverLoaded = false;
+	let opgaverLoaded = false;
 	let SyncLoaded = false;
 
 	async function getSkema(weekNumber) {
@@ -250,23 +326,29 @@
 	}
 
 	async function getOpgaver() {
-		// eslint-disable-next-line no-warning-comments
-		// todo: make it work
-
-		// as a temp solution, just return an empty array after waiting 1 second
-
-		await new Promise(resolve => setTimeout(resolve, 1000));
-		OpgaverLoaded = true;
-		return ['TODO'];
+		const opgaver = await get('/opgaver');
+		opgaverLoaded = true;
+		return opgaver;
 	}
 	async function sync() {
 		const start = Date.now();
 		const [moduler, opgaver] = await Promise.all([getSkema(weeknr), getOpgaver()]);
-		console.log(`time to fetch data: ${Date.now() - start}ms`);
-		const events = formatModuler(moduler);
-		await removeOldEvents(weeknr);
-		await pushEvents(events);
-		console.log(`time to sync events: ${Date.now() - start}ms`);
+		console.log(opgaver);
+		if (isModulerSynced) {
+			console.log(`time to fetch moduler: ${Date.now() - start}ms`);
+			const events = formatModuler(moduler);
+			await removeOldEvents(weeknr);
+			await pushEvents(events);
+			console.log(`time to sync events: ${Date.now() - start}ms`);
+		}
+		if (isOpgaverSynced) {
+			console.log(`time to fetch opgaver: ${Date.now() - start}ms`);
+			const tasks = formatOpgaver(opgaver);
+			await removeOldTasks();
+			await pushTasks(tasks);
+			console.log(`time to sync tasks: ${Date.now() - start}ms`);
+		}
+
 		SyncLoaded = true;
 		turn = 5;
 	}
@@ -337,16 +419,23 @@
 				<div class="form-control">
 					<label class="label cursor-pointer">
 						<span class="label-text">Moduler</span>
-						<input type="checkbox" class="toggle" bind:checked={isModulerSynced} />
+						<input type="checkbox" class="toggle" on:change={() => {
+							if (!isModulerSynced) isOpgaverSynced = false;
+						}} bind:checked={isModulerSynced} />
 					</label>
 					<label class="label cursor-pointer">
-						<span class="label-text">Opgaver <span class="btn btn-xs no-animation btn-warning font-bold mx-2">Kommer snart</span></span>
-						<input type="checkbox" class="toggle" disabled bind:checked={isOpgaverSynced} />
+						<span class="label-text">Opgaver <span class="btn btn-xs no-animation btn-info rounded-full font-bold mx-2">NY</span></span>
+						<input type="checkbox" class="toggle" on:change={() => {
+							if (!isOpgaverSynced) isModulerSynced = false;
+						}} bind:checked={isOpgaverSynced} />
 					</label>
 				</div>
 			</div>
+			<p class="my-2 text-sm">
+				på nuværende tidspunkt skal du vælge enten moduler eller opgaver, ikke begge to. det er en begrænsning i google api'et.
+			</p>
 			<div class="mt-2 flex justify-end">
-				<button class="btn btn-sm btn-primary {isModulerSynced ? '' : 'btn-disabled'}" on:click={() => {
+				<button class="btn btn-sm btn-primary {isModulerSynced || isOpgaverSynced ? '' : 'btn-disabled'}" on:click={() => {
 					turn = 3;
 				}}>Næste</button>
 			</div>
@@ -370,10 +459,19 @@
 			<div class="w-80">
 				<div class="form-control">
 					<label class="label">
-						<span class="label-text">Uge nummer</span>
-						<input type="number" class="input input-bordered" min="1" max="52" bind:value={weeknr} />
+						<span class="label-text">Ugenummer</span>
+						{#if isOpgaverSynced}
+							<input type="number" class="input input-bordered" min="1" max="52" bind:value={weeknr} disabled/>
+						{:else}
+							<input type="number" class="input input-bordered" min="1" max="52" bind:value={weeknr} />
+						{/if}
 					</label>
 				</div>
+				{#if isOpgaverSynced}
+					<p class="text-sm">
+						Ugenummer er kun gældende for moduler og ikke opgaver, det er kun de seneste 50 opgaver i Lectio, der bliver synkroniseret. (hvis du kun synkroniserer opgaver, er denne indstilling ligegyldig)
+					</p>
+				{/if}
 			</div>
 			<div class="mt-2 flex justify-end">
 				<button class="btn btn-sm btn-primary" on:click={() => {
@@ -400,24 +498,32 @@
 		<div class="collapse-content">
 			<div class="flex justify-between items-center mb-4 w-60">
 				<p>henter skema</p>
-				{#if !skemaLoaded}
-					<span class="loading loading-spinner loading-md"></span>
+				{#if isModulerSynced}
+					{#if !skemaLoaded}
+						<span class="loading loading-spinner loading-md"></span>
+					{:else}
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle-fill justify-center" viewBox="0 0 16 16">
+							<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+						</svg>
+					{/if}
 				{:else}
-					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle-fill justify-center" viewBox="0 0 16 16">
-						<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-					</svg>
+					<span class="btn btn-xs no-animation btn-warning font-bold mx-2">Ikke valgt</span>
 				{/if}
 			</div>
-			<!-- <div class="flex justify-between items-center mb-4 w-60">
+			<div class="flex justify-between items-center mb-4 w-60">
 				<p>henter opgaver</p>
-				{#if !OpgaverLoaded}
-					<span class="loading loading-spinner loading-md"></span>
+				{#if isOpgaverSynced}
+					{#if !opgaverLoaded}
+						<span class="loading loading-spinner loading-md"></span>
+					{:else}
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle-fill justify-center" viewBox="0 0 16 16">
+							<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+						</svg>
+					{/if}
 				{:else}
-					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle-fill justify-center" viewBox="0 0 16 16">
-						<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-					</svg>
+					<span class="btn btn-xs no-animation btn-warning font-bold mx-2">Ikke valgt</span>
 				{/if}
-			</div> -->
+			</div>
 			<div class="flex justify-between items-center mb-4 w-60">
 				<p>synkroniser</p>
 				{#if !SyncLoaded}
@@ -449,7 +555,7 @@
 				Vær opmærksom på at det kan tage lidt tid før ændringerne er synlige i din kalender.
 			</div>
 			<div id="message">
-				Vær også opmærksom på at de indsatte moduler ikke bliver opdateret automatisk, så hvis der sker ændringer i dit skema, skal du synkronisere igen. for at få de nye ændringer reflekteret i din kalender.
+				Vær også opmærksom på at de indsatte moduler og opgaver ikke bliver opdateret automatisk, så hvis der sker ændringer i dit skema, skal du synkronisere igen. for at få de nye ændringer reflekteret i din kalender.
 			</div>
 			<div class="divider"></div>
 			<button class="btn btn-sm btn-primary"
