@@ -186,49 +186,37 @@ def beskeder():
 def beskeder2():
     try:
         cookie = request.headers.get("lectio-cookie")
-        id = request.args.get("id")
 
         lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-        resp = make_response(jsonify(lectioClient.beskeder(id=id)))
+
+        beskeder = []
+        for id in [-20, -30, -35, -10]:
+            for besked in lectioClient.beskeder(id=id)["beskeder"]:
+                if besked not in beskeder:
+                    beskeder.append(besked)
+
+        for besked in beskeder:
+            dato = besked["ændret"]
+            if len(besked["ændret"].split(" ")) == 1 and ":" in besked["ændret"]:
+                dato = datetime.now().strftime("%d/%m-%Y") + " " + dato
+            elif len(besked["ændret"].split(" ")) == 2 and "/" in besked["ændret"]:
+                dato = f"{dato.split(' ')[1]}-{datetime.now().year}" + " 12:00"
+            elif len(besked["ændret"].split(" ")) == 2 and ":" in besked["ændret"]:
+                today = date.today()
+                dato = (today + relativedelta(weekday=dateDict[dato.split(" ")[0]](-1))).strftime("%d/%m-%Y") + " " + besked["ændret"].split(" ")[1]
+            else:
+                dato += " 12:00"
+
+            besked["dato"] = dato
+
+        beskeder.sort(key=lambda x: datetime.strptime(x['dato'], '%d/%m-%Y %H:%M'), reverse=True)
+
+        resp = make_response(jsonify(beskeder))
         resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
         resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
         return resp
     except Exception:
         return jsonify({"backend_error": traceback.format_exc()}), 500
-    # Ikke længere nødvendigt, beholder hvis de skulle gå tilbage til det gamle og bedre UI
-    #try:
-    #    cookie = request.headers.get("lectio-cookie")
-    #
-    #    lectioClient = lectio.sdk(brugernavn="", adgangskode="", skoleId="", base64Cookie=cookie)
-    #
-    #    beskeder = []
-    #    for id in [-20, -30, -35, -10]:
-    #        for besked in lectioClient.beskeder(id=id)["beskeder"]:
-    #            if besked not in beskeder:
-    #                beskeder.append(besked)
-    #
-    #    for besked in beskeder:
-    #        dato = besked["ændret"]
-    #        if len(besked["ændret"].split(" ")) == 1 and ":" in besked["ændret"]:
-    #            dato = datetime.now().strftime("%d/%m-%Y") + " " + dato
-    #        elif len(besked["ændret"].split(" ")) == 2 and "/" in besked["ændret"]:
-    #            dato = f"{dato.split(' ')[1]}-{datetime.now().year}" + " 12:00"
-    #        elif len(besked["ændret"].split(" ")) == 2 and ":" in besked["ændret"]:
-    #            today = date.today()
-    #            dato = (today + relativedelta(weekday=dateDict[dato.split(" ")[0]](-1))).strftime("%d/%m-%Y") + " " + besked["ændret"].split(" ")[1]
-    #        else:
-    #            dato += " 12:00"
-    #
-    #        besked["dato"] = dato
-    #
-    #    beskeder.sort(key=lambda x: datetime.strptime(x['dato'], '%d/%m-%Y %H:%M'), reverse=True)
-    #
-    #    resp = make_response(jsonify(beskeder))
-    #    resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
-    #    resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
-    #    return resp
-    #except Exception:
-    #    return jsonify({"backend_error": traceback.format_exc()}), 500
 
 @app.route('/besvar_besked', methods=['POST'])
 def result():
