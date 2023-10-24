@@ -58,6 +58,21 @@ def auth():
     except Exception:
         return jsonify({"success": False, "backend_error": traceback.format_exc()}), 500
 
+@app.route('/qr-auth')
+def qrAuth():
+    try:
+        userId = request.headers.get('userId')
+        QrId = request.headers.get('QrId')
+        skoleId = request.headers.get('skoleid')
+
+        lectioClient = lectio.sdk(userId=userId, QrId=QrId, skoleId=skoleId)
+        resp = make_response(jsonify({"success": True}))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception:
+        return jsonify({"success": False, "backend_error": traceback.format_exc()}), 500
+
 @app.route('/check-cookie')
 def checkCookie():
     cookie = request.headers.get("lectio-cookie")
