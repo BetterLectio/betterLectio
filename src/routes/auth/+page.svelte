@@ -184,10 +184,17 @@
 				console.log(`Error scanning file. Reason: ${err}`);
 			});
 	}
-	function qrCodeUploaded(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		console.log(e);
+	function qrCodeUploaded(element) {
+		element.preventDefault();
+		const html5QrCode = new Html5Qrcode('reader');
+
+		html5QrCode.scanFile(element.target.files[0], false)
+			.then(qrCodeMessage => {
+				qrUrl = qrCodeMessage;
+			})
+			.catch(err => {
+				console.log(`Error scanning file. Reason: ${err}`);
+			});
 	}
 </script>
 
