@@ -3,8 +3,10 @@
 	import { AES } from 'crypto-es/lib/aes';
 	import { Utf8 } from 'crypto-es/lib/core';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
+	import { Html5Qrcode } from 'html5-qrcode';
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
+
 	const key
 		= 'Ting som encrypter login data meget simplet så det ikke er vildt nemt at få fat i fra et andet program. BTW du kan kun gemme login hvis du kører appen, det virker altså ikke på hjemmesiden.';
 
@@ -163,6 +165,30 @@
 	function handleEnterLogin(evt) {
 		if (evt?.key === 'Enter') login();
 	}
+
+	let qrAuth = false;
+	function changeLoginType() {
+		qrAuth = !qrAuth;
+	}
+
+	let qrUrl;
+	function qrCodeDropped(element) {
+		element.preventDefault();
+		const html5QrCode = new Html5Qrcode('reader');
+
+		html5QrCode.scanFile(element.dataTransfer.files[0], false)
+			.then(qrCodeMessage => {
+				qrUrl = qrCodeMessage;
+			})
+			.catch(err => {
+				console.log(`Error scanning file. Reason: ${err}`);
+			});
+	}
+	function qrCodeUploaded(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		console.log(e);
+	}
 </script>
 
 <input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
@@ -187,73 +213,89 @@
 			<div class="h-fit rounded-2xl bg-base-200 p-4 shadow-lg">
 				<h1 class="text-xl font-bold">Log ind med din Lectio konto</h1>
 				<div class="divider mt-1 mb-2" />
+				<div class="tabs tabs-boxed">
+					<button on:click={changeLoginType} class="tab {qrAuth ? '' : 'tab-active'}">Brugernavn/Adgangskode</button>
+					<button on:click={changeLoginType} class="tab {qrAuth ? 'tab-active' : ''}">QR kode</button>
+				</div>
+				<div class="divider mt-1 mb-2" />
 				<form action="javascript:void(0);" autocomplete="on" method="post">
 					<div class="form-control w-full max-w-xl">
-						<input
-							type="text"
-							name="username"
-							id="username-field"
-							placeholder="Brugernavn"
-							tabindex="0"
-							autocomplete="username"
-							class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
-							bind:value={brugernavn}
-						/>
-						<input
-							type="password"
-							name="current-password"
-							id="current-password-field"
-							autocomplete="current-password"
-							tabindex="0"
-							placeholder="Adgangskode"
-							class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
-							bind:value={adgangskode}
-							on:keypress={handleEnterLogin}
-						/>
-						<select
-							name="skole"
-							id="skole"
-							placeholder="Vælg din skole"
-							tabindex="0"
-							class="select select-sm w-full max-w-wl py-0 mb-2.5"
-							bind:value={schoolId}
-						>
-							<option value="" disabled selected> Vælg din skole </option>
-							{#each Object.entries(options) as [, value]}
-								<option value={value.id}>{value.skole}</option>
-							{/each}
-						</select>
-						<div class="join p-1.5 bg-base-100">
-							<div class="flex join-item">
-								<input
-									type="checkbox"
-									checked="checked"
-									id="saveSchoolIdCheck"
-									tabindex="0"
-									class="checkbox checkbox-sm"
-									on:click={setSkole()}
-									name="setSkole"
-								/>
-								<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveSchoolIdCheck">Husk skole</label>
+						{#if qrAuth}
+							<div on:drop={qrCodeDropped} on:dragover={event => event.preventDefault()}>
+								<label class="flex justify-center element w-3/5 aspect-square hover:cursor-pointer">
+									Træk eller upload din QR kode her
+									<input type="file" name="file_upload" class="hidden" on:change={qrCodeUploaded}>
+								</label>
 							</div>
-							{#if api === 'http://localhost:5000'}
-								<div class="divider divider-horizontal"></div>
+							<p>{qrUrl}</p>
+							<span id="reader"></span>
+						{:else}
+							<input
+								type="text"
+								name="username"
+								id="username-field"
+								placeholder="Brugernavn"
+								tabindex="0"
+								autocomplete="username"
+								class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
+								bind:value={brugernavn}
+							/>
+							<input
+								type="password"
+								name="current-password"
+								id="current-password-field"
+								autocomplete="current-password"
+								tabindex="0"
+								placeholder="Adgangskode"
+								class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
+								bind:value={adgangskode}
+								on:keypress={handleEnterLogin}
+							/>
+							<select
+								name="skole"
+								id="skole"
+								placeholder="Vælg din skole"
+								tabindex="0"
+								class="select select-sm w-full max-w-wl py-0 mb-2.5"
+								bind:value={schoolId}
+							>
+								<option value="" disabled selected> Vælg din skole </option>
+								{#each Object.entries(options) as [, value]}
+									<option value={value.id}>{value.skole}</option>
+								{/each}
+							</select>
+							<div class="join p-1.5 bg-base-100">
 								<div class="flex join-item">
 									<input
 										type="checkbox"
 										checked="checked"
-										id="saveLogin"
+										id="saveSchoolIdCheck"
 										tabindex="0"
 										class="checkbox checkbox-sm"
-										on:click={() => {
-											saveLogin = !saveLogin;
-										}}
-										name="saveLogin"
+										on:click={setSkole()}
+										name="setSkole"
 									/>
-									<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveLogin">Forbliv logget ind</label>
+									<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveSchoolIdCheck">Husk skole</label>
 								</div>
-							{/if}
-						</div>
+								{#if api === 'http://localhost:5000'}
+									<div class="divider divider-horizontal"></div>
+									<div class="flex join-item">
+										<input
+											type="checkbox"
+											checked="checked"
+											id="saveLogin"
+											tabindex="0"
+											class="checkbox checkbox-sm"
+											on:click={() => {
+												saveLogin = !saveLogin;
+											}}
+											name="saveLogin"
+										/>
+										<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveLogin">Forbliv logget ind</label>
+									</div>
+								{/if}
+							</div>
+						{/if}
 						<p class="text-xs mt-4">
 							Denne side bruger cookies til at huske dine oplysninger til næste gang, du logger ind. Når du logger ind, accepterer du, at din
 							browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server udover Lectio og
