@@ -27,7 +27,7 @@ async function checkCookieValidity() {
 	};
 }
 
-export async function get(endpoint) {
+export async function get(endpoint, body = null) {
 	// FIXME: code does not work
 	// Wait until the user is authenticated
 	// while (true) {
@@ -58,7 +58,7 @@ export async function get(endpoint) {
 	else url += `?nonce=${nonce}`;
 
 	const start = performance.now();
-	const response = await fetch(url, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } });
+	const response = body === null ? await fetch(url, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } }) : await fetch(url, { method: 'POST', headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie'), 'Content-Type': 'application/json' }, body });
 	const stop = performance.now();
 
 	const textResponse = await response.text();
@@ -97,4 +97,9 @@ export async function get(endpoint) {
 	}
 
 	return null;
+}
+
+export async function post(endpoint, body) {
+	const response = await get(endpoint, body);
+	return response;
 }

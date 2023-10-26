@@ -19,3 +19,5 @@ export const spørgeskemaer = localStore('spørgeskemaer');
 export const hold = localStore('hold');
 export const fag = localStore('fag');
 export const mobile = localStore('mobile');
+export const lokaleDagsorden = localStore('lokaleDagsorden');
+export const studieplan = localStore('studieplan');

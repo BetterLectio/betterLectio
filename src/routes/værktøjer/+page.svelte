@@ -31,6 +31,12 @@
 					status: 'BETA'
 				},
 				{
+					title: 'Studieplan',
+					link: '/studieplan',
+					description: 'Se hvilke eksamener du har foran dig',
+					status: 'BETA'
+				},
+				{
 					title: 'Kantine',
 					link: '/værktøjer/kantine',
 					description: 'Se hvad der er i kantinen',
@@ -55,13 +61,6 @@
 					link: `https://www.lectio.dk/lectio/${cookie.schoolId}/BD/UserReservations.aspx?ElevID=${cookie.userId}`,
 					newTab: true,
 					description: 'Viser dig dine bøger',
-					status: 'WIP'
-				},
-				{
-					title: 'Spørgeskema',
-					link: `https://www.lectio.dk/lectio/${cookie.schoolId}/spoergeskema/spoergeskema_rapport.aspx?type=mine&elevid=${cookie.userId}`,
-					newTab: true,
-					description: 'Viser dig dine spørgeskemaer',
 					status: 'WIP'
 				}
 			],

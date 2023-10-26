@@ -310,13 +310,14 @@
 </script>
 
 <div class="my-2 flex justify-between">
-	<h1 class="heading {window.innerWidth < 768 ? 'hidden' : 'visible'}">{heading}</h1>
-
+	<h1 class="heading">
+		<p class={window.innerWidth < 768 ? 'hidden' : 'visible'}>{heading}</p>
+		<p class="font-normal">Uge {globalWeek}</p>
+	</h1>
 	{#if cookie?.userId}
 		<a
 			class="btn hidden md:flex"
-			href={`https://www.lectio.dk/lectio/${cookie.schoolId}/studieplan.aspx?elevid=${cookie.userId}`}
-			target="_blank"
+			href="/studieplan"
 		>
 			Se studieplan
 		</a>

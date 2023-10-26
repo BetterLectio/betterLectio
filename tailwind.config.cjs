@@ -35,7 +35,8 @@ module.exports = {
 			animation: {
 				'fade-in-down': 'fade-in-down 0.5s ease-out',
 				wiggle: 'wiggle 1.5s ease-in-out infinite'
-			}
+			},
+			screens: { desktop: '1360px' }
 		},
 		container: {
 			padding: {

@@ -1,6 +1,6 @@
 {
   "name": "betterlectio",
-  "version": "0.10.77",
+  "version": "0.10.97",
   "private": true,
   "scripts": {
     "dev": "vite dev",
@@ -19,6 +19,7 @@
     "eslint": "^8.47.0",
     "eslint-config-raven": "^1.0.3",
     "eslint-plugin-svelte": "^2.26.0",
+    "html5-qrcode": "^2.3.8",
     "postcss": "^8.4.23",
     "svelte": "^3.54.0",
     "svelte-eslint-parser": "^0.32.2",
