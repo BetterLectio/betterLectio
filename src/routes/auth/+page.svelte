@@ -3,8 +3,10 @@
 	import { AES } from 'crypto-es/lib/aes';
 	import { Utf8 } from 'crypto-es/lib/core';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
+	import { Html5Qrcode } from 'html5-qrcode';
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
+
 	const key
 		= 'Ting som encrypter login data meget simplet så det ikke er vildt nemt at få fat i fra et andet program. BTW du kan kun gemme login hvis du kører appen, det virker altså ikke på hjemmesiden.';
 
@@ -160,8 +162,62 @@
 		}
 	}
 
+	async function qrLogin(url) {
+		const skoleId = await url.match(/\/\d+\//g).toString()
+			.replaceAll('/', '');
+		const userId = await url.match(/userId=\d+/g).toString()
+			.replaceAll('userId=', '');
+		const QrId = await url.split('QrId=')[1];
+
+		const response = await fetch(`${api}/qr-auth`, {
+			headers: {
+				userId,
+				QrId,
+				skoleId
+			}
+		});
+		if (response.ok) {
+			const lectioCookie = response.headers.get('set-lectio-cookie');
+			if (lectioCookie && lectioCookie !== null) localStorage.setItem('lectio-cookie', lectioCookie);
+
+			await cookieInfo().then(cookie => fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userId}&schoolId=${cookie.schoolId}`));
+			reloadData();
+
+			const originalLink = decodeURIComponent(redirectTo);
+			location.href = originalLink;
+		}
+	}
+
 	function handleEnterLogin(evt) {
 		if (evt?.key === 'Enter') login();
+	}
+
+	let qrAuth = false;
+	function changeLoginType() {
+		qrAuth = !qrAuth;
+	}
+
+	function qrCodeDropped(element) {
+		const html5QrCode = new Html5Qrcode('reader');
+
+		html5QrCode.scanFile(element.dataTransfer.files[0], false)
+			.then(qrCodeMessage => {
+				qrLogin(qrCodeMessage);
+			})
+			.catch(err => {
+				console.log(`Error scanning file. Reason: ${err}`);
+			});
+	}
+	function qrCodeUploaded(element) {
+		const html5QrCode = new Html5Qrcode('reader');
+
+		html5QrCode.scanFile(element.target.files[0], false)
+			.then(qrCodeMessage => {
+				qrLogin(qrCodeMessage);
+			})
+			.catch(err => {
+				console.log(`Error scanning file. Reason: ${err}`);
+			});
 	}
 </script>
 
@@ -187,109 +243,132 @@
 			<div class="h-fit rounded-2xl bg-base-200 p-4 shadow-lg">
 				<h1 class="text-xl font-bold">Log ind med din Lectio konto</h1>
 				<div class="divider mt-1 mb-2" />
+				<div class="tabs tabs-boxed">
+					<button on:click={changeLoginType} class="tab {qrAuth ? '' : 'tab-active'}">Brugernavn/Adgangskode</button>
+					<button on:click={changeLoginType} class="tab {qrAuth ? 'tab-active' : ''}">QR kode</button>
+				</div>
+				<div class="divider mt-1 mb-2" />
 				<form action="javascript:void(0);" autocomplete="on" method="post">
 					<div class="form-control w-full max-w-xl">
-						<input
-							type="text"
-							name="username"
-							id="username-field"
-							placeholder="Brugernavn"
-							tabindex="0"
-							autocomplete="username"
-							class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
-							bind:value={brugernavn}
-						/>
-						<input
-							type="password"
-							name="current-password"
-							id="current-password-field"
-							autocomplete="current-password"
-							tabindex="0"
-							placeholder="Adgangskode"
-							class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
-							bind:value={adgangskode}
-							on:keypress={handleEnterLogin}
-						/>
-						<select
-							name="skole"
-							id="skole"
-							placeholder="Vælg din skole"
-							tabindex="0"
-							class="select select-sm w-full max-w-wl py-0 mb-2.5"
-							bind:value={schoolId}
-						>
-							<option value="" disabled selected> Vælg din skole </option>
-							{#each Object.entries(options) as [, value]}
-								<option value={value.id}>{value.skole}</option>
-							{/each}
-						</select>
-						<div class="join p-1.5 bg-base-100">
-							<div class="flex join-item">
-								<input
-									type="checkbox"
-									checked="checked"
-									id="saveSchoolIdCheck"
-									tabindex="0"
-									class="checkbox checkbox-sm"
-									on:click={setSkole()}
-									name="setSkole"
-								/>
-								<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveSchoolIdCheck">Husk skole</label>
+						{#if qrAuth}
+							<div class="flex justify-center" on:drop|preventDefault={qrCodeDropped} on:dragover|preventDefault>
+								<label class="flex justify-center element w-3/5 aspect-square hover:cursor-pointer">
+									Træk eller upload din QR kode her for at logge ind
+									<input type="file" class="hidden" on:change|preventDefault={qrCodeUploaded}>
+								</label>
 							</div>
-							{#if api === 'http://localhost:5000'}
-								<div class="divider divider-horizontal"></div>
+							<span id="reader"></span>
+							<p class="text-xs mt-4">
+								Denne side bruger cookies til at huske dine oplysninger til næste gang, du logger ind. Når du logger ind, accepterer du, at din
+								browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server udover Lectio og
+								vores proxy/translation layer.
+								<br>
+								<span class="font-bold">Når du indlæser din QR kode (logger ind), accepterer du automatisk vores</span>
+								<a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
+							</p>
+						{:else}
+							<input
+								type="text"
+								name="username"
+								id="username-field"
+								placeholder="Brugernavn"
+								tabindex="0"
+								autocomplete="username"
+								class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
+								bind:value={brugernavn}
+							/>
+							<input
+								type="password"
+								name="current-password"
+								id="current-password-field"
+								autocomplete="current-password"
+								tabindex="0"
+								placeholder="Adgangskode"
+								class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
+								bind:value={adgangskode}
+								on:keypress={handleEnterLogin}
+							/>
+							<select
+								name="skole"
+								id="skole"
+								placeholder="Vælg din skole"
+								tabindex="0"
+								class="select select-sm w-full max-w-wl py-0 mb-2.5"
+								bind:value={schoolId}
+							>
+								<option value="" disabled selected> Vælg din skole </option>
+								{#each Object.entries(options) as [, value]}
+									<option value={value.id}>{value.skole}</option>
+								{/each}
+							</select>
+							<div class="join p-1.5 bg-base-100">
 								<div class="flex join-item">
 									<input
 										type="checkbox"
 										checked="checked"
-										id="saveLogin"
+										id="saveSchoolIdCheck"
 										tabindex="0"
 										class="checkbox checkbox-sm"
-										on:click={() => {
-											saveLogin = !saveLogin;
-										}}
-										name="saveLogin"
+										on:click={setSkole()}
+										name="setSkole"
 									/>
-									<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveLogin">Forbliv logget ind</label>
+									<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveSchoolIdCheck">Husk skole</label>
 								</div>
-							{/if}
-						</div>
-						<p class="text-xs mt-4">
-							Denne side bruger cookies til at huske dine oplysninger til næste gang, du logger ind. Når du logger ind, accepterer du, at din
-							browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server udover Lectio og
-							vores proxy/translation layer.
-							<br>
-							<span class="font-bold">Når du logger ind, accepterer du automatisk vores</span>
-							<a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
-						</p>
-						<div class="divider" />
-						<div class="flex justify-end">
-							<button tabindex="0" type="submit" class="btn-primary btn group" on:click={login} on:keyup={handleEnterLogin}>
-								<p>Log ind</p>
-								<label class="swap SWAPICONSTATE" for="login">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										class="octicon arrow-symbol-mktg swap-off"
-										width="24"
-										height="24"
-										viewBox="0 0 16 16"
-										fill="none"
-									><path
-										class="group-hover:translate-x-1 translate-x-0 transition-all ease-in-out duration-200"
-										fill="currentColor"
-										d="M7.28033 3.21967C6.98744 2.92678 6.51256 2.92678 6.21967 3.21967C5.92678 3.51256 5.92678 3.98744 6.21967 4.28033L7.28033 3.21967ZM11 8L11.5303 8.53033C11.8232 8.23744 11.8232 7.76256 11.5303 7.46967L11 8ZM6.21967 11.7197C5.92678 12.0126 5.92678 12.4874 6.21967 12.7803C6.51256 13.0732 6.98744 13.0732 7.28033 12.7803L6.21967 11.7197ZM6.21967 4.28033L10.4697 8.53033L11.5303 7.46967L7.28033 3.21967L6.21967 4.28033ZM10.4697 7.46967L6.21967 11.7197L7.28033 12.7803L11.5303 8.53033L10.4697 7.46967Z"
-									/><path
-										class="scale-x-0 group-hover:scale-x-100 group-hover:translate-x-1 group-hover:opacity-100 opacity-0 translate-x-0 transition-all duration-200 ease-in-out origin-bottom"
-										stroke="currentColor"
-										d="M1.75 8H11"
-										stroke-width="1.5"
-										stroke-linecap="round"
-									/></svg
-									>
-									<div class="swap-on loading loading-sm" />
-								</label>
-							</button>
-						</div>
+								{#if api === 'http://localhost:5000'}
+									<div class="divider divider-horizontal"></div>
+									<div class="flex join-item">
+										<input
+											type="checkbox"
+											checked="checked"
+											id="saveLogin"
+											tabindex="0"
+											class="checkbox checkbox-sm"
+											on:click={() => {
+												saveLogin = !saveLogin;
+											}}
+											name="saveLogin"
+										/>
+										<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveLogin">Forbliv logget ind</label>
+									</div>
+								{/if}
+							</div>
+							<p class="text-xs mt-4">
+								Denne side bruger cookies til at huske dine oplysninger til næste gang, du logger ind. Når du logger ind, accepterer du, at din
+								browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server udover Lectio og
+								vores proxy/translation layer.
+								<br>
+								<span class="font-bold">Når du logger ind, accepterer du automatisk vores</span>
+								<a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
+							</p>
+							<div class="divider" />
+							<div class="flex justify-end">
+								<button tabindex="0" type="submit" class="btn-primary btn group" on:click={login} on:keyup={handleEnterLogin}>
+									<p>Log ind</p>
+									<label class="swap SWAPICONSTATE" for="login">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="octicon arrow-symbol-mktg swap-off"
+											width="24"
+											height="24"
+											viewBox="0 0 16 16"
+											fill="none"
+										><path
+											class="group-hover:translate-x-1 translate-x-0 transition-all ease-in-out duration-200"
+											fill="currentColor"
+											d="M7.28033 3.21967C6.98744 2.92678 6.51256 2.92678 6.21967 3.21967C5.92678 3.51256 5.92678 3.98744 6.21967 4.28033L7.28033 3.21967ZM11 8L11.5303 8.53033C11.8232 8.23744 11.8232 7.76256 11.5303 7.46967L11 8ZM6.21967 11.7197C5.92678 12.0126 5.92678 12.4874 6.21967 12.7803C6.51256 13.0732 6.98744 13.0732 7.28033 12.7803L6.21967 11.7197ZM6.21967 4.28033L10.4697 8.53033L11.5303 7.46967L7.28033 3.21967L6.21967 4.28033ZM10.4697 7.46967L6.21967 11.7197L7.28033 12.7803L11.5303 8.53033L10.4697 7.46967Z"
+										/><path
+											class="scale-x-0 group-hover:scale-x-100 group-hover:translate-x-1 group-hover:opacity-100 opacity-0 translate-x-0 transition-all duration-200 ease-in-out origin-bottom"
+											stroke="currentColor"
+											d="M1.75 8H11"
+											stroke-width="1.5"
+											stroke-linecap="round"
+										/></svg
+										>
+										<div class="swap-on loading loading-sm" />
+									</label>
+								</button>
+							</div>
+						{/if}
 					</div>
 				</form>
 			</div>
