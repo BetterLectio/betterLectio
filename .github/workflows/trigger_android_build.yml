@@ -1,0 +1,25 @@
+name: Trigger Build
+on:
+  push:
+    branches: [main]
+
+jobs:
+  android:
+    name: Android
+    runs-on: ubuntu-latest
+    environment: BetterLectioBot
+
+    steps:
+      - name: Trigger Build
+        run: |
+          curl -H "Accept: application/vnd.github.everest-preview+json" -H "Authorization: token ${{ secrets.BOT_TOKEN }}" --request POST --data '{"event_type": "update"}' https://api.github.com/repos/BetterLectio/Android/dispatches
+
+  desktop:
+    name: Desktop
+    runs-on: ubuntu-latest
+    environment: BetterLectioBot
+
+    steps:
+      - name: Trigger Build
+        run: |
+          curl -H "Accept: application/vnd.github.everest-preview+json" -H "Authorization: token ${{ secrets.BOT_TOKEN }}" --request POST --data '{"event_type": "update"}' https://api.github.com/repos/BetterLectio/desktop/dispatches
