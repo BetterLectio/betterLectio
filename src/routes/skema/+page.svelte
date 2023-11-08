@@ -13,6 +13,9 @@
 	let heading = 'Skema';
 	let mySkema = null;
 
+	let day;
+	const days = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
+
 	$fag = $fag ?? {};
 
 	$: skemaId = new URLSearchParams(window.location.search).get('id');
@@ -122,21 +125,48 @@
 	}
 
 	function changeWeek(task) {
+		day = calenderInstance.getView().currentStart.getDay();
 		if (task === 0) globalWeek = getWeekNumber();
-		else globalWeek += task;
+		else if (day < 2) globalWeek += task;
+	}
+
+	function updateDagsnoter() { // Til mobil
+		if (window.innerWidth < 768) {
+			const infoobj = skema[String(globalYear) + globalWeek].dagsNoter[day - 1];
+			const [currentDay] = Object.keys(infoobj);
+			const currentInfoArr = infoobj[currentDay];
+			let currentInfo = `<p>`;
+			for (let j = 0; j < currentInfoArr.length; j++) currentInfo += `${currentInfoArr[j] }</p><p>`;
+
+			const slots = document.getElementsByClassName('ec-day');
+			slots[1].innerHTML = `
+			<div tabindex="0" class="collapse collapse-arrow">
+				<div class="collapse-title font-medium">
+					Se dagsnoter
+				</div>
+				<div class="collapse-content">
+					${currentInfo}
+				</div>
+			</div>
+			`;
+		}
 	}
 
 	function onload() {
+		updateDagsnoter();
 		const btns = document.getElementsByClassName('ONCHANGE');
 
 		btns[0].addEventListener('click', () => {
 			changeWeek(0);
+			updateDagsnoter();
 		});
 		btns[1].addEventListener('click', () => {
 			changeWeek(-1);
+			updateDagsnoter();
 		});
 		btns[2].addEventListener('click', () => {
 			changeWeek(1);
+			updateDagsnoter();
 		});
 	}
 
@@ -183,6 +213,7 @@
 			globalYear = dateObj.getFullYear();
 			const dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
 			globalWeek = Math.floor(dayOfYear / 7);
+			day = calenderInstance.getView().currentStart.getDay();
 			onload();
 		},
 		eventClick: info => {
@@ -312,7 +343,7 @@
 <div class="my-2 flex justify-between">
 	<h1 class="heading">
 		<p class={window.innerWidth < 768 ? 'hidden' : 'visible'}>{heading}</p>
-		<p class="font-normal">Uge {globalWeek}</p>
+		<p class="font-normal">{window.innerWidth < 768 ? `${days[day]} -` : ''} Uge {globalWeek}</p>
 	</h1>
 	{#if cookie?.userId}
 		<a
