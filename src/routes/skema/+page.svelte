@@ -13,7 +13,7 @@
 	let heading = 'Skema';
 	let mySkema = null;
 
-	let day;
+	let globalDay;
 	const days = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
 
 	$fag = $fag ?? {};
@@ -109,65 +109,18 @@
 	// history.replaceState({}, "", url);
 
 	// FIXME: Date.prototype.getWeekNumber is implemented in another route
-	function getWeekNumber() {
-		const now = new Date();
-		if (now.getWeekNumber) return now.getWeekNumber();
+	function getWeekNumber(date = new Date()) {
+		if (date.getWeekNumber) return date.getWeekNumber();
 
-		const today = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+		// const today = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
 		const weekDays = 7;
-		const dayNum = today.getUTCDay() || weekDays;
-		today.setUTCDate(today.getUTCDate() + 4 - dayNum);
-		const yearStart = new Date(Date.UTC(today.getUTCFullYear(), 0, 1));
-		const sinceYearStart = today - yearStart;
+		const dayNum = date.getUTCDay() || weekDays;
+		date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+		const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+		const sinceYearStart = date - yearStart;
 		const msInDay = 86400000;
 		const daysSinceStartOfYear = sinceYearStart / msInDay;
 		return Math.ceil((daysSinceStartOfYear + 1) / weekDays);
-	}
-
-	function changeWeek(task) {
-		day = calenderInstance.getView().currentStart.getDay();
-		if (task === 0) globalWeek = getWeekNumber();
-		else if (day < 2) globalWeek += task;
-	}
-
-	function updateDagsnoter() { // Til mobil
-		if (window.innerWidth < 768) {
-			const infoobj = skema[String(globalYear) + globalWeek].dagsNoter[day - 1];
-			const [currentDay] = Object.keys(infoobj);
-			const currentInfoArr = infoobj[currentDay];
-			let currentInfo = `<p>`;
-			for (let j = 0; j < currentInfoArr.length; j++) currentInfo += `${currentInfoArr[j] }</p><p>`;
-
-			const slots = document.getElementsByClassName('ec-day');
-			slots[1].innerHTML = `
-			<div tabindex="0" class="collapse collapse-arrow">
-				<div class="collapse-title font-medium">
-					Se dagsnoter
-				</div>
-				<div class="collapse-content">
-					${currentInfo}
-				</div>
-			</div>
-			`;
-		}
-	}
-
-	function onload() {
-		updateDagsnoter();
-		const btns = document.getElementsByClassName('ONCHANGE');
-
-		btns[0].addEventListener('click', () => {
-			changeWeek(0);
-			updateDagsnoter();
-		});
-		btns[1].addEventListener('click', () => {
-			changeWeek(-1);
-			updateDagsnoter();
-		});
-		btns[2].addEventListener('click', () => {
-			changeWeek(1);
-			updateDagsnoter();
-		});
 	}
 
 	const options = {
@@ -209,11 +162,11 @@
 		},
 		viewDidMount: view => {
 			dertermineView();
+			globalDay = calenderInstance.getView().currentStart.getDay();
 			const dateObj = new Date(view.currentEnd.toISOString());
 			globalYear = dateObj.getFullYear();
 			const dayOfYear = 2 + Math.floor((dateObj - new Date(dateObj.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
 			globalWeek = Math.floor(dayOfYear / 7);
-			day = calenderInstance.getView().currentStart.getDay();
 			onload();
 		},
 		eventClick: info => {
@@ -285,15 +238,24 @@
 		}
 	}
 
-	function addButtonsToDagsnoter(year, week) {
+	function onViewChange() {
+		const date = calenderInstance.getView().currentEnd;
+		globalDay = calenderInstance.getView().currentStart.getDay();
+		globalWeek = getWeekNumber(date);
+		globalYear = date.getFullYear();
+	}
+
+	function addButtonsToDagsnoter(year, week, day) {
 		const slots = document.getElementsByClassName('ec-day');
 		const slotsFiltered = [];
 		if (window.innerWidth < 768) slotsFiltered.push(slots[1]);
 		else for (let i = 0; i < slots.length; i++) if (i >= 5 && i <= 9) slotsFiltered.push(slots[i]);
 
+
 		// add buttons to slots
 		for (let i = 0; i < slotsFiltered.length; i++) {
-			const infoobj = skema[String(year) + week].dagsNoter[i];
+			let infoobj = skema[String(year) + week].dagsNoter[i];
+			if (window.innerWidth < 768) infoobj = skema[String(year) + week].dagsNoter[day - 1];
 			const [currentDay] = Object.keys(infoobj);
 			const currentInfoArr = infoobj[currentDay];
 			let currentInfo = `<p>`;
@@ -312,10 +274,24 @@
 		}
 	}
 
+	function onload() {
+		const btns = document.getElementsByClassName('ONCHANGE');
+
+		btns[0].addEventListener('click', () => {
+			onViewChange();
+		});
+		btns[1].addEventListener('click', () => {
+			onViewChange();
+		});
+		btns[2].addEventListener('click', () => {
+			onViewChange();
+		});
+	}
+
 	function getSkema() {
 		if (!skema) skema = {};
 
-		get(`/skema?id=${skemaId}&uge=${globalWeek}&år=${globalYear}`).then(data => {
+		get(`/skema?id=${skemaId}&uge=${`0${ String(globalWeek)}`.slice(-2)}&år=${globalYear}`).then(data => {
 			skema[String(globalYear) + globalWeek] = data;
 			heading = skema?.[String(globalYear) + globalWeek]?.overskrift || 'skema';
 
@@ -330,20 +306,19 @@
 					.split(' - ')[1]
 					.split(':')[0]) + 1
 			).toString();
-
-			addButtonsToDagsnoter(globalYear, globalWeek);
 		});
 	}
 
 	$: if (globalWeek) console.log(`week changed to: ${ globalWeek}`);
 	$: if (globalWeek && globalYear) getSkema();
 	$: if (skema?.[String(globalYear) + globalWeek]) addSkemaToCalendar(skema[String(globalYear) + globalWeek]);
+	$: if (globalDay && skema?.[String(globalYear) + globalWeek]) addButtonsToDagsnoter(globalYear, globalWeek, globalDay);
 </script>
 
 <div class="my-2 flex justify-between">
 	<h1 class="heading">
 		<p class={window.innerWidth < 768 ? 'hidden' : 'visible'}>{heading}</p>
-		<p class="font-normal">{window.innerWidth < 768 ? `${days[day]} -` : ''} Uge {globalWeek}</p>
+		<p class="font-normal">{window.innerWidth < 768 ? `${days[globalDay]} -` : ''} Uge {globalWeek}</p>
 	</h1>
 	{#if cookie?.userId}
 		<a
