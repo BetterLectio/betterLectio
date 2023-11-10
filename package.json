@@ -30,6 +30,7 @@
   "dependencies": {
     "@event-calendar/core": "^1.5.0",
     "@event-calendar/time-grid": "^1.5.0",
+    "@sentry/sveltekit": "^7.80.0",
     "crypto-es": "^2.1.0",
     "dompurify": "^3.0.5",
     "markdown-it": "^13.0.1",
