@@ -145,7 +145,7 @@
 				const lectioCookie = response.headers.get('set-lectio-cookie');
 				if (lectioCookie && lectioCookie !== null) localStorage.setItem('lectio-cookie', lectioCookie);
 
-				await cookieInfo().then(cookie => fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userId}&schoolId=${cookie.schoolId}`));
+				await cookieInfo().then(cookie => fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userId}&skole_id=${cookie.schoolId}`));
 				progress.classList.remove('swap-active');
 				reloadData();
 
@@ -180,7 +180,7 @@
 			const lectioCookie = response.headers.get('set-lectio-cookie');
 			if (lectioCookie && lectioCookie !== null) localStorage.setItem('lectio-cookie', lectioCookie);
 
-			await cookieInfo().then(cookie => fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userId}&schoolId=${cookie.schoolId}`));
+			await cookieInfo().then(cookie => fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userId}&skole_id=${cookie.schoolId}`));
 			reloadData();
 
 			const originalLink = decodeURIComponent(redirectTo);
