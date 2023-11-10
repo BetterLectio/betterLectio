@@ -150,13 +150,39 @@
 	</p>
 </div>
 
-<h2 class="text-2xl font-bold">8. Kontaktinformation</h2>
+<div class="my-4 bg-base-200 p-4 rounded-2xl">
+	<h2 class="text-2xl font-bold">8. Privatlivspolitik for Sentry automatisk fejlrapportering</h2>
+	<p class="my-4">
+		Denne Privatlivspolitik ("Politik") beskriver, hvordan "Sentry automatisk fejlrapportering" under-appen ("Sentry") af webapplikationen
+		BetterLectio ("BetterLectio") indsamler, bruger, opbevarer og deler brugerdata, når der opstår fejl i BetterLectio. Ved at bruge
+		Sentry accepterer du vilkårene, der er beskrevet i denne Politik.
+	</p>
+	<h3>8,1. Hvorfor bruger BetterLectio Sentry?</h3>
+	<p class="my-4">
+		BetterLectio bruger Sentry til at indsamle fejlrapporter, når der opstår fejl i BetterLectio. Dette hjælper os med at identificere og
+		løse fejl hurtigere, så vi kan levere en bedre brugeroplevelse.
+	</p>
+
+	<h3>8,2. Hvilke data indsamler Sentry?</h3>
+	<p class="my-4">
+		Sentry indsamler kun data, der er nødvendige for at identificere og løse fejl. Dette inkluderer oplysninger som f.eks. mussebevægelser
+		før fejlen opstod, hvilken browser du bruger, og hvilken version af BetterLectio du bruger. vi kan også se konsolhistorikken, samt andre
+		parametre som du kan læse mere om <a class="btn btn-xs btn-primary" href="https://docs.sentry.io">her</a>.
+	</p>
+
+	<h3>8,3. Hvordan bruger BetterLectio dataene?</h3>
+	<p class="my-4">
+		BetterLectio bruger dataene til at identificere og løse fejl hurtigere, så vi kan levere en bedre brugeroplevelse.
+	</p>
+</div>
+
+<h2 class="text-2xl font-bold">9. Kontaktinformation</h2>
 <p class="my-4">
 	Hvis du har spørgsmål, bekymringer eller anmodninger relateret til dine data eller denne Privatlivspolitik, kan du kontakte Better
 	Lectio-teamet <a class="btn btn-xs btn-primary" href="https://app.betterlectio.dk/discord">her</a>.
 </p>
 
-<h2 class="text-2xl font-bold">9. Effektiv Dato</h2>
+<h2 class="text-2xl font-bold">10. Effektiv Dato</h2>
 <p class="my-4">
 	Denne Privatlivspolitik er gældende fra 07/08/2023 og gælder for alle brugere af BetterLectio. Ved at bruge "BetterLectio" under-appen
 	anerkender du, at du har læst og forstået denne Privatlivspolitik og giver samtykke til indsamling, brug og deling af dine data, som
