@@ -60,6 +60,10 @@
 			<span class="label-text">Vis absolut frist</span>
 			<input type="checkbox" class="toggle" bind:checked={$indstillinger.opgaver.visFristAbsolut} />
 		</label>
+		<label class="label cursor-pointer">
+			<span class="label-text">Liste (ingen tabel) på mobil</span>
+			<input type="checkbox" class="toggle" bind:checked={$indstillinger.opgaver.liste} />
+		</label>
 	</div>
 </div>
 
