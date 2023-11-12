@@ -189,8 +189,15 @@
 	}
 
 	function formatModuler(moduler) {
+		let filteredModuler = moduler;
+
+		console.log(filteredModuler);
+
+		// filter out moduler that have a status of 'aflyst'
+		filteredModuler = filteredModuler.filter(modul => modul.status !== 'aflyst');
+
 		const events = [];
-		moduler.forEach(modul => {
+		filteredModuler.forEach(modul => {
 			const [startDate, endDate] = convertLectioTime(modul.tidspunkt);
 
 			// create event does additonal processing of the event
