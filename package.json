@@ -38,6 +38,7 @@
     "moment": "^2.29.4",
     "svelte-chartjs": "^3.1.2",
     "svelte-intersection-observer": "^0.10.0",
+    "svelte-preprocess": "^5.1.0",
     "theme-change": "^2.5.0"
   }
 }

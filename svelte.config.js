@@ -1,6 +1,7 @@
 import adapter from '@sveltejs/adapter-auto';
 import { fileURLToPath } from 'url';
 import { readFileSync } from 'fs';
+import sveltePreprocess from 'svelte-preprocess';
 
 const file = fileURLToPath(new URL('package.json', import.meta.url));
 const json = readFileSync(file, 'utf8');
@@ -14,7 +15,9 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter(),
 		version: { name: pkg.version }
-	}
+	},
+	compilerOptions: { enableSourcemap: true },
+	preprocess: sveltePreprocess({ sourceMap: true })
 };
 
 export default config;

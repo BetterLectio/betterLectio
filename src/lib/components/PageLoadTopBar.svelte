@@ -21,7 +21,6 @@
 <style>
 .load-indicator {
 	height: 0px;
-	transition: height 100ms;
 }
 
 .load-indicator.active {
