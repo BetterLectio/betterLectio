@@ -24,7 +24,7 @@
 	function updateDates(day) {
 		// if (day.getDay() === 0) day.setDate(day.getDate() + 1);
 
-		for (let i = 0; i < 3; i++) for (let j = 0; j < 7; j++) dates[i][j] = new Date(day.getTime() + (((7 * (i === 0 ? 7 : i - 1)) - day.getDay() + 1 + j) * 24 * 60 * 60 * 1000));
+		for (let i = 0; i < 3; i++) for (let j = 0; j < 7; j++) dates[i][j] = new Date(day.getTime() + (((7 * (i - 1)) - day.getDay() + 1 + j) * 24 * 60 * 60 * 1000));
 		if (swiperElement) swiperElement.swiper.slideTo(1, 0);
 	}
 	updateDates(selectedDay);
@@ -32,6 +32,7 @@
 	function swiperEvents(swiper) {
 		swiper.on('slideChangeTransitionEnd', () => {
 			// eslint-disable-next-line prefer-destructuring
+			console.log(dates)
 			viewDate = dates[swiper.realIndex][0];
 		});
 	}
