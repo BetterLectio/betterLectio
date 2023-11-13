@@ -1,10 +1,12 @@
 <script>
 	import { fag, indstillinger } from '$lib/js/store.js';
+	import { getModulColor, standardizeTimeRange } from '$lib/js/LectioUtils.js';
 	import Calendar from '@event-calendar/core';
 	import TimeGrid from '@event-calendar/time-grid';
-	import { getModulColor, standardizeTimeRange } from '$lib/js/LectioUtils.js';
+	import { addNotification } from '$lib/js/notifyStore.js';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
+	import { goto } from '$app/navigation';
 	import { register } from 'swiper/element/bundle';
 	register();
 
@@ -154,6 +156,10 @@
 			skema.setOption('date', selectedDay);
 			skemaBefore.setOption('date', new Date(selectedDay.getTime() - (1 * 24 * 60 * 60 * 1000)));
 			skemaAfter.setOption('date', new Date(selectedDay.getTime() + (1 * 24 * 60 * 60 * 1000)));
+		},
+		eventClick: info => {
+			if (!info.event.id.includes('privat')) goto(`/modul?absid=${info.event.id}`);
+			else addNotification('modul siden er ikke tilgængelig for private moduler', 'alert-warning');
 		}
 	};
 
