@@ -262,7 +262,7 @@
 								{:else if modul.årsag === 'Kom for sent'}
 									<p class="btn-error btn-xs btn w-full">{modul.årsag}</p>
 								{:else if modul.årsag === 'Andet'}
-									<p class="btn-xs btn w-full">{modul.årsag}</p>
+									<p class="btn-neutral btn-xs btn w-full">{modul.årsag}</p>
 								{/if}
 							</td>
 							<td class="whitespace-pre-wrap">{modul.årsagsnote}</td>
