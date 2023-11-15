@@ -3,6 +3,7 @@ import { handleErrorWithSentry, sentryHandle } from '@sentry/sveltekit';
 import * as Sentry from '@sentry/sveltekit';
 
 Sentry.init({
+	environment: import.meta.env.MODE,
 	dsn: 'https://b22f2fafee56f8eff792d5e03987fc0c@o4506184019476480.ingest.sentry.io/4506184022491136',
 	tracesSampleRate: 1.0
 });
