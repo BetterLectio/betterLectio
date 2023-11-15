@@ -61,21 +61,21 @@
 	let redirectTo = new URLSearchParams(window.location.search).get('redirect');
 	redirectTo = redirectTo === null ? '/forside' : decodeURIComponent(redirectTo);
 
-	function tryLoginInWithCookie() {
-		if (localStorage.getItem('lectio-cookie') || localStorage.getItem('lectio-cookie') !== null) {
-			fetch(`${api}/check-cookie`, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } })
-				.then(result => result.json())
-				.then(data => {
-					if (data?.valid) {
-						console.log('Logged in with cookie');
-						window.location.href = decodeURIComponent(redirectTo);
-					} else {
-						console.log('Cookie not valid.', 'valitation:', data);
-					}
-				});
-		}
-	}
-	tryLoginInWithCookie();
+	// function tryLoginInWithCookie() {
+	// 	if (localStorage.getItem('lectio-cookie') || localStorage.getItem('lectio-cookie') !== null) {
+	// 		fetch(`${api}/check-cookie`, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } })
+	// 			.then(result => result.json())
+	// 			.then(data => {
+	// 				if (data?.valid) {
+	// 					console.log('Logged in with cookie');
+	// 					window.location.href = decodeURIComponent(redirectTo);
+	// 				} else {
+	// 					console.log('Cookie not valid.', 'valitation:', data);
+	// 				}
+	// 			});
+	// 	}
+	// }
+	// tryLoginInWithCookie();
 
 	function setSkole() {
 		if (isInAutoAuth) return;

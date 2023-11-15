@@ -7,7 +7,7 @@ Sentry.init({
 	dsn: 'https://b22f2fafee56f8eff792d5e03987fc0c@o4506184019476480.ingest.sentry.io/4506184022491136',
 	tracesSampleRate: 1.0,
 	tracesSampler: () => {
-		if (import.meta.env.MODE === 'development' || navigator.userAgent.includes('HeadlessChrome')) {
+		if (import.meta.env.MODE === 'development') {
 			// Drop this transaction, by setting its sample rate to 0%
 			return 0;
 		}
