@@ -52,6 +52,8 @@
 			{:else if modul.hold}
 				<h1 class="text-xl font-bold">{modul.navn}</h1>
 				<div><h1 class="text-lg font-bold truncate">{oversatHold}</h1></div>
+			{:else}
+				<h1 class="text-xl font-bold">{modul.navn}</h1>
 			{/if}
 		{:else}
 			<h1 class="text-xl font-bold">{oversatHold}</h1>
