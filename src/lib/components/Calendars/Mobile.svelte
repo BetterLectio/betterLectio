@@ -137,6 +137,11 @@
 		flexibleSlotTimeLimits: true,
 		slotMinTime: '08:00:00',
 		slotMaxTime: '17:00:00',
+		slotDuration: '00:15:00',
+		slotEventOverlap: false,
+		nowIndicator: true,
+
+		// height: 'calc(100vh - 40rem)',
 		events: [],
 		eventDidMount: event => {
 			// if the event is cancelled, add a class to the event
