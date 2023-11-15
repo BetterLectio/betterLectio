@@ -89,7 +89,7 @@
 		dayFoot: 'hidden',
 		dayHead: 'hidden',
 		daySide: 'hidden',
-		days: 'ec-days',
+		days: 'ec-days overflow-y-hidden',
 		draggable: 'hidden',
 		dragging: 'hidden',
 		event: 'btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden visible z-5 hover:z-0 border-0 m-0.5 no-animation',
@@ -128,8 +128,7 @@
 		today: 'bg-base-300',
 		toolbar: 'hidden',
 		uniform: 'hidden',
-		week: 'ec-week',
-		withScroll: 'ec-hidden-scroll'
+		week: 'ec-week'
 	};
 	const options = {
 		view: 'timeGridDay',

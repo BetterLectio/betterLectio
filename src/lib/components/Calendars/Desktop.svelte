@@ -49,7 +49,7 @@
 		dayFoot: 'ec-day-foot',
 		dayHead: 'ec-day-head',
 		daySide: 'ec-day-side',
-		days: 'ec-days',
+		days: 'overflow-y-hidden ec-days',
 		draggable: 'ec-draggable',
 		dragging: 'ec-dragging',
 		event:
@@ -90,8 +90,7 @@
 		toolbar:
 			'flex items-center ec-toolbar bg-base-100 border border-1 md:border-none md:text-base-content md:bg-base-100 p-2 rounded-t-2xl -mt-8 md:mt-0 ',
 		uniform: 'ec-uniform',
-		week: 'ec-week',
-		withScroll: 'ec-hidden-scroll'
+		week: 'ec-week'
 	};
 
 	function dertermineView() {
@@ -130,8 +129,8 @@
 		theme: customTheme,
 		hiddenDays: [0, 6],
 		flexibleSlotTimeLimits: true,
-		slotMinTime: '08:00:00',
-		slotMaxTime: '17:00:00',
+		slotMinTime: '00:00:00',
+		slotMaxTime: '24:00:00',
 		events: [],
 		dayHeaderFormat: { weekday: 'long', day: 'numeric', month: 'numeric' },
 		slotDuration: '00:15:00',
