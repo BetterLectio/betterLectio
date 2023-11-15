@@ -3,7 +3,6 @@
 	import { AES } from 'crypto-es/lib/aes';
 	import AutoComplete from 'simple-svelte-autocomplete';
 	import { Html5Qrcode } from 'html5-qrcode';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import { Utf8 } from 'crypto-es/lib/core';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { fade } from 'svelte/transition';
@@ -21,6 +20,7 @@
 				// if the redirect url is set in the url e.g. "login?redirect=http%3A%2F%2Flocalhost%3A5173%2Fapp%2Fsketch%2Fnew" go to that url otherwise go to the home page
 				const urlParams = new URLSearchParams(window.location.search);
 				const redirect = urlParams.get('redirect');
+
 				goto(redirect ? redirect : '/forside');
 			}
 		}
@@ -287,7 +287,6 @@
 		{/if}
 	{/key}
 </div>
-<SuperDebug data={$form} />
 
 <style>
 </style>

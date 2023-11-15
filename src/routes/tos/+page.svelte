@@ -1,3 +1,8 @@
+<script>
+	export let data;
+	console.log(data);
+</script>
+
 <h1 class="heading">Servicevilkår & Privatlivspolitik</h1>
 
 <h2 class="text-2xl font-bold">1. Indledning</h2>

@@ -18,6 +18,8 @@
 	import { page } from '$app/stores';
 
 	export let data = null;
+	console.log(data);
+	if (data.lectioCookie) localStorage.setItem('lectio-cookie', data.lectioCookie);
 
 	const app = $page.url.searchParams.get('app');
 	if (app === 'iOS') $mobile = 'iOS';
