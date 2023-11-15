@@ -15,6 +15,16 @@ Sentry.init({
 	replaysOnErrorSampleRate: 1.0,
 
 	// If you don't want to use Session Replay, just remove the line below:
+
+	tracesSampler: () => {
+		if (import.meta.env.MODE === 'development' || navigator.userAgent.includes('HeadlessChrome')) {
+			// Drop this transaction, by setting its sample rate to 0%
+			return 0;
+		}
+
+		// Default sample rate for all others (replaces tracesSampleRate)
+		return 1;
+	},
 	integrations: [new Replay()]
 });
 
