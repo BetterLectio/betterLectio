@@ -34,7 +34,7 @@
 	function swiperEvents(swiper) {
 		swiper.on('slideChangeTransitionEnd', () => {
 			// eslint-disable-next-line prefer-destructuring
-			console.log(dates)
+			console.log(dates);
 			viewDate = dates[swiper.realIndex][0];
 		});
 	}
@@ -92,7 +92,7 @@
 		days: 'ec-days',
 		draggable: 'hidden',
 		dragging: 'hidden',
-		event: 'btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden visible hover:scale-105 z-5 hover:z-0 border-0 m-0.5',
+		event: 'btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden visible z-5 hover:z-0 border-0 m-0.5 no-animation',
 		eventBody: '',
 		eventTag: 'hidden',
 		eventTime: 'ec-event-time',

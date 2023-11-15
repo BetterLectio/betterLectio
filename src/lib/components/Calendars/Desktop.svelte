@@ -53,7 +53,7 @@
 		draggable: 'ec-draggable',
 		dragging: 'ec-dragging',
 		event:
-			'btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden visible hover:scale-105 z-5 hover:z-0 border-0 m-0.5',
+			'btn btn-xs absolute flex-nowrap w-full h-full overflow-hidden visible hover:scale-105 z-5 hover:z-0 border-0 m-0.5 no-animation',
 		eventBody: '',
 		eventTag: 'ec-event-tag',
 		eventTime: 'ec-event-time',
