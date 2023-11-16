@@ -20,6 +20,7 @@
 	export let data = null;
 	console.log(data);
 	if (data.lectioCookie) localStorage.setItem('lectio-cookie', data.lectioCookie);
+	else localStorage.removeItem('lectio-cookie');
 
 	const app = $page.url.searchParams.get('app');
 	if (app === 'iOS') $mobile = 'iOS';
@@ -135,7 +136,7 @@
 							localStorage.setItem('schoolId', schoolId);
 							localStorage.setItem('theme', theme);
 
-							window.location.href = '/auth';
+							window.location.href = '/logout';
 						}}
 						class="btn-error btn">Log mig ud!</button
 					>

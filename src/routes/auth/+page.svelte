@@ -6,7 +6,6 @@
 	import { Utf8 } from 'crypto-es/lib/core';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { fade } from 'svelte/transition';
-	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 
@@ -21,7 +20,7 @@
 				const urlParams = new URLSearchParams(window.location.search);
 				const redirect = urlParams.get('redirect');
 
-				goto(redirect ? redirect : '/forside');
+				window.location.href = redirect ? redirect : '/forside';
 			}
 		}
 	});

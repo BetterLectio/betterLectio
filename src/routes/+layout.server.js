@@ -1,15 +1,38 @@
-import { Redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
+import { validCookie } from '../lib/js/serverCookies.js';
 
-async function validCookie(base64Cookie) {
-	const cookies = await JSON.parse(await Buffer.from(base64Cookie, 'base64'));
-	const skoleId = cookies[await (await cookies.map(cookie => cookie.name)).indexOf('LastLoginExamno')].value;
-	const response = await fetch(`https://www.lectio.dk/lectio/${skoleId}/help/mainhelp.aspx`, { headers: { cookie: await (await cookies.map(cookie => `${cookie.name}=${cookie.value}`)).join('; ') } });
+export async function load({ cookies, url }) {
+	// make the redirect in case redirect its needed
+	const redirectFromAuth = encodeURIComponent(url.href);
+	try {
+		const lectioCookie = cookies.get('lectio-cookie');
 
-	if ((await response.text()).split('Log ud').length > 1) return true;
-	return false;
-}
+		if (url.pathname !== '/auth' && url.pathname !== '/auth/') {
+			if (!lectioCookie) {
+				// delete the cookie if it exists
+				if (cookies.get('lectio-cookie')) cookies.delete('lectio-cookie');
 
-export function load({ cookies, url }) {
-	const lectioCookie = cookies.get('lectio-cookie');
-	return { lectioCookie, pathname: url.pathname };
+				// redirect to auth page
+				throw redirect(302, `/auth${redirectFromAuth ? `?redirect=${redirectFromAuth}` : ''}`);
+			}
+
+			// Check if the cookie is valid
+			const cookieIsValid = await validCookie(lectioCookie);
+			console.log(cookieIsValid);
+
+			if (!cookieIsValid) {
+				// delete the cookie if it exists
+				if (cookies.get('lectio-cookie')) cookies.delete('lectio-cookie');
+
+				// redirect to auth page
+				throw redirect(302, `/auth${redirectFromAuth ? `?redirect=${redirectFromAuth}` : ''}`);
+			}
+		}
+
+		return { lectioCookie, pathname: url.pathname };
+	} catch (error) {
+		// redirect to auth page and pass the redirect url and delete the cookie
+		if (cookies.get('lectio-cookie')) cookies.delete('lectio-cookie');
+		throw redirect(302, `/auth${redirectFromAuth ? `?redirect=${redirectFromAuth}` : ''}`);
+	}
 }

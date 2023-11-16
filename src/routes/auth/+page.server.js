@@ -1,6 +1,7 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import { z } from 'zod';
+import { validCookie } from '../../lib/js/serverCookies.js';
 
 const schema = z.object({
 	username: z.string().min(2).max(64),
@@ -12,11 +13,10 @@ const schema = z.object({
 	})
 });
 
-export const load = (async () => {
+export const load = (async ({ url, cookies }) => {
 	// Server API:
 	const form = await superValidate(schema);
 
-	// Unless you throw, always return { form } in load and form actions.
 	return { form };
 });
 
