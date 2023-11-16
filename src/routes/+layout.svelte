@@ -13,9 +13,9 @@
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { onMount } from 'svelte';
 	import { onNavigate } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { themeChange } from 'theme-change';
 	import { version } from '$app/environment';
-	import { page } from '$app/stores';
 
 	export let data = null;
 	console.log(data);

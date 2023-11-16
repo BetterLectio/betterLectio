@@ -1,5 +1,3 @@
-import { addNotification } from '$lib/js/notifyStore.js';
-
 // async function sha256(str) {
 //   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(str));
 //   return Array.prototype.map.call(new Uint8Array(buf), (x) => ("00" + x.toString(16)).slice(-2)).join("");
@@ -17,15 +15,17 @@ export function reloadData(reload = true) {
 	if (reload) window.location.reload();
 }
 
-async function checkCookieValidity() {
-	const cookieValidationCheck = await fetch(`${api}/check-cookie`, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } });
-	const { valid: isCookieValid } = await cookieValidationCheck.json();
+// the following function is know to cu
 
-	return {
-		isCookieValid,
-		lectioCookie: cookieValidationCheck.headers.get('set-lectio-cookie')
-	};
-}
+// async function checkCookieValidity() {
+//	const cookieValidationCheck = await fetch(`${api}/check-cookie`, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } });
+//	const { valid: isCookieValid } = await cookieValidationCheck.json();
+//
+//	return {
+//		isCookieValid,
+//		lectioCookie: cookieValidationCheck.headers.get('set-lectio-cookie')
+//	};
+// }
 
 export async function get(endpoint, body = null) {
 	// FIXME: code does not work

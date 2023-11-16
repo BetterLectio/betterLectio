@@ -1,6 +1,8 @@
 <script>
 
 // auth on server no need to auth on client
-// TODO
 </script>
 
+<p>
+	Vent mens vi logger dig ud
+</p>
