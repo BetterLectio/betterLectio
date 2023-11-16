@@ -74,10 +74,6 @@
 		}
 	}
 
-	function handleEnterLogin(evt) {
-		if (evt?.key === 'Enter') login();
-	}
-
 	let qrAuth = false;
 	function changeLoginType() {
 		console.log('change');
@@ -158,7 +154,6 @@
 								placeholder="Lectio adgangskode"
 								class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
 								bind:value={$form.password}
-								on:keypress={handleEnterLogin}
 							/>
 							<!-- <select
 								name="skole"
@@ -225,7 +220,7 @@
 							</p>
 							<div class="divider" />
 							<div class="flex justify-end">
-								<button tabindex="0" type="submit" class="btn-primary btn group" on:click={console.log('auth')} on:keyup={handleEnterLogin}>
+								<button tabindex="0" type="submit" class="btn-primary btn group" on:click={console.log('auth')}>
 									<p>Log ind</p>
 									<label class="swap SWAPICONSTATE" for="login">
 										<svg
