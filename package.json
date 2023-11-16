@@ -23,8 +23,9 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"daisyui": "^3.7.0",
+		"daisyui": "^4.2.2",
 		"svelte-canvas": "^0.9.3",
+		"svelte-confetti": "^1.3.1",
 		"svelte-countup": "^0.2.6"
 	}
 }
