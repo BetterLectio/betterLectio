@@ -133,7 +133,7 @@
 		slotMaxTime: '24:00:00',
 		events: [],
 		dayHeaderFormat: { weekday: 'long', day: 'numeric', month: 'numeric' },
-		slotDuration: '00:15:00',
+		slotDuration: '00:30:00',
 		slotEventOverlap: false,
 		buttonText: {
 			today: 'I dag',
