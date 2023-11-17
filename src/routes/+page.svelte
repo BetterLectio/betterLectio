@@ -117,7 +117,7 @@
 			<div class="navbar-start" />
 			<div class="navbar-center hidden lg:flex">
 				<ul class="menu menu-horizontal px-1">
-					<li><a href="#om" on:click|preventDefault={scrollIntoView} class="font-bold">Om</a></li>
+					<!-- <li><a href="#om" on:click|preventDefault={scrollIntoView} class="font-bold">Om</a></li> -->
 					<li>
 						<a href="#downloads" on:click|preventDefault={scrollIntoView} class="font-bold"
 							>Download</a
