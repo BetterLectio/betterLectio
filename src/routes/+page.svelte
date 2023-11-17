@@ -141,7 +141,7 @@
 
 	<div class="mt-20 h-32 w-full relative flex flex-col items-center justify-center">
 		<div class="absolute -z-30">
-			<enhanced:img src="/static/b1.png" alt="b1"> </enhanced:img>
+			<img src="/b1.png" alt="b1"/>
 		</div>
 		<div
 			class="h-32 w-32 bg-base-300 rounded-3xl flex items-center justify-center p-4 absolute shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
@@ -173,10 +173,10 @@
 		<img src="/dos.png" alt="" height="800px" class="h-[800px]" />
 	</div>
 	<div class="absolute -z-30 -translate-x-32 translate-y-14">
-		<enhanced:img src="/static/b5.png" alt="b1" />
+		<img src="/b5.png" alt="b1"/>
 	</div>
 	<div class="absolute -z-30 translate-x-32 -translate-y-14">
-		<enhanced:img src="/static/b5.png" alt="b1" />
+		<img src="/b5.png" alt="b1"/>
 	</div>
 </div>
 
