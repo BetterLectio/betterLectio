@@ -1,166 +1,52 @@
 <script>
 	import { api, reloadData } from '$lib/js/http.js';
 	import { AES } from 'crypto-es/lib/aes';
+	import AutoComplete from 'simple-svelte-autocomplete';
+	import { Html5Qrcode } from 'html5-qrcode';
 	import { Utf8 } from 'crypto-es/lib/core';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
-	import { Html5Qrcode } from 'html5-qrcode';
 	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import { superForm } from 'sveltekit-superforms/client';
 
-	const key
-		= 'Ting som encrypter login data meget simplet så det ikke er vildt nemt at få fat i fra et andet program. BTW du kan kun gemme login hvis du kører appen, det virker altså ikke på hjemmesiden.';
 
-	let brugernavn = '';
-	let adgangskode = '';
-	let schoolId = '';
-	if (localStorage.getItem('schoolId')) schoolId = localStorage.getItem('schoolId');
-	let options = { '': '' };
-	let isInAutoAuth = false;
+	export let data;
+	const { enhance, form } = superForm(data.form, {
+		dataType: 'json',
+		// eslint-disable-next-line no-shadow
+		onUpdated({ form }) {
+			if (form.valid) {
+				// if the redirect url is set in the url e.g. "login?redirect=http%3A%2F%2Flocalhost%3A5173%2Fapp%2Fsketch%2Fnew" go to that url otherwise go to the home page
+				const urlParams = new URLSearchParams(window.location.search);
+				const redirect = urlParams.get('redirect');
 
-	onMount(async() => {
-		try {
-			if (new URLSearchParams(window.location.search).get('redirect') || localStorage.getItem('lectio-cookie')) {
-				isInAutoAuth = true;
-				let data = {};
-				if (api === 'http://localhost:5000') {
-					if (localStorage.getItem('brugernavn') && localStorage.getItem('adgangskode') && localStorage.getItem('schoolId')) {
-						data.id = AES.decrypt(localStorage.getItem('brugernavn'), key).toString(Utf8);
-						data.password = AES.decrypt(localStorage.getItem('adgangskode'), key).toString(Utf8);
-						schoolId = localStorage.getItem('schoolId');
-
-						data.type = 'password';
-					}
-				} else {
-					data = await window.navigator.credentials.get({
-						password: true,
-						mediation: 'optional'
-					});
-				}
-				if (data.type === 'password') {
-					const response = await fetch(`${api}/auth`, {
-						headers: {
-							brugernavn: data.id,
-							adgangskode: data.password,
-							skoleid: schoolId
-						}
-					});
-					if (response.ok) {
-						localStorage.setItem('lectio-cookie', response.headers.get('set-lectio-cookie'));
-						window.location.href = decodeURIComponent(new URLSearchParams(window.location.search).get('redirect') || '/forside');
-					}
-					isInAutoAuth = false;
-				} else {
-					isInAutoAuth = false;
-				}
+				window.location.href = redirect ? redirect : '/forside';
 			}
-		} catch (error) {
-			isInAutoAuth = false;
 		}
 	});
+
+	let options = { '': '' };
+	let plainOptions = [];
+
+	const isInAutoAuth = false;
 
 	let redirectTo = new URLSearchParams(window.location.search).get('redirect');
 	redirectTo = redirectTo === null ? '/forside' : decodeURIComponent(redirectTo);
 
-	// function tryLoginInWithCookie() {
-	// 	if (localStorage.getItem('lectio-cookie') || localStorage.getItem('lectio-cookie') !== null) {
-	// 		fetch(`${api}/check-cookie`, { headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') } })
-	// 			.then(result => result.json())
-	// 			.then(data => {
-	// 				if (data?.valid) {
-	// 					console.log('Logged in with cookie');
-	// 					window.location.href = decodeURIComponent(redirectTo);
-	// 				} else {
-	// 					console.log('Cookie not valid.', 'valitation:', data);
-	// 				}
-	// 			});
-	// 	}
-	// }
-	// tryLoginInWithCookie();
+	// code for saving school info to localstorage and autofilling it
+	$: saveSchoolChecked = true;
+	$: if ($form.school && saveSchoolChecked) localStorage.setItem('schoolId', JSON.stringify($form.school));
+	$: if (!saveSchoolChecked) localStorage.removeItem('schoolId');
+	if (localStorage.getItem('schoolId')) $form.school = JSON.parse(localStorage.getItem('schoolId'));
 
-	function setSkole() {
-		if (isInAutoAuth) return;
-		if (document.readyState === 'complete') {
-			const checkbox = document.getElementById('saveSchoolIdCheck');
-
-			if (checkbox.checked === true) localStorage.setItem('schoolId', schoolId);
-			else localStorage.removeItem('schoolId');
-		}
-	}
-
-	let saveLogin = true;
-
-	fetch(`${api}/skoler`).then(data => data.json())
+	fetch(`${api}/skoler`).then(res => res.json())
 		.then(json => {
 			options = json;
+
+			// format the options to an array of objects
+			plainOptions = Object.entries(options).map(([id, skole]) => ({ id, skole: skole.skole, skoleid: skole.id }));
+			console.log(plainOptions);
 		});
-
-	function getCachedSchool() {
-		// load the schoolId from localstorage and set it to the select
-		if (localStorage.getItem('schoolId')) schoolId = localStorage.getItem('schoolId');
-	}
-
-	function validateLoginFields() {
-		const usernameValid = typeof brugernavn === 'string' && brugernavn.length > 0;
-		const passwordValid = typeof adgangskode === 'string' && adgangskode.length > 0;
-		const schoolValid = typeof schoolId === 'string' && schoolId.length > 0;
-
-		return usernameValid && passwordValid && schoolValid;
-	}
-
-	async function login() {
-		const { location } = window;
-
-		setSkole();
-		if (!validateLoginFields()) {
-			document.querySelector('#MissingInfoAlert').checked = true;
-			document.querySelector('#MissingInfoAlertX').addEventListener('click', () => {
-				document.querySelector('#MissingInfoAlert').checked = false;
-			});
-		} else {
-			console.log('Logging into Lectio');
-
-			const progress = document.querySelector('.SWAPICONSTATE');
-			progress.classList.add('swap-active');
-			const response = await fetch(`${api}/auth`, {
-				headers: {
-					brugernavn,
-					adgangskode,
-					skoleid: schoolId
-				}
-			});
-			if (response.ok) {
-				setSkole();
-
-				if (saveLogin && api === 'http://localhost:5000') {
-					localStorage.setItem('brugernavn', AES.encrypt(brugernavn, key));
-					localStorage.setItem('adgangskode', AES.encrypt(adgangskode, key));
-					localStorage.setItem('schoolId', schoolId);
-				} else {
-					localStorage.removeItem('brugernavn');
-					localStorage.removeItem('adgangskode');
-
-				// localStorage.removeItem('schoolId');
-				}
-
-				const lectioCookie = response.headers.get('set-lectio-cookie');
-				if (lectioCookie && lectioCookie !== null) localStorage.setItem('lectio-cookie', lectioCookie);
-
-				await cookieInfo().then(cookie => fetch(`https://db.betterlectio.dk/bruger?bruger_id=${cookie.userId}&skole_id=${cookie.schoolId}`));
-				progress.classList.remove('swap-active');
-				reloadData();
-
-				const originalLink = decodeURIComponent(redirectTo);
-				location.href = originalLink;
-			} else {
-				progress.classList.remove('swap-active');
-
-				document.querySelector('#CantLogInAlert').checked = true;
-				document.querySelector('#CantLogInAlertX').addEventListener('click', () => {
-					document.querySelector('#CantLogInAlert').checked = false;
-				});
-			}
-		}
-	}
 
 	async function qrLogin(url) {
 		const skoleId = await url.match(/\/\d+\//g).toString()
@@ -173,7 +59,7 @@
 			headers: {
 				userId,
 				QrId,
-				skoleId
+				skoleId: $form.school
 			}
 		});
 		if (response.ok) {
@@ -188,12 +74,9 @@
 		}
 	}
 
-	function handleEnterLogin(evt) {
-		if (evt?.key === 'Enter') login();
-	}
-
 	let qrAuth = false;
 	function changeLoginType() {
+		console.log('change');
 		qrAuth = !qrAuth;
 	}
 
@@ -219,25 +102,10 @@
 				console.log(`Error scanning file. Reason: ${err}`);
 			});
 	}
-</script>
 
-<input type="checkbox" id="CantLogInAlert" class="modal-toggle" />
-<label class="modal" for="CantLogInAlert">
-	<label class="modal-box relative" for="">
-		<label for="CantLogInAlert" id="CantLogInAlert" class="btn-sm btn-circle btn absolute right-2 top-2">✕</label>
-		<h3 class="text-lg font-bold">Kunne ikke logge ind</h3>
-		<p class="py-4">Der skete en fejl. Er du sikker på, at du har indtastet dine oplysninger korrekt?</p>
-	</label>
-</label>
-<input type="checkbox" id="MissingInfoAlert" class="modal-toggle" />
-<label class="modal" for="MissingInfoAlert">
-	<label class="modal-box relative" for="">
-		<label for="MissingInfoAlert" id="MissingInfoAlert" class="btn-sm btn-circle btn absolute right-2 top-2">✕</label>
-		<h3 class="text-lg font-bold">Mangler info</h3>
-		<p class="py-4">Du skal udfylde alle felterne for at kunne logge ind.</p>
-	</label>
-</label>
-<div use:getCachedSchool class="flex items-center justify-center md:h-[75vh]">
+
+</script>
+<div class="flex items-center justify-center md:h-[75vh]">
 	{#key isInAutoAuth}
 		{#if !isInAutoAuth}
 			<div class="h-fit rounded-2xl bg-base-200 p-4 shadow-lg">
@@ -248,7 +116,7 @@
 					<button on:click={changeLoginType} class="tab {qrAuth ? 'tab-active' : ''}">QR kode</button>
 				</div>
 				<div class="divider mt-1 mb-2" />
-				<form action="javascript:void(0);" autocomplete="on" method="post">
+				<form use:enhance autocomplete="on" method="post">
 					<div class="form-control w-full max-w-xl">
 						{#if qrAuth}
 							<div class="flex justify-center" on:drop|preventDefault={qrCodeDropped} on:dragover|preventDefault>
@@ -271,11 +139,11 @@
 								type="text"
 								name="username"
 								id="username-field"
-								placeholder="Brugernavn"
+								placeholder="Lectio Brugernavn"
 								tabindex="0"
 								autocomplete="username"
 								class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
-								bind:value={brugernavn}
+								bind:value={$form.username}
 							/>
 							<input
 								type="password"
@@ -283,33 +151,47 @@
 								id="current-password-field"
 								autocomplete="current-password"
 								tabindex="0"
-								placeholder="Adgangskode"
+								placeholder="Lectio adgangskode"
 								class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
-								bind:value={adgangskode}
-								on:keypress={handleEnterLogin}
+								bind:value={$form.password}
 							/>
-							<select
+							<!-- <select
 								name="skole"
 								id="skole"
 								placeholder="Vælg din skole"
 								tabindex="0"
 								class="select select-sm w-full max-w-wl py-0 mb-2.5"
-								bind:value={schoolId}
+								bind:value={$form.school}
 							>
 								<option value="" disabled selected> Vælg din skole </option>
 								{#each Object.entries(options) as [, value]}
 									<option value={value.id}>{value.skole}</option>
 								{/each}
-							</select>
+							</select> -->
+							<AutoComplete
+								items="{plainOptions}"
+								labelFieldName="skole"
+								valueFieldName="id"
+								bind:selectedItem="{$form.school}"
+								matchAllKeywords={false}
+								sortByMatchedKeywords={true}
+								keywordsFunction={skole => `${skole.skole } ${ skole.skoleid}`}
+								noResultsText="Ingen skoler fundet"
+								placeholder="Vælg din skole"
+								required={true}
+								hideArrow={true}
+								className="select select-sm w-full max-w-wl py-0 mb-2.5 px-0"
+								dropdownClassName="rounded-box"
+							>
+							</AutoComplete>
 							<div class="join p-1.5 bg-base-100">
 								<div class="flex join-item">
 									<input
 										type="checkbox"
-										checked="checked"
+										bind:checked={saveSchoolChecked}
 										id="saveSchoolIdCheck"
 										tabindex="0"
 										class="checkbox checkbox-sm"
-										on:click={setSkole()}
 										name="setSkole"
 									/>
 									<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveSchoolIdCheck">Husk skole</label>
@@ -323,9 +205,6 @@
 											id="saveLogin"
 											tabindex="0"
 											class="checkbox checkbox-sm"
-											on:click={() => {
-												saveLogin = !saveLogin;
-											}}
 											name="saveLogin"
 										/>
 										<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveLogin">Forbliv logget ind</label>
@@ -334,15 +213,14 @@
 							</div>
 							<p class="text-xs mt-4">
 								Denne side bruger cookies til at huske dine oplysninger til næste gang, du logger ind. Når du logger ind, accepterer du, at din
-								browser gemmer dine oplysninger. De gemmes kun på din browser og bliver ikke sendt til nogen server udover Lectio og
-								vores proxy/translation layer.
+								browser gemmer dine oplysninger. De gemmes kun på din browser og bliver kun sendt til Lectio og vores server når det er nødvendigt.
 								<br>
 								<span class="font-bold">Når du logger ind, accepterer du automatisk vores</span>
 								<a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
 							</p>
 							<div class="divider" />
 							<div class="flex justify-end">
-								<button tabindex="0" type="submit" class="btn-primary btn group" on:click={login} on:keyup={handleEnterLogin}>
+								<button tabindex="0" type="submit" class="btn-primary btn group" on:click={console.log('auth')}>
 									<p>Log ind</p>
 									<label class="swap SWAPICONSTATE" for="login">
 										<svg

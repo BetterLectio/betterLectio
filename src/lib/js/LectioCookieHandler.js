@@ -3,12 +3,10 @@ export function cookieInfo() {
 	return new Promise(resolve => {
 		if (
 			!localStorage.getItem('lectio-cookie')
-		&& window.location.href.split('?')[0].split('/').at(-1) !== 'auth'
-		&& window.location.href.split('?')[0].split('/').at(-1) !== ''
+			&& window.location.href.split('?')[0].split('/').at(-1) !== 'auth'
+			&& window.location.href.split('?')[0].split('/').at(-1) !== ''
 		) {
-			console.log('Redirect to auth page');
-			const transformedLink = encodeURIComponent(window.location.href);
-			window.location.href = `/auth?redirect=${ transformedLink}`;
+			// error handling based on page
 		} else {
 			try {
 				const cookie = localStorage.getItem('lectio-cookie');

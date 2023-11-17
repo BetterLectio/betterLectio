@@ -13,11 +13,14 @@
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { onMount } from 'svelte';
 	import { onNavigate } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { themeChange } from 'theme-change';
 	import { version } from '$app/environment';
-	import { page } from '$app/stores';
 
 	export let data = null;
+	console.log(data);
+	if (data.lectioCookie) localStorage.setItem('lectio-cookie', data.lectioCookie);
+	else localStorage.removeItem('lectio-cookie');
 
 	const app = $page.url.searchParams.get('app');
 	if (app === 'iOS') $mobile = 'iOS';
@@ -133,7 +136,7 @@
 							localStorage.setItem('schoolId', schoolId);
 							localStorage.setItem('theme', theme);
 
-							window.location.href = '/auth';
+							window.location.href = '/logout';
 						}}
 						class="btn-error btn">Log mig ud!</button
 					>

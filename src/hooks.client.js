@@ -1,5 +1,5 @@
-import { Replay, handleErrorWithSentry } from '@sentry/sveltekit';
 import * as Sentry from '@sentry/sveltekit';
+import { Replay, handleErrorWithSentry } from '@sentry/sveltekit';
 
 Sentry.init({
 	environment: import.meta.env.MODE,
