@@ -3,6 +3,5 @@ export async function validCookie(base64Cookie) {
 	const skoleId = cookies[await (await cookies.map(cookie => cookie.name)).indexOf('LastLoginExamno')].value;
 	const response = await fetch(`https://www.lectio.dk/lectio/${skoleId}/help/mainhelp.aspx`, { headers: { cookie: await (await cookies.map(cookie => `${cookie.name}=${cookie.value}`)).join('; ') } });
 
-	if ((await response.text()).split('Log ud').length > 1) return true;
-	return false;
+	return (await response.text()).includes('Log ud');
 }
