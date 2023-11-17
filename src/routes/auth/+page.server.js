@@ -1,6 +1,9 @@
 import { fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import { z } from 'zod';
+import { validCookie } from '$lib/js/serverCookies.js';
+import { redirect } from '@sveltejs/kit';
+
 
 const schema = z.object({
 	username: z.string().min(2).max(64),
@@ -12,13 +15,13 @@ const schema = z.object({
 	})
 });
 
-export const load = (async () => {
+export const load = (async ({ cookies, url }) => {
 	const lectioCookie = cookies.get('lectio-cookie');
 	if(lectioCookie){
 		if(await validCookie(lectioCookie)){
-				const urlParams = new URLSearchParams(window.location.search);
-				const redirect = urlParams.get('redirect');
-				throw redirect(302, redirect ? redirect : '/forside');
+				const urlParams = new URLSearchParams(url.href);
+				const redirectUrl = urlParams.get('redirect');
+				throw redirect(302, redirectUrl ? redirectUrl : '/forside');
 		}
 	}
 	const form = await superValidate(schema);
