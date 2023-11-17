@@ -13,11 +13,19 @@ const schema = z.object({
 });
 
 export const load = (async () => {
-	// Server API:
+	const lectioCookie = cookies.get('lectio-cookie');
+	if(lectioCookie){
+		if(await validCookie(lectioCookie)){
+				const urlParams = new URLSearchParams(window.location.search);
+				const redirect = urlParams.get('redirect');
+				throw redirect(302, redirect ? redirect : '/forside');
+		}
+	}
 	const form = await superValidate(schema);
-
 	return { form };
 });
+
+
 
 export const actions = {
 	default: async ({ request, cookies, fetch }) => {
