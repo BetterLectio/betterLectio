@@ -1,24 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	import { fly, fade } from "svelte/transition";
-	import { quintIn, quintInOut, quintOut } from "svelte/easing";
-	import { Canvas, Layer, t } from "svelte-canvas";
 	import Countup from "svelte-countup";
-
-	$: render = ({ context, width, height }) => {
-		context.filter = "blur(150px)";
-		for (let i = 0; i < 30; i++) {
-			context.fillStyle = `hsl(${315.75 + Math.random() * 80 - 40} 70.196% 50%)`;
-			context.fillRect(
-				Math.random() * width - width / 14,
-				(Math.random() * height) / 3,
-				width / 7,
-				100
-			);
-		}
-	};
-	let width;
-
 	//make a function that will be called when the page is loaded then it will figure out what os the user is using and then it will show the download button for that os
 	function getOS() {
 		var userAgent = window.navigator.userAgent,
@@ -54,12 +37,6 @@
 	let lectioStatus = "";
 
 	onMount(async () => {
-		width = window.innerWidth - 17;
-		console.log(window.innerWidth);
-		// redraw on resize
-		window.addEventListener("resize", () => {
-			width = window.innerWidth - 17;
-		});
 
 		latestRelease = await (
 			await fetch("https://api.github.com/repos/BetterLectio/betterLectio/releases/latest")
@@ -140,8 +117,8 @@
 	<h2 class="text-2xl font-bold">Den Ultimative Lectio Forbedring</h2>
 
 	<div class="mt-20 h-32 w-full relative flex flex-col items-center justify-center">
-		<div class="absolute -z-30">
-			<img src="/b1.png" alt="b1" />
+		<div class="absolute -z-30 -translate-y-16">
+			<img src="/b7.png" alt="b1" />
 		</div>
 		<div
 			class="h-32 w-32 bg-base-300 rounded-3xl flex items-center justify-center p-4 absolute shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
@@ -167,12 +144,12 @@
 
 <div class="flex flex-row justify-center items-center relative h-[912px] mt-32 group select-none">
 	<div
-		class="h-[800px] absolute translate-x-14 -translate-y-14 transition-all duration-500 ease-out group-hover:translate-y-18 group-hover:rotate-3 group-hover:translate-x-20"
+		class="h-[800px] absolute translate-x-14 -translate-y-14 transition-all duration-500 ease-springback group-hover:translate-y-18 group-hover:rotate-3 group-hover:translate-x-20"
 	>
 		<img src="/uno.png" alt="" height="800px" class="h-[800px]" />
 	</div>
 	<div
-		class="h-[800px] absolute -translate-x-14 translate-y-14 transition-all duration-500 ease-out group-hover:translate-y-10 group-hover:-rotate-3 group-hover:-translate-x-20"
+		class="h-[800px] absolute -translate-x-14 translate-y-14 transition-all duration-500 ease-springback group-hover:translate-y-10 group-hover:-rotate-3 group-hover:-translate-x-20"
 	>
 		<img src="/dos.png" alt="" height="800px" class="h-[800px]" />
 	</div>
@@ -184,36 +161,83 @@
 	</div>
 </div>
 
-<div class="container mx-auto my-20">
-	<div class="flex justify-between bg-base-content p-4 rounded-3xl flex-col lg:flex-row">
-		<h3 class="text-4xl mb-2 font-bold text-base-100">
-			Se Forbedringerne I Skemaet!
-		</h3>
-		<div class="diff aspect-[16/9] max-w-5xl rounded-xl">
-			<div class="diff-item-1">
-				<img alt="daisy" src="betlec1.png" />
+<div class="container mx-auto relative">
+	<div class="absolute w-full aspect-[16/9] flex justify-center items-center overflow-hidden scale-105 rounded-3xl str">
+		<img src="bentobackdrop.jpg" alt="">
+	</div>
+	<div class="grid grid-cols-5 grid-rows-5 gap-4 mt-40 aspect-[16/9]">
+		<div class=" overflow-hidden rounded-3xl pt-4 pl-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg row-span-3">
+			<h6 class="text-xl font-bold mb-3">
+				Gør BetterLectio
+				<br>
+				Dit Eget Med Temaer!
+			</h6>
+			<img src="tema.png" alt="tema dropdown" class="rounded-tl-3xl">
+		</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-span-2 row-span-2 col-start-1 row-start-4">2</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-span-2 row-span-3 col-start-3 row-start-2">3</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-start-2 row-start-3">
+			<div class="flex flex-col items-center justify-center text-center h-full ">
+				<h6 class="font-black text-3xl">Gratis &<br>Open Source</h6>
+				<div class="divider my-1"></div>
+				<a href="https://github.com/BetterLectio">
+					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+						<path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+					  </svg>
+				</a>
 			</div>
-			<div class="diff-item-2">
-				<img alt="daisy" src="lectio1.png" />
+		</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg row-span-2 col-start-2 row-start-1">5</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-start-3 row-start-1">6</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-span-2 col-start-4 row-start-1">7</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg row-span-2 col-start-5 row-start-2">8</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg row-span-2 col-start-5 row-start-4">9</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-span-2 col-start-3 row-start-5">
+			<div class="flex flex-col h-full justify-between">
+				<h6 class="font-bold text-xl text-center">
+					Udviklet Af Gymnasieelever, Til Gymnasieelever
+				</h6>
+				<div class="divider my-1"></div>
+				<img src="https://contrib.rocks/image?repo=BetterLectio/betterlectio" alt=""/>
 			</div>
-			<div class="diff-resizer"></div>
 		</div>
 	</div>
 </div>
 
-<div class="container mx-auto my-20">
-	<div class="flex justify-between bg-base-content p-4 rounded-3xl flex-col lg:flex-row-reverse">
-		<h3 class="text-4xl mb-2 font-bold text-base-100 lg:text-right">
-			Se Forbedringerne På Opgave Siden!
-		</h3>
-		<div class="diff aspect-[16/9] max-w-5xl rounded-xl">
-			<div class="diff-item-1">
-				<img alt="daisy" src="betlec2.png" />
+<div class="bg-base-content">
+	<div class="container mx-auto my-20">
+		<div class="flex justify-between p-4 rounded-3xl flex-col lg:flex-row">
+			<h3 class="text-4xl mb-2 font-bold text-base-100">
+				Se Forbedringerne I Skemaet!
+			</h3>
+			<div class="diff aspect-[16/9] max-w-5xl rounded-xl">
+				<div class="diff-item-1">
+					<img alt="daisy" src="betlec1.png" />
+				</div>
+				<div class="diff-item-2">
+					<img alt="daisy" src="lectio1.png" />
+				</div>
+				<div class="diff-resizer"></div>
 			</div>
-			<div class="diff-item-2">
-				<img alt="daisy" src="lectio2.png" />
+		</div>
+	</div>
+</div>
+
+<div class="bg-base-content">
+	<div class="container mx-auto my-20">
+		<div class="flex justify-between  p-4 rounded-3xl flex-col lg:flex-row-reverse">
+			<h3 class="text-4xl mb-2 font-bold text-base-100 lg:text-right">
+				Se Forbedringerne På Opgave Siden!
+			</h3>
+			<div class="diff aspect-[16/9] max-w-5xl rounded-xl">
+				<div class="diff-item-1">
+					<img alt="daisy" src="betlec2.png" />
+				</div>
+				<div class="diff-item-2">
+					<img alt="daisy" src="lectio2.png" />
+				</div>
+				<div class="diff-resizer"></div>
 			</div>
-			<div class="diff-resizer"></div>
 		</div>
 	</div>
 </div>
@@ -422,5 +446,9 @@
 		background-position: center;
 		background-repeat: no-repeat;
 		background-image: url(/background.jpg);
+	}
+
+	.ease-springback {
+		transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1.2);
 	}
 </style>
