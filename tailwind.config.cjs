@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
@@ -12,6 +14,9 @@ module.exports = {
           '0%, 100%': { transform: 'rotate(-10deg)' },
           '50%': { transform: 'rotate(10deg)' },
         }
+      },
+      fontFamily: {
+        sans: ['"Poppins"', ...defaultTheme.fontFamily.sans],
       },
     },
   },

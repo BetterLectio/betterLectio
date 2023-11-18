@@ -135,13 +135,13 @@
 	</div>
 </div>
 
-<div class="flex flex-col items-center justify-center mt-36 w-full">
+<div class="flex flex-col items-center justify-center mt-36 w-full select-none">
 	<h1 class="text-9xl font-black mb-2">BetterLectio</h1>
 	<h2 class="text-2xl font-bold">Den Ultimative Lectio Forbedring</h2>
 
 	<div class="mt-20 h-32 w-full relative flex flex-col items-center justify-center">
 		<div class="absolute -z-30">
-			<img src="/b1.png" alt="b1"/>
+			<img src="/b1.png" alt="b1" />
 		</div>
 		<div
 			class="h-32 w-32 bg-base-300 rounded-3xl flex items-center justify-center p-4 absolute shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
@@ -165,22 +165,60 @@
 	</div>
 </div>
 
-<div class="flex flex-row justify-center items-center relative h-[912px] mt-32">
-	<div class="h-[800px] absolute translate-x-14 -translate-y-14">
+<div class="flex flex-row justify-center items-center relative h-[912px] mt-32 group select-none">
+	<div
+		class="h-[800px] absolute translate-x-14 -translate-y-14 transition-all duration-500 ease-out group-hover:translate-y-18 group-hover:rotate-3 group-hover:translate-x-20"
+	>
 		<img src="/uno.png" alt="" height="800px" class="h-[800px]" />
 	</div>
-	<div class="h-[800px] absolute -translate-x-14 translate-y-14">
+	<div
+		class="h-[800px] absolute -translate-x-14 translate-y-14 transition-all duration-500 ease-out group-hover:translate-y-10 group-hover:-rotate-3 group-hover:-translate-x-20"
+	>
 		<img src="/dos.png" alt="" height="800px" class="h-[800px]" />
 	</div>
 	<div class="absolute -z-30 -translate-x-32 translate-y-14">
-		<img src="/b5.png" alt="b1"/>
+		<img src="/b5.png" alt="b1" />
 	</div>
 	<div class="absolute -z-30 translate-x-32 -translate-y-14">
-		<img src="/b5.png" alt="b1"/>
+		<img src="/b5.png" alt="b1" />
 	</div>
 </div>
 
-<div class="container mx-auto w-full mt-4 z-30 relative" in:fade={{ duration: 1000 }}>
+<div class="container mx-auto my-20">
+	<div class="flex justify-between bg-base-content p-4 rounded-3xl flex-col lg:flex-row">
+		<h3 class="text-4xl mb-2 font-bold text-base-100">
+			Se Forbedringerne I Skemaet!
+		</h3>
+		<div class="diff aspect-[16/9] max-w-5xl rounded-xl">
+			<div class="diff-item-1">
+				<img alt="daisy" src="betlec1.png" />
+			</div>
+			<div class="diff-item-2">
+				<img alt="daisy" src="lectio1.png" />
+			</div>
+			<div class="diff-resizer"></div>
+		</div>
+	</div>
+</div>
+
+<div class="container mx-auto my-20">
+	<div class="flex justify-between bg-base-content p-4 rounded-3xl flex-col lg:flex-row-reverse">
+		<h3 class="text-4xl mb-2 font-bold text-base-100 lg:text-right">
+			Se Forbedringerne På Opgave Siden!
+		</h3>
+		<div class="diff aspect-[16/9] max-w-5xl rounded-xl">
+			<div class="diff-item-1">
+				<img alt="daisy" src="betlec2.png" />
+			</div>
+			<div class="diff-item-2">
+				<img alt="daisy" src="lectio2.png" />
+			</div>
+			<div class="diff-resizer"></div>
+		</div>
+	</div>
+</div>
+
+<div class="container mx-auto w-full mt-4 z-30 relative">
 	<div>
 		{#if stats}
 			<div class="w-full flex justify-center">
