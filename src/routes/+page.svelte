@@ -161,11 +161,8 @@
 	</div>
 </div>
 
-<div class="container mx-auto relative">
-	<div class="absolute w-full aspect-[16/9] flex justify-center items-center overflow-hidden scale-105 rounded-3xl str">
-		<img src="bentobackdrop.jpg" alt="">
-	</div>
-	<div class="grid grid-cols-5 grid-rows-5 gap-4 mt-40 aspect-[16/9]">
+<div class="container mx-auto relative rounded-4xl p-4 overflow-hidden mt-40" style="background: url(bentobackdrop.jpg); background-size: cover;">
+	<div class="grid grid-cols-5 grid-rows-5 gap-4 aspect-[16/9]">
 		<div class=" overflow-hidden rounded-3xl pt-4 pl-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg row-span-3">
 			<h6 class="text-xl font-bold mb-3">
 				Gør BetterLectio
@@ -175,7 +172,32 @@
 			<img src="tema.png" alt="tema dropdown" class="rounded-tl-3xl">
 		</div>
 		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-span-2 row-span-2 col-start-1 row-start-4">2</div>
-		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-span-2 row-span-3 col-start-3 row-start-2">3</div>
+		<div class=" overflow-hidden rounded-3xl filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-span-2 row-span-3 col-start-3 row-start-2">
+			<div class="flex flex-row h-full w-full ">
+				<div style="background-image: url(tri.png); background-size: cover;"  class="w-1/2 h-full"></div>
+				<div class="p-4 w-1/2">
+					{#if stats}
+					<p>Brugt Af</p>
+					<div class="font-black text-5xl">
+						<Countup value={stats["antal_brugere"]} duration={5000} format={false} />+
+					</div>
+					<p>Elever på</p>
+					<div class="font-black text-7xl">
+						<Countup value={stats["antal_skoler"]} duration={3000} format={false} />+
+					</div>
+					<p>Skoler</p>
+					{:else}
+					<div class="loading">
+					</div>
+					{/if}
+					<div class="divider w-1/2"/>
+					<h6 class="text-xl font-bold">Stabil Tjeneste</h6>
+					<p>
+						BetterLectio har i over et år leveret en stabil tjeneste til hudredevis af elever på gymnasier og erhvervsskoler i hele landet.
+					</p>
+				</div>
+			</div>
+		</div>
 		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-start-2 row-start-3">
 			<div class="flex flex-col items-center justify-center text-center h-full ">
 				<h6 class="font-black text-3xl">Gratis &<br>Open Source</h6>
@@ -187,18 +209,69 @@
 				</a>
 			</div>
 		</div>
-		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg row-span-2 col-start-2 row-start-1">5</div>
-		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-start-3 row-start-1">6</div>
-		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-span-2 col-start-4 row-start-1">7</div>
-		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg row-span-2 col-start-5 row-start-2">8</div>
-		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg row-span-2 col-start-5 row-start-4">9</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg row-span-2 col-start-2 row-start-1">
+			<h6 class="font-bold text-xl">Overfør Dine Moduler Og Opgaver Problemfrit Til Din Google Kalender</h6>
+			<div class="mt-10 w-full flex flex-col justify-center items-center">
+				<svg
+					version="1.1"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 512 512"
+					class="mx-0 h-10 w-10 fill-current p-0"
+					><path
+						d="M428.033,162.858C422.975,72.232,347.87,0,256,0S89.025,72.232,83.967,162.858c-0.323,3.179-0.489,6.402-0.489,9.663c0,15.543,0,320.162,0,322.783c0,9.22,7.475,16.696,16.696,16.696h111.304c119.87,0,217.043-97.174,217.043-217.043V172.522C428.522,169.261,428.356,166.037,428.033,162.858z M256,33.391c42.163,0,79.93,18.923,105.464,48.641c-8.722-2.662-17.967-4.119-27.551-4.119c-32.296,0-60.834,16.291-77.913,41.06c-17.079-24.77-45.617-41.06-77.913-41.06c-9.584,0-18.829,1.457-27.551,4.119C176.07,52.314,213.837,33.391,256,33.391z M163.169,360.642c-5.842-7.12-16.37-8.174-23.494-2.326c-6.988,5.731-14.635,10.267-22.804,13.595v-97.801c26.505,36.201,66.686,61.636,112.937,68.728c-18.13,49.489-60.64,87.32-112.937,98.783v-34.418h-0.001c16.082-4.569,30.884-12.325,43.979-23.061C167.978,378.293,169.017,367.772,163.169,360.642z M395.13,294.957c0,101.261-82.386,183.652-183.652,183.652H116.87v-2.97c70.214-12.524,126.789-63.872,147.277-131.009c53.767-2.53,101.081-29.682,130.984-70.521V294.957z M256,311.652c-76.718,0-139.13-62.413-139.13-139.13c0-33.75,27.462-61.217,61.217-61.217s61.217,27.468,61.217,61.217c0,9.22,7.475,16.696,16.696,16.696s16.696-7.475,16.696-16.696c0-33.75,27.462-61.217,61.217-61.217c33.755,0,61.217,27.468,61.217,61.217C395.13,249.239,332.718,311.652,256,311.652z"
+					></path><path
+						d="M301.195,216.369c-3.26-3.26-7.532-4.891-11.804-4.891c-4.272,0-8.544,1.631-11.804,4.892L256,237.956l-21.587-21.588c-6.521-6.521-17.087-6.521-23.609,0c-6.521,6.521-6.521,17.087,0,23.609l33.391,33.391c6.521,6.521,17.087,6.521,23.609,0l33.391-33.391C307.716,233.456,307.716,222.89,301.195,216.369z"
+					></path><path
+						d="M178.087,150.261c-12.277,0-22.261,9.99-22.261,22.261s9.984,22.261,22.261,22.261s22.261-9.99,22.261-22.261 S190.364,150.261,178.087,150.261z"
+					></path><path
+						d="M333.913,150.261c-12.277,0-22.261,9.99-22.261,22.261s9.984,22.261,22.261,22.261c12.277,0,22.261-9.99,22.261-22.261 S346.19,150.261,333.913,150.261z"
+					></path></svg
+				>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-down my-4" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+				</svg>
+				<div class="h-10 w-10">
+
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Livello_1" x="0px" y="0px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve"><link xmlns="" type="text/css" rel="stylesheet" id="dark-mode-custom-link"/><link xmlns="" type="text/css" rel="stylesheet" id="dark-mode-general-link"/><style xmlns="" lang="en" type="text/css" id="dark-mode-custom-style"/><style xmlns="" lang="en" type="text/css" id="dark-mode-native-style"/><style xmlns="" lang="en" type="text/css" id="dark-mode-native-sheet"/>
+						<g>
+							<g transform="translate(3.75 3.75)">
+								<path fill="#FFFFFF" d="M148.882,43.618l-47.368-5.263l-57.895,5.263L38.355,96.25l5.263,52.632l52.632,6.579l52.632-6.579    l5.263-53.947L148.882,43.618z"/>
+								<path fill="#1A73E8" d="M65.211,125.276c-3.934-2.658-6.658-6.539-8.145-11.671l9.132-3.763c0.829,3.158,2.276,5.605,4.342,7.342    c2.053,1.737,4.553,2.592,7.474,2.592c2.987,0,5.553-0.908,7.697-2.724s3.224-4.132,3.224-6.934c0-2.868-1.132-5.211-3.395-7.026    s-5.105-2.724-8.5-2.724h-5.276v-9.039H76.5c2.921,0,5.382-0.789,7.382-2.368c2-1.579,3-3.737,3-6.487    c0-2.447-0.895-4.395-2.684-5.855s-4.053-2.197-6.803-2.197c-2.684,0-4.816,0.711-6.395,2.145s-2.724,3.197-3.447,5.276    l-9.039-3.763c1.197-3.395,3.395-6.395,6.618-8.987c3.224-2.592,7.342-3.895,12.342-3.895c3.697,0,7.026,0.711,9.974,2.145    c2.947,1.434,5.263,3.421,6.934,5.947c1.671,2.539,2.5,5.382,2.5,8.539c0,3.224-0.776,5.947-2.329,8.184    c-1.553,2.237-3.461,3.947-5.724,5.145v0.539c2.987,1.25,5.421,3.158,7.342,5.724c1.908,2.566,2.868,5.632,2.868,9.211    s-0.908,6.776-2.724,9.579c-1.816,2.803-4.329,5.013-7.513,6.618c-3.197,1.605-6.789,2.421-10.776,2.421    C73.408,129.263,69.145,127.934,65.211,125.276z"/>
+								<path fill="#1A73E8" d="M121.25,79.961l-9.974,7.25l-5.013-7.605l17.987-12.974h6.895v61.197h-9.895L121.25,79.961z"/>
+								<path fill="#EA4335" d="M148.882,196.25l47.368-47.368l-23.684-10.526l-23.684,10.526l-10.526,23.684L148.882,196.25z"/>
+								<path fill="#34A853" d="M33.092,172.566l10.526,23.684h105.263v-47.368H43.618L33.092,172.566z"/>
+								<path fill="#4285F4" d="M12.039-3.75C3.316-3.75-3.75,3.316-3.75,12.039v136.842l23.684,10.526l23.684-10.526V43.618h105.263    l10.526-23.684L148.882-3.75H12.039z"/>
+								<path fill="#188038" d="M-3.75,148.882v31.579c0,8.724,7.066,15.789,15.789,15.789h31.579v-47.368H-3.75z"/>
+								<path fill="#FBBC04" d="M148.882,43.618v105.263h47.368V43.618l-23.684-10.526L148.882,43.618z"/>
+								<path fill="#1967D2" d="M196.25,43.618V12.039c0-8.724-7.066-15.789-15.789-15.789h-31.579v47.368H196.25z"/>
+							</g>
+						</g>
+					</svg>
+				</div>
+			</div>
+		</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-span-2 col-start-3 row-start-1">
+			<h6 class="font-bold text-3xl">Hvad Er BetterLectio?</h6>
+			<p class="text-sm">
+				BetterLectio er udviklet med det formål at gøre det lettere at bruge Lectio ved at tilføje flere funktioner og forbedringer. Disse inkluderer en mere brugervenlig og moderne brugerflade, lettere adgang til information og bedre overblik over ens skolegang.
+			</p>
+		</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg row-span-2 col-start-5 row-start-1">8</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg row-span-2 col-start-5 row-start-3">9</div>
 		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-span-2 col-start-3 row-start-5">
 			<div class="flex flex-col h-full justify-between">
 				<h6 class="font-bold text-xl text-center">
-					Udviklet Af Gymnasieelever, Til Gymnasieelever
+					Af Gymnasieelever, Til Gymnasieelever
 				</h6>
 				<div class="divider my-1"></div>
 				<img src="https://contrib.rocks/image?repo=BetterLectio/betterlectio" alt=""/>
+			</div>
+		</div>
+		<div class=" overflow-hidden rounded-3xl p-4 filter backdrop-blur-lg bg-base-300/30 border-base-200/10 border-2 shadow-lg col-start-5 row-start-5">
+			<div class="flex flex-col items-center justify-center w-full h-full">
+				<p class="font-black text-5xl">&</p>
+				<p class="font-bold text-2xl">Meget Mere</p>
+				<a href="https://app.betterlectio.dk/" class="btn btn-sm rounded-full mt-3 btn-neutral">Åben app</a>
 			</div>
 		</div>
 	</div>
@@ -450,5 +523,9 @@
 
 	.ease-springback {
 		transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1.2);
+	}
+
+	.rounded-4xl {
+		border-radius: 2rem;
 	}
 </style>
