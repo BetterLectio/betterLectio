@@ -22,7 +22,7 @@ export async function load({ cookies, url }) {
 				throw redirect(302, `/auth${redirectFromAuth ? `?redirect=${redirectFromAuth}` : ''}`);
 			}
 		}
-		return { lectioCookie, pathname: url.pathname, authed: Boolean(lectioCookie) };
+		return { lectioCookie, pathname: url.pathname, authed: Boolean(lectioCookie), redirectFromAuth };
 	} catch (error) {
 		// redirect to auth page and pass the redirect url and delete the cookie
 		console.error('Cookie-check error: ', error);
