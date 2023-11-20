@@ -11,9 +11,13 @@
 
 
 	export let data;
-	const { enhance, form } = superForm(data.form, {
+	const { enhance, form, submitting, delayed, timeout } = superForm(data.form, {
 		dataType: 'json',
 		// eslint-disable-next-line no-shadow
+
+		delayMs: 0,
+		timeoutMs: 8000,
+
 		onUpdated({ form }) {
 			if (form.valid) {
 				// if the redirect url is set in the url e.g. "login?redirect=http%3A%2F%2Flocalhost%3A5173%2Fapp%2Fsketch%2Fnew" go to that url otherwise go to the home page
@@ -222,7 +226,7 @@
 							<div class="flex justify-end">
 								<button tabindex="0" type="submit" class="btn-primary btn group" on:click={console.log('auth')}>
 									<p>Log ind</p>
-									<label class="swap SWAPICONSTATE" for="login">
+									<label class="swap {$delayed ? 'swap-active' : ''} " for="login">
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
 											class="octicon arrow-symbol-mktg swap-off"
