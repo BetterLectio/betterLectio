@@ -67,49 +67,25 @@
 	}
 </script>
 
-<div class="container mx-auto w-full mt-4 -z-60 relative" in:fade={{ duration: 1000 }}>
-	{#if loaded}
-		<input type="checkbox" id="linux-download" class="modal-toggle" />
-		<label for="linux-download" class="modal cursor-pointer">
-			<label class="modal-box relative" for="">
-				<h3 class="text-lg font-bold">Tak fordi interessere dig for BetterLectio på Linux!</h3>
-				<p class="py-4">
-					Vi er stadig i tidlig beta, derfor er udgivelsen også bare et AppImage. I fremtiden kommer
-					BetterLectio til at være bedre integreret i dit system
-				</p>
-				<div class="modal-action">
-					<a
-						class="btn"
-						href="https://github.com/BetterLectio/betterLectio/releases/download/{latestRelease.tag_name}/BetterLectio-{latestRelease.tag_name}.AppImage"
-						>Download alligevel</a
-					>
-				</div></label
-			>
-		</label>
-	{/if}
-
-	<div class="mx-2 sm:mx-0">
-		<div class="flex navbar">
-			<div class="navbar-start" />
-			<div class="navbar-center hidden lg:flex">
-				<ul class="menu menu-horizontal px-1">
-					<!-- <li><a href="#om" on:click|preventDefault={scrollIntoView} class="font-bold">Om</a></li> -->
-					<li>
-						<!-- <a href="#downloads" on:click|preventDefault={scrollIntoView} class="font-bold"
-							>Download</a
-						> -->
-					</li>
-					<li>
-						<a href="/docs" class="font-bold">Docs</a>
-					</li>
-				</ul>
-			</div>
-			<div class="navbar-end hidden lg:flex">
-				<a href="https://app.betterlectio.dk" class="btn">Åben app</a>
-			</div>
-		</div>
-	</div>
-</div>
+{#if loaded}
+	<input type="checkbox" id="linux-download" class="modal-toggle" />
+	<label for="linux-download" class="modal cursor-pointer">
+		<label class="modal-box relative" for="">
+			<h3 class="text-lg font-bold">Tak fordi interessere dig for BetterLectio på Linux!</h3>
+			<p class="py-4">
+				Vi er stadig i tidlig beta, derfor er udgivelsen også bare et AppImage. I fremtiden kommer
+				BetterLectio til at være bedre integreret i dit system
+			</p>
+			<div class="modal-action">
+				<a
+					class="btn"
+					href="https://github.com/BetterLectio/betterLectio/releases/download/{latestRelease.tag_name}/BetterLectio-{latestRelease.tag_name}.AppImage"
+					>Download alligevel</a
+				>
+			</div></label
+		>
+	</label>
+{/if}
 
 <div class="flex flex-col items-center justify-center mt-20 w-full select-none">
 	<h1 class="font-black mb-2 text-6xl sm:text-7xl md:text-8xl lg:text-9xl">BetterLectio</h1>
@@ -141,7 +117,10 @@
 			>
 		</div>
 	</div>
-	<a class="btn rounded-3xl btn-lg mt-10 text-2xl bg-base-100 px-10 z-30" href="https://app.betterlectio.dk">Gå Til App</a>
+	<a
+		class="btn rounded-3xl lg:btn-lg mt-10 text-xl lg:text-2xl bg-base-100 px-10 z-30"
+		href="https://app.betterlectio.dk">Åben Hjemmesiden</a
+	>
 </div>
 
 <div
@@ -511,6 +490,35 @@
 				<div class="diff-resizer"></div>
 			</div>
 		</div>
+
+		<div class="divider"></div>
+
+		<p class="w-full text-center mt-6 font-bold mb-2">Klar Til En Opgradering?</p>
+		<div class="w-full flex justify-center">
+			<a
+				class="btn rounded-3xl lg:btn-lg mb-10 text-xl lg:text-2xl bg-base-100 px-10 z-30"
+				href="https://app.betterlectio.dk">Åben Appen</a
+			>
+		</div>
+	</div>
+</div>
+
+<div class="container mx-auto my-20">
+	<h5 class="text-4xl xl:text-5xl py-4 font-bold">Få Skemaet Over I Din Google Kalender</h5>
+	<p class="mb-10 ">
+		En af de mest efterspurgte funktioner i Lectio er muligheden for at få sit skema over i
+		sin Google Kalender. Det er nu muligt med BetterLectio! Du kan få dit skema over i din kalender med et
+		par klik. Du kan også vælge at få dine opgaver over i din kalender, så du altid har overblikket
+		over dine afleveringer.
+	</p>
+	<img src="sync.png" alt="" class="border-base-content rounded-2xl border-2 hidden md:flex">
+
+	<p class="mt-5 mb-2 w-full text-center font-bold">Prøv det selv!</p>
+	<div class="flex justify-center">
+		<a
+			class="btn rounded-3xl lg:btn-lg mb-10 text-xl lg:text-2xl bg-base-100 px-10 z-30"
+			href="https://app.betterlectio.dk">Åben Appen</a
+		>
 	</div>
 </div>
 
