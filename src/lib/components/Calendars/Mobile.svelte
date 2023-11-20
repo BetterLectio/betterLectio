@@ -244,33 +244,35 @@
 	$: if (selectedDay) loadSkema(selectedDay);
 </script>
 
-<div class="-mt-8 text-2xl">
-	<p><b>Uge {getWeekNumber(viewDate)}</b> ({måneder[viewDate.getMonth()]} {viewDate.getFullYear()})</p>
-</div>
+<div class="relative z-0">
+	<div class="-mt-8 text-2xl">
+		<p><b>Uge {getWeekNumber(viewDate)}</b> ({måneder[viewDate.getMonth()]} {viewDate.getFullYear()})</p>
+	</div>
 
-{#if dates[2][6]}
+	{#if dates[2][6]}
+		<div class="w-screen">
+			<swiper-container bind:this={swiperElement} initial-slide="1">
+				{#each Array(3) as _, i}
+					<swiper-slide class="flex items-stretch space-x-2 p-1">
+						{#each Array(7) as _, j}
+							<button on:click={() => changeSelected(dates[i][j])} class="flex items-center justify-center text-base-300 w-full {`${selectedDay.getDate()}${selectedDay.getMonth()}${selectedDay.getFullYear()}` === `${dates[i][j].getDate()}${dates[i][j].getMonth()}${dates[i][j].getFullYear()}` ? 'bg-primary' : 'bg-base-content'} rounded-lg p-1">
+								<div class="text-center">
+									<p class="font-bold text-2xl">{dates[i][j].getDate()}</p>
+									<p>{dage[dates[i][j].getDay()]}</p>
+								</div>
+							</button>
+						{/each}
+					</swiper-slide>
+				{/each}
+			</swiper-container>
+		</div>
+	{/if}
+
 	<div class="w-screen">
-		<swiper-container bind:this={swiperElement} initial-slide="1">
-			{#each Array(3) as _, i}
-				<swiper-slide class="flex items-stretch space-x-2 p-1">
-					{#each Array(7) as _, j}
-						<button on:click={() => changeSelected(dates[i][j])} class="flex items-center justify-center text-base-300 w-full {`${selectedDay.getDate()}${selectedDay.getMonth()}${selectedDay.getFullYear()}` === `${dates[i][j].getDate()}${dates[i][j].getMonth()}${dates[i][j].getFullYear()}` ? 'bg-primary' : 'bg-base-content'} rounded-lg p-1">
-							<div class="text-center">
-								<p class="font-bold text-2xl">{dates[i][j].getDate()}</p>
-								<p>{dage[dates[i][j].getDay()]}</p>
-							</div>
-						</button>
-					{/each}
-				</swiper-slide>
-			{/each}
+		<swiper-container bind:this={calendarSwiperElement} initial-slide="1">
+			<swiper-slide><Calendar bind:this={skemaBefore} {plugins} {options} /></swiper-slide> <!-- Måske hvis dagen for skemaet er tom efter den er loaded så lav en besked med det-->
+			<swiper-slide><Calendar bind:this={skema} {plugins} {options} /></swiper-slide> <!-- Måske hvis dagen for skemaet er tom efter den er loaded så lav en besked med det-->
+			<swiper-slide><Calendar bind:this={skemaAfter} {plugins} {options} /></swiper-slide> <!-- Måske hvis dagen for skemaet er tom efter den er loaded så lav en besked med det-->
 		</swiper-container>
 	</div>
-{/if}
-
-<div class="w-screen">
-	<swiper-container bind:this={calendarSwiperElement} initial-slide="1">
-		<swiper-slide><Calendar bind:this={skemaBefore} {plugins} {options} /></swiper-slide> <!-- Måske hvis dagen for skemaet er tom efter den er loaded så lav en besked med det-->
-		<swiper-slide><Calendar bind:this={skema} {plugins} {options} /></swiper-slide> <!-- Måske hvis dagen for skemaet er tom efter den er loaded så lav en besked med det-->
-		<swiper-slide><Calendar bind:this={skemaAfter} {plugins} {options} /></swiper-slide> <!-- Måske hvis dagen for skemaet er tom efter den er loaded så lav en besked med det-->
-	</swiper-container>
 </div>

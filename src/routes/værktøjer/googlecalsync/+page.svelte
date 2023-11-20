@@ -368,7 +368,7 @@
 </svelte:head>
 
 <h1 class="heading">Google Kalender-synkronisering</h1>
-<div class="join join-vertical w-full">
+<div class="join join-vertical w-full relative z-0">
 	<div class="collapse {turn === 0 ? 'collapse-open' : 'collapse-close'} join-item border border-base-300">
 		<input type="radio" name="my-accordion-4" checked="checked" />
 		<div class="collapse-title text-xl font-bold flex flex-row justify-between">
