@@ -17,17 +17,16 @@ const schema = z.object({
 
 export const load = (async ({ cookies, url }) => {
 	const lectioCookie = cookies.get('lectio-cookie');
-	if(lectioCookie){
-		if(await validCookie(lectioCookie)){
-				const urlParams = new URLSearchParams(url.href);
-				const redirectUrl = urlParams.get('redirect');
-				throw redirect(302, redirectUrl ? redirectUrl : '/forside');
+	if (lectioCookie) {
+		if (await validCookie(lectioCookie)) {
+			const urlParams = new URLSearchParams(url.href);
+			const redirectUrl = urlParams.get('redirect');
+			throw redirect(302, redirectUrl ? redirectUrl : '/forside');
 		}
 	}
 	const form = await superValidate(schema);
 	return { form };
 });
-
 
 
 export const actions = {
