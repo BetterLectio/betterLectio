@@ -18,6 +18,8 @@
 		checked = checked === 'checked' ? '' : 'checked';
 	}
 
+	export let authed = false;
+
 </script>
 
 <div class="drawer h-[calc(100%-4px)]">
@@ -71,7 +73,7 @@
 			</div>
 			<div class="navbar-center hidden desktop:flex">
 				<ul class="menu menu-horizontal p-0">
-					{#if $brugeren && localStorage.getItem('lectio-cookie')}
+					{#if authed}
 						<li><a class="text-sm font-bold hover:scale-110" href="/skema">Skema</a></li>
 						<li><a class="text-sm font-bold hover:scale-110" href="/opgaver">Opgaver</a></li>
 						<li><a class="text-sm font-bold hover:scale-110" href="/lektier">Lektier</a></li>
@@ -117,7 +119,7 @@
 				</p>
 			</div>
 			<div class="navbar-end sm:w-fit">
-				{#if $brugeren && localStorage.getItem('lectio-cookie')}
+				{#if authed}
 					<label for="søg-popup" class="btn-ghost btn gap-1 normal-case">
 						<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
 							<path
@@ -127,7 +129,7 @@
 					>
 				{/if}
 				<ThemeSelect tabindex="0" />
-				{#if $brugeren && localStorage.getItem('lectio-cookie') && cookie}
+				{#if authed && cookie && $brugeren}
 					<div class="dropdown dropdown-bottom dropdown-end hidden md:block">
 						<div tabindex="0" class="btn-ghost btn flex justify-end gap-1 font-normal normal-case">
 							<Avatar id={`S${ cookie.userId}`} navn={$brugeren.navn} size="w-10" />
@@ -210,7 +212,7 @@
 		<ul
 			class="menu w-80 relative z-50 min-h-screen h-fit bg-base-100/80 p-4 text-base-content pb-20 flex flex-col justify-between backdrop-blur-md flex-nowrap"
 		>
-			{#if $brugeren && localStorage.getItem('lectio-cookie') && cookie}
+			{#if authed && cookie && $brugeren}
 				<div>
 					<span class="md:hidden">
 						<Avatar id={`S${ cookie.userId}`} navn={$brugeren.navn} size="w-20 ml-4" />

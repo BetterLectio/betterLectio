@@ -6,23 +6,26 @@ export async function load({ cookies, url }) {
 	const redirectFromAuth = encodeURIComponent(url.href);
 	try {
 		const lectioCookie = cookies.get('lectio-cookie');
-		if (url.pathname !== '/auth') {
+		if (url.pathname !== '/auth' && url.pathname !== '/tos') {
 			if (!lectioCookie) {
+				// redirect to auth page and pass the redirect url
 				throw redirect(302, `/auth${redirectFromAuth ? `?redirect=${redirectFromAuth}` : ''}`);
 			}
+
 			// Check if the cookie is valid
 			const cookieIsValid = await validCookie(lectioCookie);
 			if (!cookieIsValid) {
 				// delete the cookie if it exists
 				if (cookies.get('lectio-cookie')) cookies.delete('lectio-cookie');
+
 				// redirect to auth page
 				throw redirect(302, `/auth${redirectFromAuth ? `?redirect=${redirectFromAuth}` : ''}`);
 			}
 		}
-		return { lectioCookie, pathname: url.pathname };
+		return { lectioCookie, pathname: url.pathname, authed: Boolean(lectioCookie) };
 	} catch (error) {
 		// redirect to auth page and pass the redirect url and delete the cookie
-		console.error('Cookie-check error: ',error);
+		console.error('Cookie-check error: ', error);
 		if (cookies.get('lectio-cookie')) cookies.delete('lectio-cookie');
 		throw redirect(302, `/auth${redirectFromAuth ? `?redirect=${redirectFromAuth}` : ''}`);
 	}

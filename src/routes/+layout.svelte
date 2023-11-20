@@ -22,6 +22,8 @@
 	if (data.lectioCookie) localStorage.setItem('lectio-cookie', data.lectioCookie);
 	else localStorage.removeItem('lectio-cookie');
 
+	$: authed = Boolean(data.authed);
+
 	const app = $page.url.searchParams.get('app');
 	if (app === 'iOS') $mobile = 'iOS';
 	else if (app === 'none') localStorage.removeItem('mobile');
@@ -148,7 +150,7 @@
 
 	<PageLoadTopBar />
 	{#if $indstillinger?.sidebar && windowWidth > 768}
-		<SideBar />
+		<SideBar authed={authed}/>
 		<div class="md:ml-16">
 			<main class="md:w-[calc(100%-32px)] w-[calc(100%-16px)] md:pt-10 mx-2 md:mx-4 2xl:container 2xl:mx-auto 2xl:w-full">
 				<PageTransition pathname={data.pathname}>
@@ -157,7 +159,7 @@
 			</main>
 		</div>
 	{:else}
-		<NavBar>
+		<NavBar authed={authed}>
 			<main class="md:w-[calc(100%-32px)] w-[calc(100%-16px)] mx-2 md:mx-4 2xl:container 2xl:mx-auto 2xl:w-full">
 				<PageTransition pathname={data.pathname}>
 					<slot />
