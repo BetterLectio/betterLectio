@@ -19,8 +19,8 @@
 
 	export let data = null;
 	console.log(data);
-	if (data.lectioCookie) localStorage.setItem('lectio-cookie', data.lectioCookie);
-	else localStorage.removeItem('lectio-cookie');
+	if (data.lectioCookie && data.lectioCookie !== 'local') localStorage.setItem('lectio-cookie', data.lectioCookie);
+	else if (data.lectioCookie !== 'local') localStorage.removeItem('lectio-cookie');
 
 	$: authed = false;
 
@@ -104,7 +104,7 @@
 	}
 
 	function setCookie() {
-		localStorage.setItem('lectio-cookie', data.lectioCookie);
+		if (data.lectioCookie !== 'local') localStorage.setItem('lectio-cookie', data.lectioCookie);
 		authed = true;
 	}
 

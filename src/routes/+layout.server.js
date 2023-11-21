@@ -1,9 +1,11 @@
 import { redirect } from '@sveltejs/kit';
 import { validCookie } from '../lib/js/serverCookies.js';
 
-export async function load({ cookies, url }) {
+export async function load({ request, cookies, url }) {
 	// make the redirect in case redirect its needed
 	const redirectFromAuth = encodeURIComponent(url.href);
+	// If backend running on mobile
+	if (request.headers.get('user-agent') === 'BetterLectio Mobile') return { lectioCookie: 'local', pathname: url.pathname, authed: true, redirectFromAuth };
 	try {
 		const lectioCookie = cookies.get('lectio-cookie');
 		if (url.pathname !== '/auth' && url.pathname !== '/tos') {

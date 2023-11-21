@@ -1,8 +1,7 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import { z } from 'zod';
 import { validCookie } from '$lib/js/serverCookies.js';
-import { redirect } from '@sveltejs/kit';
 
 
 const schema = z.object({

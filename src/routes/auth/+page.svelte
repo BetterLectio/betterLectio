@@ -52,6 +52,32 @@
 			console.log(plainOptions);
 		});
 
+	async function localLogin(e) {
+		if (api !== 'http://localhost:5000') return;
+		e.preventDefault();
+
+		const response = await fetch(`${api}/auth`, {
+			headers: {
+				brugernavn: $form.username,
+				adgangskode: $form.password,
+				skoleid: $form.school.skoleid
+			}
+		});
+		if (response.ok) {
+			// get the set-lectio-cookie header
+			const lectioCookie = response.headers.get('set-lectio-cookie');
+
+			// lectio-cookie in localstorage to prevent the server from reading the cookie.
+			if (lectioCookie && lectioCookie !== null) localStorage.setItem('lectio-cookie', lectioCookie);
+
+			const urlParams = new URLSearchParams(window.location.search);
+			const redirect = urlParams.get('redirect');
+
+			window.location.href = redirect ? redirect : '/forside';
+		}
+		console.log(await response.json());
+	}
+
 	async function qrLogin(url) {
 		const skoleId = await url.match(/\/\d+\//g).toString()
 			.replaceAll('/', '');
@@ -63,7 +89,7 @@
 			headers: {
 				userId,
 				QrId,
-				skoleId: $form.school
+				skoleId
 			}
 		});
 		if (response.ok) {
@@ -106,9 +132,8 @@
 				console.log(`Error scanning file. Reason: ${err}`);
 			});
 	}
-
-
 </script>
+
 <div class="flex items-center justify-center md:h-[75vh]">
 	{#key isInAutoAuth}
 		{#if !isInAutoAuth}
@@ -120,7 +145,7 @@
 					<button on:click={changeLoginType} class="tab {qrAuth ? 'tab-active' : ''}">QR kode</button>
 				</div>
 				<div class="divider mt-1 mb-2" />
-				<form use:enhance autocomplete="on" method="post">
+				<form use:enhance autocomplete="on" method="post" on:submit={localLogin}>
 					<div class="form-control w-full max-w-xl">
 						{#if qrAuth}
 							<div class="flex justify-center" on:drop|preventDefault={qrCodeDropped} on:dragover|preventDefault>
@@ -143,7 +168,7 @@
 								type="text"
 								name="username"
 								id="username-field"
-								placeholder="Lectio Brugernavn"
+								placeholder="Lectio brugernavn"
 								tabindex="0"
 								autocomplete="username"
 								class="input input-sm w-full max-w-wl mb-2.5 autofill:border-0 autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--b1))]"
