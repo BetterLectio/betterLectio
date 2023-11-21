@@ -17,7 +17,9 @@ export function holdOversætter(holdForkortet = '', holdArray = []) {
 
 export async function holdOversætterNy(holdId, fallback = 'Andet') {
 	try {
-		const { fag } = await get(`/hold_til_fag?id=${ holdId}`);
+		throw 'rate limiter fucker meget (fucker med check cookie (ikke en god ting))';
+		// eslint-disable-next-line no-unreachable
+		const { fag } = await get(`/hold_til_fag?id=${holdId}`);
 		return fag;
 	} catch {
 		return fallback;

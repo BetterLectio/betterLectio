@@ -16,6 +16,8 @@ rules:
   complexity: 0
   max-len: 0
   linebreak-style: 0
+  space-before-function-paren: 0
+  newline-per-chained-call: 0
   id-length: [warn, { exceptions: [i, j, k, x, y] }]
   multiline-comment-style: [error, separate-lines]
   svelte/indent: [error, { indent: tab, switchCase: 0 }]

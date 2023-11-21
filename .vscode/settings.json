@@ -10,5 +10,8 @@
     "editor.defaultFormatter": "svelte.svelte-vscode"
   },
   "svelte.plugin.svelte.format.enable": false,
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "cSpell.words": [
+    "lectio"
+  ]
 }

@@ -1,4 +1,3 @@
-export const load = ({ url: { pathname } }) => ({ pathname });
 export const ssr = false;
 
 import { PUBLIC_MIXPANEL_TOKEN } from '$env/static/public';

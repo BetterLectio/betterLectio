@@ -13,11 +13,16 @@
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { onMount } from 'svelte';
 	import { onNavigate } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { themeChange } from 'theme-change';
 	import { version } from '$app/environment';
-	import { page } from '$app/stores';
 
 	export let data = null;
+	console.log(data);
+	if (data.lectioCookie && data.lectioCookie !== 'local') localStorage.setItem('lectio-cookie', data.lectioCookie);
+	else if (data.lectioCookie !== 'local') localStorage.removeItem('lectio-cookie');
+
+	$: authed = false;
 
 	const app = $page.url.searchParams.get('app');
 	if (app === 'iOS') $mobile = 'iOS';
@@ -39,6 +44,7 @@
 	}
 
 	onMount(async() => {
+		authed = Boolean(data.authed);
 		await themeChange(false);
 
 		if (await window.navigator.userAgent.includes('BetterLectio Mobile')) {
@@ -97,6 +103,11 @@
 		localStorage.setItem('firstTime', 'false');
 	}
 
+	function setCookie() {
+		if (data.lectioCookie !== 'local') localStorage.setItem('lectio-cookie', data.lectioCookie);
+		authed = true;
+	}
+
 </script>
 
 {#if appVersion && backendVersion && appVersion !== backendVersion}
@@ -109,58 +120,64 @@
 		}} class="mt-4 btn btn-error btn-wide">Forsæt uden at opdatere<br/>(Ikke anbefaldet)</button>
 	</div>
 {:else}
-	<!-- error modal -->
-	<ErrorMsg />
-	<!--Log ud pop up-->
-	<Notify />
-	<input type="checkbox" id="logud-modal" class="modal-toggle" />
-	<label for="logud-modal" class="modal cursor-pointer">
-		<span class="modal-box relative">
-			<h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
-			<p class="py-4">Du vil blive logget ud af BetterLectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.</p>
-			<span class="flex">
-				<div class="modal-action">
-					<label for="logud-modal" class="btn">Forbliv logget ind</label>
-				</div>
-				<div class="modal-action ml-2">
-					<button
-						on:click={() => {
-							const schoolId = localStorage.getItem('schoolId');
-							const theme = localStorage.getItem('theme');
+	{#if authed || (data.pathname === '/auth' || data.pathname === '/tos')}
+		<!-- content here -->
+		<!-- error modal -->
+		<ErrorMsg />
+		<!--Log ud pop up-->
+		<Notify />
+		<input type="checkbox" id="logud-modal" class="modal-toggle" />
+		<label for="logud-modal" class="modal cursor-pointer">
+			<span class="modal-box relative">
+				<h3 class="text-lg font-bold">Er du sikker på at du vil logge ud?</h3>
+				<p class="py-4">Du vil blive logget ud af BetterLectio. Når du logger ind igen, skal du indtaste dit lectio brugernavn og kodeord.</p>
+				<span class="flex">
+					<div class="modal-action">
+						<label for="logud-modal" class="btn">Forbliv logget ind</label>
+					</div>
+					<div class="modal-action ml-2">
+						<button
+							on:click={() => {
+								const schoolId = localStorage.getItem('schoolId');
+								const theme = localStorage.getItem('theme');
 
-							localStorage.clear();
+								localStorage.clear();
 
-							localStorage.setItem('schoolId', schoolId);
-							localStorage.setItem('theme', theme);
+								localStorage.setItem('schoolId', schoolId);
+								localStorage.setItem('theme', theme);
 
-							window.location.href = '/auth';
-						}}
-						class="btn-error btn">Log mig ud!</button
-					>
-				</div>
+								window.location.href = '/logout';
+							}}
+							class="btn-error btn">Log mig ud!</button
+						>
+					</div>
+				</span>
 			</span>
-		</span>
-	</label>
-	<GlobalSearch />
+		</label>
+		<GlobalSearch />
 
-	<PageLoadTopBar />
-	{#if $indstillinger?.sidebar && windowWidth > 768}
-		<SideBar />
-		<div class="md:ml-16">
-			<main class="md:w-[calc(100%-32px)] w-[calc(100%-16px)] md:pt-10 mx-2 md:mx-4 2xl:container 2xl:mx-auto 2xl:w-full">
-				<PageTransition pathname={data.pathname}>
-					<slot />
-				</PageTransition>
-			</main>
-		</div>
+		<PageLoadTopBar />
+		{#if $indstillinger?.sidebar && windowWidth > 768}
+			<SideBar authed={authed}/>
+			<div class="md:ml-16">
+				<main class="md:w-[calc(100%-32px)] w-[calc(100%-16px)] md:pt-10 mx-2 md:mx-4 2xl:container 2xl:mx-auto 2xl:w-full">
+					<PageTransition pathname={data.pathname}>
+						<slot />
+					</PageTransition>
+				</main>
+			</div>
+		{:else}
+			<NavBar authed={authed}>
+				<main class="md:w-[calc(100%-32px)] w-[calc(100%-16px)] mx-2 md:mx-4 2xl:container 2xl:mx-auto 2xl:w-full">
+					<PageTransition pathname={data.pathname}>
+						<slot />
+					</PageTransition>
+				</main>
+			</NavBar>
+		{/if}
 	{:else}
-		<NavBar>
-			<main class="md:w-[calc(100%-32px)] w-[calc(100%-16px)] mx-2 md:mx-4 2xl:container 2xl:mx-auto 2xl:w-full">
-				<PageTransition pathname={data.pathname}>
-					<slot />
-				</PageTransition>
-			</main>
-		</NavBar>
+		<div class="flex w-full items-center justify-center h-full">
+			<div class="loading" use:setCookie></div>
+		</div>
 	{/if}
-
 {/if}

@@ -1,6 +1,6 @@
 {
   "name": "betterlectio",
-  "version": "0.10.105",
+  "version": "0.10.132",
   "private": true,
   "scripts": {
     "dev": "vite dev",
@@ -10,6 +10,7 @@
     "lint-fix": "eslint 'src/**/*.{js,svelte}' --fix"
   },
   "devDependencies": {
+    "@sentry/vite-plugin": "^2.10.0",
     "@sveltejs/adapter-auto": "^2.1.0",
     "@sveltejs/kit": "^1.24.1",
     "@tailwindcss/forms": "^0.5.3",
@@ -21,15 +22,19 @@
     "eslint-plugin-svelte": "^2.26.0",
     "html5-qrcode": "^2.3.8",
     "postcss": "^8.4.23",
+    "simple-svelte-autocomplete": "^2.5.2",
     "svelte": "^3.54.0",
     "svelte-eslint-parser": "^0.32.2",
+    "sveltekit-superforms": "^1.10.2",
     "tailwindcss": "^3.3.2",
-    "vite": "^4.3.9"
+    "vite": "^4.3.9",
+    "zod": "^3.22.4"
   },
   "type": "module",
   "dependencies": {
     "@event-calendar/core": "^1.5.0",
     "@event-calendar/time-grid": "^1.5.0",
+    "@sentry/sveltekit": "^7.80.0",
     "crypto-es": "^2.1.0",
     "dompurify": "^3.0.5",
     "markdown-it": "^13.0.1",
@@ -37,6 +42,8 @@
     "moment": "^2.29.4",
     "svelte-chartjs": "^3.1.2",
     "svelte-intersection-observer": "^0.10.0",
+    "svelte-preprocess": "^5.1.0",
+    "swiper": "^11.0.4",
     "theme-change": "^2.5.0"
   }
 }

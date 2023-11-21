@@ -10,14 +10,12 @@
 	let optagedeLokaler = [];
 	let _optagedeLokaler = [];
 	let searchString = '';
-	let ready = false;
 
 	const now = new Date(Date.now());
 	let time = `${(`0${ now.getHours()}`).slice(-2)}:${(`0${ now.getMinutes()}`).slice(-2)}`;
 	get('/lokale_dagsorden').then(data => {
 		console.log(time);
 		$lokaleDagsorden = data;
-		ready = true;
 		// eslint-disable-next-line no-use-before-define
 		sortLokaler(time);
 	});
@@ -27,7 +25,7 @@
 
 
 	function sortLokaler(_time) {
-		if (!ready) return;
+		if (!$lokaleDagsorden) return;
 		ledigeLokaler = [];
 		optagedeLokaler = [];
 		const time = new Date(Date.now());
@@ -47,9 +45,7 @@
 		_ledigeLokaler = ledigeLokaler;
 		_optagedeLokaler = optagedeLokaler;
 
-		if (searchString.length > 0) {
-			search();
-		}
+		if (searchString.length > 0) search();
 	}
 
 	function search() {
@@ -68,7 +64,7 @@
 // eslint-disable-next-line no-unused-expressions
 </script>
 
-{#if $lokaleDagsorden && ready}
+{#if $lokaleDagsorden}
 	<h1 class="heading">Ledige lokaler</h1>
 
 	<div class="flex sm:flex-row flex-col mb-2">
