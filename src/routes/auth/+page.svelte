@@ -11,6 +11,7 @@
 
 
 	export let data;
+	console.log(data);
 	const { enhance, form, submitting, delayed, timeout } = superForm(data.form, {
 		dataType: 'json',
 		// eslint-disable-next-line no-shadow
@@ -132,6 +133,14 @@
 				console.log(`Error scanning file. Reason: ${err}`);
 			});
 	}
+
+	let delayGraphUrl = '';
+	let delay = 0;
+	fetch('/api/getdelay').then(res => res.json()).then(json => {
+		delayGraphUrl = json.imgUrl;
+		delay = json.delay;
+		console.log(delayGraphUrl);
+	});
 </script>
 
 <div class="flex items-center justify-center md:h-[75vh]">
@@ -248,7 +257,17 @@
 								<a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
 							</p>
 							<div class="divider" />
-							<div class="flex justify-end">
+							<div class="flex justify-between">
+								{#key delayGraphUrl}
+									<div class="flex gap-2">
+										<img src={delayGraphUrl} alt="" class="h-12 border-2 border-base-content rounded-xl">
+										<div>
+											<p class="py-0 my-0 text-xs">{delay} ms</p>
+											<p class="py-0 my-0 text-xs text-base-content/50">gns. Lectio responstid</p>
+											<p class="py-0 my-0 text-xs text-base-content/50">Graf over de sidste 50 timer</p>
+										</div>
+									</div>
+								{/key}
 								<button tabindex="0" type="submit" class="btn-primary btn group" on:click={console.log('auth')}>
 									<p>Log ind</p>
 									<label class="swap {$delayed ? 'swap-active' : ''} " for="login">
