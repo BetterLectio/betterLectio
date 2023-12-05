@@ -135,11 +135,13 @@
 	}
 
 	let delayGraphUrl = '';
+	let delayGraphAvailable = false;
 	let delay = 0;
 	fetch('/api/getdelay').then(res => res.json()).then(json => {
 		delayGraphUrl = json.imgUrl;
 		delay = json.delay;
 		console.log(delayGraphUrl);
+		if (delayGraphUrl !== '' && delayGraphUrl.includes('https://quickchart.io/chart?c=')) delayGraphAvailable = true;
 	});
 </script>
 
@@ -257,17 +259,19 @@
 								<a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/tos">Servicevilkår & Privatlivspolitik</a>
 							</p>
 							<div class="divider" />
-							<div class="flex justify-between">
-								{#key delayGraphUrl}
-									<div class="flex gap-2">
-										<img src={delayGraphUrl} alt="" class="h-12 border-2 border-base-content rounded-xl">
-										<div>
-											<p class="py-0 my-0 text-xs">{delay} ms</p>
-											<p class="py-0 my-0 text-xs text-base-content/50">gns. Lectio responstid</p>
-											<p class="py-0 my-0 text-xs text-base-content/50">Graf over de sidste 50 timer</p>
+							<div class="flex {delayGraphAvailable ? 'justify-between' : 'justify-end'}">
+								{#if delayGraphAvailable}
+									{#key delayGraphUrl}
+										<div class="flex gap-2">
+											<img src={delayGraphUrl} alt="" class="h-12 border-2 border-base-content rounded-xl" height="44" width="91"/>
+											<div>
+												<p class="py-0 my-0 text-xs">{delay} ms</p>
+												<p class="py-0 my-0 text-xs text-base-content/50">gns. Lectio responstid</p>
+												<p class="py-0 my-0 text-xs text-base-content/50">Graf over de sidste 50 timer</p>
+											</div>
 										</div>
-									</div>
-								{/key}
+									{/key}
+								{/if}
 								<button tabindex="0" type="submit" class="btn-primary btn group" on:click={console.log('auth')}>
 									<p>Log ind</p>
 									<label class="swap {$delayed ? 'swap-active' : ''} " for="login">
