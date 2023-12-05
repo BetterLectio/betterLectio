@@ -18,7 +18,6 @@
 
 	let modul = null;
 	let items = {};
-	let isOpen = '';
 
 	let linkPreviewBox = '';
 
@@ -53,15 +52,17 @@
 		});
 	}
 
+	let returnedError = false;
 	async function getModul() {
-		modul = await get(`/modulHtml?absid=${absid}`);
+		modul = await get(`/modulHtml?absid=${absid}`).catch(() => {
+			returnedError = true;
+		});
 		items = {
 			Tidspunkt: modul?.aktivitet?.tidspunkt,
 			Lokale: modul?.aktivitet?.lokale,
 			Lærer: modul?.aktivitet?.lærer
 		};
 		previewLink();
-		isOpen = 'active';
 	}
 	getModul();
 
@@ -84,6 +85,21 @@
 	{@html linkPreviewBox}
 </div>
 
+{#if returnedError && !modul}
+	<div role="alert" class="alert alert-error">
+		<svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+		<div class="">
+			<h1 class="font-black">Der skete en fejl ved hentning af modulet</h1>
+			<p>
+				Dette sker typisk hvis Lectio har lavet en opdatering på deres hjemmeside.
+				Vi har modtaget en automatisk fejlrapport og vil kigge på det hurtigst muligt.
+				Tak for din forståelse.
+			</p>
+		</div>
+		<a href="/forside" class="btn btn-neutral  rounded-full">Gå tilbage til forsiden</a>
+	</div>
+{/if}
+
 <div>
 	<span class="my-2 flex justify-between">
 		{#if modul}
@@ -92,7 +108,7 @@
 					? holdOversætter(modul.aktivitet.hold, $hold)
 					: 'Ukendt hold'}
 			</h1>
-		{:else}
+		{:else if !returnedError}
 			<div class="animate-pulse bg-base-200 rounded-lg h-12 w-1/2" />
 		{/if}
 		{#if modul}
@@ -107,14 +123,14 @@
 	</span>
 	{#if modul}
 		<Table {items} />
-	{:else}
+	{:else if !returnedError}
 		<div>
 			<div class="w-full h-12 bg-base-200 rounded-t-lg shadow-xl animate-pulse" />
 			<div class="w-full h-14 bg-base-100 rounded-b-lg shadow-xl animate-pulse" />
 		</div>
 	{/if}
 	{#if modul}
-		<div class="space-y-4 fromhzerotohauto {isOpen}">
+		<div class="space-y-4">
 			{#each Object.entries(modul) as indhold}
 				{#if indhold[1] && indhold[0] !== 'aktivitet'}
 					<div>
@@ -129,17 +145,6 @@
 </div>
 
 <style>
-	.fromhzerotohauto {
-		max-height: 10px;
-		transition: max-height 0.5s ease-in-out;
-		overflow: hidden;
-	}
-
-	.fromhzerotohauto.active {
-		max-height: 1000px;
-		height: auto;
-		transition: max-height 0.5s ease-in-out;
-	}
 
 	.modul :global(h1) {
 		@apply text-xl;
