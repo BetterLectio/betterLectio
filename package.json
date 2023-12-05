@@ -1,6 +1,6 @@
 {
   "name": "betterlectio",
-  "version": "0.10.133",
+  "version": "0.10.134",
   "private": true,
   "scripts": {
     "dev": "vite dev",
