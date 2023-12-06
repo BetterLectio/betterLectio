@@ -35,11 +35,11 @@ def index():
     <html>
       <head>
         <title>Loading...</title>
-        <meta http-equiv="refresh" content="0; url=https://github.com/jona799t/BetterLectio-Flask-Backend">
-        <script>window.location.href = "https://github.com/jona799t/BetterLectio-Flask-Backend"</script>
+        <meta http-equiv="refresh" content="0; url=https://bedstelectio.dk">
+        <script>window.location.href = "https://bedstelectio.dk"</script>
       </head>
       <body>
-        <p>Not redirected? Go to <a href="https://github.com/jona799t/BetterLectio-Flask-Backend">github.com/jona799t/BetterLectio-Flask-Backend</a></p>
+        <p>Not redirected? Go to <a href="https://bedstelectio.dk">https://bedstelectio.dk</a></p>
       </body>
     </html>
     """
