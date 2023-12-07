@@ -43,7 +43,6 @@
 
 	function calcExploreArr(data, id) {
 		selectedFolderId = id;
-		console.log('selectedFolderId', id);
 		const dataBefore = data.indhold;
 		const dataAfter = [];
 		dataBefore.forEach(item => {

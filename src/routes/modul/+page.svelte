@@ -1,5 +1,4 @@
 <script>
-	import MarkdownIt from 'markdown-it';
 	import Table from '$lib/components/Table.svelte';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
@@ -15,15 +14,10 @@
 		cookie = data;
 	});
 
-	const md = new MarkdownIt();
 	const absid = $page.url.searchParams.get('absid');
 
 	let modul = null;
-	let lektieHtml = '';
-	let øvrigeIndholdHtml = '';
-	let note = '';
 	let items = {};
-	let isOpen = '';
 
 	let linkPreviewBox = '';
 
@@ -58,46 +52,53 @@
 		});
 	}
 
+	let returnedError = false;
 	async function getModul() {
-		modul = await get(`/modul?absid=${absid}`);
-
+		modul = await get(`/modulHtml?absid=${absid}`).catch(() => {
+			returnedError = true;
+		});
 		items = {
 			Tidspunkt: modul?.aktivitet?.tidspunkt,
 			Lokale: modul?.aktivitet?.lokale,
 			Lærer: modul?.aktivitet?.lærer
 		};
-
-		if (modul.lektier) {
-			modul.lektier.split('\n').forEach(element => {
-				const translated = sanitize(md.render(element)).replace('<a', '<a   class="btn btn-xs btn-primary preview" target="_blank"');
-				lektieHtml += `<p>${ translated }<p/>`;
-			});
-		}
-
-		// TODO: parse LaTex
-		if (modul.øvrigtIndhold) {
-			modul.øvrigtIndhold.split('\n').forEach(element => {
-				const translated = sanitize(md.render(element)).replace('<a', '<a   class="btn btn-xs btn-primary preview" target="_blank"');
-				øvrigeIndholdHtml += `<p>${ translated }<p/>`;
-			});
-		}
-
-		if (modul.note) {
-			modul.note.split('\n').forEach(element => {
-				const translated = sanitize(md.render(element)).replace('<a', '<a   class="btn btn-xs btn-primary preview" target="_blank"');
-				note += `<p>${ translated }<p/>`;
-			});
-		}
 		previewLink();
-		isOpen = 'active';
 	}
 	getModul();
+
+	function onIndholdMount(modulElement) {
+		const textAreas = modulElement.getElementsByTagName('textarea');
+		for (let i = 0; i < textAreas.length; i++) textAreas[i].setAttribute('style', `width=100%; height:${textAreas[i].scrollHeight}px;`); // Som lectio gør det
+		const buttons = modulElement.getElementsByTagName('a');
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].setAttribute('target', '_blank');
+			if (buttons[i].href.includes('/lectio/')) buttons[i].href = `https://www.lectio.dk/lectio/${buttons[i].href.split('/lectio/')[1]}`;
+			buttons[i].classList.add('preview');
+			const styleElements = buttons[i].querySelectorAll('*[style]');
+			for (let j = 0; j < styleElements.length; j++) styleElements[j].removeAttribute('style'); // Måske er der en bedre måde at gøre det på?
+		}
+	}
 </script>
 
 <div id="linkpreviewbox" class="invisible absolute shadow-2xl md:visible">
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html linkPreviewBox}
 </div>
+
+{#if returnedError && !modul}
+	<div role="alert" class="alert alert-error">
+		<svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+		<div class="">
+			<h1 class="font-black">Der skete en fejl ved hentning af modulet</h1>
+			<p>
+				Dette sker typisk hvis Lectio har lavet en opdatering på deres hjemmeside.
+				Vi har modtaget en automatisk fejlrapport og vil kigge på det hurtigst muligt.
+				Tak for din forståelse.
+			</p>
+		</div>
+		<a href="/forside" class="btn btn-neutral  rounded-full">Gå tilbage til forsiden</a>
+	</div>
+{/if}
 
 <div>
 	<span class="my-2 flex justify-between">
@@ -107,12 +108,13 @@
 					? holdOversætter(modul.aktivitet.hold, $hold)
 					: 'Ukendt hold'}
 			</h1>
-		{:else}
+		{:else if !returnedError}
 			<div class="animate-pulse bg-base-200 rounded-lg h-12 w-1/2" />
 		{/if}
 		{#if modul}
 			<a
 				class="btn"
+				target="_blank"
 				href={`https://www.lectio.dk/lectio/${cookie.schoolId}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
 			>
 				Åben Elevfeedback
@@ -121,52 +123,52 @@
 	</span>
 	{#if modul}
 		<Table {items} />
-	{:else}
+	{:else if !returnedError}
 		<div>
 			<div class="w-full h-12 bg-base-200 rounded-t-lg shadow-xl animate-pulse" />
 			<div class="w-full h-14 bg-base-100 rounded-b-lg shadow-xl animate-pulse" />
 		</div>
 	{/if}
-
-	<div class="fromhzerotohauto {isOpen}">
-		{#if modul}
-			{#if lektieHtml}
-				<h3 class="text-xl font-bold">Lektier</h3>
-				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-				{@html lektieHtml}
-				<div class="mb-4" />
-			{/if}
-			{#if note}
-				<h3 class="text-xl font-bold">Noter</h3>
-				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-				{@html note}
-				<div class="mb-4" />
-			{/if}
-			{#if øvrigeIndholdHtml}
-				<h3 class="text-xl font-bold">Øvrigt indhold</h3>
-				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-				{@html øvrigeIndholdHtml}
-				<div class="mb-4" />
-			{/if}
-
-			{#if !lektieHtml && !øvrigeIndholdHtml && !note}
-				<p>Aktiviteten har ikke noget indhold.</p>
-				<div class="mb-4" />
-			{/if}
-		{/if}
-	</div>
+	{#if modul}
+		<div class="space-y-4">
+			{#each Object.entries(modul) as indhold}
+				{#if indhold[1] && indhold[0] !== 'aktivitet'}
+					<div>
+						<h2 class="text-xl font-bold capitalize">{indhold[0].replace('_', ' ')}</h2>
+						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+						<div use:onIndholdMount class="modul divide-y space-y-2 break-all">{@html sanitize(indhold[1].replace('align="center"', ''))}</div>
+					</div>
+				{/if}
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style>
-.fromhzerotohauto {
-	max-height: 10px;
-	transition: max-height 0.5s ease-in-out;
-	overflow: hidden;
-}
 
-.fromhzerotohauto.active {
-	max-height: 1000px;
-	height: auto;
-	transition: max-height 0.5s ease-in-out;
-}
+	.modul :global(h1) {
+		@apply text-xl;
+	}
+
+	.modul :global(a) {
+		@apply btn;
+		@apply btn-xs;
+		@apply btn-primary;
+	}
+
+	.modul :global(ol) {
+		@apply list-decimal;
+		@apply ml-8;
+	}
+
+	.modul :global(ul) {
+		@apply list-disc;
+		@apply ml-8;
+	}
+
+	.modul :global(textarea) {
+		@apply w-full;
+		@apply bg-base-100;
+		@apply resize-none;
+	}
 </style>

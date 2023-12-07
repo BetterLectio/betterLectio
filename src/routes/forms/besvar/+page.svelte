@@ -12,7 +12,6 @@
 
 	get(`/spoergeskema?id=${spørgeskemaid}`).then(data => {
 		spørgeskema = data;
-		console.log(spørgeskema);
 		({ anonym } = spørgeskema);
 	});
 

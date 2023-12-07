@@ -89,7 +89,6 @@
 	function handleAuthClick() {
 		document.getElementById('authorize_button').classList.add('btn-disabled');
 		tokenClient.callback = response => {
-			console.log(response);
 			if (response.error !== undefined) {
 				document.getElementById('authorize_button').classList.remove('btn-disabled');
 				throw response;
@@ -190,8 +189,6 @@
 
 	function formatModuler(moduler) {
 		let filteredModuler = moduler;
-
-		console.log(filteredModuler);
 
 		// filter out moduler that have a status of 'aflyst'
 		filteredModuler = filteredModuler.filter(modul => modul.status !== 'aflyst');

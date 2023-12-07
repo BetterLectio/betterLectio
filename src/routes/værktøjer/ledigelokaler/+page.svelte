@@ -14,7 +14,6 @@
 	const now = new Date(Date.now());
 	let time = `${(`0${ now.getHours()}`).slice(-2)}:${(`0${ now.getMinutes()}`).slice(-2)}`;
 	get('/lokale_dagsorden').then(data => {
-		console.log(time);
 		$lokaleDagsorden = data;
 		// eslint-disable-next-line no-use-before-define
 		sortLokaler(time);
@@ -32,7 +31,6 @@
 		time.setHours(_time.split(':')[0], _time.split(':')[1]);
 		$lokaleDagsorden.forEach(lokale => {
 			ledigeLokaler.push(lokale);
-			console.log(lokale);
 			lokale.moduler.forEach(modul => {
 				const [modulStart, modulEnd] = standardizeTimeRange(modul);
 				if (time >= modulStart && time <= modulEnd) {

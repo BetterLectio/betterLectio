@@ -34,7 +34,6 @@
 	function swiperEvents(swiper) {
 		swiper.on('slideChangeTransitionEnd', () => {
 			// eslint-disable-next-line prefer-destructuring
-			console.log(dates);
 			viewDate = dates[swiper.realIndex][0];
 		});
 	}
