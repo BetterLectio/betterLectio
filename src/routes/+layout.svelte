@@ -18,7 +18,6 @@
 	import { version } from '$app/environment';
 
 	export let data = null;
-	console.log(data);
 	if (data.lectioCookie && data.lectioCookie !== 'local') localStorage.setItem('lectio-cookie', data.lectioCookie);
 	else if (data.lectioCookie !== 'local') localStorage.removeItem('lectio-cookie');
 

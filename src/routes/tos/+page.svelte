@@ -1,6 +1,5 @@
 <script>
 	export let data;
-	console.log(data);
 </script>
 
 <h1 class="heading">Servicevilkår & Privatlivspolitik</h1>

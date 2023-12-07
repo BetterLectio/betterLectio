@@ -58,7 +58,6 @@ export function getHoldHue(hold) {
  * @returns {string} CSS farve i hsl format
  */
 export function getModulColor(modul, useDifferentColors) {
-	console.log(modul.status);
 	const alpha = 0.4;
 	try {
 		switch (modul.status) {

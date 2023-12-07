@@ -11,7 +11,6 @@
 
 
 	export let data;
-	console.log(data);
 	const { enhance, form, submitting, delayed, timeout } = superForm(data.form, {
 		dataType: 'json',
 		// eslint-disable-next-line no-shadow
@@ -76,7 +75,6 @@
 
 			window.location.href = redirect ? redirect : '/forside';
 		}
-		console.log(await response.json());
 	}
 
 	async function qrLogin(url) {
@@ -272,7 +270,7 @@
 										</div>
 									{/key}
 								{/if}
-								<button tabindex="0" type="submit" class="btn-primary btn group" on:click={console.log('auth')}>
+								<button tabindex="0" type="submit" class="btn-primary btn group">
 									<p>Log ind</p>
 									<label class="swap {$delayed ? 'swap-active' : ''} " for="login">
 										<svg

@@ -15,8 +15,6 @@ export const localStore = key => {
 	return {
 		subscribe,
 		set: value => {
-			console.log('set', key, 'to', value);
-
 			// save also to local storage as a string
 			if (value) localStorage.setItem(key, toString(value));
 

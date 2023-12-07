@@ -25,10 +25,7 @@
 			const _date = opgave.frist.replace('-', '/').split(' ');
 			const __date = _date[0].split('/');
 			opgave.date = new Date(`${__date[1]}/${__date[0]}/${__date[2]} ${_date[1]}`);
-			if ((opgave.status === 'Afleveret' && opgave.afventer === 'Elev') || (opgave.status === 'Afsluttet' && opgave.afventer === '')) {
-				feedbackOpgaver.push(opgave);
-				console.log('pushed', opgave);
-			}
+			if ((opgave.status === 'Afleveret' && opgave.afventer === 'Elev') || (opgave.status === 'Afsluttet' && opgave.afventer === '')) feedbackOpgaver.push(opgave);
 			if (opgave.status === 'Afleveret') {
 				opgave.class = 'btn btn-success';
 				afleveredeOpgaver.push(opgave);

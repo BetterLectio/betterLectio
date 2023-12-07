@@ -69,8 +69,6 @@
 		// only include the first 10 messages
 		$beskeder = $beskeder.slice(0, 50);
 		ready = true;
-
-		console.log(_beskeder);
 	});
 
 	function showMore() {
