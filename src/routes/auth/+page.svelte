@@ -131,6 +131,38 @@
 				console.log(`Error scanning file. Reason: ${err}`);
 			});
 	}
+
+	function itemFilter(item, keywords) {
+		const keywordsArray = keywords.join('').split('');
+
+		// return false if no letters match
+		if (!keywordsArray.some(keyword => item.skole.toLowerCase().includes(keyword.toLowerCase()))) return false;
+
+		// return true if schoolId is the keyword
+		if (keywords.some(keyword => item.skoleid.toLowerCase().includes(keyword.toLowerCase()))) return true;
+
+		return true;
+	}
+
+	function itemSortFunction(item1, item2, keywords) {
+		// do the same as the filter function but return a number instead of a boolean representing the number of letters that match
+		const keywordsArray = keywords.join('').split('');
+		let item1MatchCount = 0;
+		let item2MatchCount = 0;
+
+		item1MatchCount = keywordsArray.filter(keyword => item1.skole.toLowerCase().includes(keyword.toLowerCase())).length;
+		item2MatchCount = keywordsArray.filter(keyword => item2.skole.toLowerCase().includes(keyword.toLowerCase())).length;
+
+		// mult bu the matches in a row
+		item1MatchCount *= keywordsArray.filter((keyword, index) => item1.skole.toLowerCase().includes(keywordsArray.slice(index, index + 2).join('').toLowerCase())).length;
+		item2MatchCount *= keywordsArray.filter((keyword, index) => item2.skole.toLowerCase().includes(keywordsArray.slice(index, index + 2).join('').toLowerCase())).length;
+
+		// if the schoolId is the keyword, add 10000000 to the match count
+		if (keywords[0] === item1.skoleid.toLowerCase()) item1MatchCount += 10000000;
+		if (keywords[0] === item2.skoleid.toLowerCase()) item2MatchCount += 10000000;
+
+		return item2MatchCount - item1MatchCount;
+	}
 </script>
 
 <div class="flex items-center justify-center md:h-[75vh]">
@@ -202,14 +234,18 @@
 								valueFieldName="id"
 								bind:selectedItem="{$form.school}"
 								matchAllKeywords={false}
-								sortByMatchedKeywords={true}
-								keywordsFunction={skole => `${skole.skole } ${ skole.skoleid}`}
+								sortByMatchedKeywords={false}
+								keywordsFunction={item => `${item.skole } ${ item.skoleid}`}
+								itemFilterFunction={itemFilter}
+								itemSortFunction={itemSortFunction}
 								noResultsText="Ingen skoler fundet"
-								placeholder="Vælg din skole"
+								placeholder="Vælg din skole (skriv for at søge)"
 								required={true}
 								hideArrow={true}
 								className="select select-sm w-full max-w-wl py-0 mb-2.5 px-0"
 								dropdownClassName="rounded-box"
+								maxItemsToShowInList={40}
+
 							>
 							</AutoComplete>
 							<div class="join p-1.5 bg-base-100">
