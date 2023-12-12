@@ -181,7 +181,7 @@
 			skemaData[`${week}${year}`].moduler.forEach(modul => {
 				let titel = '';
 				if (modul.navn !== null) {
-					titel = modul.navn !== null && modul.navn !== 'Ændret!' ? modul.navn : $fag[modul.hold_id];
+					titel = modul.navn !== null && modul.navn !== 'Ændret!' ? modul.navn : $fag && $fag[modul.hold_id] ? $fag[modul.hold_id] : modul.hold;
 					if (modul.status === 'eksamen') {
 						titel
 							= `Eksamen! ${
@@ -192,7 +192,7 @@
 						titel += ` · ${ modul.lokale.split(/(?:[\uD800-\uDBFF][\uDC00-\uDFFF])/u)[0]}`;
 					}
 				} else {
-					if ($indstillinger.brugHoldOversætter) titel = $fag[modul.hold_id];
+					if ($indstillinger.brugHoldOversætter && $fag && $fag[modul.hold_id]) titel = $fag[modul.hold_id];
 					else titel = modul.hold;
 
 					if (modul.lokale) titel += ` · ${ modul.lokale.split(/(?:[\uD800-\uDBFF][\uDC00-\uDFFF])/u)[0]}`;
@@ -243,13 +243,13 @@
 	$: if (selectedDay) loadSkema(selectedDay);
 </script>
 
-<div class="relative z-0">
+<div class="relative z-0 w-[97vw]">
 	<div class="-mt-8 text-2xl">
 		<p><b>Uge {getWeekNumber(viewDate)}</b> ({måneder[viewDate.getMonth()]} {viewDate.getFullYear()})</p>
 	</div>
 
 	{#if dates[2][6]}
-		<div class="w-screen">
+		<div class="w-full">
 			<swiper-container bind:this={swiperElement} initial-slide="1">
 				{#each Array(3) as _, i}
 					<swiper-slide class="flex items-stretch space-x-2 p-1">
@@ -267,7 +267,7 @@
 		</div>
 	{/if}
 
-	<div class="w-screen">
+	<div class="w-full">
 		<swiper-container bind:this={calendarSwiperElement} initial-slide="1">
 			<swiper-slide><Calendar bind:this={skemaBefore} {plugins} {options} /></swiper-slide> <!-- Måske hvis dagen for skemaet er tom efter den er loaded så lav en besked med det-->
 			<swiper-slide><Calendar bind:this={skema} {plugins} {options} /></swiper-slide> <!-- Måske hvis dagen for skemaet er tom efter den er loaded så lav en besked med det-->
