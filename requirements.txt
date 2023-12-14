@@ -1,4 +1,4 @@
-python-lectio-unbloated>=2.1.31
+python-lectio-unbloated>=2.1.32
 flask
 flask-cors
 Flask-CacheControl
