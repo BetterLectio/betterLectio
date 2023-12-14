@@ -175,7 +175,7 @@ def besvarSpørgeskema(self, id, besvarelser):
         return {"success": True}
 
 
-def _fill_payload(self, arg0, payload, arg2, arg3):
+def _fill_payload(arg0, payload, arg2, arg3):
     payload["__EVENTARGUMENT"] = arg0
     payload[arg2] = ""
     payload[arg3] = ""
