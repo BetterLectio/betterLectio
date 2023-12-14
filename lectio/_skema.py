@@ -160,7 +160,7 @@ def skema(self, uge=None, år=None, id=None):
     return skema
 
 
-def _fill_skema(self, skema, arg1):
+def _fill_skema(skema, arg1):
     skema["hold"] = []
     skema["grupper"] = []
     skema["type"] = arg1
