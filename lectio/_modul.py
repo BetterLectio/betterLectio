@@ -43,7 +43,11 @@ def modul(self, absid):
                 last = last[0].lower() + last[1:]
         else:
             article = div.find("article")
-            if article and article.find("h1") is not None and article.find("h1").text == "Groups":
+            if (
+                article
+                and article.find("h1") is not None
+                and article.find("h1").text == "Groups"
+            ):
                 groupNames = list(map(lambda x: x.text, article.find_all("p")))
                 groupParticipants = article.find_all("ul")
                 for i, group in enumerate(groupNames):
@@ -59,12 +63,14 @@ def modul(self, absid):
                     modulDetaljer[last] += markdownify.markdownify(
                         str(child), bullets="-"
                     )
+            elif last == "præsentation":
+                anchor = div.find("a", {"linktype": "file"})
+                if anchor:
+                    modulDetaljer[last] += f"[{anchor.text}]({anchor.get('href')})"
             else:
                 modulDetaljer[last] += markdownify.markdownify(str(div), bullets="-")
 
-    modulDetaljer["aktivitet"] = skemaBrikExtract(
-        soup.find("a", class_="s2skemabrik")
-    )
+    modulDetaljer["aktivitet"] = skemaBrikExtract(soup.find("a", class_="s2skemabrik"))
 
     return modulDetaljer
 
