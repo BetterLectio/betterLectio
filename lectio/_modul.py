@@ -64,8 +64,7 @@ def modul(self, absid):
                         str(child), bullets="-"
                     )
             elif last == "præsentation":
-                anchor = div.find("a", {"linktype": "file"})
-                if anchor:
+                if anchor := div.find("a", attrs={"data-lc-display-linktype": "file"}):
                     modulDetaljer[last] += f"[{anchor.text}]({anchor.get('href')})"
             else:
                 modulDetaljer[last] += markdownify.markdownify(str(div), bullets="-")
