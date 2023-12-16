@@ -63,11 +63,11 @@ def dokumenter(self, folderid=None):
                 }
                 dokumenterDict["indhold"].append(itemDict)
     else:
-        self._get_file(soup, folderid, dokumenterDict)
+        _parse_folder(soup, folderid, dokumenterDict)
     return dokumenterDict
 
 
-def _get_file(self, soup, folderid, dokumenterDict):
+def _parse_folder(soup, folderid, dokumenterDict):
     _element = soup.find("div", {"lec-node-id": folderid})
     backId = _element.parent.parent.get("lec-node-id")
     dokumenterDict["indhold"].append(
