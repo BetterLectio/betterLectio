@@ -94,3 +94,20 @@ export async function post(endpoint, body) {
 	const response = await get(endpoint, body);
 	return response;
 }
+
+
+export async function getDocument(id) {
+	const url = `${api}/dokument_hent?id=${id}`;
+	const response = await fetch(url,
+		{
+			headers:
+			{
+				'lectio-cookie': localStorage.getItem('lectio-cookie'),
+				'Access-Control-Allow-Origin': '*'
+			}
+		}, { method: 'GET' });
+
+	const blob = await response.blob();
+	const urlBlob = URL.createObjectURL(blob);
+	return urlBlob;
+}

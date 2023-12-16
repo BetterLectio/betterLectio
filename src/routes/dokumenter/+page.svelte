@@ -1,7 +1,7 @@
 <script>
 	import { dokumenter, informationer } from '$lib/js/store.js';
+	import { get, getDocument } from '$lib/js/http.js';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
-	import { get } from '$lib/js/http.js';
 	import { onMount } from 'svelte';
 	import { parseStudentInfo } from '$lib/js/LectioUtils.js';
 
@@ -141,10 +141,17 @@
 				});
 			}
 			loading = false;
-		} else if (id.includes('/res/')) {
-			window.open(`https://www.lectio.dk/lectio/${cookie.schoolId}/lc/${id}`);
 		} else {
-			window.open(`https://www.lectio.dk/lectio/${cookie.schoolId}/dokumenthent.aspx?documentid=${id}`);
+			// window.open(`https://www.lectio.dk/lectio/${cookie.schoolId}/dokumenthent.aspx?documentid=${id}`);
+			let url;
+
+			getDocument(id).then(respUrl => {
+				url = respUrl;
+			}).catch(() => {
+				url = `https://www.lectio.dk/lectio/${cookie.schoolId}/dokumenthent.aspx?documentid=${id}`;
+			}).finally(() => {
+				window.open(url, '_blank');
+			});
 		}
 	}
 
