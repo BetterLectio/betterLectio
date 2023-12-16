@@ -96,8 +96,9 @@ export async function post(endpoint, body) {
 }
 
 
-export async function getDocument(id) {
-	const url = `${api}/dokument_hent?id=${id}`;
+export async function getDocument(id, docType = null) {
+	let url = `${api}/dokument_hent?id=${id}`;
+	if (docType) url += `&doctype=${docType}`;
 	const response = await fetch(url,
 		{
 			headers:

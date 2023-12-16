@@ -1,5 +1,5 @@
 <script>
-	import { api, get } from '$lib/js/http.js';
+	import { api, get, getDocument } from '$lib/js/http.js';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import BrugerPopup from '$lib/components/BrugerPopup.svelte';
 	import MarkdownIt from 'markdown-it';
@@ -96,6 +96,38 @@
 			});
 		});
 	}
+
+
+	let MessageAttachments = [];
+	async function fetchMessageAttachment(attachment) {
+		// eslint-disable-next-line prefer-destructuring
+		const attachmentId = attachment.href.split('documentid=')[1];
+		console.log(attachmentId);
+		// eslint-disable-next-line init-declarations
+		let url;
+		await getDocument(attachmentId, 'messagedoc').then(respUrl => {
+			url = respUrl;
+			console.log(url);
+
+			// window.open(url, '_blank');
+			// fecth the url and return the blob
+			fetch(url).then(resp => resp.blob()).then(blob => {
+				// create a new file from the blob
+				const file = new File([blob], attachment.navn, { type: blob.type });
+				console.log(file);
+
+				// create a new image element
+				const img = document.createElement('img');
+				img.src = url;
+				img.alt = attachment.navn;
+				img.className = 'rounded-xl';
+
+				// append the image to the div
+				MessageAttachments = [...MessageAttachments, img];
+				return img;
+			});
+		});
+	}
 </script>
 
 <div id="linkpreviewbox" class="invisible absolute z-50 shadow-2xl md:visible">
@@ -146,13 +178,17 @@
 				</BrugerPopup>
 
 				<div class="mt-4 mb-4">
-					{#each _besked.vedhæftninger as vedhæftning}
-						<a
-							class="btn-primary btn-xs btn mr-1 mb-4"
-							href={vedhæftning.href}
-							on:mouseup={() => attemptPreviewAttachment(vedhæftning.href)}>{vedhæftning.navn}</a
-						>
-					{/each}
+					<div class="flex gap-3">
+						{#each _besked.vedhæftninger as vedhæftning}
+							<div class="hidden">
+								{fetchMessageAttachment(vedhæftning)}
+							</div>
+						{/each}
+
+						{#each MessageAttachments as attachment}
+							{@html sanitize(md.render(`![${attachment.alt}](${attachment.src})`))}
+						{/each}
+					</div>
 					<p class="mb-10" use:previewLink>
 						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 						{@html sanitize(md.render(_besked.besked)).replace('<a', '<a  class="btn btn-xs btn-primary preview" target="_blank"')}
