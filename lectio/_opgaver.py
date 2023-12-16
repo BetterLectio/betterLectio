@@ -48,7 +48,7 @@ def opgave(self, exerciseid):
             opgaveDict["oplysninger"][identifier] = opgaveBeskrivelse[:-1]
         else:
             opgaveDict["oplysninger"][identifier] = markdownify.markdownify(
-                str(tr.find("td")), bullets="-"
+                str(tr.find("td").text), bullets="-"
             )
 
     if soup.find_all("span", {"class": "islandHeader"})[1].text == "Gruppeaflevering":
