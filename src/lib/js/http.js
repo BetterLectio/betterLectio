@@ -96,16 +96,16 @@ export async function post(endpoint, body) {
 }
 
 
-export async function getDocument(id, docType = null) {
+export async function getDocument(id, docType = null, expectedContentType = 'image/*') {
 	let url = `${api}/dokument_hent?id=${id}`;
-	if (docType) url += `&doctype=${docType}`;
+	if (docType) url += `&doctype=${docType}&raw=true`;
 	const response = await fetch(url,
 		{
 			headers:
 			{
 				'lectio-cookie': localStorage.getItem('lectio-cookie'),
 				'Access-Control-Allow-Origin': '*',
-				'content-type': 'image/jpg'
+				'content-type': expectedContentType
 			}
 		}, { method: 'GET' });
 
