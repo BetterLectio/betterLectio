@@ -1,6 +1,7 @@
 import re
 import unicodedata
 from bs4 import BeautifulSoup
+import markdownify
 
 from lectio.utils import generatePayload
 
@@ -46,8 +47,8 @@ def opgave(self, exerciseid):
             )
             opgaveDict["oplysninger"][identifier] = opgaveBeskrivelse[:-1]
         else:
-            opgaveDict["oplysninger"][identifier] = unicodedata.normalize(
-                "NFKD", tr.find("td").text
+            opgaveDict["oplysninger"][identifier] = markdownify.markdownify(
+                str(tr.find("td")), bullets="-"
             )
 
     if soup.find_all("span", {"class": "islandHeader"})[1].text == "Gruppeaflevering":
@@ -97,7 +98,9 @@ def opgave(self, exerciseid):
     for tr in indlægHtml.find_all("tr")[1:]:
         indlæg = {}
         for i, td in enumerate(tr.find_all("td")):
-            if (identifier := indlægHeader[i]) == "dokument" and td.find("a") is not None:
+            if (identifier := indlægHeader[i]) == "dokument" and td.find(
+                "a"
+            ) is not None:
                 indlæg[
                     identifier
                 ] = f"[{td.text.lstrip().rstrip()}](https://www.lectio.dk{td.find('a').get('href')})"
@@ -130,17 +133,13 @@ def opgaver(self):
     ):
         resp = self.session.post(
             f"https://www.lectio.dk/lectio/{self.skoleId}/OpgaverElev.aspx?elevid={self.elevId}",
-            data=generatePayload(
-                soup, "s$m$Content$Content$CurrentExerciseFilterCB"
-            ),
+            data=generatePayload(soup, "s$m$Content$Content$CurrentExerciseFilterCB"),
         )
         soup = BeautifulSoup(resp.text, "html.parser")
 
     opgaver = []
     _header = soup.find("tr")
-    header = [
-        th.text.lower().replace("\xad", "-") for th in _header.find_all("th")
-    ]
+    header = [th.text.lower().replace("\xad", "-") for th in _header.find_all("th")]
     for opgave in soup.find_all("tr")[1:]:
         opgaveDict = {}
 
