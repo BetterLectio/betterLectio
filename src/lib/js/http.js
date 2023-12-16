@@ -104,7 +104,8 @@ export async function getDocument(id, docType = null) {
 			headers:
 			{
 				'lectio-cookie': localStorage.getItem('lectio-cookie'),
-				'Access-Control-Allow-Origin': '*'
+				'Access-Control-Allow-Origin': '*',
+				'content-type': 'image/jpg'
 			}
 		}, { method: 'GET' });
 

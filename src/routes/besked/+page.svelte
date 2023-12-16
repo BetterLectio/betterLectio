@@ -123,8 +123,9 @@
 				img.className = 'rounded-xl';
 
 				// append the image to the div
-				MessageAttachments = [...MessageAttachments, img];
-				return img;
+				MessageAttachments = [...MessageAttachments, url];
+				console.log(MessageAttachments);
+				return url;
 			});
 		});
 	}
@@ -186,7 +187,7 @@
 						{/each}
 
 						{#each MessageAttachments as attachment}
-							{@html sanitize(md.render(`![${attachment.alt}](${attachment.src})`))}
+							<img src={attachment} alt="" class="rounded-xl h-32" />
 						{/each}
 					</div>
 					<p class="mb-10" use:previewLink>
