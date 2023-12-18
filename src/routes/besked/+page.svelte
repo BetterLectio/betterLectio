@@ -16,6 +16,7 @@
 	let linkPreviewBox = '';
 	let beskedModtagere = '';
 	let MessageAttachments = [];
+	let attachmentsHidden = false;
 
 	get(`/besked?id=${ beskedId}`).then(data => {
 		beskedChain = data.beskeder;
@@ -127,15 +128,8 @@
 
 				// only continue if the file is an image
 				if (!file.type.startsWith('image/')) return;
-
-				// create a new image element
-				const img = document.createElement('img');
-				img.src = url;
-				img.alt = attachment.navn;
-				img.className = 'rounded-xl';
-
-				// append the image to the div
 				MessageAttachments = [...MessageAttachments, url];
+				attachmentsHidden = true;
 				return url;
 			});
 		});
@@ -195,7 +189,7 @@
 							{fetchMessageAttachment(vedhæftning)}
 						</div>
 					{/each}
-					{#if MessageAttachments.length === 0}
+					{#if !attachmentsHidden}
 						{#each _besked.vedhæftninger as vedhæftning}
 							<a
 								class="btn-primary btn-xs btn mr-1 mb-4"
@@ -203,6 +197,12 @@
 								on:mouseup={() => attemptPreviewAttachment(vedhæftning.href)}>{vedhæftning.navn}</a
 							>
 						{/each}
+					{:else}
+						{#if MessageAttachments.length > 0}
+							<button
+								class="btn-ghost btn-xs btn mr-1 mb-4 italic"
+								on:click={() => (attachmentsHidden = !attachmentsHidden)}>{attachmentsHidden ? 'Vis vedhæftninger' : 'Skjul vedhæftninger'}</button>
+						{/if}
 					{/if}
 
 					<div class="overflow-x-auto">
