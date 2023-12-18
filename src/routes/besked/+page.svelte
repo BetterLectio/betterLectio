@@ -15,6 +15,7 @@
 	let beskedChain = null;
 	let linkPreviewBox = '';
 	let beskedModtagere = '';
+	let MessageAttachments = [];
 
 	get(`/besked?id=${ beskedId}`).then(data => {
 		beskedChain = data.beskeder;
@@ -46,6 +47,7 @@
 		else addNotification('Beskeden blev sendt.', 'alert-success');
 
 		get(`/besked?id=${ beskedId}`).then(data => {
+			MessageAttachments = [];
 			beskedChain = data.beskeder;
 			beskedModtagere = data.modtagere;
 		});
@@ -62,6 +64,7 @@
 		get(`/besked?id=${ beskedId}`).then(data => {
 			beskedChain = data.beskeder;
 			beskedModtagere = data.modtagere;
+			MessageAttachments = [];
 			updating = false;
 		});
 	}
@@ -97,8 +100,6 @@
 		});
 	}
 
-
-	let MessageAttachments = [];
 	async function fetchMessageAttachment(attachment) {
 		console.log(attachment);
 
