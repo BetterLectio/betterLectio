@@ -6,10 +6,12 @@
 	// import Tilslut from './routes/Tilslut.svelte';
 	import Generelt from './routes/Generelt.svelte';
 	import { version } from '$app/environment';
+
+	export let data;
 </script>
 
 <div class="w-full">
-	<Generelt />
+	<Generelt dataObj={data} />
 	<!-- (ikke nødvændige endnu)
 	<Konto />
 	<Api />
