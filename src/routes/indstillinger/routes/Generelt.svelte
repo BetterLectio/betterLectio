@@ -1,12 +1,11 @@
 <script>
+	import { brugeren, indstillinger } from '$lib/js/store.js';
 	import { get, reloadData } from '$lib/js/http.js';
 	import { addNotification } from '$lib/js/notifyStore.js';
-	import { brugeren, indstillinger } from '$lib/js/store.js';
 
 	get('/mig').then(data => {
 		$brugeren = data;
 	});
-	console.log($brugeren);
 
 	let windowWidth = window.innerWidth;
 
@@ -33,6 +32,8 @@
 
 		reloadData();
 	};
+
+	// eslint-disable-next-line init-declarations
 	export let dataObj;
 </script>
 
