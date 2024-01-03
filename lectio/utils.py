@@ -29,11 +29,11 @@ renameDictionary = {"Lærere": "Lærer", "Lokaler": "Lokale"}
 
 
 def skemaBrikExtract(skemabrik):
-    try:
-        absid = (
-            re.search("absid=[0-9]+", skemabrik["href"]).group().replace("absid=", "")
-        )
-    except Exception:
+    if matches := re.search(
+        "(?:absid|ProeveholdId)=([0-9]+)", skemabrik["href"]
+    ):
+        absid = matches[1]
+    else:
         absid = skemabrik.get("href")
 
     modulDict = {
