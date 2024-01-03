@@ -80,7 +80,7 @@ def skema(self, uge=None, år=None, id=None):
                     skema["hold"].append(
                         {
                             "navn": hold.text,
-                            "id": hold.find("a").get("href").split("holdelementid=")[1],
+                            "id": re.search("holdelementid=([0-9]+)", hold.find("a").get("href"))[1],
                         }
                     )
             else:
@@ -88,9 +88,7 @@ def skema(self, uge=None, år=None, id=None):
                     skema["grupper"].append(
                         {
                             "navn": gruppe.text,
-                            "id": gruppe.find("a")
-                            .get("href")
-                            .split("holdelementid=")[1],
+                            "id": re.search("holdelementid=([0-9]+)", gruppe.find("a").get("href"))[1],
                         }
                     )
     elif id[0] == "T":
