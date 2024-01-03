@@ -2,7 +2,7 @@ import decimal
 import re
 from bs4 import BeautifulSoup
 
-from lectio.utils import skemaBrikExtract
+from lectio.utils import remove_duplicates, skemaBrikExtract
 
 
 def skema(self, uge=None, år=None, id=None):
@@ -80,7 +80,9 @@ def skema(self, uge=None, år=None, id=None):
                     skema["hold"].append(
                         {
                             "navn": hold.text,
-                            "id": re.search("holdelementid=([0-9]+)", hold.find("a").get("href"))[1],
+                            "id": re.search(
+                                "holdelementid=([0-9]+)", hold.find("a").get("href")
+                            )[1],
                         }
                     )
             else:
@@ -88,7 +90,9 @@ def skema(self, uge=None, år=None, id=None):
                     skema["grupper"].append(
                         {
                             "navn": gruppe.text,
-                            "id": re.search("holdelementid=([0-9]+)", gruppe.find("a").get("href"))[1],
+                            "id": re.search(
+                                "holdelementid=([0-9]+)", gruppe.find("a").get("href")
+                            )[1],
                         }
                     )
     elif id[0] == "T":
@@ -103,9 +107,9 @@ def skema(self, uge=None, år=None, id=None):
         if dag.text != "":
             skema["ugeDage"].append(dag.text)
 
-    for i, dagsNoter in enumerate(soup.find_all(
-        "td", {"class": "s2infoHeader s2skemabrikcontainer"}
-    )):
+    for i, dagsNoter in enumerate(
+        soup.find_all("td", {"class": "s2infoHeader s2skemabrikcontainer"})
+    ):
         skema["dagsNoter"].append({skema["ugeDage"][i]: []})
         for dagsNote in dagsNoter.find_all("a"):
             skema["dagsNoter"][i][skema["ugeDage"][i]].append(dagsNote.text.lstrip())
@@ -155,6 +159,8 @@ def skema(self, uge=None, år=None, id=None):
                         + modulTider[top]
                     )
                 skema["moduler"].append(modulDict)
+    skema["moduler"] = remove_duplicates(skema["moduler"])
+
     return skema
 
 

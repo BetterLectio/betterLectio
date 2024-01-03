@@ -29,9 +29,7 @@ renameDictionary = {"Lærere": "Lærer", "Lokaler": "Lokale"}
 
 
 def skemaBrikExtract(skemabrik):
-    if matches := re.search(
-        "(?:absid|ProeveholdId)=([0-9]+)", skemabrik["href"]
-    ):
+    if matches := re.search("(?:absid|ProeveholdId)=([0-9]+)", skemabrik["href"]):
         absid = matches[1]
     else:
         absid = skemabrik.get("href")
@@ -80,3 +78,15 @@ def skemaBrikExtract(skemabrik):
     with contextlib.suppress(Exception):
         modulDict["andet"] = skemabrik["data-tooltip"].split("\n\n")[1]
     return modulDict
+
+
+def are_dicts_equal(dict1, dict2):
+    return dict1.items() == dict2.items()
+
+
+def remove_duplicates(input_list):
+    unique_dicts = []
+    for d in input_list:
+        if not any(are_dicts_equal(d, unique_dict) for unique_dict in unique_dicts):
+            unique_dicts.append(d)
+    return unique_dicts
