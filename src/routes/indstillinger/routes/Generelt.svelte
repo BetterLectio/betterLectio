@@ -1,7 +1,11 @@
 <script>
+	import { brugeren, indstillinger } from '$lib/js/store.js';
 	import { get, reloadData } from '$lib/js/http.js';
 	import { addNotification } from '$lib/js/notifyStore.js';
-	import { indstillinger } from '$lib/js/store.js';
+
+	get('/mig').then(data => {
+		$brugeren = data;
+	});
 
 	let windowWidth = window.innerWidth;
 
@@ -28,11 +32,39 @@
 
 		reloadData();
 	};
+
+	// eslint-disable-next-line init-declarations
+	export let dataObj;
 </script>
 
 <h1 class="heading">Indstillinger - Generelt</h1>
 
 <div class="rounded-lg bg-base-200 p-4">
+	<span class="mb-2 text-lg font-bold">Din Profil</span>
+	<div>
+		<span>Navn: </span> <span class="font-bold">{$brugeren.navn.split(',')[0]}</span>
+	</div>
+	<div>
+		<span>Klasse: </span> <span class="font-bold">{$brugeren.navn.split(',')[1]}</span>
+	</div>
+	{#if dataObj.persistantSession}
+		<div>
+			<span>Brugernavn: </span> <span class="font-bold">{dataObj.persistantSessionUsername}</span>
+		</div>
+		<div>
+			<span>Forbliv logget ind: </span> <span class="font-bold">{dataObj.persistantSession ? 'Ja' : 'Nej'}</span>
+		</div>
+	{:else}
+		<div>
+			<span>Brugernavn: </span> <span class="font-bold">Ikke tilgængelig</span>
+		</div>
+		<div>
+			<span>Forbliv logget ind: </span> <span class="font-bold">Nej</span>
+		</div>
+	{/if}
+</div>
+
+<div class="mt-4 rounded-lg bg-base-200 p-4">
 	<div class="form-control">
 		<span class="mb-2 text-lg font-bold">Layout</span>
 		<p>Skift imellem sidebar og topbar layout på store skærme</p>

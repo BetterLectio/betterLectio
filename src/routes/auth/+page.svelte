@@ -165,6 +165,20 @@
 	}
 </script>
 
+<!-- You can open the modal using ID.showModal() method -->
+<dialog id="modal1" class="modal modal-bottom sm:modal-middle">
+	<div class="modal-box">
+		<form method="dialog">
+			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+		</form>
+		<h3 class="font-bold text-lg">Vigtig information vedrørende cookies</h3>
+		<p class="py-4">For at opretholde en vedvarende login-session kræver det, at vi gemmer dine oplysninger i en cookie. Vi fraskriver os ethvert ansvar i tilfælde af uautoriseret adgang til dine oplysninger som følge af denne lagring.</p>
+		<div class="modal-action">
+			<button class="btn btn-info btn-sm" onclick="modal1.close()">Jeg accepterer</button>
+		</div>
+	</div>
+</dialog>
+
 <div class="flex items-center justify-center md:h-[75vh]">
 	{#key isInAutoAuth}
 		{#if !isInAutoAuth}
@@ -248,8 +262,8 @@
 
 							>
 							</AutoComplete>
-							<div class="join p-1.5 bg-base-100">
-								<div class="flex join-item">
+							<div class="join p-1.5 bg-base-100 flex flex-col sm:flex-row">
+								<div class="flex join-item sm:mb-0 mb-2">
 									<input
 										type="checkbox"
 										bind:checked={saveSchoolChecked}
@@ -260,20 +274,18 @@
 									/>
 									<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveSchoolIdCheck">Husk skole</label>
 								</div>
-								{#if api === 'http://localhost:5000'}
-									<div class="divider divider-horizontal"></div>
-									<div class="flex join-item">
-										<input
-											type="checkbox"
-											checked="checked"
-											id="saveLogin"
-											tabindex="0"
-											class="checkbox checkbox-sm"
-											name="saveLogin"
-										/>
-										<label class="block text-sm pr-0 font-medium px-3 select-none" for="saveLogin">Forbliv logget ind</label>
-									</div>
-								{/if}
+								<div class="divider divider-horizontal hidden sm:flex"></div>
+								<div class="flex join-item">
+									<input
+										bind:checked={$form.remember}
+										type="checkbox"
+										id="saveLogin"
+										tabindex="0"
+										class="checkbox checkbox-sm"
+										name="saveLogin"
+									/>
+									<label onclick="modal1.showModal()" class="text-sm pr-0 font-medium px-3 select-none flex gap-2 items-center" for="saveLogin"><span>Forbliv logget ind</span> <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg></span></label>
+								</div>
 							</div>
 							<p class="text-xs mt-4">
 								Denne side bruger cookies til at huske dine oplysninger til næste gang, du logger ind. Når du logger ind, accepterer du, at din

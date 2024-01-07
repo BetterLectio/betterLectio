@@ -53,6 +53,12 @@
 					link: '/værktøjer/googlecalsync',
 					description: 'Synkroniser dine moduler med din google kalender',
 					status: 'BETA'
+				},
+				{
+					title: 'Lykkehjul',
+					link: '/værktøjer/lykkehjul',
+					description: 'Når du har brug for en nem og sjov måde at på at vælge en tilfældig elev.',
+					status: 'BETA'
 				}
 			],
 			'Lectio (vi arbejder på at flytte disse sider til BetterLectio)': [
