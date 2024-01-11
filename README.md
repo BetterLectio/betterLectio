@@ -1,0 +1,2 @@
+# BetterLectio-next
+BetterLectio evolved!
