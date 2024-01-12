@@ -68,7 +68,7 @@ fn set_discord_presence() -> Result<DiscordPresence, Box<dyn std::error::Error>>
 
     let payload = activity::Activity::new()
         .state("Den Ultimative Lectio Forbedring")
-        .buttons(vec![activity::Button::new("Prøv BetterLectio", "htpps://betterlectio.dk")])
+        .buttons(vec![activity::Button::new("Prøv BetterLectio ", "https://betterlectio.dk/")])
         // change ActivityType Enum to set the activity type to "custom" and change the prefix to "using"
         .assets(activity::Assets::new().large_image("icon").large_text("BetterLectio"));
     client.set_activity(payload)?;
