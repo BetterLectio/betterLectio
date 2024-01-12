@@ -20,6 +20,8 @@ serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.5.4", features = [ "window-show", "window-maximize", "window-unminimize", "window-close", "window-start-dragging", "window-minimize", "window-hide", "window-unmaximize"] }
 window-shadows = "0.2.2"
+discord-rich-presence = "0.2.3"
+lazy_static = "1.4.0"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.
