@@ -6,6 +6,7 @@
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
+
 use window_shadows::set_shadow;
 use tauri::Manager; // Used for devtools
 fn main() {
