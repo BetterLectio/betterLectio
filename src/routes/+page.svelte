@@ -11,4 +11,4 @@
 
 <Button on:click={() => toast('Hello world')}>Show toast</Button>
 
-<Greet name="victor" />
+<!-- <Greet/> -->

@@ -1,16 +1,32 @@
-<script>
-	import { invoke } from '@tauri-apps/api/tauri';
+<script lang="ts">
+	let username = '';
+	let password = '';
+	let schoolId = '';
 
-	export let name = '';
-	let greetMsg = '';
+	let cookie: string|null = null;
 
-	async function greet() {
-		greetMsg = await invoke('greet', { name });
+	async function login() {
+		await fetch(`https://api.betterlectio.dk/auth`, {
+			headers: {
+				brugernavn: username,
+				adgangskode: password,
+				skoleid: schoolId
+			}
+		})
+			.then((res) => {
+				console.log(res.headers.get('Set-Lectio-Cookie'));
+				cookie = res.headers.get('Set-Lectio-Cookie');
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}
 </script>
 
 <div>
-	<input id="greet-input" placeholder="Enter a name..." bind:value={name} />
-	<button on:click={greet}>Greet</button>
-	<p>{greetMsg}</p>
+	<input id="username" bind:value={username} />
+	<input id="password" bind:value={password} />
+	<input id="schoolId" bind:value={schoolId} />
+	<button on:click={login}>login</button>
+	<p class="w-48">{cookie}</p>
 </div>
