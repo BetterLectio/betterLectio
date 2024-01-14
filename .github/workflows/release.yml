@@ -39,4 +39,4 @@ jobs:
           releaseName: 'BetterLectio v__VERSION__'
           releaseBody: 'Tidlig beta af BetterLectio appen. Felj og mangler kan forekomme.'
           releaseDraft: false
-          prerelease: true
+          prerelease: false
