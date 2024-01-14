@@ -52,12 +52,12 @@
 			<DropdownMenu.Group>
 				<DropdownMenu.Label>Min Konto</DropdownMenu.Label>
 				<DropdownMenu.Separator class="mx-2" />
-				<DropdownMenu.Item>Skema</DropdownMenu.Item>
+				<DropdownMenu.Item href="/">Skema</DropdownMenu.Item>
                 <DropdownMenu.Item>Opgaver</DropdownMenu.Item>
                 <DropdownMenu.Item>Lektier</DropdownMenu.Item>
                 <DropdownMenu.Item>Dokumenter</DropdownMenu.Item>
                 <Separator orientation="horizontal" class="my-2" />
-                <DropdownMenu.Item>Indstillinger</DropdownMenu.Item>
+                <DropdownMenu.Item href="/indstillinger">Indstillinger</DropdownMenu.Item>
                 <DropdownMenu.Item>Log ud</DropdownMenu.Item>
 			</DropdownMenu.Group>
 		</DropdownMenu.Content>

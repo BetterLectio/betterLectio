@@ -64,7 +64,9 @@
       "active": true,
       "dialog": true,
       "endpoints": [
-        "https://github.com/BetterLectio/BetterLectio-next/releases/latest/"
+        "https://localhost:5175/updateserver",
+        "https://dev--betlec.netlify.app/updateserver",
+        "https://betterlectio.dk/updateserver"
       ],
       "windows": {
         "installMode": "passive"
