@@ -7,9 +7,9 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
-use std::sync::Mutex;
 use discord_rich_presence::{activity, DiscordIpc, DiscordIpcClient};
 use lazy_static::lazy_static;
+use std::sync::Mutex;
 
 lazy_static! {
     static ref DISCORD_PRESENCE: Mutex<Option<DiscordPresence>> = Mutex::new(None);
@@ -47,7 +47,6 @@ fn main() {
         .expect("error while running tauri application");
 }
 
-
 struct DiscordPresence {
     client: DiscordIpcClient,
 }
@@ -60,7 +59,7 @@ impl Drop for DiscordPresence {
 
 fn set_discord_presence() -> Result<DiscordPresence, Box<dyn std::error::Error>> {
     let mut client = DiscordIpcClient::new("1104355646536695928")?;
-    
+
     match client.connect() {
         Ok(_) => println!("Connected successfully!"),
         Err(e) => println!("Failed to connect: {}", e),
@@ -68,9 +67,16 @@ fn set_discord_presence() -> Result<DiscordPresence, Box<dyn std::error::Error>>
 
     let payload = activity::Activity::new()
         .state("Den Ultimative Lectio Forbedring")
-        .buttons(vec![activity::Button::new("Prøv BetterLectio ", "https://betterlectio.dk/")])
+        .buttons(vec![activity::Button::new(
+            "Prøv BetterLectio ",
+            "https://betterlectio.dk/",
+        )])
         // change ActivityType Enum to set the activity type to "custom" and change the prefix to "using"
-        .assets(activity::Assets::new().large_image("icon").large_text("BetterLectio"));
+        .assets(
+            activity::Assets::new()
+                .large_image("icon")
+                .large_text("BetterLectio"),
+        );
     client.set_activity(payload)?;
 
     Ok(DiscordPresence { client })

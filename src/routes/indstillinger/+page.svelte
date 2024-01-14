@@ -11,6 +11,8 @@
 	import { tick } from 'svelte';
     import { get } from '$lib/js/http';
     import { banners } from '$lib/js/store';
+	import Spinner from '$lib/customComponents/spinner.svelte';
+	import { isAuthed } from '$lib/js/store';
     banners ?? [];
 
     let showAccountError = !checkIfCredentialsAreSet();
@@ -71,9 +73,11 @@
                 localStorage.setItem('lectio-cookie', cookie);
                 localStorage.setItem('credentials', JSON.stringify({username, password, schoolId: value}));
                 showAccountError = false;
+				$isAuthed = true;
 			})
 			.catch((err) => {
 				console.log(err);
+				
 			});
 	}
 
@@ -177,9 +181,17 @@
 					</Popover.Root>
 				</div>
 			</div>
+			<Button  on:click={login} type="submit">Gem ændringer</Button>
+			{#if $isAuthed}
+				 <!-- content here -->
+				 <Separator class="my-4" />
+				 <Sheet.Title>Konto Infomation</Sheet.Title>
+				 <p>{localStorage.getItem("lectio-cookie")}</p>
+			{/if}
+
 			<Sheet.Footer>
 				<Sheet.Close asChild let:builder>
-					<Button builders={[builder]} on:click={login} type="submit">Gem ændringer</Button>
+					<!-- builders={[builder]} -->
 				</Sheet.Close>
 			</Sheet.Footer>
 		</Sheet.Content>
