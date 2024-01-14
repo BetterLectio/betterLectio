@@ -58,7 +58,6 @@
                 <DropdownMenu.Item>Dokumenter</DropdownMenu.Item>
                 <Separator orientation="horizontal" class="my-2" />
                 <DropdownMenu.Item href="/indstillinger">Indstillinger</DropdownMenu.Item>
-                <DropdownMenu.Item>Log ud</DropdownMenu.Item>
 			</DropdownMenu.Group>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
