@@ -52,7 +52,7 @@
 			<DropdownMenu.Group>
 				<DropdownMenu.Label>Min Konto</DropdownMenu.Label>
 				<DropdownMenu.Separator class="mx-2" />
-				<DropdownMenu.Item href="/">Skema</DropdownMenu.Item>
+				<DropdownMenu.Item href="/">Forside</DropdownMenu.Item>
                 <DropdownMenu.Item>Opgaver</DropdownMenu.Item>
                 <DropdownMenu.Item>Lektier</DropdownMenu.Item>
                 <DropdownMenu.Item>Dokumenter</DropdownMenu.Item>
