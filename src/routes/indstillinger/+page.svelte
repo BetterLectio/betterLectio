@@ -90,12 +90,6 @@
         return true;
     }
 
-	import { emit } from '@tauri-apps/api/event';
-	async function checkUpdates() {
-		await emit('tauri://update');
-		console.log('checking for updates');
-	}
-
 </script>
 
 <div class="container mx-auto flex items-center gap-4">
@@ -192,4 +186,3 @@
 	</Sheet.Root>
 </div>
 <Separator class="my-4" />
-<Button on:click={checkUpdates}>Søg efter opdateringer</Button>
