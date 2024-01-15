@@ -29,7 +29,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 </script>
 
-<div data-tauri-drag-region class="titlebar flex w-full justify-end">
+<div data-tauri-drag-region class="titlebar flex w-full justify-end fixed">
 	<Button on:click={toggleMode} variant="ghost" size="icon" class="rounded-none h-8">
 		<Sun
 			class="w-4 h-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 duration-200"
@@ -53,7 +53,7 @@
 				<DropdownMenu.Label>Min Konto</DropdownMenu.Label>
 				<DropdownMenu.Separator class="mx-2" />
 				<DropdownMenu.Item href="/">Forside</DropdownMenu.Item>
-                <DropdownMenu.Item>Opgaver</DropdownMenu.Item>
+                <DropdownMenu.Item href="/opgaver">Opgaver</DropdownMenu.Item>
                 <DropdownMenu.Item>Lektier</DropdownMenu.Item>
                 <DropdownMenu.Item>Dokumenter</DropdownMenu.Item>
                 <Separator orientation="horizontal" class="my-2" />
@@ -87,3 +87,4 @@
 		<Cross class="w-4 h-4" />
 	</Button>
 </div>
+<div class="pb-8"></div>
