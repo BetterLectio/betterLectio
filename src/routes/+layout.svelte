@@ -8,6 +8,7 @@
 	import Spinner from '$lib/customComponents/spinner.svelte';
 	import { brugeren, banners, isAuthed } from '$lib/js/store';
 	import { navigating } from '$app/stores';
+	import AccountSheet from '$lib/customComponents/AccountSheet.svelte';
 	$banners = [];
 
 	//check if credentials are set, if not add a banner
@@ -34,6 +35,8 @@
 	}
 
 	async function checkCookie() {
+		if (checkIfCredentialsAreSet()) throw new Error('Credentials are not set');
+
 		let cookie = localStorage.getItem('lectio-cookie');
 		let res = await fetch('https://api.betterlectio.dk/check-cookie', {
 			headers: {
@@ -48,12 +51,22 @@
 			//cookie is invalid
 			//remove cookie
 			localStorage.removeItem('lectio-cookie');
-			return false;
+			//login
+			let cookie = await login(false);
+			console.log(cookie + ' cookie');
+			//check if cookie is valid
+			if (cookie === undefined || cookie === null) {
+				//cookie is invalid
+				//remove cookie
+				localStorage.removeItem('lectio-cookie');
+				//throw error
+				throw new Error('Cookie is invalid');
+			}
 		}
 		return true;
 	}
 
-	async function login() {
+	async function login(reload = true) {
 		let credentials = JSON.parse(localStorage.getItem('credentials') as string);
 		await fetch(`https://api.betterlectio.dk/auth`, {
 			headers: {
@@ -65,10 +78,11 @@
 			.then((res) => {
 				console.log(res.headers.get('Set-Lectio-Cookie'));
 				let cookie = res.headers.get('Set-Lectio-Cookie');
-				if (cookie === null) return;
+				if (cookie === null) return null;
 				localStorage.setItem('lectio-cookie', cookie);
 				$isAuthed = true;
-				document.location.reload();
+				if (reload) document.location.reload();
+				return cookie;
 			})
 			.catch((err) => {
 				console.log(err);
@@ -104,10 +118,19 @@
 		{/if}
 	{:catch error}
 		<div class="absolute right-1/2 top-1/2 transform translate-x-1/2 -translate-y-1/2">
-			<p>Fejl</p>
-			<p>
-				{error.message}
-			</p>
+			{#if error.message === 'Credentials are not set' || error.message === 'Cookie is invalid'}
+				{#if error.message === 'Credentials are not set'}
+				<p>Din konto er ikke sat op</p>
+				{:else}
+				<p>Dine login oplysninger er ugyldige</p>
+				{/if}
+				<AccountSheet />
+			{:else}
+				<p>Fejl</p>
+				<p>
+					{error.message}
+				</p>
+			{/if}
 		</div>
 	{/await}
 {/if}
