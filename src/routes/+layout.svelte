@@ -52,8 +52,8 @@
 			//remove cookie
 			localStorage.removeItem('lectio-cookie');
 			//login
-			let cookie = await login(false);
-			console.log(cookie + ' cookie');
+			await login(false);
+			let cookie = localStorage.getItem('lectio-cookie');
 			//check if cookie is valid
 			if (cookie === undefined || cookie === null) {
 				//cookie is invalid
@@ -76,7 +76,6 @@
 			}
 		})
 			.then((res) => {
-				console.log(res.headers.get('Set-Lectio-Cookie'));
 				let cookie = res.headers.get('Set-Lectio-Cookie');
 				if (cookie === null) return null;
 				localStorage.setItem('lectio-cookie', cookie);
@@ -121,10 +120,11 @@
 			{#if error.message === 'Credentials are not set' || error.message === 'Cookie is invalid'}
 				{#if error.message === 'Credentials are not set'}
 				<p>Din konto er ikke sat op</p>
+				<AccountSheet />
 				{:else}
 				<p>Dine login oplysninger er ugyldige</p>
-				{/if}
 				<AccountSheet />
+				{/if}
 			{:else}
 				<p>Fejl</p>
 				<p>
