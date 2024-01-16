@@ -1,17 +1,45 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import * as Command from '$lib/components/ui/command';
 	import { onMount } from 'svelte';
 	let open = false;
 	onMount(() => {
 		function handleKeydown(e: KeyboardEvent) {
-			if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+			if (e.key === 'p' && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();
 				open = !open;
 			}
 		}
 		document.addEventListener('keydown', handleKeydown);
+
+		//handle the routing of the commands
+		function handleRouting(e: MouseEvent | KeyboardEvent) {
+			if (e instanceof MouseEvent) {
+				const target = e.target as HTMLElement;
+				const routeto = target.dataset.routeto;
+				if (routeto) {
+					open = false;
+					goto(routeto);
+				}
+			} else if (e instanceof KeyboardEvent && e.key === 'Enter') {
+				console.log(e);
+				//find the data-selected element that has a child with the data-routeto attribute
+				const target = document.querySelector('[data-selected] [data-routeto]');
+				console.log(target);
+				const routeto = target.dataset.routeto;
+				if (routeto) {
+					open = false;
+					goto(routeto);
+				}
+			}
+		}
+
+		document.addEventListener('click', handleRouting);
+		document.addEventListener('keydown', handleRouting);
+
 		return () => {
 			document.removeEventListener('keydown', handleKeydown);
+			document.removeEventListener('click', handleRouting);
 		};
 	});
 </script>
@@ -21,9 +49,27 @@
 	<Command.List>
 		<Command.Empty>No results found.</Command.Empty>
 		<Command.Group heading="Suggestions">
-			<Command.Item>Calendar</Command.Item>
-			<Command.Item>Search Emoji</Command.Item>
-			<Command.Item>Calculator</Command.Item>
+			<Command.Item>
+				<p data-routeto="/skema">Gå til Skema</p>
+			</Command.Item>
+			<Command.Item>
+				<p data-routeto="/opgaver">Gå til Opgaver</p>
+			</Command.Item>
+			<Command.Item>
+				<p data-routeto="/nextmodul">Gå til Nuværende modul</p>
+			</Command.Item>
+			<Command.Item>
+				<p data-routeto="/dokumenter">Gå til Dokumenter</p>
+			</Command.Item>
+			<Command.Item>
+				<p data-routeto="/beskeder">Gå til Beskeder</p>
+			</Command.Item>
+			<Command.Item>
+				<p data-routeto="/noter">Gå til Noter</p>
+			</Command.Item>
+			<Command.Item>
+				<p data-routeto="/indstillinger">Gå til Indstillinger</p>
+			</Command.Item>
 		</Command.Group>
 	</Command.List>
 </Command.Dialog>
