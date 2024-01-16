@@ -9,6 +9,8 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Badge } from '$lib/components/ui/badge';
 	import { formatDate } from '$lib/js/relativeTime';
+	import { goto } from '$app/navigation';
+	import Header from '$lib/customComponents/Header.svelte';
 
 	let _opgaver: Array<Opgave> = [];
 	let selected = 'ikkeAfleveredeOpgaver';
@@ -105,11 +107,7 @@
 	}
 </script>
 
-<div class="container mx-auto flex items-center gap-4">
-	<Back class="w-8 h-8 " />
-	<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Opgaver</h3>
-</div>
-<Separator class="mb-4 mt-1" />
+<Header>Opgaver</Header>
 <div class="container mx-auto">
 	<!-- search -->
 	<div class="flex items-center gap-4">
@@ -139,8 +137,7 @@
 		<Table.Body>
 			{#if _opgaver}
 				{#each _opgaver as opgave}
-				<Table.Row>
-						<!-- <a> -->
+				<Table.Row on:click={async () => await goto(`/opgave?id=${opgave.exerciseid}`)} class="select-none cursor-pointer">
 						<!-- handed in -->
 						<div class="h-9 items-center flex ml-2">
 							<Tooltip.Root>

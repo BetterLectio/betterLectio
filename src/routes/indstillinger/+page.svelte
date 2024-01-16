@@ -7,6 +7,7 @@
     import { get } from '$lib/js/http';
     import { banners } from '$lib/js/store';
 	import { isAuthed } from '$lib/js/store';
+    import Header from '$lib/customComponents/Header.svelte';
     banners ?? [];
 
     let showAccountError = !checkIfCredentialsAreSet();
@@ -26,11 +27,7 @@
 
 </script>
 
-<div class="container mx-auto flex items-center gap-4">
-	<Back class="w-8 h-8 " />
-	<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">Indstillinger</h3>
-</div>
-<Separator class="mb-4 mt-1" />
+<Header>Instillinger</Header>
 <div class="container mx-auto">
 	<h3 class="scroll-m-20 text-lg font-semibold">Lectio Konto</h3>
     {#if showAccountError}
