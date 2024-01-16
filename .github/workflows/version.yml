@@ -1,0 +1,49 @@
+name: Update version
+
+on:
+  push:
+    branches: [main, dev]
+
+jobs:
+  update-version:
+    runs-on: ${{ matrix.os }}
+    if: ${{ github.event.head_commit.message != 'Opdaterede versionen' }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
+      - name: Update version
+        run: |
+          python .github/workflows/scripts/version.py --branch ${{ steps.extract_branch.outputs.branch }}
+
+      - name: Commit til branch
+        run: |
+          git config --local user.name = "github-actions[bot]"
+          git config --local user.email = "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -a -m "Opdaterede versionen"
+
+      - name: Push til branch
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
