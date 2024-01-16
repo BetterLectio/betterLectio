@@ -9,6 +9,8 @@
 	import { brugeren, banners, isAuthed } from '$lib/js/store';
 	import { navigating } from '$app/stores';
 	import AccountSheet from '$lib/customComponents/AccountSheet.svelte';
+	import { ExclamationTriangle } from 'radix-icons-svelte';
+	import * as Alert from '$lib/components/ui/alert';
 	$banners = [];
 
 	//check if credentials are set, if not add a banner
@@ -119,17 +121,18 @@
 		<div class="absolute right-1/2 top-1/2 transform translate-x-1/2 -translate-y-1/2">
 			{#if error.message === 'Credentials are not set' || error.message === 'Cookie is invalid'}
 				{#if error.message === 'Credentials are not set'}
-				<p>Din konto er ikke sat op</p>
-				<AccountSheet />
+					<p>Din konto er ikke sat op</p>
+					<AccountSheet />
 				{:else}
-				<p>Dine login oplysninger er ugyldige</p>
-				<AccountSheet />
+					<p>Dine login oplysninger er ugyldige</p>
+					<AccountSheet />
 				{/if}
 			{:else}
-				<p>Fejl</p>
-				<p>
-					{error.message}
-				</p>
+				<Alert.Root variant="destructive">
+					<ExclamationTriangle class="h-4 w-4" />
+					<Alert.Title>Fejl</Alert.Title>
+					<Alert.Description>Der skete en fejl, prøv at genindlæse siden</Alert.Description>
+				</Alert.Root>
 			{/if}
 		</div>
 	{/await}
