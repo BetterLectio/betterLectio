@@ -107,7 +107,7 @@
 		</div>
 	{:then value}
 		{#if value}
-			<div class="w-screen">
+			<div class="overflow-x-clip">
 				<slot />
 			</div>
 		{:else}
