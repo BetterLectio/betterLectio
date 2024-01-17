@@ -8,6 +8,7 @@
     import { banners } from '$lib/js/store';
 	import { isAuthed } from '$lib/js/store';
     import Header from '$lib/customComponents/Header.svelte';
+    import { version } from '$app/environment';
     banners ?? [];
 
     let showAccountError = !checkIfCredentialsAreSet();
@@ -29,6 +30,18 @@
 
 <Header>Instillinger</Header>
 <div class="container mx-auto">
+    <h3 class="scroll-m-20 text-lg font-semibold">Version</h3>
+    <p>BetterLectio <span class="text-green-400">v{version}</span></p>
+    <Alert.Root class="mt-2">
+        <Check class="h-4 w-4" />
+        <Alert.Title>Opdatering</Alert.Title>
+        <Alert.Description>
+            BetterLectio opdaterer automatisk. Du behøver ikke at gøre noget. Hvis du ønsker at fremprovokere en opdatering kan du blot genstarte BetterLectio.
+        </Alert.Description>
+    </Alert.Root>
+</div>
+<Separator class="my-4" />
+<div class="container mx-auto">
 	<h3 class="scroll-m-20 text-lg font-semibold">Lectio Konto</h3>
     {#if showAccountError}
          <!-- content here -->
@@ -44,4 +57,3 @@
 	<p>BetterLectio bruger din lectio konto til at hente dine data fra lectio.</p>
 	<AccountSheet />
 </div>
-<Separator class="my-4" />
