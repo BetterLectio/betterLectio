@@ -44,7 +44,7 @@
 	});
 </script>
 
-<Command.Dialog bind:open>
+<Command.Dialog bind:open data-global-command >
 	<Command.Input placeholder="Type a command or search..." />
 	<Command.List>
 		<Command.Empty>No results found.</Command.Empty>
