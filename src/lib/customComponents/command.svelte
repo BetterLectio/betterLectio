@@ -25,8 +25,8 @@
 				console.log(e);
 				//find the data-selected element that has a child with the data-routeto attribute
 				const target = document.querySelector('[data-selected] [data-routeto]');
-				console.log(target);
-				const routeto = target.dataset.routeto;
+				if (!target) return;
+				const routeto = (target as HTMLElement).dataset.routeto;
 				if (routeto) {
 					open = false;
 					goto(routeto);
@@ -42,6 +42,16 @@
 			document.removeEventListener('click', handleRouting);
 		};
 	});
+
+	//find the element with the data-command-opener attribute and attach a click event listener to it to open the command dialog
+	function handleCommandOpenerClick(e: MouseEvent) {
+		const target = e.target as HTMLElement;
+		const opener = target.closest('[data-command-opener]');
+		if (opener) {
+			open = !open;
+		}
+	}
+	document.addEventListener('click', handleCommandOpenerClick);
 </script>
 
 <Command.Dialog bind:open data-global-command >
