@@ -26,7 +26,6 @@
 				//find the data-selected element that has a child with the data-routeto attribute
 				const target = document.querySelector('[data-selected] [data-routeto]');
 				if (!target) return;
-				console.log(target);
 				const routeto = (target as HTMLElement).dataset.routeto;
 				if (routeto) {
 					open = false;
@@ -48,7 +47,6 @@
 	function handleCommandOpenerClick(e: MouseEvent) {
 		const target = e.target as HTMLElement;
 		const opener = target.closest('[data-command-opener]');
-		console.log(opener);
 		if (opener) {
 			open = !open;
 		}
