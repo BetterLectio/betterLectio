@@ -27,15 +27,11 @@
 	} from 'radix-icons-svelte';
 	import { toggleMode } from 'mode-watcher';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-
-	function openCommandBar() {
-		//todo: open command bar
-	}
 </script>
 
 <div data-tauri-drag-region class="titlebar flex w-full justify-end fixed">
 	<div class="flex justify-end bg-background pl-0.5 rounded-bl-lg border border-input">
-		<Button variant="outline" class="my-0.5 h-7 flex justify-between w-48" on:click={openCommandBar}>
+		<Button variant="outline" class="my-0.5 h-7 flex justify-between w-48" data-command-opener>
 			<div>
 				<p class="text-sm text-muted-foreground">
 					Søg...
