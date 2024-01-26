@@ -38,6 +38,7 @@
     "mode-watcher": "^0.1.2",
     "path": "^0.12.7",
     "radix-icons-svelte": "^1.2.1",
+    "svelte-intersection-observer": "^1.0.0",
     "svelte-sonner": "^0.3.11",
     "tailwind-merge": "^2.2.0",
     "tailwind-variants": "^0.1.20"
