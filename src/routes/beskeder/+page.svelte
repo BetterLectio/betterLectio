@@ -29,16 +29,16 @@
 {#if ready}
      <div class="container mx-auto">
         {#each $beskeder as besked}
-        <div class="w-full flex flex-row cursor-pointer" on:click={() => goto(`/besked?id=${besked.message_id}`)}>
+        <a class="w-full flex flex-row cursor-pointer" href="/besked?id={besked.message_id}">
             <LectioAvatar navn={besked.førsteBesked} id={""} /> <!-- TODO få billeder til at virke-->
             <div class="flex flex-col ml-2">
                 <div class="flex flex-row">
                     <div class="font-bold">{besked.førsteBesked}</div>
-                    <div class="ml-2 opacity-60">{besked.ændret}</div>
+                    <div class="ml-2 text-gray-500">{besked.ændret}</div>
                 </div>
                 <div>{besked.emne}</div>
             </div>
-        </div>
+        </a>
         <Separator class="my-2"/>
         {/each}
      </div>
