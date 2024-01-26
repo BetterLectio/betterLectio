@@ -67,6 +67,7 @@ name = "app"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "base64 0.13.1",
  "discord-rich-presence",
  "lazy_static",
  "reqwest 0.10.10",
@@ -3571,6 +3572,7 @@ dependencies = [
  "lazy_static",
  "memchr",
  "mio 0.6.23",
+ "num_cpus",
  "pin-project-lite 0.1.12",
  "slab",
 ]
