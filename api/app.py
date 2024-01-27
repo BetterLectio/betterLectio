@@ -91,9 +91,9 @@ def checkCookie():
 @app.route('/ha/frontpage')
 def haFrontpage():
     try:
-        brugernavn = request.headers.get('brugernavn')
-        adgangskode = request.headers.get('adgangskode')
-        skoleId = request.headers.get('skoleid')
+        brugernavn = request.headers.get('username')
+        adgangskode = request.headers.get('password')
+        skoleId = request.headers.get('school')
 
         lectioClient = lectio.sdk(brugernavn=brugernavn, adgangskode=adgangskode, skoleId=skoleId)
         resp = make_response(jsonify(lectioClient.forside()))
