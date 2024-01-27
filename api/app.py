@@ -87,7 +87,21 @@ def checkCookie():
         return resp
     except Exception:
         return jsonify({"valid": False}), 500
-#
+    
+@app.route('/ha/frontpage')
+def haFrontpage():
+    try:
+        brugernavn = request.headers.get('brugernavn')
+        adgangskode = request.headers.get('adgangskode')
+        skoleId = request.headers.get('skoleid')
+
+        lectioClient = lectio.sdk(brugernavn=brugernavn, adgangskode=adgangskode, skoleId=skoleId)
+        resp = make_response(jsonify(lectioClient.forside()))
+
+        return resp
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
+
 @app.route('/mig')
 @cache_for(minutes=5)
 def mig():
