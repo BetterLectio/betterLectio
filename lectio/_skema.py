@@ -120,6 +120,7 @@ def skema(self, uge=None, år=None, id=None):
         .get("value")
         .split(" ")[-1]
     )
+
     modulTider = {}
     for i, dag in enumerate(soup.find_all("div", class_="s2skemabrikcontainer")):
         if i == 0:
