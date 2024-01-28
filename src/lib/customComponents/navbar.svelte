@@ -30,7 +30,7 @@
 </script>
 
 <div data-tauri-drag-region class="titlebar flex w-full justify-end fixed">
-	<div class="flex justify-end bg-background pl-0.5 rounded-bl-lg border border-input">
+	<div class="flex justify-end bg-background pl-0.5 rounded-bl-lg border border-input shadow-md">
 		<Button variant="outline" class="my-0.5 h-7 flex justify-between w-48" data-command-opener>
 			<div>
 				<p class="text-sm text-muted-foreground">

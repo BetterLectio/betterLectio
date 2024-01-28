@@ -1,38 +1,36 @@
-# create-svelte
+# BetterLectio NEXT
+En bedre Lectio oplevelse!
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+## Bidrage til projektet
+Hvis du vil bidrage til projektet, så er du velkommen til at lave en pull request. Du kan også lave en issue, hvis du har en idé til et feature eller har fundet en bug. Herunder er der en guide til hvordan du sætter et dev environment op.
 
-## Creating a project
+### Opsætning af Dev Environment
+1. Installer [node.js](https://nodejs.org/en/) og [rust](https://www.rust-lang.org/tools/install)
+2. Klon dette repo
+3. Installer deps (både rust og node)
+4. For bedste udviklingsoplevelse, installer [vscode](https://code.visualstudio.com/) og installer anbefalede extensions
+5. Åben repoet i vscode
+6. Start programmet med `npm run tauri dev` (i terminalen)
+7. Husk af skift til dev branchen da main branchen er til releases
 
-If you're seeing this, you've probably already done this step. Congrats!
+### CI/CD info
+CI/CD er sat op med github actions. Når der bliver pushed til main branchen, så bliver der automatisk lavet en release. Et nyt commit på dev branchen vil automatisk inkrementelle versionen.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Support
+| OS | Support |
+| --- | --- |
+| Windows | ✅ |
+| MacOS | ❌ |
+| Linux | ❌ |
+| Web | ❌ |
 
-## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+# TODO
+- [x] Login
+- [ ] Skema
+- [x] Opgaver
+- [ ] Opgave aflevering
+- [ ] Noter
+- [x] Beskeder
+- [ ] Besked
