@@ -5,7 +5,7 @@
 
     const beskedId = new URLSearchParams(window.location.search).get('id');
 
-    let beskedChain = null;
+    let beskedChain: any = null; // TODO (chore): ADD TYPES
     let beskedModtagere = null;
     let ready: boolean = false;
 
