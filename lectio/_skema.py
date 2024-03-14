@@ -113,13 +113,6 @@ def skema(self, uge=None, år=None, id=None):
         skema["dagsNoter"].append({skema["ugeDage"][i]: []})
         for dagsNote in dagsNoter.find_all("a"):
             skema["dagsNoter"][i][skema["ugeDage"][i]].append(dagsNote.text.lstrip())
-    årstal = (
-        soup.find(
-            "input", {"name": "s$m$Content$Content$SkemaNyMedNavigation$datePicker$tb"}
-        )
-        .get("value")
-        .split(" ")[-1]
-    )
 
     modulTider = {}
     for i, dag in enumerate(soup.find_all("div", class_="s2skemabrikcontainer")):
@@ -155,7 +148,7 @@ def skema(self, uge=None, år=None, id=None):
                         .text.split(" ")[1][1:-1]
                         .strip()
                         + "-"
-                        + årstal
+                        + datetime.now().year
                         + " "
                         + modulTider[top]
                     )
