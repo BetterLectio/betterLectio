@@ -4,14 +4,18 @@
 	import { Toaster } from '$lib/components/ui/sonner';
 	import Navbar from '$lib/customComponents/navbar.svelte';
 	import Command from '$lib/customComponents/command.svelte';
-	import Banner from '$lib/customComponents/banner.svelte'; //fejlen giver ikke mening lol (den er ikke fatal)
+	import Banner from '$lib/customComponents/Banner.svelte'; //fejlen giver ikke mening lol (den er ikke fatal)
 	import Spinner from '$lib/customComponents/spinner.svelte';
 	import { brugeren, banners, isAuthed } from '$lib/js/store';
 	import { navigating } from '$app/stores';
 	import AccountSheet from '$lib/customComponents/AccountSheet.svelte';
 	import { ExclamationTriangle } from 'radix-icons-svelte';
 	import * as Alert from '$lib/components/ui/alert';
+	import { check } from '@tauri-apps/plugin-updater';
+	import { relaunch } from '@tauri-apps/plugin-process';
+	import { toast } from 'svelte-sonner';
 	$banners = [];
+	checkForUpdate();
 
 	//check if credentials are set, if not add a banner
 	function checkIfCredentialsAreSet() {
@@ -42,7 +46,7 @@
 		let cookie = localStorage.getItem('lectio-cookie');
 		let res = await fetch('https://api.betterlectio.dk/check-cookie', {
 			headers: {
-				'lectio-cookie': cookie
+				'lectio-cookie': cookie || ''
 			}
 		});
 		let data = await res.json();
@@ -89,6 +93,30 @@
 				console.log(err);
 			});
 	}
+
+	async function checkForUpdate() {
+		console.log('checking for updates');
+		const update = await check();
+		console.log(update);
+		if (update?.available) {
+			// the update is available
+			/* console.log(`Update to ${update.version} available! Date: ${update.date}`);
+			console.log(`Release notes: ${update.body}`);
+			await update.downloadAndInstall();
+			// requires the `process` plugin
+			await relaunch(); */
+			toast('En opdatering er tilgængelig', {
+				description: 'Klik her for at opdatere',
+				action: {
+					label: 'Opdater nu',
+					onClick: async () => {
+						await update.downloadAndInstall();
+						await relaunch();
+					}
+				}
+			});
+		}
+	}
 </script>
 
 <Command />
@@ -99,12 +127,12 @@
 <Toaster />
 
 {#if $navigating}
-	<div class="absolute right-1/2 top-1/2 transform translate-x-1/2 -translate-y-1/2">
+	<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
 		<Spinner />
 	</div>
 {:else}
 	{#await checkCookie()}
-		<div class="absolute right-1/2 top-1/2 transform translate-x-1/2 -translate-y-1/2">
+		<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
 			<Spinner />
 		</div>
 	{:then value}
@@ -113,12 +141,12 @@
 				<slot />
 			</div>
 		{:else}
-			<div class="absolute right-1/2 top-1/2 transform translate-x-1/2 -translate-y-1/2" use:login>
+			<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2" use:login>
 				<Spinner />
 			</div>
 		{/if}
 	{:catch error}
-		<div class="absolute right-1/2 top-1/2 transform translate-x-1/2 -translate-y-1/2">
+		<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
 			{#if error.message === 'Credentials are not set' || error.message === 'Cookie is invalid'}
 				{#if error.message === 'Credentials are not set'}
 					<p>Din konto er ikke sat op</p>
@@ -129,7 +157,7 @@
 				{/if}
 			{:else}
 				<Alert.Root variant="destructive">
-					<ExclamationTriangle class="h-4 w-4" />
+					<ExclamationTriangle class="w-4 h-4" />
 					<Alert.Title>Fejl</Alert.Title>
 					<Alert.Description>Der skete en fejl, prøv at genindlæse siden</Alert.Description>
 				</Alert.Root>

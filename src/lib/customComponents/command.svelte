@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import * as Command from '$lib/components/ui/command';
 	import { onMount } from 'svelte';
 	let open = false;
@@ -54,31 +55,26 @@
 	document.addEventListener('click', handleCommandOpenerClick);
 </script>
 
-<Command.Dialog bind:open data-global-command >
+<Command.Dialog bind:open data-global-command>
 	<Command.Input placeholder="Type a command or search..." />
 	<Command.List>
 		<Command.Empty>No results found.</Command.Empty>
 		<Command.Group heading="Suggestions">
 			<Command.Item>
-				<p data-routeto="/skema">Gå til Skema</p>
+				<p data-routeto="/opgaver" class="w-full h-full cursor-pointer">Gå til Opgaver</p>
 			</Command.Item>
 			<Command.Item>
-				<p data-routeto="/opgaver">Gå til Opgaver</p>
+				<p data-routeto="/beskeder" class="w-full h-full cursor-pointer">Gå til Beskeder</p>
 			</Command.Item>
 			<Command.Item>
-				<p data-routeto="/nextmodul">Gå til Nuværende modul</p>
+				<p data-routeto="/noter" class="w-full h-full cursor-pointer">
+					Gå til Noter <Badge variant="outline">Kommer snart!</Badge>
+				</p>
 			</Command.Item>
 			<Command.Item>
-				<p data-routeto="/dokumenter">Gå til Dokumenter</p>
-			</Command.Item>
-			<Command.Item>
-				<p data-routeto="/beskeder">Gå til Beskeder</p>
-			</Command.Item>
-			<Command.Item>
-				<p data-routeto="/noter">Gå til Noter</p>
-			</Command.Item>
-			<Command.Item>
-				<p data-routeto="/indstillinger">Gå til Indstillinger</p>
+				<p data-routeto="/indstillinger" class="w-full h-full cursor-pointer">
+					Gå til Indstillinger
+				</p>
 			</Command.Item>
 		</Command.Group>
 	</Command.List>

@@ -24,3 +24,4 @@ export const studieplan = localStore('studieplan');
 
 export const banners = localStore('banners');
 export const isAuthed = localStore('isAuthed');
+export const hasAutoSync = localStore('hasAutoSync');
