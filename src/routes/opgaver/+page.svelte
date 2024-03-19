@@ -4,7 +4,13 @@
 	import * as Table from '$lib/components/ui/table';
 	import { get } from '$lib/js/http';
 	import { opgaver } from '$lib/js/store';
-	import { EnvelopeOpen, ExclamationTriangle, Rocket, Archive, ChatBubble } from 'radix-icons-svelte';
+	import {
+		EnvelopeOpen,
+		ExclamationTriangle,
+		Rocket,
+		Archive,
+		ChatBubble
+	} from 'radix-icons-svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { Input } from '$lib/components/ui/input';
 	import { Badge } from '$lib/components/ui/badge';
@@ -12,7 +18,7 @@
 	import { goto } from '$app/navigation';
 	import Header from '$lib/customComponents/Header.svelte';
 
-	let _opgaver: Array<Opgave> = [];
+	let _opgaver: Array<OpgaveList> = [];
 	let selected = 'ikkeAfleveredeOpgaver';
 	let searchString = '';
 
@@ -20,24 +26,7 @@
 		$opgaver = data;
 	});
 
-	type Opgave = {
-		afventer: string;
-		'elev-tid': string;
-		elevnote: string;
-		exerciseid: string;
-		fravær: string;
-		frist: string;
-		hold: string;
-		karakter: string;
-		opgavenote: string;
-		opgaver: string;
-		opgavetitel: string;
-		status: string;
-		uge: string;
-		date: Date;
-	};
-
-	function sortOpgaver(__opgaver: Array<Opgave>) {
+	function sortOpgaver(__opgaver: Array<OpgaveList>) {
 		const ikkeAfleveredeOpgaver = [];
 		const afleveredeOpgaver = [];
 		const afsluttedeOpgaver = [];
@@ -82,8 +71,8 @@
 	function search() {
 		selected = 'search';
 
-		const searchResults: Array<Opgave> = [];
-		$opgaver.forEach((opgave: Opgave) => {
+		const searchResults: Array<OpgaveList> = [];
+		$opgaver.forEach((opgave: OpgaveList) => {
 			if (
 				opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase()) ||
 				opgave.hold.includes(searchString.toLowerCase())
@@ -100,7 +89,7 @@
 			selected === 'afsluttedeOpgaver' ||
 			selected === 'feedbackOpgaver')
 	)
-		_opgaver = sortOpgaver($opgaver ?? []);
+		_opgaver = sortOpgaver($opgaver ?? []) ?? [];
 
 	function elevtidNum(elevtid: string) {
 		return Number(elevtid.replace(',', '.'));
@@ -137,9 +126,12 @@
 		<Table.Body>
 			{#if _opgaver}
 				{#each _opgaver as opgave}
-				<Table.Row on:click={async () => await goto(`/opgave?id=${opgave.exerciseid}`)} class="select-none cursor-pointer">
+					<Table.Row
+						on:click={async () => await goto(`/opgave?id=${opgave.exerciseid}`)}
+						class="cursor-pointer select-none"
+					>
 						<!-- handed in -->
-						<div class="h-9 items-center flex ml-2">
+						<div class="flex items-center ml-2 h-9">
 							<Tooltip.Root>
 								{#if opgave.status === 'Afleveret'}
 									<Tooltip.Trigger
@@ -176,23 +168,21 @@
 							<Tooltip.Root>
 								{#if elevtidNum(opgave['elev-tid']) >= 10}
 									<Tooltip.Trigger>
-										<Badge class="bg-orange-800 dark:bg-orange-400">{opgave['elev-tid']}</Badge>
+										<Badge class="bg-orange-400">{opgave['elev-tid']}</Badge>
 									</Tooltip.Trigger>
 									<Tooltip.Content>
 										<p>Opgaven har {opgave['elev-tid']} elev timer</p>
 									</Tooltip.Content>
 								{:else if elevtidNum(opgave['elev-tid']) >= 5}
 									<Tooltip.Trigger>
-										<Badge class="bg-yellow-800 dark:bg-yellow-400">{opgave['elev-tid']}</Badge>
+										<Badge class="text-black bg-yellow-400">{opgave['elev-tid']}</Badge>
 									</Tooltip.Trigger>
 									<Tooltip.Content>
 										<p>Opgaven har {opgave['elev-tid']} elev timer</p>
 									</Tooltip.Content>
 								{:else if elevtidNum(opgave['elev-tid']) > 0}
 									<Tooltip.Trigger>
-										<Badge variant="outline" class="border-green-800 dark:border-green-400"
-											>{opgave['elev-tid']}</Badge
-										>
+										<Badge variant="outline" class="border-green-400">{opgave['elev-tid']}</Badge>
 									</Tooltip.Trigger>
 									<Tooltip.Content>
 										<p>
@@ -214,26 +204,26 @@
 						</Table.Cell>
 						<Table.Cell class="sm:table-cell">
 							{#if opgave.karakter || opgave.elevnote}
-							<Tooltip.Root>
-								<Tooltip.Trigger>
-								<ChatBubble class="w-4 h-4" />
-								</Tooltip.Trigger>
-								<Tooltip.Content class="w-52">
-									{#if opgave.karakter}
-										<p>Karakter: {opgave.karakter}</p>
-									{/if}
-									{#if opgave.karakter && opgave.elevnote}
-										<Separator class="my-2" />
-									{/if}
-									{#if opgave.elevnote}
-										<p>Besked: {opgave.elevnote}</p>
-									{/if}
-								</Tooltip.Content>
-							</Tooltip.Root>
+								<Tooltip.Root>
+									<Tooltip.Trigger>
+										<ChatBubble class="w-4 h-4" />
+									</Tooltip.Trigger>
+									<Tooltip.Content class="w-52">
+										{#if opgave.karakter}
+											<p>Karakter: {opgave.karakter}</p>
+										{/if}
+										{#if opgave.karakter && opgave.elevnote}
+											<Separator class="my-2" />
+										{/if}
+										{#if opgave.elevnote}
+											<p>Besked: {opgave.elevnote}</p>
+										{/if}
+									</Tooltip.Content>
+								</Tooltip.Root>
 							{/if}
 						</Table.Cell>
 						<Table.Cell class="text-nowrap line-clamp-1 sm:table-cell">{opgave.hold}</Table.Cell>
-						<Table.Cell class="sm:table-cell">
+						<Table.Cell class="sm:table-cell text-nowrap">
 							<Tooltip.Root>
 								<Tooltip.Trigger>
 									{formatDate(opgave.date)}
@@ -243,7 +233,9 @@
 								</Tooltip.Content>
 							</Tooltip.Root>
 						</Table.Cell>
-						<Table.Cell class="text-nowrap line-clamp-1 sm:table-cell">{opgave.opgavetitel}</Table.Cell>
+						<Table.Cell class="text-nowrap line-clamp-1 sm:table-cell"
+							>{opgave.opgavetitel}</Table.Cell
+						>
 					</Table.Row>
 				{/each}
 			{/if}

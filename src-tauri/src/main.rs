@@ -57,14 +57,12 @@ lazy_static! {
     static ref DISCORD_PRESENCE: Mutex<Option<DiscordPresence>> = Mutex::new(None);
 }
 
-use tauri::Manager;
-use window_shadows::set_shadow; // Used for devtools
+//use window_shadows::set_shadow; // Used for devtools
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
-            let window = app.get_window("main").unwrap();
-            set_shadow(&window, true).expect("Unsupported platform!");
-
+            #[cfg(desktop)]
+            app.handle().plugin(tauri_plugin_updater::Builder::new().build())?;
             let discord_presence = set_discord_presence();
             match discord_presence {
                 Ok(presence) => {
@@ -76,15 +74,10 @@ fn main() {
                     eprintln!("Failed to set Discord presence: {}", err);
                 }
             }
-
-            #[cfg(debug_assertions)] // Put debug and dev mode code here.
-            {
-                window.open_devtools();
-                window.close_devtools();
-            }
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![greet])
+        .plugin(tauri_plugin_updater::Builder::new().build())
         //.invoke_handler(tauri::generate_handler![valid_cookie])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
