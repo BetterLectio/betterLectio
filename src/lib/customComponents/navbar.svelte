@@ -2,19 +2,24 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
 
-	import { appWindow } from '@tauri-apps/api/window';
-	const titlebarMinimize = document.getElementById('titlebar-minimize');
-	if (titlebarMinimize) {
-		titlebarMinimize.addEventListener('click', () => appWindow.minimize());
-	}
-	const titlebarMaximize = document.getElementById('titlebar-maximize');
-	if (titlebarMaximize) {
-		titlebarMaximize.addEventListener('click', () => appWindow.maximize());
-	}
-	const titlebarClose = document.getElementById('titlebar-close');
-	if (titlebarClose) {
-		titlebarClose.addEventListener('click', () => appWindow.close());
-	}
+	import { getCurrent, UserAttentionType } from '@tauri-apps/api/window';
+
+	const minimizeWebview = async () => {
+		getCurrent().minimize();
+	};
+
+	const maximizeWebview = async () => {
+		const appWindow = getCurrent();
+		if (await appWindow.isMaximized()) {
+			appWindow.unmaximize();
+		} else {
+			appWindow.maximize();
+		}
+	};
+
+	const closeWebview = async () => {
+		getCurrent().close();
+	};
 
 	//import radix icons for titlebar
 	import {
@@ -27,6 +32,7 @@
 	} from 'radix-icons-svelte';
 	import { toggleMode } from 'mode-watcher';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import { toast } from 'svelte-sonner';
 </script>
 
 <div data-tauri-drag-region class="fixed flex justify-end w-full titlebar">
@@ -83,24 +89,14 @@
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
 		<Separator orientation="vertical" class="h-8 mx-4" />
-		<Button
-			on:click={() => appWindow.minimize()}
-			variant="ghost"
-			size="icon"
-			class="h-8 rounded-none"
-		>
+		<Button on:click={minimizeWebview} variant="ghost" size="icon" class="h-8 rounded-none">
 			<Minus class="w-4 h-4" />
 		</Button>
-		<Button
-			on:click={() => appWindow.maximize()}
-			variant="ghost"
-			size="icon"
-			class="h-8 rounded-none"
-		>
+		<Button on:click={maximizeWebview} variant="ghost" size="icon" class="h-8 rounded-none">
 			<Square class="w-4 h-4" />
 		</Button>
 		<Button
-			on:click={() => appWindow.close()}
+			on:click={closeWebview}
 			variant="ghost"
 			size="icon"
 			class="h-8 rounded-none hover:bg-destructive hover:to-destructive-foreground"
