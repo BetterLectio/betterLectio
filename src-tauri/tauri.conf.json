@@ -1,77 +1,77 @@
 {
-  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
-  "build": {
-    "beforeBuildCommand": "npm run build",
-    "beforeDevCommand": "npm run dev",
-    "frontendDist": "../build",
-    "devUrl": "http://localhost:5173"
-  },
-  "bundle": {
-    "active": true,
-    "category": "DeveloperTool",
-    "copyright": "",
-    "targets": "all",
-    "externalBin": [],
-    "icon": [
-      "icons/32x32.png",
-      "icons/128x128.png",
-      "icons/128x128@2x.png",
-      "icons/icon.icns",
-      "icons/icon.ico"
-    ],
-    "windows": {
-      "certificateThumbprint": null,
-      "digestAlgorithm": "sha256",
-      "timestampUrl": ""
-    },
-    "longDescription": "",
-    "macOS": {
-      "entitlements": null,
-      "exceptionDomain": "",
-      "frameworks": [],
-      "providerShortName": null,
-      "signingIdentity": null
-    },
-    "resources": [],
-    "shortDescription": "",
-    "linux": {
-      "deb": {
-        "depends": []
-      }
-    }
-  },
-  "productName": "BetterLectio",
-  "version": "../package.json",
-  "identifier": "com.betterlectio.next",
-  "plugins": {
-    "updater": {
-      "windows": {
-        "installMode": "passive"
-      },
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg3MjcwQkU4RTk2RjQ3RkIKUldUN1IyL3A2QXNuaDM4b1oyVnh2WjJjVTZrRU5RYjhmd1ZnWmNjbVJuYVgxWGd1UXpDUDB1VUYK",
-      "endpoints": [
-        "https://localhost:5175/updateserver",
-        "https://dev--betlec.netlify.app/updateserver",
-        "https://app.betterlectio.dk/updateserver"
-      ]
-    }
-  },
-  "app": {
-    "windows": [
-      {
-        "fullscreen": false,
-        "height": 600,
-        "resizable": true,
-        "title": "BetterLectio",
-        "width": 800,
-        "decorations": false,
-        "minHeight": 200,
-        "minWidth": 750,
-        "center": true
-      }
-    ],
-    "security": {
-      "csp": null
-    }
-  }
+	"$schema": "../node_modules/@tauri-apps/cli/schema.json",
+	"build": {
+		"beforeBuildCommand": "npm run build",
+		"beforeDevCommand": "npm run dev",
+		"frontendDist": "../build",
+		"devUrl": "http://localhost:5173"
+	},
+	"bundle": {
+		"active": true,
+		"category": "DeveloperTool",
+		"copyright": "",
+		"targets": "all",
+		"externalBin": [],
+		"icon": [
+			"icons/32x32.png",
+			"icons/128x128.png",
+			"icons/128x128@2x.png",
+			"icons/icon.icns",
+			"icons/icon.ico"
+		],
+		"windows": {
+			"certificateThumbprint": null,
+			"digestAlgorithm": "sha256",
+			"timestampUrl": ""
+		},
+		"longDescription": "",
+		"macOS": {
+			"entitlements": null,
+			"exceptionDomain": "",
+			"frameworks": [],
+			"providerShortName": null,
+			"signingIdentity": null
+		},
+		"resources": [],
+		"shortDescription": "",
+		"linux": {
+			"deb": {
+				"depends": []
+			}
+		}
+	},
+	"productName": "BetterLectio",
+	"version": "../package.json",
+	"identifier": "com.betterlectio.next",
+	"plugins": {
+		"updater": {
+			"windows": {
+				"installMode": "passive"
+			},
+			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEEyNUFBQUVFMkVCRDMyMUYKUldRZk1yMHU3cXBhb21XbnFXdFdhVlJWOGZ3VFpsSE1DUFR6QythZnFpc0MzNzFJenkwd2lXTEwK",
+			"endpoints": [
+				"https://localhost:5175/updateserver",
+				"https://dev--betlec.netlify.app/updateserver",
+				"https://app.betterlectio.dk/updateserver"
+			]
+		}
+	},
+	"app": {
+		"windows": [
+			{
+				"fullscreen": false,
+				"height": 600,
+				"resizable": true,
+				"title": "BetterLectio",
+				"width": 800,
+				"decorations": false,
+				"minHeight": 200,
+				"minWidth": 750,
+				"center": true
+			}
+		],
+		"security": {
+			"csp": null
+		}
+	}
 }
