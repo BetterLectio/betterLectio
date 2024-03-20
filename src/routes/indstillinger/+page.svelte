@@ -19,6 +19,9 @@
 	import { version } from '$app/environment';
 	import { check } from '@tauri-apps/plugin-updater';
 	import { relaunch } from '@tauri-apps/plugin-process';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import { Switch } from '$lib/components/ui/switch';
+	import { enable, isEnabled, disable } from '@tauri-apps/plugin-autostart';
 	banners ?? [];
 
 	let showAccountError = !checkIfCredentialsAreSet();
@@ -62,6 +65,24 @@
 			return false;
 		}
 	}
+
+	let autoStartBtn = false;
+	let autoStartReady = false;
+	async function checkAutostart() {
+		autoStartBtn = await isEnabled();
+		autoStartReady = true;
+	}
+	checkAutostart();
+
+	async function toggleAutostart() {
+		if (!autoStartReady) return;
+		let enabled = await isEnabled();
+		if (enabled) {
+			await disable();
+		} else {
+			await enable();
+		}
+	}
 </script>
 
 <Header>Instillinger</Header>
@@ -74,7 +95,7 @@
 			<div class="flex justify-between w-full pt-1">
 				<div>
 					<Alert.Title>Opdatering</Alert.Title>
-					<Alert.Description>Tjekker for opdateringer...</Alert.Description>
+					<Alert.Description>Søger efter opdateringer...</Alert.Description>
 				</div>
 			</div>
 		{:then value}
@@ -121,6 +142,47 @@
 			</Alert.Description>
 		</Alert.Root>
 	{/if}
-	<p>BetterLectio bruger din lectio konto til at hente dine data fra lectio.</p>
+	<p class="mb-2">BetterLectio bruger din lectio konto til at hente dine data fra lectio.</p>
 	<AccountSheet />
+</div>
+<Separator class="my-4" />
+<div class="container mx-auto">
+	<h3 class="mb-2 text-lg font-semibold scroll-m-20">Notefikationer</h3>
+	<Alert.Root class="mb-2">
+		<div class="flex items-center justify-between w-full">
+			<div>
+				<Alert.Title>Skema ændringer</Alert.Title>
+				<Alert.Description>Få besked når dit skema ændres</Alert.Description>
+			</div>
+			<div>
+				<Switch disabled />
+			</div>
+		</div>
+	</Alert.Root>
+	<Alert.Root>
+		<div class="flex items-center justify-between w-full">
+			<div>
+				<Alert.Title>Beskeder</Alert.Title>
+				<Alert.Description>Få besked når du modtager en besked</Alert.Description>
+			</div>
+			<div>
+				<Switch disabled />
+			</div>
+		</div>
+	</Alert.Root>
+</div>
+<Separator class="my-4" />
+<div class="container mx-auto">
+	<h3 class="mb-2 text-lg font-semibold scroll-m-20">System</h3>
+	<Alert.Root>
+		<div class="flex items-center justify-between w-full">
+			<div>
+				<Alert.Title>Åben ved opstart</Alert.Title>
+				<Alert.Description>Åben BetterLectio når du starter din computer</Alert.Description>
+			</div>
+			<div>
+				<Switch bind:checked={autoStartBtn} on:click={toggleAutostart} />
+			</div>
+		</div>
+	</Alert.Root>
 </div>
