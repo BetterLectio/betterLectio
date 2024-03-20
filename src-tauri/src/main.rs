@@ -38,7 +38,7 @@ fn greet(name: &str) -> String {
 //
 //    // Use Client directly here
 //    let client = Client::new();
-//    
+//
 //    let response = client
 //        .get(&url)
 //        .header("cookie", cookie_header)
@@ -52,6 +52,7 @@ fn greet(name: &str) -> String {
 use discord_rich_presence::{activity, DiscordIpc, DiscordIpcClient};
 use lazy_static::lazy_static;
 use std::sync::Mutex;
+use tauri_plugin_autostart::MacosLauncher;
 
 lazy_static! {
     static ref DISCORD_PRESENCE: Mutex<Option<DiscordPresence>> = Mutex::new(None);
@@ -60,9 +61,14 @@ lazy_static! {
 //use window_shadows::set_shadow; // Used for devtools
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_autostart::init(
+            MacosLauncher::LaunchAgent,
+            Some(vec!["--flag1", "--flag2"]),
+        ))
         .setup(|app| {
             #[cfg(desktop)]
-            app.handle().plugin(tauri_plugin_updater::Builder::new().build())?;
+            app.handle()
+                .plugin(tauri_plugin_updater::Builder::new().build())?;
             let discord_presence = set_discord_presence();
             match discord_presence {
                 Ok(presence) => {
