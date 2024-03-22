@@ -147,7 +147,7 @@
 </div>
 <Separator class="my-4" />
 <div class="container mx-auto">
-	<h3 class="mb-2 text-lg font-semibold scroll-m-20">Notefikationer</h3>
+	<h3 class="mb-2 text-lg font-semibold scroll-m-20">Notifikationer</h3>
 	<Alert.Root class="mb-2">
 		<div class="flex items-center justify-between w-full">
 			<div>
