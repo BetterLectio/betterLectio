@@ -18,7 +18,8 @@ export const load = (async ({ url }) => {
 			client_id: CLIENT_ID,
 			client_secret: CLIENT_SECRET,
 			redirect_uri: REDIRECT_URI,
-			grant_type: 'authorization_code'
+			grant_type: 'authorization_code',
+			access_type: 'offline'
 		})
 	});
 	token = await res.json();
