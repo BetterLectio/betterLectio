@@ -7,48 +7,6 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
-//use base64;
-//use reqwest::blocking::Client;
-//use std::collections::HashMap;
-//use tauri::InvokeError;
-//
-//#[tauri::command]
-//fn valid_cookie(base64_cookie: &str) -> Result<bool, Box<dyn std::error::Error>> {
-//    let decoded_cookie = base64::decode(base64_cookie)?;
-//
-//    let cookies: Vec<HashMap<String, String>> = serde_json::from_slice(&decoded_cookie)?;
-//
-//    let last_login_cookie_index = cookies
-//        .iter()
-//        .position(|cookie| cookie.get("name") == Some(&"LastLoginExamno".to_string()))
-//        .ok_or("LastLoginExamno cookie not found")?;
-//
-//    let skole_id = cookies[last_login_cookie_index]
-//        .get("value")
-//        .ok_or("Value for LastLoginExamno not found")?
-//        .to_string();
-//
-//    let cookie_header = cookies
-//        .iter()
-//        .map(|cookie| format!("{}={}", cookie["name"], cookie["value"]))
-//        .collect::<Vec<String>>()
-//        .join("; ");
-//
-//    let url = format!("https://www.lectio.dk/lectio/{}/help/mainhelp.aspx", skole_id);
-//
-//    // Use Client directly here
-//    let client = Client::new();
-//
-//    let response = client
-//        .get(&url)
-//        .header("cookie", cookie_header)
-//        .send()?;
-//
-//    let body = response.text()?;
-//
-//    Ok(body.contains("Log ud"))
-//}
-
 use discord_rich_presence::{activity, DiscordIpc, DiscordIpcClient};
 use lazy_static::lazy_static;
 use std::sync::Mutex;

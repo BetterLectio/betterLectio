@@ -81,6 +81,7 @@
 					<DropdownMenu.Separator class="mx-2" />
 					<DropdownMenu.Item href="/home">Forside</DropdownMenu.Item>
 					<DropdownMenu.Item href="/opgaver">Opgaver</DropdownMenu.Item>
+					<DropdownMenu.Item href="/sync">Google kalender</DropdownMenu.Item>
 					<DropdownMenu.Item>Lektier</DropdownMenu.Item>
 					<DropdownMenu.Item>Dokumenter</DropdownMenu.Item>
 					<Separator orientation="horizontal" class="my-2" />
