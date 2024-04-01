@@ -56,16 +56,19 @@ export const GET: RequestHandler = async ({ url, request, fetch }) => {
 			timeMax: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString()
 		});
 		console.log(list.data.items?.length);
-		list.data.items?.forEach(async (event) => {
-			await calendar.events.delete({
-				auth: oauth2Client,
-				calendarId: 'primary',
-				eventId: event.id as string
-			});
-			console.log('Event deleted: %s', event.id);
-			await new Promise((resolve) => setTimeout(resolve, 1000));
-		});
-		await new Promise((resolve) => setTimeout(resolve, 1000));
+		for (const event of list.data.items ?? []) {
+			try {
+				await calendar.events.delete({
+					auth: oauth2Client,
+					calendarId: 'primary',
+					eventId: event.id as string
+				});
+				console.log('Event deleted: %s', event.id);
+				await new Promise((resolve) => setTimeout(resolve, 500));
+			} catch (error) {
+				console.error('Error deleting event: %s', event.id);
+			}
+		}
 
 		let res = await fetch(`${lectioAPI}/skema?uge=${week}&år=${year}`, {
 			headers: {
@@ -77,23 +80,19 @@ export const GET: RequestHandler = async ({ url, request, fetch }) => {
 		let events = formatModuler(skema.moduler);
 
 		//use the google calendar api to insert the events one by one
-		events.forEach(async (event) => {
-			await calendar.events.insert(
-				{
+		for (const event of events) {
+			try {
+				await calendar.events.insert({
 					auth: oauth2Client,
 					calendarId: 'primary',
 					requestBody: event
-				},
-				function (err, event) {
-					if (err) {
-						console.log('There was an error contacting the Calendar service: ' + err);
-						return;
-					}
-					console.log('Event created: %s', event);
-				}
-			);
-			await new Promise((resolve) => setTimeout(resolve, 1000));
-		});
+				});
+				console.log('Event created: %s', event);
+				await new Promise((resolve) => setTimeout(resolve, 500));
+			} catch (error) {
+				console.error('Error creating event: %s', event);
+			}
+		}
 	} catch (e) {
 		console.error(error);
 		return error(500, 'An error occured');
