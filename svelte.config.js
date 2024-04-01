@@ -16,8 +16,8 @@ const config = {
 			"@/*": "./path/to/lib/*",
 		},
 		csrf: {
-	            checkOrigin: false
-	        },
+			checkOrigin: false
+		},
 	}
 };
 

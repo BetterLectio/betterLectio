@@ -191,3 +191,13 @@ function createEvent(modul: any) {
 	};
 	return event;
 }
+
+export const OPTIONS: RequestHandler = async () => {
+	return new Response(null, {
+		headers: {
+			'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Headers': '*'
+		}
+	});
+};
