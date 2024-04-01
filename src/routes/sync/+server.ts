@@ -64,7 +64,6 @@ export const GET: RequestHandler = async ({ url, request, fetch }) => {
 					eventId: event.id as string
 				});
 				console.log('Event deleted: %s', event.id);
-				await new Promise((resolve) => setTimeout(resolve, 500));
 			} catch (error) {
 				console.error('Error deleting event: %s', event.id);
 			}
@@ -88,7 +87,6 @@ export const GET: RequestHandler = async ({ url, request, fetch }) => {
 					requestBody: event
 				});
 				console.log('Event created: %s', event);
-				await new Promise((resolve) => setTimeout(resolve, 500));
 			} catch (error) {
 				console.error('Error creating event: %s', event);
 			}
