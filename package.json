@@ -1,6 +1,6 @@
 {
 	"name": "betterlectio-next",
-	"version": "0.4.28",
+	"version": "0.4.30",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -50,7 +50,6 @@
 		"path": "^0.12.7",
 		"radix-icons-svelte": "^1.2.1",
 		"svelte-intersection-observer": "^1.0.0",
-		"svelte-radix": "^1.1.0",
 		"svelte-sonner": "^0.3.11",
 		"tailwind-merge": "^2.2.0",
 		"tailwind-variants": "^0.1.20"
