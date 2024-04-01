@@ -31,15 +31,10 @@
 		console.log('token', localStorage.getItem('googleToken'));
 		console.log('lectio-cookie', localStorage.getItem('lectio-cookie'));
 		const res = await fetch('https://oauth-betterlectio.netlify.app/sync', {
-			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				lectio: localStorage.getItem('lectio-cookie'),
-				google: localStorage.getItem('googleToken')
-			}),
-			mode: 'no-cors'
+				lectio: localStorage.getItem('lectio-cookie') || '',
+				google: localStorage.getItem('googleToken') || ''
+			}
 		});
 
 		if (res.ok) {
@@ -138,4 +133,12 @@
 			</p>
 		</Card.Footer>
 	</Card.Root>
+	<Button
+		class="mt-4"
+		variant="destructive"
+		size="sm"
+		on:click={() => {
+			state = 'not-logged-in';
+		}}>Reset</Button
+	>
 </div>
