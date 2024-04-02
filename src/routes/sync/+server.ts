@@ -4,6 +4,7 @@ import { google as googleLib } from 'googleapis';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '$env/static/private';
 import type { GaxiosResponse } from 'gaxios';
 import type { calendar_v3 } from 'googleapis';
+import { batchFetchImplementation } from '@jrmdayn/googleapis-batcher';
 
 function getWeekNumber(d: Date): number {
 	d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
@@ -14,6 +15,7 @@ function getWeekNumber(d: Date): number {
 }
 
 export const GET: RequestHandler = async ({ url, request, fetch }) => {
+	const fetchImpl = batchFetchImplementation();
 	//get the headers, "google" and "lectio"
 	const headers = request.headers;
 	let google = headers.get('google');
@@ -39,35 +41,44 @@ export const GET: RequestHandler = async ({ url, request, fetch }) => {
 
 	oauth2Client.setCredentials(decodedGoogleToken);
 
-	const calendar = googleLib.calendar('v3');
+	const calendar = googleLib.calendar({
+		version: 'v3'
+	});
+
+	const calendarBatch = googleLib.calendar({
+		version: 'v3',
+		fetchImplementation: fetchImpl
+	});
 	//list the next 10 events
 	let events: GaxiosResponse<calendar_v3.Schema$Events>;
 	try {
 		let week = getWeekNumber(new Date());
 		let year = new Date().getFullYear();
-		console.log(week, year);
+
+		const startOfWeek = new Date(year, 0, 2 + (week - 1) * 7, 1);
+		const endOfWeek = new Date(year, 0, 2 + (week - 1) * 7 + 6, 1);
 
 		//remove all events from the calendar with the uid "betterlectio..." from the given week
 		let list = await calendar.events.list({
 			auth: oauth2Client,
 			calendarId: 'primary',
 			q: 'betterlectio',
-			timeMin: new Date().toISOString(),
-			timeMax: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString()
+			timeMin: startOfWeek.toISOString(),
+			timeMax: endOfWeek.toISOString(),
+			singleEvents: true,
+			orderBy: 'startTime',
+			maxResults: 1000
 		});
-		console.log(list.data.items?.length);
-		for (const event of list.data.items ?? []) {
-			try {
-				await calendar.events.delete({
+
+		const deleteEvents = await Promise.all(
+			(list.data.items ?? []).map((event) => {
+				return calendarBatch.events.delete({
 					auth: oauth2Client,
 					calendarId: 'primary',
-					eventId: event.id as string
+					eventId: event.id!
 				});
-				console.log('Event deleted: %s', event.id);
-			} catch (error) {
-				console.error('Error deleting event: %s', event.id);
-			}
-		}
+			})
+		);
 
 		let res = await fetch(`${lectioAPI}/skema?uge=${week}&år=${year}`, {
 			headers: {
@@ -79,26 +90,20 @@ export const GET: RequestHandler = async ({ url, request, fetch }) => {
 		let events = formatModuler(skema.moduler);
 
 		//use the google calendar api to insert the events one by one
-		for (const event of events) {
-			try {
-				await calendar.events.insert({
+		const insertEvents = await Promise.all(
+			events.map((event) => {
+				return calendarBatch.events.insert({
 					auth: oauth2Client,
 					calendarId: 'primary',
 					requestBody: event
 				});
-				console.log('Event created: %s', event);
-			} catch (error) {
-				console.error('Error creating event: %s', event);
-			}
-		}
+			})
+		);
+		return new Response('OK');
 	} catch (e) {
-		console.error(error);
+		console.error(e);
 		return error(500, 'An error occured');
 	}
-
-	//console.log(events.data.items);
-
-	return new Response('OK');
 };
 
 //TODO: CHORE: ADD TYPES

@@ -30,6 +30,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@jrmdayn/googleapis-batcher": "^0.8.0",
 		"bits-ui": "^0.21.1",
 		"clsx": "^2.1.0",
 		"googleapis": "^134.0.0",
