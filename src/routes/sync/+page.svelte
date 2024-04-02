@@ -30,7 +30,7 @@
 		console.log('syncing');
 		console.log('token', localStorage.getItem('googleToken'));
 		console.log('lectio-cookie', localStorage.getItem('lectio-cookie'));
-		const res = await fetch('https://oauth-betterlectio.netlify.app/sync', {
+		const res = await fetch('https://betterlectio-oauth.vercel.app/sync', {
 			headers: {
 				lectio: localStorage.getItem('lectio-cookie') || '',
 				google: localStorage.getItem('googleToken') || ''
@@ -89,7 +89,7 @@
 							</div>
 							<Dialog.Root>
 								<Dialog.Trigger
-									><Button href="https://oauth-betterlectio.netlify.app/" target="_blank">
+									><Button href="https://betterlectio-oauth.vercel.app/" target="_blank">
 										Log på med Google
 									</Button></Dialog.Trigger
 								>
