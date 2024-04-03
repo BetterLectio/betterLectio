@@ -5,13 +5,11 @@ import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '$env/static/private';
 import type { GaxiosResponse } from 'gaxios';
 import type { calendar_v3 } from 'googleapis';
 import { batchFetchImplementation } from '@jrmdayn/googleapis-batcher';
+import { DateTime } from 'luxon';
 
 function getWeekNumber(d: Date): number {
-	d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-	d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-	let yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-	let weekNo = Math.ceil(((d.valueOf() - yearStart.valueOf()) / 86400000 + 1) / 7);
-	return weekNo;
+	const dt = DateTime.fromJSDate(d);
+	return dt.weekNumber;
 }
 
 export const GET: RequestHandler = async ({ url, request, fetch }) => {
@@ -123,28 +121,28 @@ function convertLectioTime(dateString: string) {
 	}
 	const [endHour, endMinute] = endMatchArray;
 
-	// month is 0-indexed
-	const startDate = new Date(
+	const startDate = DateTime.local(
 		Number(startYear),
-		Number(startMonth) - 1,
+		Number(startMonth),
 		Number(startDay),
 		Number(startHour),
-		Number(startMinute),
-		0
+		Number(startMinute)
 	);
 
-	// month is 0-indexed
-	const endDate = new Date(
+	const endDate = DateTime.local(
 		Number(startYear),
-		Number(startMonth) - 1,
+		Number(startMonth),
 		Number(startDay),
 		Number(endHour),
-		Number(endMinute),
-		0
+		Number(endMinute)
 	);
 
-	const formattedStartDate = startDate.toISOString();
-	const formattedEndDate = endDate.toISOString();
+	//set the start and the end date to the copenhagen timezone
+	startDate.setZone('Europe/Copenhagen');
+	endDate.setZone('Europe/Copenhagen');
+
+	const formattedStartDate = startDate.toISO();
+	const formattedEndDate = endDate.toISO();
 	return [formattedStartDate, formattedEndDate];
 }
 
