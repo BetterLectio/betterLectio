@@ -141,6 +141,10 @@ function convertLectioTime(dateString: string) {
 	startDate = startDate.setZone('Europe/Copenhagen'); // utc+1
 	endDate = endDate.setZone('Europe/Copenhagen'); // utc+1
 
+	//minus 2 hours from the start and end date
+	startDate = startDate.minus({ hours: 2 });
+	endDate = endDate.minus({ hours: 2 });
+
 	const formattedStartDate = startDate.toISO();
 	const formattedEndDate = endDate.toISO();
 	return [formattedStartDate, formattedEndDate];
