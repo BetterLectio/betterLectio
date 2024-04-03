@@ -141,12 +141,6 @@ function convertLectioTime(dateString: string) {
 	startDate = startDate.setZone('Europe/Copenhagen'); // utc+1
 	endDate = endDate.setZone('Europe/Copenhagen'); // utc+1
 
-	//if denmark is in daylight saving time, set the timezone to utc+2
-	if (DateTime.now().setZone('Europe/Copenhagen').offsetNameShort === 'CEST') {
-		startDate = startDate.minus({ hours: 1 });
-		endDate = endDate.minus({ hours: 1 });
-	}
-
 	const formattedStartDate = startDate.toISO();
 	const formattedEndDate = endDate.toISO();
 	return [formattedStartDate, formattedEndDate];
@@ -179,7 +173,8 @@ function formatModuler(moduler: any[]) {
 function createEvent(modul: any) {
 	const event = {
 		summary: modul.hold,
-		id: `betterlectio${modul.absid}at${DateTime.now().millisecond}`,
+		//the id is "betterlectio" + the absid of the modul + "at" + the current time yyyymmddhhmmss
+		id: `betterlectio${modul.absid}at${DateTime.now().toFormat('yyyyMMddHHmmss')}`,
 		description: modul.linkToLectio,
 		start: {
 			dateTime: modul.googleStart,
