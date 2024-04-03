@@ -97,7 +97,13 @@ export const GET: RequestHandler = async ({ url, request, fetch }) => {
 				});
 			})
 		);
-		return new Response('OK');
+		return new Response('OK', {
+			headers: {
+				'Access-Control-Allow-Methods': 'GET, OPTIONS',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Headers': '*'
+			}
+		});
 	} catch (e) {
 		console.error(e);
 		return error(500, 'An error occured');
