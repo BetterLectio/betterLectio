@@ -143,8 +143,8 @@ function convertLectioTime(dateString: string) {
 
 	//if denmark is in daylight saving time, set the timezone to utc+2
 	if (DateTime.now().setZone('Europe/Copenhagen').offsetNameShort === 'CEST') {
-		startDate = startDate.plus({ hours: 1 });
-		endDate = endDate.plus({ hours: 1 });
+		startDate = startDate.minus({ hours: 1 });
+		endDate = endDate.minus({ hours: 1 });
 	}
 
 	const formattedStartDate = startDate.toISO();
