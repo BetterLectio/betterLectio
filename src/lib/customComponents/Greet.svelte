@@ -3,7 +3,7 @@
 	let password = '';
 	let schoolId = '';
 
-	let cookie: string|null = null;
+	let cookie: string | null = null;
 
 	async function login() {
 		await fetch(`https://api.betterlectio.dk/auth`, {

@@ -53,7 +53,14 @@ export async function get(endpoint: String, body: any = null) {
 
 	const start = performance.now();
 	const headers: HeadersInit = { 'lectio-cookie': localStorage.getItem('lectio-cookie') || '' };
-	const response = body === null ? await fetch(url, { headers }) : await fetch(url, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body });
+	const response =
+		body === null
+			? await fetch(url, { headers })
+			: await fetch(url, {
+					method: 'POST',
+					headers: { ...headers, 'Content-Type': 'application/json' },
+					body
+				});
 	const stop = performance.now();
 
 	const textResponse = await response.text();

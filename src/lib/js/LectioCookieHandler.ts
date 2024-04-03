@@ -1,9 +1,9 @@
 export function cookieInfo() {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		if (
-			!localStorage.getItem('lectio-cookie')
-			&& window.location.href.split('?')[0].split('/').at(-1) !== 'auth'
-			&& window.location.href.split('?')[0].split('/').at(-1) !== ''
+			!localStorage.getItem('lectio-cookie') &&
+			window.location.href.split('?')[0].split('/').at(-1) !== 'auth' &&
+			window.location.href.split('?')[0].split('/').at(-1) !== ''
 		) {
 			// error handling based on page
 		} else {

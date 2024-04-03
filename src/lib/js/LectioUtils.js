@@ -1,6 +1,5 @@
 // @ts-nocheck
 
-
 // function getHoldToColor() {
 // 	const holdToColor = {};
 // 	try {
@@ -17,7 +16,7 @@ function makeCRCTable() {
 	const crcTable = [];
 	for (let i = 0; i < 256; i++) {
 		num = i;
-		for (let k = 0; k < 8; k++) num = ((num & 1) ? (0xEDB88320 ^ (num >>> 1)) : (num >>> 1));
+		for (let k = 0; k < 8; k++) num = num & 1 ? 0xedb88320 ^ (num >>> 1) : num >>> 1;
 
 		crcTable[i] = num;
 	}
@@ -33,11 +32,12 @@ const crcTable = makeCRCTable();
  * @returns {number} Hashsum som et 32-bit nummer
  */
 function crc32(string) {
-	let crc = 0 ^ (-1);
+	let crc = 0 ^ -1;
 
-	for (let i = 0; i < string.length; i++) crc = (crc >>> 8) ^ crcTable[(crc ^ string.charCodeAt(i)) & 0xFF];
+	for (let i = 0; i < string.length; i++)
+		crc = (crc >>> 8) ^ crcTable[(crc ^ string.charCodeAt(i)) & 0xff];
 
-	return (crc ^ (-1)) >>> 0;
+	return (crc ^ -1) >>> 0;
 }
 
 /**
@@ -64,17 +64,16 @@ export function getModulColor(modul, useDifferentColors) {
 	const alpha = 0.4;
 	try {
 		switch (modul.status) {
-		case 'aflyst':
-			return `hsl(0, 100%, 50%, ${alpha})`;
-		case 'normal':
-		case 's2normal':
-		case 'ændret':
-			if (useDifferentColors) return `hsl(${getHoldHue(modul.hold)}, 75%, 50%, ${alpha})`;
-		case 'eksamen':
-		default:
+			case 'aflyst':
+				return `hsl(0, 100%, 50%, ${alpha})`;
+			case 'normal':
+			case 's2normal':
+			case 'ændret':
+				if (useDifferentColors) return `hsl(${getHoldHue(modul.hold)}, 75%, 50%, ${alpha})`;
+			case 'eksamen':
+			default:
 		}
-	} catch (error) {
-	}
+	} catch (error) {}
 }
 
 /**
@@ -115,36 +114,40 @@ export function parseStudentInfo(navnOgKlasse, userId) {
 	};
 }
 
-const lectioDateOptions = ['en-DK', {
-	year: 'numeric',
-	month: '2-digit',
-	day: '2-digit',
-	hour: '2-digit',
-	minute: '2-digit'
-} ];
+const lectioDateOptions = [
+	'en-DK',
+	{
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit'
+	}
+];
 
 /**
-	 * Input Lectio timestamp and output "Date constructor"-valid timestamp
-	 *
-	 * @example
-	 * ```javascript
-	 * standardizeTimeRange("21/8-2023 09:15 til 10:45")
-	 * // Expected output: [new Date("2023-08-21T09:15"), new Date("2023-08-21T10:45")]
-	 * ```
-	 * @param time Lectio time string
-	 * @returns Date timestamp(s)
-	 */
+ * Input Lectio timestamp and output "Date constructor"-valid timestamp
+ *
+ * @example
+ * ```javascript
+ * standardizeTimeRange("21/8-2023 09:15 til 10:45")
+ * // Expected output: [new Date("2023-08-21T09:15"), new Date("2023-08-21T10:45")]
+ * ```
+ * @param time Lectio time string
+ * @returns Date timestamp(s)
+ */
 export function standardizeTimeRange(timeRangeRaw) {
 	const dateTimestampSymbols = ['-', '-', 'T', ':', ''];
-	const nowTimestamp = new Date().toLocaleString(...lectioDateOptions)
-		.replace(',', '');
+	const nowTimestamp = new Date().toLocaleString(...lectioDateOptions).replace(',', '');
 	const result = [];
 
-	const rawTimeArray = timeRangeRaw.split('til').map(timestamp => timestamp.trim());
+	const rawTimeArray = timeRangeRaw.split('til').map((timestamp) => timestamp.trim());
 	for (let i = 0; i < rawTimeArray.length; i++) {
 		// First, second (and third) are arbitrary
 		// as they may be either a date or a time
-		const [first, second, third, ...rest] = rawTimeArray[i].match(/(?:\d+\.)?\d+/gu).map(number => number.padStart(2, '0'));
+		const [first, second, third, ...rest] = rawTimeArray[i]
+			.match(/(?:\d+\.)?\d+/gu)
+			.map((number) => number.padStart(2, '0'));
 
 		const timeTwoDigit = rest.length
 			? [third, second, first, ...rest].join('-')
@@ -158,27 +161,31 @@ export function standardizeTimeRange(timeRangeRaw) {
 			standardizedDate = timeTwoDigit.padStart(startTimestamp.length, startTimestamp);
 		}
 
-		const timeFormatted = standardizedDate.split(/[^0-9]/gu)
+		const timeFormatted = standardizedDate
+			.split(/[^0-9]/gu)
 			.map((number, j) => number + dateTimestampSymbols[j])
 			.join('');
 		result.push(timeFormatted);
 	}
 
-	return result.map(timestamp => new Date(timestamp));
+	return result.map((timestamp) => new Date(timestamp));
 }
 
-const localeOptions = ['da-DK', {
-	weekday: 'long',
-	month: 'long',
-	day: 'numeric'
-} ];
+const localeOptions = [
+	'da-DK',
+	{
+		weekday: 'long',
+		month: 'long',
+		day: 'numeric'
+	}
+];
 
 /**
-	 * Iterér over et array af moduler og opdel dem i et map efter startdato, hvor key'en er en lokal datostreng
-	 *
-	 * @param modules Modul-array fra Lectio
-	 * @returns Nyt map med modulerne opdelt
-	 */
+ * Iterér over et array af moduler og opdel dem i et map efter startdato, hvor key'en er en lokal datostreng
+ *
+ * @param modules Modul-array fra Lectio
+ * @returns Nyt map med modulerne opdelt
+ */
 export function seperateModulesByDays(modules) {
 	const result = new Map();
 	const iterator = modules[Symbol.iterator]();
@@ -195,9 +202,7 @@ export function seperateModulesByDays(modules) {
 		const dateString = moduleStart.toLocaleDateString(...localeOptions);
 		const existingEntry = result.get(dateString);
 		if (existingEntry === undefined) {
-			result.set(dateString, [
-				module.value
-			]);
+			result.set(dateString, [module.value]);
 		} else {
 			existingEntry.push(module.value);
 		}

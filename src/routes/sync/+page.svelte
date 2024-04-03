@@ -3,7 +3,14 @@
 	import * as Card from '$lib/components/ui/card';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Alert from '$lib/components/ui/alert';
-	import { ExclamationTriangle as Error, Update, LightningBolt, Target } from 'radix-icons-svelte';
+	import {
+		ExclamationTriangle as Error,
+		Update,
+		LightningBolt,
+		Target,
+		Rocket,
+		ExclamationTriangle
+	} from 'radix-icons-svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Switch from '$lib/components/ui/switch/switch.svelte';
 	import { hasAutoSync } from '$lib/js/store';
@@ -28,22 +35,24 @@
 
 	const sync = async () => {
 		console.log('syncing');
+		state = 'syncing';
 		console.log('token', localStorage.getItem('googleToken'));
 		console.log('lectio-cookie', localStorage.getItem('lectio-cookie'));
-		const res = await fetch('https://betterlectio-oauth.vercel.app/sync', {
-			headers: {
-				lectio: localStorage.getItem('lectio-cookie') || '',
-				google: localStorage.getItem('googleToken') || ''
-			}
-		});
-
-		if (res.ok) {
-			console.log('synced');
-			let data = await res.json();
-			console.log(data);
-		} else {
-			console.log('error');
+		let res = null;
+		try {
+			res = await fetch('https://betterlectio-oauth.vercel.app/sync', {
+				headers: {
+					lectio: localStorage.getItem('lectio-cookie') || '',
+					google: localStorage.getItem('googleToken') || ''
+				}
+			});
+		} catch (e) {
+			state = 'error';
+			console.log(res);
+			return;
 		}
+		state = 'synced';
+		console.log('synced');
 	};
 </script>
 
@@ -120,6 +129,45 @@
 							</div>
 							<!-- <Switch bind:checked={$hasAutoSync} /> -->
 							<Button on:click={sync}>Synkroniser nu</Button>
+						</div>
+					</Alert.Root>
+				{:else if state === 'syncing'}
+					<Alert.Root class="pt-4">
+						<Update class="animate-spin" />
+						<div class="flex items-center justify-between w-full">
+							<div>
+								<Alert.Title>Google Kalender-synkronisering</Alert.Title>
+								<Alert.Description
+									>Automatisk synkroniser dine moduler til din Google Kalender</Alert.Description
+								>
+							</div>
+							<!-- <Switch bind:checked={$hasAutoSync} /> -->
+							<Button on:click={sync}>Synkroniser nu</Button>
+						</div>
+					</Alert.Root>
+				{:else if state === 'synced'}
+					<Alert.Root class="pt-4">
+						<Rocket />
+						<div class="flex justify-between w-full">
+							<div>
+								<Alert.Title>Færdig</Alert.Title>
+								<Alert.Description>
+									Dine moduler er blevet synkroniseret til din Google Kalender
+								</Alert.Description>
+							</div>
+						</div>
+					</Alert.Root>
+				{:else if state === 'error'}
+					<Alert.Root class="pt-4 border-destructive">
+						<ExclamationTriangle />
+						<div class="flex justify-between w-full">
+							<div>
+								<Alert.Title>Fejl</Alert.Title>
+								<Alert.Description>
+									Der skete en fejl under synkroniseringen. Prøv igen senere eller tjek din
+									internetforbindelse.
+								</Alert.Description>
+							</div>
 						</div>
 					</Alert.Root>
 				{:else}
