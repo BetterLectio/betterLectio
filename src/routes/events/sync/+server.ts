@@ -1,10 +1,10 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { google as googleLib } from 'googleapis';
+import { calendar_v3, google as googleLib } from 'googleapis';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '$env/static/private';
 import { batchFetchImplementation } from '@jrmdayn/googleapis-batcher';
 import { DateTime } from 'luxon';
-import type { CalendarEvent, SyncOptions } from '$lib/types/calendar';
+import type { CalendarEvent, GoogleResponse, SyncOptions } from '$lib/types/calendar';
 import type { Modul } from '$lib/types/lectio';
 import { LECTIO_API_URL, checkLectioCookie, convertLectioTime } from '$lib/lectio';
 
@@ -41,23 +41,28 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 		fetchImplementation: fetchImpl
 	});
 
-	let week = getWeekNumber(new Date());
-	let year = new Date().getFullYear();
+	const week = getWeekNumber(new Date());
+	const year = new Date().getFullYear();
 
 	const startOfWeek = new Date(year, 0, 2 + (week - 1) * 7, 1);
 	const endOfWeek = new Date(year, 0, 2 + (week - 1) * 7 + 6, 1);
 
 	// List all events from the calendar with the uid "betterlectio..." in the current week
-	let list = await calendarApi.events.list({
-		auth: calendarAuth,
-		calendarId: 'primary',
-		q: 'betterlectio',
-		timeMin: startOfWeek.toISOString(),
-		timeMax: endOfWeek.toISOString(),
-		singleEvents: true,
-		orderBy: 'startTime',
-		maxResults: 1000
-	});
+	let list: GoogleResponse<calendar_v3.Schema$Events>;
+	try {
+		list = await calendarApi.events.list({
+			auth: calendarAuth,
+			calendarId: 'primary',
+			q: 'betterlectio',
+			timeMin: startOfWeek.toISOString(),
+			timeMax: endOfWeek.toISOString(),
+			singleEvents: true,
+			orderBy: 'startTime',
+			maxResults: 1000
+		});
+	} catch (e) {
+		return error(401, 'Invalid google token');
+	}
 
 	// Delete all events from the calendar with the uid "betterlectio..." from the current week
 	await Promise.all(
@@ -88,7 +93,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 			});
 		})
 	);
-	
+
 	const successCount = insertedEvents.filter((event) => event.status === 200).length;
 	return new Response(JSON.stringify({ successCount, failCount: insertedEvents.length - successCount }), {
 		headers: {
