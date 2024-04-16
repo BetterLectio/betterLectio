@@ -2,7 +2,9 @@ name: Update version
 
 on:
   push:
-    branches: dev
+    branches:
+      - dev
+      - main
 
 jobs:
   update-version:
