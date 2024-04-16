@@ -32,7 +32,6 @@
 	} from 'radix-icons-svelte';
 	import { toggleMode } from 'mode-watcher';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { toast } from 'svelte-sonner';
 </script>
 
 <div data-tauri-drag-region class="fixed flex justify-end w-full titlebar">
