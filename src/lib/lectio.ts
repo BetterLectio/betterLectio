@@ -32,12 +32,8 @@ export const convertLectioTime = (dateString: string) => {
     );
 
     //set the start and the end date to the copenhagen timezone
-    startDate = startDate.setZone('Europe/Copenhagen'); // utc+1
-    endDate = endDate.setZone('Europe/Copenhagen'); // utc+1
-
-    //minus 2 hours from the start and end date
-    startDate = startDate.minus({ hours: 2 });
-    endDate = endDate.minus({ hours: 2 });
+    startDate = startDate.setZone('Europe/Copenhagen'); // CET/CEST
+    endDate = endDate.setZone('Europe/Copenhagen'); // CET/CEST
 
     const formattedStartDate = startDate.toISO();
     const formattedEndDate = endDate.toISO();
