@@ -3,6 +3,21 @@ import { DateTime } from "luxon";
 export const LECTIO_API_URL = 'https://api.betterlectio.dk';
 
 export const convertLectioTime = (dateString: string) => {
+    const matchArray = dateString.match(/\d+/gu);
+    if (matchArray === null) {
+        throw new Error('Invalid date string');
+    }
+    const [day, month, year, hour, minute] = matchArray;
+    return DateTime.local(
+        Number(year),
+        Number(month),
+        Number(day),
+        Number(hour),
+        Number(minute)
+    ).setZone('Europe/Copenhagen').minus({ hours: 2 }).toISO();
+}
+
+export const convertLectioInterval = (dateString: string) => {
     const [startDateString, endDateString] = dateString.split(' til ');
     const matchArray = startDateString.match(/\d+/gu);
     if (matchArray === null) {

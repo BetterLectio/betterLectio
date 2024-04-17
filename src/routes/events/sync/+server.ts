@@ -4,9 +4,9 @@ import { calendar_v3, google as googleLib } from 'googleapis';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '$env/static/private';
 import { batchFetchImplementation } from '@jrmdayn/googleapis-batcher';
 import { DateTime } from 'luxon';
-import type { CalendarEvent, GoogleResponse, SyncOptions } from '$lib/types/calendar';
 import type { Modul } from '$lib/types/lectio';
-import { LECTIO_API_URL, checkLectioCookie, convertLectioTime } from '$lib/lectio';
+import { LECTIO_API_URL, checkLectioCookie, convertLectioInterval } from '$lib/lectio';
+import type { CalendarEvent, EventSyncOptions, GoogleResponse } from '$lib/types/google';
 
 function getWeekNumber(d: Date): number {
 	const dt = DateTime.fromJSDate(d);
@@ -21,7 +21,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 
 	if (!googleToken || !lectioCookie) return error(400, 'Missing auth headers');
 
-	const options = await request.json() as SyncOptions;
+	const options = await request.json() as EventSyncOptions;
 	if (options) {
 		if (!options.eventReminders) return error(400, 'Missing eventReminders');
 		if (typeof options.eventReminders !== 'object') return error(400, 'eventReminders must be an array');
@@ -104,10 +104,10 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 	});
 };
 
-function formatModuler(moduler: Modul[], options: SyncOptions): CalendarEvent[] {
+function formatModuler(moduler: Modul[], options: EventSyncOptions): CalendarEvent[] {
 	return moduler.filter((modul) => modul.status !== 'aflyst' && modul.tidspunkt).map((modul) => {
 		// @ts-ignore modul.tidspunkt is a string              ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
-		const [startDate, endDate] = convertLectioTime(modul.tidspunkt);
+		const [startDate, endDate] = convertLectioInterval(modul.tidspunkt);
 
 		return {
 			summary: modul.hold,
