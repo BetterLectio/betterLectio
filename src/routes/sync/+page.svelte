@@ -1,58 +1,57 @@
 <script lang="ts">
 	import Header from '$lib/customComponents/Header.svelte';
 	import * as Card from '$lib/components/ui/card';
-	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Alert from '$lib/components/ui/alert';
-	import {
-		ExclamationTriangle as Error,
-		Update,
-		LightningBolt,
-		Target,
-		Rocket,
-		ExclamationTriangle
-	} from 'radix-icons-svelte';
+	import { LightningBolt, Trash } from 'radix-icons-svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import Switch from '$lib/components/ui/switch/switch.svelte';
-	import { hasAutoSync } from '$lib/js/store';
-	import Input from '$lib/components/ui/input/input.svelte';
+	import { onMount } from 'svelte';
+	import { toast } from 'svelte-sonner';
+	import Setup from './_components/Setup.svelte';
+	import Sync from './_components/Sync.svelte';
 
-	let state = 'loading';
+	let state: 'logged-out' | 'ready' | 'loading' = 'logged-out';
 
-	const start = async () => {
-		state = 'not-logged-in';
+	onMount(() => {
 		if (localStorage.getItem('googleToken')) {
 			state = 'ready';
 		}
-	};
-	start();
+	});
 
 	let token = '';
-	const saveToken = () => {
-		console.log(token);
-		localStorage.setItem('googleToken', token);
-		state = 'ready';
-	};
 
-	const sync = async () => {
-		console.log('syncing');
-		state = 'syncing';
-		console.log('token', localStorage.getItem('googleToken'));
-		console.log('lectio-cookie', localStorage.getItem('lectio-cookie'));
-		let res = null;
-		try {
-			res = await fetch('https://betterlectio-oauth.vercel.app/sync', {
-				headers: {
-					lectio: localStorage.getItem('lectio-cookie') || '',
-					google: localStorage.getItem('googleToken') || ''
-				}
-			});
-		} catch (e) {
-			state = 'error';
+	const deleteEvents = async () => {
+		state = 'loading';
+		const statusToast = toast.loading('Sletter...', { duration: 10000 });
+		
+		const res = await fetch('https://betterlectio-oauth.vercel.app/events/delete', {
+			method: 'POST',
+			headers: {
+				google: localStorage.getItem('googleToken') || ''
+			}
+		});
+		if (!res.ok) {
 			console.log(res);
+			switch (res.status) {
+				case 401:
+					state = 'logged-out';
+					toast.error('Din google kode er ugyldig. Venligst log ind igen.', { id: statusToast });
+					break;
+				default:
+					state = 'ready';
+					toast.error(
+						'Der skete en fejl under synkroniseringen. Prøv igen senere eller tjek din internetforbindelse.',
+						{ id: statusToast }
+					);
+					break;
+			}
 			return;
 		}
-		state = 'synced';
-		console.log('synced');
+		const data = await res.json();
+		toast.success(
+			`Sletning af Google Kalender-moduler er færdig. ${data.success} moduler er blevet slettet. ${data.failed} moduler kunne ikke slettes.`,
+			{ id: statusToast }
+		);
+		state = 'ready';
 	};
 </script>
 
@@ -75,105 +74,25 @@
 			</Card.Description>
 		</Card.Header>
 		<Card.Content>
-			{#key state}
-				{#if state === 'loading'}
+			{#if state === 'logged-out'}
+				<Setup bind:token bind:state />
+			{:else}
+				<div class="space-y-2">
+					<Sync bind:state />
 					<Alert.Root class="pt-4">
-						<Update class="animate-spin" />
-						<div class="flex justify-between w-full">
-							<div>
-								<Alert.Title>Indlæser</Alert.Title>
-								<Alert.Description
-									>Vent mens vi klargører Google Kalender-synkronisering</Alert.Description
-								>
-							</div>
-						</div>
-					</Alert.Root>
-				{:else if state === 'not-logged-in'}
-					<Alert.Root class="pt-4 border-destructive">
-						<Error />
+						<Trash />
 						<div class="flex items-center justify-between w-full">
 							<div>
-								<Alert.Title>Mangler konto</Alert.Title>
-								<Alert.Description>Du har ikke tilføjet en Google-konto endnu.</Alert.Description>
+								<Alert.Title>Slet Google Kalender-moduler</Alert.Title>
+								<Alert.Description>Slet alle moduler fra din Google Kalender</Alert.Description>
 							</div>
-							<Dialog.Root>
-								<Dialog.Trigger
-									><Button href="https://betterlectio-oauth.vercel.app/" target="_blank">
-										Log på med Google
-									</Button></Dialog.Trigger
-								>
-								<Dialog.Content>
-									<Dialog.Header>
-										<Dialog.Title>Indsæt koden her</Dialog.Title>
-										<Dialog.Description>
-											Indsæt koden fra popup-vinduet herunder. (husk det sidste tegn)
-										</Dialog.Description>
-									</Dialog.Header>
-									<Input bind:value={token} placeholder="Kode" />
-									<Dialog.Footer>
-										<Button type="submit" on:click={saveToken}>Gem</Button>
-									</Dialog.Footer>
-								</Dialog.Content>
-							</Dialog.Root>
+							<Button on:click={deleteEvents} disabled={state === 'loading'} variant="destructive"
+								>Slet</Button
+							>
 						</div>
 					</Alert.Root>
-				{:else if state === 'ready'}
-					<Alert.Root class="pt-4">
-						<LightningBolt />
-						<div class="flex items-center justify-between w-full">
-							<div>
-								<Alert.Title>Google Kalender-synkronisering</Alert.Title>
-								<Alert.Description
-									>Automatisk synkroniser dine moduler til din Google Kalender</Alert.Description
-								>
-							</div>
-							<!-- <Switch bind:checked={$hasAutoSync} /> -->
-							<Button on:click={sync}>Synkroniser nu</Button>
-						</div>
-					</Alert.Root>
-				{:else if state === 'syncing'}
-					<Alert.Root class="pt-4">
-						<Update class="animate-spin" />
-						<div class="flex items-center justify-between w-full">
-							<div>
-								<Alert.Title>Google Kalender-synkronisering</Alert.Title>
-								<Alert.Description
-									>Automatisk synkroniser dine moduler til din Google Kalender</Alert.Description
-								>
-							</div>
-							<!-- <Switch bind:checked={$hasAutoSync} /> -->
-							<Button on:click={sync}>Synkroniser nu</Button>
-						</div>
-					</Alert.Root>
-				{:else if state === 'synced'}
-					<Alert.Root class="pt-4">
-						<Rocket />
-						<div class="flex justify-between w-full">
-							<div>
-								<Alert.Title>Færdig</Alert.Title>
-								<Alert.Description>
-									Dine moduler er blevet synkroniseret til din Google Kalender
-								</Alert.Description>
-							</div>
-						</div>
-					</Alert.Root>
-				{:else if state === 'error'}
-					<Alert.Root class="pt-4 border-destructive">
-						<ExclamationTriangle />
-						<div class="flex justify-between w-full">
-							<div>
-								<Alert.Title>Fejl</Alert.Title>
-								<Alert.Description>
-									Der skete en fejl under synkroniseringen. Prøv igen senere eller tjek din
-									internetforbindelse.
-								</Alert.Description>
-							</div>
-						</div>
-					</Alert.Root>
-				{:else}
-					<!-- else content here -->
-				{/if}
-			{/key}
+				</div>
+			{/if}
 		</Card.Content>
 		<Card.Footer>
 			<p class="text-xs italic opacity-50">
@@ -186,7 +105,8 @@
 		variant="destructive"
 		size="sm"
 		on:click={() => {
-			state = 'not-logged-in';
+			localStorage.removeItem('googleToken');
+			state = 'logged-out';
 		}}>Reset</Button
 	>
 </div>

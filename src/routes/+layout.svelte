@@ -6,7 +6,7 @@
 	import Command from '$lib/customComponents/command.svelte';
 	import Banner from '$lib/customComponents/Banner.svelte'; //fejlen giver ikke mening lol (den er ikke fatal)
 	import Spinner from '$lib/customComponents/spinner.svelte';
-	import { brugeren, banners, isAuthed } from '$lib/js/store';
+	import { banners, isAuthed } from '$lib/js/store';
 	import { navigating } from '$app/stores';
 	import AccountSheet from '$lib/customComponents/AccountSheet.svelte';
 	import { ExclamationTriangle } from 'radix-icons-svelte';
