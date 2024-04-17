@@ -97,7 +97,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 	const success = insertedEvents.filter((event) => event.status === 200).length;
 	return new Response(JSON.stringify({ total: insertedEvents.length, success, failed: insertedEvents.length - success }), {
 		headers: {
-			'Access-Control-Allow-Methods': 'GET, OPTIONS',
+			'Access-Control-Allow-Methods': 'POST, OPTIONS',
 			'Access-Control-Allow-Origin': '*',
 			'Access-Control-Allow-Headers': '*'
 		}

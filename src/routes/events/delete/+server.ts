@@ -53,7 +53,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
     const success = deletedEvents.filter((event) => event.status === 204).length;
     return new Response(JSON.stringify({ total: deletedEvents.length, success, failed: deletedEvents.length - success }), {
         headers: {
-            'Access-Control-Allow-Methods': 'GET, OPTIONS',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*'
         }
