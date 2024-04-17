@@ -5,6 +5,7 @@
 	import { LightningBolt, PlusCircled, Trash } from 'radix-icons-svelte';
 	import { toast } from 'svelte-sonner';
 	import { Input } from '$lib/components/ui/input';
+	import { LECTIO_OAUTH_API } from '$lib/lectio';
 
 	export let state: string;
 
@@ -30,7 +31,7 @@
 			};
 		});
 
-		const res = await fetch('https://betterlectio-oauth.vercel.app/events/sync', {
+		const res = await fetch(`${LECTIO_OAUTH_API}/events/sync`, {
 			method: 'POST',
 			headers: {
 				lectio: localStorage.getItem('lectio-cookie') || '',
@@ -58,7 +59,7 @@
 		}
 		const data = await res.json();
 		toast.success(
-			`Synkronisering af Google Kalender-moduler er færdig.\n${data.success} moduler er blevet tilføjet\n${data.failed} moduler kunne ikke tilføjes`,
+			`Synkronisering af Google Kalender-moduler er færdig.`,
 			{ id: statusToast }
 		);
 		state = 'ready';
@@ -69,9 +70,9 @@
 	<LightningBolt />
 	<div class="flex items-center justify-between w-full">
 		<div>
-			<Alert.Title>Google Kalender-synkronisering</Alert.Title>
+			<Alert.Title>Synkronisering af skema</Alert.Title>
 			<Alert.Description
-				>Automatisk synkroniser dine moduler til din Google Kalender</Alert.Description
+				>Automatisk synkroniser dit Lectio skema til din Google Kalender</Alert.Description
 			>
 		</div>
 		<Dialog.Root>
