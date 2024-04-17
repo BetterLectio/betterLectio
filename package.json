@@ -1,6 +1,6 @@
 {
   "name": "betterlectio-next",
-  "version": "0.7.0",
+  "version": "0.4.38",
   "private": true,
   "scripts": {
     "tauri": "tauri",
