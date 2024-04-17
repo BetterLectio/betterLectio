@@ -44,10 +44,12 @@ jobs:
         run: bun install
 
       - name: Adjust version number
-        shell: "bash"
-        run: |
-          yq -i -o json '.version="${{ steps.get_version.outputs.version-without-v }}"' \
-            "${{ github.workspace }}/package.json"
+        uses: RadovanPelka/github-action-json@main
+        with:
+          replaceWith: |
+            {
+              "version": "${{ steps.get_version.outputs.version-without-v }}"
+            }
 
       - uses: tauri-apps/tauri-action@dev
         env:
