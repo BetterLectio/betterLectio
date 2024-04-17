@@ -14,6 +14,7 @@
 	import { check } from '@tauri-apps/plugin-updater';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { toast } from 'svelte-sonner';
+	import { dev } from '$app/environment';
 	$banners = [];
 	checkForUpdate();
 
@@ -95,6 +96,7 @@
 	}
 
 	async function checkForUpdate() {
+		if (dev) return;
 		console.log('checking for updates');
 		const update = await check();
 		console.log(update);
