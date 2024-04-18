@@ -1,4 +1,3 @@
-
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { google as googleLib, tasks_v1 } from 'googleapis';
@@ -9,7 +8,7 @@ import type { GoogleResponse, GoogleTask, TaskSyncOptions } from '$lib/types/goo
 import { compareTwoStrings } from '$lib/utils';
 import { DateTime } from 'luxon';
 
-export const POST: RequestHandler = async ({ request, fetch }) => {
+export const GET: RequestHandler = async ({ request, fetch }) => {
     const headers = request.headers;
     const googleToken = headers.get('google');
 
@@ -35,7 +34,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 
     return new Response(JSON.stringify(lists), {
         headers: {
-            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Methods': 'GET, OPTIONS',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*'
         }
