@@ -2,37 +2,27 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
 
-	import { getCurrent, UserAttentionType } from '@tauri-apps/api/window';
-
-	const minimizeWebview = async () => {
-		getCurrent().minimize();
-	};
-
-	const maximizeWebview = async () => {
-		const appWindow = getCurrent();
-		if (await appWindow.isMaximized()) {
-			appWindow.unmaximize();
-		} else {
-			appWindow.maximize();
-		}
-	};
-
-	const closeWebview = async () => {
-		getCurrent().close();
-	};
-
-	//import radix icons for titlebar
-	import {
-		Stop as Square,
-		DividerHorizontal as Minus,
-		Cross1 as Cross,
-		Avatar,
-		Sun,
-		Moon
-	} from 'radix-icons-svelte';
-	import { toggleMode } from 'mode-watcher';
+	import { getCurrent } from '@tauri-apps/api/window';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import { toggleMode } from 'mode-watcher';
+	import {
+		Avatar,
+		Copy,
+		Cross1 as Cross,
+		DividerHorizontal as Minus,
+		Moon,
+		Stop as Square,
+		Sun
+	} from 'radix-icons-svelte';
+	import { onMount } from 'svelte';
+
+	let fullscreen = false;
+	onMount(async () => (fullscreen = await getCurrent().isMaximized()));
+
+	const resize = async () => (fullscreen = await getCurrent().isMaximized());
 </script>
+
+<svelte:window on:resize={resize} />
 
 <div data-tauri-drag-region class="fixed flex justify-end w-full titlebar">
 	<div
@@ -80,7 +70,7 @@
 					<DropdownMenu.Separator class="mx-2" />
 					<DropdownMenu.Item href="/home">Forside</DropdownMenu.Item>
 					<DropdownMenu.Item href="/opgaver">Opgaver</DropdownMenu.Item>
-					<DropdownMenu.Item href="/sync">Google kalender</DropdownMenu.Item>
+					<DropdownMenu.Item href="/sync">Google Sync</DropdownMenu.Item>
 					<DropdownMenu.Item>Lektier</DropdownMenu.Item>
 					<DropdownMenu.Item>Dokumenter</DropdownMenu.Item>
 					<Separator orientation="horizontal" class="my-2" />
@@ -89,14 +79,28 @@
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
 		<Separator orientation="vertical" class="h-8 mx-4" />
-		<Button on:click={minimizeWebview} variant="ghost" size="icon" class="h-8 rounded-none">
+		<Button
+			on:click={() => getCurrent().minimize()}
+			variant="ghost"
+			size="icon"
+			class="h-8 rounded-none"
+		>
 			<Minus class="w-4 h-4" />
 		</Button>
-		<Button on:click={maximizeWebview} variant="ghost" size="icon" class="h-8 rounded-none">
-			<Square class="w-4 h-4" />
+		<Button
+			on:click={async () => await getCurrent().toggleMaximize()}
+			variant="ghost"
+			size="icon"
+			class="h-8 rounded-none"
+		>
+			{#if fullscreen}
+				<Copy class="w-4 h-4" />
+			{:else}
+				<Square class="w-4 h-4" />
+			{/if}
 		</Button>
 		<Button
-			on:click={closeWebview}
+			on:click={() => getCurrent().close()}
 			variant="ghost"
 			size="icon"
 			class="h-8 rounded-none hover:bg-destructive hover:to-destructive-foreground"

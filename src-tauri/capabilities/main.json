@@ -1,6 +1,6 @@
 {
-	"identifier": "migrated",
-	"description": "permissions that were migrated from v1",
+	"identifier": "main-capability",
+	"description": "Capability for the main window",
 	"local": true,
 	"windows": ["main"],
 	"permissions": [
@@ -19,6 +19,7 @@
 		"window:allow-hide",
 		"window:allow-close",
 		"window:allow-start-dragging",
+		"window:allow-toggle-maximize",
 		"updater:default",
 		"updater:allow-check",
 		"autostart:allow-enable",
