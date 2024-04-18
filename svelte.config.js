@@ -3,7 +3,7 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 import { fileURLToPath } from 'url';
 import { readFileSync } from 'fs';
-import sveltePreprocess from 'svelte-preprocess';
+import { preprocessMeltUI, sequence } from '@melt-ui/pp';
 
 const file = fileURLToPath(new URL('package.json', import.meta.url));
 const json = readFileSync(file, 'utf8');
@@ -13,7 +13,10 @@ const pkg = JSON.parse(json);
 const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
-	preprocess: vitePreprocess(),
+	preprocess: sequence([
+		vitePreprocess(),
+		preprocessMeltUI()
+	]),
 
 	kit: {
 		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.

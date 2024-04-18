@@ -15,6 +15,10 @@
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { toast } from 'svelte-sonner';
 	import { dev } from '$app/environment';
+	
+	import { Settings } from 'luxon';
+	Settings.defaultLocale = 'da';
+	
 	$banners = [];
 	checkForUpdate();
 

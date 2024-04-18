@@ -12,6 +12,7 @@
 	this={href ? 'a' : 'span'}
 	{href}
 	class={cn(badgeVariants({ variant, className }))}
+	on:click
 	{...$$restProps}
 >
 	<slot />

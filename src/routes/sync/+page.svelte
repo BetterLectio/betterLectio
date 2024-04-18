@@ -2,15 +2,45 @@
 	import Header from '$lib/customComponents/Header.svelte';
 	import * as Card from '$lib/components/ui/card';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import Spinner from '$lib/customComponents/spinner.svelte';
 	import { onMount } from 'svelte';
-	import { Setup, DeleteEvents, DeleteTasks, SyncEvents, SyncTasks } from './_components';
+	import {
+		Setup,
+		DeleteEvents,
+		DeleteTasks,
+		SyncEvents,
+		SyncTasks,
+		tasklists
+	} from './_components';
 	import { HamburgerMenu, Calendar } from 'radix-icons-svelte';
+	import { toast } from 'svelte-sonner';
+	import { LECTIO_OAUTH_API } from '$lib/lectio';
 
-	let state: 'logged-out' | 'ready' | 'loading' = 'logged-out';
+	let state: 'logged-out' | 'ready' | 'loading' | 'initialLoad' = 'initialLoad';
 
-	onMount(() => {
+	onMount(async () => {
 		if (localStorage.getItem('googleToken')) {
+			const res = await fetch(`${LECTIO_OAUTH_API}/tasks/tasklists`, {
+				method: 'GET',
+				headers: {
+					google: localStorage.getItem('googleToken') || ''
+				}
+			});
+			if (!res.ok) {
+				state = 'logged-out';
+				toast.error('Din google kode er ugyldig. Venligst log ind igen.');
+				return;
+			}
+			const data = (await res.json()) as { title: string; id: string }[];
+			tasklists.set(
+				data.map((tasklist) => ({
+					label: tasklist.title,
+					value: tasklist.id
+				}))
+			);
 			state = 'ready';
+		} else {
+			state = 'logged-out';
 		}
 	});
 
@@ -22,6 +52,10 @@
 <div class="container mx-auto">
 	{#if state === 'logged-out'}
 		<Setup bind:token bind:state />
+	{:else if state === 'initialLoad'}
+		<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
+			<Spinner />
+		</div>
 	{:else}
 		<div class="space-y-4">
 			<Card.Root>

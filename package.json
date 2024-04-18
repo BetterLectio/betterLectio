@@ -14,12 +14,15 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@melt-ui/pp": "^0.3.0",
+    "@melt-ui/svelte": "^0.76.3",
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/adapter-static": "^3.0.1",
     "@sveltejs/kit": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@tauri-apps/cli": "^2.0.0-beta.10",
     "@types/dompurify": "^3.0.5",
+    "@types/luxon": "^3.4.2",
     "@types/markdown-it": "^13.0.7",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.33",
@@ -46,6 +49,7 @@
     "dompurify": "^3.0.8",
     "embla-carousel-svelte": "^8.0.0-rc21",
     "event-calendar": "^0.8.1",
+    "luxon": "^3.4.4",
     "markdown-it": "^14.0.0",
     "mode-watcher": "^0.1.2",
     "path": "^0.12.7",
