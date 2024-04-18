@@ -1,10 +1,9 @@
-
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { calendar_v3, google as googleLib } from 'googleapis';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '$env/static/private';
 import { batchFetchImplementation } from '@jrmdayn/googleapis-batcher';
-import type { GoogleResponse } from '$lib/types/calendar';
+import type { GoogleResponse } from '$lib/types/google';
 
 export const POST: RequestHandler = async ({ request, fetch }) => {
     const fetchImpl = batchFetchImplementation();
@@ -12,6 +11,10 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
     const googleToken = headers.get('google');
 
     if (!googleToken) return error(400, 'Missing google token header');
+
+    const options = await request.json() as { calendarId: string };
+    if (!options) return error(400, 'Missing calendarId');
+    if (typeof options.calendarId !== 'string') return error(400, 'calendarId must be a string');
 
     const calendarAuth = new googleLib.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
     let decodedGoogleToken = JSON.parse(atob(googleToken));
@@ -29,7 +32,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
     try {
         events = await calendarApi.events.list({
             auth: calendarAuth,
-            calendarId: 'primary',
+            calendarId: options.calendarId,
             q: 'betterlectio',
             singleEvents: true,
             orderBy: 'startTime',
@@ -44,7 +47,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
         (events.data.items ?? []).map((event) => {
             return batchCalendarApi.events.delete({
                 auth: calendarAuth,
-                calendarId: 'primary',
+                calendarId: options.calendarId,
                 eventId: event.id!
             });
         })
