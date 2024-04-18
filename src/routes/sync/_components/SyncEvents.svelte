@@ -7,26 +7,29 @@
 	import { Input } from '$lib/components/ui/input';
 	import { LECTIO_OAUTH_API } from '$lib/lectio';
 	import { pageState } from '.';
+	import { ValueSelect } from '$lib/components/ui/select';
 
 	let eventReminders: {
-		method: 'popup' | 'email';
+		method: 'Notifikation' | 'Email';
 		quantity: string;
-		unit: 'minutes' | 'hours' | 'days';
-	}[] = [{ method: 'popup', quantity: '5', unit: 'minutes' }];
+		unit: 'Minutter' | 'Timer' | 'Dage';
+	}[] = [{ method: 'Notifikation', quantity: '5', unit: 'Minutter' }];
 	const syncEvents = async () => {
 		$pageState = 'loading';
 		const statusToast = toast.loading('Synkroniserer...', { duration: 10000 });
 
 		const reminders = eventReminders.map((reminder) => {
-			const minutes =
-				reminder.unit === 'minutes'
+			const minutes = Math.min(
+				reminder.unit === 'Minutter'
 					? +reminder.quantity
-					: reminder.unit === 'hours'
+					: reminder.unit === 'Timer'
 						? +reminder.quantity * 60
-						: +reminder.quantity * 24 * 60;
+						: +reminder.quantity * 24 * 60,
+				20160
+			);
 			return {
 				minutes,
-				method: reminder.method
+				method: reminder.method.replace('Notifikation', 'popup').replace('Email', 'email')
 			};
 		});
 
@@ -56,10 +59,7 @@
 			}
 			return;
 		}
-		toast.success(
-			`Synkronisering af Google Kalender-moduler er færdig.`,
-			{ id: statusToast }
-		);
+		toast.success(`Synkronisering af Google Kalender-moduler er færdig.`, { id: statusToast });
 		$pageState = 'ready';
 	};
 </script>
@@ -94,45 +94,33 @@
 							{#each eventReminders as reminder}
 								<div class="flex items-center justify-between">
 									<div class="flex items-center gap-2">
-										<Button
-											variant="outline"
-											on:click={() => {
-												reminder.method = reminder.method === 'popup' ? 'email' : 'popup';
-											}}>{reminder.method === 'popup' ? 'Notifikation' : 'Email'}</Button
-										>
+										<ValueSelect
+											class="w-2/5"
+											bind:value={reminder.method}
+											items={['Notifikation', 'Email']}
+										/>
 										<div class="flex items-center">
 											<Input
 												bind:value={reminder['quantity']}
 												class="rounded-r-none"
-												max={reminder.unit === 'minutes'
+												max={reminder.unit === 'Minutter'
 													? 20160
-													: reminder.unit === 'hours'
+													: reminder.unit === 'Timer'
 														? 336
 														: 14}
 												type="number"
 												placeholder="Antal"
 											/>
-											<Button
-												on:click={() => {
-													reminder.unit =
-														reminder.unit === 'minutes'
-															? 'hours'
-															: reminder.unit === 'hours'
-																? 'days'
-																: 'minutes';
-												}}
-												class="rounded-l-none"
-												variant="outline"
-											>
-												{reminder.unit === 'minutes'
-													? 'Minutter'
-													: reminder.unit === 'hours'
-														? 'Timer'
-														: 'Dage'}
-											</Button>
+											<ValueSelect
+												class="w-5/6"
+												inputClass="rounded-l-none"
+												bind:value={reminder.unit}
+												items={['Minutter', 'Timer', 'Dage']}
+											/>
 										</div>
 									</div>
 									<Button
+										class="ml-2 shrink-0"
 										on:click={() => {
 											eventReminders = eventReminders.filter((r) => r !== reminder);
 										}}
@@ -148,7 +136,7 @@
 									on:click={() => {
 										eventReminders = [
 											...eventReminders,
-											{ method: 'popup', quantity: '5', unit: 'minutes' }
+											{ method: 'Notifikation', quantity: '5', unit: 'Minutter' }
 										];
 									}}
 									size="icon"

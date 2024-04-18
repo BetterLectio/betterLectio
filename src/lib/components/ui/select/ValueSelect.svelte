@@ -5,36 +5,35 @@
 	import { buttonVariants } from '../button';
 	import { cn } from '$lib/utils';
 
-	export let items: { label: string; value: string }[] = [];
-	export let value: { label: string; value: string };
+	export let items: string[] = [];
+	export let value: string;
+	let className: string | undefined = undefined;
+	export { className as class };
+	export let inputClass: string | undefined = undefined;
 
 	const {
 		elements: { menu, input, option },
 		states: { open, inputValue, selected, touchedInput },
 		helpers: { isSelected }
 	} = createCombobox({
-		defaultSelected: { label: value.label, value: value.value },
+		defaultSelected: { label: value, value: value },
 		forceVisible: true
 	});
 
-	$: if ($selected)
-		value = {
-			label: $selected.label,
-			value: $selected.value
-		};
+	$: if ($selected) value = $selected.value;
 
 	$: filteredItems = $touchedInput
 		? items.filter((value) => {
 				const normalizedInput = $inputValue.toLowerCase();
-				return value.label.toLowerCase().includes(normalizedInput);
+				return value.toLowerCase().includes(normalizedInput);
 			})
 		: items;
 </script>
 
-<div class="relative w-full">
+<div class={cn("relative w-full", className)}>
 	<input
 		use:melt={$input}
-		class={cn(buttonVariants({ variant: 'outline' }), 'w-full placeholder:text-foreground')}
+		class={cn(buttonVariants({ variant: 'outline' }), 'w-full placeholder:text-foreground', inputClass)}
 		placeholder={$selected?.label}
 	/>
 	<div class="absolute z-10 -translate-y-1/2 right-2 top-1/2">
@@ -59,18 +58,18 @@
 			{#each filteredItems as item, index (index)}
 				<li
 					use:melt={$option({
-						value: item.value,
-						label: item.label
+						value: item,
+						label: item
 					})}
 					class="relative cursor-pointer scroll-my-2 rounded-md py-2 pl-4 pr-4
                     data-[highlighted]:bg-gray-200 dark:data-[highlighted]:bg-zinc-700"
 				>
-					{#if $isSelected(item.value)}
+					{#if $isSelected(item)}
 						<div class="absolute z-10 check left-2 top-1/2 text-primary">
 							<Check />
 						</div>
 					{/if}
-					<span class="pl-4 font-medium">{item.label}</span>
+					<span class="pl-4 font-medium">{item}</span>
 				</li>
 			{:else}
 				<li class="relative py-1 pl-8 pr-4 rounded-md cursor-pointer">Ingen resultater</li>
