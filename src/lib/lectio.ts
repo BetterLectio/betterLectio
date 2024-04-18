@@ -14,7 +14,7 @@ export const convertLectioTime = (dateString: string) => {
         Number(day),
         Number(hour),
         Number(minute)
-    ).setZone('Europe/Copenhagen').minus({ hours: 2 }).toISO();
+    ).setZone('Europe/Copenhagen').minus({ hours: 2 });
 }
 
 export const convertLectioInterval = (dateString: string) => {

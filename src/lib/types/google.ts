@@ -9,6 +9,7 @@ export type GoogleTask = tasks_v1.Schema$Task;
 export interface TaskSyncOptions {
     tasklist: string;
     addFinishedTasks: boolean;
+	maxAge?: string;
 };
 
 export interface GoogleResponse<T = any> {
