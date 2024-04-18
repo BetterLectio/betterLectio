@@ -2,9 +2,12 @@
 	import { LECTIO_OAUTH_API } from '$lib/lectio';
 	import { toast } from 'svelte-sonner';
 	import * as Alert from '$lib/components/ui/alert';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
 	import { Trash } from 'radix-icons-svelte';
-	import { pageState } from '.';
+	import { calendar, calendars, fetchCalendars, pageState } from '.';
+	import { Select } from '$lib/components/ui/select';
+	import Spinner from '$lib/customComponents/spinner.svelte';
 
 	const deleteEvents = async () => {
 		$pageState = 'loading';
@@ -14,7 +17,10 @@
 			method: 'POST',
 			headers: {
 				google: localStorage.getItem('googleToken') || ''
-			}
+			},
+			body: JSON.stringify({
+				calendarId: $calendar.value
+			})
 		});
 		if (!res.ok) {
 			switch (res.status) {
@@ -44,8 +50,32 @@
 			<Alert.Title>Slet moduler</Alert.Title>
 			<Alert.Description>Slet alle moduler fra din Google Kalender</Alert.Description>
 		</div>
-		<Button on:click={deleteEvents} disabled={$pageState === 'loading'} variant="destructive"
-			>Slet</Button
-		>
+		<Dialog.Root>
+			<Dialog.Trigger>
+				<Button on:click={fetchCalendars} disabled={$pageState === 'loading'} variant="destructive"
+					>Slet</Button
+				>
+			</Dialog.Trigger>
+			<Dialog.Content>
+				{#if $calendars.length === 0}
+					<Spinner />
+				{:else}
+					<Dialog.Header>
+						<Dialog.Title>Sletning af moduler</Dialog.Title>
+						<Dialog.Description>Slet alle moduler fra din Google Kalender</Dialog.Description>
+					</Dialog.Header>
+					<div class="flex flex-col space-y-4">
+						{#key $calendars}
+							<Select bind:value={$calendar} items={$calendars} />
+						{/key}
+						<Button
+							on:click={deleteEvents}
+							disabled={$pageState === 'loading'}
+							variant="destructive">Slet</Button
+						>
+					</div>
+				{/if}
+			</Dialog.Content>
+		</Dialog.Root>
 	</div>
 </Alert.Root>

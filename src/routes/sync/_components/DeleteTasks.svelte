@@ -70,7 +70,7 @@
 						{#key $tasklists}
 							<Select bind:value={$tasklist} items={$tasklists} />
 						{/key}
-						<Button on:click={deleteTasks} disabled={$pageState === 'loading'}>Slet</Button>
+						<Button on:click={deleteTasks} disabled={$pageState === 'loading'} variant='destructive'>Slet</Button>
 					</div>
 				{/if}
 			</Dialog.Content>
