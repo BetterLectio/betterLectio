@@ -95,7 +95,7 @@ function formatTasks(tasks: Opgave[], options: TaskSyncOptions): { id: string, d
         }
     });
 
-    if (options.addFinishedTasks) {
+    if (!options.addFinishedTasks) {
         filteredTasks = filteredTasks.filter((task) => task.status === "Afleveret" || task.status === "Afsluttet" ? false : true);
     }
     if (options.maxAge) {
