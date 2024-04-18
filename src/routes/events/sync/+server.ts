@@ -23,6 +23,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 
 	const options = await request.json() as EventSyncOptions;
 	if (options) {
+		if (!options.calendarId) return error(400, 'Missing calendarId');
 		if (!options.eventReminders) return error(400, 'Missing eventReminders');
 		if (typeof options.eventReminders !== 'object') return error(400, 'eventReminders must be an array');
 	}
@@ -52,7 +53,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 	try {
 		list = await calendarApi.events.list({
 			auth: calendarAuth,
-			calendarId: 'primary',
+			calendarId: options.calendarId,
 			q: 'betterlectio',
 			timeMin: startOfWeek.toISOString(),
 			timeMax: endOfWeek.toISOString(),
@@ -69,7 +70,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 		(list.data.items ?? []).map((event) => {
 			return batchCalendarApi.events.delete({
 				auth: calendarAuth,
-				calendarId: 'primary',
+				calendarId: options.calendarId,
 				eventId: event.id!
 			});
 		})
@@ -88,7 +89,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 		events.map((event) => {
 			return batchCalendarApi.events.insert({
 				auth: calendarAuth,
-				calendarId: 'primary',
+				calendarId: options.calendarId,
 				requestBody: event
 			});
 		})

@@ -1,30 +1,31 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { google as googleLib, tasks_v1 } from 'googleapis';
+import { calendar_v3, google as googleLib } from 'googleapis';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '$env/static/private';
 import type { GoogleResponse } from '$lib/types/google';
 
-export const GET: RequestHandler = async ({ request }) => {
+export const GET: RequestHandler = async ({ request, fetch }) => {
     const headers = request.headers;
     const googleToken = headers.get('google');
 
     if (!googleToken) return error(400, 'Missing google auth');
 
-    const tasksAuth = new googleLib.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+    const calAuth = new googleLib.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
     let decodedGoogleToken = JSON.parse(atob(googleToken));
-    tasksAuth.setCredentials(decodedGoogleToken);
-    const tasksApi = googleLib.tasks({ version: 'v1', auth: tasksAuth });
+    calAuth.setCredentials(decodedGoogleToken);
+    const calApi = googleLib.calendar({ version: 'v3', auth: calAuth });
 
-    let taskLists: GoogleResponse<tasks_v1.Schema$TaskLists>;
+    let calLists: GoogleResponse<calendar_v3.Schema$CalendarList>;
     try {
-        taskLists = await tasksApi.tasklists.list();
+        calLists = await calApi.calendarList.list();
     } catch (e) {
         return error(401, 'Invalid google token');
     }
-    const lists = taskLists.data?.items?.map((list) => {
+    const lists = calLists.data?.items?.filter((list) => list.accessRole === 'owner')?.map((list) => {
         return {
             id: list.id!,
-            title: list.title!
+            title: list.summary!,
+            color: list.backgroundColor!,
         }
     });
 
