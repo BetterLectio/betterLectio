@@ -4,13 +4,13 @@
 	import { Button } from '$lib/components/ui/button';
 	import { ExclamationTriangle as Error } from 'radix-icons-svelte';
 	import { Input } from '$lib/components/ui/input';
+	import { pageState } from '.';
 
-	export let token: string;
-	export let state: string;
+	let token: string = '';
 
 	const saveToken = () => {
 		localStorage.setItem('googleToken', token);
-		state = 'ready';
+		$pageState = 'ready';
 	};
 </script>
 

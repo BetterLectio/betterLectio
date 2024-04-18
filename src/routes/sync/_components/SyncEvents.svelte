@@ -6,8 +6,7 @@
 	import { toast } from 'svelte-sonner';
 	import { Input } from '$lib/components/ui/input';
 	import { LECTIO_OAUTH_API } from '$lib/lectio';
-
-	export let state: string;
+	import { pageState } from '.';
 
 	let eventReminders: {
 		method: 'popup' | 'email';
@@ -15,7 +14,7 @@
 		unit: 'minutes' | 'hours' | 'days';
 	}[] = [{ method: 'popup', quantity: '5', unit: 'minutes' }];
 	const syncEvents = async () => {
-		state = 'loading';
+		$pageState = 'loading';
 		const statusToast = toast.loading('Synkroniserer...', { duration: 10000 });
 
 		const reminders = eventReminders.map((reminder) => {
@@ -44,11 +43,11 @@
 		if (!res.ok) {
 			switch (res.status) {
 				case 401:
-					state = 'logged-out';
+					$pageState = 'logged-out';
 					toast.error('Din google kode er ugyldig. Venligst log ind igen.', { id: statusToast });
 					break;
 				default:
-					state = 'ready';
+					$pageState = 'ready';
 					toast.error(
 						'Der skete en fejl under synkroniseringen. Prøv igen senere eller tjek din internetforbindelse.',
 						{ id: statusToast }
@@ -57,12 +56,11 @@
 			}
 			return;
 		}
-		const data = await res.json();
 		toast.success(
 			`Synkronisering af Google Kalender-moduler er færdig.`,
 			{ id: statusToast }
 		);
-		state = 'ready';
+		$pageState = 'ready';
 	};
 </script>
 
@@ -77,7 +75,7 @@
 		</div>
 		<Dialog.Root>
 			<Dialog.Trigger>
-				<Button disabled={state === 'loading'}>Synkroniser nu</Button>
+				<Button disabled={$pageState === 'loading'}>Synkroniser nu</Button>
 			</Dialog.Trigger>
 			<Dialog.Content>
 				<Dialog.Header>
@@ -162,7 +160,7 @@
 					</div>
 				</div>
 				<Dialog.Footer>
-					<Button on:click={syncEvents} disabled={state === 'loading'}>Synkroniser nu</Button>
+					<Button on:click={syncEvents} disabled={$pageState === 'loading'}>Synkroniser nu</Button>
 				</Dialog.Footer>
 			</Dialog.Content>
 		</Dialog.Root>

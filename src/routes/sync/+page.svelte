@@ -10,52 +10,22 @@
 		DeleteTasks,
 		SyncEvents,
 		SyncTasks,
-		tasklists
+		pageState
 	} from './_components';
 	import { HamburgerMenu, Calendar } from 'radix-icons-svelte';
-	import { toast } from 'svelte-sonner';
-	import { LECTIO_OAUTH_API } from '$lib/lectio';
-
-	let state: 'logged-out' | 'ready' | 'loading' | 'initialLoad' = 'initialLoad';
 
 	onMount(async () => {
 		if (localStorage.getItem('googleToken')) {
-			const res = await fetch(`${LECTIO_OAUTH_API}/tasks/tasklists`, {
-				method: 'GET',
-				headers: {
-					google: localStorage.getItem('googleToken') || ''
-				}
-			});
-			if (!res.ok) {
-				state = 'logged-out';
-				toast.error('Din google kode er ugyldig. Venligst log ind igen.');
-				return;
-			}
-			const data = (await res.json()) as { title: string; id: string }[];
-			tasklists.set(
-				data.map((tasklist) => ({
-					label: tasklist.title,
-					value: tasklist.id
-				}))
-			);
-			state = 'ready';
-		} else {
-			state = 'logged-out';
+			$pageState = 'ready';
 		}
 	});
-
-	let token = '';
 </script>
 
 <Header>Google Synkronisering</Header>
 
 <div class="container mx-auto">
-	{#if state === 'logged-out'}
-		<Setup bind:token bind:state />
-	{:else if state === 'initialLoad'}
-		<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
-			<Spinner />
-		</div>
+	{#if $pageState === 'logged-out'}
+		<Setup />
 	{:else}
 		<div class="space-y-4">
 			<Card.Root>
@@ -71,8 +41,8 @@
 				</Card.Header>
 				<Card.Content>
 					<div class="space-y-2">
-						<SyncEvents bind:state />
-						<DeleteEvents bind:state />
+						<SyncEvents />
+						<DeleteEvents />
 					</div>
 				</Card.Content>
 				<Card.Footer>
@@ -92,8 +62,8 @@
 				</Card.Header>
 				<Card.Content>
 					<div class="space-y-2">
-						<SyncTasks bind:state />
-						<DeleteTasks bind:state />
+						<SyncTasks />
+						<DeleteTasks />
 					</div>
 				</Card.Content>
 				<Card.Footer>
@@ -109,7 +79,7 @@
 			size="sm"
 			on:click={() => {
 				localStorage.removeItem('googleToken');
-				state = 'logged-out';
+				$pageState = 'logged-out';
 			}}>Log ud</Button
 		>
 	{/if}

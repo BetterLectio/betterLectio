@@ -4,11 +4,10 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Trash } from 'radix-icons-svelte';
-
-	export let state: string;
+	import { pageState } from '.';
 
 	const deleteEvents = async () => {
-		state = 'loading';
+		$pageState = 'loading';
 		const statusToast = toast.loading('Sletter...', { duration: Number.POSITIVE_INFINITY });
 
 		const res = await fetch(`${LECTIO_OAUTH_API}/events/delete`, {
@@ -20,11 +19,11 @@
 		if (!res.ok) {
 			switch (res.status) {
 				case 401:
-					state = 'logged-out';
+					$pageState = 'logged-out';
 					toast.error('Din google kode er ugyldig. Venligst log ind igen.', { id: statusToast });
 					break;
 				default:
-					state = 'ready';
+					$pageState = 'ready';
 					toast.error(
 						'Der skete en fejl under synkroniseringen. Prøv igen senere eller tjek din internetforbindelse.',
 						{ id: statusToast }
@@ -33,12 +32,8 @@
 			}
 			return;
 		}
-		const data = await res.json();
-		toast.success(
-			`Sletning af Google Kalender-moduler er færdig. ${data.success} moduler er blevet slettet. ${data.failed} moduler kunne ikke slettes.`,
-			{ id: statusToast }
-		);
-		state = 'ready';
+		toast.success(`Sletning af Google Kalender-moduler er færdig.`, { id: statusToast });
+		$pageState = 'ready';
 	};
 </script>
 
@@ -49,7 +44,7 @@
 			<Alert.Title>Slet moduler</Alert.Title>
 			<Alert.Description>Slet alle moduler fra din Google Kalender</Alert.Description>
 		</div>
-		<Button on:click={deleteEvents} disabled={state === 'loading'} variant="destructive"
+		<Button on:click={deleteEvents} disabled={$pageState === 'loading'} variant="destructive"
 			>Slet</Button
 		>
 	</div>

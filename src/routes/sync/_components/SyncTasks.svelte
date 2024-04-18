@@ -9,9 +9,9 @@
 	import { toast } from 'svelte-sonner';
 	import { Switch } from '$lib/components/ui/switch';
 	import Select from '$lib/components/ui/select/Select.svelte';
-	import { tasklists } from '.';
+	import { fetchTasklists, pageState, tasklist, tasklists } from '.';
+	import Spinner from '$lib/customComponents/spinner.svelte';
 
-	export let state: string;
 	const maxAgePresets = [
 		{ dt: null, label: '∞' },
 		{ dt: DateTime.now().minus({ months: 1 }), label: '1 måned' },
@@ -20,15 +20,16 @@
 		{ dt: DateTime.now().minus({ months: 12 }), label: '12 måneder' }
 	];
 	let maxAge: DateTime | null = null;
-	let tasklist = $tasklists[0];
 	let addFinishedTasks = false;
 
+	$: console.log($tasklist);
+
 	const syncTasks = async () => {
-		state = 'loading';
+		$pageState = 'loading';
 		const statusToast = toast.loading('Synkroniserer...', { duration: 10000 });
 
 		let options: Record<string, string | boolean> = {
-			tasklist: tasklist.value,
+			tasklist: $tasklist.value,
 			addFinishedTasks
 		};
 		if (maxAge) {
@@ -46,11 +47,11 @@
 		if (!res.ok) {
 			switch (res.status) {
 				case 401:
-					state = 'logged-out';
+					$pageState = 'logged-out';
 					toast.error('Din google kode er ugyldig. Venligst log ind igen.', { id: statusToast });
 					break;
 				default:
-					state = 'ready';
+					$pageState = 'ready';
 					toast.error(
 						'Der skete en fejl under synkroniseringen. Prøv igen senere eller tjek din internetforbindelse.',
 						{ id: statusToast }
@@ -60,7 +61,7 @@
 			return;
 		}
 		toast.success(`Synkronisering af opgaver er færdig.`, { id: statusToast });
-		state = 'ready';
+		$pageState = 'ready';
 	};
 </script>
 
@@ -73,50 +74,57 @@
 		</div>
 		<Dialog.Root>
 			<Dialog.Trigger>
-				<Button disabled={state === 'loading'}>Synkroniser nu</Button>
+				<Button on:click={fetchTasklists} disabled={$pageState === 'loading'}>Synkroniser nu</Button
+				>
 			</Dialog.Trigger>
 			<Dialog.Content>
-				<Dialog.Header>
-					<Dialog.Title>Synkroniseringsindstillinger</Dialog.Title>
-					<Dialog.Description>
-						Her kan du konfigurere detaljer for Google Tasks-synkroniseringen.
-					</Dialog.Description>
-				</Dialog.Header>
-				<div class="flex flex-col space-y-4">
-					<div class="p-2 border rounded-md">
-						<h2 class="text-lg leading-4">Google Tasks-liste</h2>
-						<p class="pb-2 text-sm text-muted-foreground">
-							Hvilken Google Tasks-liste skal opgaver blive synkroniseret til?
-						</p>
-						<Select bind:value={tasklist} items={$tasklists} />
-					</div>
-					<div class="p-2 border rounded-md">
-						<h2 class="text-lg leading-4">Afleverede opgaver</h2>
-						<p class="pb-2 text-sm text-muted-foreground">
-							Skal afleverede opgaver blive synkroniseret til Google Tasks?
-						</p>
-						<Switch bind:checked={addFinishedTasks} />
-					</div>
-					<div class="p-2 border rounded-md">
-						<h2 class="text-lg leading-4">Opgavealder</h2>
-						<p class="pb-2 text-sm text-muted-foreground">
-							Hvor gammel må en opgave være for at den bliver synkroniseret til Google Tasks?
-						</p>
-						<div class="flex space-x-1">
-							{#each maxAgePresets as preset}
-								<Badge
-									on:click={() => {
-										maxAge = preset.dt;
-									}}
-									variant={maxAge === preset.dt ? 'default' : 'outline'}
-								>
-									{preset.label}
-								</Badge>
-							{/each}
+				{#if $tasklists.length === 0}
+					<Spinner />
+				{:else}
+					<Dialog.Header>
+						<Dialog.Title>Synkroniseringsindstillinger</Dialog.Title>
+						<Dialog.Description>
+							Her kan du konfigurere detaljer for Google Tasks-synkroniseringen.
+						</Dialog.Description>
+					</Dialog.Header>
+					<div class="flex flex-col space-y-4">
+						<div class="p-2 border rounded-md">
+							<h2 class="font-semibold leading-4">Google Tasks-liste</h2> 
+							<p class="pb-2 text-sm text-muted-foreground">
+								Hvilken Google Tasks-liste skal opgaver blive synkroniseret til?
+							</p>
+							{#key $tasklists}
+								<Select bind:value={$tasklist} items={$tasklists} />
+							{/key}
 						</div>
+						<div class="p-2 border rounded-md">
+							<h2 class="font-semibold leading-4">Afleverede opgaver</h2>
+							<p class="pb-2 text-sm text-muted-foreground">
+								Skal afleverede opgaver blive synkroniseret til Google Tasks?
+							</p>
+							<Switch bind:checked={addFinishedTasks} />
+						</div>
+						<div class="p-2 border rounded-md">
+							<h2 class="font-semibold leading-4">Opgavealder</h2>
+							<p class="pb-2 text-sm text-muted-foreground">
+								Hvor gammel må en opgave være for at den bliver synkroniseret til Google Tasks?
+							</p>
+							<div class="flex space-x-1">
+								{#each maxAgePresets as preset}
+									<Badge
+										on:click={() => {
+											maxAge = preset.dt;
+										}}
+										variant={maxAge === preset.dt ? 'default' : 'outline'}
+									>
+										{preset.label}
+									</Badge>
+								{/each}
+							</div>
+						</div>
+						<Button on:click={syncTasks} disabled={$pageState === 'loading'}>Synkroniser nu</Button>
 					</div>
-					<Button on:click={syncTasks} disabled={state === 'loading'}>Synkroniser nu</Button>
-				</div>
+				{/if}
 			</Dialog.Content>
 		</Dialog.Root>
 	</div>
