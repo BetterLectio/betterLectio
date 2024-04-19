@@ -10,6 +10,7 @@
 	import { Select, ValueSelect } from '$lib/components/ui/select';
 	import Spinner from '$lib/customComponents/spinner.svelte';
 
+	let blacklist = '';
 	let eventReminders: {
 		method: 'Notifikation' | 'Email';
 		quantity: string;
@@ -42,6 +43,7 @@
 			},
 			body: JSON.stringify({
 				calendarId: $calendar.value,
+				blacklist,
 				eventReminders: reminders
 			})
 		});
@@ -97,6 +99,38 @@
 								Vælg hvilken Google Kalender du vil have dine moduler synkroniseret til.
 							</p>
 							<Select bind:value={$calendar} items={$calendars} />
+						</div>
+						<div class="p-2 border rounded-md">
+							<h2 class="font-semibold leading-4">Blacklist</h2>
+							<p class="pb-2 text-sm text-muted-foreground">
+								AVANCERET: Hvis du vil fravælge moduler hvis deres navn indeholder specifikke ord.
+							</p>
+							<Dialog.Root>
+								<Dialog.Trigger>
+									<Button variant="outline">Konfigurer blacklist</Button>
+								</Dialog.Trigger>
+								<Dialog.Content>
+									<Dialog.Header>
+										<Dialog.Title>Blacklist</Dialog.Title>
+										<Dialog.Description>
+											Indsæt et regex der matcher navnet på moduler du vil fravælge.
+											<br />
+											Eksemplet indsætter ikke moduler med "cafe", "café", "klub", "club", "fri", "konkurrence",
+											"mesterskab", "infomøde", "kemi ol", "kemi-ol" i navnet, udover hvis det har "obligatorisk"
+											i navnet.
+										</Dialog.Description>
+									</Dialog.Header>
+									<div class="flex flex-col space-y-2">
+										<Button
+											on:click={() =>
+												(blacklist =
+													'(?!.*\\bobligatorisk\\b)(?=.*?(cafe|café|klub|club|fri|konkurrence|mesterskab|infomøde|kemi ol|kemi-ol)).*')}
+											>Indsæt eksempel</Button
+										>
+										<Input bind:value={blacklist} />
+									</div>
+								</Dialog.Content>
+							</Dialog.Root>
 						</div>
 						<div class="p-2 border rounded-md">
 							<h2 class="font-semibold leading-4">Påmindelser</h2>
