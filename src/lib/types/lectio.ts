@@ -1,5 +1,6 @@
 export interface Modul {
     absid: string;
+    navn: string | null;
     hold: string | null;
     tidspunkt: string | null;
     status: "normal" | "ændret" | "aflyst" | "eksamen" | null;

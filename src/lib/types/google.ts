@@ -3,6 +3,7 @@ import type { calendar_v3, tasks_v1 } from "googleapis";
 export type CalendarEvent = calendar_v3.Schema$Event;
 export interface EventSyncOptions {
 	calendarId: string;
+	blacklist: string;
 	eventReminders?: calendar_v3.Schema$EventReminder[];
 };
 

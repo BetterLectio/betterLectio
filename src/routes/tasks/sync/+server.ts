@@ -16,12 +16,11 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
     if (!googleToken || !lectioCookie) return error(400, 'Missing auth headers');
 
     const options = await request.json() as TaskSyncOptions;
-    if (options) {
-        if (typeof options.tasklist !== 'string') return error(400, 'tasklist must be a string');
-        if (!("addFinishedTasks" in options)) return error(400, 'Missing addFinishedTasks');
-        if (options.maxAge && typeof options.maxAge !== 'string') return error(400, 'maxAge must be a string');
-        if (options.maxAge && !DateTime.fromISO(options.maxAge).isValid) return error(400, 'maxAge must be a valid date');
-    }
+    if (!options) return error(400, 'Missing options');
+    if (typeof options.tasklist !== 'string') return error(400, 'tasklist must be a string');
+    if (!("addFinishedTasks" in options)) return error(400, 'Missing addFinishedTasks');
+    if (options.maxAge && typeof options.maxAge !== 'string') return error(400, 'maxAge must be a string');
+    if (options.maxAge && !DateTime.fromISO(options.maxAge).isValid) return error(400, 'maxAge must be a valid date');
 
     const isCookieValid = await checkLectioCookie(lectioCookie);
     if (!isCookieValid) return error(401, 'Invalid lectio cookie');

@@ -22,11 +22,17 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 	if (!googleToken || !lectioCookie) return error(400, 'Missing auth headers');
 
 	const options = await request.json() as EventSyncOptions;
-	if (options) {
-		if (!options.calendarId) return error(400, 'Missing calendarId');
-		if (!options.eventReminders) return error(400, 'Missing eventReminders');
-		if (typeof options.eventReminders !== 'object') return error(400, 'eventReminders must be an array');
+	if (!options) return error(400, 'Missing options');
+	if (!options.calendarId) return error(400, 'Missing calendarId');
+	if (typeof options.blacklist !== 'string') return error(400, 'Missing blacklist');
+	if (options.blacklist === '') options.blacklist = 'YouShallNotPass';
+	try {
+		new RegExp(options.blacklist);
+	} catch (e) {
+		return error(400, 'Blacklist must be a valid regex');
 	}
+	if (!options.eventReminders) return error(400, 'Missing eventReminders');
+	if (typeof options.eventReminders !== 'object') return error(400, 'eventReminders must be an array');
 
 	const isCookieValid = await checkLectioCookie(lectioCookie);
 	if (!isCookieValid) return error(401, 'Invalid lectio cookie');
@@ -106,9 +112,13 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 };
 
 function formatModuler(moduler: Modul[], options: EventSyncOptions): CalendarEvent[] {
-	return moduler.filter((modul) => modul.status !== 'aflyst' && modul.tidspunkt).map((modul) => {
-		// @ts-ignore modul.tidspunkt is a string              ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
-		const [startDate, endDate] = convertLectioInterval(modul.tidspunkt);
+	let filteredEvents = moduler.filter((modul) => modul.tidspunkt);
+	filteredEvents = filteredEvents.filter((modul) => modul.status !== 'aflyst');
+	const blacklist = new RegExp(options.blacklist);
+	filteredEvents = filteredEvents.filter((modul) => !blacklist.test(modul.navn || ''));
+
+	return filteredEvents.map((modul) => {
+		const [startDate, endDate] = convertLectioInterval(modul.tidspunkt!);
 
 		return {
 			summary: modul.hold,
@@ -128,7 +138,7 @@ function formatModuler(moduler: Modul[], options: EventSyncOptions): CalendarEve
 				overrides: options.eventReminders
 			}
 		}
-	});
+	})
 }
 
 export const OPTIONS: RequestHandler = async () => {
