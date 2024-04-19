@@ -15,10 +15,10 @@
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { toast } from 'svelte-sonner';
 	import { dev } from '$app/environment';
-	
+
 	import { Settings } from 'luxon';
 	Settings.defaultLocale = 'da';
-	
+
 	$banners = [];
 	checkForUpdate();
 
@@ -113,6 +113,7 @@
 			await relaunch(); */
 			toast('En opdatering er tilgængelig', {
 				description: 'Klik her for at opdatere',
+				duration: 10000,
 				action: {
 					label: 'Opdater nu',
 					onClick: async () => {
