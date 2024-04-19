@@ -115,7 +115,7 @@ function formatModuler(moduler: Modul[], options: EventSyncOptions): CalendarEve
 	let filteredEvents = moduler.filter((modul) => modul.tidspunkt);
 	filteredEvents = filteredEvents.filter((modul) => modul.status !== 'aflyst');
 	const blacklist = new RegExp(options.blacklist);
-	filteredEvents = filteredEvents.filter((modul) => !blacklist.test(modul.navn || ''));
+	filteredEvents = filteredEvents.filter((modul) => !blacklist.test(modul.navn?.toLowerCase() || ''));
 
 	return filteredEvents.map((modul) => {
 		const [startDate, endDate] = convertLectioInterval(modul.tidspunkt!);
