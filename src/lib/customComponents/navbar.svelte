@@ -24,7 +24,7 @@
 
 <svelte:window on:resize={resize} />
 
-<div data-tauri-drag-region class="fixed flex justify-end w-full titlebar">
+<div data-tauri-drag-region class="fixed flex z-50 justify-end w-full titlebar">
 	<div
 		class="flex justify-end bg-background pl-0.5 rounded-bl-lg border border-t-0 border-input shadow-md"
 	>
