@@ -1,0 +1,158 @@
+/* Write your global styles here, in PostCSS syntax */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--background: 0 0% 100%;
+		--foreground: 240 10% 3.9%;
+		--card: 0 0% 100%;
+		--card-foreground: 240 10% 3.9%;
+		--popover: 0 0% 100%;
+		--popover-foreground: 240 10% 3.9%;
+		--primary: 240 5.9% 10%;
+		--primary-foreground: 0 0% 98%;
+		--secondary: 240 4.8% 95.9%;
+		--secondary-foreground: 240 5.9% 10%;
+		--muted: 240 4.8% 95.9%;
+		--muted-foreground: 240 3.8% 46.1%;
+		--accent: 240 4.8% 95.9%;
+		--accent-foreground: 240 5.9% 10%;
+		--destructive: 0 72.22% 50.59%;
+		--destructive-foreground: 0 0% 98%;
+		--border: 240 5.9% 90%;
+		--input: 240 5.9% 90%;
+		--ring: 240 5.9% 10%;
+		--radius: 0.5rem;
+	}
+	.dark {
+		--background: 240 10% 3.9%;
+		--foreground: 0 0% 98%;
+		--card: 240 10% 3.9%;
+		--card-foreground: 0 0% 98%;
+		--popover: 240 10% 3.9%;
+		--popover-foreground: 0 0% 98%;
+		--primary: 0 0% 98%;
+		--primary-foreground: 240 5.9% 10%;
+		--secondary: 240 3.7% 15.9%;
+		--secondary-foreground: 0 0% 98%;
+		--muted: 240 3.7% 15.9%;
+		--muted-foreground: 240 5% 64.9%;
+		--accent: 240 3.7% 15.9%;
+		--accent-foreground: 0 0% 98%;
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 0 0% 98%;
+		--border: 240 3.7% 15.9%;
+		--input: 240 3.7% 15.9%;
+		--ring: 240 4.9% 83.9%;
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+.fc-timegrid-event .fc-event-main {
+	@apply p-0.5;
+}
+
+.fc-timegrid-event-harness-inset .fc-timegrid-event,
+.fc-timegrid-event.fc-event-mirror,
+.fc-timegrid-more-link {
+	@apply shadow-none rounded-md;
+}
+
+.fc-event {
+	@apply border overflow-hidden border-input bg-background shadow-sm hover:bg-accent ring-0 hover:text-accent-foreground inline-flex whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+}
+
+.event-cancelled {
+	@apply border-2 !border-[#ff3f3f];
+}
+
+:is(.event-cancelled .fc-event-title) {
+	text-decoration: line-through;
+}
+
+.fc-event-title {
+	@apply font-semibold text-black;
+}
+
+:is(.event-cancelled .fc-event-title) {
+	@apply text-[#ff3f3f];
+}
+
+.fc-event-time {
+	@apply text-black;
+}
+
+:is(.event-cancelled .fc-event-time) {
+	@apply text-[#ff3f3f];
+}
+
+.fc .fc-button {
+	@apply border border-input bg-background text-primary shadow-sm hover:bg-accent ring-0 hover:text-accent-foreground inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+}
+
+.fc .fc-button-primary:disabled {
+	@apply border border-input bg-background text-primary shadow-sm hover:bg-accent ring-0 hover:text-accent-foreground inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+}
+
+.fc .fc-button-primary {
+	@apply border-input hover:border-input;
+}
+
+.fc .fc-button-primary:disabled {
+	@apply border-input hover:border-input;
+}
+
+.fc .fc-timegrid-col.fc-day-today {
+	background-color: transparent;
+}
+
+.fc .fc-timegrid-now-indicator-line {
+	@apply mt-[-2px] border-[2px] border-primary;
+}
+
+.fc .fc-timegrid-now-indicator-arrow {
+	border-color: #8678f9;
+	border-width: 5px 0px 5px 6px;
+	border-bottom-color: transparent;
+	border-top-color: transparent;
+}
+
+.fc .fc-scrollgrid {
+	@apply bg-background rounded-lg;
+}
+
+.fc .fc-timegrid-slot-label {
+	@apply block border-none !mt-[-1em];
+}
+
+.fc tr:first-child .fc-timegrid-slot-label {
+	@apply hidden;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+	@apply dark:border-input;
+}
+.fc-theme-standard td {
+	@apply dark:border-input;
+}
+.fc-theme-standard th {
+	@apply dark:border-input;
+}
+
+.apexcharts-svg {
+	@apply dark:!bg-primary;
+}

@@ -64,6 +64,9 @@
 				<p data-routeto="/opgaver" class="w-full h-full cursor-pointer">Gå til Opgaver</p>
 			</Command.Item>
 			<Command.Item>
+				<p data-routeto="/skema" class="w-full h-full cursor-pointer">Gå til Skema</p>
+			</Command.Item>
+			<Command.Item>
 				<p data-routeto="/beskeder" class="w-full h-full cursor-pointer">Gå til Beskeder</p>
 			</Command.Item>
 			<Command.Item>

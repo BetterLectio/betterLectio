@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../app.css';
+	import '../app.pcss';
 
 	import { Toaster } from '$lib/components/ui/sonner';
 	import Navbar from '$lib/customComponents/navbar.svelte';
@@ -125,21 +125,21 @@
 	}
 </script>
 
-<Command />
-<Navbar />
+<Command></Command>
+<Navbar></Navbar>
 {#each $banners as banner}
-	<Banner to={banner.to} type={banner.type} text={banner.text} />
+	<Banner to={banner.to} type={banner.type} text={banner.text}></Banner>
 {/each}
-<Toaster />
+<Toaster></Toaster>
 
 {#if $navigating}
 	<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
-		<Spinner />
+		<Spinner></Spinner>
 	</div>
 {:else}
 	{#await checkCookie()}
 		<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
-			<Spinner />
+			<Spinner></Spinner>
 		</div>
 	{:then value}
 		{#if value}
@@ -148,7 +148,7 @@
 			</div>
 		{:else}
 			<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2" use:login>
-				<Spinner />
+				<Spinner></Spinner>
 			</div>
 		{/if}
 	{:catch error}
@@ -156,14 +156,14 @@
 			{#if error.message === 'Credentials are not set' || error.message === 'Cookie is invalid'}
 				{#if error.message === 'Credentials are not set'}
 					<p>Din konto er ikke sat op</p>
-					<AccountSheet />
+					<AccountSheet></AccountSheet>
 				{:else}
 					<p>Dine login oplysninger er ugyldige</p>
-					<AccountSheet />
+					<AccountSheet></AccountSheet>
 				{/if}
 			{:else}
 				<Alert.Root variant="destructive">
-					<ExclamationTriangle class="w-4 h-4" />
+					<ExclamationTriangle class="w-4 h-4"></ExclamationTriangle>
 					<Alert.Title>Fejl</Alert.Title>
 					<Alert.Description>Der skete en fejl, prøv at genindlæse siden</Alert.Description>
 				</Alert.Root>
