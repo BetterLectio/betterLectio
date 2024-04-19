@@ -1,14 +1,14 @@
 <script lang="ts">
+	import { Spinner } from '$lib/components';
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Dialog from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
+	import * as Dialog from '$lib/components/ui/dialog';
+	import { Input } from '$lib/components/ui/input';
+	import { Select, ValueSelect } from '$lib/components/ui/select';
+	import { LECTIO_OAUTH_API } from '$lib/lectio';
 	import { LightningBolt, PlusCircled, Trash } from 'radix-icons-svelte';
 	import { toast } from 'svelte-sonner';
-	import { Input } from '$lib/components/ui/input';
-	import { LECTIO_OAUTH_API } from '$lib/lectio';
 	import { calendar, calendars, fetchCalendars, pageState } from '.';
-	import { Select, ValueSelect } from '$lib/components/ui/select';
-	import Spinner from '$lib/customComponents/spinner.svelte';
 
 	let blacklist = '';
 	let eventReminders: {

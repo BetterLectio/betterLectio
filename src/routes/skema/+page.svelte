@@ -1,27 +1,24 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { Spinner } from '$lib/components';
+	import { Button } from '$lib/components/ui/button';
+	import { get } from '$lib/js/http';
+	import type { RawLesson } from '$lib/types/types';
+	import { constructInterval, decodeUserID, stringToColor } from '$lib/utils';
 	import { Calendar, type EventSourceFunc } from '@fullcalendar/core';
+	import daLocale from '@fullcalendar/core/locales/da';
 	import luxonPlugin from '@fullcalendar/luxon3';
 	import timeGridPlugin from '@fullcalendar/timegrid';
-	import daLocale from '@fullcalendar/core/locales/da';
 	import { DateTime } from 'luxon';
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
-	import { fade } from 'svelte/transition';
-	import { get } from '$lib/js/http';
-	import { constructInterval, decodeUserID, stringToColor } from '$lib/utils';
-	import type { RawLesson } from '$lib/types/types';
 	import { toast } from 'svelte-sonner';
-	import { Cross2, Target, Update } from 'radix-icons-svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import Header from '$lib/customComponents/Header.svelte';
 
 	const nameRegex = /^(?:[\w]+) (.*)(?:,.*)/;
 
 	let userId: string;
 	let searchId: string;
 	let userName = '';
-	let loadedSettings = false;
 
 	const getEvents: EventSourceFunc = (fetchInfo, successCallback) => {
 		const start: DateTime = DateTime.fromJSDate(fetchInfo.start);
@@ -202,29 +199,25 @@
 
 <svelte:window bind:innerWidth={width} />
 
-<Header
-	><div class="flex items-center h-6 space-x-4">
-		<h1 class="mb-0">Skema {userId === searchId ? `(${userName})` : ''}</h1>
-		{#if loading}
-			<Update class="animate-spin" />
-		{/if}
-	</div>
-</Header>
-
-<div class="container mx-auto">
+<div class="page-container">
 	<div class="flex items-center justify-between">
+		<div class="flex items-center space-x-4">
+			<h1>Skema {userId === searchId ? `(${userName})` : ''}</h1>
+			{#if loading}
+				<Spinner />
+			{/if}
+		</div>
 		<div class="flex space-x-1">
 			{#if showBackToWeekViewButton}
-				<button
+				<Button
 					on:click={() => {
 						calendar.changeView('timeGridWeek');
 						showBackToWeekViewButton = false;
 					}}
-					class="h-10 px-3 text-white border-gray-700 rounded bg-primary hover:bg-primary-hover dark:bg-background dark:hover:bg-background-hover dark:text-black"
-					>Ugevisning</button
+					variant="outline">Ugevisning</Button
 				>
 			{/if}
 		</div>
 	</div>
-	<div bind:this={calendarEl} class="!mt-0 not-prose" />
+	<div bind:this={calendarEl} class="!mt-0" />
 </div>

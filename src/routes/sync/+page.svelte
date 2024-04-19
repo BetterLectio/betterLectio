@@ -1,8 +1,6 @@
 <script lang="ts">
-	import Header from '$lib/customComponents/Header.svelte';
 	import * as Card from '$lib/components/ui/card';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import Spinner from '$lib/customComponents/spinner.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import { onMount } from 'svelte';
 	import {
 		Setup,
@@ -13,6 +11,7 @@
 		pageState
 	} from './_components';
 	import { HamburgerMenu, Calendar } from 'radix-icons-svelte';
+	import { Spinner } from '$lib/components';
 
 	onMount(async () => {
 		if (localStorage.getItem('googleToken')) {
@@ -21,9 +20,13 @@
 	});
 </script>
 
-<Header>Google Synkronisering</Header>
-
-<div class="container mx-auto">
+<div class="page-container">
+	<div class="flex space-x-2">
+		<h1>Google Synkronisering</h1>
+		{#if $pageState === 'loading'}
+			<Spinner />
+		{/if}
+	</div>
 	{#if $pageState === 'logged-out'}
 		<Setup />
 	{:else}

@@ -1,16 +1,16 @@
 <script lang="ts">
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Dialog from '$lib/components/ui/dialog';
-	import { Button } from '$lib/components/ui/button';
-	import { LightningBolt } from 'radix-icons-svelte';
-	import { DateTime } from 'luxon';
 	import { Badge } from '$lib/components/ui/badge';
-	import { LECTIO_OAUTH_API } from '$lib/lectio';
-	import { toast } from 'svelte-sonner';
-	import { Switch } from '$lib/components/ui/switch';
+	import { Button } from '$lib/components/ui/button';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import Select from '$lib/components/ui/select/Select.svelte';
+	import { Switch } from '$lib/components/ui/switch';
+	import { LECTIO_OAUTH_API } from '$lib/lectio';
+	import { DateTime } from 'luxon';
+	import { LightningBolt } from 'radix-icons-svelte';
+	import { toast } from 'svelte-sonner';
 	import { fetchTasklists, pageState, tasklist, tasklists } from '.';
-	import Spinner from '$lib/customComponents/spinner.svelte';
+	import { Spinner } from '$lib/components';
 
 	const maxAgePresets = [
 		{ dt: null, label: '∞' },

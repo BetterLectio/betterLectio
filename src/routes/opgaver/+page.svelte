@@ -1,22 +1,21 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { Badge } from '$lib/components/ui/badge';
+	import { Input } from '$lib/components/ui/input';
 	import { Separator } from '$lib/components/ui/separator';
-	import { ArrowLeft as Back } from 'radix-icons-svelte';
 	import * as Table from '$lib/components/ui/table';
+	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { get } from '$lib/js/http';
+	import { formatDate } from '$lib/js/relativeTime';
 	import { opgaver } from '$lib/js/store';
+	import type { OpgaveList } from '$lib/types/types';
 	import {
+		Archive,
+		ChatBubble,
 		EnvelopeOpen,
 		ExclamationTriangle,
-		Rocket,
-		Archive,
-		ChatBubble
+		Rocket
 	} from 'radix-icons-svelte';
-	import * as Tooltip from '$lib/components/ui/tooltip';
-	import { Input } from '$lib/components/ui/input';
-	import { Badge } from '$lib/components/ui/badge';
-	import { formatDate } from '$lib/js/relativeTime';
-	import { goto } from '$app/navigation';
-	import Header from '$lib/customComponents/Header.svelte';
 
 	let _opgaver: Array<OpgaveList> = [];
 	let selected = 'ikkeAfleveredeOpgaver';
@@ -96,10 +95,9 @@
 	}
 </script>
 
-<Header>Opgaver</Header>
-<div class="container mx-auto">
-	<!-- search -->
-	<div class="flex items-center gap-4">
+<div class="page-container">
+	<div class="flex justify-between">
+		<h1>Opgaver</h1>
 		<Input
 			type="text"
 			class="max-w-xs"
@@ -112,7 +110,7 @@
 		/>
 	</div>
 
-	<Table.Root class="overflow-x-auto">
+	<Table.Root class="overflow-x-auto" containerClass="!mt-4">
 		<Table.Header>
 			<Table.Row>
 				<Table.Head></Table.Head>

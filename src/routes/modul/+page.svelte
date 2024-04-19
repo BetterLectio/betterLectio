@@ -1,14 +1,12 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+	import { Button } from '$lib/components/ui/button';
+	import { Separator } from '$lib/components/ui/separator';
+	import * as Table from '$lib/components/ui/table';
 	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
 	import { get } from '$lib/js/http.js';
-	import { page } from '$app/stores';
-	import purifier from 'dompurify';
 	import type { RawModule } from '$lib/types/types';
-	import Header from '$lib/customComponents/Header.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import * as Table from '$lib/components/ui/table';
-	import { DividerHorizontal } from 'radix-icons-svelte';
-	import Separator from '$lib/components/ui/separator/separator.svelte';
+	import purifier from 'dompurify';
 
 	const { sanitize } = purifier();
 
@@ -52,18 +50,13 @@
 	}
 </script>
 
-<Header>
-	<h1 class="heading">
+<div class="page-container">
+	<div class="flex justify-between">
 		{#if modul}
-			{modul.aktivitet.hold}
+			<h1>{modul.aktivitet.navn ? modul.aktivitet.navn : modul.aktivitet.hold}</h1>
 		{:else}
-			Loading...
+			<h1>Loading...</h1>
 		{/if}
-	</h1>
-</Header>
-
-<div class="container mx-auto">
-	<div class="flex flex-row justify-end w-full">
 		{#if modul}
 			<Button
 				variant="outline"
@@ -104,7 +97,7 @@
 					<div>
 						<h2 class="text-xl font-bold capitalize">{indhold[0].replace('_', ' ')}</h2>
 						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-						<div use:onIndholdMount class="modul divide-y space-y-2 break-all">
+						<div use:onIndholdMount class="space-y-2 break-all divide-y modul">
 							{@html sanitize(indhold[1].replace('align="center"', ''))}
 						</div>
 					</div>

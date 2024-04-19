@@ -1,7 +1,5 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
-	import * as Button from '$lib/components/ui/button';
-	import LectioAvatar from '$lib/customComponents/LectioAvatar.svelte';
 	import MarkdownIt from 'markdown-it';
 	import purifier from 'dompurify';
 
@@ -13,8 +11,6 @@
 	export let dato: string;
 	export let indent: Number = 0;
 </script>
-
-<!-- chat bubble component-->
 
 <Card.Root class="my-2 ml-[{indent}] shadow-none">
 	<Card.Header>

@@ -2,13 +2,9 @@
 	import '../app.pcss';
 
 	import { Toaster } from '$lib/components/ui/sonner';
-	import Navbar from '$lib/customComponents/navbar.svelte';
-	import Command from '$lib/customComponents/command.svelte';
-	import Banner from '$lib/customComponents/Banner.svelte'; //fejlen giver ikke mening lol (den er ikke fatal)
-	import Spinner from '$lib/customComponents/spinner.svelte';
 	import { banners, isAuthed } from '$lib/js/store';
 	import { navigating } from '$app/stores';
-	import AccountSheet from '$lib/customComponents/AccountSheet.svelte';
+	import { AccountSheet, SiteHeader, SiteSearch, Spinner, Banner } from '$lib/components';
 	import { ExclamationTriangle } from 'radix-icons-svelte';
 	import * as Alert from '$lib/components/ui/alert';
 	import { check } from '@tauri-apps/plugin-updater';
@@ -126,49 +122,44 @@
 	}
 </script>
 
-<Command></Command>
-<Navbar></Navbar>
-{#each $banners as banner}
-	<Banner to={banner.to} type={banner.type} text={banner.text}></Banner>
-{/each}
-<Toaster></Toaster>
+<Toaster />
+<SiteSearch />
+<SiteHeader />
 
-{#if $navigating}
+{#each $banners as banner}
+	<Banner to={banner.to} type={banner.type} text={banner.text} />
+{/each}
+
+{#await checkCookie()}
 	<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
-		<Spinner></Spinner>
+		<Spinner />
 	</div>
-{:else}
-	{#await checkCookie()}
-		<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
-			<Spinner></Spinner>
+{:then value}
+	{#if value}
+		<div class="overflow-x-clip">
+			<slot />
 		</div>
-	{:then value}
-		{#if value}
-			<div class="overflow-x-clip">
-				<slot />
-			</div>
-		{:else}
-			<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2" use:login>
-				<Spinner></Spinner>
-			</div>
-		{/if}
-	{:catch error}
-		<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
-			{#if error.message === 'Credentials are not set' || error.message === 'Cookie is invalid'}
-				{#if error.message === 'Credentials are not set'}
-					<p>Din konto er ikke sat op</p>
-					<AccountSheet></AccountSheet>
-				{:else}
-					<p>Dine login oplysninger er ugyldige</p>
-					<AccountSheet></AccountSheet>
-				{/if}
+	{:else}
+		<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2" use:login>
+			<Spinner />
+		</div>
+	{/if}
+{:catch error}
+	<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
+		{#if error.message === 'Credentials are not set' || error.message === 'Cookie is invalid'}
+			{#if error.message === 'Credentials are not set'}
+				<p>Din konto er ikke sat op</p>
+				<AccountSheet></AccountSheet>
 			{:else}
-				<Alert.Root variant="destructive">
-					<ExclamationTriangle class="w-4 h-4"></ExclamationTriangle>
-					<Alert.Title>Fejl</Alert.Title>
-					<Alert.Description>Der skete en fejl, prøv at genindlæse siden</Alert.Description>
-				</Alert.Root>
+				<p>Dine login oplysninger er ugyldige</p>
+				<AccountSheet></AccountSheet>
 			{/if}
-		</div>
-	{/await}
-{/if}
+		{:else}
+			<Alert.Root variant="destructive">
+				<ExclamationTriangle class="w-4 h-4"></ExclamationTriangle>
+				<Alert.Title>Fejl</Alert.Title>
+				<Alert.Description>Der skete en fejl, prøv at genindlæse siden</Alert.Description>
+			</Alert.Root>
+		{/if}
+	</div>
+{/await}

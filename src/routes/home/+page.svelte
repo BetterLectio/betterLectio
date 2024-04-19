@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Header from '$lib/customComponents/Header.svelte';
 	import { get } from '$lib/js/http';
 	import { forside } from '$lib/js/store';
 
@@ -9,4 +8,6 @@
 	});
 </script>
 
-<Header>Forside - {new Date().toDateString()}</Header>
+<div class="page-container">
+	<h1>Forside - {new Date().toDateString()}</h1>
+</div>

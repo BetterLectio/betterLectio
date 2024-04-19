@@ -1,13 +1,13 @@
 <script lang="ts">
+	import { Spinner } from '$lib/components';
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Dialog from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
+	import * as Dialog from '$lib/components/ui/dialog';
+	import { Select } from '$lib/components/ui/select';
+	import { LECTIO_OAUTH_API } from '$lib/lectio';
 	import { Trash } from 'radix-icons-svelte';
 	import { toast } from 'svelte-sonner';
-	import { LECTIO_OAUTH_API } from '$lib/lectio';
-	import { Select } from '$lib/components/ui/select';
 	import { fetchTasklists, pageState, tasklist, tasklists } from '.';
-	import Spinner from '$lib/customComponents/spinner.svelte';
 
 	const deleteTasks = async () => {
 		$pageState = 'loading';

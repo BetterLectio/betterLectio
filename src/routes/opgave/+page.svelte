@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { get } from '$lib/js/http';
-	import Header from '$lib/customComponents/Header.svelte';
-	import Spinner from '$lib/customComponents/spinner.svelte';
+	import { page } from '$app/stores';
+	import { Spinner } from '$lib/components';
 	import { Badge } from '$lib/components/ui/badge';
-	import * as Accordion from '$lib/components/ui/accordion';
-	import Separator from '$lib/components/ui/separator/separator.svelte';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
-	import * as Table from '$lib/components/ui/table';
 	import { Button } from '$lib/components/ui/button';
+	import { Separator } from '$lib/components/ui/separator';
+	import * as Table from '$lib/components/ui/table';
+	import { cookieInfo } from '$lib/js/LectioCookieHandler';
+	import { get } from '$lib/js/http';
+	import type { Opgave } from '$lib/types/types';
 
 	let cookie: any = null;
 	cookieInfo().then((data) => {
@@ -50,81 +49,87 @@
 	}
 </script>
 
-{#if ready}
-	<Header
-		><Badge class="text-xl" variant="outline">{opgave.oplysninger.hold}</Badge>
-		{opgave.oplysninger.opgavetitel}</Header
-	>
-	<div class="container mx-auto mb-2">
-		{#if opgave.afleveres_af.afventer === 'Elev'}
-			<Badge>afventer: {opgave.afleveres_af.afventer}</Badge>
-		{/if}
-		{#if opgave.afleveres_af.afsluttet === true}
-			<Badge variant="secondary">afsluttet</Badge>
-		{/if}
-		{#if opgave.afleveres_af.status_fravær.includes('Fravær: 100%')}
-			<Badge variant="destructive">{opgave.afleveres_af.status_fravær}</Badge>
-		{/if}
-		<Badge variant="outline">skala: {opgave.oplysninger.karakterskala}</Badge>
-		<Badge variant="outline">frist: {opgave.oplysninger.afleveringsfrist}</Badge>
-		<Badge variant="outline">elevtid: {opgave.oplysninger.elevtid}</Badge>
-	</div>
-	<div class="container mx-auto">
-		{#if opgave.oplysninger.opgavenote}
-			<p>{opgave.oplysninger.opgavenote}</p>
-		{:else}
-			<p>Der er ikke nogen opgavenote</p>
-		{/if}
-	</div>
-	<Separator orientation="horizontal" class="my-2" />
-	<div class="container mx-auto">
-		<!-- inlæg og afleverings knap -->
-		{#if opgave.opgave_indlæg.length !== 0}
-			<!-- content here -->
-			<h3 class="text-lg">Opgave indlæg</h3>
-			<Table.Root>
-				<Table.Header>
-					<Table.Row>
-						<Table.Head>Bruger</Table.Head>
-						<Table.Head>Dokument</Table.Head>
-						<Table.Head>Inlæg</Table.Head>
-						<Table.Head>Tidspunkt</Table.Head>
-					</Table.Row>
-				</Table.Header>
-				<Table.Body>
-					{#each opgave.opgave_indlæg as indlæg}
-						<Table.Row>
-							<Table.Cell>{indlæg.bruger.navn}</Table.Cell>
-							{#if indlæg.dokument}
-								<Table.Cell
-									><Button
-										on:click={() => {
-											getMDLink(indlæg.dokument ? indlæg.dokument : '');
-										}}
-										variant="ghost">Dokument</Button
-									></Table.Cell
-								>
-							{:else}
-								<Table.Cell></Table.Cell>
-							{/if}
-							{#if indlæg.indlæg}
-								<Table.Cell>{indlæg.indlæg}</Table.Cell>
-							{:else}
-								<Table.Cell></Table.Cell>
-							{/if}
-							<Table.Cell>{indlæg.tidspunkt}</Table.Cell>
-						</Table.Row>
-					{/each}
-				</Table.Body>
-			</Table.Root>
-		{/if}
-		{#if opgave.afleveres_af.afventer === 'Elev'}
-			<Button variant="outline" class="m-2" on:click={openAssignmentInLectio}>Aflever</Button>
-		{/if}
-	</div>
-{:else}
-	<Header>Indlæser opgave...</Header>
-	<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
-		<Spinner />
-	</div>
-{/if}
+<div class="page-container">
+	{#if ready}
+		<div class="space-y-4">
+			<div class="flex space-x-2">
+				<Badge class="text-xl" variant="outline">{opgave.oplysninger.hold}</Badge>
+				<h1>
+					{opgave.oplysninger.opgavetitel}
+				</h1>
+			</div>
+			<div>
+				{#if opgave.afleveres_af.afventer === 'Elev'}
+					<Badge>afventer: {opgave.afleveres_af.afventer}</Badge>
+				{/if}
+				{#if opgave.afleveres_af.afsluttet === true}
+					<Badge variant="secondary">afsluttet</Badge>
+				{/if}
+				{#if opgave.afleveres_af.status_fravær.includes('Fravær: 100%')}
+					<Badge variant="destructive">{opgave.afleveres_af.status_fravær}</Badge>
+				{/if}
+				<Badge variant="outline">skala: {opgave.oplysninger.karakterskala}</Badge>
+				<Badge variant="outline">frist: {opgave.oplysninger.afleveringsfrist}</Badge>
+				<Badge variant="outline">elevtid: {opgave.oplysninger.elevtid}</Badge>
+			</div>
+			<div>
+				{#if opgave.oplysninger.opgavenote}
+					<p>{opgave.oplysninger.opgavenote}</p>
+				{:else}
+					<p>Der er ikke nogen opgavenote</p>
+				{/if}
+			</div>
+			<Separator />
+			<div>
+				<!-- inlæg og afleverings knap -->
+				{#if opgave.opgave_indlæg.length !== 0}
+					<!-- content here -->
+					<h3 class="text-lg">Opgave indlæg</h3>
+					<Table.Root>
+						<Table.Header>
+							<Table.Row>
+								<Table.Head>Bruger</Table.Head>
+								<Table.Head>Dokument</Table.Head>
+								<Table.Head>Inlæg</Table.Head>
+								<Table.Head>Tidspunkt</Table.Head>
+							</Table.Row>
+						</Table.Header>
+						<Table.Body>
+							{#each opgave.opgave_indlæg as indlæg}
+								<Table.Row>
+									<Table.Cell>{indlæg.bruger.navn}</Table.Cell>
+									{#if indlæg.dokument}
+										<Table.Cell
+											><Button
+												on:click={() => {
+													getMDLink(indlæg.dokument ? indlæg.dokument : '');
+												}}
+												variant="ghost">Dokument</Button
+											></Table.Cell
+										>
+									{:else}
+										<Table.Cell></Table.Cell>
+									{/if}
+									{#if indlæg.indlæg}
+										<Table.Cell>{indlæg.indlæg}</Table.Cell>
+									{:else}
+										<Table.Cell></Table.Cell>
+									{/if}
+									<Table.Cell>{indlæg.tidspunkt}</Table.Cell>
+								</Table.Row>
+							{/each}
+						</Table.Body>
+					</Table.Root>
+				{/if}
+				{#if opgave.afleveres_af.afventer === 'Elev'}
+					<Button variant="outline" class="m-2" on:click={openAssignmentInLectio}>Aflever</Button>
+				{/if}
+			</div>
+		</div>
+	{:else}
+		<div class="flex space-x-2">
+			<h1>Indlæser opgave...</h1>
+			<Spinner />
+		</div>
+	{/if}
+</div>

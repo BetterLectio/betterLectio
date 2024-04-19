@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { LECTIO_OAUTH_API } from '$lib/lectio';
-	import { toast } from 'svelte-sonner';
+	import { Spinner } from '$lib/components';
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Dialog from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
-	import { Trash } from 'radix-icons-svelte';
-	import { calendar, calendars, fetchCalendars, pageState } from '.';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import { Select } from '$lib/components/ui/select';
-	import Spinner from '$lib/customComponents/spinner.svelte';
+	import { LECTIO_OAUTH_API } from '$lib/lectio';
+	import { Trash } from 'radix-icons-svelte';
+	import { toast } from 'svelte-sonner';
+	import { calendar, calendars, fetchCalendars, pageState } from '.';
 
 	const deleteEvents = async () => {
 		$pageState = 'loading';

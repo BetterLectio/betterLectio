@@ -102,7 +102,7 @@
 			</Sheet.Description>
 		</Sheet.Header>
 		<div class="grid gap-4 py-4">
-			<div class="grid grid-cols-4 items-center gap-4">
+			<div class="grid items-center grid-cols-4 gap-4">
 				<Label for="Brugernavn" class="text-right">Brugernavn</Label>
 				<Input
 					id="username-field"
@@ -112,7 +112,7 @@
 					type="text"
 				/>
 			</div>
-			<div class="grid grid-cols-4 items-center gap-4">
+			<div class="grid items-center grid-cols-4 gap-4">
 				<Label for="Kodeord" class="text-right">Kodeord</Label>
 				<Input
 					id="current-password-field"
@@ -122,7 +122,7 @@
 					type="password"
 				/>
 			</div>
-			<div class="grid grid-cols-4 items-center gap-4">
+			<div class="grid items-center grid-cols-4 gap-4">
 				<Label for="skole" class="text-right">Skole</Label>
 				<Popover.Root bind:open let:ids>
 					<Popover.Trigger asChild let:builder>
@@ -131,19 +131,19 @@
 							variant="outline"
 							role="combobox"
 							aria-expanded={open}
-							class="col-span-3 justify-between"
+							class="justify-between col-span-3"
 						>
-							<p class="w-44 line-clamp-1 truncate text-left">
+							<p class="text-left truncate w-44 line-clamp-1">
 								{selectedSchool}
 							</p>
-							<CaretSort class="ml-2 h-4 w-4 shrink-0 opacity-50" />
+							<CaretSort class="w-4 h-4 ml-2 opacity-50 shrink-0" />
 						</Button>
 					</Popover.Trigger>
 					<Popover.Content class="p-0">
 						<Command.Root>
 							<Command.Input placeholder="Søg efter skole..." class="h-9" />
 							<Command.Empty>No framework found.</Command.Empty>
-							<Command.Group class="h-60 overflow-y-scroll">
+							<Command.Group class="overflow-y-scroll h-60">
 								{#each skoler as skole}
 									<Command.Item
 										value={skole.skole}
@@ -153,7 +153,7 @@
 										}}
 									>
 										<Check class="mr-2 h-4 w-4 {value !== skole.id && 'text-transparent'}" />
-										<p class="w-52 truncate line-clamp-1">
+										<p class="truncate w-52 line-clamp-1">
 											{skole.skole}
 										</p>
 									</Command.Item>
