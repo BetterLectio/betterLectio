@@ -1,4 +1,3 @@
-export { default as Header } from './Header.svelte';
 export { default as Banner } from './Banner.svelte';
 export { default as AccountSheet } from './AccountSheet.svelte';
 export { default as Spinner } from './Spinner.svelte';
