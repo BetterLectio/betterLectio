@@ -1,24 +1,10 @@
+[![Version](https://img.shields.io/github/v/release/BetterLectio/BetterLectio-next?style=for-the-badge)]()
+[![GitHub Downloads](https://img.shields.io/github/downloads/BetterLectio/BetterLectio-next/total?style=for-the-badge)]()
+[![Issues](https://img.shields.io/github/issues/BetterLectio/BetterLectio-next?style=for-the-badge)]()
+[![LICENSE](https://img.shields.io/github/license/BetterLectio/BetterLectio-next?style=for-the-badge)]()
 # BetterLectio NEXT
 
-En bedre Lectio oplevelse!
-
-## Bidrage til projektet
-
-Hvis du vil bidrage til projektet, så er du velkommen til at lave en pull request. Du kan også lave en issue, hvis du har en idé til et feature eller har fundet en bug. Herunder er der en guide til hvordan du sætter et dev environment op.
-
-### Opsætning af Dev Environment
-
-1. Installer [node.js](https://nodejs.org/en/) og [rust](https://www.rust-lang.org/tools/install)
-2. Klon dette repo
-3. Installer deps (både rust og node)
-4. For bedste udviklingsoplevelse, installer [vscode](https://code.visualstudio.com/) og installer anbefalede extensions
-5. Åben repoet i vscode
-6. Start programmet med `npm run tauri dev` (i terminalen)
-7. Husk af skift til dev branchen da main branchen er til releases
-
-### CI/CD info
-
-CI/CD er sat op med github actions. Når der bliver pushed til main branchen, så bliver der automatisk lavet en release. Et nyt commit på dev branchen vil automatisk inkrementelle versionen.
+Den Bedste Lectio oplevelse!
 
 ## Support
 
@@ -29,12 +15,28 @@ CI/CD er sat op med github actions. Når der bliver pushed til main branchen, s�
 | Linux   | ❌      |
 | Web     | ❌      |
 
+## Bidrag til projektet
+
+Hvis du vil bidrage til projektet, så er du velkommen til at lave en pull request.
+Du kan også lave en issue, hvis du har en idé til et feature eller har fundet en bug.
+Herunder er der en guide til hvordan du sætter et dev environment op.
+
+### Opsætning af Dev Environment
+
+1. Installer [node.js](https://nodejs.org/en/), [rust](https://www.rust-lang.org/tools/install) og [bun](https://bun.sh/)
+2. For bedste udviklingsoplevelse, installer [vscode](https://code.visualstudio.com/) og installer anbefalede extensions
+3. Følg installationsguiden for [tauri](https://tauri.app/v1/guides/getting-started/prerequisites)
+4. Klon dette repo
+5. Åben repoet i din favorit editor
+6. Installer dependencies med `bun install`
+7. Start programmet med `bun dev`
+
 # TODO
 
 - [x] Login
-- [ ] Skema
+- [x] Skema
 - [x] Opgaver
 - [ ] Opgave aflevering
 - [ ] Noter
 - [x] Beskeder
-- [ ] Besked
+- [x] Besked
