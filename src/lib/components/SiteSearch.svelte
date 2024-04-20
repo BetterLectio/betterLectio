@@ -3,6 +3,7 @@
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import * as Command from '$lib/components/ui/command';
 	import { onMount } from 'svelte';
+
 	let open = false;
 	onMount(() => {
 		function handleKeydown(e: KeyboardEvent) {
@@ -23,7 +24,6 @@
 					goto(routeto);
 				}
 			} else if (e instanceof KeyboardEvent && e.key === 'Enter') {
-				console.log(e);
 				//find the data-selected element that has a child with the data-routeto attribute
 				const target = document.querySelector('[data-selected] [data-routeto]');
 				if (!target) return;
@@ -56,10 +56,10 @@
 </script>
 
 <Command.Dialog bind:open data-global-command>
-	<Command.Input placeholder="Type a command or search..." />
+	<Command.Input placeholder="Søg efter en side..." />
 	<Command.List>
-		<Command.Empty>No results found.</Command.Empty>
-		<Command.Group heading="Suggestions">
+		<Command.Empty>Ingen sider fundet.</Command.Empty>
+		<Command.Group heading="Forslag">
 			<Command.Item>
 				<p data-routeto="/opgaver" class="w-full h-full cursor-pointer">Gå til Opgaver</p>
 			</Command.Item>

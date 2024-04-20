@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Spinner } from '$lib/components';
-	import { get } from '$lib/js/http.js';
+	import { get } from '$lib/utils/http';
 	import ChatBubble from './_components/ChatBubble.svelte';
 
 	const beskedId = new URLSearchParams(window.location.search).get('id');

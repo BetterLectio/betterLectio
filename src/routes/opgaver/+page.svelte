@@ -5,10 +5,11 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Table from '$lib/components/ui/table';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import { get } from '$lib/js/http';
-	import { formatDate } from '$lib/js/relativeTime';
-	import { opgaver } from '$lib/js/store';
-	import type { OpgaveList } from '$lib/types/types';
+	import { assignmentStore } from '$lib/stores';
+	import type { RawSimpleAssignment } from '$lib/types/assignments';
+	import { get } from '$lib/utils/http';
+	import { formatDate } from '$lib/utils/relativeTime';
+	import { DateTime } from 'luxon';
 	import {
 		Archive,
 		ChatBubble,
@@ -16,79 +17,28 @@
 		ExclamationTriangle,
 		Rocket
 	} from 'radix-icons-svelte';
+	import { onMount } from 'svelte';
 
-	let _opgaver: Array<OpgaveList> = [];
-	let selected = 'ikkeAfleveredeOpgaver';
+	let opgaver = $assignmentStore;
 	let searchString = '';
 
-	get('/opgaver').then((data) => {
-		$opgaver = data;
+	onMount(async () => {
+		const res = await get('/opgaver');
+		$assignmentStore = res;
+		search();
 	});
 
-	function sortOpgaver(__opgaver: Array<OpgaveList>) {
-		const ikkeAfleveredeOpgaver = [];
-		const afleveredeOpgaver = [];
-		const afsluttedeOpgaver = [];
-		const feedbackOpgaver = [];
-
-		for (const opgave of __opgaver) {
-			const _date = opgave.frist.replace('-', '/').split(' ');
-			const __date = _date[0].split('/');
-			opgave.date = new Date(`${__date[1]}/${__date[0]}/${__date[2]} ${_date[1]}`);
-			if (
-				(opgave.status === 'Afleveret' && opgave.afventer === 'Elev') ||
-				(opgave.status === 'Afsluttet' && opgave.afventer === '')
-			)
-				feedbackOpgaver.push(opgave);
-			if (opgave.status === 'Afleveret') {
-				afleveredeOpgaver.push(opgave);
-				continue;
-			} else if (opgave.status === 'Afsluttet') {
-				afsluttedeOpgaver.push(opgave);
-				continue;
-			} else if (opgave.status === 'Venter') {
-				ikkeAfleveredeOpgaver.push(opgave);
-			} else {
-				ikkeAfleveredeOpgaver.push(opgave);
-			}
-		}
-
-		if (selected === 'ikkeAfleveredeOpgaver') {
-			return ikkeAfleveredeOpgaver;
-		} else if (selected === 'afleveredeOpgaver') {
-			afleveredeOpgaver.reverse();
-			return afleveredeOpgaver;
-		} else if (selected === 'afsluttedeOpgaver') {
-			afsluttedeOpgaver.reverse();
-			return afsluttedeOpgaver;
-		} else if (selected === 'feedbackOpgaver') {
-			feedbackOpgaver.reverse();
-			return feedbackOpgaver;
-		}
-	}
-
 	function search() {
-		selected = 'search';
-
-		const searchResults: Array<OpgaveList> = [];
-		$opgaver.forEach((opgave: OpgaveList) => {
+		const searchResults: RawSimpleAssignment[] = [];
+		$assignmentStore?.forEach((opgave) => {
 			if (
 				opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase()) ||
 				opgave.hold.includes(searchString.toLowerCase())
 			)
 				searchResults.push(opgave);
 		});
-		_opgaver = searchResults.reverse();
+		opgaver = searchResults.reverse();
 	}
-
-	$: if (
-		$opgaver &&
-		(selected === 'ikkeAfleveredeOpgaver' ||
-			selected === 'afleveredeOpgaver' ||
-			selected === 'afsluttedeOpgaver' ||
-			selected === 'feedbackOpgaver')
-	)
-		_opgaver = sortOpgaver($opgaver ?? []) ?? [];
 
 	function elevtidNum(elevtid: string) {
 		return Number(elevtid.replace(',', '.'));
@@ -122,8 +72,8 @@
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
-			{#if _opgaver}
-				{#each _opgaver as opgave}
+			{#if opgaver}
+				{#each opgaver as opgave}
 					<Table.Row
 						on:click={async () => await goto(`/opgave?id=${opgave.exerciseid}`)}
 						class="cursor-pointer select-none"
@@ -224,7 +174,7 @@
 						<Table.Cell class="sm:table-cell text-nowrap">
 							<Tooltip.Root>
 								<Tooltip.Trigger>
-									{formatDate(opgave.date)}
+									{formatDate(DateTime.fromFormat(opgave.frist, 'd/M-yyyy HH:mm').toJSDate())}
 								</Tooltip.Trigger>
 								<Tooltip.Content>
 									{opgave.frist}

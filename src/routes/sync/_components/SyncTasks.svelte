@@ -11,6 +11,7 @@
 	import { toast } from 'svelte-sonner';
 	import { fetchTasklists, pageState, tasklist, tasklists } from '.';
 	import { Spinner } from '$lib/components';
+	import { authStore } from '$lib/stores';
 
 	const maxAgePresets = [
 		{ dt: null, label: '∞' },
@@ -39,8 +40,8 @@
 		const res = await fetch(`${LECTIO_OAUTH_API}/tasks/sync`, {
 			method: 'POST',
 			headers: {
-				lectio: localStorage.getItem('lectio-cookie') || '',
-				google: localStorage.getItem('googleToken') || ''
+				lectio: $authStore.cookie || '',
+				google: $authStore.googleToken || ''
 			},
 			body: JSON.stringify(options)
 		});

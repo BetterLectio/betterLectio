@@ -1,20 +1,21 @@
 <script lang="ts">
-	import * as Card from '$lib/components/ui/card';
+	import { Spinner } from '$lib/components';
 	import { Button } from '$lib/components/ui/button';
+	import * as Card from '$lib/components/ui/card';
+	import { authStore } from '$lib/stores';
+	import { Calendar, HamburgerMenu } from 'radix-icons-svelte';
 	import { onMount } from 'svelte';
 	import {
-		Setup,
 		DeleteEvents,
 		DeleteTasks,
+		Setup,
 		SyncEvents,
 		SyncTasks,
 		pageState
 	} from './_components';
-	import { HamburgerMenu, Calendar } from 'radix-icons-svelte';
-	import { Spinner } from '$lib/components';
 
 	onMount(async () => {
-		if (localStorage.getItem('googleToken')) {
+		if ($authStore.googleToken) {
 			$pageState = 'ready';
 		}
 	});

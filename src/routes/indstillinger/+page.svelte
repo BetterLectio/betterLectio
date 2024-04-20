@@ -5,7 +5,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Switch } from '$lib/components/ui/switch';
-	import { banners } from '$lib/js/store';
+	import { bannerStore } from '$lib/stores';
 	import { disable, enable, isEnabled } from '@tauri-apps/plugin-autostart';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
@@ -21,9 +21,9 @@
 		if (username === '' || password === '' || schoolId === '') return false;
 
 		if (
-			$banners.find((banner: any) => banner.text === 'BetterLectio mangler dine login oplysninger')
+			$bannerStore.find((banner: any) => banner.text === 'BetterLectio mangler dine login oplysninger')
 		) {
-			$banners = $banners.filter(
+			$bannerStore = $bannerStore.filter(
 				(banner: any) => banner.text !== 'BetterLectio mangler dine login oplysninger'
 			);
 		}
@@ -31,9 +31,7 @@
 	}
 
 	async function checkForUpdate() {
-		console.log('checking for updates');
 		const update = await check();
-		console.log(update);
 		if (update?.available) {
 			return true;
 		} else {
@@ -42,9 +40,7 @@
 	}
 
 	async function update() {
-		console.log('checking for updates');
 		const update = await check();
-		console.log(update);
 		if (update?.available) {
 			await update.downloadAndInstall();
 			await relaunch();

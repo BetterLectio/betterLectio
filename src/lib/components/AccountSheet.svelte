@@ -7,9 +7,10 @@
 	import * as Popover from '$lib/components/ui/popover';
 	import * as Command from '$lib/components/ui/command';
 	import { Separator } from '$lib/components/ui/separator';
-	import { isAuthed } from '$lib/js/store';
-	import { get } from '$lib/js/http';
+	import { get } from '$lib/utils/http';
 	import { Check, CaretSort } from 'radix-icons-svelte';
+	import { authStore } from '$lib/stores';
+	import { LECTIO_API } from '$lib/lectio';
 
 	type skole = {
 		id: number;
@@ -33,7 +34,7 @@
 
 	let cookie: string | null = null;
 
-	let value: Number;
+	let value: number;
 	let username = '';
 	let password = '';
 
@@ -56,28 +57,17 @@
 
 	$: selectedSchool = skoler.find((skole) => skole.id === value)?.skole ?? 'Vælg skole';
 	async function login() {
-		await fetch(`https://api.betterlectio.dk/auth`, {
+		const res = await fetch(`${LECTIO_API}/auth`, {
 			headers: {
 				brugernavn: username,
 				adgangskode: password,
 				skoleid: value.toString()
 			}
-		})
-			.then((res) => {
-				console.log(res.headers.get('Set-Lectio-Cookie'));
-				cookie = res.headers.get('Set-Lectio-Cookie');
-				if (cookie === null) return;
-				localStorage.setItem('lectio-cookie', cookie);
-				localStorage.setItem(
-					'credentials',
-					JSON.stringify({ username, password, schoolId: value })
-				);
-				$isAuthed = true;
-				document.location.reload();
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		});
+		cookie = res.headers.get('Set-Lectio-Cookie');
+		if (cookie === null) return;
+		authStore.set({ cookie, school: value, username, password, name: null });
+		document.location.reload();
 	}
 
 	function checkIfCredentialsAreSet() {

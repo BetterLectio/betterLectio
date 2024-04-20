@@ -3,8 +3,9 @@
 	import { page } from '$app/stores';
 	import { Spinner } from '$lib/components';
 	import { Button } from '$lib/components/ui/button';
-	import { get } from '$lib/js/http';
-	import type { RawLesson } from '$lib/types/types';
+	import { get } from '$lib/utils/http';
+	import { authStore } from '$lib/stores';
+	import type { RawLesson } from '$lib/types/lesson';
 	import { constructInterval, decodeUserID, stringToColor } from '$lib/utils';
 	import { Calendar, type EventSourceFunc } from '@fullcalendar/core';
 	import daLocale from '@fullcalendar/core/locales/da';
@@ -77,7 +78,7 @@
 
 	onMount(() => {
 		searchId = $page.url.searchParams.get('id') ?? '';
-		const meId = `S${decodeUserID(localStorage.getItem('lectio-cookie') ?? '0')}`;
+		const meId = `S${decodeUserID($authStore.cookie ?? '0')}`;
 		if (searchId) {
 			if (
 				searchId.length == 12 &&

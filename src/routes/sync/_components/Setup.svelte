@@ -5,11 +5,12 @@
 	import { ExclamationTriangle as Error } from 'radix-icons-svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { pageState } from '.';
+	import { authStore } from '$lib/stores';
 
 	let token: string = '';
 
 	const saveToken = () => {
-		localStorage.setItem('googleToken', token);
+		$authStore.googleToken = token;
 		$pageState = 'ready';
 	};
 </script>

@@ -9,6 +9,7 @@
 	import { LightningBolt, PlusCircled, Trash } from 'radix-icons-svelte';
 	import { toast } from 'svelte-sonner';
 	import { calendar, calendars, fetchCalendars, pageState } from '.';
+	import { authStore } from '$lib/stores';
 
 	let blacklist = '';
 	let eventReminders: {
@@ -38,8 +39,8 @@
 		const res = await fetch(`${LECTIO_OAUTH_API}/events/sync`, {
 			method: 'POST',
 			headers: {
-				lectio: localStorage.getItem('lectio-cookie') || '',
-				google: localStorage.getItem('googleToken') || ''
+				lectio: $authStore.cookie || '',
+				google: $authStore.googleToken || ''
 			},
 			body: JSON.stringify({
 				calendarId: $calendar.value,

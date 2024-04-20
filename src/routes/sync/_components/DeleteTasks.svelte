@@ -8,6 +8,7 @@
 	import { Trash } from 'radix-icons-svelte';
 	import { toast } from 'svelte-sonner';
 	import { fetchTasklists, pageState, tasklist, tasklists } from '.';
+	import { authStore } from '$lib/stores';
 
 	const deleteTasks = async () => {
 		$pageState = 'loading';
@@ -16,7 +17,7 @@
 		const res = await fetch(`${LECTIO_OAUTH_API}/tasks/delete`, {
 			method: 'POST',
 			headers: {
-				google: localStorage.getItem('googleToken') || ''
+				google: $authStore.googleToken || ''
 			},
 			body: JSON.stringify({
 				tasklist: $tasklist.value
@@ -26,6 +27,7 @@
 			switch (res.status) {
 				case 401:
 					$pageState = 'logged-out';
+					$authStore.googleToken = null;
 					toast.error('Din google kode er ugyldig. Venligst log ind igen.', { id: statusToast });
 					break;
 				default:

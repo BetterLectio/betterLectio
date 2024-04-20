@@ -6,42 +6,37 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Table from '$lib/components/ui/table';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler';
-	import { get } from '$lib/js/http';
-	import type { Opgave } from '$lib/types/types';
-
-	let cookie: any = null;
-	cookieInfo().then((data) => {
-		cookie = data;
-	});
+	import { authStore } from '$lib/stores';
+	import type { RawAssignment } from '$lib/types/assignments';
+	import { get } from '$lib/utils/http';
+	import { onMount } from 'svelte';
 
 	const exerciseid = $page.url.searchParams.get('id');
 	if (!exerciseid) goto('/opgaver');
 
-	let opgave: Opgave;
-	let ready: boolean = false;
+	let assignment: RawAssignment;
+	let ready = false;
 
-	get(`/opgave?exerciseid=${exerciseid}`).then((data) => {
-		opgave = data;
+	onMount(async () => {
+		const res = await get(`/opgave?exerciseid=${exerciseid}`);
+		assignment = res;
 		ready = true;
-		console.log(opgave);
 	});
 
 	function getMDLink(link: string) {
 		//format the markdown link to that it only returns the link
 		if (link === '') return link;
-		console.log(link);
 		const nav = link.split('](')[1].split(')')[0];
 		// make sure on nav has the _blank attribute
 		window.open(nav, '_blank');
 	}
 
 	function openAssignmentInLectio() {
-		console.log(opgave.afleveres_af.elev.bruger_id.slice(1));
+		console.log(assignment.afleveres_af.elev.bruger_id.slice(1));
 		window.open(
 			`https://www.lectio.dk/lectio/${
-				cookie.schoolId
-			}/ElevAflevering.aspx?elevid=${opgave.afleveres_af.elev.bruger_id.slice(
+				$authStore.school
+			}/ElevAflevering.aspx?elevid=${assignment.afleveres_af.elev.bruger_id.slice(
 				1
 			)}&exerciseid=${exerciseid}`,
 			'_blank'
@@ -53,28 +48,28 @@
 	{#if ready}
 		<div class="space-y-4">
 			<div class="flex space-x-2">
-				<Badge class="text-xl" variant="outline">{opgave.oplysninger.hold}</Badge>
+				<Badge class="text-xl" variant="outline">{assignment.oplysninger.hold}</Badge>
 				<h1>
-					{opgave.oplysninger.opgavetitel}
+					{assignment.oplysninger.opgavetitel}
 				</h1>
 			</div>
 			<div>
-				{#if opgave.afleveres_af.afventer === 'Elev'}
-					<Badge>afventer: {opgave.afleveres_af.afventer}</Badge>
+				{#if assignment.afleveres_af.afventer === 'Elev'}
+					<Badge>afventer: {assignment.afleveres_af.afventer}</Badge>
 				{/if}
-				{#if opgave.afleveres_af.afsluttet === true}
+				{#if assignment.afleveres_af.afsluttet === true}
 					<Badge variant="secondary">afsluttet</Badge>
 				{/if}
-				{#if opgave.afleveres_af.status_fravær.includes('Fravær: 100%')}
-					<Badge variant="destructive">{opgave.afleveres_af.status_fravær}</Badge>
+				{#if assignment.afleveres_af.status_fravær.includes('Fravær: 100%')}
+					<Badge variant="destructive">{assignment.afleveres_af.status_fravær}</Badge>
 				{/if}
-				<Badge variant="outline">skala: {opgave.oplysninger.karakterskala}</Badge>
-				<Badge variant="outline">frist: {opgave.oplysninger.afleveringsfrist}</Badge>
-				<Badge variant="outline">elevtid: {opgave.oplysninger.elevtid}</Badge>
+				<Badge variant="outline">skala: {assignment.oplysninger.karakterskala}</Badge>
+				<Badge variant="outline">frist: {assignment.oplysninger.afleveringsfrist}</Badge>
+				<Badge variant="outline">elevtid: {assignment.oplysninger.elevtid}</Badge>
 			</div>
 			<div>
-				{#if opgave.oplysninger.opgavenote}
-					<p>{opgave.oplysninger.opgavenote}</p>
+				{#if assignment.oplysninger.opgavenote}
+					<p>{assignment.oplysninger.opgavenote}</p>
 				{:else}
 					<p>Der er ikke nogen opgavenote</p>
 				{/if}
@@ -82,7 +77,7 @@
 			<Separator />
 			<div>
 				<!-- inlæg og afleverings knap -->
-				{#if opgave.opgave_indlæg.length !== 0}
+				{#if assignment.opgave_indlæg.length !== 0}
 					<!-- content here -->
 					<h3 class="text-lg">Opgave indlæg</h3>
 					<Table.Root>
@@ -95,7 +90,7 @@
 							</Table.Row>
 						</Table.Header>
 						<Table.Body>
-							{#each opgave.opgave_indlæg as indlæg}
+							{#each assignment.opgave_indlæg as indlæg}
 								<Table.Row>
 									<Table.Cell>{indlæg.bruger.navn}</Table.Cell>
 									{#if indlæg.dokument}
@@ -121,7 +116,7 @@
 						</Table.Body>
 					</Table.Root>
 				{/if}
-				{#if opgave.afleveres_af.afventer === 'Elev'}
+				{#if assignment.afleveres_af.afventer === 'Elev'}
 					<Button variant="outline" class="m-2" on:click={openAssignmentInLectio}>Aflever</Button>
 				{/if}
 			</div>

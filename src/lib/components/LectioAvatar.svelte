@@ -1,7 +1,8 @@
 <script lang="ts">
 	import IntersectionObserver from 'svelte-intersection-observer';
-	import { api } from '$lib/js/http.js';
 	import * as Avatar from '$lib/components/ui/avatar';
+	import { authStore } from '$lib/stores';
+	import { LECTIO_API } from '$lib/lectio';
 
 	export let id = '';
 	export let navn = '';
@@ -13,8 +14,8 @@
 
 	async function getImageSource() {
 		try {
-			const response = await fetch(`${api}/profil_billed?id=${id}&fullsize=1`, {
-				headers: { 'lectio-cookie': localStorage.getItem('lectio-cookie') || '' }
+			const response = await fetch(`${LECTIO_API}/profil_billed?id=${id}&fullsize=1`, {
+				headers: { 'lectio-cookie': $authStore.cookie || '' }
 			});
 			if (response.ok) return await response.text();
 			return null;

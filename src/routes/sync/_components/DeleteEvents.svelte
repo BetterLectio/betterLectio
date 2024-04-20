@@ -8,6 +8,7 @@
 	import { Trash } from 'radix-icons-svelte';
 	import { toast } from 'svelte-sonner';
 	import { calendar, calendars, fetchCalendars, pageState } from '.';
+	import { authStore } from '$lib/stores';
 
 	const deleteEvents = async () => {
 		$pageState = 'loading';
@@ -16,7 +17,7 @@
 		const res = await fetch(`${LECTIO_OAUTH_API}/events/delete`, {
 			method: 'POST',
 			headers: {
-				google: localStorage.getItem('googleToken') || ''
+				google: $authStore.googleToken || ''
 			},
 			body: JSON.stringify({
 				calendarId: $calendar.value
@@ -26,6 +27,7 @@
 			switch (res.status) {
 				case 401:
 					$pageState = 'logged-out';
+					$authStore.googleToken = null;
 					toast.error('Din google kode er ugyldig. Venligst log ind igen.', { id: statusToast });
 					break;
 				default:

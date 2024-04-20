@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { get } from '$lib/js/http';
-	import { forside } from '$lib/js/store';
+	import { get } from '$lib/utils/http';
+	import { frontPageStore } from '$lib/stores';
 
 	get('/forside').then((data) => {
-		$forside = data;
-		console.log(data);
+		$frontPageStore = data;
 	});
 </script>
 

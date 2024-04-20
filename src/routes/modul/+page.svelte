@@ -3,51 +3,25 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Table from '$lib/components/ui/table';
-	import { cookieInfo } from '$lib/js/LectioCookieHandler.js';
-	import { get } from '$lib/js/http.js';
-	import type { RawModule } from '$lib/types/types';
-	import purifier from 'dompurify';
-
-	const { sanitize } = purifier();
-
-	let cookie: any | null = null; //TODO: Fix any
-	cookieInfo().then((data: unknown) => {
-		cookie = data || {};
-	});
+	import { authStore } from '$lib/stores';
+	import type { RawModule } from '$lib/types/module';
+	import { get } from '$lib/utils/http.js';
+	import { onMount } from 'svelte';
+	import SvelteMarkdown from 'svelte-markdown';
 
 	const absid = $page.url.searchParams.get('absid');
 
 	let modul: RawModule | null = null;
 	let items = {};
 
-	let returnedError = false;
-	async function getModul() {
-		modul = await get(`/modulHtml?absid=${absid}`).catch(() => {
-			returnedError = true;
-		});
+	onMount(async () => {
+		modul = await get(`/modul?absid=${absid}`);
 		items = {
 			Tidspunkt: modul?.aktivitet?.tidspunkt,
 			Lokale: modul?.aktivitet?.lokale,
 			Lærer: modul?.aktivitet?.lærer
 		};
-	}
-	getModul();
-
-	function onIndholdMount(modulElement: any) {
-		// ved ikke hvad typen er
-		const textAreas = modulElement.getElementsByTagName('textarea');
-		for (let i = 0; i < textAreas.length; i++)
-			textAreas[i].setAttribute('style', `width=100%; height:${textAreas[i].scrollHeight}px;`); // Som lectio gør det
-		const buttons = modulElement.getElementsByTagName('a');
-		for (let i = 0; i < buttons.length; i++) {
-			buttons[i].setAttribute('target', '_blank');
-			if (buttons[i].href.includes('/lectio/'))
-				buttons[i].href = `https://www.lectio.dk/lectio/${buttons[i].href.split('/lectio/')[1]}`;
-			buttons[i].classList.add('preview');
-			const styleElements = buttons[i].querySelectorAll('*[style]');
-			for (let j = 0; j < styleElements.length; j++) styleElements[j].removeAttribute('style'); // Måske er der en bedre måde at gøre det på?
-		}
-	}
+	});
 </script>
 
 <div class="page-container">
@@ -60,7 +34,7 @@
 		{#if modul}
 			<Button
 				variant="outline"
-				href={`https://www.lectio.dk/lectio/${cookie.schoolId}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
+				href={`https://www.lectio.dk/lectio/${$authStore.school}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
 				target="_blank">Åben Elevfeedback</Button
 			>
 		{:else}
@@ -91,44 +65,29 @@
 	<Separator class="my-4" />
 
 	{#if modul}
-		<div class="space-y-4">
-			{#each Object.entries(modul) as indhold}
-				{#if indhold[1] && indhold[0] !== 'aktivitet'}
-					<div>
-						<h2 class="text-xl font-bold capitalize">{indhold[0].replace('_', ' ')}</h2>
-						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-						<div use:onIndholdMount class="space-y-2 break-all divide-y modul">
-							{@html sanitize(indhold[1].replace('align="center"', ''))}
-						</div>
-					</div>
-				{/if}
-			{/each}
-		</div>
+		{#if modul.note}
+			<section>
+				<h2 class="!mb-0">Note</h2>
+				<SvelteMarkdown source={modul.note} />
+			</section>
+		{/if}
+		{#if modul.lektier}
+			<section>
+				<h2 class="!mb-0">Lektier</h2>
+				<SvelteMarkdown source={modul.lektier.replaceAll('\n', '<br>')} />
+			</section>
+		{/if}
+		{#if modul.øvrigtIndhold}
+			<section>
+				<h2 class="!mb-0">Øvrigt Indhold</h2>
+				<SvelteMarkdown source={modul.øvrigtIndhold.replaceAll(')', ')<br>')} />
+			</section>
+		{/if}
+		{#if modul.præsentation}
+			<section>
+				<h2 class="!mb-0">Præsentation</h2>
+				<SvelteMarkdown source={modul.præsentation} />
+			</section>
+		{/if}
 	{/if}
 </div>
-
-<style lang="postcss">
-	.modul :global(h1) {
-		@apply text-xl;
-	}
-
-	.modul :global(a) {
-		@apply underline;
-	}
-
-	.modul :global(ol) {
-		@apply list-decimal;
-		@apply ml-8;
-	}
-
-	.modul :global(ul) {
-		@apply list-disc;
-		@apply ml-8;
-	}
-
-	.modul :global(textarea) {
-		@apply w-full;
-		@apply bg-background;
-		@apply resize-none;
-	}
-</style>
