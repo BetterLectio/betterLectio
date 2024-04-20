@@ -220,5 +220,5 @@
 			{/if}
 		</div>
 	</div>
-	<div bind:this={calendarEl} class="!mt-0" />
+	<div bind:this={calendarEl} class="!mt-0 unstyled" />
 </div>

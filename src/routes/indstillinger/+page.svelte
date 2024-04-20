@@ -2,33 +2,19 @@
 	import { version } from '$app/environment';
 	import AccountSheet from '$lib/components/AccountSheet.svelte';
 	import * as Alert from '$lib/components/ui/alert';
+	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Switch } from '$lib/components/ui/switch';
-	import { bannerStore } from '$lib/stores';
+	import { authStore } from '$lib/stores';
+	import { isWeb } from '$lib/utils/environment';
 	import { disable, enable, isEnabled } from '@tauri-apps/plugin-autostart';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
 	import { Check, ExclamationTriangle, LightningBolt, Update } from 'radix-icons-svelte';
 
-	let showAccountError = !checkIfCredentialsAreSet();
-
-	function checkIfCredentialsAreSet() {
-		const credentials = localStorage.getItem('credentials');
-		if (credentials === null) return false;
-		const { username, password, schoolId } = JSON.parse(credentials);
-		if (username === undefined || password === undefined || schoolId === undefined) return false;
-		if (username === '' || password === '' || schoolId === '') return false;
-
-		if (
-			$bannerStore.find((banner: any) => banner.text === 'BetterLectio mangler dine login oplysninger')
-		) {
-			$bannerStore = $bannerStore.filter(
-				(banner: any) => banner.text !== 'BetterLectio mangler dine login oplysninger'
-			);
-		}
-		return true;
-	}
+	let showAccountError =
+		$authStore.username === null || $authStore.password === null || $authStore.school === null;
 
 	async function checkForUpdate() {
 		const update = await check();
@@ -71,50 +57,53 @@
 <div class="page-container">
 	<h1>Instillinger</h1>
 	<div class="space-y-4">
-		<div>
-			<h3 class="text-lg font-semibold scroll-m-20">Version</h3>
-			<p>BetterLectio <span class="text-green-400">v{version}</span></p>
-			<Alert.Root class="mt-2">
-				{#await checkForUpdate()}
-					<Update class="w-4 h-4 animate-spin" />
-					<div class="flex justify-between w-full pt-1">
-						<div>
-							<Alert.Title>Opdatering</Alert.Title>
-							<Alert.Description>Søger efter opdateringer...</Alert.Description>
-						</div>
-					</div>
-				{:then value}
-					{#if value}
-						<Check class="w-4 h-4" />
+		{#if !isWeb}
+			<div>
+				<h3 class="text-lg font-semibold scroll-m-20">Version</h3>
+				<p>BetterLectio <span class="text-green-400">v{version}</span></p>
+				<Alert.Root class="mt-2">
+					{#await checkForUpdate()}
+						<Update class="w-4 h-4 animate-spin" />
 						<div class="flex justify-between w-full pt-1">
 							<div>
 								<Alert.Title>Opdatering</Alert.Title>
-								<Alert.Description>Opdatering tilgængelig</Alert.Description>
+								<Alert.Description>Søger efter opdateringer...</Alert.Description>
 							</div>
-							<Button on:click={update}>Opdater</Button>
 						</div>
-					{:else}
-						<LightningBolt class="w-4 h-4" />
+					{:then value}
+						{#if value}
+							<Check class="w-4 h-4" />
+							<div class="flex justify-between w-full pt-1">
+								<div>
+									<Alert.Title>Opdatering</Alert.Title>
+									<Alert.Description>Opdatering tilgængelig</Alert.Description>
+								</div>
+								<Button on:click={update}>Opdater</Button>
+							</div>
+						{:else}
+							<LightningBolt class="w-4 h-4" />
+							<div class="flex justify-between w-full pt-1">
+								<div>
+									<Alert.Title>Opdatering</Alert.Title>
+									<Alert.Description>Du har den nyeste version</Alert.Description>
+								</div>
+							</div>
+						{/if}
+					{:catch error}
+						<ExclamationTriangle class="w-4 h-4" />
 						<div class="flex justify-between w-full pt-1">
 							<div>
 								<Alert.Title>Opdatering</Alert.Title>
-								<Alert.Description>Du har den nyeste version</Alert.Description>
+								<Alert.Description
+									>Der skete en fejl ved at tjekke for opdateringer</Alert.Description
+								>
 							</div>
 						</div>
-					{/if}
-				{:catch error}
-					<ExclamationTriangle class="w-4 h-4" />
-					<div class="flex justify-between w-full pt-1">
-						<div>
-							<Alert.Title>Opdatering</Alert.Title>
-							<Alert.Description>Der skete en fejl ved at tjekke for opdateringer</Alert.Description
-							>
-						</div>
-					</div>
-				{/await}
-			</Alert.Root>
-		</div>
-		<Separator />
+					{/await}
+				</Alert.Root>
+			</div>
+			<Separator />
+		{/if}
 		<div>
 			<h3 class="text-lg font-semibold scroll-m-20">Lectio Konto</h3>
 			{#if showAccountError}
@@ -167,7 +156,16 @@
 						<Alert.Description>Åben BetterLectio når du starter din computer</Alert.Description>
 					</div>
 					<div>
-						<Switch bind:checked={autoStartBtn} on:click={toggleAutostart} />
+						<Tooltip.Root>
+							<Tooltip.Trigger>
+								<Switch disabled={isWeb} bind:checked={autoStartBtn} on:click={toggleAutostart} />
+							</Tooltip.Trigger>
+							{#if isWeb}
+								<Tooltip.Content>
+									<p>Download BetterLectio appen for at bruge denne funktion.</p>
+								</Tooltip.Content>
+							{/if}
+						</Tooltip.Root>
 					</div>
 				</div>
 			</Alert.Root>

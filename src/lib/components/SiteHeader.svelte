@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 
-	import { getCurrent } from '@tauri-apps/api/window';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import { getCurrent } from '@tauri-apps/api/window';
 	import { toggleMode } from 'mode-watcher';
 	import {
 		Avatar,
@@ -12,7 +12,6 @@
 		DividerHorizontal as Minus,
 		Moon,
 		Reload,
-		RotateCounterClockwise,
 		Stop as Square,
 		Sun
 	} from 'radix-icons-svelte';

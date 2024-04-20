@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0;600;0,700;1,300;1,400;1,500;1,700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -62,8 +62,30 @@
 	@apply container mx-auto px-4 md:px-10 py-10 space-y-10;
 }
 
-h1:not(.unstyled) {
+h1:not(:where([class~='unstyled'], [class~='unstyled'] *)) {
 	@apply text-4xl leading-[1.11] font-bold;
+}
+
+h2:not(:where([class~='unstyled'], [class~='unstyled'] *)) {
+	@apply text-2xl leading-[1.33] font-bold;
+}
+h3:not(:where([class~='unstyled'], [class~='unstyled'] *)) {
+	@apply text-xl leading-[1.6] font-semibold mb-2 mt-6;
+}
+
+h2 + *:not(:where([class~='unstyled'], [class~='unstyled'] *)) {
+	@apply !mt-0;
+}
+h3 + *:not(:where([class~='unstyled'], [class~='unstyled'] *)) {
+	@apply !mt-0;
+}
+
+ul:not(:where([class~='unstyled'], [class~='unstyled'] *)) {
+	@apply list-disc pl-6;
+}
+
+a:not(:where([class~='unstyled'], [class~='unstyled'] *)) {
+	@apply underline font-medium;
 }
 
 ::-webkit-scrollbar {
