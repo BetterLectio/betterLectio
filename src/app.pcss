@@ -1,4 +1,4 @@
-/* Write your global styles here, in PostCSS syntax */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -63,7 +63,7 @@
 }
 
 h1:not(.unstyled) {
-	@apply text-4xl leading-[1.11] font-bold;
+	@apply text-4xl leading-[1.11] font-extrabold;
 }
 
 ::-webkit-scrollbar {
@@ -93,7 +93,7 @@ h1:not(.unstyled) {
 }
 
 .fc-event-title {
-	@apply font-semibold text-black;
+	@apply font-medium dark:font-semibold text-black;
 }
 
 :is(.event-cancelled .fc-event-title) {
@@ -130,13 +130,6 @@ h1:not(.unstyled) {
 
 .fc .fc-timegrid-now-indicator-line {
 	@apply mt-[-2px] border-[2px] border-primary;
-}
-
-.fc .fc-timegrid-now-indicator-arrow {
-	border-color: #8678f9;
-	border-width: 5px 0px 5px 6px;
-	border-bottom-color: transparent;
-	border-top-color: transparent;
 }
 
 .fc .fc-scrollgrid {
