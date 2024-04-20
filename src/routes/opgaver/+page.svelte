@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { Spinner } from '$lib/components';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Input } from '$lib/components/ui/input';
 	import { Separator } from '$lib/components/ui/separator';
@@ -28,6 +29,11 @@
 		search();
 	});
 
+	$: if (searchString === '' && $assignmentStore)
+		opgaver = $assignmentStore?.filter(
+			(opgave) => opgave.status === 'Venter' || opgave.status === 'Mangler'
+		);
+
 	function search() {
 		const searchResults: RawSimpleAssignment[] = [];
 		$assignmentStore?.forEach((opgave) => {
@@ -47,7 +53,12 @@
 
 <div class="page-container">
 	<div class="flex justify-between">
-		<h1>Opgaver</h1>
+		<div class="flex items-center space-x-2">
+			<h1>Opgaver</h1>
+			{#if !$assignmentStore}
+				<Spinner />
+			{/if}
+		</div>
 		<Input
 			type="text"
 			class="max-w-xs"
