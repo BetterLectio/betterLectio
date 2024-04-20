@@ -71,7 +71,7 @@ def modul(self, absid):
             else:
                 modulDetaljer[last] += markdownify.markdownify(str(div), bullets="-")
 
-    modulDetaljer["aktivitet"] = skemaBrikExtract(soup.find("a", class_="s2skemabrik"))
+    modulDetaljer["aktivitet"] = skemaBrikExtract(soup.find("a", class_="s2skemabrik"), modulId=absid)
 
     return modulDetaljer
 
