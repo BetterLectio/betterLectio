@@ -22,7 +22,7 @@
 			<Alert.Title>Mangler konto</Alert.Title>
 			<Alert.Description>Du har ikke tilføjet en Google-konto endnu.</Alert.Description>
 		</div>
-		<Dialog.Root>
+		<Dialog.Root closeOnOutsideClick={false} closeOnEscape={false}>
 			<Dialog.Trigger
 				><Button href="https://betterlectio-oauth.vercel.app/" target="_blank">
 					Log på med Google
