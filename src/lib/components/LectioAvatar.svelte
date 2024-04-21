@@ -1,7 +1,7 @@
 <script lang="ts">
 	import IntersectionObserver from 'svelte-intersection-observer';
 	import * as Avatar from '$lib/components/ui/avatar';
-	import { authStore } from '$lib/stores';
+	import { authStore, avatarStore } from '$lib/stores';
 	import { LECTIO_API } from '$lib/lectio';
 
 	export let id = '';
@@ -12,28 +12,23 @@
 	let element: HTMLElement | null = null;
 	let source: string | null = null;
 
-	async function getImageSource() {
-		try {
-			const response = await fetch(`${LECTIO_API}/profil_billed?id=${id}&fullsize=1`, {
-				headers: { 'lectio-cookie': $authStore.cookie || '' }
-			});
-			if (response.ok) return await response.text();
-			return null;
-		} catch (error) {
-			return null;
+	async function fetchImage() {
+		if ($avatarStore?.[id]) {
+			source = $avatarStore[id];
+			return;
+		}
+		const response = await fetch(`${LECTIO_API}/profil_billed?id=${id}&fullsize=1`, {
+			headers: { 'lectio-cookie': $authStore.cookie || '' }
+		});
+		if (response.ok) {
+			const text = await response.text();
+			$avatarStore[id] = text;
+			source = text;
 		}
 	}
 </script>
 
-<IntersectionObserver
-	{element}
-	once={true}
-	on:intersect={() => {
-		getImageSource().then((data) => {
-			source = data;
-		});
-	}}
->
+<IntersectionObserver {element} once={true} on:intersect={fetchImage}>
 	<div bind:this={element}>
 		<Avatar.Root>
 			<Avatar.Image src={source} />
