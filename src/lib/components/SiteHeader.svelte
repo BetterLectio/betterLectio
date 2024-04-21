@@ -49,8 +49,8 @@
 				BetterLectio
 			</a>
 		</div>
-		<div class="flex items-center grow shrink-0">
-			<div class="flex mr-4 grow">
+		<div class="flex items-center grow shrink-0" data-tauri-drag-region>
+			<div class="flex mr-4 grow" data-tauri-drag-region>
 				<Button variant="outline" class="flex justify-between max-w-lg grow h-7" data-command-opener>
 					<div>
 						<p class="text-sm text-muted-foreground">Søg...</p>
