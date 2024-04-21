@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { NewTabLink } from '$lib/components';
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Table from '$lib/components/ui/table';
@@ -68,25 +69,31 @@
 		{#if modul.note}
 			<section>
 				<h2 class="!mb-0">Note</h2>
-				<SvelteMarkdown source={modul.note} />
+				<SvelteMarkdown source={modul.note} renderers={{ link: NewTabLink }} />
 			</section>
 		{/if}
 		{#if modul.lektier}
 			<section>
 				<h2 class="!mb-0">Lektier</h2>
-				<SvelteMarkdown source={modul.lektier.replaceAll('\n', '<br>')} />
+				<SvelteMarkdown
+					source={modul.lektier.replaceAll('\n', '<br>')}
+					renderers={{ link: NewTabLink }}
+				/>
 			</section>
 		{/if}
 		{#if modul.øvrigtIndhold}
 			<section>
 				<h2 class="!mb-0">Øvrigt Indhold</h2>
-				<SvelteMarkdown source={modul.øvrigtIndhold.replaceAll(')', ')<br>')} />
+				<SvelteMarkdown
+					source={modul.øvrigtIndhold.replaceAll(')', ')<br>')}
+					renderers={{ link: NewTabLink }}
+				/>
 			</section>
 		{/if}
 		{#if modul.præsentation}
 			<section>
 				<h2 class="!mb-0">Præsentation</h2>
-				<SvelteMarkdown source={modul.præsentation} />
+				<SvelteMarkdown source={modul.præsentation} renderers={{ link: NewTabLink }} />
 			</section>
 		{/if}
 	{/if}
