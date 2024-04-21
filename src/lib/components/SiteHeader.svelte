@@ -4,7 +4,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { sidebarStore } from '$lib/stores';
 	import { getCurrent } from '@tauri-apps/api/window';
-	import Menu from 'lucide-svelte/icons/menu';
+	import AlignJustify from 'lucide-svelte/icons/align-justify';
 	import Layers2 from 'lucide-svelte/icons/layers-2';
 	import Maximize from 'lucide-svelte/icons/maximize';
 	import Minus from 'lucide-svelte/icons/minus';
@@ -35,7 +35,7 @@
 >
 	<div class="w-[72px] flex items-center justify-center shrink-0" data-tauri-drag-region>
 		<Button on:click={toggleSidebar} variant="ghost" size="icon">
-			<Menu class="size-6" />
+			<AlignJustify class="size-6" />
 		</Button>
 	</div>
 	<div class="{isWeb && 'container'} flex w-full">
