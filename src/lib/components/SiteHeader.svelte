@@ -35,7 +35,7 @@
 
 <header
 	id="site-header"
-	class="sticky h-[42px] top-0 z-40 w-full border-b border-border bg-background shadow-sm flex"
+	class="fixed h-[42px] top-0 z-40 w-full border-b border-border bg-background shadow-sm flex"
 >
 	<div class="w-[72px] flex items-center justify-center shrink-0" data-tauri-drag-region>
 		<Button on:click={toggleSidebar} variant="ghost" size="icon">
@@ -49,8 +49,8 @@
 				BetterLectio
 			</a>
 		</div>
-		<div class="flex items-center grow shrink-0" data-tauri-drag-region>
-			<div class="flex mr-4 grow" data-tauri-drag-region>
+		<div class="flex items-center grow shrink-0">
+			<div class="flex mr-4 grow">
 				<Button variant="outline" class="flex justify-between max-w-lg grow h-7" data-command-opener>
 					<div>
 						<p class="text-sm text-muted-foreground">Søg...</p>
