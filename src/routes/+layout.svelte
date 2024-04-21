@@ -102,11 +102,13 @@
 	{/each}
 
 	{#await checkCookie()}
-		<div class="flex items-center justify-center h-full"> 
+		<div class="flex items-center justify-center h-full">
 			<Spinner />
 		</div>
 	{:then}
-		<slot />
+		<div class="mt-10">
+			<slot />
+		</div>
 	{:catch error}
 		<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
 			{#if error.message === 'Credentials are not set' || error.message === 'Cookie is invalid'}
