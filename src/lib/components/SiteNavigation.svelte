@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Home from 'lucide-svelte/icons/home';
 	import { SidebarLink, SiteHeader } from '.';
 	import { sidebarStore } from '$lib/stores';
 	import { SITE_LINKS } from '$lib/links';
@@ -40,7 +39,7 @@
 			style="width: 240px; height: {mainContentHeight}px"
 		>
 			<div class="{$sidebarStore.isOpen ? 'w-[240px]' : 'w-[72px]'} mt-14 duration-200 ease-in-out">
-				{#each SITE_LINKS as link}
+				{#each SITE_LINKS.main.links as link}
 					<SidebarLink {...link} />
 				{/each}
 			</div>

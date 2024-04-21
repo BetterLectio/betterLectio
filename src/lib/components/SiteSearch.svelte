@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import * as Command from '$lib/components/ui/command';
+	import { SITE_LINKS } from '$lib/links';
 	import { onMount } from 'svelte';
 
 	let open = false;
@@ -59,26 +60,15 @@
 	<Command.Input placeholder="Søg efter en side..." />
 	<Command.List>
 		<Command.Empty>Ingen sider fundet.</Command.Empty>
-		<Command.Group heading="Forslag">
-			<Command.Item>
-				<p data-routeto="/opgaver" class="w-full h-full cursor-pointer">Gå til Opgaver</p>
-			</Command.Item>
-			<Command.Item>
-				<p data-routeto="/skema" class="w-full h-full cursor-pointer">Gå til Skema</p>
-			</Command.Item>
-			<Command.Item>
-				<p data-routeto="/beskeder" class="w-full h-full cursor-pointer">Gå til Beskeder</p>
-			</Command.Item>
-			<Command.Item>
-				<p data-routeto="/noter" class="w-full h-full cursor-pointer">
-					Gå til Noter <Badge variant="outline">Kommer snart!</Badge>
-				</p>
-			</Command.Item>
-			<Command.Item>
-				<p data-routeto="/indstillinger" class="w-full h-full cursor-pointer">
-					Gå til Indstillinger
-				</p>
-			</Command.Item>
-		</Command.Group>
+		{#each Object.entries(SITE_LINKS) as categoryEntry}
+			{@const category = categoryEntry[1]}
+			<Command.Group heading={category.label}>
+				{#each category.links as link}
+					<Command.Item>
+						<p data-routeto={link.href} class="w-full h-full cursor-pointer">Gå til {link.label}</p>
+					</Command.Item>
+				{/each}
+			</Command.Group>
+		{/each}
 	</Command.List>
 </Command.Dialog>

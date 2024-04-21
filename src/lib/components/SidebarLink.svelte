@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { sidebarStore } from '$lib/stores';
+	import BarChart3 from 'lucide-svelte/icons/bar-chart-3';
 	import CalendarDays from 'lucide-svelte/icons/calendar-days';
 	import CircleHelp from 'lucide-svelte/icons/circle-help';
 	import Home from 'lucide-svelte/icons/home';
@@ -12,6 +13,7 @@
 		schedule: CalendarDays,
 		assignments: ListTodo,
 		messages: Mail,
+		absence: BarChart3,
 		default: CircleHelp
 	};
 
