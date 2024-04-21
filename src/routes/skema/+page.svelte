@@ -11,9 +11,13 @@
 	import daLocale from '@fullcalendar/core/locales/da';
 	import luxonPlugin from '@fullcalendar/luxon3';
 	import timeGridPlugin from '@fullcalendar/timegrid';
+	import DOMPurify from 'dompurify';
 	import { DateTime } from 'luxon';
+	import { mode } from 'mode-watcher';
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
+	import tippy from 'tippy.js';
+	import 'tippy.js/animations/shift-away.css';
 
 	const nameRegex = /^(?:[\w]+) (.*)(?:,.*)/;
 
@@ -48,8 +52,10 @@
 					const className = lesson.hold; //classNames?.[lesson.hold ?? ''] ?? lesson.hold ?? '';
 
 					return {
-						color: color,
-						textColor: textColor,
+						borderColor: color,
+						color: $mode == 'dark' ? `color-mix(in srgb, ${color} 25%, transparent)` : color,
+						//text is black in light mode and white in dark mode
+						textColor: $mode == 'light' ? 'hsl(0, 0%, 0%)' : 'hsl(0, 0%, 90%)',
 						end,
 						extendedProps: {
 							cancelled: lesson.status === 'aflyst',
@@ -59,6 +65,7 @@
 								lesson.andet ? `<br><br>${lesson.andet}` : ''
 							}`
 						},
+						className: 'backdrop-blur-md',
 						id: lesson.absid,
 						start,
 						title: `${lesson.navn ?? className}${lesson.lokale ? ` • ${lesson.lokale}` : ''}`,
@@ -76,7 +83,9 @@
 	let calendar: Calendar;
 	let showBackToWeekViewButton = false;
 
-	onMount(() => {
+	const start = () => {
+		loading = true;
+
 		searchId = $page.url.searchParams.get('id') ?? '';
 		const meId = `S${decodeUserID($authStore.cookie ?? '0')}`;
 		if (searchId) {
@@ -114,6 +123,18 @@
 			},
 			dayHeaderFormat: { weekday: 'long' },
 			eventDidMount: (arg) => {
+				tippy(arg.el, {
+					content: DOMPurify.sanitize(arg.event.extendedProps.description, {
+						USE_PROFILES: { html: true }
+					}),
+					placement: 'top',
+					duration: 150,
+					animation: 'shift-away',
+					arrow: false,
+					delay: [500, 0],
+					allowHTML: true,
+					touch: false
+				});
 				if (arg.event.extendedProps.cancelled) arg.el.classList.add('event-cancelled');
 			},
 			eventSources: [
@@ -170,18 +191,22 @@
 		//	}
 		//});
 
-		//const hammer = new Hammer(calendarEl);
-		//hammer.on('swipeleft', () => {
-		//	calendar.next();
-		//});
-		//hammer.on('swiperight', () => {
-		//	calendar.prev();
-		//});
-
 		return () => {
 			calendar && calendar.destroy();
 		};
+	};
+
+	let mounted = false;
+	onMount(() => {
+		start();
+		mounted = true;
 	});
+
+	$: if (($mode === 'light' || $mode === 'dark') && mounted) {
+		calendar?.destroy();
+		start();
+		console.log('mode changed');
+	}
 
 	let customDate: string;
 	$: if (customDate) {
@@ -190,12 +215,6 @@
 			calendar.gotoDate(date.toJSDate());
 		}
 	}
-
-	//$: if (calendar && $calendarStore.onlyMandatory) {
-	//	calendar.getEvents().forEach((event) => {
-	//		if (event.title && nameBlacklisted(event.title)) event.remove();
-	//	});
-	//}
 </script>
 
 <svelte:window bind:innerWidth={width} />
