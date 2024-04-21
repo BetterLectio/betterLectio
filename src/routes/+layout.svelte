@@ -15,6 +15,7 @@
 	import { Settings } from 'luxon';
 	import { onMount } from 'svelte';
 	import { isWeb } from '$lib/utils/environment';
+	import { ModeWatcher } from 'mode-watcher';
 	Settings.defaultLocale = 'da';
 
 	const noCredentials = () => {
@@ -79,6 +80,7 @@
 
 <Toaster />
 <Changelog />
+<ModeWatcher />
 <SiteSearch />
 <SiteNavigation>
 	{#await checkCookie()}
