@@ -2,7 +2,7 @@
 	import '../app.pcss';
 
 	import { dev } from '$app/environment';
-	import { AccountSheet, Banner, SiteNavigation, SiteSearch, Spinner } from '$lib/components';
+	import { AccountSheet, SiteNavigation, SiteSearch, Spinner } from '$lib/components';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import { authStore } from '$lib/stores';
