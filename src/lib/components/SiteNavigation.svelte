@@ -5,7 +5,7 @@
 	import { SITE_LINKS } from '$lib/links';
 
 	let height = 0;
-	$: mainContentHeight = height - (document.getElementById('site-header')?.clientHeight ?? 0);
+	$: mainContentHeight = height; // - (document.getElementById('site-header')?.clientHeight ?? 0); // not needed since height is fixed (not in document flow)
 
 	let timeoutId: number | null = null;
 	const mouseEnter = () => {
