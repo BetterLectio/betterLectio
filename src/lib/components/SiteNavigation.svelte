@@ -39,10 +39,10 @@
 				: 'fixed'} left-0 bg-background flex flex-col transition-[min-width,max-width] duration-150 z-10 border-r shadow-sm"
 			style="width: 240px; height: {mainContentHeight}px"
 		>
-			<div class="w-[240px] mt-2">
-                {#each SITE_LINKS as link}
-                    <SidebarLink {...link} />
-                {/each}
+			<div class="w-[240px] mt-14">
+				{#each SITE_LINKS as link}
+					<SidebarLink {...link} />
+				{/each}
 			</div>
 		</div>
 		<div class="{$sidebarStore.alwaysOpen ? '' : 'ml-[72px]'} grow overflow-auto">

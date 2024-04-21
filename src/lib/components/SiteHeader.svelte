@@ -36,7 +36,7 @@
 <header
 	id="site-header"
 	data-tauri-drag-region
-	class="sticky h-[42px] top-0 z-40 w-full border-b border-border bg-background shadow-sm flex"
+	class="fixed h-[42px] top-0 z-40 w-full border-b border-border bg-background shadow-sm flex"
 >
 	<div class="w-[72px] flex items-center justify-center shrink-0">
 		<Button on:click={toggleSidebar} variant="ghost" size="icon">
@@ -52,7 +52,11 @@
 		</div>
 		<div class="flex items-center grow shrink-0">
 			<div class="flex mr-4 grow">
-				<Button variant="outline" class="flex justify-between max-w-lg grow h-7" data-command-opener>
+				<Button
+					variant="outline"
+					class="flex justify-between max-w-lg grow h-7"
+					data-command-opener
+				>
 					<div>
 						<p class="text-sm text-muted-foreground">Søg...</p>
 					</div>
