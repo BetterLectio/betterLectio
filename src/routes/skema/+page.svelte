@@ -202,7 +202,7 @@
 		mounted = true;
 	});
 
-	$: if (($mode === 'light' || $mode === 'dark') && mounted) {
+	$: if (($mode === undefined || $mode === 'light' || $mode === 'dark') && mounted) {
 		calendar?.destroy();
 		start();
 		console.log('mode changed');
