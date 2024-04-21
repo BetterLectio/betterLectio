@@ -5,7 +5,7 @@
 	import { AccountSheet, Banner, SiteNavigation, SiteSearch, Spinner } from '$lib/components';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import { authStore, bannerStore } from '$lib/stores';
+	import { authStore } from '$lib/stores';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
 	import { toast } from 'svelte-sonner';
@@ -16,28 +16,9 @@
 	import { ShieldAlert } from 'lucide-svelte';
 	Settings.defaultLocale = 'da';
 
-	//check if credentials are set, if not add a banner
 	const noCredentials = () => {
-		if (
-			$authStore.username === null ||
-			$authStore.password === null ||
-			$authStore.school === null
-		) {
-			$bannerStore = [
-				...$bannerStore,
-				{
-					text: 'BetterLectio mangler dine login oplysninger',
-					type: 'fatalFixable',
-					to: '/indstillinger'
-				}
-			];
+		if ($authStore.username === null || $authStore.password === null || $authStore.school === null)
 			return true;
-		} else {
-			//filter out the banner
-			$bannerStore = $bannerStore.filter(
-				(banner: any) => banner.text !== 'BetterLectio mangler dine login oplysninger'
-			);
-		}
 		return false;
 	};
 
@@ -97,10 +78,6 @@
 <Toaster />
 <SiteSearch />
 <SiteNavigation>
-	{#each $bannerStore as banner}
-		<Banner to={banner.to} type={banner.type} text={banner.text} />
-	{/each}
-
 	{#await checkCookie()}
 		<div class="flex items-center justify-center h-full">
 			<Spinner />
