@@ -9,6 +9,7 @@ import { localStore } from './utils/localStore';
 export const sidebarStore = writable({ alwaysOpen: false, isOpen: false });
 export const avatarStore: Writable<Record<string, string>> = writable({});
 
+export const versionStore = localStore<string | null>('version', null);
 export const authStore = localStore<{
 	cookie: string | null;
 	googleToken: string | null;
@@ -24,12 +25,10 @@ export const authStore = localStore<{
 	password: null,
 	name: null
 });
-
 export const scheduleStore = localStore<{ moduler: RawLesson; overskrift: string } | null>(
 	'schedule',
 	null
 );
-
 export const assignmentStore = localStore<RawSimpleAssignment[] | null>('assignments', null);
 export const messageStore = localStore<RawMessage[] | null>('messages', null);
 export const frontPageStore = localStore<{

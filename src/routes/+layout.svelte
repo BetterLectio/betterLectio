@@ -2,10 +2,10 @@
 	import '../app.pcss';
 
 	import { dev } from '$app/environment';
-	import { AccountSheet, SiteNavigation, SiteSearch, Spinner } from '$lib/components';
+	import { AccountSheet, Changelog, SiteNavigation, SiteSearch, Spinner } from '$lib/components';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import { authStore } from '$lib/stores';
+	import { authStore, versionStore } from '$lib/stores';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
 	import { toast } from 'svelte-sonner';
@@ -14,6 +14,7 @@
 	import ShieldAlert from 'lucide-svelte/icons/shield-alert';
 	import { Settings } from 'luxon';
 	import { onMount } from 'svelte';
+	import { isWeb } from '$lib/utils/environment';
 	Settings.defaultLocale = 'da';
 
 	const noCredentials = () => {
@@ -57,7 +58,8 @@
 	}
 
 	onMount(async () => {
-		if (dev) return;
+		if (isWeb || dev) return;
+
 		const update = await check();
 		if (update?.available) {
 			toast('En opdatering er tilgængelig', {
@@ -76,6 +78,7 @@
 </script>
 
 <Toaster />
+<Changelog />
 <SiteSearch />
 <SiteNavigation>
 	{#await checkCookie()}
