@@ -16,9 +16,6 @@
 	import { toggleMode } from 'mode-watcher';
 	import { onMount } from 'svelte';
 	import { Separator } from './ui/separator';
-	import { navigating } from '$app/stores';
-
-	$: spinning = $navigating ? 'animate-spin' : '';
 
 	let fullscreen = false;
 	onMount(async () => (fullscreen = await getCurrent().isMaximized()));
@@ -51,7 +48,11 @@
 		</div>
 		<div class="flex items-center grow shrink-0" data-tauri-drag-region>
 			<div class="flex mr-4 grow" data-tauri-drag-region>
-				<Button variant="outline" class="flex justify-between max-w-lg grow h-7" data-command-opener>
+				<Button
+					variant="outline"
+					class="flex justify-between max-w-lg grow h-7"
+					data-command-opener
+				>
 					<div>
 						<p class="text-sm text-muted-foreground">Søg...</p>
 					</div>
