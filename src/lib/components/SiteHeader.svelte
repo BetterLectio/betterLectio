@@ -4,7 +4,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { sidebarStore } from '$lib/stores';
 	import { getCurrent } from '@tauri-apps/api/window';
-	import { Menu } from 'lucide-svelte';
+	import Menu from 'lucide-svelte/icons/menu';
 	import Layers2 from 'lucide-svelte/icons/layers-2';
 	import Maximize from 'lucide-svelte/icons/maximize';
 	import Minus from 'lucide-svelte/icons/minus';

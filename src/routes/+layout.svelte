@@ -10,10 +10,10 @@
 	import { check } from '@tauri-apps/plugin-updater';
 	import { toast } from 'svelte-sonner';
 
+	import { LECTIO_API } from '$lib/lectio';
+	import ShieldAlert from 'lucide-svelte/icons/shield-alert';
 	import { Settings } from 'luxon';
 	import { onMount } from 'svelte';
-	import { LECTIO_API } from '$lib/lectio';
-	import { ShieldAlert } from 'lucide-svelte';
 	Settings.defaultLocale = 'da';
 
 	const noCredentials = () => {
