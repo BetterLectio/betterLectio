@@ -15,6 +15,9 @@
 	import { toggleMode } from 'mode-watcher';
 	import { onMount } from 'svelte';
 	import { Separator } from './ui/separator';
+	import { navigating } from '$app/stores';
+
+	$: spinning = $navigating ? 'animate-spin' : '';
 
 	let fullscreen = false;
 	onMount(async () => (fullscreen = await getCurrent().isMaximized()));
@@ -33,7 +36,7 @@
 			<Home />
 		</Button>
 		<Button on:click={() => location.reload()} variant="ghost" size="icon">
-			<RotateCw />
+			<RotateCw class={spinning} />
 		</Button>
 	</div>
 	<div class="flex items-center">
