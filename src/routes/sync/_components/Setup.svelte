@@ -2,7 +2,7 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
-	import { ExclamationTriangle as Error } from 'radix-icons-svelte';
+	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
 	import { Input } from '$lib/components/ui/input';
 	import { pageState } from '.';
 	import { authStore } from '$lib/stores';
@@ -16,7 +16,7 @@
 </script>
 
 <Alert.Root class="pt-4 border-destructive">
-	<Error />
+	<TriangleAlert />
 	<div class="flex items-center justify-between w-full">
 		<div>
 			<Alert.Title>Mangler konto</Alert.Title>

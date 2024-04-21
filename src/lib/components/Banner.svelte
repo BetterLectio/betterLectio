@@ -1,11 +1,9 @@
 <script lang="ts">
-	import {
-		Cross1,
-		ExclamationTriangle as Warning,
-		InfoCircled as Info,
-		CheckCircled as Success,
-		CrossCircled as Fatal
-	} from 'radix-icons-svelte';
+	import Cross1 from 'svelte-radix/Cross1.svelte'
+	import ExclamationTriangle from 'svelte-radix/ExclamationTriangle.svelte'
+	import InfoCircled from 'svelte-radix/InfoCircled.svelte'
+	import CheckCircled from 'svelte-radix/CheckCircled.svelte'
+	import CrossCircled from 'svelte-radix/CrossCircled.svelte'
 	import { Button } from '$lib/components/ui/button';
 	import { goto } from '$app/navigation';
 
@@ -14,18 +12,18 @@
 	export let to: string = '/';
 </script>
 
-<div class="w-screen h-fit flex items-center bg-foreground text-background justify-between px-4">
+<div class="flex items-center justify-between w-screen px-4 h-fit bg-foreground text-background">
 	<div class="flex items-center">
 		{#if type === 'info'}
-			<Info class="w-4 h-4 mr-2" />
+			<InfoCircled class="mr-2" />
 		{:else if type === 'success'}
-			<Success class="w-4 h-4 mr-2" />
+			<CheckCircled class="mr-2" />
 		{:else if type === 'warning'}
-			<Warning class="w-4 h-4 mr-2" />
+			<ExclamationTriangle class="mr-2" />
 		{:else if type === 'fatalFixable'}
-			<Fatal class="w-4 h-4 mr-2" />
+			<CrossCircled class="mr-2" />
 		{:else if type === 'fatal'}
-			<Fatal class="w-4 h-4 mr-2" />
+			<CrossCircled class="mr-2" />
 		{/if}
 		<p>{text}</p>
 	</div>
@@ -36,7 +34,7 @@
 			on:click={() => {
 				goto(to);
 			}}
-			class="h-6 text-background font-black"
+			class="h-6 font-black text-background"
 			variant="link">Fiks Nu!</Button
 		>
 	{/if}

@@ -8,12 +8,12 @@
 	import { authStore, bannerStore } from '$lib/stores';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
-	import { ExclamationTriangle } from 'radix-icons-svelte';
 	import { toast } from 'svelte-sonner';
 
 	import { Settings } from 'luxon';
 	import { onMount } from 'svelte';
 	import { LECTIO_API } from '$lib/lectio';
+	import { ShieldAlert } from 'lucide-svelte';
 	Settings.defaultLocale = 'da';
 
 	//check if credentials are set, if not add a banner
@@ -122,7 +122,7 @@
 			{/if}
 		{:else}
 			<Alert.Root variant="destructive">
-				<ExclamationTriangle class="w-4 h-4"></ExclamationTriangle>
+				<ShieldAlert class="w-4 h-4" />
 				<Alert.Title>Fejl</Alert.Title>
 				<Alert.Description>Der skete en fejl, prøv at genindlæse siden</Alert.Description>
 			</Alert.Root>

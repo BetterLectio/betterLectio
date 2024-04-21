@@ -3,10 +3,10 @@
 	import { page } from '$app/stores';
 	import { Spinner } from '$lib/components';
 	import { Button } from '$lib/components/ui/button';
-	import { get } from '$lib/utils/http';
 	import { authStore } from '$lib/stores';
 	import type { RawLesson } from '$lib/types/lesson';
 	import { constructInterval, decodeUserID, stringToColor } from '$lib/utils';
+	import { get } from '$lib/utils/http';
 	import { Calendar, type EventSourceFunc } from '@fullcalendar/core';
 	import daLocale from '@fullcalendar/core/locales/da';
 	import luxonPlugin from '@fullcalendar/luxon3';

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Menubar as MenubarPrimitive } from 'bits-ui';
 	import { cn } from '$lib/utils';
-	import { ChevronRight } from 'radix-icons-svelte';
+	import { Menubar as MenubarPrimitive } from 'bits-ui';
+	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 
 	type $$Props = MenubarPrimitive.SubTriggerProps & {
 		inset?: boolean;
@@ -28,5 +28,5 @@
 	on:pointermove
 >
 	<slot />
-	<ChevronRight class="ml-auto h-4 w-4" />
+	<ChevronRight class="w-4 h-4 ml-auto" />
 </MenubarPrimitive.SubTrigger>

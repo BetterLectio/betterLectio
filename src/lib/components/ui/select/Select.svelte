@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { cn } from '$lib/utils';
 	import { createCombobox, melt } from '@melt-ui/svelte';
-	import { Check, ChevronDown, ChevronUp } from 'radix-icons-svelte';
+	import Check from 'lucide-svelte/icons/check';
+	import ChevronDown from 'lucide-svelte/icons/chevron-down';
+	import ChevronUp from 'lucide-svelte/icons/chevron-up';
 	import { fly } from 'svelte/transition';
 	import { buttonVariants } from '../button';
-	import { cn } from '$lib/utils';
 
 	export let items: { label: string; value: string }[] = [];
 	export let value: { label: string; value: string };

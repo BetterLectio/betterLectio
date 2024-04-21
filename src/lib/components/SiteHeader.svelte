@@ -3,18 +3,16 @@
 
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { getCurrent } from '@tauri-apps/api/window';
+	import Home from 'lucide-svelte/icons/home';
+	import Layers2 from 'lucide-svelte/icons/layers-2';
+	import Maximize from 'lucide-svelte/icons/maximize';
+	import Minus from 'lucide-svelte/icons/minus';
+	import Moon from 'lucide-svelte/icons/moon';
+	import RotateCw from 'lucide-svelte/icons/rotate-cw';
+	import Sun from 'lucide-svelte/icons/sun';
+	import UserRound from 'lucide-svelte/icons/user-round';
+	import X from 'lucide-svelte/icons/x';
 	import { toggleMode } from 'mode-watcher';
-	import {
-		Avatar,
-		Copy,
-		Cross1 as Cross,
-		Home,
-		DividerHorizontal as Minus,
-		Moon,
-		Reload,
-		Stop as Square,
-		Sun
-	} from 'radix-icons-svelte';
 	import { onMount } from 'svelte';
 	import { Separator } from './ui/separator';
 
@@ -32,10 +30,10 @@
 >
 	<div class="flex items-center gap-1 px-2 py-1">
 		<Button href="/" variant="ghost" size="icon">
-			<Home class="w-6 h-6" />
+			<Home />
 		</Button>
 		<Button on:click={() => location.reload()} variant="ghost" size="icon">
-			<Reload class="w-6 h-6" />
+			<RotateCw />
 		</Button>
 	</div>
 	<div class="flex items-center">
@@ -71,7 +69,7 @@
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
 				<Button variant="ghost" size="icon">
-					<Avatar class="w-6 h-6" />
+					<UserRound class="w-6 h-6" />
 				</Button>
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content>
@@ -89,12 +87,8 @@
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
 		<div>
-			<Button
-				on:click={() => getCurrent().minimize()}
-				variant="ghost"
-				class="h-full rounded-none"
-			>
-				<Minus class="w-5 h-5" />
+			<Button on:click={() => getCurrent().minimize()} variant="ghost" class="h-full rounded-none">
+				<Minus />
 			</Button>
 			<Button
 				on:click={async () => await getCurrent().toggleMaximize()}
@@ -102,9 +96,9 @@
 				class="h-full rounded-none"
 			>
 				{#if fullscreen}
-					<Copy class="w-5 h-5" />
+					<Layers2 />
 				{:else}
-					<Square class="w-5 h-5" />
+					<Maximize />
 				{/if}
 			</Button>
 			<Button
@@ -112,7 +106,7 @@
 				variant="ghost"
 				class="h-full rounded-none hover:bg-destructive hover:text-white"
 			>
-				<Cross class="w-5 h-5" />
+				<X />
 			</Button>
 		</div>
 	</div>

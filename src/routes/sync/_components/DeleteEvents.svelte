@@ -5,10 +5,10 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { Select } from '$lib/components/ui/select';
 	import { LECTIO_OAUTH_API } from '$lib/lectio';
-	import { Trash } from 'radix-icons-svelte';
+	import { authStore } from '$lib/stores';
+	import Trash from 'lucide-svelte/icons/trash';
 	import { toast } from 'svelte-sonner';
 	import { calendar, calendars, fetchCalendars, pageState } from '.';
-	import { authStore } from '$lib/stores';
 
 	const deleteEvents = async () => {
 		$pageState = 'loading';

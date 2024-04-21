@@ -2,16 +2,19 @@
 	import { version } from '$app/environment';
 	import AccountSheet from '$lib/components/AccountSheet.svelte';
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Switch } from '$lib/components/ui/switch';
+	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { authStore } from '$lib/stores';
 	import { isWeb } from '$lib/utils/environment';
 	import { disable, enable, isEnabled } from '@tauri-apps/plugin-autostart';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
-	import { Check, ExclamationTriangle, LightningBolt, Update } from 'radix-icons-svelte';
+	import Check from 'lucide-svelte/icons/check';
+	import RefreshCw from 'lucide-svelte/icons/refresh-cw';
+	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
+	import Zap from 'lucide-svelte/icons/zap';
 
 	let showAccountError =
 		$authStore.username === null || $authStore.password === null || $authStore.school === null;
@@ -63,7 +66,7 @@
 				<p>BetterLectio <span class="text-green-400">v{version}</span></p>
 				<Alert.Root class="mt-2">
 					{#await checkForUpdate()}
-						<Update class="w-4 h-4 animate-spin" />
+						<RefreshCw class="animate-spin" />
 						<div class="flex justify-between w-full pt-1">
 							<div>
 								<Alert.Title>Opdatering</Alert.Title>
@@ -72,7 +75,7 @@
 						</div>
 					{:then value}
 						{#if value}
-							<Check class="w-4 h-4" />
+							<Check />
 							<div class="flex justify-between w-full pt-1">
 								<div>
 									<Alert.Title>Opdatering</Alert.Title>
@@ -81,7 +84,7 @@
 								<Button on:click={update}>Opdater</Button>
 							</div>
 						{:else}
-							<LightningBolt class="w-4 h-4" />
+							<Zap />
 							<div class="flex justify-between w-full pt-1">
 								<div>
 									<Alert.Title>Opdatering</Alert.Title>
@@ -90,7 +93,7 @@
 							</div>
 						{/if}
 					{:catch error}
-						<ExclamationTriangle class="w-4 h-4" />
+						<TriangleAlert />
 						<div class="flex justify-between w-full pt-1">
 							<div>
 								<Alert.Title>Opdatering</Alert.Title>
@@ -109,7 +112,7 @@
 			{#if showAccountError}
 				<!-- content here -->
 				<Alert.Root variant="destructive">
-					<ExclamationTriangle class="w-4 h-4" />
+					<TriangleAlert />
 					<Alert.Title>Konto Fejl</Alert.Title>
 					<Alert.Description>
 						Din lectio konto er ikke sat op. Du kan ikke bruge BetterLectio uden at have sat din

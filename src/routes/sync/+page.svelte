@@ -3,7 +3,8 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { authStore } from '$lib/stores';
-	import { Calendar, HamburgerMenu } from 'radix-icons-svelte';
+	import CalendarPlus from 'lucide-svelte/icons/calendar-plus';
+	import LayoutList from 'lucide-svelte/icons/layout-list';
 	import { onMount } from 'svelte';
 	import {
 		DeleteEvents,
@@ -35,7 +36,7 @@
 			<Card.Root>
 				<Card.Header>
 					<Card.Title class="flex items-center gap-2 text-lg leading-4"
-						><Calendar /> Skema Synkronisering</Card.Title
+						><CalendarPlus /> Skema Synkronisering</Card.Title
 					>
 					<Card.Description>
 						Denne feature er til dig, der gerne vil have dine Lectio-moduler smidigt ind i din
@@ -58,7 +59,7 @@
 			<Card.Root>
 				<Card.Header>
 					<Card.Title class="flex items-center gap-2 text-lg leading-4"
-						><HamburgerMenu /> Opgavesynkronisering</Card.Title
+						><LayoutList /> Opgavesynkronisering</Card.Title
 					>
 					<Card.Description>
 						Denne feature overfører dine opgaver fra Lectio til Google Tasks.

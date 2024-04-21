@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Spinner } from '$lib/components';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
@@ -6,12 +7,11 @@
 	import Select from '$lib/components/ui/select/Select.svelte';
 	import { Switch } from '$lib/components/ui/switch';
 	import { LECTIO_OAUTH_API } from '$lib/lectio';
+	import { authStore } from '$lib/stores';
+	import Zap from 'lucide-svelte/icons/zap';
 	import { DateTime } from 'luxon';
-	import { LightningBolt } from 'radix-icons-svelte';
 	import { toast } from 'svelte-sonner';
 	import { fetchTasklists, pageState, tasklist, tasklists } from '.';
-	import { Spinner } from '$lib/components';
-	import { authStore } from '$lib/stores';
 
 	const maxAgePresets = [
 		{ dt: null, label: '∞' },
@@ -22,8 +22,6 @@
 	];
 	let maxAge: DateTime | null = null;
 	let addFinishedTasks = false;
-
-	$: console.log($tasklist);
 
 	const syncTasks = async () => {
 		$pageState = 'loading';
@@ -67,7 +65,7 @@
 </script>
 
 <Alert.Root class="pt-4">
-	<LightningBolt />
+	<Zap />
 	<div class="flex items-center justify-between w-full">
 		<div>
 			<Alert.Title>Synkronisering af opgaver</Alert.Title>

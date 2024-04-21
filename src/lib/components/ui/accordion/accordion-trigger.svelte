@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Accordion as AccordionPrimitive } from 'bits-ui';
-	import { ChevronDown } from 'radix-icons-svelte';
 	import { cn } from '$lib/utils';
+	import { Accordion as AccordionPrimitive } from 'bits-ui';
+	import ChevronDown from 'lucide-svelte/icons/chevron-down';
 
 	type $$Props = AccordionPrimitive.TriggerProps;
 	type $$Events = AccordionPrimitive.TriggerEvents;
@@ -21,6 +21,6 @@
 		on:click
 	>
 		<slot />
-		<ChevronDown class="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200" />
+		<ChevronDown class="w-4 h-4 transition-transform duration-200 shrink-0 text-muted-foreground" />
 	</AccordionPrimitive.Trigger>
 </AccordionPrimitive.Header>

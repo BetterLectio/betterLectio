@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import * as Sheet from '$lib/components/ui/sheet';
-	import { Label } from '$lib/components/ui/label';
-	import { Input } from '$lib/components/ui/input';
-	import { tick } from 'svelte';
-	import * as Popover from '$lib/components/ui/popover';
 	import * as Command from '$lib/components/ui/command';
-	import { Separator } from '$lib/components/ui/separator';
-	import { get } from '$lib/utils/http';
-	import { Check, CaretSort } from 'radix-icons-svelte';
-	import { authStore } from '$lib/stores';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import * as Popover from '$lib/components/ui/popover';
+	import * as Sheet from '$lib/components/ui/sheet';
 	import { LECTIO_API } from '$lib/lectio';
+	import { authStore } from '$lib/stores';
+	import { get } from '$lib/utils/http';
+	import { tick } from 'svelte';
+	import CaretSort from 'svelte-radix/CaretSort.svelte';
+	import Check from 'svelte-radix/Check.svelte';
 
 	type skole = {
 		id: number;
@@ -40,17 +40,14 @@
 
 	function setValues() {
 		//if credentials are set, set the values to the credentials
-		if (checkIfCredentialsAreSet()) {
-			const credentials = localStorage.getItem('credentials');
-			if (credentials === null) return;
-			const {
-				username: _username,
-				password: _password,
-				schoolId: _schoolId
-			} = JSON.parse(credentials);
-			username = _username;
-			password = _password;
-			value = _schoolId;
+		if (
+			$authStore.username !== null &&
+			$authStore.password !== null &&
+			$authStore.school !== null
+		) {
+			username = $authStore.username;
+			password = $authStore.password;
+			value = $authStore.school;
 		}
 	}
 	setValues();
@@ -66,17 +63,14 @@
 		});
 		cookie = res.headers.get('Set-Lectio-Cookie');
 		if (cookie === null) return;
-		authStore.set({ cookie, school: value, username, password, name: null });
+		authStore.update((store) => ({
+			...store,
+			cookie,
+			school: value,
+			username,
+			password
+		}));
 		document.location.reload();
-	}
-
-	function checkIfCredentialsAreSet() {
-		const credentials = localStorage.getItem('credentials');
-		if (credentials === null) return false;
-		const { username, password, schoolId } = JSON.parse(credentials);
-		if (username === undefined || password === undefined || schoolId === undefined) return false;
-		if (username === '' || password === '' || schoolId === '') return false;
-		return true;
 	}
 </script>
 

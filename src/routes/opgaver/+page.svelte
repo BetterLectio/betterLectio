@@ -11,14 +11,12 @@
 	import { get } from '$lib/utils/http';
 	import { formatDate } from '$lib/utils/relativeTime';
 	import { DateTime } from 'luxon';
-	import {
-		Archive,
-		ChatBubble,
-		EnvelopeOpen,
-		ExclamationTriangle,
-		Rocket
-	} from 'radix-icons-svelte';
 	import { onMount } from 'svelte';
+	import Archive from 'svelte-radix/Archive.svelte';
+	import ChatBubble from 'svelte-radix/ChatBubble.svelte';
+	import EnvelopeOpen from 'svelte-radix/EnvelopeOpen.svelte';
+	import ExclamationTriangle from 'svelte-radix/ExclamationTriangle.svelte';
+	import Rocket from 'svelte-radix/Rocket.svelte';
 
 	let opgaver = $assignmentStore;
 	let searchString = '';

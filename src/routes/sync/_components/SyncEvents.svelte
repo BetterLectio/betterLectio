@@ -6,10 +6,12 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Select, ValueSelect } from '$lib/components/ui/select';
 	import { LECTIO_OAUTH_API } from '$lib/lectio';
-	import { LightningBolt, PlusCircled, Trash } from 'radix-icons-svelte';
+	import { authStore } from '$lib/stores';
+	import ListPlus from 'lucide-svelte/icons/list-plus';
+	import Trash from 'lucide-svelte/icons/trash';
+	import Zap from 'lucide-svelte/icons/zap';
 	import { toast } from 'svelte-sonner';
 	import { calendar, calendars, fetchCalendars, pageState } from '.';
-	import { authStore } from '$lib/stores';
 
 	let blacklist = '';
 	let eventReminders: {
@@ -70,7 +72,7 @@
 </script>
 
 <Alert.Root class="pt-4">
-	<LightningBolt />
+	<Zap />
 	<div class="flex items-center justify-between w-full">
 		<div>
 			<Alert.Title>Synkronisering af skema</Alert.Title>
@@ -189,7 +191,7 @@
 										}}
 										size="icon"
 									>
-										<PlusCircled />
+										<ListPlus />
 									</Button>
 								</div>
 							</div>
