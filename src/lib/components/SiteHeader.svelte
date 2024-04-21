@@ -9,13 +9,12 @@
 	import Maximize from 'lucide-svelte/icons/maximize';
 	import Minus from 'lucide-svelte/icons/minus';
 	import Moon from 'lucide-svelte/icons/moon';
-	import RotateCw from 'lucide-svelte/icons/rotate-cw';
 	import Sun from 'lucide-svelte/icons/sun';
 	import UserRound from 'lucide-svelte/icons/user-round';
 	import X from 'lucide-svelte/icons/x';
 	import { toggleMode } from 'mode-watcher';
 	import { onMount } from 'svelte';
-	import { Separator } from './ui/separator';
+	import { isWeb } from '$lib/utils/environment';
 
 	let fullscreen = false;
 	onMount(async () => (fullscreen = await getCurrent().isMaximized()));
@@ -39,7 +38,7 @@
 			<Menu class="size-6" />
 		</Button>
 	</div>
-	<div class="flex w-full">
+	<div class="{isWeb && 'container'} flex w-full">
 		<div class="flex items-center pr-12" data-tauri-drag-region>
 			<a href="/" class="flex items-center gap-1 text-lg font-bold unstyled">
 				<img src="/favicon.png" alt="BetterLectio" class="h-8" />
@@ -90,43 +89,40 @@
 					<DropdownMenu.Group>
 						<DropdownMenu.Label>Min Konto</DropdownMenu.Label>
 						<DropdownMenu.Separator class="mx-2" />
-						<DropdownMenu.Item href="/home">Forside</DropdownMenu.Item>
-						<DropdownMenu.Item href="/opgaver">Opgaver</DropdownMenu.Item>
 						<DropdownMenu.Item href="/sync">Google Sync</DropdownMenu.Item>
-						<DropdownMenu.Item>Lektier</DropdownMenu.Item>
-						<DropdownMenu.Item>Dokumenter</DropdownMenu.Item>
-						<Separator class="my-2" />
 						<DropdownMenu.Item href="/indstillinger">Indstillinger</DropdownMenu.Item>
 					</DropdownMenu.Group>
 				</DropdownMenu.Content>
 			</DropdownMenu.Root>
-			<div>
-				<Button
-					on:click={() => getCurrent().minimize()}
-					variant="ghost"
-					class="h-full rounded-none"
-				>
-					<Minus />
-				</Button>
-				<Button
-					on:click={async () => await getCurrent().toggleMaximize()}
-					variant="ghost"
-					class="h-full rounded-none"
-				>
-					{#if fullscreen}
-						<Layers2 />
-					{:else}
-						<Maximize />
-					{/if}
-				</Button>
-				<Button
-					on:click={() => getCurrent().close()}
-					variant="ghost"
-					class="h-full rounded-none hover:bg-destructive hover:text-white"
-				>
-					<X />
-				</Button>
-			</div>
+			{#if !isWeb}
+				<div>
+					<Button
+						on:click={() => getCurrent().minimize()}
+						variant="ghost"
+						class="h-full rounded-none"
+					>
+						<Minus />
+					</Button>
+					<Button
+						on:click={async () => await getCurrent().toggleMaximize()}
+						variant="ghost"
+						class="h-full rounded-none"
+					>
+						{#if fullscreen}
+							<Layers2 />
+						{:else}
+							<Maximize />
+						{/if}
+					</Button>
+					<Button
+						on:click={() => getCurrent().close()}
+						variant="ghost"
+						class="h-full rounded-none hover:bg-destructive hover:text-white"
+					>
+						<X />
+					</Button>
+				</div>
+			{/if}
 		</div>
 	</div>
 </header>
