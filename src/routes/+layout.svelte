@@ -2,7 +2,7 @@
 	import '../app.pcss';
 
 	import { dev } from '$app/environment';
-	import { AccountSheet, Banner, SiteHeader, SiteSearch, Spinner } from '$lib/components';
+	import { AccountSheet, Banner, SiteNavigation, SiteSearch, Spinner } from '$lib/components';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import { authStore, bannerStore } from '$lib/stores';
@@ -96,36 +96,34 @@
 
 <Toaster />
 <SiteSearch />
-<SiteHeader />
+<SiteNavigation>
+	{#each $bannerStore as banner}
+		<Banner to={banner.to} type={banner.type} text={banner.text} />
+	{/each}
 
-{#each $bannerStore as banner}
-	<Banner to={banner.to} type={banner.type} text={banner.text} />
-{/each}
-
-{#await checkCookie()}
-	<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
-		<Spinner />
-	</div>
-{:then}
-	<div class="overflow-x-clip">
+	{#await checkCookie()}
+		<div class="flex items-center justify-center h-full"> 
+			<Spinner />
+		</div>
+	{:then}
 		<slot />
-	</div>
-{:catch error}
-	<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
-		{#if error.message === 'Credentials are not set' || error.message === 'Cookie is invalid'}
-			{#if error.message === 'Credentials are not set'}
-				<p>Din konto er ikke sat op</p>
-				<AccountSheet />
+	{:catch error}
+		<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
+			{#if error.message === 'Credentials are not set' || error.message === 'Cookie is invalid'}
+				{#if error.message === 'Credentials are not set'}
+					<p>Din konto er ikke sat op</p>
+					<AccountSheet />
+				{:else}
+					<p>Dine login oplysninger er ugyldige</p>
+					<AccountSheet />
+				{/if}
 			{:else}
-				<p>Dine login oplysninger er ugyldige</p>
-				<AccountSheet />
+				<Alert.Root variant="destructive">
+					<ShieldAlert class="w-4 h-4" />
+					<Alert.Title>Fejl</Alert.Title>
+					<Alert.Description>Der skete en fejl, prøv at genindlæse siden</Alert.Description>
+				</Alert.Root>
 			{/if}
-		{:else}
-			<Alert.Root variant="destructive">
-				<ShieldAlert class="w-4 h-4" />
-				<Alert.Title>Fejl</Alert.Title>
-				<Alert.Description>Der skete en fejl, prøv at genindlæse siden</Alert.Description>
-			</Alert.Root>
-		{/if}
-	</div>
-{/await}
+		</div>
+	{/await}
+</SiteNavigation>

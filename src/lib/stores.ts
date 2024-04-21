@@ -3,7 +3,10 @@ import type { RawSimpleDocument } from '$lib/types/documents';
 import type { RawLesson } from '$lib/types/lesson';
 import type { RawMessage } from '$lib/types/messages';
 import type { RawNews } from '$lib/types/news';
+import { writable } from 'svelte/store';
 import { localStore } from './utils/localStore';
+
+export const sidebarStore = writable({ alwaysOpen: false, isOpen: false });
 
 export const authStore = localStore<{
     cookie: string | null;
