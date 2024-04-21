@@ -48,7 +48,7 @@
 </div>
 {#if $open}
 	<ul
-		class="z-10 flex max-h-[300px] flex-col overflow-hidden rounded-lg border-2 border-foreground"
+		class="unstyled z-10 flex max-h-[300px] flex-col overflow-hidden rounded-lg border-2 border-foreground"
 		use:melt={$menu}
 		transition:fly={{ duration: 150, y: -5 }}
 	>

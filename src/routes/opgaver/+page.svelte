@@ -3,6 +3,7 @@
 	import { Spinner } from '$lib/components';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Input } from '$lib/components/ui/input';
+	import { ValueSelect } from '$lib/components/ui/select';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Table from '$lib/components/ui/table';
 	import * as Tooltip from '$lib/components/ui/tooltip';
@@ -20,6 +21,7 @@
 
 	let opgaver = $assignmentStore;
 	let searchString = '';
+	let status = 'Kommende';
 
 	onMount(async () => {
 		const res = await get('/opgaver');
@@ -27,21 +29,32 @@
 		search();
 	});
 
-	$: if (searchString === '' && $assignmentStore)
-		opgaver = $assignmentStore?.filter(
-			(opgave) => opgave.status === 'Venter' || opgave.status === 'Mangler'
-		);
+	$: if ($assignmentStore) {
+		opgaver = $assignmentStore?.filter((opgave) => {
+			switch (status) {
+				case 'Alle':
+					return true;
+				case 'Kommende':
+					return opgave.status === 'Venter';
+				case 'Afleveret':
+					return opgave.status === 'Afleveret' || opgave.status === 'Afsluttet';
+				case 'Mangler':
+					return opgave.status === 'Mangler';
+			}
+		});
+		search();
+	}
 
 	function search() {
 		const searchResults: RawSimpleAssignment[] = [];
-		$assignmentStore?.forEach((opgave) => {
+		opgaver?.forEach((opgave) => {
 			if (
 				opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase()) ||
 				opgave.hold.includes(searchString.toLowerCase())
 			)
 				searchResults.push(opgave);
 		});
-		opgaver = searchResults.reverse();
+		opgaver = searchResults
 	}
 
 	function elevtidNum(elevtid: string) {
@@ -57,16 +70,16 @@
 				<Spinner />
 			{/if}
 		</div>
-		<Input
-			type="text"
-			class="max-w-xs"
-			placeholder="Søg efter opgaver"
-			bind:value={searchString}
-			on:input={search}
-			on:keydown={(e) => {
-				if (e.key === 'Enter') search();
-			}}
-		/>
+		<div class="flex items-center space-x-2">
+			<ValueSelect bind:value={status} items={['Alle', 'Kommende', 'Afleveret', 'Mangler']} />
+			<Input
+				type="text"
+				class="max-w-xs"
+				placeholder="Søg efter opgaver..."
+				bind:value={searchString}
+				on:input={search}
+			/>
+		</div>
 	</div>
 
 	<Table.Root class="overflow-x-auto" containerClass="!mt-4">
