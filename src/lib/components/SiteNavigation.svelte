@@ -36,16 +36,20 @@
 				? '!min-w-[240px] !max-w-[240px]'
 				: '!min-w-[72px] !max-w-[72px]'} {$sidebarStore.alwaysOpen
 				? 'relative'
-				: 'fixed'} left-0 bg-background flex flex-col transition-[min-width,max-width] duration-150 z-10 border-r shadow-sm"
+				: 'fixed'} left-0 bg-background flex flex-col transition-[min-width,max-width] z-10 border-r shadow-sm duration-200 ease-in-out"
 			style="width: 240px; height: {mainContentHeight}px"
 		>
-			<div class="w-[240px] mt-14">
+			<div class="{$sidebarStore.isOpen ? 'w-[240px]' : 'w-[72px]'} mt-14 duration-200 ease-in-out">
 				{#each SITE_LINKS as link}
 					<SidebarLink {...link} />
 				{/each}
 			</div>
 		</div>
-		<div class="{$sidebarStore.alwaysOpen ? '' : 'ml-[72px]'} grow overflow-auto">
+		<div
+			class="{$sidebarStore.alwaysOpen
+				? ''
+				: 'ml-[72px]'} grow overflow-auto duration-200 ease-in-out"
+		>
 			<slot />
 		</div>
 	</div>
