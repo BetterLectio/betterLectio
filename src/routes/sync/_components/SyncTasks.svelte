@@ -88,7 +88,7 @@
 					</Dialog.Header>
 					<div class="flex flex-col space-y-4">
 						<div class="p-2 border rounded-md">
-							<h2 class="font-semibold leading-4">Google Tasks-liste</h2> 
+							<h2 class="font-semibold leading-4 unstyled">Google Tasks-liste</h2> 
 							<p class="pb-2 text-sm text-muted-foreground">
 								Hvilken Google Tasks-liste skal opgaver blive synkroniseret til?
 							</p>
@@ -97,14 +97,14 @@
 							{/key}
 						</div>
 						<div class="p-2 border rounded-md">
-							<h2 class="font-semibold leading-4">Afleverede opgaver</h2>
+							<h2 class="font-semibold leading-4 unstyled">Afleverede opgaver</h2>
 							<p class="pb-2 text-sm text-muted-foreground">
 								Skal afleverede opgaver blive synkroniseret til Google Tasks?
 							</p>
 							<Switch bind:checked={addFinishedTasks} />
 						</div>
 						<div class="p-2 border rounded-md">
-							<h2 class="font-semibold leading-4">Opgavealder</h2>
+							<h2 class="font-semibold leading-4 unstyled">Opgavealder</h2>
 							<p class="pb-2 text-sm text-muted-foreground">
 								Hvor gammel må en opgave være for at den bliver synkroniseret til Google Tasks?
 							</p>

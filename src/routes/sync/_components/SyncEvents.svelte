@@ -97,14 +97,14 @@
 					</Dialog.Header>
 					<div class="flex flex-col space-y-4">
 						<div class="p-2 border rounded-md">
-							<h2 class="font-semibold leading-4">Kalender</h2>
+							<h2 class="font-semibold leading-4 unstyled">Kalender</h2>
 							<p class="pb-2 text-sm text-muted-foreground">
 								Vælg hvilken Google Kalender du vil have dine moduler synkroniseret til.
 							</p>
 							<Select bind:value={$calendar} items={$calendars} />
 						</div>
 						<div class="p-2 border rounded-md">
-							<h2 class="font-semibold leading-4">Blacklist</h2>
+							<h2 class="font-semibold leading-4 unstyled">Blacklist</h2>
 							<p class="pb-2 text-sm text-muted-foreground">
 								AVANCERET: Hvis du vil fravælge moduler hvis deres navn indeholder specifikke ord.
 							</p>
@@ -136,7 +136,7 @@
 							</Dialog.Root>
 						</div>
 						<div class="p-2 border rounded-md">
-							<h2 class="font-semibold leading-4">Påmindelser</h2>
+							<h2 class="font-semibold leading-4 unstyled">Påmindelser</h2>
 							<p class="pb-2 text-sm text-muted-foreground">
 								Indstil hvornår og hvordan du vil blive påmindet af Google Kalender for hvert modul.
 							</p>
