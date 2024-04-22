@@ -34,6 +34,8 @@
 		: 'w-10 ml-4 rounded-3xl'} transition-[border-radius,margin,width] {active
 		? 'bg-primary text-white dark:text-black'
 		: 'hover:bg-muted'} cursor-pointer"
+	on:click
+	on:keydown
 >
 	<div class="flex items-center h-10">
 		<div class="shrink-0 {$sidebarStore.isOpen ? 'px-6' : 'px-2'} transition-[padding]">
