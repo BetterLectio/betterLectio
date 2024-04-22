@@ -60,10 +60,10 @@
 		"windows": [
 			{
 				"fullscreen": false,
-				"height": 850,
+				"height": 600,
 				"resizable": true,
 				"title": "BetterLectio",
-				"width": 1500,
+				"width": 1000,
 				"decorations": false,
 				"minHeight": 200,
 				"minWidth": 750,
