@@ -1,4 +1,5 @@
 import { LECTIO_OAUTH_API } from '$lib/lectio';
+import { authStore } from '$lib/stores';
 import { toast } from 'svelte-sonner';
 import { get, writable } from 'svelte/store';
 
@@ -21,7 +22,7 @@ export const fetchCalendars = async () => {
 
     const res = await fetch(`${LECTIO_OAUTH_API}/events/calendarlists`, {
         headers: {
-            google: localStorage.getItem('googleToken') || ''
+            google: get(authStore).googleToken || ''
         }
     });
     if (!res.ok) {
@@ -49,7 +50,7 @@ export const fetchTasklists = async () => {
 
     const res = await fetch(`${LECTIO_OAUTH_API}/tasks/tasklists`, {
         headers: {
-            google: localStorage.getItem('googleToken') || ''
+            google: get(authStore).googleToken || ''
         }
     });
     if (!res.ok) {
