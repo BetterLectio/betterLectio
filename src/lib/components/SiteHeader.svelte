@@ -38,11 +38,11 @@
 			<AlignJustify class="size-6" />
 		</Button>
 	</div>
-	<div class="{isWeb && 'container'} flex w-full">
-		<div class="flex items-center pr-12" data-tauri-drag-region>
+	<div class="{isWeb && 'page-container-no-space'} flex w-full">
+		<div class="flex items-center pr-4 sm:pr-12" data-tauri-drag-region>
 			<a href="/" class="flex items-center gap-1 text-lg font-bold unstyled">
 				<img src="/favicon.png" alt="BetterLectio" class="h-8" />
-				BetterLectio
+				<span class="hidden sm:block"> BetterLectio </span>
 			</a>
 		</div>
 		<div class="flex items-center grow shrink-0" data-tauri-drag-region>
