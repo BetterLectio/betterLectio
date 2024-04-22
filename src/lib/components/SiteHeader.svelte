@@ -34,8 +34,8 @@
 	class="fixed h-[42px] top-0 z-40 w-full border-b border-border bg-background shadow-sm flex"
 >
 	<div class="w-[72px] flex items-center justify-center shrink-0" data-tauri-drag-region>
-		<Button on:click={toggleSidebar} variant="ghost" size="icon">
-			<AlignJustify class="size-6" />
+		<Button on:click={toggleSidebar} class="size-8" variant="ghost" size="icon">
+			<AlignJustify class="size-5" />
 		</Button>
 	</div>
 	<div class="{isWeb && 'page-container-no-space'} flex w-full">
@@ -70,58 +70,55 @@
 					</div>
 				</Button>
 			</div>
-			<Button on:click={toggleMode} variant="ghost" size="icon">
-				<Sun
-					class="w-5 h-5 transition-all duration-200 scale-100 rotate-0 dark:-rotate-90 dark:scale-0"
-				/>
-				<Moon
-					class="absolute w-5 h-5 transition-all duration-200 scale-0 rotate-90 dark:rotate-0 dark:scale-100"
-				/>
-				<span class="sr-only">Toggle theme</span>
-			</Button>
-			<DropdownMenu.Root>
-				<DropdownMenu.Trigger>
-					<Button variant="ghost" size="icon">
-						<UserRound class="w-6 h-6" />
-					</Button>
-				</DropdownMenu.Trigger>
-				<DropdownMenu.Content>
-					<DropdownMenu.Group>
-						<DropdownMenu.Label>Min Konto</DropdownMenu.Label>
-						<DropdownMenu.Separator class="mx-2" />
-						<DropdownMenu.Item href="/sync">Google Sync</DropdownMenu.Item>
-						<DropdownMenu.Item href="/indstillinger">Indstillinger</DropdownMenu.Item>
-					</DropdownMenu.Group>
-				</DropdownMenu.Content>
-			</DropdownMenu.Root>
+			<div class="gap-1 mr-2">
+				<Button on:click={toggleMode} class="size-8" variant="ghost" size="icon">
+					<Sun
+						class="transition-all duration-200 scale-100 rotate-0 size-5 dark:-rotate-90 dark:scale-0"
+					/>
+					<Moon
+						class="absolute transition-all duration-200 scale-0 rotate-90 size-5 dark:rotate-0 dark:scale-100"
+					/>
+					<span class="sr-only">Toggle theme</span>
+				</Button>
+				<DropdownMenu.Root>
+					<DropdownMenu.Trigger>
+						<Button class="size-8" variant="ghost" size="icon">
+							<UserRound class="size-5" />
+						</Button>
+					</DropdownMenu.Trigger>
+					<DropdownMenu.Content>
+						<DropdownMenu.Group>
+							<DropdownMenu.Label>Min Konto</DropdownMenu.Label>
+							<DropdownMenu.Separator class="mx-2" />
+							<DropdownMenu.Item href="/sync">Google Sync</DropdownMenu.Item>
+							<DropdownMenu.Item href="/indstillinger">Indstillinger</DropdownMenu.Item>
+						</DropdownMenu.Group>
+					</DropdownMenu.Content>
+				</DropdownMenu.Root>
+			</div>
 			{#if !isWeb}
-				<div>
-					<Button
-						on:click={() => getCurrent().minimize()}
-						variant="ghost"
-						class="h-full rounded-none"
-					>
-						<Minus />
-					</Button>
-					<Button
-						on:click={async () => await getCurrent().toggleMaximize()}
-						variant="ghost"
-						class="h-full rounded-none"
-					>
-						{#if fullscreen}
-							<Layers2 />
-						{:else}
-							<Maximize />
-						{/if}
-					</Button>
-					<Button
-						on:click={() => getCurrent().close()}
-						variant="ghost"
-						class="h-full rounded-none hover:bg-destructive hover:text-white"
-					>
-						<X />
-					</Button>
-				</div>
+				<button
+					on:click={() => getCurrent().minimize()}
+					class="flex items-center justify-center h-full px-3 rounded-none hover:bg-accent"
+				>
+					<Minus class="size-5" />
+				</button>
+				<button
+					on:click={async () => await getCurrent().toggleMaximize()}
+					class="flex items-center justify-center h-full px-3 rounded-none hover:bg-accent"
+				>
+					{#if fullscreen}
+						<Layers2 class="size-5" />
+					{:else}
+						<Maximize strokeWidth=1.5 class="size-5" />
+					{/if}
+				</button>
+				<button
+					on:click={() => getCurrent().close()}
+					class="flex items-center justify-center h-full px-3 rounded-none hover:bg-destructive hover:text-white"
+				>
+					<X strokeWidth=1 />
+				</button>
 			{/if}
 		</div>
 	</div>
