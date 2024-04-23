@@ -41,7 +41,7 @@
 	<div class="{isWeb && 'page-container-no-space'} flex w-full">
 		<div class="flex items-center pr-4 sm:pr-12" data-tauri-drag-region>
 			<a href="/" class="flex items-center gap-1 text-lg font-bold unstyled">
-				<img src="/favicon.png" alt="BetterLectio" class="h-8" />
+				<img src="/favicon.png" alt="BetterLectio" class="size-8" />
 				<span class="hidden sm:block"> BetterLectio </span>
 			</a>
 		</div>
