@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 	import SvelteMarkdown from 'svelte-markdown';
 	import { NewTabLink } from '.';
+	import Button from './ui/button/button.svelte';
 
 	let open = false;
 	let current: string;
@@ -45,6 +46,13 @@
 				</Dialog.Header>
 				<SvelteMarkdown source={changelog.body} renderers={{ link: NewTabLink }} />
 				<Dialog.Footer>
+					<Button
+						href="https://oauth-betterlectio.netlify.app/releases"
+						target="_blank"
+						variant="outline"
+					>
+						Se versionshistorikken
+					</Button>
 					<Dialog.Action on:click={markAsRead}>Fedt 🎉</Dialog.Action>
 				</Dialog.Footer>
 			</Dialog.Content>
