@@ -16,6 +16,8 @@
 	import { onMount } from 'svelte';
 	import { isWeb } from '$lib/utils/environment';
 	import { ModeWatcher } from 'mode-watcher';
+	import { page } from '$app/stores';
+	import { toTitleCase } from '$lib/utils/string';
 	Settings.defaultLocale = 'da';
 
 	const noCredentials = () => {
@@ -76,7 +78,13 @@
 			});
 		}
 	});
+
+	$: title = $page.url.pathname === '/' || $page.url.pathname === '/home' ? 'BetterLectio' : toTitleCase($page.url.pathname.replace('/', '')) + ' - BetterLectio';
 </script>
+
+<svelte:head>
+	<title>{title}</title>
+</svelte:head>
 
 <Toaster />
 <Changelog />
