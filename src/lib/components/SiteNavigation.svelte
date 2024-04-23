@@ -61,7 +61,7 @@
 		</div>
 		<!-- only show if screen less than 640 px -->
 		{#if isMobile}
-			<Sheet.Root bind:open={$sidebarStore.isOpen} class="sm:hidden">
+			<Sheet.Root bind:open={$sidebarStore.isOpen}>
 				<Sheet.Content side="left" class="px-0">
 					<Sheet.Header>
 						<Sheet.Title></Sheet.Title>
