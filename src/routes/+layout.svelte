@@ -20,14 +20,10 @@
 	import { toTitleCase } from '$lib/utils/string';
 	Settings.defaultLocale = 'da';
 
-	const noCredentials = () => {
-		if ($authStore.username === null || $authStore.password === null || $authStore.school === null)
-			return true;
-		return false;
-	};
+	$: hasCredentials = $authStore.username !== null && $authStore.password !== null && $authStore.school !== null;
 
 	async function checkCookie() {
-		if (noCredentials()) throw new Error('Credentials are not set');
+		if (!hasCredentials) throw new Error('Credentials are not set');
 
 		let res = await fetch(`${LECTIO_API}/check-cookie`, {
 			headers: {
@@ -79,7 +75,10 @@
 		}
 	});
 
-	$: title = $page.url.pathname === '/' || $page.url.pathname === '/home' ? 'BetterLectio' : toTitleCase($page.url.pathname.replace('/', '')) + ' - BetterLectio';
+	$: title =
+		$page.url.pathname === '/' || $page.url.pathname === '/home'
+			? 'BetterLectio'
+			: toTitleCase($page.url.pathname.replace('/', '')) + ' - BetterLectio';
 </script>
 
 <svelte:head>
@@ -91,31 +90,33 @@
 <ModeWatcher />
 <SiteSearch />
 <SiteNavigation>
-	{#await checkCookie()}
-		<div class="flex items-center justify-center h-full">
-			<Spinner />
-		</div>
-	{:then}
-		<div class="mt-10">
-			<slot />
-		</div>
-	{:catch error}
-		<div class="absolute transform translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
-			{#if error.message === 'Credentials are not set' || error.message === 'Cookie is invalid'}
-				{#if error.message === 'Credentials are not set'}
-					<p>Din konto er ikke sat op</p>
-					<AccountSheet />
-				{:else}
+	{#if hasCredentials}
+		{#await checkCookie()}
+			<div class="flex items-center justify-center h-full">
+				<Spinner />
+			</div>
+		{:then}
+			<div class="mt-10">
+				<slot />
+			</div>
+		{:catch error}
+			<div class="flex flex-col items-center justify-center h-full">
+				{#if error.message === 'Cookie is invalid'}
 					<p>Dine login oplysninger er ugyldige</p>
 					<AccountSheet />
+				{:else}
+					<Alert.Root variant="destructive">
+						<ShieldAlert class="w-4 h-4" />
+						<Alert.Title>Fejl</Alert.Title>
+						<Alert.Description>Der skete en fejl, prøv at genindlæse siden</Alert.Description>
+					</Alert.Root>
 				{/if}
-			{:else}
-				<Alert.Root variant="destructive">
-					<ShieldAlert class="w-4 h-4" />
-					<Alert.Title>Fejl</Alert.Title>
-					<Alert.Description>Der skete en fejl, prøv at genindlæse siden</Alert.Description>
-				</Alert.Root>
-			{/if}
+			</div>
+		{/await}
+	{:else}
+		<div class="flex flex-col items-center justify-center h-full">
+			<p>Din konto er ikke sat op</p>
+			<AccountSheet />
 		</div>
-	{/await}
+	{/if}
 </SiteNavigation>
