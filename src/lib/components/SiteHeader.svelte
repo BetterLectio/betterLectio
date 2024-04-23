@@ -42,12 +42,13 @@
 	<div class="w-[72px] flex items-center justify-center shrink-0" data-tauri-drag-region>
 		<Button on:click={toggleSidebar} class="size-8" variant="ghost" size="icon">
 			<AlignJustify class="size-5" />
+			<span class="sr-only">Skjul/vis sidepanel</span>
 		</Button>
 	</div>
 	<div class="{isWeb && 'page-container-no-space'} flex w-full">
 		<div class="flex items-center pr-4 sm:pr-12" data-tauri-drag-region>
 			<a href="/" class="flex items-center gap-1 text-lg font-bold unstyled">
-				<img src="/favicon.png" alt="BetterLectio" class="size-8" />
+				<img src="/favicon.png" alt="BetterLectio Logo" class="size-8" />
 				<span class="hidden sm:block"> BetterLectio </span>
 			</a>
 		</div>
@@ -65,13 +66,13 @@
 						<kbd
 							class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"
 						>
-							<span class="opacity-50">Ctrl</span>
+							<span>Ctrl</span>
 						</kbd>
 						+
 						<kbd
 							class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"
 						>
-							<span class="opacity-50">P</span>
+							<span>P</span>
 						</kbd>
 					</div>
 				</Button>
@@ -90,6 +91,7 @@
 					<DropdownMenu.Trigger>
 						<Button class="size-8" variant="ghost" size="icon">
 							<UserRound class="size-5" />
+							<span class="sr-only">Vis konto</span>
 						</Button>
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content>
