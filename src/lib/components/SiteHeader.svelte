@@ -17,9 +17,15 @@
 	import { isWeb } from '$lib/utils/environment';
 
 	let fullscreen = false;
-	onMount(async () => (fullscreen = await getCurrent().isMaximized()));
+	onMount(async () => {
+		if (isWeb) return;
+		fullscreen = await getCurrent().isMaximized();
+	});
 
-	const resize = async () => (fullscreen = await getCurrent().isMaximized());
+	const resize = async () => {
+		if (isWeb) return;
+		fullscreen = await getCurrent().isMaximized();
+	};
 
 	const toggleSidebar = () => {
 		$sidebarStore.alwaysOpen = !$sidebarStore.alwaysOpen;
@@ -110,14 +116,14 @@
 					{#if fullscreen}
 						<Layers2 class="size-5" />
 					{:else}
-						<Maximize strokeWidth=1.5 class="size-5" />
+						<Maximize strokeWidth="1.5" class="size-5" />
 					{/if}
 				</button>
 				<button
 					on:click={() => getCurrent().close()}
 					class="flex items-center justify-center h-full px-3 rounded-none hover:bg-destructive hover:text-white"
 				>
-					<X strokeWidth=1 />
+					<X strokeWidth="1" />
 				</button>
 			{/if}
 		</div>
