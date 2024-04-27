@@ -20,7 +20,8 @@
 	import { toTitleCase } from '$lib/utils/string';
 	Settings.defaultLocale = 'da';
 
-	$: hasCredentials = $authStore.username !== null && $authStore.password !== null && $authStore.school !== null;
+	$: hasCredentials =
+		$authStore.username !== null && $authStore.password !== null && $authStore.school !== null;
 
 	async function checkCookie() {
 		if (!hasCredentials) throw new Error('Credentials are not set');

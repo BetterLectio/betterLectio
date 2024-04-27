@@ -5,6 +5,7 @@ import type { RawMessage } from '$lib/types/messages';
 import type { RawNews } from '$lib/types/news';
 import { writable, type Writable } from 'svelte/store';
 import { localStore } from './utils/localStore';
+import type { RawAbsence } from './types/absence';
 
 export const sidebarStore = writable({ alwaysOpen: false, isOpen: false });
 export const avatarStore: Writable<Record<string, string>> = writable({});
@@ -36,3 +37,5 @@ export const frontPageStore = localStore<{
 	kommunikation: { beskeder: RawMessage[]; dokumenter: RawSimpleDocument[] };
 	skema: RawLesson[];
 } | null>('frontpage', null);
+
+export const absenceStore = localStore<RawAbsence | null>('absence', null);
