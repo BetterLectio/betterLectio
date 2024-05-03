@@ -24,7 +24,7 @@
 
 	// @ts-ignore
 	$: icon = icons[rawIcon] ?? icons.default;
-	$: active = href === $page.url.pathname;
+	$: active = href === decodeURI($page.url.pathname);
 </script>
 
 <a
