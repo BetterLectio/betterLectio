@@ -14,7 +14,7 @@
 
 	async function fetchImage() {
 		if ($avatarStore?.[id]) {
-			source = $avatarStore[id];
+			source = `data:image/png;base64, ${$avatarStore[id]}`;
 			return;
 		}
 		const response = await fetch(`${LECTIO_API}/profil_billed?id=${id}&fullsize=1`, {
@@ -23,7 +23,7 @@
 		if (response.ok) {
 			const text = await response.text();
 			$avatarStore[id] = text;
-			source = text;
+			source = `data:image/png;base64, ${text}`;
 		}
 	}
 </script>

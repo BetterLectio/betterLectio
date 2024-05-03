@@ -5,7 +5,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { authStore } from '$lib/stores';
 	import type { RawLesson } from '$lib/types/lesson';
-	import { constructInterval, decodeUserID, stringToColor } from '$lib/utils';
+	import { constructInterval, decodeUserID, stringToColor } from '$lib/utils/other';
 	import { get } from '$lib/utils/http';
 	import { Calendar, type EventSourceFunc } from '@fullcalendar/core';
 	import daLocale from '@fullcalendar/core/locales/da';

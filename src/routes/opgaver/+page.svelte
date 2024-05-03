@@ -9,8 +9,7 @@
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { assignmentStore } from '$lib/stores';
 	import type { RawSimpleAssignment } from '$lib/types/assignments';
-	import { get } from '$lib/utils/http';
-	import { formatDate } from '$lib/utils/relativeTime';
+	import { get, relativeTime } from '$lib/utils';
 	import { DateTime } from 'luxon';
 	import { onMount } from 'svelte';
 	import Archive from 'svelte-radix/Archive.svelte';
@@ -54,7 +53,7 @@
 			)
 				searchResults.push(opgave);
 		});
-		opgaver = searchResults
+		opgaver = searchResults;
 	}
 
 	function elevtidNum(elevtid: string) {
@@ -196,7 +195,12 @@
 						<Table.Cell class="sm:table-cell text-nowrap">
 							<Tooltip.Root>
 								<Tooltip.Trigger>
-									{formatDate(DateTime.fromFormat(opgave.frist, 'd/M-yyyy HH:mm').toJSDate())}
+									<p
+										use:relativeTime={DateTime.fromFormat(
+											opgave.frist,
+											'd/M-yyyy HH:mm'
+										).toJSDate()}
+									/>
 								</Tooltip.Trigger>
 								<Tooltip.Content>
 									{opgave.frist}

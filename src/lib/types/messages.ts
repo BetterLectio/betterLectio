@@ -45,7 +45,7 @@ export type RawMessage = {
 }
 
 export type Message = {
-    date: DateTime;
+    date: string;
     id: string;
     receivers: string[];
     sender: string;

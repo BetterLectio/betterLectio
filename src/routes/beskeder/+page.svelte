@@ -2,15 +2,32 @@
 	import { LectioAvatar, Spinner } from '$lib/components';
 	import { Separator } from '$lib/components/ui/separator';
 	import { get } from '$lib/utils/http';
-	import { messageStore } from '$lib/stores';
+	import { fetchInformation, informationStore, messageStore } from '$lib/stores';
+	import { onMount } from 'svelte';
+	import { DateTime } from 'luxon';
+	import type { RawMessage } from '$lib/types/messages';
+	import { relativeTime } from '$lib/utils';
 
-	get('/beskeder').then((res) => {
-		$messageStore = res.beskeder;
+	onMount(async () => {
+		const res = (await get('/beskeder2')) as RawMessage[];
+		console.log('1');
+		$messageStore = res.map((message) => {
+			return {
+				date: message.dato,
+				id: message.message_id,
+				receivers: message.modtagere,
+				sender: message.førsteBesked.split(' (')[0].split(' -')[0],
+				title: message.emne
+			};
+		});
+		console.log('2');
+
+		await fetchInformation();
 	});
 </script>
 
 <div class="page-container">
-	{#if !$messageStore}
+	{#if !$messageStore || !$informationStore}
 		<div class="flex space-x-2">
 			<h1>Henter beskeder...</h1>
 			<Spinner />
@@ -19,18 +36,22 @@
 		<h1>Nyeste beskeder</h1>
 		<div class="space-y-2">
 			{#each $messageStore as message}
-				<a
-					class="flex flex-row w-full cursor-pointer unstyled"
-					href="/besked?id={message.message_id}"
-				>
-					<LectioAvatar navn={message.førsteBesked} id={''} />
-					<!-- TODO få billeder til at virke-->
+				<a class="flex flex-row w-full cursor-pointer unstyled" href="/besked?id={message.id}">
+					<LectioAvatar
+						navn={message.sender}
+						id={$informationStore.students.find((student) => student.name === message.sender)?.id}
+					/>
 					<div class="flex flex-col ml-2">
 						<div class="flex flex-row">
-							<div class="font-bold">{message.førsteBesked}</div>
-							<div class="ml-2 text-gray-500">{message.ændret}</div>
+							<div class="font-bold">{message.sender}</div>
+							<div
+								use:relativeTime={DateTime.fromFormat(message.date, 'd/M-yyyy HH:mm', {
+									locale: 'da'
+								}).toJSDate()}
+								class="ml-2 text-gray-500"
+							/>
 						</div>
-						<div>{message.emne}</div>
+						<div>{message.title}</div>
 					</div>
 				</a>
 				<Separator class="my-2" />
