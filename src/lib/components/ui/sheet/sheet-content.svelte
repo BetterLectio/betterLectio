@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/other';
 	import { Dialog as SheetPrimitive } from 'bits-ui';
 	import Cross2 from 'svelte-radix/Cross2.svelte';
 	import { fly } from 'svelte/transition';

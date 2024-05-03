@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/other';
 	import { Menubar as MenubarPrimitive } from 'bits-ui';
 	import Check from 'lucide-svelte/icons/check';
 

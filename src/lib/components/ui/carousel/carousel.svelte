@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { setEmblaContex, type CarouselProps, type CarouselAPI } from './context.js';
-	import { cn } from '$lib/utils.js';
+	import { cn } from '$lib/utils/other.js';
 	import { writable } from 'svelte/store';
 	import { onDestroy } from 'svelte';
 

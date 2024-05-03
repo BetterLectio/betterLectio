@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/other';
 	import { DropdownMenu as DropdownMenuPrimitive } from 'bits-ui';
 	import DotFilled from 'svelte-radix/DotFilled.svelte';
 

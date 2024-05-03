@@ -5,7 +5,7 @@
 	import ChevronUp from 'lucide-svelte/icons/chevron-up';
 	import { fly } from 'svelte/transition';
 	import { buttonVariants } from '../button';
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/other';
 
 	export let items: string[] = [];
 	export let value: string;
