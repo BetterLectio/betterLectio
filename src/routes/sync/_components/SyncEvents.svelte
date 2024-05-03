@@ -12,7 +12,12 @@
 	import Zap from 'lucide-svelte/icons/zap';
 	import { toast } from 'svelte-sonner';
 	import { calendar, calendars, fetchCalendars, pageState } from '.';
+	import { DateTime } from 'luxon';
 
+	let syncStatus: null | string | { success: number; failed: number } = null;
+
+	let week = DateTime.now().weekNumber;
+	let year = DateTime.now().year;
 	let blacklist = '';
 	let eventReminders: {
 		method: 'Notifikation' | 'Email';
@@ -46,6 +51,8 @@
 			},
 			body: JSON.stringify({
 				calendarId: $calendar.value,
+				week,
+				year,
 				blacklist,
 				eventReminders: reminders
 			})
@@ -54,18 +61,18 @@
 			switch (res.status) {
 				case 401:
 					$pageState = 'logged-out';
-					toast.error('Din google kode er ugyldig. Venligst log ind igen.', { id: statusToast });
+					syncStatus = 'Din google kode er ugyldig. Venligst log ind igen.';
 					break;
 				default:
 					$pageState = 'ready';
-					toast.error(
-						'Der skete en fejl under synkroniseringen. Prøv igen senere eller tjek din internetforbindelse.',
-						{ id: statusToast }
-					);
+					syncStatus =
+						'Der skete en fejl under synkroniseringen. Prøv igen senere eller tjek din internetforbindelse.';
 					break;
 			}
+			toast.dismiss(statusToast);
 			return;
 		}
+		syncStatus = await res.json();
 		toast.success(`Synkronisering af Google Kalender-moduler er færdig.`, { id: statusToast });
 		$pageState = 'ready';
 	};
@@ -82,13 +89,18 @@
 		</div>
 		<Dialog.Root>
 			<Dialog.Trigger>
-				<Button on:click={fetchCalendars} disabled={$pageState === 'loading'}>Synkroniser nu</Button
+				<Button
+					on:click={async () => {
+						await fetchCalendars();
+						syncStatus = null;
+					}}
+					disabled={$pageState === 'loading'}>Synkroniser nu</Button
 				>
 			</Dialog.Trigger>
 			<Dialog.Content>
 				{#if $calendars.length === 0}
 					<Spinner />
-				{:else}
+				{:else if !syncStatus}
 					<Dialog.Header>
 						<Dialog.Title>Synkroniseringsindstillinger</Dialog.Title>
 						<Dialog.Description>
@@ -102,6 +114,16 @@
 								Vælg hvilken Google Kalender du vil have dine moduler synkroniseret til.
 							</p>
 							<Select bind:value={$calendar} items={$calendars} />
+						</div>
+						<div class="p-2 border rounded-md">
+							<h2 class="font-semibold leading-4 unstyled">Uge</h2>
+							<p class="pb-2 text-sm text-muted-foreground">
+								Vælg hvilken uge du vil have synkroniseret.
+							</p>
+							<div class="flex gap-2">
+								<Input bind:value={week} class="w-20" placeholder="Uge" />
+								<Input bind:value={year} class="w-20" placeholder="År" />
+							</div>
 						</div>
 						<div class="p-2 border rounded-md">
 							<h2 class="font-semibold leading-4 unstyled">Blacklist</h2>
@@ -201,6 +223,15 @@
 						<Button on:click={syncEvents} disabled={$pageState === 'loading'}>Synkroniser nu</Button
 						>
 					</Dialog.Footer>
+				{:else if typeof syncStatus === 'string'}
+					<p class="text-destructive-foreground">{syncStatus}</p>
+				{:else}
+					<h2 class="font-semibold leading-4 unstyled">Synkronisering færdig</h2>
+					<p>
+						<span class="text-green-500">{syncStatus.success}</span> moduler synkroniseret.
+						<br />
+						<span class="text-red-500">{syncStatus.failed}</span> moduler kunne ikke synkroniseres.
+					</p>
 				{/if}
 			</Dialog.Content>
 		</Dialog.Root>

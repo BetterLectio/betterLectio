@@ -2,6 +2,7 @@
 	import { Spinner } from '$lib/components';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
+	import { LECTIO_OAUTH_API } from '$lib/lectio';
 	import { authStore } from '$lib/stores';
 	import CalendarPlus from 'lucide-svelte/icons/calendar-plus';
 	import LayoutList from 'lucide-svelte/icons/layout-list';
@@ -14,11 +15,23 @@
 		SyncTasks,
 		pageState
 	} from './_components';
+	import { toast } from 'svelte-sonner';
 
 	onMount(async () => {
-		if ($authStore.googleToken) {
-			$pageState = 'ready';
+		if (!$authStore.googleToken) {
+			return;
 		}
+		const resp = await fetch(`${LECTIO_OAUTH_API}/token/check`, {
+			headers: {
+				google: $authStore.googleToken
+			}
+		});
+		if (!resp.ok) {
+			$authStore.googleToken = null;
+			toast.error('Din google kode er ugyldig. Venligst log ind igen.');
+			return
+		}
+		$pageState = 'ready';
 	});
 </script>
 
