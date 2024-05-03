@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { Spinner } from '$lib/components';
+	import { Button } from '$lib/components/ui/button';
 	import type { FullMessage, RawFullMessage } from '$lib/types/messages';
 	import { get } from '$lib/utils/http';
+	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
 	import { DateTime } from 'luxon';
 	import { onMount } from 'svelte';
 	import ChatBubble from './_components/ChatBubble.svelte';
@@ -63,12 +66,17 @@
 
 <div class="page-container">
 	{#if !ready}
-		<div class="flex space-x-2">
+		<div class="flex items-center space-x-2">
 			<h1>Henter besked...</h1>
 			<Spinner />
 		</div>
 	{:else}
-		<h1>{message.messages[0].title}</h1>
+		<div class="flex items-center space-x-2">
+			<Button variant="ghost" size="icon" on:click={() => goto('/beskeder')}>
+				<ArrowLeft />
+			</Button>
+			<h1>{message.messages[0].title}</h1>
+		</div>
 		{#each message.messages as msg}
 			<ChatBubble message={msg} />
 		{/each}
