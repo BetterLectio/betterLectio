@@ -25,6 +25,7 @@
 		"autostart:allow-enable",
 		"autostart:allow-disable",
 		"autostart:allow-is-enabled",
-		"autostart:default"
+		"autostart:default",
+		"shell:allow-open"
 	]
 }

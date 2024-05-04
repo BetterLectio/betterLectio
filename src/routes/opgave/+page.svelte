@@ -23,24 +23,9 @@
 		ready = true;
 	});
 
-	function getMDLink(link: string) {
-		//format the markdown link to that it only returns the link
-		if (link === '') return link;
-		const nav = link.split('](')[1].split(')')[0];
-		// make sure on nav has the _blank attribute
-		window.open(nav, '_blank');
-	}
-
-	function openAssignmentInLectio() {
-		console.log(assignment.afleveres_af.elev.bruger_id.slice(1));
-		window.open(
-			`https://www.lectio.dk/lectio/${
-				$authStore.school
-			}/ElevAflevering.aspx?elevid=${assignment.afleveres_af.elev.bruger_id.slice(
-				1
-			)}&exerciseid=${exerciseid}`,
-			'_blank'
-		);
+	function parseLink(link: string) {
+		if (link === '') return { link: '', text: '' };
+		return { link: link.split('](')[1].split(')')[0], text: link.split('](')[0].split('[')[1] };
 	}
 </script>
 
@@ -94,12 +79,10 @@
 								<Table.Row>
 									<Table.Cell>{indlæg.bruger.navn}</Table.Cell>
 									{#if indlæg.dokument}
+										{@const { link, text } = parseLink(indlæg.dokument)}
 										<Table.Cell
-											><Button
-												on:click={() => {
-													getMDLink(indlæg.dokument ? indlæg.dokument : '');
-												}}
-												variant="ghost">Dokument</Button
+											><Button href={link} target="_blank" variant="ghost"
+												>{text}</Button
 											></Table.Cell
 										>
 									{:else}
@@ -117,7 +100,16 @@
 					</Table.Root>
 				{/if}
 				{#if assignment.afleveres_af.afventer === 'Elev'}
-					<Button variant="outline" class="m-2" on:click={openAssignmentInLectio}>Aflever</Button>
+					<Button
+						href={`https://www.lectio.dk/lectio/${
+							$authStore.school
+						}/ElevAflevering.aspx?elevid=${assignment.afleveres_af.elev.bruger_id.slice(
+							1
+						)}&exerciseid=${exerciseid}`}
+						target="_blank"
+						variant="outline"
+						class="m-2">Aflever</Button
+					>
 				{/if}
 			</div>
 		</div>
