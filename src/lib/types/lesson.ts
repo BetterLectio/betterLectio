@@ -15,7 +15,7 @@ export type RawLesson = {
 export type Lesson = {
     class: string;
     id: string;
-    interval: Interval;
+    date: string;
     name: string;
     note: string;
     room: string;

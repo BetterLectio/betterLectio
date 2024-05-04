@@ -1,8 +1,8 @@
 import type { RawSimpleAssignment } from '$lib/types/assignments';
 import type { RawSimpleDocument } from '$lib/types/documents';
-import type { RawLesson } from '$lib/types/lesson';
+import type { Lesson, RawLesson } from '$lib/types/lesson';
 import type { Message, RawMessage } from '$lib/types/messages';
-import type { RawNews } from '$lib/types/news';
+import type { News, RawNews } from '$lib/types/news';
 import { get } from '$lib/utils/http';
 import { writable, type Writable } from 'svelte/store';
 import type { RawAbsence } from './types/absence';
@@ -34,9 +34,8 @@ export const scheduleStore = localStore<{ moduler: RawLesson; overskrift: string
 export const assignmentStore = localStore<RawSimpleAssignment[] | null>('assignments', null);
 export const messageStore = localStore<Message[] | null>('messages', null);
 export const frontPageStore = localStore<{
-	aktuelt: RawNews[];
-	kommunikation: { beskeder: RawMessage[]; dokumenter: RawSimpleDocument[] };
-	skema: RawLesson[];
+	lessons: Lesson[];
+	news: News[];
 } | null>('frontpage', null);
 export const absenceStore = localStore<RawAbsence | null>('absence', null);
 
