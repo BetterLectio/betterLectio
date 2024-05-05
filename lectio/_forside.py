@@ -100,7 +100,7 @@ def forside(self):
                         {
                             "navn": tds[1].text,
                             "dato": tds[2].get("title"),
-                            "id": re.search("id=\d+", str(tds[1].find("a").get("href")))
+                            "id": re.search("exerciseid=\d+", str(tds[1].find("a").get("href"))) or re.search("id=\d+", str(tds[1].find("a").get("href")))
                             .group()
                             .replace("id=", ""),
                             "punkt_farve": colorDict[
