@@ -8,9 +8,9 @@
 	import type { RawMessage } from '$lib/types/messages';
 	import { relativeTime } from '$lib/utils';
 
+	let refreshing = true;
 	onMount(async () => {
 		const res = (await get('/beskeder2')) as RawMessage[];
-		console.log('1');
 		$messageStore = res.map((message) => {
 			return {
 				date: message.dato,
@@ -20,9 +20,9 @@
 				title: message.emne
 			};
 		});
-		console.log('2');
 
 		await fetchInformation();
+		refreshing = false;
 	});
 </script>
 
@@ -33,7 +33,12 @@
 			<Spinner />
 		</div>
 	{:else}
-		<h1>Nyeste beskeder</h1>
+		<div class="flex gap-2">
+			<h1>Nyeste beskeder</h1>
+			 {#if refreshing}
+				<Spinner />
+			{/if}
+		</div>
 		<div class="space-y-2">
 			{#each $messageStore as message}
 				<a class="flex flex-row w-full cursor-pointer unstyled" href="/besked?id={message.id}">
