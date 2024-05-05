@@ -37,7 +37,7 @@
 </script>
 
 <div class="page-container">
-	<div class="flex space-x-2">
+	<div class="flex items-center gap-2">
 		<h1>Google Synkronisering</h1>
 		{#if $pageState === 'loading'}
 			<Spinner />
