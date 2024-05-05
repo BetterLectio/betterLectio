@@ -56,6 +56,7 @@
     "embla-carousel-svelte": "^8.0.2",
     "event-calendar": "^0.8.1",
     "fullcalendar": "^6.1.11",
+    "fuzzy": "^0.1.3",
     "lucide-svelte": "^0.372.0",
     "luxon": "^3.4.4",
     "markdown-it": "^14.1.0",

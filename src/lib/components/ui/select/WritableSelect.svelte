@@ -1,29 +1,23 @@
 <script lang="ts">
+	import { cn } from '$lib/utils/other';
 	import { createCombobox, melt } from '@melt-ui/svelte';
 	import Check from 'lucide-svelte/icons/check';
 	import ChevronDown from 'lucide-svelte/icons/chevron-down';
 	import ChevronUp from 'lucide-svelte/icons/chevron-up';
 	import { fly } from 'svelte/transition';
 	import { buttonVariants } from '../button';
-	import { cn } from '$lib/utils/other';
-
-	export let items: string[] = [];
-	export let value: string;
-	export let placeholder: string = 'Vælg en mulighed...';
-	let className: string | undefined = undefined;
-	export { className as class };
-	export let inputClass: string | undefined = undefined;
 
 	const {
 		elements: { menu, input, option },
 		states: { open, inputValue, selected, touchedInput },
 		helpers: { isSelected }
 	} = createCombobox({
-		defaultSelected: { label: value, value: value },
 		forceVisible: true
 	});
 
-	$: if ($selected) value = $selected.value;
+	export let items: string[] = [];
+	export let placeholder: string = 'Vælg en mulighed...';
+	export const value = selected;
 
 	$: filteredItems = $touchedInput
 		? items.filter((value) => {
@@ -33,11 +27,11 @@
 		: items;
 </script>
 
-<div class={cn("relative w-full", className)}>
+<div class="relative w-full">
 	<input
 		use:melt={$input}
-		class={cn(buttonVariants({ variant: 'outline' }), 'w-full placeholder:text-foreground', inputClass)}
-		placeholder={$selected?.label ?? placeholder}
+		class={cn(buttonVariants({ variant: 'outline' }), 'w-full placeholder:text-foreground')}
+		{placeholder}
 	/>
 	<div class="absolute z-10 -translate-y-1/2 right-2 top-1/2">
 		{#if $open}
