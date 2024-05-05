@@ -13,6 +13,8 @@
 	import { toast } from 'svelte-sonner';
 	import { fetchTasklists, pageState, tasklist, tasklists } from '.';
 
+	let syncStatus: null | string | { new: number; updated: number } = null;
+
 	const maxAgePresets = [
 		{ dt: null, label: '∞' },
 		{ dt: DateTime.now().minus({ months: 1 }), label: '1 måned' },
@@ -47,24 +49,24 @@
 			switch (res.status) {
 				case 401:
 					$pageState = 'logged-out';
-					toast.error('Din google kode er ugyldig. Venligst log ind igen.', { id: statusToast });
+					syncStatus = 'Din google kode er ugyldig. Venligst log ind igen.';
 					break;
 				default:
 					$pageState = 'ready';
-					toast.error(
-						'Der skete en fejl under synkroniseringen. Prøv igen senere eller tjek din internetforbindelse.',
-						{ id: statusToast }
-					);
+					syncStatus =
+						'Der skete en fejl under synkroniseringen. Prøv igen senere eller tjek din internetforbindelse.';
 					break;
 			}
+			toast.dismiss(statusToast);
 			return;
 		}
+		syncStatus = await res.json();
 		toast.success(`Synkronisering af opgaver er færdig.`, { id: statusToast });
 		$pageState = 'ready';
 	};
 </script>
 
-<Alert.Root class="pt-4">
+<Alert.Root level="2" class="pt-4">
 	<Zap />
 	<div class="flex items-center justify-between w-full">
 		<div>
@@ -73,13 +75,18 @@
 		</div>
 		<Dialog.Root>
 			<Dialog.Trigger>
-				<Button on:click={fetchTasklists} disabled={$pageState === 'loading'}>Synkroniser nu</Button
+				<Button
+					on:click={() => {
+						fetchTasklists();
+						syncStatus = null;
+					}}
+					disabled={$pageState === 'loading'}>Synkroniser nu</Button
 				>
 			</Dialog.Trigger>
 			<Dialog.Content>
 				{#if $tasklists.length === 0}
 					<Spinner />
-				{:else}
+				{:else if !syncStatus}
 					<Dialog.Header>
 						<Dialog.Title>Synkroniseringsindstillinger</Dialog.Title>
 						<Dialog.Description>
@@ -88,7 +95,7 @@
 					</Dialog.Header>
 					<div class="flex flex-col space-y-4">
 						<div class="p-2 border rounded-md">
-							<h2 class="font-semibold leading-4 unstyled">Google Tasks-liste</h2> 
+							<h2 class="font-semibold leading-4 unstyled">Google Tasks-liste</h2>
 							<p class="pb-2 text-sm text-muted-foreground">
 								Hvilken Google Tasks-liste skal opgaver blive synkroniseret til?
 							</p>
@@ -123,6 +130,15 @@
 						</div>
 						<Button on:click={syncTasks} disabled={$pageState === 'loading'}>Synkroniser nu</Button>
 					</div>
+				{:else if typeof syncStatus === 'string'}
+					<p class="text-destructive-foreground">{syncStatus}</p>
+				{:else}
+					<h2 class="font-semibold leading-4 unstyled">Synkronisering færdig</h2>
+					<p>
+						<span class="text-green-500">{syncStatus.new}</span> opgaver tilføjet.
+						<br />
+						<span class="text-blue-500">{syncStatus.updated}</span> opgaver opdateret.
+					</p>
 				{/if}
 			</Dialog.Content>
 		</Dialog.Root>

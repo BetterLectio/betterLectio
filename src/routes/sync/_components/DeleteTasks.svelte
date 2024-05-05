@@ -45,7 +45,7 @@
 	};
 </script>
 
-<Alert.Root class="pt-4">
+<Alert.Root level="2" class="pt-4">
 	<Trash />
 	<div class="flex items-center justify-between w-full">
 		<div>

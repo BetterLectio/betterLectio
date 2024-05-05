@@ -78,7 +78,7 @@
 	};
 </script>
 
-<Alert.Root class="pt-4">
+<Alert.Root level="2" class="pt-4">
 	<Zap />
 	<div class="flex items-center justify-between w-full">
 		<div>
