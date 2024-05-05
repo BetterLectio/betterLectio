@@ -2,6 +2,7 @@
 	import { NewTabLink, Spinner } from '$lib/components';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
+	import { Card } from '$lib/components/ui/card';
 	import { Separator } from '$lib/components/ui/separator';
 	import { frontPageStore } from '$lib/stores';
 	import type { Lesson, RawLesson } from '$lib/types/lesson';
@@ -70,7 +71,7 @@
 	<h1>Forside - {DateTime.now().toLocaleString()}</h1>
 	<div class="flex flex-col gap-4 lg:min-w-0 lg:flex-1 lg:flex-row !mt-3">
 		<div class="flex flex-col gap-4 lg:shrink-0 lg:w-1/3">
-			<div class="p-3 border-2 border-black rounded-lg dark:bg-dark-1 dark:border-border">
+			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Næste Modul</h2>
 					{#if !nextClass}
@@ -88,30 +89,28 @@
 						</p>
 					</div>
 				{/if}
-			</div>
-			<div class="p-3 border-2 border-black rounded-lg dark:bg-dark-1 dark:border-border">
+			</Card>
+			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Lektier</h2>
 					<Spinner />
 				</div>
-			</div>
-			<div class="p-3 border-2 border-black rounded-lg dark:bg-dark-1 dark:border-border">
+			</Card>
+			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Opgaver</h2>
 					<Spinner />
 				</div>
-			</div>
-			<div class="p-3 border-2 border-black rounded-lg dark:bg-dark-1 dark:border-border">
+			</Card>
+			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Beskeder</h2>
 					<Spinner />
 				</div>
-			</div>
+			</Card>
 		</div>
 		<div class="flex flex-col gap-4">
-			<div
-				class="p-2 border-2 border-black dark:bg-dark-1 dark:border-border rounded-lg lg:max-h-[70vh] overflow-auto"
-			>
+			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Skema</h2>
 					{#if !classes}
@@ -123,12 +122,7 @@
 						{#each classes as day}
 							<h3 class="text-sm font-medium leading-7 unstyled">{day.name}</h3>
 							{#each day.lessons as lesson}
-								<div
-									class="flex items-center h-full p-3 border rounded-md dark:bg-dark-2 {lesson.status ===
-									'aflyst'
-										? 'cancelled'
-										: ''}"
-								>
+								<Card level="2" class="flex items-center p-3" error={lesson.status === 'aflyst'}>
 									<div class="flex items-center flex-1 h-full min-w-0">
 										<div class="flex justify-center shrink-0 w-11">
 											<span class="text-lg font-medium"
@@ -160,15 +154,13 @@
 									<Button href={`/modul?absid=${lesson.id}`} variant="ghost" size="sm">
 										Vis <ArrowRight class="ml-1 size-4" />
 									</Button>
-								</div>
+								</Card>
 							{/each}
 						{/each}
 					</div>
 				{/if}
-			</div>
-			<div
-				class="p-2 overflow-auto border-2 border-black rounded-lg dark:bg-dark-1 dark:border-border max-h-[70vh]"
-			>
+			</Card>
+			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Aktuelt</h2>
 					{#if !news}
@@ -187,13 +179,7 @@
 				{:else}
 					<p>Ingen aktuelle nyheder.</p>
 				{/if}
-			</div>
+			</Card>
 		</div>
 	</div>
 </div>
-
-<style lang="postcss">
-	.cancelled {
-		background: repeating-linear-gradient(-70deg, #ff6c6c, #ff6c6c 5px, #ff8585 5px, #ff8585 25px);
-	}
-</style>
