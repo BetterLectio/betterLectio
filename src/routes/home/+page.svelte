@@ -110,7 +110,7 @@
 				};
 			})
 		: null;
-	$: news = $frontPageStore ? $frontPageStore.news : [];
+	$: news = $frontPageStore ? $frontPageStore?.news ?? [] : null;
 </script>
 
 <div class="page-container">
