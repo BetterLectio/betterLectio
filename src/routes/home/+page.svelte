@@ -20,7 +20,7 @@
 		const data = (await get('/forside')) as {
 			skema: RawLesson[];
 			aktuelt: RawNews[];
-			undervisning: { opgaveaflevering: { id: string; dato: string; navn: string }[] };
+			undervisning: { opgaveaflevering?: { id: string; dato: string; navn: string }[] };
 			kommunikation: {
 				beskeder: RawSimpleMessage[];
 			};
@@ -44,13 +44,13 @@
 					teacher: lesson.lærer ?? ''
 				};
 			}),
-			assignments: data.undervisning.opgaveaflevering.map((assignment) => {
+			assignments: data.undervisning?.opgaveaflevering?.map((assignment) => {
 				return {
 					id: +assignment.id,
 					name: assignment.navn,
 					date: assignment.dato
 				};
-			}),
+			}) ?? [],
 			messages: data.kommunikation.beskeder.map((message) => {
 				return {
 					date: message.dato,
