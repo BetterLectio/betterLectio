@@ -7,6 +7,7 @@
 	import CalendarPlus from 'lucide-svelte/icons/calendar-plus';
 	import LayoutList from 'lucide-svelte/icons/layout-list';
 	import { onMount } from 'svelte';
+	import { toast } from 'svelte-sonner';
 	import {
 		DeleteEvents,
 		DeleteTasks,
@@ -15,7 +16,6 @@
 		SyncTasks,
 		pageState
 	} from './_components';
-	import { toast } from 'svelte-sonner';
 
 	onMount(async () => {
 		if (!$authStore.googleToken) {
@@ -30,7 +30,7 @@
 		if (!resp.ok) {
 			$authStore.googleToken = null;
 			toast.error('Din google kode er ugyldig. Venligst log ind igen.');
-			return
+			return;
 		}
 		$pageState = 'ready';
 	});
@@ -45,7 +45,7 @@
 	</div>
 	{#if $pageState === 'logged-out'}
 		<Setup />
-	{:else}
+	{:else if $pageState === 'ready'}
 		<div class="space-y-4">
 			<Card.Root>
 				<Card.Header>
