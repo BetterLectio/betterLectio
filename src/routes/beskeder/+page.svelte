@@ -28,12 +28,12 @@
 
 <div class="page-container">
 	{#if !$messageStore || !$informationStore}
-		<div class="flex space-x-2">
+		<div class="flex items-center gap-2">
 			<h1>Henter beskeder...</h1>
 			<Spinner />
 		</div>
 	{:else}
-		<div class="flex gap-2">
+		<div class="flex items-center gap-2">
 			<h1>Nyeste beskeder</h1>
 			 {#if refreshing}
 				<Spinner />
