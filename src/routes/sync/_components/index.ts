@@ -9,7 +9,7 @@ export { default as SyncEvents } from './SyncEvents.svelte';
 export { default as SyncTasks } from './SyncTasks.svelte';
 export { default as Setup } from './Setup.svelte';
 
-export const pageState = writable<'logged-out' | 'ready' | 'loading'>('logged-out');
+export const pageState = writable<'logged-out' | 'ready' | 'loading'>('loading');
 
 export const calendars = writable<{ label: string; value: string }[]>([]);
 export const calendar = writable<{ label: string; value: string }>({ label: '', value: '' });

@@ -19,6 +19,7 @@
 
 	onMount(async () => {
 		if (!$authStore.googleToken) {
+			$pageState = 'logged-out';
 			return;
 		}
 		const resp = await fetch(`${LECTIO_OAUTH_API}/token/check`, {
