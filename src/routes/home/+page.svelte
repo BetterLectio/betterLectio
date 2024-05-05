@@ -75,7 +75,7 @@
 				}
 			: null;
 	$: classes = $frontPageStore
-		? ($frontPageStore.lessons || []).reduce<
+		? ($frontPageStore?.lessons ?? []).reduce<
 				{ name: string; lessons: (Lesson & { interval: Interval })[] }[]
 			>((acc, lesson) => {
 				const interval = constructInterval(lesson.date);
@@ -91,7 +91,7 @@
 			}, [])
 		: null;
 	$: assignments = $frontPageStore
-		? ($frontPageStore.assignments || []).map((assignment) => {
+		? ($frontPageStore?.assignments ?? []).map((assignment) => {
 				return {
 					...assignment,
 					date: DateTime.fromFormat(assignment.date, 'd/M-yyyy HH:mm', {
@@ -101,7 +101,7 @@
 			})
 		: null;
 	$: messages = $frontPageStore
-		? ($frontPageStore.messages || []).map((message) => {
+		? ($frontPageStore?.messages ?? []).map((message) => {
 				return {
 					...message,
 					date: DateTime.fromFormat(message.date, 'd/M-yyyy HH:mm', {
