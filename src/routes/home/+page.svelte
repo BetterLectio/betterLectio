@@ -60,7 +60,8 @@
 					: interval.start?.hasSame(DateTime.now().plus({ days: 1 }), 'day')
 						? 'I morgen'
 						: toTitleCase(interval.start?.toFormat('EEEE d/M') ?? 'N/A');
-				acc.push({ name: dayName, lessons: [{ ...lesson, interval }] });
+				if (acc.find((day) => day.name === dayName)) acc[acc.findIndex((day) => day.name === dayName)].lessons.push({ ...lesson, interval });
+				else acc.push({ name: dayName, lessons: [{ ...lesson, interval }] });
 				return acc;
 			}, [])
 		: null;
@@ -130,7 +131,7 @@
 											>
 										</div>
 										<Separator orientation="vertical" class="h-10 mx-3" />
-										<div class="flex flex-col w-1/3 shrink-0">
+										<div class="flex flex-col w-28 shrink-0">
 											<div class="flex items-center">
 												<Clock class="mr-1 size-3" />
 												<p class="text-sm">{lesson.interval.toFormat('HH:mm')}</p>
