@@ -100,14 +100,13 @@ def forside(self):
                         {
                             "navn": tds[1].text,
                             "dato": tds[2].get("title"),
-                            "id": re.search("exerciseid=\d+", str(tds[1].find("a").get("href"))) or re.search("id=\d+", str(tds[1].find("a").get("href")))
-                            .group()
-                            .replace("id=", ""),
+                            "id": re.findall("exerciseid=(\d+)", str(tds[1].find("a").get("href")))[0] if navn == "opgaveaflevering" else re.findall("id=(\d+)", str(tds[1].find("a").get("href")))[0],
                             "punkt_farve": colorDict[
                                 tds[0].find("img").get("src").split("/")[-1]
                             ],
                         }
                     )
+                    print(forsideDict["undervisning"][navn][-1])
     for element in soup.find(
         "div", {"id": "s_m_Content_Content_skemaIsland_pa"}
     ).find_all("div"):
