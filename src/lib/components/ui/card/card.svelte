@@ -13,12 +13,13 @@
 	export let level: $$Props['level'] = '1';
 	export let error: $$Props['error'] = false;
 	const rounded = level === '1' ? 'rounded-xl' : 'rounded-md';
+	const darkBg = level === '1' ? 'dark:bg-dark-1' : 'dark:bg-dark-2';
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	class={cn(
-		`${rounded} border bg-card dark:bg-dark-${level} text-card-foreground shadow`,
+		`${rounded} border bg-card ${darkBg} text-card-foreground shadow`, 
 		className
 	)}
 	class:error

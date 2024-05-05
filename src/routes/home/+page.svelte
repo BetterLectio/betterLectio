@@ -6,8 +6,9 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { frontPageStore } from '$lib/stores';
 	import type { Lesson, RawLesson } from '$lib/types/lesson';
+	import type { RawSimpleMessage } from '$lib/types/messages';
 	import type { RawNews } from '$lib/types/news';
-	import { constructInterval, get, stringToColor, toTitleCase } from '$lib/utils';
+	import { constructInterval, get, relativeTime, stringToColor, toTitleCase } from '$lib/utils';
 	import ArrowRight from 'lucide-svelte/icons/arrow-right';
 	import Clock from 'lucide-svelte/icons/clock';
 	import MapPin from 'lucide-svelte/icons/map-pin';
@@ -16,7 +17,14 @@
 	import SvelteMarkdown from 'svelte-markdown';
 
 	onMount(async () => {
-		const data = (await get('/forside')) as { skema: RawLesson[]; aktuelt: RawNews[] };
+		const data = (await get('/forside')) as {
+			skema: RawLesson[];
+			aktuelt: RawNews[];
+			undervisning: { opgaveaflevering: { id: string; dato: string; navn: string }[] };
+			kommunikation: {
+				beskeder: RawSimpleMessage[];
+			};
+		};
 
 		$frontPageStore = {
 			lessons: data.skema.map((lesson) => {
@@ -34,6 +42,21 @@
 					room: lesson.lokale ?? '',
 					status: lesson.status ?? '',
 					teacher: lesson.lærer ?? ''
+				};
+			}),
+			assignments: data.undervisning.opgaveaflevering.map((assignment) => {
+				return {
+					id: +assignment.id,
+					name: assignment.navn,
+					date: assignment.dato
+				};
+			}),
+			messages: data.kommunikation.beskeder.map((message) => {
+				return {
+					date: message.dato,
+					id: +message.id,
+					sender: message.afsender,
+					title: message.navn
 				};
 			}),
 			news: data.aktuelt.map((item) => {
@@ -61,10 +84,31 @@
 					: interval.start?.hasSame(DateTime.now().plus({ days: 1 }), 'day')
 						? 'I morgen'
 						: toTitleCase(interval.start?.toFormat('EEEE d/M') ?? 'N/A');
-				if (acc.find((day) => day.name === dayName)) acc[acc.findIndex((day) => day.name === dayName)].lessons.push({ ...lesson, interval });
+				if (acc.find((day) => day.name === dayName))
+					acc[acc.findIndex((day) => day.name === dayName)].lessons.push({ ...lesson, interval });
 				else acc.push({ name: dayName, lessons: [{ ...lesson, interval }] });
 				return acc;
 			}, [])
+		: null;
+	$: assignments = $frontPageStore
+		? ($frontPageStore.assignments || []).map((assignment) => {
+				return {
+					...assignment,
+					date: DateTime.fromFormat(assignment.date, 'd/M-yyyy HH:mm', {
+						locale: 'da'
+					})
+				};
+			})
+		: null;
+	$: messages = $frontPageStore
+		? ($frontPageStore.messages || []).map((message) => {
+				return {
+					...message,
+					date: DateTime.fromFormat(message.date, 'd/M-yyyy HH:mm', {
+						locale: 'da'
+					})
+				};
+			})
 		: null;
 	$: news = $frontPageStore ? $frontPageStore.news : [];
 </script>
@@ -94,21 +138,60 @@
 			</Card>
 			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
 				<div class="flex items-center justify-between">
-					<h2 class="text-lg font-medium unstyled">Lektier</h2>
-					<Spinner />
-				</div>
-			</Card>
-			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
-				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Opgaver</h2>
-					<Spinner />
+					{#if !assignments}
+						<Spinner />
+					{/if}
 				</div>
+				{#if assignments}
+					{#if assignments.length > 0}
+						<div class="space-y-2">
+							{#each assignments as assignment}
+								<a
+									href={`/opgave?id=${assignment.id}`}
+									class="flex flex-col p-3 border rounded-md shadow dark:bg-dark-2 bg-card unstyled"
+								>
+									<p class="overflow-hidden whitespace-nowrap text-ellipsis">{assignment.name}</p>
+									<p
+										use:relativeTime={assignment.date.toJSDate()}
+										class="text-sm text-muted-foreground"
+									/>
+								</a>
+							{/each}
+						</div>
+					{:else}
+						<p class="text-sm text-muted-foreground">Ingen kommende opgaver.</p>
+					{/if}
+				{/if}
 			</Card>
 			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Beskeder</h2>
-					<Spinner />
+					{#if !messages}
+						<Spinner />
+					{/if}
 				</div>
+				{#if messages}
+					{#if messages.length > 0}
+						<div class="space-y-2">
+							{#each messages as message}
+								<a
+									href={`/besked?absid=${message.id}`}
+									class="flex flex-col p-3 border rounded-md shadow dark:bg-dark-2 bg-card unstyled"
+								>
+									<p class="overflow-hidden whitespace-nowrap text-ellipsis">{message.title}</p>
+									<p
+										class="overflow-hidden text-sm text-muted-foreground whitespace-nowrap text-ellipsis"
+									>
+										{message.sender}
+									</p>
+								</a>
+							{/each}
+						</div>
+					{:else}
+						<p class="text-sm text-muted-foreground">Ingen ulæste beskeder.</p>
+					{/if}
+				{/if}
 			</Card>
 		</div>
 		<div class="flex flex-col gap-4">
@@ -144,7 +227,7 @@
 										</div>
 										<div class="flex flex-col min-w-0">
 											<p class="overflow-hidden text-sm overflow-ellipsis whitespace-nowrap">
-												{lesson.name}
+												{lesson.name ?? lesson.class}
 											</p>
 											<p
 												class="overflow-hidden text-sm whitespace-nowrap text-muted-foreground overflow-ellipsis"

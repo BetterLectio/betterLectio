@@ -1,7 +1,7 @@
 import type { RawSimpleAssignment } from '$lib/types/assignments';
 import type { RawSimpleDocument } from '$lib/types/documents';
 import type { Lesson, RawLesson } from '$lib/types/lesson';
-import type { Message, RawMessage } from '$lib/types/messages';
+import type { Message, RawMessage, SimpleMessage } from '$lib/types/messages';
 import type { News, RawNews } from '$lib/types/news';
 import { get } from '$lib/utils/http';
 import { writable, type Writable } from 'svelte/store';
@@ -35,6 +35,8 @@ export const assignmentStore = localStore<RawSimpleAssignment[] | null>('assignm
 export const messageStore = localStore<Message[] | null>('messages', null);
 export const frontPageStore = localStore<{
 	lessons: Lesson[];
+	assignments: { id: number; name: string; date: string }[];
+	messages: SimpleMessage[];
 	news: News[];
 } | null>('frontpage', null);
 export const absenceStore = localStore<RawAbsence | null>('absence', null);

@@ -60,7 +60,7 @@ export type RawSimpleMessage = {
 }
 
 export type SimpleMessage = {
-    date: DateTime;
+    date: string;
     id: number;
     sender: string;
     title: string;
