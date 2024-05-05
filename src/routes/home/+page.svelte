@@ -195,7 +195,7 @@
 			</Card>
 		</div>
 		<div class="flex flex-col gap-4">
-			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
+			<Card class="p-2 border-2 lg:max-h-[50vh] overflow-auto">
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Skema</h2>
 					{#if !classes}
@@ -245,7 +245,7 @@
 					</div>
 				{/if}
 			</Card>
-			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
+			<Card class="p-2 border-2 lg:max-h-[50vh] overflow-auto">
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Aktuelt</h2>
 					{#if !news}
