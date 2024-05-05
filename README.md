@@ -11,9 +11,9 @@ Den Bedste Lectio oplevelse!
 | OS      | Support |
 | ------- | ------- |
 | Windows | ✅      |
+| Web     | ✅      |
 | MacOS   | ❌      |
 | Linux   | ❌      |
-| Web     | ❌      |
 
 ## Bidrag til projektet
 
