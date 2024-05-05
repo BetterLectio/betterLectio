@@ -43,14 +43,15 @@
 		};
 	});
 
-	$: nextClass = $frontPageStore
-		? {
-				...$frontPageStore.lessons[0],
-				interval: constructInterval($frontPageStore.lessons[0].date)
-			}
-		: null;
+	$: nextClass =
+		$frontPageStore && $frontPageStore.lessons && $frontPageStore.lessons.length > 0
+			? {
+					...$frontPageStore.lessons[0],
+					interval: constructInterval($frontPageStore.lessons[0].date)
+				}
+			: null;
 	$: classes = $frontPageStore
-		? $frontPageStore.lessons.reduce<
+		? ($frontPageStore.lessons || []).reduce<
 				{ name: string; lessons: (Lesson & { interval: Interval })[] }[]
 			>((acc, lesson) => {
 				const interval = constructInterval(lesson.date);
@@ -175,7 +176,7 @@
 						<Spinner />
 					{/if}
 				</div>
-				{#if news.length > 0}
+				{#if news && news.length > 0}
 					<div class="space-y-2">
 						{#each news as item, i}
 							<SvelteMarkdown source={item.description} renderers={{ link: NewTabLink }} />
