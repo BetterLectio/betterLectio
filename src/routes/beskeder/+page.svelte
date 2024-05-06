@@ -39,18 +39,18 @@
 			selectedMessage = messageId;
 		}
 
-		const res = (await get('/beskeder2')) as RawMessage[];
-		$messageStore = res.map((message) => {
-			return {
-				date: message.dato,
-				id: message.message_id,
-				receivers: message.modtagere,
-				sender: message.førsteBesked.split(' (')[0].split(' -')[0],
-				title: message.emne
-			};
-		});
+		// const res = (await get('/beskeder2')) as RawMessage[];
+		// $messageStore = res.map((message) => {
+		// 	return {
+		// 		date: message.dato,
+		// 		id: message.message_id,
+		// 		receivers: message.modtagere,
+		// 		sender: message.førsteBesked.split(' (')[0].split(' -')[0],
+		// 		title: message.emne
+		// 	};
+		// });
 
-		await fetchInformation();
+		// await fetchInformation();
 	});
 	$: messages = $messageStore
 		? $messageStore.length >= 0 && $messageStore.length > 0 && $messageStore?.[0]?.date // Remove this after some time. Fixes old localStorage message format
@@ -237,11 +237,11 @@
 		if (selectedMessage) {
 			removeAllOccurences(container, ['lg:container', 'lg:mx-auto', 'lg:!pt-0']);
 			removeAllOccurences(sidebar, 'w-full');
-			addIfMissing(sidebar, ['hidden', 'lg:w-1/3', 'xl:w-[40rem]', '2xl:w-[60rem]']);
+			addIfMissing(sidebar, ['hidden', 'lg:w-[30vw]', 'xl:w-[40rem]', '2xl:w-[60rem]']);
 		} else {
 			setTimeout(() => {
 				addIfMissing(container, ['lg:container', 'lg:mx-auto', 'lg:!pt-0']);
-				removeAllOccurences(sidebar, ['hidden', 'lg:w-1/3', 'xl:w-[40rem]', '2xl:w-[60rem]']);
+				removeAllOccurences(sidebar, ['hidden', 'lg:w-[30vw]', 'xl:w-[40rem]', '2xl:w-[60rem]']);
 				addIfMissing(sidebar, 'w-full');
 			}, 1000);
 		}
@@ -447,37 +447,37 @@
 		</div>
 	</div>
 	{#if selectedMessage}
-		<div class="flex flex-col w-full h-full space-y-4 border-l" transition:flyOrFade>
-			<section class="p-4 pb-0">
-				<div class="flex items-center px-6 py-4 bg-white rounded-md shadow-lg dark:bg-dark-2">
+		<div class="flex flex-col w-full space-y-4 overflow-hidden border-l" transition:flyOrFade>
+			<section class="w-full p-4 pb-0">
+				<div
+					class="flex items-center w-full px-6 py-4 bg-white rounded-md shadow-lg dark:bg-dark-2"
+				>
 					{#if fullMessage}
-						{#key $informationStore}
-							<LectioAvatar
-								id={fullMessage.messages[0].sender.id}
-								navn={fullMessage.messages[0].sender.name}
-							/>
-						{/key}
-						<div class="flex flex-col ml-3">
-							<span class="font-semibold leading-5">{fullMessage.messages[0].title}</span>
-							<TextTooltip text={fullMessage.receivers}>
-								<span class="block text-xs text-gray-400 truncate"
-									>Modtagere: {fullMessage.receivers}</span
-								>
-							</TextTooltip>
+						<div class="flex items-center flex-1 min-w-0">
+							{#key $informationStore}
+								<LectioAvatar
+									id={fullMessage.messages[0].sender.id}
+									navn={fullMessage.messages[0].sender.name}
+								/>
+							{/key}
+							<div class="flex flex-col min-w-0 ml-3">
+								<span class="font-semibold leading-5">{fullMessage.messages[0].title}</span>
+								<TextTooltip text={fullMessage.receivers} class="text-xs text-gray-400 truncate">
+									{fullMessage.receivers}
+								</TextTooltip>
+							</div>
 						</div>
-						<div class="ml-auto">
-							<button
-								class="flex items-center justify-center w-10 h-10 text-gray-500 bg-gray-100 rounded-full cursor-pointer dark:bg-gray-500 hover:bg-gray-200 dark:hover:bg-gray-400 dark:text-gray-100"
-								on:click={() => {
-									fullMessage = null;
-									selectedMessage = null;
-									replyTo = null;
-									replyContent = '';
-								}}
-							>
-								<Plus class="rotate-45" />
-							</button>
-						</div>
+						<button
+							class="flex items-center justify-center w-10 h-10 text-gray-500 bg-gray-100 rounded-full cursor-pointer dark:bg-gray-500 hover:bg-gray-200 dark:hover:bg-gray-400 dark:text-gray-100"
+							on:click={() => {
+								fullMessage = null;
+								selectedMessage = null;
+								replyTo = null;
+								replyContent = '';
+							}}
+						>
+							<Plus class="rotate-45" />
+						</button>
 					{:else}
 						<Skeleton class="w-10 h-10 rounded-full" />
 						<Skeleton class="w-1/2 h-10 ml-3" />
