@@ -53,10 +53,12 @@
 		await fetchInformation();
 	});
 	$: messages = $messageStore
-		? $messageStore.map((message) => ({
-				...message,
-				date: DateTime.fromFormat(message.date, 'd/M-yyyy HH:mm', { locale: 'da' })
-			}))
+		? $messageStore.length >= 0 && $messageStore.length > 0 && $messageStore?.[0]?.date // Remove this after some time. Fixes old localStorage message format
+			? $messageStore.map((message) => ({
+					...message,
+					date: DateTime.fromFormat(message.date, 'd/M-yyyy HH:mm', { locale: 'da' })
+				}))
+			: null
 		: null;
 	$: me = $informationStore?.students?.find(
 		(student) => student.id == `S${decodeUserID($authStore.cookie ?? '0')}`
@@ -102,7 +104,7 @@
 		if (!data) {
 			fullMessageLoading = false;
 			selectedMessage = null;
-			return toast.error('Der skete en fejl under hentning af beskeded.');
+			return toast.error('Der skete en fejl under hentning af beskeden.');
 		}
 		fullMessage = {
 			messages: data.beskeder.map((message) => {
@@ -332,11 +334,13 @@
 								class="cursor-pointer">Sendt</Badge
 							>
 						</div>
-						<ValueSelect
-							bind:value={searchGroup}
-							items={$informationStore?.groups}
-							placeholder="Vælg gruppe eller hold"
-						/>
+						{#key $informationStore}
+							<ValueSelect
+								bind:value={searchGroup}
+								items={$informationStore?.groups}
+								placeholder="Vælg gruppe eller hold"
+							/>
+						{/key}
 					</div>
 				</div>
 			{/if}
@@ -370,11 +374,14 @@
 										class="absolute top-0 right-0 mt-4 mr-4 text-xs text-gray-500"
 									/>
 								{/if}
-								<LectioAvatar
-									id={$informationStore?.students.find((student) => student.name == message.sender)
-										?.id ?? '123'}
-									navn={message.sender}
-								/>
+								{#key $informationStore}
+									<LectioAvatar
+										id={$informationStore?.students.find(
+											(student) => student.name == message.sender
+										)?.id ?? '123'}
+										navn={message.sender}
+									/>
+								{/key}
 								<div class="flex flex-col flex-grow ml-3">
 									<div class="text-sm font-medium">{message.title}</div>
 									<div class="text-xs truncate">{message.sender}</div>
@@ -444,10 +451,12 @@
 			<section class="p-4 pb-0">
 				<div class="flex items-center px-6 py-4 bg-white rounded-md shadow-lg dark:bg-dark-2">
 					{#if fullMessage}
-						<LectioAvatar
-							id={fullMessage.messages[0].sender.id}
-							navn={fullMessage.messages[0].sender.name}
-						/>
+						{#key $informationStore}
+							<LectioAvatar
+								id={fullMessage.messages[0].sender.id}
+								navn={fullMessage.messages[0].sender.name}
+							/>
+						{/key}
 						<div class="flex flex-col ml-3">
 							<span class="font-semibold leading-5">{fullMessage.messages[0].title}</span>
 							<TextTooltip text={fullMessage.receivers}>
@@ -524,7 +533,9 @@
 										</div>
 									</button>
 									<TextTooltip text={message.sender.name} class="size-10">
-										<LectioAvatar id={message.sender.id} navn={message.sender.name} />
+										{#key $informationStore}
+											<LectioAvatar id={message.sender.id} navn={message.sender.name} />
+										{/key}
 									</TextTooltip>
 								</div>
 							{:else}
