@@ -39,18 +39,18 @@
 			selectedMessage = messageId;
 		}
 
-		// const res = (await get('/beskeder2')) as RawMessage[];
-		// $messageStore = res.map((message) => {
-		// 	return {
-		// 		date: message.dato,
-		// 		id: message.message_id,
-		// 		receivers: message.modtagere,
-		// 		sender: message.førsteBesked.split(' (')[0].split(' -')[0],
-		// 		title: message.emne
-		// 	};
-		// });
+		const res = (await get('/beskeder2')) as RawMessage[];
+		$messageStore = res.map((message) => {
+			return {
+				date: message.dato,
+				id: message.message_id,
+				receivers: message.modtagere,
+				sender: message.førsteBesked.split(' (')[0].split(' -')[0],
+				title: message.emne
+			};
+		});
 
-		// await fetchInformation();
+		await fetchInformation();
 	});
 	$: messages = $messageStore
 		? $messageStore.length >= 0 && $messageStore.length > 0 && $messageStore?.[0]?.date // Remove this after some time. Fixes old localStorage message format
