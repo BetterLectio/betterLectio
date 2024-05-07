@@ -176,7 +176,7 @@
 						<div class="space-y-2">
 							{#each messages as message}
 								<a
-									href={`/besked?absid=${message.id}`}
+									href={`/beskeder?id=${message.id}`}
 									class="flex flex-col p-3 border rounded-md shadow dark:bg-dark-2 bg-card unstyled"
 								>
 									<p class="overflow-hidden whitespace-nowrap text-ellipsis">{message.title}</p>

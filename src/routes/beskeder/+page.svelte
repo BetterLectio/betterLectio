@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import LectioAvatar from '$lib/components/LectioAvatar.svelte';
 	import { MessageLink } from '$lib/components/links';
@@ -104,6 +105,7 @@
 		if (!data) {
 			fullMessageLoading = false;
 			selectedMessage = null;
+			goto('/beskeder', { replaceState: true, keepFocus: true });
 			return toast.error('Der skete en fejl under hentning af beskeden.');
 		}
 		fullMessage = {
@@ -362,6 +364,7 @@
 									replyTo = null;
 									replyContent = '';
 									selectedMessage = message.id;
+									goto(`/beskeder?id=${selectedMessage}`, { replaceState: true, keepFocus: true });
 								}}
 								on:keydown={() => {}}
 								role="button"
@@ -472,6 +475,7 @@
 							on:click={() => {
 								fullMessage = null;
 								selectedMessage = null;
+								goto('/beskeder', { replaceState: true, keepFocus: true });
 								replyTo = null;
 								replyContent = '';
 							}}
@@ -556,7 +560,7 @@
 											<p class="font-bold">{message.title}</p>
 											<small class="opacity-50" use:relativeTime={message.date.toJSDate()} />
 										</header>
-										<div>
+										<div class="flex flex-col">
 											{#if message.attachments.length}
 												<div class="flex flex-row flex-wrap">
 													{#each message.attachments as attachment}
@@ -565,7 +569,9 @@
 													{/each}
 												</div>
 											{/if}
-											<SvelteMarkdown source={message.body} renderers={{ link: MessageLink }} />
+											<div class="text-left">
+												<SvelteMarkdown source={message.body} renderers={{ link: MessageLink }} />
+											</div>
 											{#if message.edits.length}
 												{#each message.edits as edit}
 													<div class="flex items-center text-gray-400">
