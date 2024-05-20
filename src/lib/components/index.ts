@@ -1,7 +1,7 @@
 export { default as AccountSheet } from './AccountSheet.svelte';
 export { default as Changelog } from './Changelog.svelte';
 export { default as LectioAvatar } from './LectioAvatar.svelte';
-export { default as NewTabLink } from './NewTabLink.svelte';
+export { default as NewTabLink } from './links/NewTabLink.svelte';
 export { default as SidebarLink } from './SidebarLink.svelte';
 export { default as SiteHeader } from './SiteHeader.svelte';
 export { default as SiteNavigation } from './SiteNavigation.svelte';
