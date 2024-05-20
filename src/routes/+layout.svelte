@@ -23,6 +23,8 @@
 	$: hasCredentials =
 		$authStore.username !== null && $authStore.password !== null && $authStore.school !== null;
 
+	let PageRefresher = 0; // Used to refresh page when cookie is updated after is has been invalidated by lectio
+
 	async function checkCookie() {
 		if (!hasCredentials) throw new Error('Credentials are not set');
 
@@ -32,10 +34,13 @@
 			}
 		});
 		let data = await res.json();
+		console.log('Cookie validity:', data);
 
 		if (!data.valid) {
 			$authStore.cookie = null;
 			await login();
+			console.log('Auth refreshed');
+			PageRefresher++; // Soft refresh page to use new cookie in slot
 
 			//check if cookie is valid
 			if ($authStore.cookie === null) {
@@ -92,13 +97,15 @@
 <SiteSearch />
 <SiteNavigation>
 	{#if hasCredentials}
-		{#await checkCookie()}
+		{#await (checkCookie(), $page.url.pathname)}
 			<div class="flex items-center justify-center h-full">
 				<Spinner />
 			</div>
 		{:then}
 			<div class="mt-10">
-				<slot />
+				{#key PageRefresher}
+					<slot />
+				{/key}
 			</div>
 		{:catch error}
 			<div class="flex flex-col items-center justify-center h-full">
