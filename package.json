@@ -46,7 +46,7 @@
     "@tauri-apps/plugin-process": "^2.0.0-beta.2",
     "@tauri-apps/plugin-shell": "^2.0.0-beta.3",
     "@tauri-apps/plugin-updater": "^2.0.0-beta.2",
-    "@unovis/svelte": "^1.4.0",
+    "@unovis/svelte": "^1.4.1",
     "@unovis/ts": "^1.4.0",
     "bits-ui": "^0.21.5",
     "buffer": "^6.0.3",
