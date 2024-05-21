@@ -502,7 +502,7 @@
 										on:click={() => {
 											replyTo = message;
 										}}
-										class="p-4 space-y-2 rounded-md rounded-tr-none hover:brightness-95 dark:hover:opacity-90 bg-primary text-primary-foreground"
+										class="p-4 space-y-2 transition-colors rounded-md rounded-tr-none bg-primary hover:bg-zinc-800 dark:hover:bg-zinc-200 text-primary-foreground"
 									>
 										<header class="flex flex-col justify-between md:flex-row md:items-center">
 											<p class="font-bold">{message.title}</p>
@@ -517,7 +517,9 @@
 													{/each}
 												</div>
 											{/if}
-											<SvelteMarkdown source={message.body} renderers={{ link: MessageLink }} />
+											<div class="text-left">
+												<SvelteMarkdown source={message.body} renderers={{ link: MessageLink }} />
+											</div>
 											{#if message.edits.length}
 												{#each message.edits as edit}
 													<div class="flex items-center text-gray-400">
@@ -554,7 +556,7 @@
 										on:click={() => {
 											replyTo = message;
 										}}
-										class="p-4 space-y-2 border rounded-md rounded-tl-none hover:brightness-95 dark:hover:opacity-90 dark:bg-dark-2"
+										class="p-4 space-y-2 transition-colors border rounded-md rounded-tl-none hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:bg-dark-2"
 									>
 										<header class="flex flex-col justify-between md:flex-row md:items-center">
 											<p class="font-bold">{message.title}</p>
