@@ -11,7 +11,8 @@
 	import { constructInterval, get, relativeTime, stringToColor, toTitleCase } from '$lib/utils';
 	import ArrowRight from 'lucide-svelte/icons/arrow-right';
 	import Clock from 'lucide-svelte/icons/clock';
-	import MapPin from 'lucide-svelte/icons/map-pin';
+	import DoorOpen from 'lucide-svelte/icons/door-open';
+	import Plus from 'lucide-svelte/icons/plus';
 	import { DateTime, Interval } from 'luxon';
 	import { onMount } from 'svelte';
 	import SvelteMarkdown from 'svelte-markdown';
@@ -44,13 +45,14 @@
 					teacher: lesson.lærer ?? ''
 				};
 			}),
-			assignments: data.undervisning?.opgaveaflevering?.map((assignment) => {
-				return {
-					id: +assignment.id,
-					name: assignment.navn,
-					date: assignment.dato
-				};
-			}) ?? [],
+			assignments:
+				data.undervisning?.opgaveaflevering?.map((assignment) => {
+					return {
+						id: +assignment.id,
+						name: assignment.navn,
+						date: assignment.dato
+					};
+				}) ?? [],
 			messages: data.kommunikation.beskeder.map((message) => {
 				return {
 					date: message.dato,
@@ -215,25 +217,33 @@
 											>
 										</div>
 										<Separator orientation="vertical" class="h-10 mx-3" />
-										<div class="flex flex-col w-28 shrink-0">
+										<div class="flex flex-col w-32 shrink-0">
 											<div class="flex items-center">
-												<Clock class="mr-1 size-3" />
+												<Clock class="mr-1 size-4" />
 												<p class="text-sm">{lesson.interval.toFormat('HH:mm')}</p>
 											</div>
 											<div class="flex items-center">
-												<MapPin class="mr-1 size-3" />
-												<p class="text-sm">{lesson.room}</p>
+												<DoorOpen class="mr-1 size-4" />
+												{#if lesson.room}
+													<p class="text-sm">{lesson.room}</p>
+												{:else}
+													<p class="text-sm text-transparent">.</p>
+												{/if}
 											</div>
 										</div>
 										<div class="flex flex-col min-w-0">
 											<p class="overflow-hidden text-sm overflow-ellipsis whitespace-nowrap">
 												{lesson.name ?? lesson.class}
 											</p>
-											<p
-												class="overflow-hidden text-sm whitespace-nowrap text-muted-foreground overflow-ellipsis"
-											>
-												{lesson.teacher}
-											</p>
+											{#if lesson.teacher}
+												<p
+													class="overflow-hidden text-sm whitespace-nowrap text-muted-foreground overflow-ellipsis"
+												>
+													{lesson.teacher}
+												</p>
+											{:else}
+												<p class="text-sm text-transparent">.</p>
+											{/if}
 										</div>
 									</div>
 									<Button href={`/modul?absid=${lesson.id}`} variant="ghost" size="sm">
