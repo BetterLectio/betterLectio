@@ -29,6 +29,7 @@
 		});
 		if (!resp.ok) {
 			$authStore.googleToken = null;
+			$pageState = 'logged-out';
 			toast.error('Din google kode er ugyldig. Venligst log ind igen.');
 			return;
 		}
