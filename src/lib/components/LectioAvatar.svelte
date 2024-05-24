@@ -31,7 +31,7 @@
 <IntersectionObserver {element} once={true} on:intersect={fetchImage}>
 	<div bind:this={element}>
 		<Avatar.Root>
-			<Avatar.Image src={source} />
+			<Avatar.Image src={source} class="object-cover" />
 			{@const initials = navn
 				.split(' ')
 				.map((navn) => navn[0])
