@@ -20,7 +20,7 @@
 
 	let opgaver = $assignmentStore;
 	let searchString = '';
-	let status = 'Kommende';
+	let status = 'Skal Afleveres';
 
 	onMount(async () => {
 		const res = await get('/opgaver');
@@ -33,12 +33,10 @@
 			switch (status) {
 				case 'Alle':
 					return true;
-				case 'Kommende':
-					return opgave.status === 'Venter';
-				case 'Afleveret':
+				case 'Skal Afleveres':
+					return opgave.status === 'Venter' || opgave.status === 'Mangler';
+				case 'Er Afleveret':
 					return opgave.status === 'Afleveret' || opgave.status === 'Afsluttet';
-				case 'Mangler':
-					return opgave.status === 'Mangler';
 			}
 		});
 		search();
@@ -70,7 +68,7 @@
 			{/if}
 		</div>
 		<div class="flex items-center space-x-2">
-			<ValueSelect bind:value={status} items={['Alle', 'Kommende', 'Afleveret', 'Mangler']} />
+			<ValueSelect bind:value={status} items={['Alle', 'Skal Afleveres', 'Er Afleveret']} />
 			<Input
 				type="text"
 				class="max-w-xs"
