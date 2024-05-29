@@ -3,8 +3,16 @@
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import * as Command from '$lib/components/ui/command';
 	import { SITE_LINKS } from '$lib/links';
+	import { assignmentStore } from '$lib/stores';
+	import type { RawSimpleAssignment } from '$lib/types/assignments';
+	import { get } from '$lib/utils';
 	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 
+	let query = '';
+	let assignmentsLoaded = false;
+	const minLengthToSearchAssignments = 2;
+	$: searchAssignments = query.length > minLengthToSearchAssignments;
 	let open = false;
 	onMount(() => {
 		function handleKeydown(e: KeyboardEvent) {
@@ -45,6 +53,22 @@
 		};
 	});
 
+	let filteredAssignments = writable<RawSimpleAssignment[]>([]);
+	$: if ((open && searchAssignments) || (open && query.length > minLengthToSearchAssignments)) {
+		if (!assignmentsLoaded) get('/opgaver').then((res) => assignmentStore.set(res));
+		if ($assignmentStore) {
+			assignmentsLoaded = true;
+			filteredAssignments.set(
+				$assignmentStore.filter((assignment) => {
+					const title = assignment.opgavetitel.toLowerCase();
+					const queryLower = query.toLowerCase();
+					return title.includes(queryLower);
+				})
+			);
+		}
+		console.log(`searching for ${query} and found ${$filteredAssignments?.length} assignments`);
+	}
+
 	//find the element with the data-command-opener attribute and attach a click event listener to it to open the command dialog
 	function handleCommandOpenerClick(e: MouseEvent) {
 		const target = e.target as HTMLElement;
@@ -57,7 +81,7 @@
 </script>
 
 <Command.Dialog bind:open data-global-command>
-	<Command.Input placeholder="Søg efter en side..." />
+	<Command.Input bind:value={query} placeholder="Søg efter en side..." />
 	<Command.List>
 		<Command.Empty>Ingen sider fundet.</Command.Empty>
 		{#each Object.entries(SITE_LINKS) as categoryEntry}
@@ -70,5 +94,23 @@
 				{/each}
 			</Command.Group>
 		{/each}
+		{#if searchAssignments}
+			<Command.Group heading="Opgaver">
+				{#if assignmentsLoaded}
+					{#each $filteredAssignments || [] as assignment, i}
+						<Command.Item>
+							<p
+								data-routeto={`/opgave?id=${assignment.exerciseid}`}
+								class="w-full h-full cursor-pointer"
+							>
+								{assignment.opgavetitel}
+							</p>
+						</Command.Item>
+					{/each}
+				{:else}
+					<Command.Loading />
+				{/if}
+			</Command.Group>
+		{/if}
 	</Command.List>
 </Command.Dialog>
