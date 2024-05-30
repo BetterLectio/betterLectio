@@ -1,10 +1,14 @@
 <script lang="ts">
 	import Button from "$lib/components/ui/button/button.svelte";
 	import Autoplay from "embla-carousel-autoplay";
-	import * as Card from "$lib/components/ui/card/index.js";
 	import * as Carousel from "$lib/components/ui/carousel/index.js";
 	import Spotlight from "$lib/extras/Spotlight.svelte";
 	import { onMount } from "svelte";
+
+	let os = "dit OS";
+	onMount(() => {
+		os = getOS() || "dit OS";
+	});
 
 	function getOS() {
 		var userAgent = window.navigator.userAgent,
@@ -56,16 +60,25 @@
 </script>
 
 <div
-	class="relative flex px-16 overflow-hidden antialiased bg-foreground md:justify-center lg:px-32"
+	class="relative flex px-16 overflow-hidden antialiased md:justify-center lg:px-32 bg-background"
 >
 	<Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
 	<div class="z-10 flex flex-col items-center w-full">
 		<div class="relative w-full p-4 pt-20 mx-auto max-w-7xl md:pt-36">
-			<div class="flex flex-col items-center justify-center w-full text-center text-background">
+			<div class="flex flex-col items-center justify-center w-full text-center">
 				<h1 class="text-6xl font-black">BetterLectio</h1>
 				<h2 class="pt-2 font-bold opacity-80">Den Ultimative Lectio Forbedring</h2>
-				<h3 class="mb-6 text-sm opacity-65">Af studerende, til studerende</h3>
+				<h3 class="mb-3 text-sm opacity-65">Af studerende, til studerende</h3>
 			</div>
+		</div>
+		<div class="mb-7">
+			{#if os == "Windows"}
+				<!-- Only show download button if the user is on A supported OS -->
+				<Button size="sm" href="/download">Download til {os}</Button>
+			{/if}
+			<Button size="sm" href="https://app.betterlectio.dk" variant="outline"
+				>Åben i browseren</Button
+			>
 		</div>
 		<Carousel.Root
 			opts={{
