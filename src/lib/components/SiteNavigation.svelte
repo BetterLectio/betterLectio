@@ -47,7 +47,7 @@
 			<div
 				class="w-full h-full bg-foreground animate-progress origin-left-right {$loadingStore
 					? 'opacity-100'
-					: 'opacity-0'} transition-opacity duration-200 ease-in-out delay-500"
+					: 'opacity-0'} transition-opacity duration-500 ease-in-out delay-500"
 			></div>
 		</div>
 	</div>
