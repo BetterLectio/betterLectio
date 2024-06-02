@@ -66,11 +66,12 @@
 	);
 
 	let searchTerm = '';
+	let currentItems = 30;
 	let searchFilter: 'All' | 'Received' | 'Sent' = 'All';
 	let searchGroup = '';
 	let searchFrom = '';
 	let searchTo = '';
-	$: searchResetable =
+	$: searchResettable =
 		searchTerm != '' ||
 		searchFilter != 'All' ||
 		searchFrom != '' ||
@@ -208,7 +209,7 @@
 		container.style.height = `${height - 57}px`;
 	}
 
-	const removeAllOccurences = (element: Element, className: string | string[]) => {
+	const removeAllOccurrences = (element: Element, className: string | string[]) => {
 		if (Array.isArray(className)) {
 			className.forEach((name) => {
 				if (element.classList.contains(name)) {
@@ -237,13 +238,11 @@
 	let sidebar: HTMLDivElement;
 	$: if (container && sidebar) {
 		if (selectedMessage) {
-			removeAllOccurences(container, ['lg:container', 'lg:mx-auto', 'lg:!pt-0']);
-			removeAllOccurences(sidebar, 'w-full');
+			removeAllOccurrences(sidebar, 'w-full');
 			addIfMissing(sidebar, ['hidden', 'lg:w-[30vw]', 'xl:w-[40rem]', '2xl:w-[60rem]']);
 		} else {
 			setTimeout(() => {
-				addIfMissing(container, ['lg:container', 'lg:mx-auto', 'lg:!pt-0']);
-				removeAllOccurences(sidebar, ['hidden', 'lg:w-[30vw]', 'xl:w-[40rem]', '2xl:w-[60rem]']);
+				removeAllOccurrences(sidebar, ['hidden', 'lg:w-[30vw]', 'xl:w-[40rem]', '2xl:w-[60rem]']);
 				addIfMissing(sidebar, 'w-full');
 			}, 1000);
 		}
@@ -251,19 +250,14 @@
 
 	let width = 0;
 	function flyOrFade(node: Element) {
-		return width > 1024
-			? fly(node, { duration: 1000, x: '100vw' })
-			: fade(node, { duration: 1000 });
+		return width > 1024 ? fly(node, { duration: 500, x: '100vw' }) : fade(node, { duration: 200 });
 	}
 </script>
 
 <svelte:window on:keydown={onWindowKeydown} bind:innerWidth={width} bind:innerHeight={height} />
 
-<div
-	bind:this={container}
-	class="lg:container lg:mx-auto lg:!pt-0 w-full flex flex-col lg:flex-row"
->
-	<div bind:this={sidebar} style="transition: width 1000ms ease;" class="flex-col w-full lg:flex">
+<div bind:this={container} class="lg:!pt-0 w-full flex flex-col lg:flex-row">
+	<div bind:this={sidebar} style="transition: width 500ms ease;" class="flex-col w-full lg:flex">
 		<header use:melt={$root} class="p-4 border-b dark:border-white/10">
 			<div class="flex items-center">
 				<button
@@ -278,7 +272,7 @@
 						<ChevronDown class="ml-1 square-5" />
 					{/if}
 				</button>
-				{#if searchResetable}
+				{#if searchResettable}
 					<TextTooltip text="Nulstil alle filtre">
 						<button
 							on:click={() => {
@@ -352,7 +346,7 @@
 			<div class="h-full space-y-1 overflow-y-auto">
 				{#if messages}
 					{#if filteredMessages.length}
-						{#each filteredMessages as message}
+						{#each filteredMessages.slice(0, currentItems) as message}
 							<div
 								class="relative flex flex-row items-center p-4 cursor-pointer rounded-md transition-colors hover:bg-zinc-200 dark:hover:bg-dark-2 {selectedMessage ===
 								message.id
@@ -391,11 +385,23 @@
 								</div>
 							</div>
 						{/each}
+						{#if filteredMessages.length > currentItems}
+							<div class="flex items-center justify-center pb-10">
+								<Button
+									on:click={() => {
+										currentItems += 30;
+									}}
+									variant="secondary"
+								>
+									Vis flere ({filteredMessages.length - currentItems})
+								</Button>
+							</div>
+						{/if}
 					{:else}
 						<div class="flex items-center justify-center">
 							<div class="flex flex-col">
 								Ingen resultater
-								{#if searchResetable}
+								{#if searchResettable}
 									<Button
 										on:click={() => {
 											searchTerm = '';
