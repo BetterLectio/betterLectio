@@ -10,6 +10,7 @@ import { localStore } from './utils/localStore';
 
 export const sidebarStore = writable({ alwaysOpen: false, isOpen: false });
 export const avatarStore: Writable<Record<string, string>> = writable({});
+export const loadingStore = writable<boolean>(false);
 
 export const versionStore = localStore<string | null>('version', null);
 export const authStore = localStore<{
@@ -41,24 +42,27 @@ export const frontPageStore = localStore<{
 } | null>('frontpage', null);
 export const absenceStore = localStore<RawAbsence | null>('absence', null);
 
-export const informationStore = localStore<{ students: { id: string; name: string }[]; groups: string[] } | null>('information', null);
+export const informationStore = localStore<{
+	students: { id: string; name: string }[];
+	groups: string[];
+} | null>('information', null);
 export const fetchInformation = async () => {
 	// @ts-ignore
-	const res = await get('/informationer') as {
+	const res = (await get('/informationer')) as {
 		elever: { [key: string]: string };
 		lærere: { [key: string]: string };
 		hold_og_grupper: { [key: string]: string };
 	};
 	const students = Object.entries({ ...res.elever, ...res.lærere }).map(([name, id]) => {
-		const formatted = name.split(" (")[0].split(" -")[0];
+		const formatted = name.split(' (')[0].split(' -')[0];
 		return {
 			id,
-			name: formatted,
+			name: formatted
 		};
 	});
 	const groups = Object.entries(res.hold_og_grupper ?? {}).map(([name]) => name);
 	informationStore.set({
 		students,
-		groups,
+		groups
 	});
 };

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { SidebarLink, SiteHeader } from '.';
-	import { sidebarStore } from '$lib/stores';
+	import { loadingStore, sidebarStore } from '$lib/stores';
 	import { SITE_LINKS } from '$lib/links';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import { onMount } from 'svelte';
@@ -41,6 +41,16 @@
 
 <div>
 	<SiteHeader />
+
+	<div class="fixed z-30 w-full top-[41px]">
+		<div class="h-[1px] w-full bg-border overflow-hidden">
+			<div
+				class="w-full h-full bg-foreground animate-progress origin-left-right {$loadingStore
+					? 'opacity-100'
+					: 'opacity-0'} transition-opacity duration-200 ease-in-out delay-500"
+			></div>
+		</div>
+	</div>
 	<div class="flex" style="height: {mainContentHeight}px">
 		<div
 			role="navigation"

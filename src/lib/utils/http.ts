@@ -1,6 +1,6 @@
-import { get as storeGet } from "svelte/store";
-import { authStore } from "../stores";
-import { LECTIO_API } from "$lib/lectio";
+import { get as storeGet } from 'svelte/store';
+import { authStore, loadingStore } from '../stores';
+import { LECTIO_API } from '$lib/lectio';
 
 export function reloadData(reload = true) {
 	localStorage.setItem('nonce', Date.now().toString(36));
@@ -8,6 +8,10 @@ export function reloadData(reload = true) {
 }
 
 export async function get(endpoint: String, body: any = null) {
+	loadingStore.set(true);
+	/* setTimeout(() => { //maybe not needed
+		loadingStore.set(false);
+	}, 5000); */
 	let nonce = localStorage.getItem('nonce');
 	if (nonce === null) {
 		reloadData(false);
@@ -25,11 +29,12 @@ export async function get(endpoint: String, body: any = null) {
 		body === null
 			? await fetch(url, { headers })
 			: await fetch(url, {
-				method: 'POST',
-				headers: { ...headers, 'Content-Type': 'application/json' },
-				body
-			});
+					method: 'POST',
+					headers: { ...headers, 'Content-Type': 'application/json' },
+					body
+				});
 	const stop = performance.now();
+	loadingStore.set(false);
 
 	const textResponse = await response.text();
 

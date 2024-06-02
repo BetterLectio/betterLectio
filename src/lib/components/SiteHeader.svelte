@@ -2,7 +2,7 @@
 	import { Button } from '$lib/components/ui/button';
 
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { sidebarStore } from '$lib/stores';
+	import { loadingStore, sidebarStore } from '$lib/stores';
 	import { getCurrent } from '@tauri-apps/api/window';
 	import AlignJustify from 'lucide-svelte/icons/align-justify';
 	import Layers2 from 'lucide-svelte/icons/layers-2';
@@ -37,7 +37,9 @@
 
 <header
 	id="site-header"
-	class="fixed h-[42px] top-0 z-40 w-full border-b border-border bg-background shadow-sm flex"
+	class="fixed h-[42px] top-0 z-20 w-full {$loadingStore
+		? 'border-background'
+		: 'border-b'} border-border bg-background shadow-sm flex"
 >
 	<div class="w-[72px] flex items-center justify-center shrink-0" data-tauri-drag-region>
 		<Button on:click={toggleSidebar} class="size-8" variant="ghost" size="icon">
