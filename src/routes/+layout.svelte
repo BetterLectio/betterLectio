@@ -84,7 +84,7 @@
 	$: title =
 		$page.url.pathname === '/' || $page.url.pathname === '/home'
 			? 'BetterLectio'
-			: toTitleCase($page.url.pathname.replace('/', '')) + ' - BetterLectio';
+			: toTitleCase(decodeURIComponent($page.url.pathname.replace('/', ''))) + ' - BetterLectio';
 </script>
 
 <svelte:head>
