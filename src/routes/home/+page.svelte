@@ -76,6 +76,7 @@
 					interval: constructInterval($frontPageStore.lessons[0].date)
 				}
 			: null;
+	$: nextClassLoading = !$frontPageStore || !$frontPageStore.lessons;
 	$: classes = $frontPageStore
 		? ($frontPageStore?.lessons ?? []).reduce<
 				{ name: string; lessons: (Lesson & { interval: Interval })[] }[]
@@ -122,9 +123,9 @@
 			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Næste Modul</h2>
-					{#if !nextClass}
+					{#if nextClassLoading}
 						<Spinner />
-					{:else}
+					{:else if nextClass}
 						<Badge>{nextClass?.room}</Badge>
 					{/if}
 				</div>
@@ -136,6 +137,8 @@
 							begynder {nextClass.interval.start?.toRelative()}
 						</p>
 					</div>
+				{:else if !nextClassLoading}
+					<p class="text-sm text-muted-foreground">Ingen kommende moduler.</p>
 				{/if}
 			</Card>
 			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
@@ -205,54 +208,58 @@
 					{/if}
 				</div>
 				{#if classes}
-					<div class="space-y-2">
-						{#each classes as day}
-							<h3 class="text-sm font-medium leading-7 unstyled">{day.name}</h3>
-							{#each day.lessons as lesson}
-								<Card level="2" class="flex items-center p-3" error={lesson.status === 'aflyst'}>
-									<div class="flex items-center flex-1 h-full min-w-0">
-										<div class="flex justify-center shrink-0 w-11">
-											<span class="text-lg font-medium"
-												>{lesson.interval.start?.toFormat('HH:mm')}</span
-											>
-										</div>
-										<Separator orientation="vertical" class="h-10 mx-3" />
-										<div class="flex flex-col w-32 shrink-0">
-											<div class="flex items-center">
-												<Clock class="mr-1 size-4" />
-												<p class="text-sm">{lesson.interval.toFormat('HH:mm')}</p>
+					{#if classes.length > 0}
+						<div class="space-y-2">
+							{#each classes as day}
+								<h3 class="text-sm font-medium leading-7 unstyled">{day.name}</h3>
+								{#each day.lessons as lesson}
+									<Card level="2" class="flex items-center p-3" error={lesson.status === 'aflyst'}>
+										<div class="flex items-center flex-1 h-full min-w-0">
+											<div class="flex justify-center shrink-0 w-11">
+												<span class="text-lg font-medium"
+													>{lesson.interval.start?.toFormat('HH:mm')}</span
+												>
 											</div>
-											<div class="flex items-center">
-												<DoorOpen class="mr-1 size-4" />
-												{#if lesson.room}
-													<p class="text-sm">{lesson.room}</p>
+											<Separator orientation="vertical" class="h-10 mx-3" />
+											<div class="flex flex-col w-32 shrink-0">
+												<div class="flex items-center">
+													<Clock class="mr-1 size-4" />
+													<p class="text-sm">{lesson.interval.toFormat('HH:mm')}</p>
+												</div>
+												<div class="flex items-center">
+													<DoorOpen class="mr-1 size-4" />
+													{#if lesson.room}
+														<p class="text-sm">{lesson.room}</p>
+													{:else}
+														<p class="text-sm text-transparent">.</p>
+													{/if}
+												</div>
+											</div>
+											<div class="flex flex-col min-w-0">
+												<p class="overflow-hidden text-sm overflow-ellipsis whitespace-nowrap">
+													{lesson.name ?? lesson.class}
+												</p>
+												{#if lesson.teacher}
+													<p
+														class="overflow-hidden text-sm whitespace-nowrap text-muted-foreground overflow-ellipsis"
+													>
+														{lesson.teacher}
+													</p>
 												{:else}
 													<p class="text-sm text-transparent">.</p>
 												{/if}
 											</div>
 										</div>
-										<div class="flex flex-col min-w-0">
-											<p class="overflow-hidden text-sm overflow-ellipsis whitespace-nowrap">
-												{lesson.name ?? lesson.class}
-											</p>
-											{#if lesson.teacher}
-												<p
-													class="overflow-hidden text-sm whitespace-nowrap text-muted-foreground overflow-ellipsis"
-												>
-													{lesson.teacher}
-												</p>
-											{:else}
-												<p class="text-sm text-transparent">.</p>
-											{/if}
-										</div>
-									</div>
-									<Button href={`/modul?absid=${lesson.id}`} variant="ghost" size="sm">
-										Vis <ArrowRight class="ml-1 size-4" />
-									</Button>
-								</Card>
+										<Button href={`/modul?absid=${lesson.id}`} variant="ghost" size="sm">
+											Vis <ArrowRight class="ml-1 size-4" />
+										</Button>
+									</Card>
+								{/each}
 							{/each}
-						{/each}
-					</div>
+						</div>
+					{:else}
+						<p class="text-sm text-muted-foreground">Ingen kommende moduler.</p>
+					{/if}
 				{/if}
 			</Card>
 			<Card class="p-2 border-2 lg:max-h-[50vh] overflow-auto">
