@@ -148,8 +148,10 @@
 </div>
 
 <Separator />
-<div class="container mx-auto">
-	<h4 class="my-6 text-4xl font-bold">Hvad kan BetterLectio?</h4>
+<div class="md:container md:mx-auto">
+	<h4 class="my-6 text-3xl font-bold text-center md:text-left md:text-4xl">
+		Hvad kan BetterLectio?
+	</h4>
 	<Bento />
 </div>
 

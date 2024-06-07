@@ -5,7 +5,7 @@
 </script>
 
 <div
-	class="relative grid grid-cols-2 gap-4 p-4 lg:grid-cols-3 grid-rows-8 xl:grid-cols-5 xl:grid-rows-5 lg:grid-rows-8 xl:aspect-video"
+	class="relative grid grid-cols-2 gap-2 p-2 md:gap-4 md:p-4 lg:grid-cols-3 grid-rows-8 xl:grid-cols-5 xl:grid-rows-5 lg:grid-rows-8 xl:aspect-video"
 	data-theme="light"
 >
 	<div
@@ -198,6 +198,6 @@
 	<enhanced:img
 		src="/static/bento_back.png"
 		alt="background"
-		class="absolute inset-0 object-cover w-full h-[calc(100%-16px)] rounded-2xl aspect-video -z-20"
+		class="absolute inset-0 object-cover w-full md:h-[calc(100%-16px)] h-[calc(100%-8px)] rounded-2xl aspect-video -z-20"
 	/>
 </div>
