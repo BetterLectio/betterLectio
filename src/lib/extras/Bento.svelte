@@ -146,7 +146,7 @@
 				>
 			</Card.Header>
 			<Card.Content class="flex items-center justify-center w-full h-1/2">
-				<Button size="sm" href="/googlecalsync">Prøv Nu!</Button>
+				<Button size="sm" href="#">Prøv Nu!</Button>
 			</Card.Content>
 		</Card.Root>
 	</div>
