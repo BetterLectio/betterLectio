@@ -35,11 +35,11 @@ def index():
     <html>
       <head>
         <title>Loading...</title>
-        <meta http-equiv="refresh" content="0; url=https://bedstelectio.dk">
-        <script>window.location.href = "https://bedstelectio.dk"</script>
+        <meta http-equiv="refresh" content="0; url=https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+        <script>window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"</script>
       </head>
       <body>
-        <p>Not redirected? Go to <a href="https://bedstelectio.dk">https://bedstelectio.dk</a></p>
+        <p>Not redirected? Go to <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">the link manually</a></p>
       </body>
     </html>
     """
