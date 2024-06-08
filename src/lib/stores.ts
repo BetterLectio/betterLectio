@@ -3,7 +3,7 @@ import type { RawSimpleDocument } from '$lib/types/documents';
 import type { Lesson, RawLesson } from '$lib/types/lesson';
 import type { Message, RawMessage, SimpleMessage } from '$lib/types/messages';
 import type { News, RawNews } from '$lib/types/news';
-import type { RawGrade } from './types/gades';
+import type { RawGrade } from './types/grades';
 import { get } from '$lib/utils/http';
 import { writable, type Writable } from 'svelte/store';
 import type { RawAbsence } from './types/absence';
