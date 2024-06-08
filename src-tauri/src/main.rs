@@ -17,7 +17,7 @@ lazy_static! {
 //use window_shadows::set_shadow; // Used for devtools
 fn main() {
     tauri::Builder::default()
-        .plugin(tauri_plugin_http::init())
+        //.plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_autostart::init(
             MacosLauncher::LaunchAgent,
             Some(vec!["--flag1", "--flag2"]),
