@@ -318,6 +318,7 @@ def karakterer(self):
                 karakter["niveau"] = niveau
                 karakter["evalueringsform"] = evalueringsform
                 karakter["vægtning"] = vægtning[fag_]
+                hold = f"{hold}_{evalueringsform.lower()[:3]}"
             else:
                 karakter[headers[i]] = tds[i].text.strip()
         karaktererDict["karakterer"][hold] = karakter
