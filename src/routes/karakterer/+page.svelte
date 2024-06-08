@@ -7,6 +7,7 @@
 
 	const cols = ['Fag', '1. stdpkt.', '2. stdpkt.', 'årskarakter', 'eksamen'];
 	$: sortedKeys = sortRows($gradesStore?.karakterer || {});
+	console.log(sortRows($gradesStore?.karakterer || {}));
 
 	get('/karakterer').then((data) => {
 		gradesStore.set(data);
@@ -33,39 +34,37 @@
 			<Table.Header>
 				<Table.Row>
 					{#each cols as header, i}
-						<Table.Head class={i != 0 ? 'text-center' : ''}>{header}</Table.Head>
+						<Table.Head class="{i != 0 ? 'text-center' : ''} break-all w-min">{header}</Table.Head>
 					{/each}
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
 				{#each sortedKeys || [] as key, i}
-					{#if i != 0}
-						<Table.Row>
-							<Table.Cell class="p-1 break-all min-w-32">
-								<GradeCellRenderer cell={key} renderAs={'subject'} />
-							</Table.Cell>
-							<Table.Cell class="p-1 max-w-6">
-								<GradeCellRenderer cell={key} renderAs={'cell'} kind={'1.standpunkt'} />
-							</Table.Cell>
-							<Table.Cell class="p-1 max-w-6">
-								<GradeCellRenderer cell={key} renderAs={'cell'} kind={'2.standpunkt'} />
-							</Table.Cell>
-							<Table.Cell class="p-1 max-w-6">
-								<GradeCellRenderer
-									cell={key}
-									renderAs={'cell'}
-									kind={['afsluttende års-/standpunktskarakter', 'årskarakter']}
-								/>
-							</Table.Cell>
-							<Table.Cell class="p-1 max-w-6">
-								<GradeCellRenderer
-									cell={key}
-									renderAs={'cell'}
-									kind={['eksamens-/årsprøvekarakter', 'intern prøve']}
-								/>
-							</Table.Cell>
-						</Table.Row>
-					{/if}
+					<Table.Row>
+						<Table.Cell class="p-1 break-all">
+							<GradeCellRenderer cell={key} renderAs={'subject'} />
+						</Table.Cell>
+						<Table.Cell class="p-1 max-w-6">
+							<GradeCellRenderer cell={key} renderAs={'cell'} kind={'1.standpunkt'} />
+						</Table.Cell>
+						<Table.Cell class="p-1 max-w-6">
+							<GradeCellRenderer cell={key} renderAs={'cell'} kind={'2.standpunkt'} />
+						</Table.Cell>
+						<Table.Cell class="p-1 max-w-6">
+							<GradeCellRenderer
+								cell={key}
+								renderAs={'cell'}
+								kind={['afsluttende års-/standpunktskarakter', 'årskarakter']}
+							/>
+						</Table.Cell>
+						<Table.Cell class="p-1 max-w-6">
+							<GradeCellRenderer
+								cell={key}
+								renderAs={'cell'}
+								kind={['eksamens-/årsprøvekarakter', 'intern prøve']}
+							/>
+						</Table.Cell>
+					</Table.Row>
 				{/each}
 			</Table.Body>
 		</Table.Root>
