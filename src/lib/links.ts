@@ -6,7 +6,8 @@ export const SITE_LINKS = {
 			{ href: '/skema', label: 'Skema', icon: 'schedule' },
 			{ href: '/opgaver', label: 'Opgaver', icon: 'assignments' },
 			{ href: '/beskeder', label: 'Beskeder', icon: 'messages' },
-			{ href: '/fravær', label: 'Fravær', icon: 'absence' }
+			{ href: '/fravær', label: 'Fravær', icon: 'absence' },
+			{ href: '/karakterer', label: 'Karakterer', icon: 'grades' }
 		]
 	},
 	absence: {
