@@ -125,6 +125,7 @@ def karakterer(self):
         "karakternoter": [],
         "protokollinjer": [],
         "informationer": {},
+        "karakterer": {},
     }
 
     # FÅ HTML FRA LECTIO
@@ -176,8 +177,8 @@ def karakterer(self):
             ),
             allow_redirects=False,
         )
-        oversigtSoup = BeautifulSoup(resp.text, "html.parser")
-        for row in oversigtSoup.find(
+        tempSoup = BeautifulSoup(resp.text, "html.parser")
+        for row in tempSoup.find(
             "div", {"id": "s_m_Content_Content_karakterView_LectioDetailIsland1_pa"}
         ).find_all("tr")[1:]:
             vægtning[row.find_all("td")[1].text.replace("SAM", "Samlet vurdering")] = (
@@ -294,5 +295,29 @@ def karakterer(self):
                 noter[headers[i]] = td[i].text.strip()
 
         karaktererDict["karakternoter"].append(noter)
+
+    # KARAKTERER (Actually)
+    rows = oversigtSoup.find(
+        "table", {"id": "s_m_Content_Content_karakterView_KarakterGV"}
+    ).find_all("tr")
+    headers = [header.text.lower().strip().replace("\n", "") for header in rows[0].find_all("th")]
+    datarows = rows[1:]
+    for row in datarows:
+        tds = row.find_all("td")
+        hold = tds[0].find("span").text
+        karakter = {}
+        for i in range(len(tds)):
+            if headers[i] == "hold":
+                continue
+            elif headers[i] == "fag":
+                fag, evalueringsform = tds[i].text.strip().split(", ")
+                niveau = fag[-1:] if fag[-1].isupper() else "-"
+                fag = fag[:-2] if fag[-1].isupper() else fag
+                karakter["fag"] = fag
+                karakter["niveau"] = niveau
+                karakter["evalueringsform"] = evalueringsform.replace("SAM", "Samlet vurdering")
+            else:
+                karakter[headers[i]] = tds[i].text.strip()
+        karaktererDict["karakterer"][hold] = karakter
 
     return karaktererDict
