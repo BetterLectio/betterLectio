@@ -310,12 +310,14 @@ def karakterer(self):
             if headers[i] == "hold":
                 continue
             elif headers[i] == "fag":
-                fag, evalueringsform = tds[i].text.strip().split(", ")
+                fag_ = tds[i].text.strip().replace("SAM", "Samlet vurdering")
+                fag, evalueringsform = fag_.split(", ")
                 niveau = fag[-1:] if fag[-1].isupper() else "-"
                 fag = fag[:-2] if fag[-1].isupper() else fag
                 karakter["fag"] = fag
                 karakter["niveau"] = niveau
-                karakter["evalueringsform"] = evalueringsform.replace("SAM", "Samlet vurdering")
+                karakter["evalueringsform"] = evalueringsform
+                karakter["vægtning"] = vægtning[fag_]
             else:
                 karakter[headers[i]] = tds[i].text.strip()
         karaktererDict["karakterer"][hold] = karakter
