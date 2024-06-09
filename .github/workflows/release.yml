@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [windows-latest] # when suport is added  #[macos-latest, ubuntu-latest, windows-latest]
+        platform: [windows-latest, ubuntu-latest] # when suport is added  #[macos-latest, ubuntu-latest, windows-latest]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -33,7 +33,7 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
-            workspaces: './src-tauri -> target'
+          workspaces: './src-tauri -> target'
 
       - name: Install webkit2gtk (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
