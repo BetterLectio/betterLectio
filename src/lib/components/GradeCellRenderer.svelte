@@ -27,8 +27,8 @@
 	}
 </script>
 
-{#if renderAs == 'cell' && typeof cell == 'object'}
-	<div class="flex flex-col items-center justify-center {karakter == '12' ? 'text-green-500' : ''}">
+{#if renderAs === 'cell' && typeof cell == 'object'}
+	<div class="flex flex-col items-center justify-center {karakter === '12' ? 'text-green-500' : ''}">
 		<p class="text-center">{karakter || ''}</p>
 		{#if karakter}
 			<p class="text-xs text-center opacity-50">
@@ -36,11 +36,11 @@
 			</p>
 		{/if}
 	</div>
-{:else if renderAs == 'subject' && typeof cell == 'object'}
-	<div class="flex flex-col items-start justify-center w-20">
+{:else if renderAs === 'subject' && typeof cell == 'object'}
+	<div class="flex flex-col items-start justify-center max-w-fit">
 		<p class="text-xs line-clamp-2">{cell?.fag}</p>
 		<p class="text-xs opacity-50">
-			{cell?.evalueringsform == 'Samlet vurdering' ? 'Samlet' : cell?.evalueringsform}
+			{cell?.evalueringsform === 'Samlet vurdering' ? 'Samlet' : cell?.evalueringsform}
 		</p>
 	</div>
 {:else}

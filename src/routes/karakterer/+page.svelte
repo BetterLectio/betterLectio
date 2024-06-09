@@ -34,7 +34,7 @@
 			<Table.Header>
 				<Table.Row>
 					{#each cols as header, i}
-						<Table.Head class="{i != 0 ? 'text-center' : ''} break-all w-min">{header}</Table.Head>
+						<Table.Head class="{i !== 0 ? 'text-center' : ''} break-all max-w-fit">{header}</Table.Head>
 					{/each}
 				</Table.Row>
 			</Table.Header>
