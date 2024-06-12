@@ -4,6 +4,7 @@
 	import { get } from '$lib/utils';
 	import * as Table from '$lib/components/ui/table';
 	import GradeCellRenderer from '$lib/components/GradeCellRenderer.svelte';
+	import GradeAverageRowRenderer from '$lib/components/GradeAverageRowRenderer.svelte';
 
 	const cols = ['Fag', '1. stdpkt.', '2. stdpkt.', 'årskarakter', 'eksamen'];
 	$: sortedKeys = sortRows($gradesStore?.karakterer || {});
@@ -34,7 +35,9 @@
 			<Table.Header>
 				<Table.Row>
 					{#each cols as header, i}
-						<Table.Head class="{i !== 0 ? 'text-center' : ''} break-all max-w-fit">{header}</Table.Head>
+						<Table.Head class="{i !== 0 ? 'text-center' : ''} break-all max-w-fit"
+							>{header}</Table.Head
+						>
 					{/each}
 				</Table.Row>
 			</Table.Header>
@@ -66,6 +69,7 @@
 						</Table.Cell>
 					</Table.Row>
 				{/each}
+				<GradeAverageRowRenderer grades={sortedKeys} />
 			</Table.Body>
 		</Table.Root>
 	{:else}
