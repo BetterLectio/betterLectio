@@ -19,6 +19,7 @@
 
 	onMount(async () => {
 		const res = await get(`/opgave?exerciseid=${exerciseid}`);
+		if (!res) goto('/opgaver');
 		assignment = res;
 		ready = true;
 	});

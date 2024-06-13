@@ -7,7 +7,7 @@ export function reloadData(reload = true) {
 	if (reload) window.location.reload();
 }
 
-export async function get(endpoint: String, body: any = null) {
+export async function get(endpoint: string, body: any = null): Promise<any | false> {
 	loadingStore.set(true);
 	/* setTimeout(() => { //maybe not needed
 		loadingStore.set(false);
@@ -28,30 +28,31 @@ export async function get(endpoint: String, body: any = null) {
 		body === null
 			? await fetch(url, { headers })
 			: await fetch(url, {
-					method: 'POST',
-					headers: { ...headers, 'Content-Type': 'application/json' },
-					body
-				});
+				method: 'POST',
+				headers: { ...headers, 'Content-Type': 'application/json' },
+				body
+			});
 	loadingStore.set(false);
 
-	const textResponse = await response.text();
+	const data = await response.json();
 
 	// Tjek om responsen er OK
 	if (response.ok) {
 		const performanceEntries = performance.getEntriesByType('resource');
 		const entry = performanceEntries.find((entry) => entry.name === response.url);
+
 		// @ts-ignore
 		if (entry && entry.transferSize > 0) {
 			const lectioCookie = response.headers.get('set-lectio-cookie');
 			if (lectioCookie) authStore.update((store) => ({ ...store, cookie: lectioCookie }));
 		}
-		return JSON.parse(textResponse.replaceAll('\n', '  '));
+		return data;
 	}
 
-	return null;
+	return false;
 }
 
-export async function post(endpoint: String, body: Object) {
+export async function post(endpoint: string, body: Object) {
 	const response = await get(endpoint, body);
 	return response;
 }
