@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { loadingStore, sidebarStore } from '$lib/stores';
 	import { getCurrent } from '@tauri-apps/api/window';
 	import AlignJustify from 'lucide-svelte/icons/align-justify';
@@ -47,7 +46,7 @@
 			<span class="sr-only">Skjul/vis sidepanel</span>
 		</Button>
 	</div>
-	<div class="{isWeb && 'page-container-no-space'} flex w-full">
+	<div class="{isWeb && 'page-container-x'} flex w-full">
 		<div class="flex items-center pr-4 sm:pr-12" data-tauri-drag-region>
 			<a href="/" class="flex items-center gap-1 text-lg font-bold unstyled">
 				<img src="/favicon.png" alt="BetterLectio Logo" class="size-8" />
