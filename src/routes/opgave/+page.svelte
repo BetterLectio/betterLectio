@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { Spinner } from '$lib/components';
+	import { NewTabLink, Spinner } from '$lib/components';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
@@ -10,6 +10,7 @@
 	import type { RawAssignment } from '$lib/types/assignments';
 	import { get } from '$lib/utils/http';
 	import { onMount } from 'svelte';
+	import SvelteMarkdown from 'svelte-markdown';
 
 	const exerciseid = $page.url.searchParams.get('id');
 	if (!exerciseid) goto('/opgaver');
@@ -20,6 +21,8 @@
 	onMount(async () => {
 		const res = await get(`/opgave?exerciseid=${exerciseid}`);
 		if (!res) goto('/opgaver');
+
+		console.log(res);
 		assignment = res;
 		ready = true;
 	});
@@ -53,11 +56,20 @@
 				<Badge variant="outline">frist: {assignment.oplysninger.afleveringsfrist}</Badge>
 				<Badge variant="outline">elevtid: {assignment.oplysninger.elevtid}</Badge>
 			</div>
-			<div>
+			<div class="space-y-4">
 				{#if assignment.oplysninger.opgavenote}
-					<p>{assignment.oplysninger.opgavenote}</p>
+					<div>
+						<SvelteMarkdown source={assignment.oplysninger.opgavenote.replaceAll("\n", "\n\n")}
+														renderers={{ link: NewTabLink }} />
+					</div>
 				{:else}
-					<p>Der er ikke nogen opgavenote</p>
+					<p>Opgaven har ikke nogen beskrivelse.</p>
+				{/if}
+				{#if assignment.oplysninger.opgavebeskrivelse}
+					<div>
+						<SvelteMarkdown source={assignment.oplysninger.opgavebeskrivelse.replaceAll("\n", "\n\n")}
+														renderers={{ link: NewTabLink }} />
+					</div>
 				{/if}
 			</div>
 			<Separator />
@@ -82,9 +94,11 @@
 									{#if indlæg.dokument}
 										{@const { link, text } = parseLink(indlæg.dokument)}
 										<Table.Cell
-											><Button href={link} target="_blank" variant="ghost"
-												>{text}</Button
-											></Table.Cell
+										>
+											<Button href={link} target="_blank" variant="ghost"
+											>{text}</Button
+											>
+										</Table.Cell
 										>
 									{:else}
 										<Table.Cell></Table.Cell>
@@ -109,7 +123,8 @@
 						)}&exerciseid=${exerciseid}`}
 						target="_blank"
 						variant="outline"
-						class="m-2">Aflever</Button
+						class="m-2">Aflever
+					</Button
 					>
 				{/if}
 			</div>
