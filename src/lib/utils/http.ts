@@ -7,7 +7,7 @@ export function reloadData(reload = true) {
 	if (reload) window.location.reload();
 }
 
-export async function get(endpoint: String, body: any = null) {
+export async function get(endpoint: string, body: any = null): Promise<any | false> {
 	loadingStore.set(true);
 	/* setTimeout(() => { //maybe not needed
 		loadingStore.set(false);
@@ -23,38 +23,36 @@ export async function get(endpoint: String, body: any = null) {
 	if (url.indexOf('?') > -1) url += `&nonce=${nonce}`;
 	else url += `?nonce=${nonce}`;
 
-	const start = performance.now();
 	const headers: HeadersInit = { 'lectio-cookie': storeGet(authStore).cookie || '' };
 	const response =
 		body === null
 			? await fetch(url, { headers })
 			: await fetch(url, {
-					method: 'POST',
-					headers: { ...headers, 'Content-Type': 'application/json' },
-					body
-				});
-	const stop = performance.now();
+				method: 'POST',
+				headers: { ...headers, 'Content-Type': 'application/json' },
+				body
+			});
 	loadingStore.set(false);
 
-	const textResponse = await response.text();
+	const data = await response.json();
 
 	// Tjek om responsen er OK
 	if (response.ok) {
-		if (stop - start > 100) {
-			// Dette gøres for at tjekke om responset er cached.
-			// Vi skal finde en bedre måde at gøre det på.
-			// Et eksempel kunne være https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/transferSize
-			// da transferSize er lig med 0 hvis den er cached men det er ikke understøttet på safari
+		const performanceEntries = performance.getEntriesByType('resource');
+		const entry = performanceEntries.find((entry) => entry.name === response.url);
+
+		// @ts-ignore
+		if (entry && entry.transferSize > 0) {
 			const lectioCookie = response.headers.get('set-lectio-cookie');
 			if (lectioCookie) authStore.update((store) => ({ ...store, cookie: lectioCookie }));
 		}
-		return JSON.parse(textResponse.replaceAll('\n', '  '));
+		return data;
 	}
 
-	return null;
+	return false;
 }
 
-export async function post(endpoint: String, body: Object) {
+export async function post(endpoint: string, body: Object) {
 	const response = await get(endpoint, body);
 	return response;
 }

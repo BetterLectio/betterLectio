@@ -23,8 +23,7 @@
 	let status = 'Skal Afleveres';
 
 	onMount(async () => {
-		const res = await get('/opgaver');
-		$assignmentStore = res;
+		await assignmentStore.fetch();
 		search();
 	});
 

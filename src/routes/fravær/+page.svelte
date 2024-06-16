@@ -12,6 +12,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import NewTabLink from '$lib/components/links/NewTabLink.svelte';
 	import { decodeUserID } from '$lib/utils';
+	import { onMount } from 'svelte';
 
 	type Datum = {
 		group: string;
@@ -25,15 +26,13 @@
 		width: 75
 	};
 
-	let absence: RawAbsence | undefined = undefined;
 	let absenceSplitBySubject: SingleAbsence[] = [];
 	let plainAbsenceSplitBySubject: Datum[] = [];
 	let ready = false;
-	get('/fravaer').then((data: RawAbsence) => {
-		absenceStore.set(data);
-		absence = data;
+	onMount(async () => {
+		await absenceStore.fetch();
 
-		absenceSplitBySubject = absence?.generalt.filter((absence) => absence.hold !== 'Samlet') ?? [];
+		absenceSplitBySubject = $absenceStore?.generalt.filter((absence) => absence.hold !== 'Samlet') ?? [];
 
 		plainAbsenceSplitBySubject = absenceSplitBySubject.map((absence) => {
 			return {

@@ -4,15 +4,15 @@
 	import { get } from '$lib/utils';
 	import * as Table from '$lib/components/ui/table';
 	import GradeCellRenderer from '$lib/components/GradeCellRenderer.svelte';
+	import { onMount } from 'svelte';
 	import GradeAverageRowRenderer from '$lib/components/GradeAverageRowRenderer.svelte';
 
 	const cols = ['Fag', '1. stdpkt.', '2. stdpkt.', 'årskarakter', 'eksamen'];
 	$: sortedKeys = sortRows($gradesStore?.karakterer || {});
 	console.log(sortRows($gradesStore?.karakterer || {}));
 
-	get('/karakterer').then((data) => {
-		gradesStore.set(data);
-		console.log(data);
+	onMount(async () => {
+		await gradesStore.fetch();
 	});
 
 	function sortRows(data: { [key: string]: GradeLine }) {

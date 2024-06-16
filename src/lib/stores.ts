@@ -8,6 +8,7 @@ import { get } from '$lib/utils/http';
 import { writable, type Writable } from 'svelte/store';
 import type { RawAbsence } from './types/absence';
 import { localStore } from './utils/localStore';
+import { lectioDataStore } from '$lib/utils/lectioDataStore';
 
 export const sidebarStore = writable({ alwaysOpen: false, isOpen: false });
 export const avatarStore: Writable<Record<string, string>> = writable({});
@@ -29,11 +30,12 @@ export const authStore = localStore<{
 	password: null,
 	name: null
 });
+
 export const scheduleStore = localStore<{ moduler: RawLesson; overskrift: string } | null>(
 	'schedule',
 	null
 );
-export const assignmentStore = localStore<RawSimpleAssignment[] | null>('assignments', null);
+export const assignmentStore = lectioDataStore<RawSimpleAssignment[] | null>('/opgaver', 'assignments', null);
 export const messageStore = localStore<Message[] | null>('messages', null);
 export const frontPageStore = localStore<{
 	lessons: Lesson[];
@@ -41,7 +43,8 @@ export const frontPageStore = localStore<{
 	messages: SimpleMessage[];
 	news: News[];
 } | null>('frontpage', null);
-export const absenceStore = localStore<RawAbsence | null>('absence', null);
+export const absenceStore = lectioDataStore<RawAbsence | null>('/fravaer', 'absence', null);
+export const gradesStore = lectioDataStore<RawGrade | null>('/karakterer', 'grades', null);
 
 export const informationStore = localStore<{
 	students: { id: string; name: string }[];
@@ -68,4 +71,3 @@ export const fetchInformation = async () => {
 	});
 };
 
-export const gradesStore = localStore<RawGrade | null>('grades', null);
