@@ -13,6 +13,7 @@
 	import X from 'lucide-svelte/icons/x';
 	import { toggleMode } from 'mode-watcher';
 	import { onMount } from 'svelte';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { isWeb } from '$lib/utils/environment';
 
 	let fullscreen = false;
