@@ -36,9 +36,9 @@
 <div class="page-container">
 	{#if ready}
 		<div class="space-y-4">
-			<div class="flex space-x-2">
+			<div class="flex flex-wrap gap-2">
 				<Badge class="text-xl" variant="outline">{assignment.oplysninger.hold}</Badge>
-				<h1>
+				<h1 class="text-2xl md:text-3xl">
 					{assignment.oplysninger.opgavetitel}
 				</h1>
 			</div>
@@ -59,16 +59,20 @@
 			<div class="space-y-4">
 				{#if assignment.oplysninger.opgavenote}
 					<div>
-						<SvelteMarkdown source={assignment.oplysninger.opgavenote.replaceAll("\n", "\n\n")}
-														renderers={{ link: NewTabLink }} />
+						<SvelteMarkdown
+							source={assignment.oplysninger.opgavenote.replaceAll('\n', '\n\n')}
+							renderers={{ link: NewTabLink }}
+						/>
 					</div>
 				{:else}
 					<p>Opgaven har ikke nogen beskrivelse.</p>
 				{/if}
 				{#if assignment.oplysninger.opgavebeskrivelse}
 					<div>
-						<SvelteMarkdown source={assignment.oplysninger.opgavebeskrivelse.replaceAll("\n", "\n\n")}
-														renderers={{ link: NewTabLink }} />
+						<SvelteMarkdown
+							source={assignment.oplysninger.opgavebeskrivelse.replaceAll('\n', '\n\n')}
+							renderers={{ link: NewTabLink }}
+						/>
 					</div>
 				{/if}
 			</div>
@@ -93,13 +97,9 @@
 									<Table.Cell>{indlæg.bruger.navn}</Table.Cell>
 									{#if indlæg.dokument}
 										{@const { link, text } = parseLink(indlæg.dokument)}
-										<Table.Cell
-										>
-											<Button href={link} target="_blank" variant="ghost"
-											>{text}</Button
-											>
-										</Table.Cell
-										>
+										<Table.Cell>
+											<Button href={link} target="_blank" variant="ghost">{text}</Button>
+										</Table.Cell>
 									{:else}
 										<Table.Cell></Table.Cell>
 									{/if}
@@ -123,9 +123,9 @@
 						)}&exerciseid=${exerciseid}`}
 						target="_blank"
 						variant="outline"
-						class="m-2">Aflever
-					</Button
-					>
+						class="m-2"
+						>Aflever
+					</Button>
 				{/if}
 			</div>
 		</div>
