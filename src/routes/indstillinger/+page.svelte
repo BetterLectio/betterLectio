@@ -7,7 +7,6 @@
 	import { Switch } from '$lib/components/ui/switch';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { authStore } from '$lib/stores';
-	import { isWeb } from '$lib/utils/environment';
 	import { disable, enable, isEnabled } from '@tauri-apps/plugin-autostart';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
@@ -15,6 +14,8 @@
 	import RefreshCw from 'lucide-svelte/icons/refresh-cw';
 	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
 	import Zap from 'lucide-svelte/icons/zap';
+	import { isWeb } from '$lib/utils';
+	import { isDesktop } from '$lib/utils/environment';
 
 	let showAccountError =
 		$authStore.username === null || $authStore.password === null || $authStore.school === null;
@@ -40,10 +41,12 @@
 
 	let autoStartBtn = false;
 	let autoStartReady = false;
+
 	async function checkAutostart() {
 		autoStartBtn = await isEnabled();
 		autoStartReady = true;
 	}
+
 	checkAutostart();
 
 	async function toggleAutostart() {
@@ -64,46 +67,49 @@
 			<div>
 				<h3 class="text-lg font-semibold scroll-m-20">Version</h3>
 				<p>BetterLectio <span class="text-green-400">v{version}</span></p>
-				<Alert.Root class="mt-2">
-					{#await checkForUpdate()}
-						<RefreshCw class="animate-spin" />
-						<div class="flex justify-between w-full pt-1">
-							<div>
-								<Alert.Title>Opdatering</Alert.Title>
-								<Alert.Description>Søger efter opdateringer...</Alert.Description>
-							</div>
-						</div>
-					{:then value}
-						{#if value}
-							<Check />
+				{#if isDesktop}
+					<Alert.Root class="mt-2">
+						{#await checkForUpdate()}
+							<RefreshCw class="animate-spin" />
 							<div class="flex justify-between w-full pt-1">
 								<div>
 									<Alert.Title>Opdatering</Alert.Title>
-									<Alert.Description>Opdatering tilgængelig</Alert.Description>
+									<Alert.Description>Søger efter opdateringer...</Alert.Description>
 								</div>
-								<Button on:click={update}>Opdater</Button>
 							</div>
-						{:else}
-							<Zap />
+						{:then value}
+							{#if value}
+								<Check />
+								<div class="flex justify-between w-full pt-1">
+									<div>
+										<Alert.Title>Opdatering</Alert.Title>
+										<Alert.Description>Opdatering tilgængelig</Alert.Description>
+									</div>
+									<Button on:click={update}>Opdater</Button>
+								</div>
+							{:else}
+								<Zap />
+								<div class="flex justify-between w-full pt-1">
+									<div>
+										<Alert.Title>Opdatering</Alert.Title>
+										<Alert.Description>Du har den nyeste version</Alert.Description>
+									</div>
+								</div>
+							{/if}
+						{:catch error}
+							<TriangleAlert />
 							<div class="flex justify-between w-full pt-1">
 								<div>
 									<Alert.Title>Opdatering</Alert.Title>
-									<Alert.Description>Du har den nyeste version</Alert.Description>
+									<Alert.Description
+									>Der skete en fejl ved at tjekke for opdateringer
+									</Alert.Description
+									>
 								</div>
 							</div>
-						{/if}
-					{:catch error}
-						<TriangleAlert />
-						<div class="flex justify-between w-full pt-1">
-							<div>
-								<Alert.Title>Opdatering</Alert.Title>
-								<Alert.Description
-									>Der skete en fejl ved at tjekke for opdateringer</Alert.Description
-								>
-							</div>
-						</div>
-					{/await}
-				</Alert.Root>
+						{/await}
+					</Alert.Root>
+				{/if}
 			</div>
 			<Separator />
 		{/if}
@@ -161,7 +167,7 @@
 					<div>
 						<Tooltip.Root>
 							<Tooltip.Trigger>
-								<Switch disabled={isWeb} bind:checked={autoStartBtn} on:click={toggleAutostart} />
+								<Switch disabled={!isDesktop} bind:checked={autoStartBtn} on:click={toggleAutostart} />
 							</Tooltip.Trigger>
 							{#if isWeb}
 								<Tooltip.Content>

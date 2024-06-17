@@ -14,16 +14,16 @@
 	import { toggleMode } from 'mode-watcher';
 	import { onMount } from 'svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { isWeb } from '$lib/utils/environment';
+	import { isDesktop } from '$lib/utils/environment';
 
 	let fullscreen = false;
 	onMount(async () => {
-		if (isWeb) return;
+		if (!isDesktop) return;
 		fullscreen = await getCurrent().isMaximized();
 	});
 
 	const resize = async () => {
-		if (isWeb) return;
+		if (!isDesktop) return;
 		fullscreen = await getCurrent().isMaximized();
 	};
 
@@ -47,7 +47,7 @@
 			<span class="sr-only">Skjul/vis sidepanel</span>
 		</Button>
 	</div>
-	<div class="{isWeb && 'page-container-x'} flex w-full">
+	<div class="{!isDesktop && 'page-container-x'} flex w-full">
 		<div class="flex items-center pr-4 sm:pr-12" data-tauri-drag-region>
 			<a href="/" class="flex items-center gap-1 text-lg font-bold unstyled">
 				<img src="/favicon.png" alt="BetterLectio Logo" class="size-8" />
@@ -106,7 +106,7 @@
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			</div>
-			{#if !isWeb}
+			{#if isDesktop}
 				<button
 					on:click={() => getCurrent().minimize()}
 					class="flex items-center justify-center h-full px-3 rounded-none hover:bg-accent"

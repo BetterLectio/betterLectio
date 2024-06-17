@@ -5,7 +5,7 @@
 	import { AccountSheet, Changelog, SiteNavigation, SiteSearch, Spinner } from '$lib/components';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import { authStore, versionStore } from '$lib/stores';
+	import { authStore } from '$lib/stores';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
 	import { toast } from 'svelte-sonner';
@@ -14,7 +14,7 @@
 	import ShieldAlert from 'lucide-svelte/icons/shield-alert';
 	import { Settings } from 'luxon';
 	import { onMount } from 'svelte';
-	import { isWeb } from '$lib/utils/environment';
+	import { isDesktop } from '$lib/utils/environment';
 	import { ModeWatcher } from 'mode-watcher';
 	import { page } from '$app/stores';
 	import { toTitleCase } from '$lib/utils/string';
@@ -63,7 +63,7 @@
 	}
 
 	onMount(async () => {
-		if (isWeb || dev) return;
+		if (!isDesktop || dev) return;
 
 		const update = await check();
 		if (update?.available) {

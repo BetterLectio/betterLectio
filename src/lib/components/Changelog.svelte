@@ -2,7 +2,7 @@
 	import { dev } from '$app/environment';
 	import * as Dialog from '$lib/components/ui/alert-dialog';
 	import { versionStore } from '$lib/stores';
-	import { isWeb } from '$lib/utils/environment';
+	import { isDesktop } from '$lib/utils/environment';
 	import { getVersion } from '@tauri-apps/api/app';
 	import { onMount } from 'svelte';
 	import SvelteMarkdown from 'svelte-markdown';
@@ -13,7 +13,7 @@
 	let current: string;
 	let changelog: { name: string; body: string } | null = null;
 	onMount(async () => {
-		if (isWeb || dev) return;
+		if (!isDesktop || dev) return;
 
 		current = await getVersion();
 		console.log(current, $versionStore);
