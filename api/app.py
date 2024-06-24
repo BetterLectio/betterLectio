@@ -180,6 +180,20 @@ def modul():
     except Exception:
         return jsonify({"backend_error": traceback.format_exc()}), 500
 
+@app.route('/eksamen')
+def eksamen():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+        id = request.args.get("id")
+
+        lectioClient = lectio.sdk(brugernavn=None, adgangskode=None, skoleId=None, base64Cookie=cookie)
+        resp = make_response(jsonify(lectioClient.eksamen(absid=id)))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
+
 @app.route('/besked')
 def besked():
     try:
