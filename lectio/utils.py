@@ -28,14 +28,16 @@ statusDictionary = {
 renameDictionary = {"Lærere": "Lærer", "Lokaler": "Lokale"}
 
 
-def skemaBrikExtract(skemabrik, modulId=None):
-    if modulId is None:
-        if matches := re.search("(?:absid|ProeveholdId)=([0-9]+)", skemabrik["href"]):
-            absid = matches[1]
+def skemaBrikExtract(skemabrik, modul_id=None):
+    if modul_id is None:
+        if matches := re.search(r"(absid|ProeveholdId)=([0-9]+)", skemabrik["href"]):
+            id_type, absid = matches.groups()
+            if id_type == "ProeveholdId":
+                absid = f"PH{absid}"
         else:
             absid = skemabrik.get("href")
     else:
-        absid = modulId
+        absid = modul_id
 
     modulDict = {
         "navn": None,

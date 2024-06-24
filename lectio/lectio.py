@@ -85,6 +85,9 @@ class sdk:
     def modul(self, absid):
         return _modul.modul(self, absid)
 
+    def eksamen(self, absid):
+        return _eksamener.eksamen(self, absid)
+
     def opgave(self, exerciseid):
         return _opgaver.opgave(self, exerciseid)
 
