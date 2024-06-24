@@ -33,6 +33,8 @@ def forside(self):
         "hold_og_grupper": {"hold": {}},
     }
 
+    forsideDict["overskrift"] = soup.find("div", {"id": "s_m_HeaderContent_MainTitle"}).text
+
     with contextlib.suppress(Exception):
         for tr in soup.find(
             "div", {"id": "s_m_Content_Content_aktueltIsland_pa"}
