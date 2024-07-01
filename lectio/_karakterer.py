@@ -200,7 +200,8 @@ def karakterer(self):
                 karakter["vægtning"] = vægtning[fag_]
                 hold = f"{hold}_{evalueringsform.lower()[:3]}"
             else:
-                karakter[headers[i]] = tds[i].text.strip()
+                value = tds[i].text.strip()
+                karakter[headers[i]] = value if value != "" and value != "--" else ""
         karaktererDict["karakterer"][hold] = karakter
 
     return karaktererDict
