@@ -14,12 +14,15 @@ export const SITE_LINKS = {
 		label: 'Fravær',
 		links: [
 			{ href: '/fravær', label: 'Fraværsoversigt' },
-			{ href: '/fravær', label: 'Fraværsårsager' },
-			{ href: '/fravær', label: 'Fraværsregner' }
+			{ href: '/fravær', label: 'Fraværsårsager' }
+			// { href: '/fravær', label: 'Fraværsregner' }
 		]
 	},
 	other: {
 		label: 'Andet',
-		links: [{ href: '/indstillinger', label: 'Indstillinger' }]
+		links: [
+			{ href: '/sync', label: 'Google Synkronisering' },
+			{ href: '/indstillinger', label: 'Indstillinger' }
+		]
 	}
 };

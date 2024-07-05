@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import LectioAvatar from '$lib/components/LectioAvatar.svelte';
 	import { MessageLink } from '$lib/components/links';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { ValueSelect } from '$lib/components/ui/select';
+	import { Separator } from '$lib/components/ui/separator';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { TextTooltip } from '$lib/components/ui/tooltip';
 	import { LECTIO_API } from '$lib/lectio';
-	import { authStore, fetchInformation, informationStore, messageStore } from '$lib/stores';
-	import type { FullMessage, RawFullMessage, RawMessage } from '$lib/types/messages';
+	import { authStore, informationStore, messageStore } from '$lib/stores';
+	import type { FullMessage, RawFullMessage } from '$lib/types/messages';
 	import { decodeUserID, get, relativeTime } from '$lib/utils';
 	import { createCollapsible, melt } from '@melt-ui/svelte';
 	import { test } from 'fuzzy';
@@ -23,16 +23,19 @@
 	import RotateCcw from 'lucide-svelte/icons/rotate-ccw';
 	import Search from 'lucide-svelte/icons/search';
 	import Send from 'lucide-svelte/icons/send';
+	import Undo from 'lucide-svelte/icons/undo';
 	import { DateTime } from 'luxon';
 	import { onMount } from 'svelte';
 	import SvelteMarkdown from 'svelte-markdown';
 	import { toast } from 'svelte-sonner';
 	import { fade, fly, slide } from 'svelte/transition';
+	import { Avatar } from '$lib/components/lectio';
 
 	let selectedMessage: string | null = null;
 	$: if (selectedMessage) {
 		fetchFullMessage();
 	}
+
 	onMount(async () => {
 		const params = $page.url.searchParams;
 		const messageId = params.get('id');
@@ -40,25 +43,16 @@
 			selectedMessage = messageId;
 		}
 
-		const res = (await get('/beskeder2')) as RawMessage[];
-		$messageStore = res.map((message) => {
-			return {
-				date: message.dato,
-				id: message.message_id,
-				receivers: message.modtagere,
-				sender: message.førsteBesked.split(' (')[0].split(' -')[0],
-				title: message.emne
-			};
-		});
-
-		await fetchInformation();
+		await messageStore.fetch();
+		await informationStore.fetch();
 	});
+
 	$: messages = $messageStore
 		? $messageStore.length >= 0 && $messageStore.length > 0 && $messageStore?.[0]?.date // Remove this after some time. Fixes old localStorage message format
 			? $messageStore.map((message) => ({
-					...message,
-					date: DateTime.fromFormat(message.date, 'd/M-yyyy HH:mm', { locale: 'da' })
-				}))
+				...message,
+				date: DateTime.fromFormat(message.date, 'd/M-yyyy HH:mm', { locale: 'da' })
+			}))
 			: null
 		: null;
 	$: me = $informationStore?.students?.find(
@@ -79,21 +73,21 @@
 		searchGroup != '';
 	$: filteredMessages = messages
 		? messages.filter((message) => {
-				if (searchFilter != 'All') {
-					if (message.sender == me?.name && searchFilter == 'Received') return false;
-					if (message.sender != me?.name && searchFilter == 'Sent') return false;
-				}
-				if (searchGroup) {
-					if (!message.receivers.includes(searchGroup)) return false;
-				}
-				if (searchFrom) {
-					if (DateTime.fromISO(searchFrom).plus({ hours: 2 }) > message.date) return false;
-				}
-				if (searchTo) {
-					if (DateTime.fromISO(searchTo).plus({ hours: 2 }) < message.date) return false;
-				}
-				return test(searchTerm, message.title);
-			})
+			if (searchFilter != 'All') {
+				if (message.sender == me?.name && searchFilter == 'Received') return false;
+				if (message.sender != me?.name && searchFilter == 'Sent') return false;
+			}
+			if (searchGroup) {
+				if (!message.receivers.includes(searchGroup)) return false;
+			}
+			if (searchFrom) {
+				if (DateTime.fromISO(searchFrom).plus({ hours: 2 }) > message.date) return false;
+			}
+			if (searchTo) {
+				if (DateTime.fromISO(searchTo).plus({ hours: 2 }) < message.date) return false;
+			}
+			return test(searchTerm, message.title);
+		})
 		: [];
 
 	let fullMessage: FullMessage | null = null;
@@ -119,19 +113,19 @@
 				);
 				const client = clientParts
 					? {
-							name: clientParts[1] ?? clientParts[3],
-							link: clientParts[2] ?? clientParts[4]
-						}
+						name: clientParts[1] ?? clientParts[3],
+						link: clientParts[2] ?? clientParts[4]
+					}
 					: undefined;
 
 				return {
 					attachments: message.vedhæftninger
 						? message.vedhæftninger.map((attachment) => {
-								return {
-									link: attachment.href,
-									name: attachment.navn
-								};
-							})
+							return {
+								link: attachment.href,
+								name: attachment.navn
+							};
+						})
 						: [],
 					date: DateTime.fromFormat(message.dato, 'dd-MM-yyyy HH:mm:ss', {
 						locale: 'da'
@@ -185,6 +179,7 @@
 		replyTo = null;
 		replyContent = '';
 	};
+
 	const onWindowKeydown = (event: KeyboardEvent) => {
 		if (event.key == 'Escape') {
 			if (replyTo) {
@@ -222,6 +217,7 @@
 			}
 		}
 	};
+
 	const addIfMissing = (element: Element, className: string | string[]) => {
 		if (Array.isArray(className)) {
 			className.forEach((name) => {
@@ -235,6 +231,7 @@
 			}
 		}
 	};
+
 	let sidebar: HTMLDivElement;
 	$: if (container && sidebar) {
 		if (selectedMessage) {
@@ -249,15 +246,41 @@
 	}
 
 	let width = 0;
+
 	function flyOrFade(node: Element) {
-		return width > 1024 ? fly(node, { duration: 500, x: '100vw' }) : fade(node, { duration: 200 });
+		return width > 1024 ? fly(node, { duration: 200, x: '100vw' }) : fade(node, { duration: 100 });
+	}
+
+	// get the width of element and apply it to the resp-width is element
+	addEventListener('resize', () => {
+		calcInputFieldWidth();
+	});
+
+	//make a thing that runs every 0.5 seconds
+	let interval: number | undefined;
+	onMount(() => {
+		calcInputFieldWidth();
+		interval = setInterval(() => {
+			calcInputFieldWidth();
+		}, 100);
+
+		() => {
+			clearInterval(interval);
+		};
+	});
+
+	function calcInputFieldWidth() {
+		if (!selectedMessage) return;
+		width = document.getElementById('w-of-resp-input')?.offsetWidth ?? 0;
+		const element = document.getElementById('resp-input');
+		if (element) element.style.width = `${width + 28}px`;
 	}
 </script>
 
 <svelte:window on:keydown={onWindowKeydown} bind:innerWidth={width} bind:innerHeight={height} />
 
-<div bind:this={container} class="lg:!pt-0 w-full flex flex-col lg:flex-row">
-	<div bind:this={sidebar} style="transition: width 500ms ease;" class="flex-col w-full lg:flex">
+<div bind:this={container} class="lg:!pt-0 flex flex-col lg:flex-row w-full">
+	<div bind:this={sidebar} style="transition: width 200ms ease;" class="flex-col w-full lg:flex">
 		<header use:melt={$root} class="p-4 border-b dark:border-white/10">
 			<div class="flex items-center">
 				<button
@@ -313,21 +336,24 @@
 									searchFilter = 'All';
 								}}
 								variant={searchFilter == 'All' ? 'default' : 'outline'}
-								class="cursor-pointer">Alle</Badge
+								class="cursor-pointer">Alle
+							</Badge
 							>
 							<Badge
 								on:click={() => {
 									searchFilter = 'Received';
 								}}
 								variant={searchFilter == 'Received' ? 'default' : 'outline'}
-								class="cursor-pointer">Modtaget</Badge
+								class="cursor-pointer">Modtaget
+							</Badge
 							>
 							<Badge
 								on:click={() => {
 									searchFilter = 'Sent';
 								}}
 								variant={searchFilter == 'Sent' ? 'default' : 'outline'}
-								class="cursor-pointer">Sendt</Badge
+								class="cursor-pointer">Sendt
+							</Badge
 							>
 						</div>
 						{#key $informationStore}
@@ -348,7 +374,7 @@
 					{#if filteredMessages.length}
 						{#each filteredMessages.slice(0, currentItems) as message}
 							<div
-								class="relative flex flex-row items-center p-4 cursor-pointer rounded-md transition-colors hover:bg-zinc-200 dark:hover:bg-dark-2 {selectedMessage ===
+								class="relative flex flex-row items-center py-4 md:px-4 cursor-pointer rounded-md transition-colors hover:bg-zinc-200 dark:hover:bg-dark-2 {selectedMessage ===
 								message.id
 									? 'bg-zinc-200 dark:bg-dark-2'
 									: ''}"
@@ -358,32 +384,37 @@
 									replyTo = null;
 									replyContent = '';
 									selectedMessage = message.id;
-									goto(`/beskeder?id=${selectedMessage}`, { replaceState: true, keepFocus: true });
+									goto(`/beskeder?id=${selectedMessage}`, {
+										replaceState: true,
+										keepFocus: true
+									});
 								}}
 								on:keydown={() => {}}
 								role="button"
 								tabindex="0"
 							>
-								{#if !selectedMessage}
-									<div
-										in:fade={{ delay: 1000 }}
-										use:relativeTime={message.date.toJSDate()}
-										class="absolute top-0 right-0 mt-4 mr-4 text-xs text-gray-500"
-									/>
-								{/if}
 								{#key $informationStore}
-									<LectioAvatar
+									<Avatar
 										id={$informationStore?.students.find(
 											(student) => student.name == message.sender
 										)?.id ?? '123'}
 										navn={message.sender}
 									/>
 								{/key}
-								<div class="flex flex-col flex-grow ml-3">
-									<div class="text-sm font-medium">{message.title}</div>
-									<div class="text-xs truncate">{message.sender}</div>
+								<div class="flex items-start justify-between w-full gap-2">
+									<div class="flex flex-col flex-grow ml-3">
+										<div class="text-sm font-medium">{message.title}</div>
+										<div class="text-xs truncate">{message.sender}</div>
+									</div>
+									{#if !selectedMessage}
+										<div
+											use:relativeTime={message.date.toJSDate()}
+											class="text-xs opacity-35 text-nowrap"
+										/>
+									{/if}
 								</div>
 							</div>
+							<Separator class="my-2" />
 						{/each}
 						{#if filteredMessages.length > currentItems}
 							<div class="flex items-center justify-center pb-10">
@@ -456,28 +487,16 @@
 		</div>
 	</div>
 	{#if selectedMessage}
-		<div class="flex flex-col w-full space-y-4 overflow-hidden border-l" transition:flyOrFade>
-			<section class="w-full p-4 pb-0">
-				<div
-					class="flex items-center w-full px-6 py-4 bg-white rounded-md shadow-lg dark:bg-dark-2"
-				>
+		<div
+			class="flex flex-col w-screen space-y-4 overflow-hidden lg:border-l lg:w-full"
+			transition:flyOrFade
+		>
+			<section class="w-full pb-0">
+				<div class="flex items-center w-full p-3 py-3">
 					{#if fullMessage}
-						<div class="flex items-center flex-1 min-w-0">
-							{#key $informationStore}
-								<LectioAvatar
-									id={fullMessage.messages[0].sender.id}
-									navn={fullMessage.messages[0].sender.name}
-								/>
-							{/key}
-							<div class="flex flex-col min-w-0 ml-3">
-								<span class="font-semibold leading-5">{fullMessage.messages[0].title}</span>
-								<TextTooltip text={fullMessage.receivers} class="text-xs text-gray-400 truncate">
-									{fullMessage.receivers}
-								</TextTooltip>
-							</div>
-						</div>
-						<button
-							class="flex items-center justify-center w-10 h-10 text-gray-500 bg-gray-100 rounded-full cursor-pointer dark:bg-gray-500 hover:bg-gray-200 dark:hover:bg-gray-400 dark:text-gray-100"
+						<Button
+							variant="secondary"
+							size="icon"
 							on:click={() => {
 								fullMessage = null;
 								selectedMessage = null;
@@ -486,16 +505,34 @@
 								replyContent = '';
 							}}
 						>
-							<Plus class="rotate-45" />
-						</button>
+							<Undo />
+						</Button>
+						<div class="flex items-center flex-1 min-w-0">
+							<div class="flex flex-col min-w-0 ml-3">
+								<span class="font-semibold leading-5 line-clamp-1"
+								>{fullMessage.messages[0].title}</span
+								>
+								<TextTooltip text={fullMessage.receivers} class="text-xs text-gray-400 truncate">
+									{fullMessage.receivers}
+								</TextTooltip>
+							</div>
+						</div>
 					{:else}
-						<Skeleton class="w-10 h-10 rounded-full" />
+						<Skeleton class="w-10 h-10" />
 						<Skeleton class="w-1/2 h-10 ml-3" />
 					{/if}
 				</div>
+				<Separator />
 			</section>
 			<section class="h-full p-4 py-0 overflow-y-hidden not-prose">
-				<div class="h-full space-y-4 overflow-y-auto">
+				<div class="h-full space-y-4 overflow-y-auto pb-28">
+					<div
+						class="w-full"
+						id="w-of-resp-input"
+						on:change={() => {
+							calcInputFieldWidth();
+						}}
+					></div>
 					{#if fullMessage}
 						{#each fullMessage.messages as message}
 							{#if message.sender.name === me?.name}
@@ -508,18 +545,26 @@
 										on:click={() => {
 											replyTo = message;
 										}}
-										class="p-4 space-y-2 transition-colors rounded-md rounded-tr-none bg-primary hover:bg-zinc-800 dark:hover:bg-zinc-200 text-primary-foreground"
+										class="p-2 space-y-2 transition-colors rounded-md sm:rounded-tr-none bg-primary hover:bg-zinc-800 dark:hover:bg-zinc-200 text-primary-foreground"
 									>
-										<header class="flex flex-col justify-between md:flex-row md:items-center">
-											<p class="font-bold">{message.title}</p>
-											<small class="opacity-50" use:relativeTime={message.date.toJSDate()} />
-										</header>
+										<div class="flex justify-end w-full gap-2">
+											<header
+												class="flex flex-col w-full items-end justify-start md:flex-row-reverse md:items-center md:justify-between *:text-right"
+											>
+												<p class="font-bold">{message.title}</p>
+												<small class="opacity-50" use:relativeTime={message.date.toJSDate()} />
+											</header>
+											<TextTooltip text={message.sender.name} class="size-10 sm:hidden">
+												{#key $informationStore}
+													<Avatar id={message.sender.id} navn={message.sender.name} />
+												{/key}
+											</TextTooltip>
+										</div>
 										<div class="flex flex-col">
 											{#if message.attachments.length}
-												<div class="flex flex-row flex-wrap">
+												<div class="flex flex-row flex-wrap gap-1">
 													{#each message.attachments as attachment}
-														<Badge class="mb-1 mr-1" href={attachment.link}>{attachment.name}</Badge
-														>
+														<Badge target="_blank" href={attachment.link}>{attachment.name}</Badge>
 													{/each}
 												</div>
 											{/if}
@@ -537,16 +582,16 @@
 											{#if message.client}
 												<div class="flex items-center text-gray-400">
 													<a target="_blank" href={message.client.link} class="text-sm"
-														>Sendt fra {message.client.name}</a
+													>Sendt fra {message.client.name}</a
 													>
 													<ExternalLink class="ml-1 size-4" />
 												</div>
 											{/if}
 										</div>
 									</button>
-									<TextTooltip text={message.sender.name} class="size-10">
+									<TextTooltip text={message.sender.name} class="hidden size-10 sm:inline-flex">
 										{#key $informationStore}
-											<LectioAvatar id={message.sender.id} navn={message.sender.name} />
+											<Avatar id={message.sender.id} navn={message.sender.name} />
 										{/key}
 									</TextTooltip>
 								</div>
@@ -555,29 +600,37 @@
 									style={`margin-left: ${message.indent}rem;`}
 									class="grid grid-cols-[auto_1fr] gap-2"
 								>
-									<TextTooltip text={message.sender.name} class="size-10">
-										<LectioAvatar id={message.sender.id} navn={message.sender.name} />
+									<TextTooltip text={message.sender.name} class="hidden size-10 sm:inline-flex">
+										<Avatar id={message.sender.id} navn={message.sender.name} />
 									</TextTooltip>
 									<button
 										on:click={() => {
 											replyTo = message;
 										}}
-										class="p-4 space-y-2 transition-colors border rounded-md rounded-tl-none hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:bg-dark-2"
+										class="p-2 space-y-2 transition-colors border rounded-md sm:rounded-tl-none hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:bg-dark-2"
 									>
-										<header class="flex flex-col justify-between md:flex-row md:items-center">
-											<p class="font-bold">{message.title}</p>
-											<small class="opacity-50" use:relativeTime={message.date.toJSDate()} />
-										</header>
+										<div class="flex justify-start w-full gap-2">
+											<TextTooltip text={message.sender.name} class="size-10 sm:hidden">
+												{#key $informationStore}
+													<Avatar id={message.sender.id} navn={message.sender.name} />
+												{/key}
+											</TextTooltip>
+											<header
+												class="flex flex-col w-full items-start justify-start md:flex-row md:items-center md:justify-between *:text-left"
+											>
+												<p class="font-bold">{message.title}</p>
+												<small class="opacity-50" use:relativeTime={message.date.toJSDate()} />
+											</header>
+										</div>
 										<div class="flex flex-col">
 											{#if message.attachments.length}
-												<div class="flex flex-row flex-wrap">
+												<div class="flex flex-row flex-wrap gap-1">
 													{#each message.attachments as attachment}
-														<Badge class="mb-1 mr-1" href={attachment.link}>{attachment.name}</Badge
-														>
+														<Badge target="_blank" href={attachment.link}>{attachment.name}</Badge>
 													{/each}
 												</div>
 											{/if}
-											<div class="text-left">
+											<div class="text-left break-words">
 												<SvelteMarkdown source={message.body} renderers={{ link: MessageLink }} />
 											</div>
 											{#if message.edits.length}
@@ -591,7 +644,7 @@
 											{#if message.client}
 												<div class="flex items-center text-gray-400">
 													<a target="_blank" href={message.client.link} class="text-sm"
-														>Sendt fra {message.client.name}</a
+													>Sendt fra {message.client.name}</a
 													>
 													<ExternalLink class="ml-1 size-4" />
 												</div>
@@ -604,7 +657,7 @@
 					{/if}
 				</div>
 			</section>
-			<section class="w-full p-4 !mt-0">
+			<section class="fixed bottom-0 p-3" id="resp-input">
 				{#if replyTo}
 					<div
 						class="flex flex-row items-center justify-between px-3 py-1 rounded-t-lg bg-zinc-100 dark:bg-dark-1 not-prose"

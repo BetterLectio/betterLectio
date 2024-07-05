@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { NewTabLink } from '$lib/components';
+	import { NewTabLink } from '$lib/components/links';
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Table from '$lib/components/ui/table';

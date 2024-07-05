@@ -19,13 +19,6 @@
 		"window:allow-hide",
 		"window:allow-close",
 		"window:allow-start-dragging",
-		"window:allow-toggle-maximize",
-		"updater:default",
-		"updater:allow-check",
-		"autostart:allow-enable",
-		"autostart:allow-disable",
-		"autostart:allow-is-enabled",
-		"autostart:default",
-		"shell:allow-open"
+		"window:allow-toggle-maximize"
 	]
 }

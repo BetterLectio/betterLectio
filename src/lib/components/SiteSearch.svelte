@@ -8,6 +8,7 @@
 	import { get } from '$lib/utils';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
+	import Assignment from './lectio/Assignment.svelte';
 
 	let query = '';
 	let assignmentsLoaded = false;
@@ -99,12 +100,12 @@
 				{#if assignmentsLoaded}
 					{#each $filteredAssignments || [] as assignment, i}
 						<Command.Item>
-							<p
+							<Assignment
+								{assignment}
+								class="p-0 m-0 border-0 shadow-none"
+								componentRoutes={false}
 								data-routeto={`/opgave?id=${assignment.exerciseid}`}
-								class="w-full h-full cursor-pointer"
-							>
-								{assignment.opgavetitel}
-							</p>
+							/>
 						</Command.Item>
 					{/each}
 				{:else}

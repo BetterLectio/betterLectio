@@ -6,7 +6,7 @@
 	import { getVersion } from '@tauri-apps/api/app';
 	import { onMount } from 'svelte';
 	import SvelteMarkdown from 'svelte-markdown';
-	import { NewTabLink } from '.';
+	import { NewTabLink } from './links';
 	import Button from './ui/button/button.svelte';
 
 	let open = false;

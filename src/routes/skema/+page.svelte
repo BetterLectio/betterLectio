@@ -5,7 +5,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { authStore } from '$lib/stores';
 	import type { RawLesson } from '$lib/types/lesson';
-	import { constructInterval, decodeUserID, stringToColor } from '$lib/utils/other';
+	import { constructInterval, decodeUserID, NAME_REGEX, stringToColor } from '$lib/utils/other';
 	import { get } from '$lib/utils/http';
 	import { Calendar, type EventSourceFunc } from '@fullcalendar/core';
 	import daLocale from '@fullcalendar/core/locales/da';
@@ -18,8 +18,7 @@
 	import { toast } from 'svelte-sonner';
 	import tippy from 'tippy.js';
 	import 'tippy.js/animations/shift-away.css';
-
-	const nameRegex = /^(?:[\w]+) (.*)(?:,.*)/;
+	import { isMediumScreen } from '$lib/utils';
 
 	let userId: string;
 	let searchId: string;
@@ -30,7 +29,7 @@
 		get(`/skema?id=${userId}&uge=${start.weekNumber}&år=${start.year}`).then(
 			(data: { moduler: RawLesson[]; overskrift: string }) => {
 				if (userId.startsWith('S')) {
-					const matches = nameRegex.exec(data.overskrift);
+					const matches = NAME_REGEX.exec(data.overskrift);
 					if (matches) {
 						userName = matches[1];
 					} else {
@@ -69,7 +68,7 @@
 						id: lesson.absid,
 						start,
 						title: `${lesson.navn ?? className}${lesson.lokale ? ` • ${lesson.lokale}` : ''}`,
-						url: `/modul?absid=${lesson.absid}`
+						url: lesson.absid.startsWith('PH') ? `/eksamen?id=${lesson.absid.substring(2)}&navn=${userName}` : `/modul?absid=${lesson.absid}`
 					};
 				});
 				successCallback(events);
@@ -78,7 +77,6 @@
 	};
 
 	let loading = true;
-	let width: number;
 	let calendarEl: HTMLElement;
 	let calendar: Calendar;
 	let showBackToWeekViewButton = false;
@@ -111,7 +109,7 @@
 			// @ts-ignore
 			allDaySlot: false,
 			contentHeight: 'auto',
-			dayHeaderContent: function (renderProps) {
+			dayHeaderContent: function(renderProps) {
 				const date = DateTime.fromJSDate(renderProps.date).setLocale('da');
 				const todayClasses = renderProps.isToday
 					? 'w-8 h-8 rounded-full bg-primary text-white dark:text-black'
@@ -149,7 +147,7 @@
 				left: 'title',
 				right: 'today prev,next'
 			},
-			initialView: width >= 768 ? 'timeGridWeek' : 'timeGridDay',
+			initialView: $isMediumScreen ? 'timeGridWeek' : 'timeGridDay',
 			locale: daLocale,
 			nowIndicator: true,
 			plugins: [luxonPlugin, timeGridPlugin],
@@ -165,8 +163,8 @@
 			},
 			titleFormat: 'Uge W, yyyy',
 			weekends: false,
-			windowResize: function () {
-				calendar.changeView(width >= 768 ? 'timeGridWeek' : 'timeGridDay');
+			windowResize: function() {
+				calendar.changeView($isMediumScreen ? 'timeGridWeek' : 'timeGridDay');
 			}
 		});
 
@@ -217,8 +215,6 @@
 	}
 </script>
 
-<svelte:window bind:innerWidth={width} />
-
 <div class="page-container">
 	<div class="flex items-center justify-between">
 		<div class="flex items-center space-x-4">
@@ -234,7 +230,8 @@
 						calendar.changeView('timeGridWeek');
 						showBackToWeekViewButton = false;
 					}}
-					variant="outline">Ugevisning</Button
+					variant="outline">Ugevisning
+				</Button
 				>
 			{/if}
 		</div>

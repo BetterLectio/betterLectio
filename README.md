@@ -1,10 +1,9 @@
+<img src="https://repository-images.githubusercontent.com/742436072/63ffe7c7-7968-4200-b127-55ca6b878ffc">
+
 [![Version](https://img.shields.io/github/v/release/BetterLectio/BetterLectio-next?style=for-the-badge)]()
 [![GitHub Downloads](https://img.shields.io/github/downloads/BetterLectio/BetterLectio-next/total?style=for-the-badge)]()
 [![Issues](https://img.shields.io/github/issues/BetterLectio/BetterLectio-next?style=for-the-badge)]()
 [![LICENSE](https://img.shields.io/github/license/BetterLectio/BetterLectio-next?style=for-the-badge)]()
-# BetterLectio NEXT
-
-Den Bedste Lectio oplevelse!
 
 ## Support
 

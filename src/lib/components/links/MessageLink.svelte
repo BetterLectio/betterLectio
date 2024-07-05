@@ -3,4 +3,4 @@
 	export let title: string | undefined = undefined;
 </script>
 
-<a class="font-medium underline" target="_blank" {href} {title}><slot /></a>
+<a class="font-medium underline break-all" target="_blank" {href} {title}><slot /></a>

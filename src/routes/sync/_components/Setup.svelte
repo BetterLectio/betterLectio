@@ -15,7 +15,7 @@
 	};
 </script>
 
-<Alert.Root class="pt-4 border-destructive">
+<Alert.Root class="border-destructive">
 	<TriangleAlert />
 	<div class="flex items-center justify-between w-full">
 		<div>

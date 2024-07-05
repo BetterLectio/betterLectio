@@ -1,32 +1,26 @@
-import { tv, type VariantProps } from 'tailwind-variants';
+import { type VariantProps, tv } from "tailwind-variants";
 
-import Root from './alert.svelte';
-import Description from './alert-description.svelte';
-import Title from './alert-title.svelte';
+import Root from "./alert.svelte";
+import Description from "./alert-description.svelte";
+import Title from "./alert-title.svelte";
 
 export const alertVariants = tv({
-	base: 'relative w-full rounded-lg border px-4 py-3 text-sm flex items-center [&>svg]:mr-2 [&>svg]:text-foreground',
+	base: "relative w-full rounded-lg border p-4 [&:has(svg)]:pl-14 [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-6 [&>svg]:text-foreground",
+
 	variants: {
 		variant: {
-			default: 'text-foreground',
+			default: "bg-background text-foreground",
 			destructive:
-				'border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive'
+				"border-destructive/50 text-destructive text-destructive dark:border-destructive [&>svg]:text-destructive",
 		},
-		level: {
-			default: 'bg-background',
-			"1": 'dark:bg-dark-1',
-			"2": 'dark:bg-dark-2'
-		}
 	},
 	defaultVariants: {
-		variant: 'default',
-		level: 'default'
-	}
+		variant: "default",
+	},
 });
 
-export type Variant = VariantProps<typeof alertVariants>['variant'];
-export type Level = VariantProps<typeof alertVariants>['level'];
-export type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+export type Variant = VariantProps<typeof alertVariants>["variant"];
+export type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 export {
 	Root,
@@ -35,5 +29,5 @@ export {
 	//
 	Root as Alert,
 	Description as AlertDescription,
-	Title as AlertTitle
+	Title as AlertTitle,
 };

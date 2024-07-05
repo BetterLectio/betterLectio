@@ -2,7 +2,7 @@
 	"$schema": "../node_modules/@tauri-apps/cli/schema.json",
 	"build": {
 		"beforeBuildCommand": "bun svelte:build",
-		"beforeDevCommand": "bun svelte:dev",
+		"beforeDevCommand": "bun svelte:dev --host",
 		"frontendDist": "../build",
 		"devUrl": "http://localhost:5173"
 	},
@@ -10,7 +10,7 @@
 		"active": true,
 		"category": "DeveloperTool",
 		"copyright": "",
-		"targets": ["deb", "msi", "updater"],
+		"targets": "all",
 		"externalBin": [],
 		"icon": [
 			"icons/32x32.png",
@@ -48,7 +48,7 @@
 			"windows": {
 				"installMode": "passive"
 			},
-			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEEyNUFBQUVFMkVCRDMyMUYKUldRZk1yMHU3cXBhb21XbnFXdFdhVlJWOGZ3VFpsSE1DUFR6QythZnFpc0MzNzFJenkwd2lXTEwK",
+			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDVDMUZCMjBBQTBFNUIxNjQKUldSa3NlV2dDcklmWE01WU9IMnUrUncxRko5SlluUUE4bjR6bDJUZ25OejRvWllidHVXTE9Ra08K",
 			"endpoints": [
 				"https://localhost:5175/updateserver",
 				"https://dev--betlec.netlify.app/updateserver",
@@ -71,7 +71,8 @@
 			}
 		],
 		"security": {
-			"csp": null
+			"csp": null,
+			"capabilities": ["main-capability", "desktop-capability"]
 		}
 	}
 }

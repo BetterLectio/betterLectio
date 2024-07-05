@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { Spinner } from '$lib/components';
+	import { Assignment } from '$lib/components/lectio';
 	import { Badge } from '$lib/components/ui/badge';
 	import { Input } from '$lib/components/ui/input';
 	import { ValueSelect } from '$lib/components/ui/select';
@@ -9,7 +10,7 @@
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { assignmentStore } from '$lib/stores';
 	import type { RawSimpleAssignment } from '$lib/types/assignments';
-	import { get, relativeTime } from '$lib/utils';
+	import { relativeTime } from '$lib/utils';
 	import { DateTime } from 'luxon';
 	import { onMount } from 'svelte';
 	import Archive from 'svelte-radix/Archive.svelte';
@@ -19,6 +20,8 @@
 	import Rocket from 'svelte-radix/Rocket.svelte';
 
 	let opgaver = $assignmentStore;
+	let filteredOpgaver: RawSimpleAssignment[] = [];
+	$: if (opgaver) filteredOpgaver = opgaver;
 	let searchString = '';
 	let status = 'Skal Afleveres';
 
@@ -28,7 +31,7 @@
 	});
 
 	$: if ($assignmentStore) {
-		opgaver = $assignmentStore?.filter((opgave) => {
+		filteredOpgaver = $assignmentStore?.filter((opgave) => {
 			switch (status) {
 				case 'Alle':
 					return true;
@@ -42,6 +45,8 @@
 	}
 
 	function search() {
+		if (!searchString) return;
+		status = 'Alle';
 		const searchResults: RawSimpleAssignment[] = [];
 		opgaver?.forEach((opgave) => {
 			if (
@@ -49,8 +54,8 @@
 				opgave.hold.includes(searchString.toLowerCase())
 			)
 				searchResults.push(opgave);
+			filteredOpgaver = searchResults;
 		});
-		opgaver = searchResults;
 	}
 
 	function elevtidNum(elevtid: string) {
@@ -58,19 +63,25 @@
 	}
 </script>
 
-<div class="page-container">
-	<div class="flex justify-between">
+<div class="w-full page-container">
+	<div class="flex flex-col justify-between gap-4 md:flex-row">
 		<div class="flex items-center space-x-2">
 			<h1>Opgaver</h1>
 			{#if !$assignmentStore}
 				<Spinner />
 			{/if}
 		</div>
-		<div class="flex items-center space-x-2">
-			<ValueSelect bind:value={status} items={['Alle', 'Skal Afleveres', 'Er Afleveret']} />
+		<div class="flex flex-col items-center w-full gap-2 lg:w-fit sm:flex-row">
+			{#key status}
+				<ValueSelect
+					class=""
+					bind:value={status}
+					items={['Alle', 'Skal Afleveres', 'Er Afleveret']}
+				/>
+			{/key}
 			<Input
 				type="text"
-				class="max-w-xs"
+				class="w-full h-10 lg:w-fit"
 				placeholder="Søg efter opgaver..."
 				bind:value={searchString}
 				on:input={search}
@@ -78,7 +89,7 @@
 		</div>
 	</div>
 
-	<Table.Root class="overflow-x-auto" containerClass="!mt-4">
+	<Table.Root class="overflow-x-auto" containerClass="hidden md:block !mt-4">
 		<Table.Header>
 			<Table.Row>
 				<Table.Head></Table.Head>
@@ -90,8 +101,8 @@
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
-			{#if opgaver}
-				{#each opgaver as opgave}
+			{#if filteredOpgaver}
+				{#each filteredOpgaver as opgave}
 					<Table.Row
 						on:click={async () => await goto(`/opgave?id=${opgave.exerciseid}`)}
 						class="cursor-pointer select-none"
@@ -100,30 +111,30 @@
 						<div class="flex items-center ml-2 h-9">
 							<Tooltip.Root>
 								{#if opgave.status === 'Afleveret'}
-									<Tooltip.Trigger
-										><Rocket class="w-4 h-4 text-green-800 dark:text-green-400" /></Tooltip.Trigger
-									>
+									<Tooltip.Trigger>
+										<Rocket class="w-4 h-4 text-green-800 dark:text-green-400" />
+									</Tooltip.Trigger>
 									<Tooltip.Content>
 										<p>Afleveret</p>
 									</Tooltip.Content>
 								{:else if opgave.status === 'Afsluttet'}
-									<Tooltip.Trigger
-										><Archive class="w-4 h-4 text-blue-800 dark:text-blue-400" /></Tooltip.Trigger
-									>
+									<Tooltip.Trigger>
+										<Archive class="w-4 h-4 text-blue-800 dark:text-blue-400" />
+									</Tooltip.Trigger>
 									<Tooltip.Content>
 										<p>Afsluttet</p>
 									</Tooltip.Content>
 								{:else if opgave.status === 'Venter'}
-									<Tooltip.Trigger><EnvelopeOpen class="w-4 h-4" /></Tooltip.Trigger>
+									<Tooltip.Trigger>
+										<EnvelopeOpen class="w-4 h-4" />
+									</Tooltip.Trigger>
 									<Tooltip.Content>
 										<p>Venter</p>
 									</Tooltip.Content>
 								{:else}
-									<Tooltip.Trigger
-										><ExclamationTriangle
-											class="w-4 h-4 text-red-800 dark:text-red-400"
-										/></Tooltip.Trigger
-									>
+									<Tooltip.Trigger>
+										<ExclamationTriangle class="w-4 h-4 text-red-800 dark:text-red-400" />
+									</Tooltip.Trigger>
 									<Tooltip.Content>
 										<p>Mangler</p>
 									</Tooltip.Content>
@@ -153,9 +164,9 @@
 									<Tooltip.Content>
 										<p>
 											Opgaven har {opgave['elev-tid']} elev time{elevtidNum(opgave['elev-tid']) ===
-											1
-												? ''
-												: 'r'}
+										1
+											? ''
+											: 'r'}
 										</p>
 									</Tooltip.Content>
 								{:else}
@@ -205,11 +216,19 @@
 							</Tooltip.Root>
 						</Table.Cell>
 						<Table.Cell class="text-nowrap line-clamp-1 sm:table-cell"
-							>{opgave.opgavetitel}</Table.Cell
+						>{opgave.opgavetitel}</Table.Cell
 						>
 					</Table.Row>
 				{/each}
 			{/if}
 		</Table.Body>
 	</Table.Root>
+	<!-- mobile version here, based on list not table, without tooltips -->
+	<div class="flex-col w-full gap-2 max-md:flex md:hidden">
+		{#if filteredOpgaver}
+			{#each filteredOpgaver as opgave}
+				<Assignment assignment={opgave} />
+			{/each}
+		{/if}
+	</div>
 </div>
