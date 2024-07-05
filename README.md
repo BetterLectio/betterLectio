@@ -12,7 +12,8 @@
 | Windows | ✅      |
 | Web     | ✅      |
 | MacOS   | ❌      |
-| Linux   | ❌      |
+| Linux   | ✅      |
+| Android | ✅      |
 
 ## Bidrag til projektet
 
@@ -29,13 +30,3 @@ Herunder er der en guide til hvordan du sætter et dev environment op.
 5. Åben repoet i din favorit editor
 6. Installer dependencies med `bun install`
 7. Start programmet med `bun dev`
-
-# TODO
-
-- [x] Login
-- [x] Skema
-- [x] Opgaver
-- [ ] Opgave aflevering
-- [ ] Noter
-- [x] Beskeder
-- [x] Besked
