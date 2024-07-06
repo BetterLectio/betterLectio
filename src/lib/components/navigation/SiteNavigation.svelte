@@ -41,6 +41,7 @@
 			></div>
 		</div>
 	</div>
+
 	<div class="flex" style="height: {mainContentHeight}px">
 		<div
 			role="navigation"
@@ -59,6 +60,7 @@
 				{/each}
 			</div>
 		</div>
+
 		<!-- only show if screen less than 640 px -->
 		<Drawer.Root
 			bind:open={drawerOpen}

@@ -4,9 +4,9 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Card } from '$lib/components/ui/card';
 	import { Separator } from '$lib/components/ui/separator';
-	import { frontPageStore } from '$lib/stores';
+	import { frontPageStore, screenSizeStore } from '$lib/stores';
 	import type { Lesson } from '$lib/types/lesson';
-	import { constructInterval, isSmallScreen, relativeTime, toTitleCase } from '$lib/utils';
+	import { cn, constructInterval, isLargeScreen, isSmallScreen, relativeTime, toTitleCase } from '$lib/utils';
 	import ArrowRight from 'lucide-svelte/icons/arrow-right';
 	import Clock from 'lucide-svelte/icons/clock';
 	import DoorOpen from 'lucide-svelte/icons/door-open';
@@ -15,6 +15,7 @@
 	import { onMount } from 'svelte';
 	import SvelteMarkdown from 'svelte-markdown';
 	import { NewTabLink } from '$lib/components/links';
+	import { calculateRemainingHeight } from '$lib/utils/size';
 
 	onMount(async () => {
 		await frontPageStore.fetch();
@@ -65,13 +66,18 @@
 		})
 		: null;
 	$: news = $frontPageStore ? $frontPageStore?.news ?? [] : null;
+
+	let container: HTMLDivElement;
+	$: if (container) {
+		const height = $screenSizeStore.height;
+		container.style.height = $isLargeScreen ? `${calculateRemainingHeight(container, height)}px` : 'unset';
+	}
 </script>
 
-<div class="page-container">
-	<h1>Forside - {DateTime.now().toLocaleString()}</h1>
-	<div class="flex flex-col gap-4 lg:min-w-0 lg:flex-1 lg:flex-row !mt-3">
-		<div class="flex flex-col gap-4 lg:shrink-0 lg:w-1/3">
-			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
+<div bind:this={container} class="page-container">
+	<div class="h-full grid grid-cols-1 lg:grid-cols-3 grid-rows-[minmax(0,1fr)] gap-4 lg:overflow-hidden">
+		<div class="flex flex-col gap-4">
+			<Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !nextClass})}>
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Næste Modul</h2>
 					{#if nextClassLoading}
@@ -92,7 +98,7 @@
 					<p class="text-sm text-muted-foreground">Ingen kommende moduler.</p>
 				{/if}
 			</Card>
-			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
+			<Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !assignments || !assignments.length})}>
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Opgaver</h2>
 					{#if !assignments}
@@ -120,7 +126,7 @@
 					{/if}
 				{/if}
 			</Card>
-			<Card class="p-2 border-2 lg:max-h-[70vh] overflow-auto">
+			<Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !messages || !messages.length})}>
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Beskeder</h2>
 					{#if !messages}
@@ -150,8 +156,8 @@
 				{/if}
 			</Card>
 		</div>
-		<div class="flex flex-col gap-4 w-full">
-			<Card class="p-2 border-2 lg:max-h-[50vh] overflow-auto">
+		<div class="flex flex-col gap-4 lg:col-span-2">
+			<Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !classes || !classes.length})}>
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Skema</h2>
 					{#if !classes}
@@ -183,7 +189,7 @@
 												<div class="flex items-center">
 													<DoorOpen class="mr-1 size-4" />
 													{#if lesson.room}
-														<p class="text-sm">{lesson.room}</p>
+														<p class="text-sm overflow-hidden overflow-ellipsis whitespace-nowrap">{lesson.room}</p>
 													{:else}
 														<p class="text-sm text-transparent">.</p>
 													{/if}
@@ -220,7 +226,7 @@
 					{/if}
 				{/if}
 			</Card>
-			<Card class="p-2 border-2 lg:max-h-[50vh] overflow-auto">
+			<Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !news || !news.length})}>
 				<div class="flex items-center justify-between">
 					<h2 class="text-lg font-medium unstyled">Aktuelt</h2>
 					{#if !news}
@@ -231,7 +237,7 @@
 					<div class="space-y-2">
 						{#each news as item, i}
 							<SvelteMarkdown source={item.description} renderers={{ link: NewTabLink }} />
-							{#if i != news.length - 1}
+							{#if i !== news.length - 1}
 								<hr class="!my-4 dark:border-t-zinc-600/50" />
 							{/if}
 						{/each}

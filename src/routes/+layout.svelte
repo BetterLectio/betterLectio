@@ -121,7 +121,7 @@
 				<Spinner />
 			</div>
 		{:then _}
-			<div class="{$connectionStore ? 'mt-10' : 'mt-28'} transition-all duration-200 ease-in-out">
+			<div class="{$connectionStore ? 'mt-[42px]' : 'mt-28'} transition-all duration-200 ease-in-out">
 				{#key pageRefresher}
 					<slot />
 				{/key}

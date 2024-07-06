@@ -8,3 +8,8 @@ export const isMediumScreen = derived(screenSizeStore, $screenSize => $screenSiz
 export const isLargeScreen = derived(screenSizeStore, $screenSize => $screenSize.width >= 1024);
 export const isXLScreen = derived(screenSizeStore, $screenSize => $screenSize.width >= 1280);
 export const isXXLScreen = derived(screenSizeStore, $screenSize => $screenSize.width >= 1536);
+
+export const calculateRemainingHeight = (element: HTMLElement, totalHeight: number): number => {
+	const { top } = element.getBoundingClientRect();
+	return totalHeight - top;
+};
