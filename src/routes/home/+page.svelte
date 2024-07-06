@@ -30,7 +30,7 @@
 			: null;
 	$: nextClassLoading = !$frontPageStore || !$frontPageStore.lessons;
 	$: classes = $frontPageStore
-		? ($frontPageStore?.lessons ?? []).reduce<
+		? $frontPageStore?.lessons.reduce<
 			{ name: string; lessons: (Lesson & { interval: Interval })[] }[]
 		>((acc, lesson) => {
 			const interval = constructInterval(lesson.date);
@@ -46,7 +46,7 @@
 		}, [])
 		: null;
 	$: assignments = $frontPageStore
-		? ($frontPageStore?.assignments ?? []).map((assignment) => {
+		? $frontPageStore.assignments.map((assignment) => {
 			return {
 				...assignment,
 				date: DateTime.fromFormat(assignment.date, 'd/M-yyyy HH:mm', {
@@ -56,7 +56,7 @@
 		})
 		: null;
 	$: messages = $frontPageStore
-		? ($frontPageStore?.messages ?? []).map((message) => {
+		? $frontPageStore.messages.map((message) => {
 			return {
 				...message,
 				date: DateTime.fromFormat(message.date, 'd/M-yyyy HH:mm', {
@@ -65,7 +65,7 @@
 			};
 		})
 		: null;
-	$: news = $frontPageStore ? $frontPageStore?.news ?? [] : null;
+	$: news = $frontPageStore ? $frontPageStore.news : null;
 
 	let container: HTMLDivElement;
 	$: if (container) {
@@ -233,17 +233,19 @@
 						<Spinner />
 					{/if}
 				</div>
-				{#if news && news.length > 0}
-					<div class="space-y-2">
-						{#each news as item, i}
-							<SvelteMarkdown source={item.description} renderers={{ link: NewTabLink }} />
-							{#if i !== news.length - 1}
-								<hr class="!my-4 dark:border-t-zinc-600/50" />
-							{/if}
-						{/each}
-					</div>
-				{:else}
-					<p class="text-sm text-muted-foreground">Ingen aktuelle nyheder.</p>
+				{#if news}
+					{#if news.length > 0}
+						<div class="space-y-2">
+							{#each news as item, i}
+								<SvelteMarkdown source={item.description} renderers={{ link: NewTabLink }} />
+								{#if i !== news.length - 1}
+									<hr class="!my-4 dark:border-t-zinc-600/50" />
+								{/if}
+							{/each}
+						</div>
+					{:else}
+						<p class="text-sm text-muted-foreground">Ingen aktuelle nyheder.</p>
+					{/if}
 				{/if}
 			</Card>
 		</div>
