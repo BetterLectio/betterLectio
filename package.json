@@ -26,6 +26,7 @@
   "dependencies": {
     "@sveltejs/adapter-node": "^5.0.1",
     "@sveltejs/enhanced-img": "^0.2.1",
+    "@unovis/svelte": "^1.4.3",
     "bits-ui": "^0.21.10",
     "clsx": "^2.1.1",
     "embla-carousel-autoplay": "^8.1.3",

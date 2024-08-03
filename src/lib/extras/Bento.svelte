@@ -42,14 +42,14 @@
 				</div>
 				<div>
 					<span>Linux</span>
-					<Check class="size-5" />
-				</div>
-				<div>
-					<span>iOS</span>
-					<Check class="size-5" />
+					<CheckCheck class="size-5" />
 				</div>
 				<div>
 					<span>Android</span>
+					<CheckCheck class="size-5" />
+				</div>
+				<div>
+					<span>iOS</span>
 					<Check class="size-5" />
 				</div>
 			</Card.Content>

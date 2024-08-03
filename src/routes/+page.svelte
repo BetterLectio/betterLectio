@@ -5,10 +5,12 @@
 	import Spotlight from "$lib/extras/Spotlight.svelte";
 	import { onMount } from "svelte";
 	import Footer from "$lib/extras/Footer.svelte";
-	import { Globe, Download } from "lucide-svelte";
+	import { Globe, Download, Mail, MessagesSquare } from "lucide-svelte";
 	import Separator from "$lib/components/ui/separator/separator.svelte";
 	import Badge from "$lib/components/ui/badge/badge.svelte";
 	import Bento from "$lib/extras/Bento.svelte";
+	import * as Card from "$lib/components/ui/card";
+	import Map from "$lib/extras/Map.svelte";
 
 	let os = "dit OS";
 	onMount(() => {
@@ -65,7 +67,7 @@
 </script>
 
 <div
-	class="relative flex px-16 overflow-hidden antialiased mb-7 md:justify-center lg:px-32 bg-background"
+	class="relative flex px-16 overflow-hidden antialiased md:justify-center lg:px-32 bg-background"
 >
 	<Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
 	<div class="z-10 flex flex-col items-center w-full">
@@ -73,7 +75,7 @@
 			<div class="flex flex-col items-center justify-center w-full text-center">
 				<Badge class="pl-0.5 mb-3 border-green-500" variant="outline">
 					<Badge class="mr-3">NYT!</Badge>
-					BetterLectio version 2.0 netop udgivet!
+					BetterLectio 2.0 udgivet!
 				</Badge>
 				<h1 class="text-6xl font-black">BetterLectio</h1>
 				<h2 class="pt-2 font-bold opacity-80">Den Ultimative Lectio Forbedring</h2>
@@ -101,7 +103,7 @@
 					delay: 6000
 				})
 			]}
-			class="container mx-auto"
+			class="md:container md:mx-auto"
 		>
 			<Carousel.Content>
 				<Carousel.Item class="md:basis-1/2 lg:basis-1/3">
@@ -147,12 +149,51 @@
 	</div>
 </div>
 
-<Separator />
-<div class="md:container md:mx-auto">
-	<h4 class="my-6 text-3xl font-bold text-center md:text-left md:text-4xl">
-		Hvad kan BetterLectio?
-	</h4>
+<Separator class="my-8" />
+<div class=" md:container md:mx-auto">
 	<Bento />
+</div>
+
+<div class=" md:container md:mx-auto">
+	<Card.Root class="flex flex-col rounded-2xl lg:flex-row">
+		<div class="p-4 pb-0 lg:pb-4 lg:w-1/2">
+			<enhanced:img
+				src="/static/tec-i-lyngby.jpg"
+				alt="tec-i-lyngby"
+				class="w-full overflow-hidden rounded-lg"
+			/>
+		</div>
+		<div class="p-4 lg:w-1/2">
+			<div>
+				<h4 class="mb-3 text-2xl font-black">Af studerende, til studerende ✨</h4>
+				<p class="opacity-80">
+					BetterLectio er udviklet af studerende fra HCØ i Lyngby. I vores gymnasietid var vi trætte
+					af Lectio's mangler og irritationsmomenter, og vi besluttede os for at gøre noget ved det.
+					BetterLectio er resultatet af vores arbejde, og vi håber, at du vil finde glæde i det. 🤗
+				</p>
+				<Separator class="my-2" />
+				<p class="opacity-80">
+					Hvis du har erfaring med webudvikling og har lyst til at være en del af vores team, så kan
+					du sende en besked på vores vores email, GitHub eller i vores Discord server. Vi er altid
+					på udkig efter nye talenter. Så tøv ikke med at kontakte os!
+				</p>
+			</div>
+			<div class="flex flex-wrap gap-2 mt-4">
+				<Button href="mailto:support@betterlectio.dk"><Mail class="p-0.5 mr-2" /> Sig hej!</Button>
+				<Button href="/discord" variant="outline" class="border-[#5865f1] border-2"
+					><MessagesSquare class="p-0.5 mr-2" /> Discord</Button
+				>
+			</div>
+		</div>
+	</Card.Root>
+</div>
+
+<div class="mt-8 md:container md:mx-auto">
+	<h5 class="mb-1 text-3xl font-black">Brugt i hele landet... Af en grund!</h5>
+	<p class="mb-3 opacity-80">
+		Zoom ind på kortet for at se, hvor i landet BetterLectio bliver brugt af elever.
+	</p>
+	<Map />
 </div>
 
 <div class="h-screen"></div>

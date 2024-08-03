@@ -8,7 +8,7 @@
 		class="container grid grid-cols-1 gap-8 px-4 mx-auto sm:grid-cols-2 md:grid-cols-3 md:px-6 lg:max-w-7xl"
 	>
 		<div class="flex flex-col items-start gap-4">
-			<a href="#" class="flex items-center gap-2">
+			<a href="/" class="flex items-center gap-2">
 				<span class="text-lg font-semibold">BetterLectio</span>
 			</a>
 			<p class="text-sm">Den ultimative Lectio forbedring</p>
@@ -17,15 +17,15 @@
 		<div class="grid grid-cols-2 gap-8">
 			<div class="grid gap-2">
 				<h4 class="text-sm font-semibold">Virksomhed</h4>
-				<a href="#" class="text-sm"> Om os </a>
-				<a href="#" class="text-sm"> Teamet </a>
-				<a href="#" class="text-sm"> Bliv en del af os </a>
+				<a href="/om" class="text-sm"> Om os </a>
+				<a href="/teamet" class="text-sm"> Teamet </a>
+				<a href="/bliv udvikler" class="text-sm"> Bliv en del af os </a>
 			</div>
 			<div class="grid gap-2">
 				<h4 class="text-sm font-semibold">Ressourcer</h4>
-				<a href="#" class="text-sm"> API Dokumentation </a>
-				<a href="#" class="text-sm"> Privatlivspolitik </a>
-				<a href="#" class="text-sm"> Vilkår og betingelser </a>
+				<a href="https://api.betterlectio.dk/" class="text-sm"> API Dokumentation </a>
+				<a href="/tos" class="text-sm"> Privatlivspolitik </a>
+				<a href="/tos" class="text-sm"> Vilkår og betingelser </a>
 			</div>
 		</div>
 		<div class="grid gap-4">
