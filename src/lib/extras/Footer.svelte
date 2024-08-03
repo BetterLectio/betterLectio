@@ -19,7 +19,7 @@
 				<h4 class="text-sm font-semibold">Virksomhed</h4>
 				<a href="/om" class="text-sm"> Om os </a>
 				<a href="/teamet" class="text-sm"> Teamet </a>
-				<a href="/bliv udvikler" class="text-sm"> Bliv en del af os </a>
+				<a href="/bliv-udvikler" class="text-sm"> Bliv en del af os </a>
 			</div>
 			<div class="grid gap-2">
 				<h4 class="text-sm font-semibold">Ressourcer</h4>
