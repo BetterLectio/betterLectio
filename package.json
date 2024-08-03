@@ -14,7 +14,7 @@
     "@sveltejs/kit": "^2.5.10",
     "@sveltejs/vite-plugin-svelte": "^3.1.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
-    "autoprefixer": "^10.4.19",
+    "autoprefixer": "^10.4.20",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-svelte": "^3.2.3",
@@ -33,8 +33,6 @@
     "embla-carousel-svelte": "^8.1.3",
     "lucide-svelte": "^0.379.0",
     "svelte-canvas": "^1.2.0",
-    "svelte-confetti": "^2.0.1",
-    "svelte-countup": "^0.2.8",
     "tailwind-variants": "^0.2.1"
   }
 }
