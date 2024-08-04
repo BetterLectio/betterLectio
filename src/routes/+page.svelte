@@ -4,43 +4,16 @@
 	import * as Carousel from "$lib/components/ui/carousel/index.js";
 	import Spotlight from "$lib/extras/Spotlight.svelte";
 	import { onMount } from "svelte";
+	import { Mail } from "lucide-svelte";
 	import Footer from "$lib/extras/Footer.svelte";
-	import { Globe, Download, Mail, MessagesSquare } from "lucide-svelte";
 	import Separator from "$lib/components/ui/separator/separator.svelte";
 	import Badge from "$lib/components/ui/badge/badge.svelte";
 	import Bento from "$lib/extras/Bento.svelte";
 	import * as Card from "$lib/components/ui/card";
 	import Map from "$lib/extras/Map.svelte";
-
-	let os = "dit OS";
-	onMount(() => {
-		os = getOS() || "dit OS";
-	});
-
-	function getOS() {
-		var userAgent = window.navigator.userAgent,
-			platform = window.navigator.platform,
-			macosPlatforms = ["Macintosh", "MacIntel", "MacPPC", "Mac68K"],
-			windowsPlatforms = ["Win32", "Win64", "Windows", "WinCE"],
-			iosPlatforms = ["iPhone", "iPad", "iPod"],
-			os = null;
-
-		if (macosPlatforms.indexOf(platform) !== -1) {
-			os = "MacOS";
-		} else if (iosPlatforms.indexOf(platform) !== -1) {
-			os = "iOS";
-		} else if (windowsPlatforms.indexOf(platform) !== -1) {
-			os = "Windows";
-		} else if (/Android/.test(userAgent)) {
-			os = "Android";
-		} else if (!os && /Linux/.test(platform)) {
-			os = "Linux";
-		}
-
-		console.log(os);
-
-		return os;
-	}
+	import { DiscordLogo } from "svelte-radix";
+	import SchoolLoop from "$lib/extras/SchoolLoop.svelte";
+	import Cta from "$lib/extras/Cta.svelte";
 
 	let netlifyStatus = "";
 	let vercelStatus = "";
@@ -82,16 +55,7 @@
 				<h3 class="mb-3 text-sm opacity-65">Af studerende, til studerende</h3>
 			</div>
 		</div>
-		<div class="flex flex-wrap items-center justify-center gap-4 mb-7">
-			{#if os == "Windows"}
-				<!-- Only show download button if the user is on A supported OS -->
-				<Button size="sm" href="/download">Download til {os}<Download class="ml-2 size-5" /></Button
-				>
-			{/if}
-			<Button size="sm" href="https://app.betterlectio.dk" variant="outline"
-				>Åben i browseren<Globe class="ml-2 size-5" /></Button
-			>
-		</div>
+		<Cta />
 		<Carousel.Root
 			opts={{
 				loop: true,
@@ -181,7 +145,7 @@
 			<div class="flex flex-wrap gap-2 mt-4">
 				<Button href="mailto:support@betterlectio.dk"><Mail class="p-0.5 mr-2" /> Sig hej!</Button>
 				<Button href="/discord" variant="outline" class="border-[#5865f1] border-2"
-					><MessagesSquare class="p-0.5 mr-2" /> Discord</Button
+					><DiscordLogo class="p-0.5 mr-2" /> Discord</Button
 				>
 			</div>
 		</div>
@@ -196,6 +160,21 @@
 	<Map />
 </div>
 
-<div class="h-screen"></div>
+<div class="mt-8">
+	<div class="mb-2 md:container md:mx-auto">
+		<h6 class="text-2xl font-black text-center">Skoler med BetterLectio</h6>
+	</div>
+	<SchoolLoop />
+</div>
+
+<div class="p-4 mt-40 md:container md:mx-auto">
+	<h6 class="text-3xl font-black text-center">Hvad venter du på?</h6>
+	<p class="mb-3 text-center opacity-80">
+		Gør ligeson 400+ andre og gør din Lectio-oplevelse bedre! 100% gratis og uden reklamer.
+	</p>
+	<Cta />
+</div>
+
+<div class="h-40"></div>
 
 <Footer />

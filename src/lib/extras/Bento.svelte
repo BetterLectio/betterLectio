@@ -5,7 +5,7 @@
 </script>
 
 <div
-	class="relative grid grid-cols-2 gap-2 p-2 md:gap-4 md:p-4 lg:grid-cols-3 grid-rows-8 xl:grid-cols-5 xl:grid-rows-5 lg:grid-rows-8 xl:aspect-video"
+	class="relative grid grid-cols-2 gap-2 p-2 font-oldsans md:gap-4 md:p-4 lg:grid-cols-3 grid-rows-8 xl:grid-cols-5 xl:grid-rows-5 lg:grid-rows-8 xl:aspect-video"
 	data-theme="light"
 >
 	<div
