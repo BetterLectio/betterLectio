@@ -170,7 +170,7 @@
 <div class="p-4 mt-40 md:container md:mx-auto">
 	<h6 class="text-3xl font-black text-center">Hvad venter du på?</h6>
 	<p class="mb-3 text-center opacity-80">
-		Gør ligeson 400+ andre og gør din Lectio-oplevelse bedre! 100% gratis og uden reklamer.
+		Gør ligesom 400+ andre og gør din Lectio-oplevelse bedre! 100% gratis og uden reklamer.
 	</p>
 	<Cta />
 </div>
