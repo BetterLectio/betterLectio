@@ -46,11 +46,7 @@
 				</Dialog.Header>
 				<SvelteMarkdown source={changelog.body} renderers={{ link: NewTabLink }} />
 				<Dialog.Footer>
-					<Button
-						href="https://oauth-betterlectio.netlify.app/releases"
-						target="_blank"
-						variant="outline"
-					>
+					<Button href="https://auth.betterlectio.dk/releases" target="_blank" variant="outline">
 						Se versionshistorikken
 					</Button>
 					<Dialog.Action on:click={markAsRead}>Fedt 🎉</Dialog.Action>
