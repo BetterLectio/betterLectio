@@ -71,7 +71,7 @@
 		"tippy.js": "^6.3.7",
 		"vaul-svelte": "^0.3.1"
 	},
-	"resolutions": {
-		"rollup": "npm:@rollup/wasm-node"
+	"optionalDependencies": {
+		"@rollup/rollup-linux-x64-gnu": "4.9.5"
 	}
 }
