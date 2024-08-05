@@ -5,28 +5,17 @@
 [![Issues](https://img.shields.io/github/issues/BetterLectio/BetterLectio-next?style=for-the-badge)]()
 [![LICENSE](https://img.shields.io/github/license/BetterLectio/BetterLectio-next?style=for-the-badge)]()
 
-## Support
+# BetterLectio
 
-| OS      | Support |
-| ------- | ------- |
-| Windows | ✅      |
-| Web     | ✅      |
-| MacOS   | ❌      |
-| Linux   | ✅      |
-| Android | ✅      |
+Velkommen til BetterLectios mono-repo. Her finder du alt vores kode, som vi har lavet til BetterLectio.
+Det inkludere vores API, vores hjemmeside og alt det andet som får det hele til at spille sammen.
 
-## Bidrag til projektet
+## REST API
 
-Hvis du vil bidrage til projektet, så er du velkommen til at lave en pull request.
-Du kan også lave en issue, hvis du har en idé til et feature eller har fundet en bug.
-Herunder er der en guide til hvordan du sætter et dev environment op.
+## Sync server og OAuth server
 
-### Opsætning af Dev Environment
+## Hjemmeside
 
-1. Installer [node.js](https://nodejs.org/en/), [rust](https://www.rust-lang.org/tools/install) og [bun](https://bun.sh/)
-2. For bedste udviklingsoplevelse, installer [vscode](https://code.visualstudio.com/) og installer anbefalede extensions
-3. Følg installationsguiden for [tauri](https://tauri.app/v1/guides/getting-started/prerequisites)
-4. Klon dette repo
-5. Åben repoet i din favorit editor
-6. Installer dependencies med `bun install`
-7. Start programmet med `bun dev`
+## App (Android og Desktop)
+
+## Hvordan kan jeg hjælpe?
