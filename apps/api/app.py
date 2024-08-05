@@ -598,4 +598,4 @@ def forløb():
         return jsonify({"backend_error": traceback.format_exc()}), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=80)
