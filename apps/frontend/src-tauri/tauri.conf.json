@@ -1,8 +1,8 @@
 {
 	"$schema": "../node_modules/@tauri-apps/cli/schema.json",
 	"build": {
-		"beforeBuildCommand": "bun svelte:build",
-		"beforeDevCommand": "bun svelte:dev --host",
+		"beforeBuildCommand": "npm svelte:build",
+		"beforeDevCommand": "npm svelte:dev --host",
 		"frontendDist": "../build",
 		"devUrl": "http://localhost:5173"
 	},
