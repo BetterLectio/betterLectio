@@ -39,7 +39,7 @@
     "axios": "^1.6.5",
     "chartjs-plugin-datalabels": "^2.2.0",
     "crypto-es": "^2.1.0",
-    "dompurify": "^3.0.5",
+    "dompurify": "^3.0.11",
     "googleapis": "^134.0.0",
     "markdown-it": "^13.0.1",
     "mixpanel-browser": "^2.47.0",
