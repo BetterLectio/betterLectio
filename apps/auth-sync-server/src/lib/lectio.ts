@@ -1,6 +1,12 @@
 import { DateTime } from "luxon";
 
-export const LECTIO_API_URL = 'https://api.betterlectio.dk';
+export const LECTIO_API_URL = 'https://api.bedstelectio.dk';
+
+export const convertLectioExamName = (name: string) => {
+    return name.replace('mdt.', 'mundtlig').replace('skr.', 'skriftlig')
+        .replace('prv.', 'prøve')
+        .replace('eks.', 'eksamen')
+}
 
 export const convertLectioTime = (dateString: string) => {
     const matchArray = dateString.match(/\d+/gu);

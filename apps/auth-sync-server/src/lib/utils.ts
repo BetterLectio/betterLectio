@@ -3,6 +3,20 @@ import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
 
+export const CORS_HEADERS = {
+	'Access-Control-Allow-Origin': '*',
+	'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+	'Access-Control-Allow-Headers': '*'
+}
+
+export const errorResponse = (message: string, status = 400) => {
+	return new Response(message, {
+		status,
+		statusText: message,
+		headers: CORS_HEADERS
+	});
+}
+
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }

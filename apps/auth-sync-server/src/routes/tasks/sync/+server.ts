@@ -1,29 +1,28 @@
-import { error } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
-import { google as googleLib, tasks_v1 } from 'googleapis';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '$env/static/private';
-import type { Opgave } from '$lib/types/lectio';
 import { LECTIO_API_URL, checkLectioCookie, convertLectioTime } from '$lib/lectio';
 import type { GoogleResponse, GoogleTask, TaskSyncOptions } from '$lib/types/google';
-import { compareTwoStrings } from '$lib/utils';
+import type { Opgave } from '$lib/types/lectio';
+import { CORS_HEADERS, compareTwoStrings, errorResponse } from '$lib/utils';
+import { google as googleLib, tasks_v1 } from 'googleapis';
 import { DateTime } from 'luxon';
+import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request, fetch }) => {
     const headers = request.headers;
     const googleToken = headers.get('google');
     const lectioCookie = headers.get('lectio');
 
-    if (!googleToken || !lectioCookie) return error(400, 'Missing auth headers');
+    if (!googleToken || !lectioCookie) return errorResponse('Missing auth headers');
 
     const options = await request.json() as TaskSyncOptions;
-    if (!options) return error(400, 'Missing options');
-    if (typeof options.tasklist !== 'string') return error(400, 'tasklist must be a string');
-    if (!("addFinishedTasks" in options)) return error(400, 'Missing addFinishedTasks');
-    if (options.maxAge && typeof options.maxAge !== 'string') return error(400, 'maxAge must be a string');
-    if (options.maxAge && !DateTime.fromISO(options.maxAge).isValid) return error(400, 'maxAge must be a valid date');
+    if (!options) return errorResponse('Missing options');
+    if (typeof options.tasklist !== 'string') return errorResponse('tasklist must be a string');
+    if (!("addFinishedTasks" in options)) return errorResponse('Missing addFinishedTasks');
+    if (options.maxAge && typeof options.maxAge !== 'string') return errorResponse('maxAge must be a string');
+    if (options.maxAge && !DateTime.fromISO(options.maxAge).isValid) return errorResponse('maxAge must be a valid date');
 
     const isCookieValid = await checkLectioCookie(lectioCookie);
-    if (!isCookieValid) return error(401, 'Invalid lectio cookie');
+    if (!isCookieValid) return errorResponse('Invalid lectio cookie', 401);
 
     const tasksAuth = new googleLib.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
     let decodedGoogleToken = JSON.parse(atob(googleToken));
@@ -36,7 +35,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
             tasklist: options.tasklist
         })
     } catch (e) {
-        return error(401, 'Invalid google token');
+        return errorResponse('Invalid google token', 401);
     }
     const existingTasks = rawExistingTasks.data.items;
 
@@ -48,6 +47,8 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
     const opgaver = await resp.json() as Opgave[];
     const tasks = formatTasks(opgaver, options);
 
+    let newTasks = 0;
+    let updatedTasks = 0;
     for (let i = 0; i < tasks.length; i++) {
         const task = tasks[i];
         const existingTask = existingTasks?.find((t) => t.notes?.includes(`BetterLectio ID (skal beholdes): ${task.id}`));
@@ -57,24 +58,22 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
             if (existingTask.due !== `${task.task.due?.split('T')[0]}T00:00:00.000Z` || compareTwoStrings(existingTask.notes || "", task.task.notes || "") !== 1 || existingTask.title !== task.task.title) {
                 await tasksApi.tasks.update({
                     tasklist: options.tasklist,
-                    task: task.task.id!,
-                    requestBody: task.task
+                    task: existingTask.id!,
+                    requestBody: { ...task.task, id: existingTask.id! }
                 });
+                updatedTasks++;
             }
         } else {
             await tasksApi.tasks.insert({
                 tasklist: options.tasklist,
                 requestBody: task.task
             });
+            newTasks++;
         }
     }
 
-    return new Response("OK", {
-        headers: {
-            'Access-Control-Allow-Methods': 'POST, OPTIONS',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': '*'
-        }
+    return new Response(JSON.stringify({ new: newTasks, updated: updatedTasks }), {
+        headers: CORS_HEADERS
     });
 };
 
@@ -106,10 +105,6 @@ function formatTasks(tasks: Opgave[], options: TaskSyncOptions): { id: string, d
 
 export const OPTIONS: RequestHandler = async () => {
     return new Response(null, {
-        headers: {
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': '*'
-        }
+        headers: CORS_HEADERS
     });
 };

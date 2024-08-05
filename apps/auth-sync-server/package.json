@@ -32,7 +32,6 @@
   "type": "module",
   "dependencies": {
     "@jrmdayn/googleapis-batcher": "^0.8.0",
-    "@sveltejs/adapter-node": "^5.2.0",
     "@types/luxon": "^3.4.2",
     "bits-ui": "^0.21.1",
     "clsx": "^2.1.0",

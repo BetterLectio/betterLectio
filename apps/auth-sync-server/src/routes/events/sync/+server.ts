@@ -1,17 +1,12 @@
-import { error } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
-import { calendar_v3, google as googleLib } from 'googleapis';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '$env/static/private';
-import { batchFetchImplementation } from '@jrmdayn/googleapis-batcher';
-import { DateTime } from 'luxon';
-import type { Modul } from '$lib/types/lectio';
-import { LECTIO_API_URL, checkLectioCookie, convertLectioInterval } from '$lib/lectio';
+import { LECTIO_API_URL, checkLectioCookie, convertLectioExamName, convertLectioInterval } from '$lib/lectio';
 import type { CalendarEvent, EventSyncOptions, GoogleResponse } from '$lib/types/google';
-
-function getWeekNumber(d: Date): number {
-	const dt = DateTime.fromJSDate(d);
-	return dt.weekNumber;
-}
+import type { Modul } from '$lib/types/lectio';
+import { CORS_HEADERS, errorResponse } from '$lib/utils';
+import { batchFetchImplementation } from '@jrmdayn/googleapis-batcher';
+import { calendar_v3, google as googleLib } from 'googleapis';
+import { DateTime } from 'luxon';
+import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request, fetch }) => {
 	const fetchImpl = batchFetchImplementation();
@@ -19,23 +14,25 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 	const googleToken = headers.get('google');
 	const lectioCookie = headers.get('lectio');
 
-	if (!googleToken || !lectioCookie) return error(400, 'Missing auth headers');
+	if (!googleToken || !lectioCookie) return errorResponse('Missing auth headers');
 
 	const options = await request.json() as EventSyncOptions;
-	if (!options) return error(400, 'Missing options');
-	if (!options.calendarId) return error(400, 'Missing calendarId');
-	if (typeof options.blacklist !== 'string') return error(400, 'Missing blacklist');
+	if (!options) return errorResponse('Missing options');
+	if (!options.calendarId) return errorResponse('Missing calendarId');
+	if (!options.week) return errorResponse('Missing week');
+	if (!options.year) return errorResponse('Missing year');
+	if (typeof options.blacklist !== 'string') return errorResponse('Missing blacklist');
 	if (options.blacklist === '') options.blacklist = 'YouShallNotPass';
 	try {
 		new RegExp(options.blacklist);
 	} catch (e) {
-		return error(400, 'Blacklist must be a valid regex');
+		return errorResponse('Blacklist must be a valid regex');
 	}
-	if (!options.eventReminders) return error(400, 'Missing eventReminders');
-	if (typeof options.eventReminders !== 'object') return error(400, 'eventReminders must be an array');
+	if (!options.eventReminders) return errorResponse('Missing eventReminders');
+	if (typeof options.eventReminders !== 'object') return errorResponse('eventReminders must be an array');
 
 	const isCookieValid = await checkLectioCookie(lectioCookie);
-	if (!isCookieValid) return error(401, 'Invalid lectio cookie');
+	if (!isCookieValid) return errorResponse('Invalid lectio cookie', 401);
 
 	const calendarAuth = new googleLib.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 	let decodedGoogleToken = JSON.parse(atob(googleToken));
@@ -48,11 +45,10 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 		fetchImplementation: fetchImpl
 	});
 
-	const week = getWeekNumber(new Date());
-	const year = new Date().getFullYear();
-
-	const startOfWeek = new Date(year, 0, 2 + (week - 1) * 7, 1);
-	const endOfWeek = new Date(year, 0, 2 + (week - 1) * 7 + 6, 1);
+	const week = options.week;
+	const year = options.year;
+	const startOfWeek = DateTime.fromObject({ weekYear: year, weekNumber: week, weekday: 1 }).toISO() ?? '';
+	const endOfWeek = DateTime.fromObject({ weekYear: year, weekNumber: week, weekday: 7 }).toISO() ?? '';
 
 	// List all events from the calendar with the uid "betterlectio..." in the current week
 	let list: GoogleResponse<calendar_v3.Schema$Events>;
@@ -61,14 +57,14 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 			auth: calendarAuth,
 			calendarId: options.calendarId,
 			q: 'betterlectio',
-			timeMin: startOfWeek.toISOString(),
-			timeMax: endOfWeek.toISOString(),
+			timeMin: startOfWeek,
+			timeMax: endOfWeek,
 			singleEvents: true,
 			orderBy: 'startTime',
 			maxResults: 1000
 		});
 	} catch (e) {
-		return error(401, 'Invalid google token');
+		return errorResponse('Invalid google token', 401);
 	}
 
 	// Delete all events from the calendar with the uid "betterlectio..." from the current week
@@ -103,11 +99,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 
 	const success = insertedEvents.filter((event) => event.status === 200).length;
 	return new Response(JSON.stringify({ total: insertedEvents.length, success, failed: insertedEvents.length - success }), {
-		headers: {
-			'Access-Control-Allow-Methods': 'POST, OPTIONS',
-			'Access-Control-Allow-Origin': '*',
-			'Access-Control-Allow-Headers': '*'
-		}
+		headers: CORS_HEADERS
 	});
 };
 
@@ -121,7 +113,7 @@ function formatModuler(moduler: Modul[], options: EventSyncOptions): CalendarEve
 		const [startDate, endDate] = convertLectioInterval(modul.tidspunkt!);
 
 		return {
-			summary: modul.hold,
+			summary: modul.navn ? convertLectioExamName(modul.navn) : modul.hold,
 			id: `betterlectio${modul.absid}at${DateTime.now().toFormat('yyyyMMddHHmmss')}`,
 			description: `https://app.betterlectio.dk/modul?absid=${modul.absid}`,
 			start: {
@@ -143,10 +135,8 @@ function formatModuler(moduler: Modul[], options: EventSyncOptions): CalendarEve
 
 export const OPTIONS: RequestHandler = async () => {
 	return new Response(null, {
-		headers: {
-			'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-			'Access-Control-Allow-Origin': '*',
-			'Access-Control-Allow-Headers': '*'
-		}
+		headers: CORS_HEADERS
 	});
 };
+
+

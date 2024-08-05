@@ -1,20 +1,20 @@
-import { error } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
-import { calendar_v3, google as googleLib } from 'googleapis';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '$env/static/private';
-import { batchFetchImplementation } from '@jrmdayn/googleapis-batcher';
 import type { GoogleResponse } from '$lib/types/google';
+import { CORS_HEADERS, errorResponse } from '$lib/utils';
+import { batchFetchImplementation } from '@jrmdayn/googleapis-batcher';
+import { calendar_v3, google as googleLib } from 'googleapis';
+import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request, fetch }) => {
     const fetchImpl = batchFetchImplementation();
     const headers = request.headers;
     const googleToken = headers.get('google');
 
-    if (!googleToken) return error(400, 'Missing google token header');
+    if (!googleToken) return errorResponse('Missing google token header');
 
     const options = await request.json() as { calendarId: string };
-    if (!options) return error(400, 'Missing calendarId');
-    if (typeof options.calendarId !== 'string') return error(400, 'calendarId must be a string');
+    if (!options) return errorResponse('Missing calendarId');
+    if (typeof options.calendarId !== 'string') return errorResponse('calendarId must be a string');
 
     const calendarAuth = new googleLib.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
     let decodedGoogleToken = JSON.parse(atob(googleToken));
@@ -39,7 +39,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
             maxResults: 1000
         });
     } catch (e) {
-        return error(401, 'Invalid google token');
+        return errorResponse('Invalid google token', 401);
     }
 
     // Delete all events from the calendar with the uid "betterlectio..."
@@ -55,20 +55,12 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 
     const success = deletedEvents.filter((event) => event.status === 204).length;
     return new Response(JSON.stringify({ total: deletedEvents.length, success, failed: deletedEvents.length - success }), {
-        headers: {
-            'Access-Control-Allow-Methods': 'POST, OPTIONS',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': '*'
-        }
+        headers: CORS_HEADERS
     });
 };
 
 export const OPTIONS: RequestHandler = async () => {
     return new Response(null, {
-        headers: {
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': '*'
-        }
+        headers: CORS_HEADERS
     });
 };
