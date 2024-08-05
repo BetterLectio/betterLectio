@@ -256,7 +256,7 @@ def besvarBesked(self, message_id, id, titel, content, _from):
         + "\n\n"
         + [
             "Sendt fra [url=github.com/JohnnyJTH/python-lectio] python-lectio [/url]",
-            "Sendt fra [url=bedstelectio.tech] BedsteLectio [/url]",
+            "Sendt fra [url=betterlectio.dk] betterlectio [/url]",
         ][_from]
     )
 

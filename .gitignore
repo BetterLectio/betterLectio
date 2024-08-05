@@ -1,0 +1,13 @@
+/.vscode
+.DS_Store
+node_modules
+/build
+.env
+.env.*
+!.env.example
+
+
+**/dist
+results
+.nyc_output
+*.tsbuildinfo
