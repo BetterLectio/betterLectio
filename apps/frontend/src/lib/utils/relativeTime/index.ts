@@ -1,0 +1,1 @@
+export { relativeTime } from "./action"
