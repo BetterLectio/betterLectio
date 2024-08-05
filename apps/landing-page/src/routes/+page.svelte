@@ -138,8 +138,8 @@
 				<Separator class="my-2" />
 				<p class="opacity-80">
 					Hvis du har erfaring med webudvikling og har lyst til at være en del af vores team, så kan
-					du sende en besked på vores vores email, GitHub eller i vores Discord server. Vi er altid
-					på udkig efter nye talenter. Så tøv ikke med at kontakte os!
+					du sende en besked på vores email, GitHub eller i vores Discord server. Vi er altid på
+					udkig efter nye talenter. Så tøv ikke med at kontakte os!
 				</p>
 			</div>
 			<div class="flex flex-wrap gap-2 mt-4">
