@@ -3,15 +3,9 @@
 
 	import { dev } from '$app/environment';
 	import * as Alert from '$lib/components/ui/alert';
-	import {
-		AccountSheet,
-		Changelog,
-		Spinner,
-		WelcomePage,
-		OfflineMode
-	} from '$lib/components';
+	import { AccountSheet, Changelog, Spinner, WelcomePage, OfflineMode } from '$lib/components';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import { authStore, connectionStore } from '$lib/stores';
+	import { authStore, avatarStore, connectionStore } from '$lib/stores';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
 	import { toast } from 'svelte-sonner';
@@ -25,6 +19,14 @@
 	import { toTitleCase } from '$lib/utils/string';
 	import { SiteNavigation, SiteSearch } from '$lib/components/navigation';
 	import { DrawerFix, ScreenSize } from '$lib/components/services';
+	import mixpanel from 'mixpanel-browser';
+	import { decodeUserID } from '$lib/utils/other';
+
+	mixpanel.init('a2ad640012db6ad2671eb150f2629cb3', {
+		debug: true,
+		track_pageview: true,
+		persistence: 'localStorage'
+	});
 
 	Settings.defaultLocale = 'da';
 
@@ -74,6 +76,7 @@
 	}
 
 	onMount(async () => {
+		setupMixpanel();
 		if (!isDesktop || dev) return;
 
 		const update = await check();
@@ -84,6 +87,7 @@
 				action: {
 					label: 'Opdater nu',
 					onClick: async () => {
+						toast.loading('Opdaterer... Appen genstarter');
 						await update.downloadAndInstall();
 						await relaunch();
 					}
@@ -99,7 +103,29 @@
 
 	async function routeChange(route: string) {
 		checkCookie(); // not async on purpose
+		trackRoute(route);
 		console.log('Route changed to', route);
+	}
+
+	function setupMixpanel() {
+		if (!hasCredentials) return;
+		if (!$authStore.username || !$authStore.school) return;
+
+		mixpanel.identify(decodeUserID($authStore.cookie ?? '0'));
+		mixpanel.people.set({
+			$name: $authStore.username,
+			$username: $authStore.username,
+			$school: $authStore.school
+		});
+	}
+
+	function trackRoute(route: string) {
+		if (!hasCredentials) return;
+		if (route === '/') return;
+
+		mixpanel.track(`Page ${route}`, {
+			page: route
+		});
 	}
 </script>
 
@@ -121,7 +147,9 @@
 				<Spinner />
 			</div>
 		{:then _}
-			<div class="{$connectionStore ? 'mt-[42px]' : 'mt-28'} transition-all duration-200 ease-in-out">
+			<div
+				class="{$connectionStore ? 'mt-[42px]' : 'mt-28'} transition-all duration-200 ease-in-out"
+			>
 				{#key pageRefresher}
 					<slot />
 				{/key}
