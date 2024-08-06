@@ -12,7 +12,7 @@
 	import type { RawSimpleAssignment } from '$lib/types/assignments';
 	import { relativeTime } from '$lib/utils';
 	import { DateTime } from 'luxon';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import Archive from 'svelte-radix/Archive.svelte';
 	import ChatBubble from 'svelte-radix/ChatBubble.svelte';
 	import EnvelopeOpen from 'svelte-radix/EnvelopeOpen.svelte';
@@ -37,6 +37,10 @@
 		search();
 	});
 
+	onDestroy(() => {
+		worker.terminate();
+	});
+
 	$: if ($assignmentStore) {
 		search();
 	}
@@ -52,6 +56,9 @@
 	function search() {
 		if (!worker) return;
 		$loadingStore = true;
+
+		if (searchString) status = 'Alle';
+
 		worker.postMessage({ opgaver, searchString, status });
 	}
 </script>
