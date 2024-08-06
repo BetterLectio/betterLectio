@@ -8,6 +8,7 @@
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { Assignment } from '$lib/components/lectio';
+	import fuzzy from 'fuzzy';
 
 	let query = '';
 	let assignmentsLoaded = false;
@@ -59,14 +60,14 @@
 		if ($assignmentStore) {
 			assignmentsLoaded = true;
 			filteredAssignments.set(
-				$assignmentStore.filter((assignment) => {
-					const title = assignment.opgavetitel.toLowerCase();
-					const queryLower = query.toLowerCase();
-					return title.includes(queryLower);
-				})
+				fuzzy
+					.filter(query.toLowerCase(), $assignmentStore, {
+						extract: (assignment) => assignment.opgavetitel.toLowerCase()
+					})
+					.map((result) => result.original)
 			);
 		}
-		console.log(`searching for ${query} and found ${$filteredAssignments?.length} assignments`);
+		console.log(`seaauth.betterlectio.dkd found ${$filteredAssignments?.length} assignments`);
 	}
 
 	//find the element with the data-command-opener attribute and attach a click event listener to it to open the command dialog
