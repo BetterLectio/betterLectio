@@ -2,10 +2,9 @@
 	import '../app.pcss';
 
 	import { dev } from '$app/environment';
-	import * as Alert from '$lib/components/ui/alert';
 	import { AccountSheet, Changelog, Spinner, WelcomePage, OfflineMode } from '$lib/components';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import { authStore, avatarStore, connectionStore } from '$lib/stores';
+	import { authStore, connectionStore } from '$lib/stores';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
 	import { toast } from 'svelte-sonner';
