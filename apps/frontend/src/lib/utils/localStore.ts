@@ -47,13 +47,21 @@ export function localStore<T>(key: string, initialValue: T, options?: Options<T>
 	}
 
 	function maybeLoadInitial(): T {
-		const json = storage?.getItem(key);
+		try {
+			const json = storage?.getItem(key);
 
-		if (json && json !== 'undefined') {
-			return <T>serializer.parse(json);
+			if (json && json !== 'undefined') {
+				return <T>serializer.parse(json);
+			}
+
+			return initialValue;
+		} catch (error) {
+			console.error(
+				'Error: key seems to be invalid JSON, deleting it and defaulting to initialValue'
+			);
+			storage?.removeItem(key);
+			return initialValue;
 		}
-
-		return initialValue;
 	}
 
 	if (!stores[storageType][key]) {
