@@ -4,13 +4,13 @@
 	import { dev } from '$app/environment';
 	import { AccountSheet, Changelog, Spinner, WelcomePage, OfflineMode } from '$lib/components';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import { authStore, connectionStore } from '$lib/stores';
+	import { authStore, connectionStore, googleSyncStore } from '$lib/stores';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
 	import { toast } from 'svelte-sonner';
 
 	import { LECTIO_API } from '$lib/lectio';
-	import { Settings } from 'luxon';
+	import { DateTime, Settings } from 'luxon';
 	import { onMount } from 'svelte';
 	import { isDesktop } from '$lib/utils/environment';
 	import { ModeWatcher } from 'mode-watcher';
@@ -20,6 +20,7 @@
 	import { DrawerFix, ScreenSize } from '$lib/components/services';
 	import mixpanel from 'mixpanel-browser';
 	import { decodeUserID } from '$lib/utils/other';
+	import type { GoogleSyncObject } from '$lib/types/google';
 
 	mixpanel.init('a2ad640012db6ad2671eb150f2629cb3', {
 		debug: true,
@@ -125,6 +126,64 @@
 		mixpanel.track(`Page ${route}`, {
 			page: route
 		});
+	}
+
+	let CalenderWorker: Worker;
+
+	onMount(() => {
+		CalenderWorker = new Worker(new URL('$lib/workers/calendarWorker.ts', import.meta.url), {
+			type: 'module'
+		});
+	});
+
+	// run a function to check if the $googleSyncStore.calendar.nextSync is in the past if so sync now
+	//make a function that runs every 5 minutes to check if the nextSync is in the past
+	//if so sync now
+
+	function checkSync() {
+		//console.log('Checking sync');
+		if (!$googleSyncStore.calendar) return;
+		if ($googleSyncStore.calendar.autoSync === false) return;
+		if ($googleSyncStore.calendar.nextSync === null) return;
+
+		if (
+			$googleSyncStore.calendar?.nextSync &&
+			$googleSyncStore.calendar.nextSync.valueOf() < Date.now()
+		) {
+			console.log('Syncing now');
+			syncNow();
+		}
+	}
+
+	checkSync();
+	setInterval(checkSync, 300000); // 5 minutes
+
+	function syncNow() {
+		if (!$googleSyncStore.calendar) return;
+
+		$googleSyncStore.calendar.lastSync = DateTime.now();
+		if ($googleSyncStore.calendar.syncInterval === 'manual') {
+			$googleSyncStore.calendar.nextSync = $googleSyncStore.calendar.lastSync;
+		} else if ($googleSyncStore.calendar.syncInterval === 'every day') {
+			$googleSyncStore.calendar.nextSync = $googleSyncStore.calendar.lastSync.plus({ days: 1 });
+		} else if ($googleSyncStore.calendar.syncInterval === 'every week') {
+			$googleSyncStore.calendar.nextSync = $googleSyncStore.calendar.lastSync.plus({ weeks: 1 });
+		}
+		$googleSyncStore.lectioToken = $authStore.cookie || '';
+
+		CalenderWorker.onmessage = (event) => {
+			if (event.data.task != 'syncEvents') return;
+			console.log(event.data);
+		};
+
+		let req: GoogleSyncObject = {
+			settings: $googleSyncStore,
+			startWeek: DateTime.now().weekNumber,
+			syncToCalendar: true,
+			syncToTasks: false
+		};
+
+		CalenderWorker.postMessage({ task: 'syncEvents', req });
 	}
 </script>
 

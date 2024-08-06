@@ -10,6 +10,9 @@
 	export let items: { label: string; value: string }[] = [];
 	export let value: { label: string; value: string };
 
+	let className: string;
+	export { className as class };
+
 	const {
 		elements: { menu, input, option },
 		states: { open, inputValue, selected, touchedInput },
@@ -33,23 +36,19 @@
 		: items;
 </script>
 
-<div class="relative w-full">
+<div class={cn('relative w-full', className)}>
 	<input
 		use:melt={$input}
 		class={cn(buttonVariants({ variant: 'outline' }), 'w-full placeholder:text-foreground')}
 		placeholder={$selected?.label}
 	/>
 	<div class="absolute z-10 -translate-y-1/2 right-2 top-1/2">
-		{#if $open}
-			<ChevronUp />
-		{:else}
-			<ChevronDown />
-		{/if}
+		<ChevronDown class="duration-200 transition-all {$open ? 'rotate-180' : ''}" />
 	</div>
 </div>
 {#if $open}
 	<ul
-		class="unstyled z-10 flex max-h-[300px] flex-col overflow-hidden rounded-lg border-2 border-foreground"
+		class="unstyled z-10 flex max-h-[300px] flex-col overflow-hidden rounded-lg border-[1px] border-border"
 		use:melt={$menu}
 		transition:fly={{ duration: 150, y: -5 }}
 	>
@@ -65,7 +64,7 @@
 						label: item.label
 					})}
 					class="relative cursor-pointer scroll-my-2 rounded-md py-2 pl-4 pr-4
-                    data-[highlighted]:bg-gray-200 dark:data-[highlighted]:bg-zinc-700"
+                    data-[highlighted]:bg-accent"
 				>
 					{#if $isSelected(item.value)}
 						<div class="absolute z-10 check left-2 top-1/2 text-primary">

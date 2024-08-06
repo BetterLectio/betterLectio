@@ -4,14 +4,14 @@
 	import { Button } from '$lib/components/ui/button';
 	import TriangleAlert from 'lucide-svelte/icons/triangle-alert';
 	import { Input } from '$lib/components/ui/input';
-	import { pageState } from '.';
-	import { authStore } from '$lib/stores';
+	import { authStore, googleSyncStore } from '$lib/stores';
 
 	let token: string = '';
 
 	const saveToken = () => {
 		$authStore.googleToken = token;
-		$pageState = 'ready';
+		$googleSyncStore.googleToken = token;
+		$googleSyncStore.enabled = true;
 	};
 </script>
 
@@ -19,12 +19,12 @@
 	<TriangleAlert />
 	<div class="flex items-center justify-between w-full">
 		<div>
-			<Alert.Title>Mangler konto</Alert.Title>
+			<Alert.Title>Deaktiveret</Alert.Title>
 			<Alert.Description>Du har ikke tilføjet en Google-konto endnu.</Alert.Description>
 		</div>
 		<Dialog.Root closeOnOutsideClick={false} closeOnEscape={false}>
 			<Dialog.Trigger
-				><Button href="https://betterlectio-oauth.vercel.app/" target="_blank">
+				><Button href="https://auth.betterlectio.dk/" target="_blank">
 					Log på med Google
 				</Button></Dialog.Trigger
 			>

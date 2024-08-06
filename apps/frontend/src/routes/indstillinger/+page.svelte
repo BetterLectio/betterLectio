@@ -6,7 +6,7 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { Switch } from '$lib/components/ui/switch';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import { authStore } from '$lib/stores';
+	import { authStore, googleSyncStore } from '$lib/stores';
 	import { disable, enable, isEnabled } from '@tauri-apps/plugin-autostart';
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
@@ -16,6 +16,9 @@
 	import Zap from 'lucide-svelte/icons/zap';
 	import { isWeb } from '$lib/utils';
 	import { isDesktop } from '$lib/utils/environment';
+	import Setup from './_components/Setup.svelte';
+	import CheckToken from './_components/CheckToken.svelte';
+	import SyncSettings from './_components/SyncSettings.svelte';
 
 	let showAccountError =
 		$authStore.username === null || $authStore.password === null || $authStore.school === null;
@@ -102,9 +105,8 @@
 								<div>
 									<Alert.Title>Opdatering</Alert.Title>
 									<Alert.Description
-									>Der skete en fejl ved at tjekke for opdateringer
-									</Alert.Description
-									>
+										>Der skete en fejl ved at tjekke for opdateringer
+									</Alert.Description>
 								</div>
 							</div>
 						{/await}
@@ -128,6 +130,22 @@
 			{/if}
 			<p class="mb-2">BetterLectio bruger din lectio konto til at hente dine data fra lectio.</p>
 			<AccountSheet />
+		</div>
+		<Separator />
+		<h3 class="text-lg font-semibold scroll-m-20">Google Syntronisering</h3>
+		<div>
+			<p class="mb-2">
+				Synkroniser dine data fra BetterLectio til Google Kalender og Google Tasks.
+			</p>
+			{#if $googleSyncStore.enabled}
+				{#if $googleSyncStore.tokenValid}
+					<SyncSettings />
+				{:else}
+					<CheckToken />
+				{/if}
+			{:else}
+				<Setup />
+			{/if}
 		</div>
 		<Separator />
 		<div>
@@ -167,7 +185,11 @@
 					<div>
 						<Tooltip.Root>
 							<Tooltip.Trigger>
-								<Switch disabled={!isDesktop} bind:checked={autoStartBtn} on:click={toggleAutostart} />
+								<Switch
+									disabled={!isDesktop}
+									bind:checked={autoStartBtn}
+									on:click={toggleAutostart}
+								/>
 							</Tooltip.Trigger>
 							{#if isWeb}
 								<Tooltip.Content>
