@@ -6,14 +6,14 @@
 	import { Input } from '$lib/components/ui/input';
 	import { authStore, googleSyncStore } from '$lib/stores';
 	import { onDestroy, onMount } from 'svelte';
+	import calendarWorker from '$lib/workers/calendarWorker?worker';
+
 	import type { GoogleSyncCheckTokenObject } from '$lib/types/google';
 
 	let worker: Worker;
 
 	onMount(() => {
-		worker = new Worker(new URL('$lib/workers/calendarWorker.ts', import.meta.url), {
-			type: 'module'
-		});
+		worker = new calendarWorker();
 
 		worker.onmessage = (event) => {
 			console.log(event.data);

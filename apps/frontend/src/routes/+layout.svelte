@@ -8,6 +8,7 @@
 	import { relaunch } from '@tauri-apps/plugin-process';
 	import { check } from '@tauri-apps/plugin-updater';
 	import { toast } from 'svelte-sonner';
+	import calendarWorker from '$lib/workers/calendarWorker?worker';
 
 	import { LECTIO_API } from '$lib/lectio';
 	import { DateTime, Settings } from 'luxon';
@@ -131,9 +132,7 @@
 	let CalenderWorker: Worker;
 
 	onMount(() => {
-		CalenderWorker = new Worker(new URL('$lib/workers/calendarWorker.ts', import.meta.url), {
-			type: 'module'
-		});
+		CalenderWorker = new calendarWorker();
 	});
 
 	// run a function to check if the $googleSyncStore.calendar.nextSync is in the past if so sync now

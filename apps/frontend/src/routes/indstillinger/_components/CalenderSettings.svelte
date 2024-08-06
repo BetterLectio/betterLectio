@@ -7,6 +7,8 @@
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import calendarWorker from '$lib/workers/calendarWorker?worker';
+
 	import { DateTime } from 'luxon';
 
 	let numOfWeeks = $googleSyncStore.calendar?.amountOfWeeks.toString() || '2';
@@ -43,9 +45,7 @@
 
 	//fetching the calendar
 	function fetchCalendars() {
-		worker = new Worker(new URL('$lib/workers/calendarWorker.ts', import.meta.url), {
-			type: 'module'
-		});
+		worker = new calendarWorker();
 
 		worker.onmessage = (event) => {
 			if (event.data.task != 'listCalendars') return;
@@ -110,9 +110,7 @@
 		if (!$googleSyncStore.calendar) return;
 		$googleSyncStore.lectioToken = $authStore.cookie || '';
 
-		worker = new Worker(new URL('$lib/workers/calendarWorker.ts', import.meta.url), {
-			type: 'module'
-		});
+		worker = new calendarWorker();
 
 		worker.onmessage = (event) => {
 			if (event.data.task != 'deleteEvents') return;
