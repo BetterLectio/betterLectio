@@ -8,7 +8,7 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Table from '$lib/components/ui/table';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import { assignmentStore } from '$lib/stores';
+	import { assignmentStore, loadingStore } from '$lib/stores';
 	import type { RawSimpleAssignment } from '$lib/types/assignments';
 	import { relativeTime } from '$lib/utils';
 	import { DateTime } from 'luxon';
@@ -21,45 +21,38 @@
 
 	let opgaver = $assignmentStore;
 	let filteredOpgaver: RawSimpleAssignment[] = [];
-	$: if (opgaver) filteredOpgaver = opgaver;
 	let searchString = '';
 	let status = 'Skal Afleveres';
+	let worker: Worker;
 
 	onMount(async () => {
 		await assignmentStore.fetch();
+		worker = new Worker(new URL('./searchWorker.ts', import.meta.url), {
+			type: 'module'
+		});
+		worker.onmessage = (event) => {
+			filteredOpgaver = event.data;
+			$loadingStore = false;
+		};
 		search();
 	});
 
 	$: if ($assignmentStore) {
-		filteredOpgaver = $assignmentStore?.filter((opgave) => {
-			switch (status) {
-				case 'Alle':
-					return true;
-				case 'Skal Afleveres':
-					return opgave.status === 'Venter' || opgave.status === 'Mangler';
-				case 'Er Afleveret':
-					return opgave.status === 'Afleveret' || opgave.status === 'Afsluttet';
-			}
-		});
 		search();
-	}
-
-	function search() {
-		if (!searchString) return;
-		status = 'Alle';
-		const searchResults: RawSimpleAssignment[] = [];
-		opgaver?.forEach((opgave) => {
-			if (
-				opgave.opgavetitel.toLowerCase().includes(searchString.toLowerCase()) ||
-				opgave.hold.includes(searchString.toLowerCase())
-			)
-				searchResults.push(opgave);
-			filteredOpgaver = searchResults;
-		});
 	}
 
 	function elevtidNum(elevtid: string) {
 		return Number(elevtid.replace(',', '.'));
+	}
+
+	$: if (status) {
+		search();
+	}
+
+	function search() {
+		if (!worker) return;
+		$loadingStore = true;
+		worker.postMessage({ opgaver, searchString, status });
 	}
 </script>
 
@@ -164,9 +157,9 @@
 									<Tooltip.Content>
 										<p>
 											Opgaven har {opgave['elev-tid']} elev time{elevtidNum(opgave['elev-tid']) ===
-										1
-											? ''
-											: 'r'}
+											1
+												? ''
+												: 'r'}
 										</p>
 									</Tooltip.Content>
 								{:else}
@@ -216,7 +209,7 @@
 							</Tooltip.Root>
 						</Table.Cell>
 						<Table.Cell class="text-nowrap line-clamp-1 sm:table-cell"
-						>{opgave.opgavetitel}</Table.Cell
+							>{opgave.opgavetitel}</Table.Cell
 						>
 					</Table.Row>
 				{/each}

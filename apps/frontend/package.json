@@ -25,6 +25,7 @@
 		"@types/luxon": "^3.4.2",
 		"@types/markdown-it": "^14.0.1",
 		"@types/mixpanel-browser": "^2.49.1",
+		"@types/node": "^22.1.0",
 		"autoprefixer": "^10.4.19",
 		"postcss": "^8.4.38",
 		"postcss-load-config": "^5.0.3",
