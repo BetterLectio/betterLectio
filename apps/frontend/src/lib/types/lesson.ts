@@ -1,4 +1,4 @@
-import type { Interval } from "luxon";
+import type {Interval} from "luxon";
 
 export type RawLesson = {
     absid: string;
@@ -16,9 +16,9 @@ export type Lesson = {
     class: string;
     id: string;
     date: string;
-    name: string;
+    name: string | null;
     note: string;
-    room: string;
+    room: string | null;
     status: string;
-    teacher: string;
+    teacher: string | null;
 }
