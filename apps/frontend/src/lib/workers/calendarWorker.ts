@@ -1,6 +1,7 @@
 import { LECTIO_OAUTH_API } from '$lib/lectio';
 import type { GoogleSyncCheckTokenObject, GoogleSyncObject } from '$lib/types/google';
 import { DateTime } from 'luxon';
+import { toast } from 'svelte-sonner';
 
 self.onmessage = (event) => {
 	const { task } = event.data;
@@ -25,6 +26,12 @@ self.onmessage = (event) => {
 			break;
 		case 'deleteEvents':
 			deleteEvents(req);
+			break;
+		case 'provisionAutoSync':
+			provisionAutoSync(req);
+			break;
+		case 'cancelAutoSync':
+			cancelAutoSync();
 			break;
 	}
 };
@@ -148,4 +155,86 @@ async function deleteEvents(req: GoogleSyncObject) {
 	});
 
 	self.postMessage({ task: 'deleteEvents' });
+}
+
+async function autoSync(req: GoogleSyncObject) {
+	//this function will be called every  minute to sync the events if the user has enabled auto sync and the next sync time is less than the current time
+
+	if (!req.settings.calendar) return;
+	if (!req.settings.calendar?.autoSync) return;
+
+	workerLog('autoSync: Checking if sync is needed');
+
+	if (
+		req.settings.calendar?.nextSync &&
+		req.settings.calendar.lastSync &&
+		DateTime.fromISO(req.settings.calendar.nextSync.toString()).toMillis() < Date.now()
+	) {
+		workerLog('autoSync: Syncing events');
+		await syncEvents(req);
+		workerLog('autoSync: Syncing finished');
+		if (req.settings.calendar.syncInterval === 'manual') {
+			req.settings.calendar.nextSync = DateTime.fromISO(req.settings.calendar.nextSync.toString());
+		} else if (req.settings.calendar.syncInterval === 'every day') {
+			req.settings.calendar.nextSync = DateTime.fromISO(
+				req.settings.calendar.nextSync.toString()
+			).plus({ days: 1 });
+		} else if (req.settings.calendar.syncInterval === 'every week') {
+			req.settings.calendar.nextSync = DateTime.fromISO(
+				req.settings.calendar.nextSync.toString()
+			).plus({ weeks: 1 });
+		}
+		workerLog(
+			'autoSync: Setting next sync to ' +
+				DateTime.fromISO(req.settings.calendar.nextSync.toString())
+					.toLocal()
+					.toLocaleString(DateTime.DATETIME_SHORT)
+		);
+		toast(
+			'Kalenderen er blevet synkroniseret, næste synkronisering: ' +
+				DateTime.fromISO(req.settings.calendar.nextSync.toString())
+					.toLocal()
+					.toLocaleString(DateTime.DATETIME_SHORT)
+		);
+	}
+
+	return req;
+}
+
+let doSync = false;
+
+async function checkSync(req: GoogleSyncObject) {
+	while (doSync) {
+		// maybe get updated req here
+		let newReq = await autoSync(req);
+		// update req
+		if (newReq) {
+			req = newReq;
+		}
+
+		await new Promise((resolve) => setTimeout(resolve, 60000));
+	}
+}
+
+function provisionAutoSync(req: GoogleSyncObject) {
+	if (doSync) {
+		workerLog(
+			'provisionAutoSync: Auto sync already provisioned, if you want to change the settings, cancel the current auto sync and provision a new one'
+		);
+		return;
+	}
+	workerLog('provisionAutoSync');
+	doSync = true;
+	checkSync(req);
+	workerLog('provisionAutoSync: Auto sync provisioned');
+}
+
+function cancelAutoSync() {
+	workerLog('cancelAutoSync');
+	doSync = false;
+	workerLog('cancelAutoSync: Auto sync cancelled');
+}
+
+function workerLog(message: string) {
+	console.log('[Worker] ' + message);
 }

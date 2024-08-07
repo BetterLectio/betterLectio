@@ -104,7 +104,6 @@
 
 	async function routeChange(route: string) {
 		checkCookie(); // not async on purpose
-		trackRoute(route);
 		console.log('Route changed to', route);
 	}
 
@@ -120,60 +119,16 @@
 		});
 	}
 
-	function trackRoute(route: string) {
-		if (!hasCredentials) return;
-		if (route === '/') return;
-
-		mixpanel.track(`Page ${route}`, {
-			page: route
-		});
-	}
-
 	let CalenderWorker: Worker;
 
 	onMount(() => {
+		if (!hasCredentials) return;
+		if (!$googleSyncStore.enabled) return;
+		if (!$googleSyncStore.CalenderEnabled) return;
+		if ($googleSyncStore.calendar?.syncInterval == 'manual') return;
+		if (!$googleSyncStore.calendar?.autoSync) return;
+
 		CalenderWorker = new calendarWorker();
-	});
-
-	// run a function to check if the $googleSyncStore.calendar.nextSync is in the past if so sync now
-	//make a function that runs every 5 minutes to check if the nextSync is in the past
-	//if so sync now
-
-	function checkSync() {
-		//console.log('Checking sync');
-		if (!$googleSyncStore.calendar) return;
-		if ($googleSyncStore.calendar.autoSync === false) return;
-		if ($googleSyncStore.calendar.nextSync === null) return;
-
-		if (
-			$googleSyncStore.calendar?.nextSync &&
-			$googleSyncStore.calendar.nextSync.valueOf() < Date.now()
-		) {
-			console.log('Syncing now');
-			syncNow();
-		}
-	}
-
-	checkSync();
-	setInterval(checkSync, 300000); // 5 minutes
-
-	function syncNow() {
-		if (!$googleSyncStore.calendar) return;
-
-		$googleSyncStore.calendar.lastSync = DateTime.now();
-		if ($googleSyncStore.calendar.syncInterval === 'manual') {
-			$googleSyncStore.calendar.nextSync = $googleSyncStore.calendar.lastSync;
-		} else if ($googleSyncStore.calendar.syncInterval === 'every day') {
-			$googleSyncStore.calendar.nextSync = $googleSyncStore.calendar.lastSync.plus({ days: 1 });
-		} else if ($googleSyncStore.calendar.syncInterval === 'every week') {
-			$googleSyncStore.calendar.nextSync = $googleSyncStore.calendar.lastSync.plus({ weeks: 1 });
-		}
-		$googleSyncStore.lectioToken = $authStore.cookie || '';
-
-		CalenderWorker.onmessage = (event) => {
-			if (event.data.task != 'syncEvents') return;
-			console.log(event.data);
-		};
 
 		let req: GoogleSyncObject = {
 			settings: $googleSyncStore,
@@ -182,8 +137,13 @@
 			syncToTasks: false
 		};
 
-		CalenderWorker.postMessage({ task: 'syncEvents', req });
-	}
+		CalenderWorker.postMessage({ task: 'provisionAutoSync', req });
+
+		CalenderWorker.onmessage = (event) => {
+			if (event.data.task != 'updateSettings') return;
+			$googleSyncStore = event.data.req.settings;
+		};
+	});
 </script>
 
 <svelte:head>

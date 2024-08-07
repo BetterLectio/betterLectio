@@ -10,6 +10,12 @@
 	import calendarWorker from '$lib/workers/calendarWorker?worker';
 
 	import { DateTime } from 'luxon';
+	import Spinner from '$lib/components/Spinner.svelte';
+	import { Badge } from '$lib/components/ui/badge';
+
+	let worker: Worker;
+
+	let working = false;
 
 	let numOfWeeks = $googleSyncStore.calendar?.amountOfWeeks.toString() || '2';
 	$: if (numOfWeeks) {
@@ -41,8 +47,6 @@
 		}
 	}
 
-	let worker: Worker;
-
 	//fetching the calendar
 	function fetchCalendars() {
 		worker = new calendarWorker();
@@ -54,7 +58,7 @@
 					calendars: [],
 					preferredCalendar: null,
 					autoSync: true,
-					syncInterval: 'every week',
+					syncInterval: 'manual',
 					amountOfWeeks: 2,
 					notifications: true,
 					lastSync: null,
@@ -78,6 +82,7 @@
 	function syncNow() {
 		if (!$googleSyncStore.calendar) return;
 
+		working = true;
 		$googleSyncStore.calendar.lastSync = DateTime.now();
 		if ($googleSyncStore.calendar.syncInterval === 'manual') {
 			$googleSyncStore.calendar.nextSync = $googleSyncStore.calendar.lastSync;
@@ -92,6 +97,7 @@
 		});
 
 		worker.onmessage = (event) => {
+			working = false;
 			if (event.data.task != 'syncEvents') return;
 			console.log(event.data);
 		};
@@ -108,11 +114,13 @@
 
 	function deleteFromCal() {
 		if (!$googleSyncStore.calendar) return;
+		working = true;
 		$googleSyncStore.lectioToken = $authStore.cookie || '';
 
 		worker = new calendarWorker();
 
 		worker.onmessage = (event) => {
+			working = false;
 			if (event.data.task != 'deleteEvents') return;
 			console.log(event.data);
 		};
@@ -125,14 +133,6 @@
 		};
 
 		worker.postMessage({ task: 'deleteEvents', req });
-	}
-
-	function nextCalSync() {
-		if (!$googleSyncStore.calendar?.nextSync) return;
-		console.log($googleSyncStore.calendar.nextSync);
-		let then = DateTime.fromISO($googleSyncStore.calendar.nextSync.toString());
-		let diff = then.toRelative();
-		return diff;
 	}
 </script>
 
@@ -181,18 +181,19 @@
 {/if}
 
 {#if $googleSyncStore.calendar?.autoSync}
+	<Badge class="bg-green-500">Aktiv</Badge>
+	<p class="w-full italic sm:w-80 opacity-65 text-sx">
+		Det anbefales at du genindlæser siden hvis du ændre dine indstillinger
+	</p>
+{:else if working}
 	<!-- content here -->
-	{#if $googleSyncStore.calendar?.lastSync}
-		<p>Næste synkronisering om:</p>
-		{#key $googleSyncStore.calendar.nextSync}
-			<p class="font-mono">
-				{nextCalSync()}
-			</p>
-		{/key}
-	{:else}
-		<p>vent mens vi henter sidste synkronisering</p>
-	{/if}
+	<Spinner />
 {:else}
+	<!-- else content here -->
 	<Button size="sm" on:click={syncNow}>synkroniser nu</Button>
 	<Button size="sm" variant="destructive" on:click={deleteFromCal}>Slet Moduler</Button>
+{/if}
+
+{#if $googleSyncStore.CalenderEnabled}
+	<!-- content here -->
 {/if}
