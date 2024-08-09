@@ -37,9 +37,10 @@
 <div class="flex flex-wrap items-center justify-center gap-4 mb-7">
 	{#if os == "Windows"}
 		<!-- Only show download button if the user is on A supported OS -->
-		<Button size="sm" href="/download">Download til {os}<Download class="ml-2 size-5" /></Button>
+		<!-- not ready yet -->
+		<!-- <Button size="sm" href="/download">Download til {os}<Download class="ml-2 size-5" /></Button> -->
 	{/if}
-	<Button size="sm" href="https://app.betterlectio.dk" variant="outline"
+	<Button size="sm" href="https://app.betterlectio.dk"
 		>Åben i browseren<Globe class="ml-2 size-5" /></Button
 	>
 </div>
