@@ -9,6 +9,7 @@ import type { FrontPage, RawFrontPage } from '$lib/types/frontpage';
 import { stringToColor } from '$lib/utils';
 import { NAME_REGEX } from '$lib/utils/other';
 import type { GoogleSyncSettings } from '$lib/types/google';
+import type { RawLesson } from './types/lesson';
 
 export { screenSizeStore } from '$lib/utils'; // To allow importing screenSizeStore from 'stores'
 
@@ -136,3 +137,5 @@ export const informationStore = lectioDataStore<{
     groups
   };
 });
+
+export const lessonsStore = localStore<{ [key: number]: RawLesson[] }>('lessons', {});

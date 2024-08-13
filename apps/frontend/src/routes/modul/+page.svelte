@@ -3,25 +3,48 @@
 	import { NewTabLink } from '$lib/components/links';
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
+	import { TextTooltip } from '$lib/components/ui/tooltip/';
 	import * as Table from '$lib/components/ui/table';
+	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
+	import ChevronRight from 'lucide-svelte/icons/chevron-right';
+	import ChevronsLeft from 'lucide-svelte/icons/chevrons-left';
+	import ChevronsRight from 'lucide-svelte/icons/chevrons-right';
 	import { authStore } from '$lib/stores';
 	import type { RawModule } from '$lib/types/module';
 	import { get } from '$lib/utils/http.js';
 	import { onMount } from 'svelte';
 	import SvelteMarkdown from 'svelte-markdown';
+	import { getSourroundingLessons } from '$lib/utils/lessons';
+    import { goto } from '$app/navigation';
+    import type { RawLesson } from '$lib/types/lesson';
 
 	const absid = $page.url.searchParams.get('absid');
 
 	let modul: RawModule | null = null;
 	let items = {};
+	let surroundingLessons: {
+		previous: RawLesson | null;
+		next: RawLesson | null;
+		previousTeam: RawLesson | null;
+		nextTeam: RawLesson | null;
+	} = {
+		previous: null,
+		next: null,
+		previousTeam: null,
+		nextTeam: null
+	};
 
 	onMount(async () => {
 		modul = await get(`/modul?absid=${absid}`);
+		if (!modul) return;
+
 		items = {
 			Tidspunkt: modul?.aktivitet?.tidspunkt,
 			Lokale: modul?.aktivitet?.lokale,
 			Lærer: modul?.aktivitet?.lærer
 		};
+		surroundingLessons = getSourroundingLessons(modul?.aktivitet);
+		console.log(surroundingLessons);
 	});
 </script>
 
@@ -32,15 +55,37 @@
 		{:else}
 			<h1>Loading...</h1>
 		{/if}
-		{#if modul}
-			<Button
+		<div class="items-center gap-2 flex">
+			{#if surroundingLessons.previousTeam}
+				<TextTooltip text="Forrige hold">
+					<Button on:click={()=> goto(`/modul?absid=${surroundingLessons.previousTeam?.absid}`)} size="icon" variant="ghost"><ChevronsLeft /></Button>
+				</TextTooltip>
+			{/if}
+			{#if surroundingLessons.previous}
+				<TextTooltip text="Forrige modul">
+					<Button on:click={()=> goto(`/modul?absid=${surroundingLessons.previous?.absid}`)} size="icon" variant="ghost"><ChevronLeft /></Button>
+				</TextTooltip>
+			{/if}
+			{#if surroundingLessons.next}
+				<TextTooltip text="Næste modul">
+					<Button on:click={()=> goto(`/modul?absid=${surroundingLessons.next?.absid}`)} size="icon" variant="ghost"><ChevronRight /></Button>
+				</TextTooltip>
+			{/if}
+			{#if surroundingLessons.nextTeam}
+				<TextTooltip text="Næste hold">
+					<Button on:click={()=> goto(`/modul?absid=${surroundingLessons.nextTeam?.absid}`)} size="icon" variant="ghost"><ChevronsRight /></Button>
+				</TextTooltip>
+			{/if}
+			{#if modul}
+				<Button
 				variant="outline"
 				href={`https://www.lectio.dk/lectio/${$authStore.school}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
 				target="_blank">Åben Elevfeedback</Button
-			>
-		{:else}
-			<Button variant="outline" disabled={true}>Åben Elevfeedback</Button>
-		{/if}
+				>
+			{:else}
+				<Button variant="outline" disabled={true}>Åben Elevfeedback</Button>
+			{/if}
+		</div>
 	</div>
 	<Table.Root>
 		<Table.Header>
