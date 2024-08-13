@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { Spinner } from '$lib/components';
 	import { Button } from '$lib/components/ui/button';
-	import { authStore } from '$lib/stores';
+	import { authStore, lessonsStore } from '$lib/stores';
 	import type { RawLesson } from '$lib/types/lesson';
 	import { constructInterval, decodeUserID, NAME_REGEX, stringToColor } from '$lib/utils/other';
 	import { get } from '$lib/utils/http';
@@ -38,6 +38,10 @@
 				} else {
 					userName = data.overskrift.replace('Lokalet ', '').replace(' - Skema', '');
 				}
+
+				lessonsStore.update((store) => {
+					return {...store, [start.weekNumber]: data.moduler};
+				});
 
 				const events = data.moduler.map((lesson) => {
 					const interval = constructInterval(lesson.tidspunkt);
