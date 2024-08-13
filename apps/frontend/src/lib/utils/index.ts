@@ -4,3 +4,4 @@ export { cn, constructInterval, decodeUserID, flyAndScale, stringToColor, round 
 export { relativeTime } from './relativeTime';
 export { toTitleCase } from './string';
 export { screenSizeStore, isSmallScreen, isMediumScreen, isLargeScreen, isXLScreen, isXXLScreen } from './size';
+export { getSurroundingLessons } from './lessons';
