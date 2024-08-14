@@ -16,6 +16,7 @@
   import SvelteMarkdown from 'svelte-markdown';
   import { NewTabLink } from '$lib/components/links';
   import { calculateRemainingHeight } from '$lib/utils/size';
+  import { SectionHeader } from './(components)';
 
   onMount(async () => {
     await frontPageStore.fetch();
@@ -77,39 +78,39 @@
 <div bind:this={container} class="page-container">
   <div class="h-full grid grid-cols-1 lg:grid-cols-3 grid-rows-[minmax(0,1fr)] gap-4 lg:overflow-hidden">
     <div class="flex flex-col gap-4">
-      <Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !nextClass})}>
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-medium unstyled">Næste Modul</h2>
-          {#if nextClassLoading}
-            <Spinner />
-          {:else if nextClass && nextClass.room}
-            <Badge>{nextClass.room}</Badge>
-          {/if}
-        </div>
-        {#if nextClass}
-          <div class="flex flex-col mt-1">
-            <p>{nextClass.class}</p>
-            {#if nextClass.name}
-              <p>{nextClass.name}</p>
+      <a
+        class="unstyled"
+        href={nextClass ? (nextClass.id.startsWith('PH') ? `/eksamen?id=${nextClass.id.substring(2)}&navn=${$frontPageStore?.name}` : `/modul?absid=${nextClass.id}`) : ''}
+      >
+        <Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !nextClass})}>
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-medium unstyled">Næste Modul</h2>
+            {#if nextClassLoading}
+              <Spinner />
+            {:else if nextClass && nextClass.room}
+              <Badge>{nextClass.room}</Badge>
             {/if}
-            <p class="mt-1 text-sm text-muted-foreground">
-              begynder {nextClass.interval.start?.toRelative()}
-            </p>
           </div>
-        {:else if !nextClassLoading}
-          <p class="text-sm text-muted-foreground">Ingen kommende moduler.</p>
-        {/if}
-      </Card>
-      <Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !assignments || !assignments.length})}>
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-medium unstyled">Opgaver</h2>
-          {#if !assignments}
-            <Spinner />
+          {#if nextClass}
+            <div class="flex flex-col mt-1">
+              <p>{nextClass.class}</p>
+              {#if nextClass.name}
+                <p>{nextClass.name}</p>
+              {/if}
+              <p class="mt-1 text-sm text-muted-foreground">
+                begynder {nextClass.interval.start?.toRelative()}
+              </p>
+            </div>
+          {:else if !nextClassLoading}
+            <p class="text-sm text-muted-foreground">Ingen kommende moduler.</p>
           {/if}
-        </div>
+        </Card>
+      </a>
+      <Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !assignments || !assignments.length})}>
+        <SectionHeader label="Opgaver" link="/opgaver" loading={!assignments} />
         {#if assignments}
           {#if assignments.length > 0}
-            <div class="space-y-2">
+            <div class="space-y-2 mt-1">
               {#each assignments as assignment}
                 <a
                   href={`/opgave?id=${assignment.id}`}
@@ -129,15 +130,10 @@
         {/if}
       </Card>
       <Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !messages || !messages.length})}>
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-medium unstyled">Beskeder</h2>
-          {#if !messages}
-            <Spinner />
-          {/if}
-        </div>
+        <SectionHeader label="Beskeder" link="/beskeder" loading={!messages} />
         {#if messages}
           {#if messages.length > 0}
-            <div class="space-y-2">
+            <div class="space-y-2 mt-1">
               {#each messages as message}
                 <a
                   href={`/beskeder?id=${message.id}`}
@@ -160,12 +156,7 @@
     </div>
     <div class="flex flex-col gap-4 lg:col-span-2">
       <Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !classes || !classes.length})}>
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-medium unstyled">Skema</h2>
-          {#if !classes}
-            <Spinner />
-          {/if}
-        </div>
+        <SectionHeader label="Skema" link="/skema" loading={!classes} />
         {#if classes}
           {#if classes.length > 0}
             <div class="space-y-2">
