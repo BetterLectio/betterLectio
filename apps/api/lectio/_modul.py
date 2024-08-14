@@ -27,7 +27,7 @@ def modul(self, absid):
             str(
                 soup.find(
                     "textarea", {"id": "s_m_Content_Content_tocAndToolbar_ActNoteTB_tb"}
-                )
+                ) or ""
             ).replace("\r\n", "\n\n"),
             bullets="-",
         )
