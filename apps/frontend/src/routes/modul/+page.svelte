@@ -16,11 +16,11 @@
   import SvelteMarkdown from 'svelte-markdown';
   import { getSurroundingLessons } from '$lib/utils/lessons';
   import { goto } from '$app/navigation';
+  import { Card } from '$lib/components/ui/card';
 
   const absid = $page.url.searchParams.get('absid');
 
   let modul: RawModule | null = null;
-  let items = {};
   let surroundingLessons: ReturnType<typeof getSurroundingLessons> = {
     previous: null,
     next: null,
@@ -32,23 +32,21 @@
     modul = await get(`/modul?absid=${absid}`);
     if (!modul) return;
 
-    items = {
-      Tidspunkt: modul?.aktivitet?.tidspunkt,
-      Lokale: modul?.aktivitet?.lokale,
-      Lærer: modul?.aktivitet?.lærer
-    };
     surroundingLessons = getSurroundingLessons(modul?.aktivitet);
   });
 </script>
 
 <div class="page-container">
-  <div class="flex justify-between">
+  {#if modul && modul.forløb}
+    <span class="text-sm text-muted-foreground">{modul.forløb}</span>
+  {/if}
+  <div class="!mt-0 flex flex-col md:flex-row md:justify-between">
     {#if modul}
-      <h1>{modul.aktivitet.navn ? modul.aktivitet.navn : modul.aktivitet.hold}</h1>
+      <h1 class="truncate">{modul.aktivitet.navn ? modul.aktivitet.navn : modul.aktivitet.hold}</h1>
     {:else}
       <h1>Loading...</h1>
     {/if}
-    <div class="items-center gap-2 flex">
+    <div class="items-center gap-2 flex max-md:pt-2">
       <TextTooltip text="Forrige hold">
         <Button on:click={()=> goto(`/modul?absid=${surroundingLessons.previousClass?.absid}`)} size="icon"
                 variant="ghost" disabled={!surroundingLessons.previousClass}>
@@ -75,69 +73,81 @@
       </TextTooltip>
       {#if modul}
         <Button
-          variant="outline"
           href={`https://www.lectio.dk/lectio/${$authStore.school}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
-          target="_blank">Åben Elevfeedback
-        </Button
-        >
+          target="_blank"
+          variant="outline" class="max-md:hidden">Åben Elevfeedback
+        </Button>
       {:else}
-        <Button variant="outline" disabled={true}>Åben Elevfeedback</Button>
+        <Button variant="outline" class="max-md:hidden" disabled={true}>Åben Elevfeedback</Button>
       {/if}
     </div>
   </div>
-  <Table.Root>
-    <Table.Header>
-      <Table.Row>
-        {#each Object.entries(items) as [key, value]}
-          {#if key && value}
-            <Table.Head>{key}</Table.Head>
-          {/if}
-        {/each}
-      </Table.Row>
-    </Table.Header>
-    <Table.Body>
-      <Table.Row>
-        {#each Object.entries(items) as [key, value]}
-          {#if key && value}
-            <Table.Cell>{value}</Table.Cell>
-          {/if}
-        {/each}
-      </Table.Row>
-    </Table.Body>
-  </Table.Root>
 
-  <Separator class="my-4" />
+  <Separator class="hidden md:block my-4" />
 
   {#if modul}
-    {#if modul.note}
-      <section>
-        <h2 class="!mb-0">Note</h2>
-        <SvelteMarkdown source={modul.note} renderers={{ link: NewTabLink }} />
-      </section>
-    {/if}
-    {#if modul.lektier}
-      <section>
-        <h2 class="!mb-0">Lektier</h2>
-        <SvelteMarkdown
-          source={modul.lektier.replaceAll('\n', '<br>')}
-          renderers={{ link: NewTabLink }}
-        />
-      </section>
-    {/if}
-    {#if modul.øvrigtIndhold}
-      <section>
-        <h2 class="!mb-0">Øvrigt Indhold</h2>
-        <SvelteMarkdown
-          source={modul.øvrigtIndhold.replaceAll(')', ')<br>')}
-          renderers={{ link: NewTabLink }}
-        />
-      </section>
-    {/if}
-    {#if modul.præsentation}
-      <section>
-        <h2 class="!mb-0">Præsentation</h2>
-        <SvelteMarkdown source={modul.præsentation} renderers={{ link: NewTabLink }} />
-      </section>
-    {/if}
+    <div class="flex flex-col-reverse max-md:!mt-0 md:grid md:grid-cols-[1fr_minmax(auto,_33%)] gap-4">
+      <div>
+        {#if modul.note}
+          <section class="mb-8">
+            <h2 class="!my-0">Note</h2>
+            <SvelteMarkdown source={modul.note} renderers={{ link: NewTabLink }} />
+          </section>
+        {/if}
+        {#if modul.lektier}
+          <section class="mb-8">
+            <h2 class="!my-0">Lektier</h2>
+            <SvelteMarkdown
+              source={modul.lektier.replaceAll('\n', '<br>')}
+              renderers={{ link: NewTabLink }}
+            />
+          </section>
+        {/if}
+        {#if modul.øvrigtIndhold}
+          <section class="mb-8">
+            <h2 class="!my-0">Øvrigt Indhold</h2>
+            <SvelteMarkdown
+              source={modul.øvrigtIndhold.replaceAll(')', ')<br>')}
+              renderers={{ link: NewTabLink }}
+            />
+          </section>
+        {/if}
+        {#if modul.præsentation}
+          <section class="mb-8">
+            <h2 class="!my-0">Præsentation</h2>
+            <SvelteMarkdown source={modul.præsentation} renderers={{ link: NewTabLink }} />
+          </section>
+        {/if}
+      </div>
+      <div>
+        <Card class="max-md:!my-6 p-4 space-y-2" level="1">
+          {#if modul.aktivitet.hold}
+            <div>
+              <span class="text-sm font-medium text-muted-foreground">Hold</span>
+              <p>{modul.aktivitet.hold}</p>
+            </div>
+          {/if}
+          {#if modul.aktivitet.lærer}
+            <div>
+              <span
+                class="text-sm font-medium text-muted-foreground">Lærer{modul.aktivitet.lærer.includes(",") ? "e" : ""}</span>
+              <p>{modul.aktivitet.lærer}</p>
+            </div>
+          {/if}
+          {#if modul.aktivitet.lokale}
+            <div>
+              <span class="text-sm font-medium text-muted-foreground">Lokale</span>
+              <p>{modul.aktivitet.lokale}</p>
+            </div>
+          {/if}
+          {#if modul.aktivitet.tidspunkt}
+            <div>
+              <span class="text-sm font-medium text-muted-foreground">Tidspunkt</span>
+              <p>{modul.aktivitet.tidspunkt}</p>
+            </div>
+          {/if}
+        </Card>
+      </div>
+    </div>
   {/if}
 </div>
