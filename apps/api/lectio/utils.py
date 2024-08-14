@@ -51,6 +51,9 @@ def skemaBrikExtract(skemabrik, modul_id=None):
         "andet": None,
     }
 
+    if skemabrik is None:
+        return modulDict
+
     modulDetaljer = skemabrik
     statusClass = modulDetaljer.get("class")[2]
     if statusClass in statusDictionary:

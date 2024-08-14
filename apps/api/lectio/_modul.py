@@ -20,6 +20,7 @@ def modul(self, absid):
         "præsentation": "",
         "grupper": {},
         "øvrigtIndhold": "",
+        "forløb": "",
     }
 
     with contextlib.suppress(Exception):
@@ -34,45 +35,50 @@ def modul(self, absid):
     modulContent = soup.find(
         "div", {"id": "s_m_Content_Content_tocAndToolbar_inlineHomeworkDiv"}
     )
-    last = ""
-    for div in modulContent.find_all("div"):
-        if div.get("id") is None:
-            if (
-                divText := div.text.lstrip().rstrip()
-            ) != "" and divText != "Vis fuld skærm":
-                last = divText.lower().title().replace(" ", "")
-                last = last[0].lower() + last[1:]
-        else:
-            article = div.find("article")
-            if (
-                article
-                and article.find("h1") is not None
-                and article.find("h1").text == "Groups"
-            ):
-                groupNames = list(map(lambda x: x.text, article.find_all("p")))
-                groupParticipants = article.find_all("ul")
-                for i, group in enumerate(groupNames):
-                    modulDetaljer["grupper"][group] = list(
-                        map(lambda x: x.text, groupParticipants[i].find_all("li"))
-                    )
-            elif article:
-                for child in article.find_all(recursive=False):
-                    if child.name == "h1":
-                        child.name = "h3"
-                    elif child.name == "h2":
-                        child.name = "h4"
-                    modulDetaljer[last] += markdownify.markdownify(
-                        str(child), bullets="-"
-                    )
-            elif last == "præsentation" and (
-                anchor := div.find("a", attrs={"data-lc-display-linktype": "file"})
-            ):
-                if modulDetaljer[last] != f"[{anchor.text}]({anchor.get('href')})":
-                    modulDetaljer[last] += f"[{anchor.text}]({anchor.get('href')})"
+    if modulContent:
+        last = ""
+        for div in modulContent.find_all("div"):
+            if div.get("id") is None:
+                if (
+                    divText := div.text.lstrip().rstrip()
+                ) != "" and divText != "Vis fuld skærm":
+                    last = divText.lower().title().replace(" ", "")
+                    last = last[0].lower() + last[1:]
             else:
-                modulDetaljer[last] += markdownify.markdownify(str(div), bullets="-")
+                article = div.find("article")
+                if (
+                    article
+                    and article.find("h1") is not None
+                    and article.find("h1").text == "Groups"
+                ):
+                    groupNames = list(map(lambda x: x.text, article.find_all("p")))
+                    groupParticipants = article.find_all("ul")
+                    for i, group in enumerate(groupNames):
+                        modulDetaljer["grupper"][group] = list(
+                            map(lambda x: x.text, groupParticipants[i].find_all("li"))
+                        )
+                elif article:
+                    for child in article.find_all(recursive=False):
+                        if child.name == "h1":
+                            child.name = "h3"
+                        elif child.name == "h2":
+                            child.name = "h4"
+                        modulDetaljer[last] += markdownify.markdownify(
+                            str(child), bullets="-"
+                        )
+                elif last == "præsentation" and (
+                    anchor := div.find("a", attrs={"data-lc-display-linktype": "file"})
+                ):
+                    if modulDetaljer[last] != f"[{anchor.text}]({anchor.get('href')})":
+                        modulDetaljer[last] += f"[{anchor.text}]({anchor.get('href')})"
+                else:
+                    modulDetaljer[last] += markdownify.markdownify(str(div), bullets="-")
 
     modulDetaljer["aktivitet"] = skemaBrikExtract(soup.find("a", class_="s2skemabrik"), modul_id=absid)
+
+    course = soup.find("a", {"id": "s_m_Content_Content_tocAndToolbar_phaseRepeater_ctl01_phaseLB"})
+    if course:
+        modulDetaljer["forløb"] = course.text
 
     return modulDetaljer
 
