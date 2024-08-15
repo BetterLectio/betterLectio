@@ -8,58 +8,62 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Table from '$lib/components/ui/table';
 	import * as Tooltip from '$lib/components/ui/tooltip';
-	import { assignmentStore, loadingStore } from '$lib/stores';
+	import { assignmentStore } from '$lib/stores';
 	import type { RawSimpleAssignment } from '$lib/types/assignments';
 	import { relativeTime } from '$lib/utils';
 	import { DateTime } from 'luxon';
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import Archive from 'svelte-radix/Archive.svelte';
 	import ChatBubble from 'svelte-radix/ChatBubble.svelte';
 	import EnvelopeOpen from 'svelte-radix/EnvelopeOpen.svelte';
 	import ExclamationTriangle from 'svelte-radix/ExclamationTriangle.svelte';
 	import Rocket from 'svelte-radix/Rocket.svelte';
+	import fuzzy from 'fuzzy';
 
 	let opgaver = $assignmentStore;
 	let filteredOpgaver: RawSimpleAssignment[] = [];
+	let originalOpgaver: RawSimpleAssignment[] = [];
+	$: if (opgaver) filteredOpgaver = opgaver;
+	$: if (status) searchString = '';
 	let searchString = '';
 	let status = 'Skal Afleveres';
-	let worker: Worker;
+
+	$: if (searchString) search();
 
 	onMount(async () => {
 		await assignmentStore.fetch();
-		worker = new Worker(new URL('./searchWorker.ts', import.meta.url), {
-			type: 'module'
-		});
-		worker.onmessage = (event) => {
-			filteredOpgaver = event.data;
-			$loadingStore = false;
-		};
+		originalOpgaver = $assignmentStore || [];
 		search();
-	});
-
-	onDestroy(() => {
-		worker.terminate();
 	});
 
 	$: if ($assignmentStore) {
-		search();
-	}
-
-	function elevtidNum(elevtid: string) {
-		return Number(elevtid.replace(',', '.'));
-	}
-
-	$: if (status) {
+		filteredOpgaver = $assignmentStore?.filter((opgave) => {
+			switch (status) {
+				case 'Alle':
+					return true;
+				case 'Skal Afleveres':
+					return opgave.status === 'Venter' || opgave.status === 'Mangler';
+				case 'Er Afleveret':
+					return opgave.status === 'Afleveret' || opgave.status === 'Afsluttet';
+			}
+		});
 		search();
 	}
 
 	function search() {
-		if (!worker) return;
-		$loadingStore = true;
+		if (!searchString) return;
+		console.log('searching for:', searchString);
+		status = 'Alle';
 
-		if (searchString) status = 'Alle';
+		filteredOpgaver = originalOpgaver.filter((opgave: RawSimpleAssignment) => {
+			const titleMatch = fuzzy.match(searchString.toLowerCase(), opgave.opgavetitel.toLowerCase());
+			const holdMatch = fuzzy.match(searchString.toLowerCase(), opgave.hold.toLowerCase());
+			return titleMatch || holdMatch;
+		});
+	}
 
-		worker.postMessage({ opgaver, searchString, status });
+	function elevtidNum(elevtid: string) {
+		return Number(elevtid.replace(',', '.'));
 	}
 </script>
 
@@ -84,7 +88,6 @@
 				class="w-full h-10 lg:w-fit"
 				placeholder="Søg efter opgaver..."
 				bind:value={searchString}
-				on:input={search}
 			/>
 		</div>
 	</div>
