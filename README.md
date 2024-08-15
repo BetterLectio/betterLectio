@@ -1,4 +1,4 @@
-<img src="https://repository-images.githubusercontent.com/742436072/63ffe7c7-7968-4200-b127-55ca6b878ffc">
+<img src="https://github.com/BetterLectio/betterLectio/blob/main/banner.png?raw=true">
 
 [![Version](https://img.shields.io/github/v/release/BetterLectio/betterlectio?style=for-the-badge)]()
 [![GitHub Downloads](https://img.shields.io/github/downloads/BetterLectio/betterlectio/total?style=for-the-badge)]()
