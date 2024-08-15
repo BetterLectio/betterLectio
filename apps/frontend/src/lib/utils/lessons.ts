@@ -34,7 +34,7 @@ export const getSurroundingLessons = (currentLesson: RawLesson) => {
   };
 
   const { previous, next } = findSurroundingLessons(lessons);
-  const { previous: previousClass, next: nextClass } = findSurroundingLessons(teamLessons);
+  const { previous: previousLesson, next: nextLesson } = findSurroundingLessons(teamLessons);
 
-  return { previous, next, previousClass, nextClass };
+  return { previous, next, previousLesson, nextLesson };
 };

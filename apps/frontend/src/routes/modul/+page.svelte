@@ -9,6 +9,7 @@
   import ChevronRight from 'lucide-svelte/icons/chevron-right';
   import ChevronsLeft from 'lucide-svelte/icons/chevrons-left';
   import ChevronsRight from 'lucide-svelte/icons/chevrons-right';
+  import LoaderCircle from 'lucide-svelte/icons/loader-circle';
   import { authStore } from '$lib/stores';
   import type { RawModule } from '$lib/types/module';
   import { get } from '$lib/utils/http.js';
@@ -17,6 +18,7 @@
   import { getSurroundingLessons } from '$lib/utils/lessons';
   import { goto } from '$app/navigation';
   import { Card } from '$lib/components/ui/card';
+  import { cn } from '$lib/utils';
 
   const absid = $page.url.searchParams.get('absid');
 
@@ -24,8 +26,8 @@
   let surroundingLessons: ReturnType<typeof getSurroundingLessons> = {
     previous: null,
     next: null,
-    previousClass: null,
-    nextClass: null
+    previousLesson: null,
+    nextLesson: null
   };
 
   onMount(async () => {
@@ -37,55 +39,48 @@
 </script>
 
 <div class="page-container">
-  {#if modul && modul.forløb}
-    <span class="text-sm text-muted-foreground">{modul.forløb}</span>
-  {/if}
-  <div class="!mt-0 flex flex-col md:flex-row md:justify-between">
-    {#if modul}
-      <h1 class="truncate">{modul.aktivitet.navn ? modul.aktivitet.navn : modul.aktivitet.hold}</h1>
-    {:else}
-      <h1>Loading...</h1>
+  {#if modul}
+    {#if modul.forløb}
+      <span class="text-sm text-muted-foreground">{modul.forløb}</span>
     {/if}
-    <div class="items-center gap-2 flex max-md:pt-2">
-      <TextTooltip text="Forrige hold">
-        <Button on:click={()=> goto(`/modul?absid=${surroundingLessons.previousClass?.absid}`)} size="icon"
-                variant="ghost" disabled={!surroundingLessons.previousClass}>
-          <ChevronsLeft />
-        </Button>
-      </TextTooltip>
-      <TextTooltip text="Forrige modul">
-        <Button on:click={()=> goto(`/modul?absid=${surroundingLessons.previous?.absid}`)} size="icon" variant="ghost"
-                disabled={!surroundingLessons.previous}>
-          <ChevronLeft />
-        </Button>
-      </TextTooltip>
-      <TextTooltip text="Næste modul">
-        <Button on:click={()=> goto(`/modul?absid=${surroundingLessons.next?.absid}`)} size="icon" variant="ghost"
-                disabled={!surroundingLessons.next}>
-          <ChevronRight />
-        </Button>
-      </TextTooltip>
-      <TextTooltip text="Næste hold">
-        <Button on:click={()=> goto(`/modul?absid=${surroundingLessons.nextClass?.absid}`)} size="icon" variant="ghost"
-                disabled={!surroundingLessons.nextClass}>
-          <ChevronsRight />
-        </Button>
-      </TextTooltip>
-      {#if modul}
+    <div class="!mt-0 flex flex-col md:flex-row md:justify-between">
+      <h1 class="max-md:text-2xl truncate">{modul.aktivitet.navn ? modul.aktivitet.navn : modul.aktivitet.hold}</h1>
+      <div class="hidden md:flex items-center gap-2">
+        <TextTooltip text="Forrige hold">
+          <Button on:click={()=> goto(`/modul?absid=${surroundingLessons.previousLesson?.absid}`)} size="icon"
+                  variant="ghost" disabled={!surroundingLessons.previousLesson}>
+            <ChevronsLeft />
+          </Button>
+        </TextTooltip>
+        <TextTooltip text="Forrige modul">
+          <Button on:click={()=> goto(`/modul?absid=${surroundingLessons.previous?.absid}`)} size="icon" variant="ghost"
+                  disabled={!surroundingLessons.previous}>
+            <ChevronLeft />
+          </Button>
+        </TextTooltip>
+        <TextTooltip text="Næste modul">
+          <Button on:click={()=> goto(`/modul?absid=${surroundingLessons.next?.absid}`)} size="icon" variant="ghost"
+                  disabled={!surroundingLessons.next}>
+            <ChevronRight />
+          </Button>
+        </TextTooltip>
+        <TextTooltip text="Næste hold">
+          <Button on:click={()=> goto(`/modul?absid=${surroundingLessons.nextLesson?.absid}`)} size="icon"
+                  variant="ghost"
+                  disabled={!surroundingLessons.nextLesson}>
+            <ChevronsRight />
+          </Button>
+        </TextTooltip>
         <Button
           href={`https://www.lectio.dk/lectio/${$authStore.school}/aktivitet/aktivitetforside2.aspx?absid=${absid}&lectab=elevindhold`}
           target="_blank"
-          variant="outline" class="max-md:hidden">Åben Elevfeedback
+          variant="outline">Åben Elevfeedback
         </Button>
-      {:else}
-        <Button variant="outline" class="max-md:hidden" disabled={true}>Åben Elevfeedback</Button>
-      {/if}
+      </div>
     </div>
-  </div>
 
-  <Separator class="hidden md:block my-4" />
+    <Separator class="hidden md:block my-4" />
 
-  {#if modul}
     <div class="flex flex-col-reverse max-md:!mt-0 md:grid md:grid-cols-[1fr_minmax(auto,_33%)] gap-4">
       <div>
         {#if modul.note}
@@ -148,6 +143,32 @@
           {/if}
         </Card>
       </div>
+    </div>
+    <div class="fixed bottom-0 left-0 right-0 sm:left-[72px] flex justify-evenly py-2 md:hidden">
+      <a class={cn("flex flex-col p-2 unstyled", {"opacity-50": !surroundingLessons.previousLesson})}
+         href={surroundingLessons.previousLesson ? `/modul?absid=${surroundingLessons.previousLesson?.absid}` : null}>
+        <ChevronsLeft class="size-8" />
+        <span class="text-xs">Hold</span>
+      </a>
+      <a class={cn("flex flex-col p-2 unstyled", {"opacity-50": !surroundingLessons.previous})}
+         href={surroundingLessons.previous ? `/modul?absid=${surroundingLessons.previous?.absid}` : null}>
+        <ChevronLeft class="size-8" />
+        <span class="text-xs">Modul</span>
+      </a>
+      <a class={cn("flex flex-col p-2 unstyled", {"opacity-50": !surroundingLessons.next})}
+         href={surroundingLessons.next ? `/modul?absid=${surroundingLessons.next?.absid}` : null}>
+        <ChevronRight class="size-8" />
+        <span class="text-xs">Modul</span>
+      </a>
+      <a class={cn("flex flex-col p-2 unstyled", {"opacity-50": !surroundingLessons.nextLesson})}
+         href={surroundingLessons.nextLesson ? `/modul?absid=${surroundingLessons.nextLesson?.absid}` : null}>
+        <ChevronsRight class="size-8" />
+        <span class="text-xs">Hold</span>
+      </a>
+    </div>
+  {:else}
+    <div class="flex items-center justify-center h-full">
+      <LoaderCircle size="24" class="animate-spin" />
     </div>
   {/if}
 </div>
