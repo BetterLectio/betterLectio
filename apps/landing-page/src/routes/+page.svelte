@@ -46,9 +46,9 @@
 	<div class="z-10 flex flex-col items-center w-full">
 		<div class="relative w-full p-4 pt-20 mx-auto max-w-7xl md:pt-36">
 			<div class="flex flex-col items-center justify-center w-full text-center">
-				<Badge class="pl-0.5 mb-3 border-green-500" variant="outline">
-					<Badge class="mr-3">NYT!</Badge>
-					BetterLectio 2.0 udgivet!
+				<Badge class="pl-0.5 mb-3 border-yellow-500" variant="outline">
+					<Badge class="mr-3">NYHED!</Badge>
+					Lektie oversigt!
 				</Badge>
 				<h1 class="text-6xl font-black">BetterLectio</h1>
 				<h2 class="pt-2 font-bold opacity-80">Den Ultimative Lectio Forbedring</h2>
