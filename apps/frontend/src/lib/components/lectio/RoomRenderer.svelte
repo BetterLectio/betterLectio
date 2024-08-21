@@ -75,7 +75,7 @@
   <div
     bind:this={node}
     class={cn(
-      'flex items-center flex-col w-full justify-between p-2 border-[1px] h-[88px] gap-2 rounded-md shadow-md cursor-pointer border-border',
+      'flex items-center flex-col w-full justify-between p-2 border-[1px] h-[88px] gap-2 rounded-md shadow-md border-border',
       className
     )}
     {...$$restProps}
