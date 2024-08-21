@@ -8,7 +8,8 @@ export const SITE_LINKS = {
       { href: '/beskeder', label: 'Beskeder', icon: 'messages' },
       { href: '/fravær', label: 'Fravær', icon: 'absence' },
       { href: '/karakterer', label: 'Karakterer', icon: 'grades' },
-      { href: '/lektier', label: 'Lektier', icon: 'homework' }
+      { href: '/lektier', label: 'Lektier', icon: 'homework' },
+      { href: '/lokaler', label: 'Lokaler', icon: 'freeRooms' }
     ]
   },
   absence: {
@@ -22,7 +23,7 @@ export const SITE_LINKS = {
   other: {
     label: 'Andet',
     links: [
-      { href: '/sync', label: 'Google Synkronisering' },
+      { href: '/indstillinger', label: 'Google Synkronisering' },
       { href: '/indstillinger', label: 'Indstillinger' }
     ]
   }

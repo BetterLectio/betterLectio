@@ -8,7 +8,7 @@
   import ListTodo from 'lucide-svelte/icons/list-todo';
   import Mail from 'lucide-svelte/icons/mail';
   import BookOpenCheck from 'lucide-svelte/icons/book-open-check';
-  import { NotebookPen } from 'lucide-svelte';
+  import { NotebookPen, DoorOpen } from 'lucide-svelte';
 
   const icons = {
     home: Home,
@@ -18,6 +18,7 @@
     absence: BarChart3,
     grades: BookOpenCheck,
     homework: NotebookPen,
+    freeRooms: DoorOpen,
     default: CircleHelp
   };
 

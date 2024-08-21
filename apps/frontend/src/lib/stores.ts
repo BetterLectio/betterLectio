@@ -11,6 +11,7 @@ import { NAME_REGEX } from '$lib/utils/other';
 import type { GoogleSyncSettings } from '$lib/types/google';
 import type { RawLesson } from './types/lesson';
 import type { RawHomework } from './types/homework';
+import type { Rooms } from './types/rooms';
 
 export { screenSizeStore } from '$lib/utils'; // To allow importing screenSizeStore from 'stores'
 
@@ -73,6 +74,14 @@ export const homeworkStore = lectioDataStore<RawHomework[]>('/lektier', 'homewor
     }
   }))
 );
+
+export const roomsStore = lectioDataStore<Rooms>('/lokale_dagsorden', 'rooms', [], (data) => {
+  return data.map((room) => ({
+    id: room.id,
+    moduler: room.moduler,
+    navn: room.navn
+  }));
+});
 
 export const messageStore = lectioDataStore<Message[] | null, RawMessage[]>(
   '/beskeder2',
