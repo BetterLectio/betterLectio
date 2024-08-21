@@ -10,12 +10,5 @@
 Velkommen til BetterLectios mono-repo. Her finder du alt vores kode, som vi har lavet til BetterLectio.
 Det inkludere vores API, vores hjemmeside og alt det andet som får det hele til at spille sammen.
 
-## Lectio REST API
-
-## Sync server og OAuth server
-
-## Hjemmeside
-
-## App (Android og Desktop)
-
 ## Hvordan kan jeg hjælpe?
+[se wikien](https://github.com/BetterLectio/betterLectio/wiki)
