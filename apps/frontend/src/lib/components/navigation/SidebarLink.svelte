@@ -1,35 +1,36 @@
 <script lang="ts">
-  import { page } from '$app/stores';
-  import { sidebarStore } from '$lib/stores';
-  import BarChart3 from 'lucide-svelte/icons/bar-chart-3';
-  import CalendarDays from 'lucide-svelte/icons/calendar-days';
-  import CircleHelp from 'lucide-svelte/icons/circle-help';
-  import Home from 'lucide-svelte/icons/home';
-  import ListTodo from 'lucide-svelte/icons/list-todo';
-  import Mail from 'lucide-svelte/icons/mail';
-  import BookOpenCheck from 'lucide-svelte/icons/book-open-check';
-  import { NotebookPen, DoorOpen } from 'lucide-svelte';
+import { page } from "$app/stores";
+import { sidebarStore } from "$lib/stores";
+import BarChart3 from "lucide-svelte/icons/bar-chart-3";
+import CalendarDays from "lucide-svelte/icons/calendar-days";
+import CircleHelp from "lucide-svelte/icons/circle-help";
+import Home from "lucide-svelte/icons/home";
+import ListTodo from "lucide-svelte/icons/list-todo";
+import Mail from "lucide-svelte/icons/mail";
+import BookOpenCheck from "lucide-svelte/icons/book-open-check";
+import { NotebookPen, DoorOpen, User } from "lucide-svelte";
 
-  const icons = {
-    home: Home,
-    schedule: CalendarDays,
-    assignments: ListTodo,
-    messages: Mail,
-    absence: BarChart3,
-    grades: BookOpenCheck,
-    homework: NotebookPen,
-    freeRooms: DoorOpen,
-    default: CircleHelp
-  };
+const icons = {
+	home: Home,
+	schedule: CalendarDays,
+	assignments: ListTodo,
+	messages: Mail,
+	absence: BarChart3,
+	grades: BookOpenCheck,
+	homework: NotebookPen,
+	freeRooms: DoorOpen,
+	default: CircleHelp,
+	user: User,
+};
 
-  let rawIcon: string = 'default';
-  export { rawIcon as icon };
-  export let href: string;
-  export let label: string;
+let rawIcon: string = "default";
+export { rawIcon as icon };
+export let href: string;
+export let label: string;
 
-  // @ts-ignore
-  $: icon = icons[rawIcon] ?? icons.default;
-  $: active = href === decodeURI($page.url.pathname);
+// @ts-ignore
+$: icon = icons[rawIcon] ?? icons.default;
+$: active = href === decodeURI($page.url.pathname);
 </script>
 
 <a
