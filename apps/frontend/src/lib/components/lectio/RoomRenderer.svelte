@@ -1,14 +1,13 @@
 <script lang="ts">
+  import { Separator } from '$lib/components/ui/separator';
   import type { Room } from '$lib/types/rooms';
   import { cn, constructInterval } from '$lib/utils/other.js';
-  import { DateTime, type Interval } from 'luxon';
+  import { VisTimeline, VisXYContainer } from '@unovis/svelte';
   import { Ban, CircleCheck } from 'lucide-svelte';
-  import Badge from '../ui/badge/badge.svelte';
-  import { VisXYContainer, VisTimeline } from '@unovis/svelte';
-  import { Separator } from '$lib/components/ui/separator';
-  import IntersectionObserver from 'svelte-intersection-observer';
-  import { fade } from 'svelte/transition';
+  import { DateTime, type Interval } from 'luxon';
   import { onDestroy } from 'svelte';
+  import IntersectionObserver from 'svelte-intersection-observer';
+  import Badge from '../ui/badge/badge.svelte';
 
   let node: HTMLElement;
 
@@ -53,6 +52,13 @@
     type: 'Status'
   });
 
+  //add a point at the current time that is 1 minute long
+  data.push({
+    timestamp: now.toJSDate(),
+    length: 230000,
+    type: 'Status'
+  });
+
   // this is a hack to make the timeline background color the same as the rest of the app even though it's set in the global css it for some reason doesn't work, hence the need to set it here
   document.documentElement.style.setProperty(
     '--vis-timeline-row-odd-fill-color',
@@ -71,7 +77,21 @@
   });
 </script>
 
-<IntersectionObserver element={node} let:intersecting once>
+<IntersectionObserver
+  element={node}
+  let:intersecting
+  once
+  on:observe={(e) => {
+    document.documentElement.style.setProperty(
+      '--vis-timeline-row-odd-fill-color',
+      'hsl(var(--background))'
+    );
+    document.documentElement.style.setProperty(
+      '--vis-timeline-row-even-fill-color',
+      'hsl(var(--background))'
+    );
+  }}
+>
   <div
     bind:this={node}
     class={cn(

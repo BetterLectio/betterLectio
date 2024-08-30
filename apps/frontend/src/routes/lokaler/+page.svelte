@@ -2,9 +2,9 @@
   import RoomRenderer from '$lib/components/lectio/RoomRenderer.svelte';
   import Input from '$lib/components/ui/input/input.svelte';
   import { roomsStore } from '$lib/stores';
-  import { onMount } from 'svelte';
-  import fuzzy from 'fuzzy';
   import type { Rooms } from '$lib/types/rooms';
+  import fuzzy from 'fuzzy';
+  import { onMount } from 'svelte';
 
   let loading = true;
   let searchString = '';
