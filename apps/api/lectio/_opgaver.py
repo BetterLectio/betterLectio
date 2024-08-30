@@ -28,6 +28,7 @@ def opgave(self, exerciseid):
             "i_undervisningsbeskrivelse": None,
         },
         "gruppemedlemmer": [],
+        "mulige_gruppemedlemmer": [],
         "afleveres_af": {},
         "opgave_indlæg": [],
     }
@@ -63,6 +64,11 @@ def opgave(self, exerciseid):
                     "bruger_id": tr.find("span").get("data-lectiocontextcard"),
                 }
             )
+        for option in soup.find("select", {"id": "m_Content_groupStudentAddDD"}).find_all("option"):
+            opgaveDict["mulige_gruppemedlemmer"].append({
+                "navn": unicodedata.normalize("NFKD", option.text.lstrip().rstrip()),
+                "bruger_id": "S" + option.get("value")
+            })
 
     header = soup.find(
         "table", {"class": "ls-table-layout1 maxW textTop lf-grid"}
@@ -190,3 +196,59 @@ def afleverOpgave(self, exerciseid, filename, fileContent, fileContentType, note
         return {"success": False, "error": BeautifulSoup(lectioAlert, "html.parser").text.strip()}
     except AttributeError:
         return {"success": True}
+
+def tilføjGruppemedlem(self, exerciseid, bruger_id):
+    url = f"https://www.lectio.dk/lectio/{self.skoleId}/ElevAflevering.aspx?elevid={self.elevId}&exerciseid={exerciseid}"
+    resp = self.session.get(url)
+    if resp.url != url:
+        raise Exception("lectio-cookie udløbet")
+    soup = BeautifulSoup(resp.text, "html.parser")
+
+    payload = generatePayload(soup, "m$Content$groupStudentAddBtn")
+    payload["__EVENTARGUMENT"] = ""
+    payload["m$Content$groupStudentAddDD"] = bruger_id[1:]
+
+    resp = self.session.post(url, data=payloadEncode(payload))
+    soup = BeautifulSoup(resp.text, "html.parser")
+    gruppemedlemmer = []
+    table = soup.find("table", {"class": "ls-table-layout1 lf-grid"})
+    if table:
+        for tr in table.find_all("tr")[1:]:
+            gruppemedlemmer.append(tr.find("span").get("data-lectiocontextcard"))
+
+        if bruger_id in gruppemedlemmer:
+            return {"success": True}
+
+    return {"success": False}
+
+def fjernGruppemedlem(self, exerciseid, bruger_id):
+    url = f"https://www.lectio.dk/lectio/{self.skoleId}/ElevAflevering.aspx?elevid={self.elevId}&exerciseid={exerciseid}"
+    resp = self.session.get(url)
+    if resp.url != url:
+        raise Exception("lectio-cookie udløbet")
+    soup = BeautifulSoup(resp.text, "html.parser")
+
+    gruppemedlemmer = []
+    table = soup.find("table", {"class": "ls-table-layout1 lf-grid"})
+    for tr in table.find_all("tr")[1:]:
+        gruppemedlemmer.append(tr.find("span").get("data-lectiocontextcard"))
+
+    payload = generatePayload(soup, "m$Content$groupMembersGV")
+
+    try:
+        payload["__EVENTARGUMENT"] = f"DEL${gruppemedlemmer.index(bruger_id)}"
+    except ValueError:
+        return {"success": False, "error": f"Gruppemedlem {bruger_id} kunne ikke findes"}
+
+    resp = self.session.post(url, data=payloadEncode(payload))
+    soup = BeautifulSoup(resp.text, "html.parser")
+    gruppemedlemmer = []
+    table = soup.find("table", {"class": "ls-table-layout1 lf-grid"})
+    if table:
+        for tr in table.find_all("tr")[1:]:
+            gruppemedlemmer.append(tr.find("span").get("data-lectiocontextcard"))
+
+        if bruger_id not in gruppemedlemmer:
+            return {"success": True}
+
+    return {"success": False}

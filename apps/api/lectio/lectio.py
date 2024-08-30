@@ -169,5 +169,11 @@ class sdk:
     def dokumentRediger(self, filename, folderid, fileContent, fileContentType="application/octet-stream", fileComment="", public=False, documentid=None):
         return _dokumenter.dokumentRediger(self, filename, folderid, fileContent, fileContentType, fileComment, public, documentid)
 
-    def afleverOpgave(self, exerciseid, filename, fileContent, fileContentType, note=""):
+    def afleverOpgave(self, exerciseid, filename, fileContent, fileContentType="application/octet-stream", note=""):
         return _opgaver.afleverOpgave(self, exerciseid, filename, fileContent, fileContentType, note)
+
+    def tilføjGruppemedlem(self, exerciseid, bruger_id):
+        return _opgaver.tilføjGruppemedlem(self, exerciseid, bruger_id)
+
+    def fjernGruppemedlem(self, exerciseid, bruger_id):
+        return _opgaver.fjernGruppemedlem(self, exerciseid, bruger_id)

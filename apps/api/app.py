@@ -629,5 +629,37 @@ def afleverOpgave():
     except Exception:
         return jsonify({"backend_error": traceback.format_exc()}), 500
 
+@app.route("/tilfoej_gruppemedlem", methods=["POST"])
+def tilføjGruppemedlem():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+        exerciseid = request.json.get("exerciseid")
+        bruger_id = request.json.get("bruger_id")
+
+        lectioClient = lectio.sdk(brugernavn=None, adgangskode=None, skoleId=None, base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.tilføjGruppemedlem(exerciseid, bruger_id)))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
+
+@app.route("/fjern_gruppemedlem", methods=["POST"])
+def fjernGruppemedlem():
+    try:
+        cookie = request.headers.get("lectio-cookie")
+        exerciseid = request.json.get("exerciseid")
+        bruger_id = request.json.get("bruger_id")
+
+        lectioClient = lectio.sdk(brugernavn=None, adgangskode=None, skoleId=None, base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.fjernGruppemedlem(exerciseid, bruger_id)))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
