@@ -181,8 +181,8 @@ export const informationStore = lectioDataStore<
 		([name, id]) => {
 			return {
 				id,
-				name: name.split(" (")[0].split(" -")[0],
-				klasse: (name.split(" (")[1] || "").split(")")[0],
+				name: name.split(" (")[0].split(" -")[0] || "",
+				klasse: (name.split(" (")[1] || "").split(")")[0] || "",
 			};
 		},
 	);
