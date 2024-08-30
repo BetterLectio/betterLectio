@@ -6,18 +6,17 @@
 	if (!exerciseid) alert("Intet opgave id");
 
 	async function uploadOpgave(event: SubmitEvent) {
-        const form = event.target as HTMLFormElement;
-        const formData = new FormData(form);
+                const form = event.target as HTMLFormElement;
+                const formData = new FormData(form);
         
-        const response = await fetch(`http://localhost:5000/aflever_opgave?exerciseid=${exerciseid}`, {
-            method: 'POST',
-            body: formData,
-            headers: { 'lectio-cookie': $authStore.cookie || '' }
-        });
-        alert(await response.text());
-    }
+                const response = await fetch(`http://localhost:5000/aflever_opgave?exerciseid=${exerciseid}`, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'lectio-cookie': $authStore.cookie || '' }
+                });
+                alert(await response.text());
+        }
 </script>
-
 
 <div class="page-container">
 	<h1>Opgave aflevering (demo)</h1>
