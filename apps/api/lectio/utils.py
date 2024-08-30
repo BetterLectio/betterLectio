@@ -1,5 +1,6 @@
 import contextlib
 import re
+import urllib
 
 
 def generatePayload(soup, eventTarget):
@@ -17,6 +18,13 @@ def generatePayload(soup, eventTarget):
 
     return payload
 
+def payloadEncode(payload):
+    return "&".join(
+        [
+            f"{urllib.parse.quote(key)}={urllib.parse.quote(value).replace('%20', '+')}"
+            for key, value in payload.items()
+        ]
+    )
 
 statusDictionary = {
     "s2brik": "normal",

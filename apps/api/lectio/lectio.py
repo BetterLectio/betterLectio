@@ -145,8 +145,8 @@ class sdk:
     def holdTilFag(self, holdId):
         return _skema.holdTilFag(self, holdId)
 
-    def fåTerminer(self):
-        return _termin.fåTerminer(self)
+    def fåTerminer(self, soup=None):
+        return _termin.fåTerminer(self, soup)
 
     def ændreTermin(self, terminId):
         return _termin.ændreTermin(self, terminId)
@@ -165,3 +165,9 @@ class sdk:
 
     def forløb(self, id):
         return _studieplan.forløb(self, id)
+
+    def dokumentRediger(self, filename, folderid, fileContent, fileContentType="application/octet-stream", fileComment="", public=False, documentid=None):
+        return _dokumenter.dokumentRediger(self, filename, folderid, fileContent, fileContentType, fileComment, public, documentid)
+
+    def afleverOpgave(self, exerciseid, filename, fileContent, fileContentType, note=""):
+        return _opgaver.afleverOpgave(self, exerciseid, filename, fileContent, fileContentType, note)

@@ -4,16 +4,17 @@ import urllib
 from lectio.utils import generatePayload
 
 
-def fåTerminer(self):
-    url = (
-        f"https://www.lectio.dk/lectio/681/SkemaNy.aspx?type=elev&elevid={self.elevId}"
-    )
-    resp = self.session.get(url)
-    if resp.url != url:
-        raise Exception("lectio-cookie udløbet")
-    soup = BeautifulSoup(resp.text, "html.parser")
+def fåTerminer(self, soup):
+    if not soup:
+        url = (
+            f"https://www.lectio.dk/lectio/{self.skoleId}/SkemaNy.aspx?type=elev&elevid={self.elevId}"
+        )
+        resp = self.session.get(url)
+        if resp.url != url:
+            raise Exception("lectio-cookie udløbet")
+        soup = BeautifulSoup(resp.text, "html.parser")
 
-    _terminer = soup.find("select", {"name": "s$m$ChooseTerm$term"})
+    _terminer = soup.find("select", {"id": ["m_ChooseTerm_term", "s_m_ChooseTerm_term"]})
     selected = _terminer.find("option", {"selected": "selected"}).get("value")
     terminer = dict(
         [[termin.get("value"), termin.text] for termin in _terminer.find_all("option")]
@@ -24,7 +25,7 @@ def fåTerminer(self):
 
 def ændreTermin(self, terminId):
     url = (
-        f"https://www.lectio.dk/lectio/681/SkemaNy.aspx?type=elev&elevid={self.elevId}"
+        f"https://www.lectio.dk/lectio/{self.skoleId}/SkemaNy.aspx?type=elev&elevid={self.elevId}"
     )
     resp = self.session.get(url)
     if resp.url != url:

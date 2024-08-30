@@ -1,9 +1,11 @@
 import re
 import unicodedata
+import json
 from bs4 import BeautifulSoup
 import markdownify
 
-from lectio.utils import generatePayload
+from lectio.utils import generatePayload, payloadEncode
+from lectio._dokumenter import dokumentUpload
 
 
 def opgave(self, exerciseid):
@@ -160,5 +162,31 @@ def opgaver(self):
     return opgaver
 
 
-def afleverOpgave(self, exerciseid, file=None, note=None):
-    pass
+def afleverOpgave(self, exerciseid, filename, fileContent, fileContentType, note):
+    url = f"https://www.lectio.dk/lectio/{self.skoleId}/ElevAflevering.aspx?elevid={self.elevId}&exerciseid={exerciseid}"
+    resp = self.session.get(url)
+    if resp.url != url:
+        raise Exception("lectio-cookie udløbet")
+    soup = BeautifulSoup(resp.text, "html.parser")
+    payload = generatePayload(soup, "m$Content$choosedocument")
+
+    termin = self.fåTerminer(soup)["selected"]
+    selectedDocumentId = dokumentUpload(self, filename, fileContent, fileContentType, False, termin)
+    selectedDocumentId["isPublic"] = True # Lectio er rodet
+
+    payload["__EVENTARGUMENT"] = "documentId"
+    payload["__LASTFOCUS"] = ""
+    payload["m$searchinputfield"] = ""
+    payload["m$Content$CommentsTB$tb"] = note
+    payload["m$Content$choosedocument$selectedDocumentId"] = json.dumps(selectedDocumentId)
+    payload["masterfootervalue"] = "X1!ÆØÅ"
+    payload["LectioPostbackId"] = ""
+
+    resp = self.session.post(url, data=payloadEncode(payload))
+
+    try:
+        lectioAlert = (re.search("LectioAlertBox\.RegisterAlerts.*?',", resp.text).group()[31:-2]
+                       .replace("\\u003C", "<").replace("\\n", "\n"))
+        return {"success": False, "error": BeautifulSoup(lectioAlert, "html.parser").text.strip()}
+    except AttributeError:
+        return {"success": True}

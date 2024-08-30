@@ -596,6 +596,38 @@ def forløb():
         return resp
     except Exception:
         return jsonify({"backend_error": traceback.format_exc()}), 500
+    
+@app.route("/aflever_opgave", methods=["POST"])
+def afleverOpgave():
+    try:
+        file = request.files["opgave"]
+    except Exception:
+        return jsonify({"success": False, "error": "Der mangler en fil"})
+
+    if file.filename == "":
+        return jsonify({"success": False, "error": "Filen mangler et navn"})
+    elif file.content_type == "":
+        return jsonify({"success": False, "error": "Filen mangler en type"})
+
+    try:
+        cookie = request.headers.get("lectio-cookie")
+        exerciseid = request.args.get("exerciseid")
+        note = request.form["note"]
+
+        lectioClient = lectio.sdk(brugernavn=None, adgangskode=None, skoleId=None, base64Cookie=cookie)
+
+        resp = make_response(jsonify(lectioClient.afleverOpgave(
+            exerciseid,
+            file.filename,
+            file.read(),
+            file.content_type,
+            note
+        )))
+        resp.headers["set-lectio-cookie"] = lectioClient.base64Cookie()
+        resp.headers["Access-Control-Expose-Headers"] = "set-lectio-cookie"
+        return resp
+    except Exception:
+        return jsonify({"backend_error": traceback.format_exc()}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
