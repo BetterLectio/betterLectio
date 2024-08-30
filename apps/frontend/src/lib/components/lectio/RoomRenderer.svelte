@@ -56,7 +56,7 @@
   data.push({
     timestamp: now.toJSDate(),
     length: 230000,
-    type: 'Status'
+    type: 'Nu'
   });
 
   // this is a hack to make the timeline background color the same as the rest of the app even though it's set in the global css it for some reason doesn't work, hence the need to set it here
@@ -95,7 +95,7 @@
   <div
     bind:this={node}
     class={cn(
-      'flex items-center flex-col w-full justify-between p-2 border-[1px] h-[88px] gap-2 rounded-md shadow-md border-border',
+      'flex items-center flex-col w-full justify-between p-2 border-[1px] h-[fit] gap-2 rounded-md shadow-md border-border',
       className
     )}
     {...$$restProps}
@@ -112,14 +112,14 @@
         </Badge>
       </div>
       {#if roomInUseIntervals.length > 0}
-        <div class="w-full h-8">
+        <div class="w-full h-[56px]">
           <div class="flex justify-between">
             <span class="text-xs">07:00</span>
             <span class="text-xs">dagsorden</span>
             <span class="text-xs">17:00</span>
           </div>
           <Separator />
-          <VisXYContainer {data} height="32px">
+          <VisXYContainer {data} height="56px">
             <VisTimeline {x} lineCap={true} showEmptySegments={false} />
           </VisXYContainer>
         </div>
