@@ -11,3 +11,5 @@ node_modules
 results
 .nyc_output
 *.tsbuildinfo
+
+bun.lockb

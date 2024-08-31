@@ -52,7 +52,6 @@
     type: 'Status'
   });
 
-  //add a point at the current time that is 1 minute long
   data.push({
     timestamp: now.toJSDate(),
     length: 230000,
