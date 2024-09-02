@@ -64,11 +64,13 @@ def opgave(self, exerciseid):
                     "bruger_id": tr.find("span").get("data-lectiocontextcard"),
                 }
             )
-        for option in soup.find("select", {"id": "m_Content_groupStudentAddDD"}).find_all("option"):
-            opgaveDict["mulige_gruppemedlemmer"].append({
-                "navn": unicodedata.normalize("NFKD", option.text.lstrip().rstrip()),
-                "bruger_id": "S" + option.get("value")
-            })
+        muligeGruppemedlemmer = soup.find("select", {"id": "m_Content_groupStudentAddDD"})
+        if muligeGruppemedlemmer:
+            for option in soup.find("select", {"id": "m_Content_groupStudentAddDD"}).find_all("option"):
+                opgaveDict["mulige_gruppemedlemmer"].append({
+                    "navn": unicodedata.normalize("NFKD", option.text.lstrip().rstrip()),
+                    "bruger_id": "S" + option.get("value")
+                })
 
     header = soup.find(
         "table", {"class": "ls-table-layout1 maxW textTop lf-grid"}
