@@ -2,12 +2,13 @@
   import { Separator } from '$lib/components/ui/separator';
   import type { Room } from '$lib/types/rooms';
   import { cn, constructInterval } from '$lib/utils/other.js';
-  import { VisTimeline, VisXYContainer } from '@unovis/svelte';
+  import { VisTimeline, VisXYContainer, VisTooltip } from '@unovis/svelte';
   import { Ban, CircleCheck } from 'lucide-svelte';
   import { DateTime, type Interval } from 'luxon';
   import { onDestroy } from 'svelte';
   import IntersectionObserver from 'svelte-intersection-observer';
   import Badge from '../ui/badge/badge.svelte';
+  import { Timeline } from '@unovis/ts';
 
   let node: HTMLElement;
 
@@ -67,12 +68,30 @@
     '--vis-timeline-row-even-fill-color',
     'hsl(var(--background))'
   );
+  document.documentElement.style.setProperty(
+    '--vis-tooltip-background-color',
+    'hsl(var(--background))'
+  );
+  document.documentElement.style.setProperty('--vis-tooltip-text-color', 'hsl(var(--foreground)');
+  document.documentElement.style.setProperty('--vis-tooltip-border-color', 'hsl(var(--border)');
 
   const x = (d: TimeDataRecord) => d.timestamp.getTime();
+
+  const triggers = {
+    [Timeline.selectors.line]: (d: TimeDataRecord) => {
+      if (d.type === 'Nu') {
+        return 'Nu';
+      }
+      return `Modul fra ${DateTime.fromJSDate(d.timestamp).toFormat('HH:mm')} til ${DateTime.fromJSDate(d.timestamp).plus({ milliseconds: d.length }).toFormat('HH:mm')}`;
+    }
+  };
 
   onDestroy(() => {
     document.documentElement.style.removeProperty('--vis-timeline-row-odd-fill-color');
     document.documentElement.style.removeProperty('--vis-timeline-row-even-fill-color');
+    document.documentElement.style.removeProperty('--vis-tooltip-background-color');
+    document.documentElement.style.removeProperty('--vis-tooltip-text-color');
+    document.documentElement.style.removeProperty('--vis-tooltip-border-color');
   });
 </script>
 
@@ -89,6 +108,12 @@
       '--vis-timeline-row-even-fill-color',
       'hsl(var(--background))'
     );
+    document.documentElement.style.setProperty(
+      '--vis-tooltip-background-color',
+      'hsl(var(--background))'
+    );
+    document.documentElement.style.setProperty('--vis-tooltip-text-color', 'hsl(var(--foreground)');
+    document.documentElement.style.setProperty('--vis-tooltip-border-color', 'hsl(var(--border)');
   }}
 >
   <div
@@ -120,6 +145,7 @@
           <Separator />
           <VisXYContainer {data} height="56px">
             <VisTimeline {x} lineCap={true} showEmptySegments={false} />
+            <VisTooltip {triggers} />
           </VisXYContainer>
         </div>
       {:else}
@@ -134,5 +160,8 @@
   :root {
     --vis-timeline-row-odd-fill-color: hsl(var(--background));
     --vis-timeline-row-even-fill-color: hsl(var(--background));
+    --vis-tooltip-background-color: hsl(var(--background));
+    --vis-tooltip-text-color: hsl(var(--foreground));
+    --vis-tooltip-border-color: hsl(var(--border));
   }
 </style>
