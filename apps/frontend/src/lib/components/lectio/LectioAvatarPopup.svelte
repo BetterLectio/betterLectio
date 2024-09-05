@@ -72,6 +72,11 @@
         return interval.timestamp.getDate() == now.day;
       });
 
+      //remove all intervals that are not between 7am and 5pm
+      scheduleData = scheduleData.filter((interval) => {
+        return interval.timestamp.getHours() >= 7 && interval.timestamp.getHours() <= 17;
+      });
+
       //add to data array a point at 7am and 5pm with a length of 0
       scheduleData.push({
         timestamp: DateTime.fromObject({ hour: 7 }).toJSDate(),
