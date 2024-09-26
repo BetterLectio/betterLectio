@@ -108,7 +108,6 @@ def forside(self):
                             ],
                         }
                     )
-                    print(forsideDict["undervisning"][navn][-1])
     for element in soup.find(
         "div", {"id": "s_m_Content_Content_skemaIsland_pa"}
     ).find_all("div"):

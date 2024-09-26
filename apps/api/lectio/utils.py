@@ -30,7 +30,7 @@ renameDictionary = {"Lærere": "Lærer", "Lokaler": "Lokale"}
 
 def skemaBrikExtract(skemabrik, modul_id=None):
     if modul_id is None:
-        if matches := re.search(r"(absid|ProeveholdId)=([0-9]+)", skemabrik["href"]):
+        if matches := re.search(r"(absid|ProeveholdId)=([0-9]+)", skemabrik.get("href") or ""):
             id_type, absid = matches.groups()
             if id_type == "ProeveholdId":
                 absid = f"PH{absid}"

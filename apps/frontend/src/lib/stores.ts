@@ -14,7 +14,6 @@ import type { RawHomework } from "./types/homework";
 import type { Rooms } from "./types/rooms";
 import type {
 	Information,
-	information,
 	RawInformation,
 } from "./types/information";
 

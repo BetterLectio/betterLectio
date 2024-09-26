@@ -80,7 +80,7 @@
     <div class="flex flex-col gap-4">
       <a
         class="unstyled"
-        href={nextClass ? (nextClass.id.startsWith('PH') ? `/eksamen?id=${nextClass.id.substring(2)}&navn=${$frontPageStore?.name}` : `/modul?absid=${nextClass.id}`) : ''}
+        href={nextClass ? (nextClass.id?.startsWith('PH') ? `/eksamen?id=${nextClass.id.substring(2)}&navn=${$frontPageStore?.name}` : `/modul?absid=${nextClass.id}`) : ''}
       >
         <Card class={cn("p-2 overflow-auto border-2", {"shrink-0": !nextClass})}>
           <div class="flex items-center justify-between">
@@ -163,9 +163,9 @@
               {#each classes as day}
                 <h3 class="text-sm font-medium leading-7 unstyled">{day.name}</h3>
                 {#each day.lessons as lesson}
-                  {@const url = lesson.id.startsWith("PH") ? `/eksamen?id=${lesson.id.substring(2)}&navn=${$frontPageStore?.name}` : `/modul?absid=${lesson.id}`}
+                  {@const url = lesson.id ? lesson.id.startsWith("PH") ? `/eksamen?id=${lesson.id.substring(2)}&navn=${$frontPageStore?.name}` : `/modul?absid=${lesson.id}` : null}
                   <Card level="2" class="flex items-center p-3" error={lesson.status === 'aflyst'}
-                        on:click={() => !$isSmallScreen && goto(url)}>
+                        on:click={() => !$isSmallScreen && url && goto(url)}>
                     <div
                       class="flex items-stretch sm:items-center max-sm:flex-col-reverse max-sm:content-start flex-1 h-full min-w-0">
                       <div class="max-sm:hidden flex justify-center shrink-0 w-11">
@@ -204,12 +204,14 @@
                         {/if}
                       </div>
                     </div>
-                    <Button
-                      href={url}
-                      variant="ghost" size="sm" class="max-sm:hidden">
-                      Vis
-                      <ArrowRight class="ml-1 size-4" />
-                    </Button>
+                    {#if url}
+                      <Button
+                        href={url}
+                        variant="ghost" size="sm" class="max-sm:hidden">
+                        Vis
+                        <ArrowRight class="ml-1 size-4" />
+                      </Button>
+                    {/if}
                   </Card>
                 {/each}
               {/each}

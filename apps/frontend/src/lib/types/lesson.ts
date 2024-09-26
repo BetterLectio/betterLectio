@@ -1,5 +1,5 @@
 export type RawLesson = {
-  absid: string;
+  absid: null | string;
   andet: null | string;
   hold: null | string;
   hold_id: null | string;
@@ -11,7 +11,7 @@ export type RawLesson = {
 };
 
 export type Lesson = {
-  id: string;
+  id: string | null;
   date: string;
   class: string | null;
   name: string | null;
@@ -19,4 +19,4 @@ export type Lesson = {
   room: string | null;
   status: string | null;
   teacher: string | null;
-}
+};
