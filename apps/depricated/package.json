@@ -35,7 +35,7 @@
     "@event-calendar/core": "^1.5.0",
     "@event-calendar/time-grid": "^1.5.0",
     "@netlify/functions": "^2.4.0",
-    "@sentry/sveltekit": "^7.80.0",
+    "@sentry/sveltekit": "^8.33.1",
     "axios": "^1.6.5",
     "chartjs-plugin-datalabels": "^2.2.0",
     "crypto-es": "^2.1.0",
