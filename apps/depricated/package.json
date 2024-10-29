@@ -37,6 +37,7 @@
     "@netlify/functions": "^2.4.0",
     "@sentry/sveltekit": "^7.80.0",
     "axios": "^1.6.5",
+    "betterlectio": "file:",
     "chartjs-plugin-datalabels": "^2.2.0",
     "crypto-es": "^2.1.0",
     "dompurify": "^3.0.11",

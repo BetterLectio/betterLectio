@@ -50,6 +50,7 @@
 		"@tauri-apps/plugin-updater": "^2.0.0-beta.2",
 		"@unovis/svelte": "^1.4.1",
 		"@unovis/ts": "^1.4.0",
+		"betterlectio-next": "file:",
 		"bits-ui": "^0.21.13",
 		"buffer": "^6.0.3",
 		"clsx": "^2.1.0",
