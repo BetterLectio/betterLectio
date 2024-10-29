@@ -39,6 +39,12 @@
 	}
 </script>
 
+<p
+	class="bg-orange-400 py-1.5 p-3 text-center text-sm font-medium text-black dark:bg-orange-700 dark:text-white"
+>
+	BetterLectio er udviklet af HCØ-studerende. Da vi har travlt med skolen på nuværende tidspunkt,
+	kan vi ikke garantere, at alt virker perfekt. Kontakt os ved problemer!
+</p>
 <div
 	class="relative flex px-16 overflow-hidden antialiased md:justify-center lg:px-32 bg-background"
 >
@@ -46,10 +52,10 @@
 	<div class="z-10 flex flex-col items-center w-full">
 		<div class="relative w-full p-4 pt-20 mx-auto max-w-7xl md:pt-36">
 			<div class="flex flex-col items-center justify-center w-full text-center">
-				<Badge class="pl-0.5 mb-3 border-purple-500" variant="outline">
+				<!-- <Badge class="pl-0.5 mb-3 border-purple-500" variant="outline">
 					<Badge class="mr-3">NYHED!</Badge>
 					Lokale oversigt!
-				</Badge>
+				</Badge> -->
 				<h1 class="text-6xl font-black">BetterLectio</h1>
 				<h2 class="pt-2 font-bold opacity-80">Den Ultimative Lectio Forbedring</h2>
 				<h3 class="mb-3 text-sm opacity-65">Af studerende, til studerende</h3>

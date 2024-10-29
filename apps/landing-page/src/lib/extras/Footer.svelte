@@ -36,10 +36,6 @@
 					<a href="mailto:support@betterlectio.dk" class="text-sm"> support@betterlectio.dk </a>
 				</div>
 				<div class="flex items-center gap-2">
-					<Phone class="size-5" />
-					<a href="tel:+4571781950" class="text-sm"> 71781950 </a>
-				</div>
-				<div class="flex items-center gap-2">
 					<MapPin class="size-5" />
 					<span class="text-sm">2800 Lyngby, Danmark</span>
 				</div>

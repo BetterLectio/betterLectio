@@ -39,6 +39,7 @@
     "googleapis": "^134.0.0",
     "luxon": "^3.4.4",
     "mode-watcher": "^0.3.0",
+    "oauthbetterlectiohelper": "file:",
     "octokit": "^3.2.0",
     "svelte-markdown": "^0.4.1",
     "svelte-sonner": "^0.3.20",
