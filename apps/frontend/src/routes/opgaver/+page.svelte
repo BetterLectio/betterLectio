@@ -32,6 +32,19 @@
 
   onMount(async () => {
     await assignmentStore.fetch();
+    if ($assignmentsPageSettingsStore) {
+      // filter to only include assignments that are in the current school year
+      // school year is not the same as calendar year
+      // each school year starts in august and ends in august the following year
+      const now = DateTime.now();
+      const currentYear = now.month >= 8 ? now.year : now.year - 1;
+      $assignmentStore ??= [];
+      $assignmentStore = $assignmentStore.filter((opgave) => {
+        const frist = DateTime.fromFormat(opgave.frist, 'd/M-yyyy HH:mm');
+        const fristYear = frist.month >= 8 ? frist.year : frist.year - 1;
+        return fristYear === currentYear;
+      });
+    }
     originalOpgaver = $assignmentStore || [];
     search();
   });
@@ -47,19 +60,6 @@
           return opgave.status === 'Afleveret' || opgave.status === 'Afsluttet';
       }
     });
-
-    if ($assignmentsPageSettingsStore) {
-      // filter to only include assignments that are in the current school year
-      // school year is not the same as calendar year
-      // each school year starts in august and ends in august the following year
-      const now = DateTime.now();
-      const currentYear = now.month >= 8 ? now.year : now.year - 1;
-      filteredOpgaver = filteredOpgaver.filter((opgave) => {
-        const frist = DateTime.fromFormat(opgave.frist, 'd/M-yyyy HH:mm');
-        const fristYear = frist.month >= 8 ? frist.year : frist.year - 1;
-        return fristYear === currentYear;
-      });
-    }
   }
 
   function search() {
