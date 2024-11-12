@@ -63,7 +63,7 @@ def lokaleDagsorden(self, kunAktuelAfdeling=True):
     if requests - int(requests) == 0:
         requests = int(requests)
     else:
-        requests = int(requests + 1)  # +1 for at runde op
+        requests = int(requests + 1)
 
     urls = []
     today = datetime.now().strftime("%Y-%m-%d")
@@ -92,8 +92,12 @@ def lokaleDagsorden(self, kunAktuelAfdeling=True):
                 _lokaler = info[4].text.split("\r\n")
                 for lokale in _lokaler:
                     if modulDict["status"] != "aflyst":
-                        lokaleList[lokaleNavne.index(lokale)]["moduler"].append(
-                            modulDict["tidspunkt"]
-                        )
+                        print(lokale)
+                        try:
+                            lokaleList[lokaleNavne.index(lokale)]["moduler"].append(
+                                modulDict["tidspunkt"]
+                            )
+                        except:
+                            pass # pass hvis lokale ikke er i lokaleList
 
     return lokaleList
