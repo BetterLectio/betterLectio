@@ -11,8 +11,8 @@
   },
   "devDependencies": {
     "@sentry/vite-plugin": "^2.10.0",
-    "@sveltejs/adapter-auto": "^2.1.0",
-    "@sveltejs/kit": "^1.24.1",
+    "@sveltejs/adapter-auto": "^3.3.1",
+    "@sveltejs/kit": "^2.8.3",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.4",
     "autoprefixer": "^10.4.14",
@@ -25,7 +25,7 @@
     "simple-svelte-autocomplete": "^2.5.2",
     "svelte": "^3.54.0",
     "svelte-eslint-parser": "^0.32.2",
-    "sveltekit-superforms": "^1.10.2",
+    "sveltekit-superforms": "^1.13.4",
     "tailwindcss": "^3.3.2",
     "vite": "^4.3.9",
     "zod": "^3.22.4"
@@ -35,7 +35,7 @@
     "@event-calendar/core": "^1.5.0",
     "@event-calendar/time-grid": "^1.5.0",
     "@netlify/functions": "^2.4.0",
-    "@sentry/sveltekit": "^7.80.0",
+    "@sentry/sveltekit": "^7.120.0",
     "axios": "^1.6.5",
     "betterlectio": "file:",
     "chartjs-plugin-datalabels": "^2.2.0",
